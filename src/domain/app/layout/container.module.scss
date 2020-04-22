@@ -1,0 +1,23 @@
+@import "layout";
+@import "variables";
+
+.container {
+  display: grid;
+  grid-row: span;
+  place-content: flex-start;
+
+  grid-template-columns: 0.75rem 1fr 0.75rem;
+
+  @include respond-between(sm, xlg) {
+    grid-template-columns: 1fr 10fr 1fr;
+  }
+
+  @include respond-above(xlg) {
+    grid-template-columns: 1fr minmax(auto, $containerMaxWidth) 1fr;
+  }
+
+  & > * {
+    grid-column: 2;
+  }
+}
+
