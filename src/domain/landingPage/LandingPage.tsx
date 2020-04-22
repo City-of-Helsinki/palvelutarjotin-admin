@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const LandingPage = () => {
   return <h1>Puistotalkoot landing page</h1>;

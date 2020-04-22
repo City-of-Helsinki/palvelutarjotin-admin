@@ -1,8 +1,8 @@
-import React from "react";
-import { Route, Switch } from "react-router";
+import React from 'react';
+import { Route, Switch } from 'react-router';
 
-import LandingPage from "../../landingPage/LandingPage";
-import NotFoundPage from "../../notFound/NotFoundPage";
+import LandingPage from '../../landingPage/LandingPage';
+import NotFoundPage from '../../notFound/NotFoundPage';
 
 const AppRoutes = () => {
   return (
