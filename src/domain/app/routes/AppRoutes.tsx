@@ -1,14 +1,24 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 
-import LandingPage from '../../landingPage/LandingPage';
-import NotFoundPage from '../../notFound/NotFoundPage';
+import { SUPPORT_LANGUAGES } from '../../../constants';
+import useLocale from '../../../hooks/useLocale';
+import LocaleRoutes from './LocaleRoutes';
+
+const localeParam = `:locale(${Object.values(SUPPORT_LANGUAGES).join('|')})`;
 
 const AppRoutes = () => {
+  const locale = useLocale();
+
   return (
     <Switch>
-      <Route exact path={`/`} component={LandingPage} />
-      <Route component={NotFoundPage} />
+      <Redirect exact path="/" to={`/${locale}`} />
+      <Route path={`/${localeParam}(/+)*`} component={LocaleRoutes} />
+      <Route
+        render={(props) => {
+          return <Redirect to={`/${locale}${props.location.pathname}`} />;
+        }}
+      />
     </Switch>
   );
 };
