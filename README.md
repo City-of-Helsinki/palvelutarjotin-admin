@@ -60,3 +60,8 @@ We recommend using VS Code's debugger.
 
 See more detailed instructions here:
 https://create-react-app.dev/docs/debugging-tests#debugging-tests-in-chrome
+
+## Docker
+
+`docker-compose up` to start the dockerized environment  
+`docker-compose down` stops the container.

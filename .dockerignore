@@ -1,0 +1,7 @@
+*
+!.prod
+!public
+!src
+!package.json
+!tsconfig.json
+!yarn.lock
