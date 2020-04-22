@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import PageLayout from './layout/PageLayout';
 import AppRoutes from './routes/AppRoutes';
 
 const App = () => {
   return (
     <BrowserRouter>
-      <AppRoutes></AppRoutes>
+      <PageLayout>
+        <AppRoutes></AppRoutes>
+      </PageLayout>
     </BrowserRouter>
   );
 };

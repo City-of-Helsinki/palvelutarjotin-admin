@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageLayout matches snapshot 1`] = `
+<div
+  className="pageLayout"
+>
+  <div>
+    HEADER
+  </div>
+  <div
+    className="pageBody"
+  >
+    <div>
+      Page layout children
+    </div>
+  </div>
+  <div>
+    FOOTER
+  </div>
+</div>
+`;
