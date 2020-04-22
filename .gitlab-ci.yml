@@ -1,0 +1,48 @@
+include:
+  - project: 'city-of-helsinki/kuva/ci-cd-config/ci-configuration'
+    ref: v2
+    file: '/.gitlab-ci-template.yml'
+
+variables:
+  SERVICE_PORT: 80
+
+# Build image for deployment
+build-review:
+  extends: .build
+  variables:
+    DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-review'
+  only:
+    refs:
+      - external_pull_requests
+
+build-staging:
+  extends: .build
+  variables:
+    DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-staging'
+  only:
+    refs:
+      - develop
+
+build-production:
+  extends: .build
+  variables:
+    DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-production'
+  only:
+    refs:
+      - /^release-.*$/
+
+# Deploy built image
+review:
+  variables:
+    DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-review'
+
+staging:
+  variables:
+    DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-staging'
+  only:
+    refs:
+      - develop
+
+production:
+  variables:
+    DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-production'

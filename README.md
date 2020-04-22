@@ -1,7 +1,15 @@
 # palvelutarjotin-admin
 Staff interface for Palvelutarjotin
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Deployments
+
+Production environment:
+[TODO: Add url when deployed]
+Project is automatically deployed to production when adding new relase tag, e.g. release-v0.1.0, to repo
+
+Testing environment:
+[TODO: Add url when deployed]
+Project is automatically deployed to testing environment when pushing to develop brach
 
 ## Available Scripts
 
