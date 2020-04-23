@@ -8,15 +8,17 @@ import LocaleRoutes from './LocaleRoutes';
 const localeParam = `:locale(${Object.values(SUPPORT_LANGUAGES).join('|')})`;
 
 const AppRoutes = () => {
-  const locale = useLocale();
+  const currentLocale = useLocale();
 
   return (
     <Switch>
-      <Redirect exact path="/" to={`/${locale}`} />
+      <Redirect exact path="/" to={`/${currentLocale}`} />
       <Route path={`/${localeParam}(/+)*`} component={LocaleRoutes} />
       <Route
         render={(props) => {
-          return <Redirect to={`/${locale}${props.location.pathname}`} />;
+          return (
+            <Redirect to={`/${currentLocale}${props.location.pathname}`} />
+          );
         }}
       />
     </Switch>

@@ -17,6 +17,10 @@ ENV PATH=$PATH:/app/.npm-global/bin
 ENV YARN_VERSION 1.19.1
 RUN yarn policies set-version $YARN_VERSION
 
+# set sass path to support scss import
+ARG SASS_PATH=./src/styles
+ENV SASS_PATH $SASS_PATH
+
 USER root
 RUN apt-install.sh build-essential
 

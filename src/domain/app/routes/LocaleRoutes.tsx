@@ -1,12 +1,23 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { Route, RouteComponentProps, Switch } from 'react-router';
 
-import useLocale from '../../../hooks/useLocale';
+import { SUPPORT_LANGUAGES } from '../../../constants';
 import LandingPage from '../../landingPage/LandingPage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 
-const AppRoutes = () => {
-  const locale = useLocale();
+const LocaleRoutes: React.FC<RouteComponentProps<{
+  locale: SUPPORT_LANGUAGES;
+}>> = ({
+  match: {
+    params: { locale },
+  },
+}) => {
+  const { i18n } = useTranslation();
+
+  React.useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, [i18n, locale]);
 
   return (
     <Switch>
@@ -16,4 +27,4 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;
+export default LocaleRoutes;

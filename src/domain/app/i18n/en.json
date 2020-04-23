@@ -1,5 +1,16 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "header": {
+    "ariaButtonCloseMenu": "Close menu",
+    "ariaButtonOpenMenu": "Open menu",
+    "ariaLabelLogo": "Home",
+    "changeLanguage": "EN language selection",
+    "languages": {
+      "en": "In English",
+      "fi": "Suomeksi",
+      "sv": "På svenska"
+    }
+  },
   "notFound": {
     "textNotFound": "The page you were looking for was not found" 
   }

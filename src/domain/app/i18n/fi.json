@@ -1,5 +1,16 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "header": {
+    "ariaButtonCloseMenu": "Sulje valikko",
+    "ariaButtonOpenMenu": "Avaa valikko",
+    "ariaLabelLogo": "Etusivu",
+    "changeLanguage": "FI kielivalikko",
+    "languages": {
+      "en": "In English",
+      "fi": "Suomeksi",
+      "sv": "På svenska"
+    }
+  },
   "notFound": {
     "textNotFound": "Etsimääsi sivua ei löytynyt" 
   }

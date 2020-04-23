@@ -4,9 +4,7 @@ exports[`PageLayout matches snapshot 1`] = `
 <div
   className="pageLayout"
 >
-  <div>
-    HEADER
-  </div>
+  <Header />
   <div
     className="pageBody"
   >

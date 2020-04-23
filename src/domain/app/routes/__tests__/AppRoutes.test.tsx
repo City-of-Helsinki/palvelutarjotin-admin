@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { mount } from 'enzyme';
+import i18n from 'i18next';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import { MemoryRouter } from 'react-router';
 
 import AppRoutes from '../AppRoutes';
@@ -12,6 +14,12 @@ const wrapperCreator = (route: string) =>
       <AppRoutes />
     </MemoryRouter>
   );
+
+beforeEach(() => {
+  act(() => {
+    i18n.changeLanguage('fi');
+  });
+});
 
 it('redirect user from root to /fi by default', () => {
   const wrapper = wrapperCreator('/');
@@ -26,7 +34,7 @@ it('user from root will be redirect to LocaleRoutes with guarantee fi locale', (
   expect(app.props().match.params.locale).toEqual('fi');
 });
 
-it('user from supported locale will be redirect to LocaleRoutes with that locale', () => {
+test('user from supported locale will be redirect to LocaleRoutes with that locale', () => {
   const wrapper = wrapperCreator('/en/');
   const app: any = wrapper.find(LocaleRoutes);
 
@@ -34,7 +42,7 @@ it('user from supported locale will be redirect to LocaleRoutes with that locale
   expect(app.props().match.params.locale).toEqual('en');
 });
 
-it('user from unsupported locale prefix will be redirect to route with support prefix', () => {
+test('user from unsupported locale prefix will be redirect to route with support prefix', () => {
   const wrapper = wrapperCreator('/vi/');
   const app: any = wrapper.find(LocaleRoutes);
 
