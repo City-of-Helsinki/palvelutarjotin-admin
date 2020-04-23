@@ -1,0 +1,25 @@
+@import "./vendor/normalize";
+@import "colors";
+@import "fonts";
+@import "layout";
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1;
+}
+
+// Override globally all text to use Helsinki font.
+* {
+  font-family: $font-family-base;
+}
