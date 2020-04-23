@@ -13,8 +13,6 @@ exports[`PageLayout matches snapshot 1`] = `
       Page layout children
     </div>
   </div>
-  <div>
-    FOOTER
-  </div>
+  <Footer />
 </div>
 `;

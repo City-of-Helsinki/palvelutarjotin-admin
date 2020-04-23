@@ -1,5 +1,8 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "footer": {
+    "copyrightText": "© Copyright 2020 • All rights reserved"
+  },
   "header": {
     "ariaButtonCloseMenu": "Close menu",
     "ariaButtonOpenMenu": "Open menu",

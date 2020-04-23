@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import { useMobileMenuContext } from '../mobileMenu/MobileMenu';
 import styles from './pageLayout.module.scss';
@@ -20,8 +21,7 @@ const PageLayout: React.FC = ({ children }) => {
         {children}
       </div>
 
-      {/* TODO: Add footer component here when implemented */}
-      <div>FOOTER</div>
+      <Footer />
     </div>
   );
 };

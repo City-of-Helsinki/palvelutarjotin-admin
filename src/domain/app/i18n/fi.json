@@ -1,5 +1,8 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "footer": {
+    "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään"
+  },
   "header": {
     "ariaButtonCloseMenu": "Sulje valikko",
     "ariaButtonOpenMenu": "Avaa valikko",
