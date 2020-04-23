@@ -6,6 +6,7 @@ import { SUPPORT_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
+import Container from '../layout/Container';
 import LanguageDropdown from './LanguageDropdown';
 import styles from './navbar.module.scss';
 
@@ -30,19 +31,22 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className={styles.navbarTop}>
-      <div className={styles.logoWrapper}>
-        <Link aria-label={t('header.ariaLabelLogo')} to={'/'}>
-          <div className={styles.logo} />
-          <div className={styles.appName}>{t('appName')}</div>
-        </Link>
+    <Container>
+      <div className={styles.navbarTop}>
+        <div className={styles.logoWrapper}>
+          <Link aria-label={t('header.ariaLabelLogo')} to={'/'}>
+            <div className={styles.logo} />
+            <div className={styles.appName}>{t('appName')}</div>
+          </Link>
+        </div>
+
+        <LanguageDropdown
+          languageOptions={languageOptions}
+          onChange={changeLanguage}
+          value={locale}
+        />
       </div>
-      <LanguageDropdown
-        languageOptions={languageOptions}
-        onChange={changeLanguage}
-        value={locale}
-      />
-    </div>
+    </Container>
   );
 };
 

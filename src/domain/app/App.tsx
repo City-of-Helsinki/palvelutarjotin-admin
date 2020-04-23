@@ -2,14 +2,17 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import PageLayout from './layout/PageLayout';
+import { MobileMenuProvider } from './mobileMenu/MobileMenu';
 import AppRoutes from './routes/AppRoutes';
 
 const App = () => {
   return (
     <BrowserRouter>
-      <PageLayout>
-        <AppRoutes></AppRoutes>
-      </PageLayout>
+      <MobileMenuProvider>
+        <PageLayout>
+          <AppRoutes></AppRoutes>
+        </PageLayout>
+      </MobileMenuProvider>
     </BrowserRouter>
   );
 };
