@@ -1,5 +1,14 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "authentication": {
+    "errorMessage": "Ett fel uppstod. Försök igen",
+    "networkError": {
+      "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
+    },
+    "redirect": {
+      "text": "Omdirigerar till inloggning..."
+    }
+  },
   "footer": {
     "copyrightText": "© Copyright 2020 • Alla rättigheter förbehållna"
   },
@@ -12,7 +21,9 @@
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
-    }
+    },
+    "login": "Logga in",
+    "logout": "Logga ut"
   },
   "notFound": {
     "textNotFound": "Sidan du sökte hittades inte" 
