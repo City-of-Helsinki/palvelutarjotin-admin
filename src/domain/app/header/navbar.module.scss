@@ -36,3 +36,15 @@ $logoWidth: 5.5rem;
   height: $logoHeight;
   width: $logoWidth;
 }
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+
+  svg {
+    margin-left: 0.5rem;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+}

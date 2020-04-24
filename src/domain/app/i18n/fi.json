@@ -1,5 +1,14 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "authentication": {
+    "errorMessage": "Tapahtui virhe. Yritä uudestaan",
+    "networkError": {
+      "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
+    },
+    "redirect": {
+      "text": "Ohjataan tunnistautumiseen..."
+    }
+  },
   "footer": {
     "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään"
   },
@@ -12,7 +21,9 @@
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
-    }
+    },
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos"
   },
   "notFound": {
     "textNotFound": "Etsimääsi sivua ei löytynyt" 

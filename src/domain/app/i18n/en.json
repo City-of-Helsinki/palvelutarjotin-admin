@@ -1,5 +1,14 @@
 {
   "appName": "Palvelutarjotin Admin",
+  "authentication": {
+    "errorMessage": "An error occured while logging in. Please try again",
+    "networkError": {
+      "message": "Login error: Check your network connection or try again later"
+    },
+    "redirect": {
+      "text": "Redirecting..."
+    }
+  },
   "footer": {
     "copyrightText": "© Copyright 2020 • All rights reserved"
   },
@@ -12,7 +21,9 @@
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
-    }
+    },
+    "login": "Log in",
+    "logout": "Log out"
   },
   "notFound": {
     "textNotFound": "The page you were looking for was not found" 

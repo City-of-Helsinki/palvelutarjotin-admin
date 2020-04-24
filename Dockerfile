@@ -21,6 +21,9 @@ RUN yarn policies set-version $YARN_VERSION
 ARG SASS_PATH=./src/styles
 ENV SASS_PATH $SASS_PATH
 
+# Oidc authority
+ARG REACT_APP_OIDC_AUTHORITY
+
 USER root
 RUN apt-install.sh build-essential
 
