@@ -34,7 +34,7 @@ const AppRoutes = () => {
   return (
     <Switch>
       <Redirect exact path="/" to={`/${currentLocale}`} />
-      <Route exact path="/silent_renew" component={SilentRenew} />
+      <Route exact path="/silent-callback" component={SilentRenew} />
       <Route exact path="/callback" component={OidcCallback} />
       <Route path={`/${localeParam}(/+)*`} component={LocaleRoutes} />
       <Route

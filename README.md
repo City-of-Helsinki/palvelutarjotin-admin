@@ -65,6 +65,9 @@ Follow the instructions for setting up tunnistamo locally. Before running `docke
 - SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
 - SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
 
+To get silent renew to work locally you also need to set: 
+- ALLOW_CROSS_SITE_SESSION_COOKIE=True
+
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
 
 `docker-compose exec django bash`
@@ -72,7 +75,7 @@ After you've got tunnistamo running locally, ssh to the tunnistamo docker contai
 and execute the following four commands inside your docker container:
 
 ```bash
-./manage.py add_oidc_client -n palvelutarjotin-admin -t "id_token token" -u "http://localhost:3000/callback" "http://localhost:3000/silent_renew" -i https://api.hel.fi/auth/palvelutarjotin-admin -m github -s dev
+./manage.py add_oidc_client -n palvelutarjotin-admin -t "id_token token" -u "http://localhost:3000/callback" "http://localhost:3000/silent-callback" -i https://api.hel.fi/auth/palvelutarjotin-admin -m github -s dev
 ./manage.py add_oidc_client -n palvelutarjotin-api -t "code" -u http://localhost:8081/return -i https://api.hel.fi/auth/palvelutarjotin -m github -s dev -c
 ./manage.py add_oidc_api -n palvelutarjotin -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/palvelutarjotin
 ./manage.py add_oidc_api_scope -an palvelutarjotin -c https://api.hel.fi/auth/palvelutarjotin-admin -n "Palvelutarjotin Admin" -d "Lorem ipsum"
