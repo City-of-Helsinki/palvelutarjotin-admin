@@ -6,6 +6,7 @@ import { RouteChildrenProps, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 import { CallbackComponent } from 'redux-oidc';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../../app/layout/Container';
 import userManager from '../userManager';
 
@@ -39,8 +40,7 @@ function OidcCallback(props: RouteChildrenProps) {
         errorCallback={onError}
         userManager={userManager}
       >
-        {/* TODO: Replace with loading spinner when implemented */}
-        <p>{t('authentication.redirect.text')}</p>
+        <LoadingSpinner isLoading={true} />
       </CallbackComponent>
     </Container>
   );

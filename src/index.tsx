@@ -8,7 +8,6 @@ import ReactDOM from 'react-dom';
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
 
-console.log(process.env);
 if (process.env.NODE_ENV === 'development') {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
