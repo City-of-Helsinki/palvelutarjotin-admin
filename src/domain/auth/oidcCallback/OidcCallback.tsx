@@ -39,6 +39,7 @@ function OidcCallback(props: RouteChildrenProps) {
         errorCallback={onError}
         userManager={userManager}
       >
+        {/* TODO: Replace with loading spinner when implemented */}
         <p>{t('authentication.redirect.text')}</p>
       </CallbackComponent>
     </Container>

@@ -10,7 +10,7 @@ const enableOidcLogging = () => {
   // Oidc.Log.level = Oidc.Log.DEBUG;
 };
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   enableOidcLogging();
 }
 
