@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 
@@ -30,8 +31,7 @@ export const loginTunnistamo = (path?: string) => {
         toast(i18n.t('authentication.errorMessage'), {
           type: toast.TYPE.ERROR,
         });
-        // TODO: Send error to Sentry when Sentry is added to project
-        // Sentry.captureException(error);
+        Sentry.captureException(error);
       }
     });
 };
@@ -41,8 +41,7 @@ export const logoutTunnistamo = async () => {
     await userManager.signoutRedirect();
     flushAllState();
   } catch (e) {
-    // TODO: Send error to Sentry when Sentry is added to project
-    // Sentry.captureException(e);
+    Sentry.captureException(e);
   }
 };
 

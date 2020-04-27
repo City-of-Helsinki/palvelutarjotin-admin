@@ -24,6 +24,10 @@ ENV SASS_PATH $SASS_PATH
 # Oidc authority
 ARG REACT_APP_OIDC_AUTHORITY
 
+# Sentry variables
+ARG REACT_APP_SENTRY_DSN
+ARG REACT_APP_ENVIRONMENT
+
 USER root
 RUN apt-install.sh build-essential
 

@@ -1,11 +1,21 @@
 import './styles/main.scss';
 import './domain/app/i18n/i18nInit';
 
+import * as Sentry from '@sentry/browser';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
+
+console.log(process.env);
+if (process.env.NODE_ENV === 'development') {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    environment: process.env.REACT_APP_ENVIRONMENT,
+    release: `${process.env.REACT_APP_APPLICATION_NAME}@${process.env.REACT_APP_VERSION}`,
+  });
+}
 
 ReactDOM.render(
   <React.StrictMode>

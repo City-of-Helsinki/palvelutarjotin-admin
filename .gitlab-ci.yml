@@ -11,6 +11,7 @@ build-review:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-review'
+    DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'review'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
   only:
     refs:
@@ -20,6 +21,7 @@ build-staging:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-staging'
+    DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'staging'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
   only:
     refs:
@@ -29,6 +31,7 @@ build-production:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-production'
+    DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'production'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
   only:
     refs:
