@@ -22,7 +22,7 @@ const settings: UserManagerSettings = {
   redirect_uri: `${location}/callback`,
   loadUserInfo: true,
   response_type: 'id_token token',
-  silent_redirect_uri: `${location}/silent_renew`,
+  silent_redirect_uri: `${location}/silent-callback`,
   scope: process.env.REACT_APP_OIDC_SCOPE,
   post_logout_redirect_uri: `${location}/`,
 };
