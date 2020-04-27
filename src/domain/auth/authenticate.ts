@@ -52,9 +52,8 @@ export const getApiToken = (accessToken: string): StoreThunk => async (
   try {
     dispatch(startFetchingToken());
 
-    const res: AxiosResponse<ApiTokenResponse> = await axios.post(
+    const res: AxiosResponse<ApiTokenResponse> = await axios.get(
       TUNNISTAMO_API_TOKEN_ENDPOINT,
-      {},
       {
         headers: {
           Authorization: `bearer ${accessToken}`,

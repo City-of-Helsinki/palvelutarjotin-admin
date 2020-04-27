@@ -81,6 +81,20 @@ and execute the following four commands inside your docker container:
 ./manage.py add_oidc_api_scope -an palvelutarjotin -c https://api.hel.fi/auth/palvelutarjotin-admin -n "Palvelutarjotin Admin" -d "Lorem ipsum"
 ```
 
+Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
+
+### palvelutarjotin-admin-ui
+
+Copy `cp .env.development.local.example .env.development.local`  
+
+Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
+`docker-compose down` stops the container.
+
+OR
+
+Run `yarn && yarn start`
+
+
 ## Debugging
 
 ### Debugging project in VS Code
