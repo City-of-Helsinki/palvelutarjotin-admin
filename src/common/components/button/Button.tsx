@@ -12,7 +12,9 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <HdsButton
-      className={classNames(className, { [styles[color || '']]: color })}
+      className={classNames(className, styles.button, {
+        [styles[color || '']]: color,
+      })}
       color={color}
       {...rest}
     >
