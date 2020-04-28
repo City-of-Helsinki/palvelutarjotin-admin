@@ -21,6 +21,7 @@
     "@types/react-router-dom": "^5.1.4",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "hds-core": "^0.5.0",
     "hds-react": "^0.6.1",
     "i18next": "^19.4.3",
     "i18next-browser-languagedetector": "^4.1.1",

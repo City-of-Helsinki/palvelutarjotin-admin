@@ -1,4 +1,5 @@
 import './styles/main.scss';
+import 'hds-core/lib/helsinki.css';
 import './domain/app/i18n/i18nInit';
 
 import * as Sentry from '@sentry/browser';
