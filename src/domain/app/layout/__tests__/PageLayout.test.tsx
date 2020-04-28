@@ -1,14 +1,21 @@
 import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import pretty from 'pretty';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
 
+import { store } from '../../store';
 import PageLayout from '../PageLayout';
 
 it('PageLayout matches snapshot', () => {
   const layout = shallow(
-    <PageLayout>
-      <div>Page layout children</div>
-    </PageLayout>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/']}>
+        <PageLayout>
+          <div>Page layout children</div>
+        </PageLayout>
+      </MemoryRouter>
+    </Provider>
   );
-  expect(toJson(layout)).toMatchSnapshot();
+  expect(pretty(layout.html())).toMatchSnapshot();
 });
