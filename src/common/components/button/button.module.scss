@@ -1,0 +1,58 @@
+@import "colors";
+
+.primary {
+  background-color: $hel-bus;
+  color: var(--hds-theme-color-primary-heading);
+}
+
+.primary:after {
+  border-color: $hel-bus;
+}
+
+.primary.disabled {
+  background-color: $hel-bus-light-50;
+}
+
+.primary.disabled:after {
+  border-color: $hel-bus-light-50;
+}
+
+.primary:hover {
+  background-color: $hel-bus;
+}
+
+.primary:hover:after {
+  border-color: $hel-bus-dark-50;
+}
+
+.secondary {
+  background-color: transparent;
+  color: $hel-bus;
+}
+
+.secondary:after {
+  border-color: $hel-bus;
+}
+
+.secondary:disabled {
+  color: var(--hds-ui-color-black-30);
+  background-color: transparent;
+}
+
+.secondary:disabled:after {
+  border: var(--hds-ui-color-black-30);
+}
+
+.secondary:hover {
+  text-decoration: underline;
+  background-color: transparent;
+  color: $hel-bus;
+}
+
+.secondary:hover:after {
+  border-color: $hel-bus;
+}
+
+.secondary:focus:after {
+  border-width: 4px;
+}
