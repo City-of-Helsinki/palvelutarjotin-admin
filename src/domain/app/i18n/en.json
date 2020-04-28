@@ -9,6 +9,16 @@
       "text": "Redirecting..."
     }
   },
+  "createEvent": {
+    "pageTitle": "New event",
+    "title": "New event"
+  },
+  "events": {
+    "buttonNewEvent": "Add new event",
+    "textEventCount": "{{count}} pcs",
+    "title": "Events",
+    "titleComingEvents": "Events"
+  },
   "footer": {
     "copyrightText": "© Copyright 2020 • All rights reserved"
   },

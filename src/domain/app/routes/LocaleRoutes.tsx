@@ -7,9 +7,11 @@ import { SUPPORT_LANGUAGES } from '../../../constants';
 import { tokenFetched } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { apiTokenSelector, userSelector } from '../../auth/selectors';
-import LandingPage from '../../landingPage/LandingPage';
+import CreateEventPage from '../../event/CreateEventPage';
+import EventsPage from '../../events/EventsPage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import PageLayout from '../layout/PageLayout';
+import { ROUTES } from './constants';
 
 const LocaleRoutes: React.FC<RouteComponentProps<{
   locale: SUPPORT_LANGUAGES;
@@ -42,7 +44,12 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
   return (
     <PageLayout>
       <Switch>
-        <Route exact path={`/${locale}`} component={LandingPage} />
+        <Route exact path={`/${locale}`} component={EventsPage} />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.CREATE_EVENT}`}
+          component={CreateEventPage}
+        />
         <Route component={NotFoundPage} />
       </Switch>
     </PageLayout>

@@ -32,7 +32,7 @@ exports[`PageLayout matches snapshot 1`] = `
       <div class=\\"loginPage\\">
         <div class=\\"container\\">
           <div class=\\"contentWrapper\\">
-            <h1>Tapahtumien hallinta</h1><button type=\\"button\\" class=\\"Button-module_button__3wgee helsinki_text-medium__2jcdO Button-module_primary__3bo_T primary\\"><span class=\\"Button-module_label__2zMLC\\">Kirjaudu sisään</span></button>
+            <h1>Tapahtumien hallinta</h1><button type=\\"button\\" class=\\"Button-module_button__3wgee helsinki_text-medium__2jcdO Button-module_secondary__399Vd button secondary\\"><span class=\\"Button-module_label__2zMLC\\">Kirjaudu sisään</span></button>
           </div>
         </div>
       </div>

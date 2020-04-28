@@ -1,3 +1,6 @@
+@import "variables";
+
 .pageWrapper {
   display: grid;
+  padding-bottom: $largePadding;
 }

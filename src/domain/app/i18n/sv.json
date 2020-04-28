@@ -9,6 +9,16 @@
       "text": "Omdirigerar till inloggning..."
     }
   },
+  "createEvent": {
+    "pageTitle": "Ny evenemang",
+    "title": "Ny evenemang"
+  },
+  "events": {
+    "buttonNewEvent": "Skapa ny evenemang",
+    "textEventCount": "{{count}} st",
+    "title": "Evenemang",
+    "titleComingEvents": "Evenemang"
+  },
   "footer": {
     "copyrightText": "© Copyright 2020 • Alla rättigheter förbehållna"
   },

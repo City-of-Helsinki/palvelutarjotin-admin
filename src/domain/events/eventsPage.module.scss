@@ -1,0 +1,24 @@
+@import "layout";
+.eventsPage {
+  h1 {
+    font-size: var(--hds-text-xxl);
+    margin: 1rem 0 3rem;
+  }
+
+  h2 {
+    font-size: var(--hds-text-xl);
+  }
+
+  .eventCount {
+    font-weight: normal;
+    margin-left: 0.5rem;
+  }
+
+  .comingEventsTitleWrapper {
+    display: grid;
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr auto;
+    }
+  }
+}

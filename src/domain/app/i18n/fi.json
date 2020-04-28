@@ -9,6 +9,16 @@
       "text": "Ohjataan tunnistautumiseen..."
     }
   },
+  "createEvent": {
+    "pageTitle": "Uusi tapahtuma",
+    "title": "Uusi tapahtuma"
+  },
+  "events": {
+    "buttonNewEvent": "Lisää uusi tapahtuma",
+    "textEventCount": "{{count}} kpl",
+    "title": "Tapahtumat",
+    "titleComingEvents": "Tapahtumat"
+  },
   "footer": {
     "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään"
   },

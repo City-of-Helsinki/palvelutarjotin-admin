@@ -3,16 +3,19 @@ import { useTranslation } from 'react-i18next';
 
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
+import styles from './eventPage.module.scss';
 
-const LandingPage = () => {
+const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <PageWrapper>
+    <PageWrapper title="createEvent.pageTitle">
       <Container>
-        <h1>{t('appName')}</h1>
+        <div className={styles.eventPage}>
+          <h1>{t('createEvent.title')}</h1>
+        </div>
       </Container>
     </PageWrapper>
   );
 };
 
-export default LandingPage;
+export default CreateEventPage;
