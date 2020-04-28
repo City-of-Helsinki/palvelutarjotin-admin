@@ -22,8 +22,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos"
+  },
+  "login": {
+    "buttonLogin": "Kirjaudu sisään",
+    "pageTitle": "Kirjaudu sisään",
+    "title": "Tapahtumien hallinta"
   },
   "notFound": {
     "textNotFound": "Etsimääsi sivua ei löytynyt" 

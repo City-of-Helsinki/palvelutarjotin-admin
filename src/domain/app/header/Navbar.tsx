@@ -8,8 +8,8 @@ import { SUPPORT_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
-import { loginTunnistamo, logoutTunnistamo } from '../../auth/authenticate';
-import { userSelector } from '../../auth/selectors';
+import { logoutTunnistamo } from '../../auth/authenticate';
+import { isAuthenticatedSelector } from '../../auth/selectors';
 import Container from '../layout/Container';
 import LanguageDropdown from './LanguageDropdown';
 import styles from './navbar.module.scss';
@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
   const locale = useLocale();
   const history = useHistory();
   const { pathname, search } = useLocation();
-  const user = useSelector(userSelector);
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
 
   const languageOptions = Object.values(SUPPORT_LANGUAGES).map((language) => {
     return {
@@ -35,10 +35,6 @@ const Navbar: React.FC = () => {
     });
   };
 
-  const login = () => {
-    loginTunnistamo();
-  };
-
   const logout = () => {
     logoutTunnistamo();
   };
@@ -52,14 +48,9 @@ const Navbar: React.FC = () => {
             <div className={styles.appName}>{t('appName')}</div>
           </Link>
         </div>
-        {!!user ? (
+        {!!isAuthenticated && (
           <button onClick={logout} className={styles.loginButton}>
             {t('header.logout')}
-            <IconPerson />
-          </button>
-        ) : (
-          <button onClick={login} className={styles.loginButton}>
-            {t('header.login')}
             <IconPerson />
           </button>
         )}

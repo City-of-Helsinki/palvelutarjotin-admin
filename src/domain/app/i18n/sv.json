@@ -22,8 +22,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "login": "Logga in",
     "logout": "Logga ut"
+  },
+  "login": {
+    "buttonLogin": "Logga in",
+    "pageTitle": "Logga in",
+    "title": "Evenemangshantering"
   },
   "notFound": {
     "textNotFound": "Sidan du sökte hittades inte" 

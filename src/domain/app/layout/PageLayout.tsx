@@ -1,13 +1,26 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import {
+  isAuthenticatedSelector,
+  isLoadingUserSelector,
+} from '../../auth/selectors';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
+import LoginPage from '../login/LoginPage';
 import { useMobileMenuContext } from '../mobileMenu/MobileMenu';
+import { ROUTES } from '../routes/constants';
 import styles from './pageLayout.module.scss';
 
 const PageLayout: React.FC = ({ children }) => {
+  const { pathname } = useLocation();
   const { isMobileMenuOpen } = useMobileMenuContext();
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const isLoadingUser = useSelector(isLoadingUserSelector);
+
   return (
     <div className={styles.pageLayout}>
       <Header />
@@ -18,7 +31,18 @@ const PageLayout: React.FC = ({ children }) => {
           [styles.mobileMenuOpen]: isMobileMenuOpen,
         })}
       >
-        {children}
+        {/* Make sure that loading spinner is not restarted on callback page */}
+        <LoadingSpinner
+          isLoading={isLoadingUser || pathname === ROUTES.CALLBACK}
+        >
+          {!!isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
+            children
+          ) : (
+            <LoginPage />
+          )}
+        </LoadingSpinner>
+        {/* Render oidc callback */}
+        {pathname === ROUTES.CALLBACK && children}
       </div>
 
       <Footer />

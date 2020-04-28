@@ -8,8 +8,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
-import { loginTunnistamo, logoutTunnistamo } from '../../auth/authenticate';
-import { userSelector } from '../../auth/selectors';
+import { logoutTunnistamo } from '../../auth/authenticate';
+import { isAuthenticatedSelector } from '../../auth/selectors';
 import styles from './mobileMenu.module.scss';
 interface MobileMenuContext {
   closeMobileMenu: () => void;
@@ -61,17 +61,12 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const location = useLocation();
-  const user = useSelector(userSelector);
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
 
   const getUrl = (newLanguage: string) => {
     return `${updateLocaleParam(location.pathname, locale, newLanguage)}${
       location.search
     }`;
-  };
-
-  const login = () => {
-    loginTunnistamo();
-    onClose();
   };
 
   const logout = () => {
@@ -89,18 +84,11 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
     >
       <div className={styles.linkWrapper}>
         <ul>
-          {!!user ? (
+          {!!isAuthenticated && (
             <li className={styles.link}>
               <Link onClick={logout} to="#">
                 <IconPerson />
                 {t('header.logout')}
-              </Link>
-            </li>
-          ) : (
-            <li className={styles.link}>
-              <Link onClick={login} to="#">
-                <IconPerson />
-                {t('header.login')}
               </Link>
             </li>
           )}

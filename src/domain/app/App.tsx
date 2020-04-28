@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import { OidcProvider } from 'redux-oidc';
 
 import userManager from '../auth/userManager';
-import PageLayout from './layout/PageLayout';
 import { MobileMenuProvider } from './mobileMenu/MobileMenu';
 import AppRoutes from './routes/AppRoutes';
 import { store } from './store';
@@ -18,9 +17,7 @@ const App = () => {
       <OidcProvider store={store} userManager={userManager}>
         <BrowserRouter>
           <MobileMenuProvider>
-            <PageLayout>
-              <AppRoutes></AppRoutes>
-            </PageLayout>
+            <AppRoutes />
           </MobileMenuProvider>
         </BrowserRouter>
       </OidcProvider>

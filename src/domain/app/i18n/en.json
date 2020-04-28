@@ -22,8 +22,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "login": "Log in",
     "logout": "Log out"
+  },
+  "login": {
+    "buttonLogin": "Log in",
+    "pageTitle": "Log in",
+    "title": "Event management"
   },
   "notFound": {
     "textNotFound": "The page you were looking for was not found" 
