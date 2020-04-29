@@ -93,7 +93,9 @@ const EventForm = () => {
                     />
                   </FormGroup>
                 </div>
-                <div></div>
+                <div className={styles.instructionText}>
+                  {t('eventForm.basicInfo.textNecessaryVisits')}
+                </div>
               </div>
               {/* TODO: Add keyword selector component here when implemented */}
 

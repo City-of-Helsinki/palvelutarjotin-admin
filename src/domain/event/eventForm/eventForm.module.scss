@@ -16,6 +16,7 @@
 
   .durationRow {
     display: grid;
+    grid-gap: $largeMargin;
 
     @include respond_above(sm) {
       grid-template-columns: 1fr 1.5fr 1.5fr;
@@ -24,9 +25,21 @@
 
   .necessaryVisitsRow {
     display: grid;
+    grid-gap: $largeMargin;
+
 
     @include respond_above(sm) {
-      grid-template-columns: 1fr 3fr;
+      grid-template-columns: 1fr 1.5fr 1.5fr;
+    }
+
+    .instructionText {
+      line-height: 26px;
+      color: #1a1a1a;
+      padding-top: 30px;
+
+      @include respond_above(sm) {
+        grid-column: 2 / 4;
+      }
     }
   }
 }

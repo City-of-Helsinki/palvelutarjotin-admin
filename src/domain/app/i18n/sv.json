@@ -21,6 +21,7 @@
       "labelName": "Evenemang namn",
       "labelNecessaryVisits": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
+      "textNecessaryVisits": "I händelse av en händelse som varje grupp vill delta mer än en gång, ange antalet händelsetider som deltagarna måste reservera samtidigt.",
       "title": "Grundläggande information"
     },
     "contactPerson": {

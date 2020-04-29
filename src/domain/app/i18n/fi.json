@@ -21,6 +21,7 @@
       "labelName": "Tapahtuman nimi",
       "labelNecessaryVisits": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
       "title": "Tapahtuman perustiedot"
     },
     "contactPerson": {

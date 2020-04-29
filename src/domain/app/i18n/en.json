@@ -21,6 +21,7 @@
       "labelName": "Event name",
       "labelNecessaryVisits": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
+      "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
       "title": "Basic information"
     },
     "contactPerson": {
