@@ -1,0 +1,32 @@
+@import "layout";
+@import "variables";
+
+.eventForm {
+  display: grid;
+  grid-gap: $largeMargin;
+
+  @include respond_above(sm) {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  h2 {
+    font-size: var(--hds-text-lg);
+    margin: 2rem 0;
+  }
+
+  .durationRow {
+    display: grid;
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1.5fr 1.5fr;
+    }
+  }
+
+  .necessaryVisitsRow {
+    display: grid;
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 3fr;
+    }
+  }
+}

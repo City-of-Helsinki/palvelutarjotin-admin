@@ -13,11 +13,46 @@
     "pageTitle": "New event",
     "title": "New event"
   },
+  "eventForm": {
+    "basicInfo": {
+      "labelDescription": "Description",
+      "labelDuration": "Event duration, min",
+      "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelName": "Event name",
+      "labelNecessaryVisits": "Necessary visits",
+      "labelShortDescription": "Short description (up to 160 characters)",
+      "title": "Basic information"
+    },
+    "contactPerson": {
+      "labelEmail": "Email",
+      "labelPhone": "Phone",
+      "title": "Contact person"
+    },
+    "location": {
+      "title": "Location"
+    }
+  },
   "events": {
     "buttonNewEvent": "Add new event",
     "textEventCount": "{{count}} pcs",
     "title": "Events",
     "titleComingEvents": "Events"
+  },
+  "form": {
+    "validation": {
+      "number": {
+        "max": "Maximum value is {{max}}",
+        "min": "Value must be at least {{min}}",
+        "required": "This field is required"
+      },
+      "string": {
+        "email": "This field must be a valid email",
+        "max": "This field can be up to {{max}} characters long",
+        "min": "This field must be at least {{min}} characters long",
+        "required": "This field is required",
+        "url": "This field must be a valid URL"
+      }
+    }
   },
   "footer": {
     "copyrightText": "© Copyright 2020 • All rights reserved"
