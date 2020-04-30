@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
     environment: process.env.REACT_APP_ENVIRONMENT,
