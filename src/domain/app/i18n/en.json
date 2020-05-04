@@ -14,6 +14,7 @@
       "accessibility": {
         "focusAriaMessage": "{{value}}, {{index}} of {{n}}.",
         "removeValueAriaMessage": "Deselected {{value}}.",
+        "removeValueButtonAriaMessage": "Remove value",
         "selectValueAriaMessage": "Selected {{value}}."
       },
       "loading": "Loading ...",

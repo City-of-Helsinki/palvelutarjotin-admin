@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconCheck } from 'hds-react';
+import { IconCheck, IconClose } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -47,7 +47,6 @@ const ListOption: React.FC<ListOptionProps> = ({
       <li
         ref={component}
         key={option.value}
-        lang={option.value}
         className={classNames(styles.listItem, {
           [styles.isFocused]: isFocused,
           [styles.isSelected]: isSelected,
@@ -102,6 +101,7 @@ const AutoSuggest: React.FC<Props> = ({
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
   const [ariaLiveSelection, setAriaLiveSelection] = React.useState('');
+  const input = React.useRef<HTMLInputElement>(null);
 
   const container = React.useRef<HTMLDivElement>(null);
   const {
@@ -214,6 +214,13 @@ const AutoSuggest: React.FC<Props> = ({
     [announceAriaLiveSelection]
   );
 
+  const deselectOption = React.useCallback(() => {
+    announceAriaLiveSelection({
+      event: 'remove-value',
+      val: value ? value.label : '',
+    });
+  }, [announceAriaLiveSelection, value]);
+
   const handleOptionClick = React.useCallback(
     (option: AutoSuggestOption) => {
       ensureMenuIsClosed();
@@ -305,6 +312,16 @@ const AutoSuggest: React.FC<Props> = ({
     );
   };
 
+  const clearValue = () => {
+    ensureMenuIsClosed();
+    onChange({ value: '', label: '' });
+    deselectOption();
+    setInputValue('');
+    if (input.current) {
+      input.current.focus();
+    }
+  };
+
   return (
     <div className={styles.autoSuggest} ref={container}>
       {renderLiveRegion()}
@@ -317,6 +334,7 @@ const AutoSuggest: React.FC<Props> = ({
         labelText={labelText}
       >
         <input
+          ref={input}
           aria-autocomplete="list"
           type="text"
           className={inputStyles.input}
@@ -328,6 +346,17 @@ const AutoSuggest: React.FC<Props> = ({
           readOnly={readOnly}
           value={inputValue}
         />
+        {value && (
+          <button
+            aria-label={t(
+              'common.autoSuggest.accessibility.removeValueButtonAriaMessage'
+            )}
+            className={styles.removeButton}
+            onClick={clearValue}
+          >
+            <IconClose />
+          </button>
+        )}
         {!inputValue && (
           <div className={styles.singleValue}>{value?.label}</div>
         )}

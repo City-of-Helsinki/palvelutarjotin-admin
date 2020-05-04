@@ -14,6 +14,7 @@
       "accessibility": {
         "focusAriaMessage": "{{value}}, {{index}}/{{n}}.",
         "removeValueAriaMessage": "Valinta poistettu {{value}}.",
+        "removeValueButtonAriaMessage": "Poista valinta",
         "selectValueAriaMessage": "Valittu {{value}}."
       },
       "loading": "Ladataan ...",
