@@ -43,7 +43,10 @@
     },
     "location": {
       "helperTextPlace": "Standardplats för evenemangtider",
+      "helperTextPlaceDescription": "Ytterligare information för att underlätta besöket",
       "labelPlace": "Standard venue",
+      "labelPlaceDescription": "Beskrivning av arenan",
+      "placeholderPlaceDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"
     }
   },

@@ -43,7 +43,10 @@
     },
     "location": {
       "helperTextPlace": "The default venue for event times",
+      "helperTextPlaceDescription": "Additional information to facilitate the visit",
       "labelPlace": "Default venue",
+      "labelPlaceDescription": "Description of the venue",
+      "placeholderPlaceDescription": "For example, how can a group change clothes, where you can eat snacks ...",
       "title": "Location"
     }
   },

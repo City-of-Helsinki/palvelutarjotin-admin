@@ -8,7 +8,9 @@ import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
   cols: number;
-  labelKey: string;
+  helperText: string;
+  labelText: string;
+  placeholder?: string;
   rows: number;
 }
 
@@ -18,18 +20,21 @@ const InputField: React.FC<Props> = (props) => {
     cols,
     field: { name, ...field },
     form: { errors, touched },
-    labelKey,
+    helperText,
+    labelText,
+    placeholder,
     rows = 10,
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
-  const labelText = t(labelKey);
 
   return (
     <TextAreaInput
+      helperText={helperText}
       id={name}
       invalid={!!errorText}
       invalidText={errorText}
       labelText={labelText}
+      placeholder={placeholder}
       cols={cols}
       rows={rows}
       {...field}

@@ -43,7 +43,10 @@
     },
     "location": {
       "helperTextPlace": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
+      "helperTextPlaceDescription": "Vierailua helpottavaa lisätietoa",
       "labelPlace": "Oletustapahtumapaikka",
+      "labelPlaceDescription": "Tapahtumapaikan kuvaus",
+      "placeholderPlaceDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
       "title": "Tapahtumapaikka"
     }
   },

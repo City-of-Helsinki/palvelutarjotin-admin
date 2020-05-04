@@ -21,6 +21,7 @@ const EventForm = () => {
         name: '',
         necessaryVisits: '',
         place: '',
+        placeDescription: '',
         providerContactInfo: { email: '', phone: '' },
         shortDescription: '',
       }}
@@ -35,7 +36,7 @@ const EventForm = () => {
               <h2>{t('eventForm.basicInfo.title')}</h2>
               <FormGroup>
                 <Field
-                  labelKey="eventForm.basicInfo.labelName"
+                  labelText={t('eventForm.basicInfo.labelName')}
                   name="name"
                   component={TextInputField}
                 />
@@ -43,14 +44,14 @@ const EventForm = () => {
 
               <FormGroup>
                 <Field
-                  labelKey="eventForm.basicInfo.labelShortDescription"
+                  labelText={t('eventForm.basicInfo.labelShortDescription')}
                   name="shortDescription"
                   component={TextInputField}
                 />
               </FormGroup>
               <FormGroup>
                 <Field
-                  labelKey="eventForm.basicInfo.labelDescription"
+                  labelText={t('eventForm.basicInfo.labelDescription')}
                   name="description"
                   component={TextAreaInputField}
                   rows={20}
@@ -61,7 +62,7 @@ const EventForm = () => {
 
               <FormGroup>
                 <Field
-                  labelKey="eventForm.basicInfo.labelInfoUrl"
+                  labelText={t('eventForm.basicInfo.labelInfoUrl')}
                   name="infoUrl"
                   component={TextInputField}
                 />
@@ -71,7 +72,7 @@ const EventForm = () => {
                 <div>
                   <FormGroup>
                     <Field
-                      labelKey="eventForm.basicInfo.labelDuration"
+                      labelText={t('eventForm.basicInfo.labelDuration')}
                       name="duration"
                       component={NumberInputField}
                       min={0}
@@ -89,7 +90,7 @@ const EventForm = () => {
                 <div>
                   <FormGroup>
                     <Field
-                      labelKey="eventForm.basicInfo.labelNecessaryVisits"
+                      labelText={t('eventForm.basicInfo.labelNecessaryVisits')}
                       name="necessaryVisits"
                       component={NumberInputField}
                       min={1}
@@ -112,7 +113,25 @@ const EventForm = () => {
                   component={PlaceSelectorField}
                 />
               </FormGroup>
-              {!!place && <PlaceInfo id={place} />}
+              {!!place && (
+                <FormGroup>
+                  <PlaceInfo id={place} />
+                </FormGroup>
+              )}
+              <FormGroup>
+                <Field
+                  helperText={t(
+                    'eventForm.location.helperTextPlaceDescription'
+                  )}
+                  labelText={t('eventForm.location.labelPlaceDescription')}
+                  name="placeDescription"
+                  placeholder={t(
+                    'eventForm.location.placeholderPlaceDescription'
+                  )}
+                  component={TextAreaInputField}
+                  rows={5}
+                />
+              </FormGroup>
             </div>
             <div className={styles.contactInfoWrapper}>
               <h2>{t('eventForm.contactPerson.title')}</h2>
@@ -120,14 +139,14 @@ const EventForm = () => {
 
               <FormGroup>
                 <Field
-                  labelKey="eventForm.contactPerson.labelEmail"
+                  labelText={t('eventForm.contactPerson.labelEmail')}
                   name="providerContactInfo.email"
                   component={TextInputField}
                 />
               </FormGroup>
               <FormGroup>
                 <Field
-                  labelKey="eventForm.contactPerson.labelPhone"
+                  labelText={t('eventForm.contactPerson.labelPhone')}
                   name="providerContactInfo.phone"
                   component={TextInputField}
                 />

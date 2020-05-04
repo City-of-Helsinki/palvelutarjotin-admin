@@ -8,7 +8,7 @@ import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
   defaultValue?: number;
-  labelKey: string;
+  labelText: string;
   max?: number;
   min?: number;
   step?: number;
@@ -20,13 +20,12 @@ const InputField: React.FC<Props> = (props) => {
     defaultValue,
     field: { name, ...field },
     form: { errors, touched },
-    labelKey,
+    labelText,
     max,
     min,
     step,
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
-  const labelText = t(labelKey);
 
   return (
     <NumberInput

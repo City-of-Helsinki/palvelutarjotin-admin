@@ -7,7 +7,7 @@ import TextInput from '../../textInput/TextInput';
 import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
-  labelKey: string;
+  labelText: string;
 }
 
 const InputField: React.FC<Props> = (props) => {
@@ -15,10 +15,9 @@ const InputField: React.FC<Props> = (props) => {
   const {
     field: { name, ...field },
     form: { errors, touched },
-    labelKey,
+    labelText,
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
-  const labelText = t(labelKey);
 
   return (
     <TextInput
