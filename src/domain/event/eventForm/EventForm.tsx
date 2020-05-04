@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
+import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
@@ -18,6 +19,7 @@ const EventForm = () => {
         duration: '',
         name: '',
         necessaryVisits: '',
+        place: '',
         providerContactInfo: { email: '', phone: '' },
         shortDescription: '',
       }}
@@ -101,7 +103,14 @@ const EventForm = () => {
 
               <h2>{t('eventForm.location.title')}</h2>
 
-              {/* TODO: Add location selector component here when implemented */}
+              <FormGroup>
+                <Field
+                  helperText={t('eventForm.location.helperTextPlace')}
+                  labelText={t('eventForm.location.labelPlace')}
+                  name="place"
+                  component={PlaceSelectorField}
+                />
+              </FormGroup>
             </div>
             <div className={styles.contactInfoWrapper}>
               <h2>{t('eventForm.contactPerson.title')}</h2>

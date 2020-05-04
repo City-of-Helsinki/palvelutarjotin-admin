@@ -25,6 +25,7 @@ export default Yup.object().shape({
       key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
     }))
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
+  place: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   providerContactInfo: Yup.object().shape({
     email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
   }),
