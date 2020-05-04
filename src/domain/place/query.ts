@@ -9,6 +9,11 @@ export const QUERY_PLACE = gql`
         sv
         en
       }
+      streetAddress {
+        fi
+        sv
+        en
+      }
     }
   }
   query PlaceList(
@@ -37,6 +42,11 @@ export const QUERY_PLACE = gql`
       data {
         id
         name {
+          fi
+          sv
+          en
+        }
+        streetAddress {
           fi
           sv
           en

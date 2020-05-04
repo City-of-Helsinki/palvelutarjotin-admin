@@ -204,7 +204,7 @@ export type EventDetails = {
 
 export type Place = {
    __typename?: 'Place';
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   divisions?: Maybe<Array<Division>>;
   createdTime?: Maybe<Scalars['String']>;
   lastModifiedTime?: Maybe<Scalars['String']>;
@@ -441,6 +441,9 @@ export type PlaceDetailsQuery = (
     & { name?: Maybe<(
       { __typename?: 'LocalizedObject' }
       & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+    )>, streetAddress?: Maybe<(
+      { __typename?: 'LocalizedObject' }
+      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
     )> }
   ) }
 );
@@ -469,6 +472,9 @@ export type PlaceListQuery = (
       & { name?: Maybe<(
         { __typename?: 'LocalizedObject' }
         & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      )>, streetAddress?: Maybe<(
+        { __typename?: 'LocalizedObject' }
+        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
       )> }
     )> }
   ) }
@@ -480,6 +486,11 @@ export const PlaceDetailsDocument = gql`
   placeDetails(id: $id) {
     id
     name {
+      fi
+      sv
+      en
+    }
+    streetAddress {
       fi
       sv
       en
@@ -537,6 +548,11 @@ export const PlaceListDocument = gql`
     data {
       id
       name {
+        fi
+        sv
+        en
+      }
+      streetAddress {
         fi
         sv
         en

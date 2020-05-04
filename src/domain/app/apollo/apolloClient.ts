@@ -11,7 +11,14 @@ import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store';
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      placeDetails: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: 'Place', id: args.id }),
+    },
+  },
+});
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_URI,
