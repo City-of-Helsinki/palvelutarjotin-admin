@@ -1,0 +1,26 @@
+@import "colors";
+@import "fonts";
+
+.placeInfo {
+  color: $hel-black-90;
+  font-size: $body-medium-font-size;
+  line-height: 2rem;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: $hel-bus;
+  }
+
+  .linkRow {
+    display: table-row;
+  
+    .linkTitle {
+      display: table-cell;
+      padding-right: 1rem;
+    }
+  }
+}
+

@@ -14,6 +14,16 @@ export const QUERY_PLACE = gql`
         sv
         en
       }
+      addressLocality {
+        fi
+        sv
+        en
+      }
+      telephone {
+        fi
+        sv
+        en
+      }
     }
   }
   query PlaceList(
@@ -47,6 +57,16 @@ export const QUERY_PLACE = gql`
           en
         }
         streetAddress {
+          fi
+          sv
+          en
+        }
+        addressLocality {
+          fi
+          sv
+          en
+        }
+        telephone {
           fi
           sv
           en

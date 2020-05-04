@@ -7,6 +7,7 @@ import PlaceSelectorField from '../../../common/components/form/fields/PlaceSele
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
+import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
@@ -27,7 +28,7 @@ const EventForm = () => {
       onSubmit={(values) => {}}
       validationSchema={ValidationSchema}
     >
-      {() => {
+      {({ values: { place } }) => {
         return (
           <div className={styles.eventForm}>
             <div className={styles.basicInfoWrapper}>
@@ -111,6 +112,7 @@ const EventForm = () => {
                   component={PlaceSelectorField}
                 />
               </FormGroup>
+              {!!place && <PlaceInfo id={place} />}
             </div>
             <div className={styles.contactInfoWrapper}>
               <h2>{t('eventForm.contactPerson.title')}</h2>

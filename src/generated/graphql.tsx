@@ -444,6 +444,12 @@ export type PlaceDetailsQuery = (
     )>, streetAddress?: Maybe<(
       { __typename?: 'LocalizedObject' }
       & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+    )>, addressLocality?: Maybe<(
+      { __typename?: 'LocalizedObject' }
+      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+    )>, telephone?: Maybe<(
+      { __typename?: 'LocalizedObject' }
+      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
     )> }
   ) }
 );
@@ -475,6 +481,12 @@ export type PlaceListQuery = (
       )>, streetAddress?: Maybe<(
         { __typename?: 'LocalizedObject' }
         & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      )>, addressLocality?: Maybe<(
+        { __typename?: 'LocalizedObject' }
+        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      )>, telephone?: Maybe<(
+        { __typename?: 'LocalizedObject' }
+        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
       )> }
     )> }
   ) }
@@ -491,6 +503,16 @@ export const PlaceDetailsDocument = gql`
       en
     }
     streetAddress {
+      fi
+      sv
+      en
+    }
+    addressLocality {
+      fi
+      sv
+      en
+    }
+    telephone {
       fi
       sv
       en
@@ -553,6 +575,16 @@ export const PlaceListDocument = gql`
         en
       }
       streetAddress {
+        fi
+        sv
+        en
+      }
+      addressLocality {
+        fi
+        sv
+        en
+      }
+      telephone {
         fi
         sv
         en
