@@ -27,6 +27,7 @@ const InputField: React.FC<Props> = (props) => {
   return (
     <TextAreaInput
       id={name}
+      invalid={!!errorText}
       invalidText={errorText}
       labelText={labelText}
       cols={cols}

@@ -23,6 +23,7 @@ const InputField: React.FC<Props> = (props) => {
   return (
     <TextInput
       id={name}
+      invalid={!!errorText}
       invalidText={errorText}
       labelText={labelText}
       {...field}

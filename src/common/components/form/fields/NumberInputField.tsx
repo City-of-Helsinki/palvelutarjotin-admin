@@ -31,6 +31,7 @@ const InputField: React.FC<Props> = (props) => {
   return (
     <NumberInput
       id={name}
+      invalid={!!errorText}
       invalidText={errorText}
       labelText={labelText}
       defaultValue={defaultValue}
