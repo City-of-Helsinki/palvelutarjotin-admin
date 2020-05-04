@@ -5,10 +5,17 @@ interface Props {
   listLength: number;
 }
 
+interface DropdownKeyboardNavigationState {
+  focusedIndex: number;
+  setFocusedIndex: (index: number) => void;
+  setup: Function;
+  teardown: Function;
+}
+
 const useDropdownKeyboardNavigation = ({
   container,
   listLength,
-}: Props): [number, Function, Function] => {
+}: Props): DropdownKeyboardNavigationState => {
   const [focusedIndex, setFocusedIndex] = React.useState<number>(-1);
   const isStartingPosition = focusedIndex === -1;
 
@@ -76,7 +83,7 @@ const useDropdownKeyboardNavigation = ({
     setFocusedIndex(-1);
   }, [listLength]);
 
-  return [focusedIndex, setup, teardown];
+  return { focusedIndex, setFocusedIndex, setup, teardown };
 };
 
 export default useDropdownKeyboardNavigation;

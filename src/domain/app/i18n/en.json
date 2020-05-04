@@ -9,6 +9,17 @@
       "text": "Redirecting..."
     }
   },
+  "common": {
+    "autoSuggest": {
+      "accessibility": {
+        "focusAriaMessage": "{{value}}, {{index}} of {{n}}.",
+        "removeValueAriaMessage": "Deselected {{value}}.",
+        "selectValueAriaMessage": "Selected {{value}}."
+      },
+      "loading": "Loading ...",
+      "noResults": "No results"
+    }
+  },
   "createEvent": {
     "pageTitle": "New event",
     "title": "New event"
@@ -30,6 +41,8 @@
       "title": "Contact person"
     },
     "location": {
+      "helperTextPlace": "The default venue for event times",
+      "labelPlace": "Default venue",
       "title": "Location"
     }
   },

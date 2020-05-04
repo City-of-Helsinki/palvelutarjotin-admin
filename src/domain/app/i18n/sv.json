@@ -9,6 +9,17 @@
       "text": "Omdirigerar till inloggning..."
     }
   },
+  "common": {
+    "autoSuggest": {
+      "accessibility": {
+        "focusAriaMessage": "{{value}}, {{index}} av {{n}}.",
+        "removeValueAriaMessage": "Bortvald {{value}}.",
+        "selectValueAriaMessage": "Vald {{value}}."
+      },
+      "loading": "Laddning ...",
+      "noResults": "Inga resultat"
+    }
+  },
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang"
@@ -30,6 +41,8 @@
       "title": "Kontaktperson"
     },
     "location": {
+      "helperTextPlace": "Standardplats för evenemangtider",
+      "labelPlace": "Standard venue",
       "title": "Plats"
     }
   },

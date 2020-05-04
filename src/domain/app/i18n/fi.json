@@ -9,6 +9,17 @@
       "text": "Ohjataan tunnistautumiseen..."
     }
   },
+  "common": {
+    "autoSuggest": {
+      "accessibility": {
+        "focusAriaMessage": "{{value}}, {{index}}/{{n}}.",
+        "removeValueAriaMessage": "Valinta poistettu {{value}}.",
+        "selectValueAriaMessage": "Valittu {{value}}."
+      },
+      "loading": "Ladataan ...",
+      "noResults": "Ei tuloksia"
+    }
+  },
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma"
@@ -30,6 +41,8 @@
       "title": "Yhteyshenkilö"
     },
     "location": {
+      "helperTextPlace": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
+      "labelPlace": "Oletustapahtumapaikka",
       "title": "Tapahtumapaikka"
     }
   },
