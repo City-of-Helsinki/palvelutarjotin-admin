@@ -9,6 +9,18 @@
       "text": "Ohjataan tunnistautumiseen..."
     }
   },
+  "common": {
+    "autoSuggest": {
+      "accessibility": {
+        "focusAriaMessage": "{{value}}, {{index}}/{{n}}.",
+        "removeValueAriaMessage": "Valinta poistettu {{value}}.",
+        "removeValueButtonAriaMessage": "Poista valinta",
+        "selectValueAriaMessage": "Valittu {{value}}."
+      },
+      "loading": "Ladataan ...",
+      "noResults": "Ei tuloksia"
+    }
+  },
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma"
@@ -30,6 +42,11 @@
       "title": "Yhteyshenkilö"
     },
     "location": {
+      "helperTextPlace": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
+      "helperTextPlaceDescription": "Vierailua helpottavaa lisätietoa",
+      "labelPlace": "Oletustapahtumapaikka",
+      "labelPlaceDescription": "Tapahtumapaikan kuvaus",
+      "placeholderPlaceDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
       "title": "Tapahtumapaikka"
     }
   },

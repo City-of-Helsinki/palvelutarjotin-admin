@@ -1,0 +1,92 @@
+@import "colors";
+@import "fonts";
+
+.a11yText {
+  z-index: 9999;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1;
+  width: 1;
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.autoSuggest {
+  .singleValue {
+    position: absolute;
+    top: 2px;
+    left: -1px;
+    padding: 1rem;
+    font-size: var(--hds-text-md);
+    z-index: -1;
+  }
+
+  .removeButton {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+
+    svg {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+}
+
+.autoSuggestMenu {
+  position: absolute;
+  background-color: $hel-white;
+  z-index: 2;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 2px solid $hel-black-20;
+  border-top: none;
+
+  .infoMessage {
+    padding: 1rem;
+    font-size: $font-size-lg;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 260px;
+    overflow: auto;
+  }
+
+  .listItem {
+    padding: 1rem;
+    font-size: $font-size-lg;
+    display: grid;
+    cursor: pointer;
+    grid-template-columns: 1fr auto;
+
+    svg {
+      display: none;
+      height: 1rem;
+      width: 1rem;
+      fill: $hel-white;
+    }
+
+    &:hover,
+    &.isFocused {
+      background-color: $hel-black-10;
+    }
+
+    &.isSelected {
+      color: $hel-white;
+      background-color: $hel-bus;
+
+      svg {
+        display: block;
+      }
+    }
+  }
+}

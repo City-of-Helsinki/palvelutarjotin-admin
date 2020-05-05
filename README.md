@@ -38,6 +38,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `yarn codegen`
+
+Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_ADD_API_URL in .env.development.local
+
 ## Setting up development environment locally with docker
 
 ### Set tunnistamo hostname

@@ -9,6 +9,18 @@
       "text": "Omdirigerar till inloggning..."
     }
   },
+  "common": {
+    "autoSuggest": {
+      "accessibility": {
+        "focusAriaMessage": "{{value}}, {{index}} av {{n}}.",
+        "removeValueAriaMessage": "Bortvald {{value}}.",
+        "removeValueButtonAriaMessage": "Bortvald värde",
+        "selectValueAriaMessage": "Vald {{value}}."
+      },
+      "loading": "Laddning ...",
+      "noResults": "Inga resultat"
+    }
+  },
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang"
@@ -30,6 +42,11 @@
       "title": "Kontaktperson"
     },
     "location": {
+      "helperTextPlace": "Standardplats för evenemangtider",
+      "helperTextPlaceDescription": "Ytterligare information för att underlätta besöket",
+      "labelPlace": "Standard venue",
+      "labelPlaceDescription": "Beskrivning av arenan",
+      "placeholderPlaceDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"
     }
   },
