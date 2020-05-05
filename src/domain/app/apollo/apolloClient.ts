@@ -38,7 +38,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     });
 
   if (networkError) {
-    Sentry.captureException(`[Network error]: ${networkError}`);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error(`[Network error]: ${networkError}`);
+    }
   }
 });
 
