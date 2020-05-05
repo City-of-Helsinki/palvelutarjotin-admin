@@ -131,6 +131,7 @@ export type CollectionDetails = {
   firstPublishedAt?: Maybe<Scalars['String']>;
   goLiveAt?: Maybe<Scalars['String']>;
   hasUnpublishedChanges?: Maybe<Scalars['Boolean']>;
+  heroImage?: Maybe<Scalars['String']>;
   lastPublishedAt?: Maybe<Scalars['String']>;
   latestRevisionCreatedAt?: Maybe<Scalars['String']>;
   linkText: LocalizedObject;

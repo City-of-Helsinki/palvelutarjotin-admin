@@ -122,7 +122,7 @@ const AutoSuggest: React.FC<Props> = ({
     setInputValue(event.target.value);
   };
 
-  const isComponentFocused = React.useCallback(() => {
+  const isComponentFocused = () => {
     const active = document.activeElement;
     const current = container && container.current;
 
@@ -130,14 +130,14 @@ const AutoSuggest: React.FC<Props> = ({
       return true;
     }
     return false;
-  }, []);
+  };
 
-  const ensureMenuIsClosed = React.useCallback(() => {
+  const ensureMenuIsClosed = () => {
     if (isMenuOpen) {
       setInputValue('');
       setIsMenuOpen(false);
     }
-  }, [isMenuOpen, setInputValue]);
+  };
 
   const ensureMenuIsOpen = React.useCallback(() => {
     if (!isMenuOpen) {
@@ -145,19 +145,19 @@ const AutoSuggest: React.FC<Props> = ({
     }
   }, [isMenuOpen]);
 
-  const ensureIsFocused = React.useCallback(() => {
+  const ensureIsFocused = () => {
     if (!isFocused) {
       setIsFocused(true);
     }
-  }, [isFocused]);
+  };
 
-  const ensureIsNotFocused = React.useCallback(() => {
+  const ensureIsNotFocused = () => {
     if (isFocused) {
       setIsFocused(false);
     }
-  }, [isFocused]);
+  };
 
-  const onDocumentClick = React.useCallback(() => {
+  const onDocumentClick = () => {
     // Close menu when clicking outside of the component
     if (!isComponentFocused()) {
       if (isFocused) {
@@ -167,16 +167,9 @@ const AutoSuggest: React.FC<Props> = ({
       ensureIsNotFocused();
       ensureMenuIsClosed();
     }
-  }, [
-    ensureIsNotFocused,
-    ensureMenuIsClosed,
-    isComponentFocused,
-    isFocused,
-    onBlur,
-    value,
-  ]);
+  };
 
-  const onDocumentFocusin = React.useCallback(() => {
+  const onDocumentFocusin = () => {
     if (isComponentFocused()) {
       ensureIsFocused();
     } else {
@@ -187,80 +180,60 @@ const AutoSuggest: React.FC<Props> = ({
       ensureIsNotFocused();
       ensureMenuIsClosed();
     }
-  }, [
-    ensureIsFocused,
-    ensureIsNotFocused,
-    ensureMenuIsClosed,
-    isComponentFocused,
-    isFocused,
-    onBlur,
-    value,
-  ]);
+  };
 
-  const announceAriaLiveSelection = React.useCallback(
-    ({ event, val }: { event: string; val: string }) => {
-      setAriaLiveSelection(valueEventAriaMessage({ event, value: val, t }));
-    },
-    [t]
-  );
+  const announceAriaLiveSelection = ({
+    event,
+    val,
+  }: {
+    event: string;
+    val: string;
+  }) => {
+    setAriaLiveSelection(valueEventAriaMessage({ event, value: val, t }));
+  };
 
-  const selectOption = React.useCallback(
-    (newValue: AutoSuggestOption) => {
-      announceAriaLiveSelection({
-        event: 'select-option',
-        val: newValue.label,
-      });
-    },
-    [announceAriaLiveSelection]
-  );
+  const selectOption = (newValue: AutoSuggestOption) => {
+    announceAriaLiveSelection({
+      event: 'select-option',
+      val: newValue.label,
+    });
+  };
 
-  const deselectOption = React.useCallback(() => {
+  const deselectOption = () => {
     announceAriaLiveSelection({
       event: 'remove-value',
       val: value ? value.label : '',
     });
-  }, [announceAriaLiveSelection, value]);
+  };
 
-  const handleOptionClick = React.useCallback(
-    (option: AutoSuggestOption) => {
-      ensureMenuIsClosed();
-      onChange(option);
-      selectOption(option);
-      setInputValue('');
-    },
-    [ensureMenuIsClosed, onChange, selectOption, setInputValue]
-  );
+  const handleOptionClick = (option: AutoSuggestOption) => {
+    ensureMenuIsClosed();
+    onChange(option);
+    selectOption(option);
+    setInputValue('');
+  };
 
-  const handleDocumentKeyDown = React.useCallback(
-    (event: KeyboardEvent) => {
-      // Handle keyboard events only if current element is focused
-      if (!isComponentFocused()) return;
-      switch (event.key) {
-        // Close menu on ESC key
-        case 'Escape':
-          ensureMenuIsClosed();
-          break;
-        case 'ArrowUp':
-          ensureMenuIsOpen();
-          break;
-        case 'ArrowDown':
-          ensureMenuIsOpen();
-          break;
-        case 'Enter':
-          if (focusedValue) {
-            handleOptionClick(focusedValue);
-          }
-          break;
-      }
-    },
-    [
-      ensureMenuIsClosed,
-      ensureMenuIsOpen,
-      focusedValue,
-      handleOptionClick,
-      isComponentFocused,
-    ]
-  );
+  const handleDocumentKeyDown = (event: KeyboardEvent) => {
+    // Handle keyboard events only if current element is focused
+    if (!isComponentFocused()) return;
+    switch (event.key) {
+      // Close menu on ESC key
+      case 'Escape':
+        ensureMenuIsClosed();
+        break;
+      case 'ArrowUp':
+        ensureMenuIsOpen();
+        break;
+      case 'ArrowDown':
+        ensureMenuIsOpen();
+        break;
+      case 'Enter':
+        if (focusedValue) {
+          handleOptionClick(focusedValue);
+        }
+        break;
+    }
+  };
 
   React.useEffect(() => {
     if (inputValue) {
@@ -280,13 +253,7 @@ const AutoSuggest: React.FC<Props> = ({
       document.removeEventListener('keydown', handleDocumentKeyDown);
       document.removeEventListener('focusin', onDocumentFocusin);
     };
-  }, [
-    handleDocumentKeyDown,
-    onDocumentClick,
-    onDocumentFocusin,
-    setupKeyboardNav,
-    teardownKeyboardNav,
-  ]);
+  });
 
   const constructAriaLiveMessage = () => {
     const focusedValueMsg = focusedValue
