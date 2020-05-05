@@ -2,6 +2,7 @@ import { Field, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
@@ -18,6 +19,7 @@ const EventForm = () => {
       initialValues={{
         description: '',
         duration: '',
+        keywords: '',
         name: '',
         necessaryVisits: '',
         place: '',
@@ -101,7 +103,15 @@ const EventForm = () => {
                   {t('eventForm.basicInfo.textNecessaryVisits')}
                 </div>
               </div>
-              {/* TODO: Add keyword selector component here when implemented */}
+              <FormGroup>
+                <Field
+                  helperText={t('eventForm.basicInfo.helperTextKeywords')}
+                  labelText={t('eventForm.basicInfo.labelKeywords')}
+                  name="keywords"
+                  placeholder={t('eventForm.basicInfo.placeholderKeywords')}
+                  component={KeywordSelectorField}
+                />
+              </FormGroup>
 
               <h2>{t('eventForm.location.title')}</h2>
 
@@ -110,6 +120,7 @@ const EventForm = () => {
                   helperText={t('eventForm.location.helperTextPlace')}
                   labelText={t('eventForm.location.labelPlace')}
                   name="place"
+                  placeholder={t('eventForm.location.placeholderPlace')}
                   component={PlaceSelectorField}
                 />
               </FormGroup>

@@ -27,12 +27,15 @@
   },
   "eventForm": {
     "basicInfo": {
+      "helperTextKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelKeywords": "Tapahtuman avainsanat",
       "labelName": "Tapahtuman nimi",
       "labelNecessaryVisits": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "placeholderKeywords": "Lisää avainsana...",
       "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
       "title": "Tapahtuman perustiedot"
     },
@@ -46,6 +49,7 @@
       "helperTextPlaceDescription": "Vierailua helpottavaa lisätietoa",
       "labelPlace": "Oletustapahtumapaikka",
       "labelPlaceDescription": "Tapahtumapaikan kuvaus",
+      "placeholderPlace": "Etsi paikkaa...",
       "placeholderPlaceDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
       "title": "Tapahtumapaikka"
     }

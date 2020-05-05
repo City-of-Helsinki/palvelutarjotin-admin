@@ -2,7 +2,7 @@ import { FieldProps } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import PlaceSelector from '../../../../domain/place/PlaceSelector';
+import KeywordSelector from '../../../../domain/keyword/KeywordSelector';
 import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
@@ -11,7 +11,7 @@ interface Props extends FieldProps {
   placeholder?: string;
 }
 
-const PlaceSelectorField: React.FC<Props> = (props) => {
+const KeywordSelectorField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
     field: { name, onBlur, onChange, ...field },
@@ -41,7 +41,7 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
   };
 
   return (
-    <PlaceSelector
+    <KeywordSelector
       id={name}
       invalidText={invalidText}
       helperText={helperText}
@@ -54,4 +54,4 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
   );
 };
 
-export default PlaceSelectorField;
+export default KeywordSelectorField;

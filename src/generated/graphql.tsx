@@ -268,7 +268,7 @@ export type PlacePosition = {
 
 export type Keyword = {
    __typename?: 'Keyword';
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   altLabels?: Maybe<Array<Maybe<Scalars['String']>>>;
   createdTime?: Maybe<Scalars['String']>;
   lastModifiedTime?: Maybe<Scalars['String']>;
@@ -279,7 +279,7 @@ export type Keyword = {
   dataSource?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['ID']>;
   name?: Maybe<LocalizedObject>;
-  internalId: Scalars['String'];
+  internalId?: Maybe<Scalars['String']>;
   internalContext?: Maybe<Scalars['String']>;
   internalType?: Maybe<Scalars['String']>;
 };
@@ -373,6 +373,8 @@ export type LandingPage = {
   description?: Maybe<LocalizedObject>;
   buttonText?: Maybe<LocalizedObject>;
   buttonUrl?: Maybe<LocalizedObject>;
+  heroBackgroundImage?: Maybe<LocalizedObject>;
+  heroTopLayerImage?: Maybe<LocalizedObject>;
   metaInformation?: Maybe<LocalizedObject>;
   pageTitle?: Maybe<LocalizedObject>;
   contentType?: Maybe<Scalars['Int']>;
@@ -428,6 +430,51 @@ export type Subscription = {
    __typename?: 'Subscription';
   _empty?: Maybe<Scalars['String']>;
 };
+
+export type KeywordDetailsQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type KeywordDetailsQuery = (
+  { __typename?: 'Query' }
+  & { keywordDetails: (
+    { __typename?: 'Keyword' }
+    & Pick<Keyword, 'id'>
+    & { name?: Maybe<(
+      { __typename?: 'LocalizedObject' }
+      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+    )> }
+  ) }
+);
+
+export type KeywordListQueryVariables = {
+  dataSource?: Maybe<Scalars['String']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  showAllKeywords?: Maybe<Scalars['Boolean']>;
+  sort?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+
+export type KeywordListQuery = (
+  { __typename?: 'Query' }
+  & { keywordList: (
+    { __typename?: 'KeywordListResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & Pick<Meta, 'count' | 'next' | 'previous'>
+    ), data: Array<(
+      { __typename?: 'Keyword' }
+      & Pick<Keyword, 'id'>
+      & { name?: Maybe<(
+        { __typename?: 'LocalizedObject' }
+        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      )> }
+    )> }
+  ) }
+);
 
 export type PlaceDetailsQueryVariables = {
   id: Scalars['ID'];
@@ -494,6 +541,120 @@ export type PlaceListQuery = (
 );
 
 
+export const KeywordDetailsDocument = gql`
+    query KeywordDetails($id: ID!) {
+  keywordDetails(id: $id) {
+    id
+    name {
+      fi
+      sv
+      en
+    }
+  }
+}
+    `;
+export type KeywordDetailsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<KeywordDetailsQuery, KeywordDetailsQueryVariables>
+    } & TChildProps;
+export function withKeywordDetails<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  KeywordDetailsQuery,
+  KeywordDetailsQueryVariables,
+  KeywordDetailsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, KeywordDetailsQuery, KeywordDetailsQueryVariables, KeywordDetailsProps<TChildProps, TDataName>>(KeywordDetailsDocument, {
+      alias: 'keywordDetails',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useKeywordDetailsQuery__
+ *
+ * To run a query within a React component, call `useKeywordDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordDetailsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useKeywordDetailsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<KeywordDetailsQuery, KeywordDetailsQueryVariables>) {
+        return ApolloReactHooks.useQuery<KeywordDetailsQuery, KeywordDetailsQueryVariables>(KeywordDetailsDocument, baseOptions);
+      }
+export function useKeywordDetailsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<KeywordDetailsQuery, KeywordDetailsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<KeywordDetailsQuery, KeywordDetailsQueryVariables>(KeywordDetailsDocument, baseOptions);
+        }
+export type KeywordDetailsQueryHookResult = ReturnType<typeof useKeywordDetailsQuery>;
+export type KeywordDetailsLazyQueryHookResult = ReturnType<typeof useKeywordDetailsLazyQuery>;
+export type KeywordDetailsQueryResult = ApolloReactCommon.QueryResult<KeywordDetailsQuery, KeywordDetailsQueryVariables>;
+export const KeywordListDocument = gql`
+    query KeywordList($dataSource: String, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String) {
+  keywordList(dataSource: $dataSource, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) {
+    meta {
+      count
+      next
+      previous
+    }
+    data {
+      id
+      name {
+        fi
+        sv
+        en
+      }
+    }
+  }
+}
+    `;
+export type KeywordListProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<KeywordListQuery, KeywordListQueryVariables>
+    } & TChildProps;
+export function withKeywordList<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  KeywordListQuery,
+  KeywordListQueryVariables,
+  KeywordListProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, KeywordListQuery, KeywordListQueryVariables, KeywordListProps<TChildProps, TDataName>>(KeywordListDocument, {
+      alias: 'keywordList',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useKeywordListQuery__
+ *
+ * To run a query within a React component, call `useKeywordListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordListQuery({
+ *   variables: {
+ *      dataSource: // value for 'dataSource'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      showAllKeywords: // value for 'showAllKeywords'
+ *      sort: // value for 'sort'
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useKeywordListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<KeywordListQuery, KeywordListQueryVariables>) {
+        return ApolloReactHooks.useQuery<KeywordListQuery, KeywordListQueryVariables>(KeywordListDocument, baseOptions);
+      }
+export function useKeywordListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<KeywordListQuery, KeywordListQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<KeywordListQuery, KeywordListQueryVariables>(KeywordListDocument, baseOptions);
+        }
+export type KeywordListQueryHookResult = ReturnType<typeof useKeywordListQuery>;
+export type KeywordListLazyQueryHookResult = ReturnType<typeof useKeywordListLazyQuery>;
+export type KeywordListQueryResult = ApolloReactCommon.QueryResult<KeywordListQuery, KeywordListQueryVariables>;
 export const PlaceDetailsDocument = gql`
     query PlaceDetails($id: ID!) {
   placeDetails(id: $id) {

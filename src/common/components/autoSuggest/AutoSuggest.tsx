@@ -309,7 +309,7 @@ const AutoSuggest: React.FC<Props> = ({
           disabled={disabled}
           id={id}
           onChange={handleInputChange}
-          placeholder={placeholder}
+          placeholder={!value ? placeholder : ''}
           readOnly={readOnly}
           value={inputValue}
         />

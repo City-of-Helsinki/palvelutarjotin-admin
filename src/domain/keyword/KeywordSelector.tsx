@@ -4,9 +4,9 @@ import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
 import {
-  Place,
-  usePlaceDetailsQuery,
-  usePlaceListQuery,
+  Keyword,
+  useKeywordDetailsQuery,
+  useKeywordListQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
@@ -23,7 +23,7 @@ interface Props {
   value: string;
 }
 
-const PlaceSelector: React.FC<Props> = ({
+const KeywordSelector: React.FC<Props> = ({
   helperText,
   id,
   invalidText,
@@ -36,28 +36,25 @@ const PlaceSelector: React.FC<Props> = ({
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
 
-  const { data: placesData, loading } = usePlaceListQuery({
+  const { data: keywordsData, loading } = useKeywordListQuery({
     skip: !searchValue,
-    variables: { dataSource: 'tprek', pageSize: 20, text: searchValue },
+    variables: { pageSize: 20, text: searchValue },
   });
 
-  const { data: placeData } = usePlaceDetailsQuery({
+  const { data: keywordData } = useKeywordDetailsQuery({
     skip: !value,
     variables: { id: value },
   });
 
   const locale = useLocale();
 
-  const getOptionLabel = (place: Place) =>
-    `${getLocalizedString(place.name || {}, locale)}, ${getLocalizedString(
-      place.streetAddress || {},
-      locale
-    )}`;
+  const getOptionLabel = (keyword: Keyword) =>
+    getLocalizedString(keyword.name || {}, locale);
 
-  const placeOptions = placesData
-    ? placesData.placeList.data.map((place) => ({
-        label: getOptionLabel(place),
-        value: place.id || '',
+  const keywordOptions = keywordsData
+    ? keywordsData.keywordList.data.map((keyword) => ({
+        label: getOptionLabel(keyword),
+        value: keyword.id || '',
       }))
     : [];
 
@@ -79,14 +76,14 @@ const PlaceSelector: React.FC<Props> = ({
       loading={loading}
       onBlur={handleBlur}
       onChange={handleChange}
-      options={placeOptions}
+      options={keywordOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}
       value={
-        placeData
+        keywordData
           ? {
-              label: getOptionLabel(placeData.placeDetails),
-              value: placeData.placeDetails.id || '',
+              label: getOptionLabel(keywordData.keywordDetails),
+              value: keywordData.keywordDetails.id || '',
             }
           : null
       }
@@ -94,4 +91,4 @@ const PlaceSelector: React.FC<Props> = ({
   );
 };
 
-export default PlaceSelector;
+export default KeywordSelector;
