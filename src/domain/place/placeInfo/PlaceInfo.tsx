@@ -29,8 +29,8 @@ const PlaceInfo: React.FC<Props> = ({ id }) => {
     data.placeDetails.addressLocality || {},
     locale
   );
-  const serviceMapLink = generateServiceMapLink(id);
-  const hslLink = generateHslLink(streetAddress, addressLocality);
+  const serviceMapLink = generateServiceMapLink(id, locale);
+  const hslLink = generateHslLink(streetAddress, addressLocality, locale);
   return (
     <div className={styles.placeInfo}>
       {name && <p>{name}</p>}
