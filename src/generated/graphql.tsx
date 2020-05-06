@@ -14,53 +14,32 @@ export type Scalars = {
 
 export type Query = {
    __typename?: 'Query';
-  _empty?: Maybe<Scalars['String']>;
-  collectionDetails: CollectionDetails;
-  collectionList: CollectionListResponse;
-  eventDetails: EventDetails;
-  eventList: EventListResponse;
-  eventsByIds: Array<EventDetails>;
-  keywordDetails: Keyword;
-  keywordList: KeywordListResponse;
-  landingPage: LandingPageResponse;
-  neighborhoodList: NeighborhoodListResponse;
-  organizationDetails: OrganizationDetails;
-  placeDetails: Place;
-  placeList: PlaceListResponse;
+  events?: Maybe<EventListResponse>;
+  event?: Maybe<Event>;
+  places?: Maybe<PlaceListResponse>;
+  place?: Maybe<Place>;
+  keywords?: Maybe<KeywordListResponse>;
+  keyword?: Maybe<Keyword>;
+  eventsSearch?: Maybe<EventSearchListResponse>;
+  placesSearch?: Maybe<PlaceSearchListResponse>;
 };
 
 
-export type QueryCollectionDetailsArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryCollectionListArgs = {
-  visibleOnFrontpage?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryEventDetailsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  include?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
-export type QueryEventListArgs = {
+export type QueryEventsArgs = {
   divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
-  endDate?: Maybe<Scalars['String']>;
+  end?: Maybe<Scalars['String']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   inLanguage?: Maybe<Scalars['String']>;
   isFree?: Maybe<Scalars['Boolean']>;
   keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
-  locations?: Maybe<Array<Maybe<Scalars['String']>>>;
+  locations?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['ID']>;
   sort?: Maybe<Scalars['String']>;
-  startDate?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['String']>;
   superEvent?: Maybe<Scalars['ID']>;
   superEventType?: Maybe<Array<Maybe<Scalars['String']>>>;
   text?: Maybe<Scalars['String']>;
@@ -68,43 +47,13 @@ export type QueryEventListArgs = {
 };
 
 
-export type QueryEventsByIdsArgs = {
-  ids: Array<Scalars['ID']>;
+export type QueryEventArgs = {
+  id: Scalars['ID'];
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 
-export type QueryKeywordDetailsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryKeywordListArgs = {
-  dataSource?: Maybe<Scalars['String']>;
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  showAllKeywords?: Maybe<Scalars['Boolean']>;
-  sort?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryLandingPageArgs = {
-  visibleOnFrontpage?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryOrganizationDetailsArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryPlaceDetailsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryPlaceListArgs = {
+export type QueryPlacesArgs = {
   dataSource?: Maybe<Scalars['String']>;
   divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
   page?: Maybe<Scalars['Int']>;
@@ -114,75 +63,71 @@ export type QueryPlaceListArgs = {
   text?: Maybe<Scalars['String']>;
 };
 
-export type CollectionDetails = {
-   __typename?: 'CollectionDetails';
+
+export type QueryPlaceArgs = {
   id: Scalars['ID'];
-  boxColor?: Maybe<Scalars['String']>;
-  contentType?: Maybe<Scalars['Int']>;
-  curatedEvents: Array<Scalars['String']>;
-  curatedEventsTitle: LocalizedObject;
-  depth?: Maybe<Scalars['Int']>;
-  description: LocalizedObject;
-  draftTitle?: Maybe<Scalars['String']>;
-  eventListQuery?: Maybe<Scalars['String']>;
-  eventListTitle: LocalizedObject;
-  expireAt?: Maybe<Scalars['String']>;
-  expired?: Maybe<Scalars['Boolean']>;
-  firstPublishedAt?: Maybe<Scalars['String']>;
-  goLiveAt?: Maybe<Scalars['String']>;
-  hasUnpublishedChanges?: Maybe<Scalars['Boolean']>;
-  heroImage?: Maybe<Scalars['String']>;
-  lastPublishedAt?: Maybe<Scalars['String']>;
-  latestRevisionCreatedAt?: Maybe<Scalars['String']>;
-  linkText: LocalizedObject;
-  linkUrl: LocalizedObject;
-  live?: Maybe<Scalars['Boolean']>;
-  liveRevision?: Maybe<Scalars['Int']>;
-  locked?: Maybe<Scalars['Boolean']>;
-  lockedAt?: Maybe<Scalars['String']>;
-  lockedBy?: Maybe<Scalars['Int']>;
-  numchild?: Maybe<Scalars['Int']>;
-  owner?: Maybe<Scalars['Int']>;
-  path?: Maybe<Scalars['String']>;
-  searchDescription?: Maybe<Scalars['String']>;
-  seoTitle?: Maybe<Scalars['String']>;
-  showInMenus?: Maybe<Scalars['Boolean']>;
-  slug?: Maybe<Scalars['String']>;
-  socialMediaDescription?: Maybe<LocalizedObject>;
-  subtitles: LocalizedObject;
-  title: LocalizedObject;
-  urlPath?: Maybe<Scalars['String']>;
 };
 
-export type LocalizedObject = {
-   __typename?: 'LocalizedObject';
-  fi?: Maybe<Scalars['String']>;
-  sv?: Maybe<Scalars['String']>;
-  en?: Maybe<Scalars['String']>;
+
+export type QueryKeywordsArgs = {
+  dataSource?: Maybe<Scalars['String']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  showAllKeywords?: Maybe<Scalars['Boolean']>;
+  sort?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
 };
 
-export type CollectionListResponse = {
-   __typename?: 'CollectionListResponse';
-  data: Array<CollectionDetails>;
-};
 
-export type EventDetails = {
-   __typename?: 'EventDetails';
+export type QueryKeywordArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryEventsSearchArgs = {
+  input: Scalars['String'];
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type QueryPlacesSearchArgs = {
+  input: Scalars['String'];
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type EventListResponse = {
+   __typename?: 'EventListResponse';
+  meta: Meta;
+  data: Array<Event>;
+};
+
+export type Meta = {
+   __typename?: 'Meta';
+  count?: Maybe<Scalars['Int']>;
+  next?: Maybe<Scalars['String']>;
+  previous?: Maybe<Scalars['String']>;
+};
+
+export type Event = {
+   __typename?: 'Event';
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
+  internalContext?: Maybe<Scalars['String']>;
+  internalType?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
   location?: Maybe<Place>;
   keywords: Array<Keyword>;
-  superEvent?: Maybe<InternalIdObject>;
+  superEvent?: Maybe<IdObject>;
   eventStatus?: Maybe<Scalars['String']>;
   externalLinks: Array<ExternalLink>;
   offers: Array<Offer>;
-  dataSource?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['ID']>;
-  subEvents: Array<InternalIdObject>;
+  subEvents: Array<IdObject>;
   images: Array<Image>;
   inLanguage: Array<InLanguage>;
-  audience: Array<InternalIdObject>;
-  createdTime?: Maybe<Scalars['String']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
+  audience: Array<IdObject>;
   datePublished?: Maybe<Scalars['String']>;
   startTime?: Maybe<Scalars['String']>;
   endTime?: Maybe<Scalars['String']>;
@@ -191,24 +136,26 @@ export type EventDetails = {
   audienceMaxAge?: Maybe<Scalars['String']>;
   superEventType?: Maybe<Scalars['String']>;
   extensionCourse?: Maybe<ExtensionCourse>;
-  name: LocalizedObject;
-  locationExtraInfo?: Maybe<LocalizedObject>;
-  shortDescription?: Maybe<LocalizedObject>;
-  provider?: Maybe<LocalizedObject>;
-  infoUrl?: Maybe<LocalizedObject>;
+  name: LocalisedObject;
+  localizationExtraInfo?: Maybe<LocalisedObject>;
+  shortDescription?: Maybe<LocalisedObject>;
+  provider?: Maybe<LocalisedObject>;
+  infoUrl?: Maybe<LocalisedObject>;
   providerContactInfo?: Maybe<Scalars['String']>;
-  description?: Maybe<LocalizedObject>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  description?: Maybe<LocalisedObject>;
 };
 
 export type Place = {
    __typename?: 'Place';
-  id: Scalars['ID'];
-  divisions?: Maybe<Array<Division>>;
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
+  internalContext?: Maybe<Scalars['String']>;
+  internalType?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  divisions?: Maybe<Array<Maybe<Division>>>;
   customData?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   contactType?: Maybe<Scalars['String']>;
@@ -218,46 +165,32 @@ export type Place = {
   addressCountry?: Maybe<Scalars['String']>;
   deleted?: Maybe<Scalars['Boolean']>;
   nEvents?: Maybe<Scalars['Int']>;
-  image?: Maybe<Image>;
-  dataSource?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['ID']>;
+  image?: Maybe<Scalars['Int']>;
   parent?: Maybe<Scalars['ID']>;
   replacedBy?: Maybe<Scalars['String']>;
   position?: Maybe<PlacePosition>;
-  name?: Maybe<LocalizedObject>;
+  name?: Maybe<LocalisedObject>;
   description?: Maybe<Scalars['String']>;
-  telephone?: Maybe<LocalizedObject>;
-  addressLocality?: Maybe<LocalizedObject>;
-  streetAddress?: Maybe<LocalizedObject>;
-  infoUrl?: Maybe<LocalizedObject>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  telephone?: Maybe<LocalisedObject>;
+  addressLocality?: Maybe<LocalisedObject>;
+  streetAddress?: Maybe<LocalisedObject>;
+  infoUrl?: Maybe<LocalisedObject>;
 };
 
 export type Division = {
    __typename?: 'Division';
   type: Scalars['String'];
+  /** Open Civic Data ID */
   ocdId?: Maybe<Scalars['String']>;
   municipality?: Maybe<Scalars['String']>;
-  name?: Maybe<LocalizedObject>;
+  name?: Maybe<LocalisedObject>;
 };
 
-export type Image = {
-   __typename?: 'Image';
-  id: Scalars['ID'];
-  license?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  url: Scalars['String'];
-  cropping?: Maybe<Scalars['String']>;
-  photographerName?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+export type LocalisedObject = {
+   __typename?: 'LocalisedObject';
+  fi?: Maybe<Scalars['String']>;
+  sv?: Maybe<Scalars['String']>;
+  en?: Maybe<Scalars['String']>;
 };
 
 export type PlacePosition = {
@@ -268,25 +201,32 @@ export type PlacePosition = {
 
 export type Keyword = {
    __typename?: 'Keyword';
-  id: Scalars['ID'];
-  altLabels?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
+  internalContext?: Maybe<Scalars['String']>;
+  internalType?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['ID']>;
+  altLabels?: Maybe<Array<Maybe<Scalars['String']>>>;
   aggregate?: Maybe<Scalars['Boolean']>;
   deprecated?: Maybe<Scalars['Boolean']>;
   nEvents?: Maybe<Scalars['Int']>;
-  image?: Maybe<Image>;
-  dataSource?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['ID']>;
-  name?: Maybe<LocalizedObject>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['Int']>;
+  name?: Maybe<LocalisedObject>;
 };
 
-export type InternalIdObject = {
-   __typename?: 'InternalIdObject';
-  internalId?: Maybe<Scalars['String']>;
+export type IdObject = {
+   __typename?: 'IdObject';
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
+  internalContext?: Maybe<Scalars['String']>;
+  internalType?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
 };
 
 export type ExternalLink = {
@@ -299,19 +239,40 @@ export type ExternalLink = {
 export type Offer = {
    __typename?: 'Offer';
   isFree?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<LocalizedObject>;
-  price?: Maybe<LocalizedObject>;
-  infoUrl?: Maybe<LocalizedObject>;
+  description?: Maybe<LocalisedObject>;
+  price?: Maybe<LocalisedObject>;
+  infoUrl?: Maybe<LocalisedObject>;
+};
+
+export type Image = {
+   __typename?: 'Image';
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
+  internalContext?: Maybe<Scalars['String']>;
+  internalType?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  license?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  url: Scalars['String'];
+  cropping?: Maybe<Scalars['String']>;
+  photographerName?: Maybe<Scalars['String']>;
 };
 
 export type InLanguage = {
    __typename?: 'InLanguage';
-  id?: Maybe<Scalars['ID']>;
-  translationAvailable?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<LocalizedObject>;
-  internalId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
   internalContext?: Maybe<Scalars['String']>;
   internalType?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  translationAvailable?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<LocalisedObject>;
 };
 
 export type ExtensionCourse = {
@@ -323,17 +284,10 @@ export type ExtensionCourse = {
   remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
 };
 
-export type EventListResponse = {
-   __typename?: 'EventListResponse';
+export type PlaceListResponse = {
+   __typename?: 'PlaceListResponse';
   meta: Meta;
-  data: Array<EventDetails>;
-};
-
-export type Meta = {
-   __typename?: 'Meta';
-  count: Scalars['Int'];
-  next?: Maybe<Scalars['String']>;
-  previous?: Maybe<Scalars['String']>;
+  data: Array<Place>;
 };
 
 export type KeywordListResponse = {
@@ -342,113 +296,153 @@ export type KeywordListResponse = {
   data: Array<Keyword>;
 };
 
-export type LandingPageResponse = {
-   __typename?: 'LandingPageResponse';
-  data: Array<LandingPage>;
-};
-
-export type LandingPage = {
-   __typename?: 'LandingPage';
-  id: Scalars['ID'];
-  path?: Maybe<Scalars['String']>;
-  depth?: Maybe<Scalars['Int']>;
-  numchild?: Maybe<Scalars['Int']>;
-  draftTitle?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-  live?: Maybe<Scalars['Boolean']>;
-  hasUnpublishedChanges?: Maybe<Scalars['Boolean']>;
-  urlPath?: Maybe<Scalars['String']>;
-  seoTitle?: Maybe<Scalars['String']>;
-  showInMenus?: Maybe<Scalars['Boolean']>;
-  searchDescription?: Maybe<Scalars['String']>;
-  goLiveAt?: Maybe<Scalars['String']>;
-  expireAt?: Maybe<Scalars['String']>;
-  expired?: Maybe<Scalars['Boolean']>;
-  locked?: Maybe<Scalars['Boolean']>;
-  lockedAt?: Maybe<Scalars['String']>;
-  firstPublishedAt?: Maybe<Scalars['String']>;
-  lastPublishedAt?: Maybe<Scalars['String']>;
-  latestRevisionCreatedAt?: Maybe<Scalars['String']>;
-  title?: Maybe<LocalizedObject>;
-  description?: Maybe<LocalizedObject>;
-  buttonText?: Maybe<LocalizedObject>;
-  buttonUrl?: Maybe<LocalizedObject>;
-  heroBackgroundImage?: Maybe<LocalizedObject>;
-  heroTopLayerImage?: Maybe<LocalizedObject>;
-  metaInformation?: Maybe<LocalizedObject>;
-  pageTitle?: Maybe<LocalizedObject>;
-  contentType?: Maybe<Scalars['Int']>;
-  owner?: Maybe<Scalars['Int']>;
-  lockedBy?: Maybe<Scalars['Int']>;
-  liveRevision?: Maybe<Scalars['Int']>;
-};
-
-export type NeighborhoodListResponse = {
-   __typename?: 'NeighborhoodListResponse';
+export type EventSearchListResponse = {
+   __typename?: 'EventSearchListResponse';
   meta: Meta;
-  data: Array<Neighborhood>;
+  data: Array<Event>;
 };
 
-export type Neighborhood = {
-   __typename?: 'Neighborhood';
-  id: Scalars['ID'];
-  name: LocalizedObject;
-};
-
-export type OrganizationDetails = {
-   __typename?: 'OrganizationDetails';
-  id: Scalars['ID'];
-  dataSource?: Maybe<Scalars['String']>;
-  classification?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  foundingDate?: Maybe<Scalars['String']>;
-  dissolutionDate?: Maybe<Scalars['String']>;
-  parentOrganization?: Maybe<Scalars['String']>;
-  subOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
-  affiliatedOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
-  createdTime?: Maybe<Scalars['String']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  isAffiliated: Scalars['Boolean'];
-  replacedBy?: Maybe<Scalars['String']>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
-};
-
-export type PlaceListResponse = {
-   __typename?: 'PlaceListResponse';
+export type PlaceSearchListResponse = {
+   __typename?: 'PlaceSearchListResponse';
   meta: Meta;
   data: Array<Place>;
 };
 
 export type Mutation = {
    __typename?: 'Mutation';
-  _empty?: Maybe<Scalars['String']>;
+  addEventMutation?: Maybe<AddEventMutation>;
+  updateEventMutation?: Maybe<UpdateEventMutation>;
+  deleteEventMutation?: Maybe<DeleteEventMutation>;
 };
 
-export type Subscription = {
-   __typename?: 'Subscription';
-  _empty?: Maybe<Scalars['String']>;
+
+export type MutationAddEventMutationArgs = {
+  event?: Maybe<AddEventMutationInput>;
 };
 
-export type KeywordDetailsQueryVariables = {
+
+export type MutationUpdateEventMutationArgs = {
+  event?: Maybe<UpdateEventMutationInput>;
+};
+
+
+export type MutationDeleteEventMutationArgs = {
+  eventId?: Maybe<Scalars['String']>;
+};
+
+export type AddEventMutation = {
+   __typename?: 'AddEventMutation';
+  response?: Maybe<EventMutationResponse>;
+};
+
+export type EventMutationResponse = {
+   __typename?: 'EventMutationResponse';
+  statusCode: Scalars['Int'];
+  body?: Maybe<Event>;
+};
+
+export type AddEventMutationInput = {
+  location: IdObjectInput;
+  keywords: Array<IdObjectInput>;
+  superEvent?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<Scalars['String']>;
+  externalLinks?: Maybe<Array<Scalars['String']>>;
+  offers: Array<OfferInput>;
+  subEvents?: Maybe<Array<Scalars['String']>>;
+  images?: Maybe<Array<IdObjectInput>>;
+  inLanguage?: Maybe<Array<IdObjectInput>>;
+  audience?: Maybe<Array<IdObjectInput>>;
+  datePublished?: Maybe<Scalars['String']>;
+  startTime: Scalars['String'];
+  endTime?: Maybe<Scalars['String']>;
+  customData?: Maybe<Scalars['String']>;
+  audienceMinAge?: Maybe<Scalars['String']>;
+  audienceMaxAge?: Maybe<Scalars['String']>;
+  superEventType?: Maybe<Scalars['String']>;
+  extensionCourse?: Maybe<IdObjectInput>;
+  name: LocalisedObjectInput;
+  localizationExtraInfo?: Maybe<LocalisedObjectInput>;
+  shortDescription: LocalisedObjectInput;
+  provider?: Maybe<LocalisedObjectInput>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  providerContactInfo?: Maybe<Scalars['String']>;
+  description: LocalisedObjectInput;
+};
+
+export type IdObjectInput = {
+  internalId?: Maybe<Scalars['String']>;
+};
+
+export type OfferInput = {
+  isFree?: Maybe<Scalars['Boolean']>;
+  description?: Maybe<LocalisedObjectInput>;
+  price?: Maybe<LocalisedObjectInput>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+};
+
+export type LocalisedObjectInput = {
+  fi?: Maybe<Scalars['String']>;
+  sv?: Maybe<Scalars['String']>;
+  en?: Maybe<Scalars['String']>;
+};
+
+export type UpdateEventMutation = {
+   __typename?: 'UpdateEventMutation';
+  response?: Maybe<EventMutationResponse>;
+};
+
+export type UpdateEventMutationInput = {
+  location: IdObjectInput;
+  keywords: Array<IdObjectInput>;
+  superEvent?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<Scalars['String']>;
+  externalLinks?: Maybe<Array<Scalars['String']>>;
+  offers: Array<OfferInput>;
+  subEvents?: Maybe<Array<Scalars['String']>>;
+  images?: Maybe<Array<IdObjectInput>>;
+  inLanguage?: Maybe<Array<IdObjectInput>>;
+  audience?: Maybe<Array<IdObjectInput>>;
+  datePublished?: Maybe<Scalars['String']>;
+  startTime: Scalars['String'];
+  endTime?: Maybe<Scalars['String']>;
+  customData?: Maybe<Scalars['String']>;
+  audienceMinAge?: Maybe<Scalars['String']>;
+  audienceMaxAge?: Maybe<Scalars['String']>;
+  superEventType?: Maybe<Scalars['String']>;
+  extensionCourse?: Maybe<IdObjectInput>;
+  name: LocalisedObjectInput;
+  localizationExtraInfo?: Maybe<LocalisedObjectInput>;
+  shortDescription: LocalisedObjectInput;
+  provider?: Maybe<LocalisedObjectInput>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  providerContactInfo?: Maybe<Scalars['String']>;
+  description: LocalisedObjectInput;
+  id: Scalars['String'];
+};
+
+export type DeleteEventMutation = {
+   __typename?: 'DeleteEventMutation';
+  response?: Maybe<EventMutationResponse>;
+};
+
+export type KeywordQueryVariables = {
   id: Scalars['ID'];
 };
 
 
-export type KeywordDetailsQuery = (
+export type KeywordQuery = (
   { __typename?: 'Query' }
-  & { keywordDetails: (
+  & { keyword?: Maybe<(
     { __typename?: 'Keyword' }
-    & Pick<Keyword, 'id'>
+    & Pick<Keyword, 'id' | 'internalId'>
     & { name?: Maybe<(
-      { __typename?: 'LocalizedObject' }
-      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
     )> }
-  ) }
+  )> }
 );
 
-export type KeywordListQueryVariables = {
+export type KeywordsQueryVariables = {
   dataSource?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -458,51 +452,51 @@ export type KeywordListQueryVariables = {
 };
 
 
-export type KeywordListQuery = (
+export type KeywordsQuery = (
   { __typename?: 'Query' }
-  & { keywordList: (
+  & { keywords?: Maybe<(
     { __typename?: 'KeywordListResponse' }
     & { meta: (
       { __typename?: 'Meta' }
       & Pick<Meta, 'count' | 'next' | 'previous'>
     ), data: Array<(
       { __typename?: 'Keyword' }
-      & Pick<Keyword, 'id'>
+      & Pick<Keyword, 'id' | 'internalId'>
       & { name?: Maybe<(
-        { __typename?: 'LocalizedObject' }
-        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )> }
     )> }
-  ) }
+  )> }
 );
 
-export type PlaceDetailsQueryVariables = {
+export type PlaceQueryVariables = {
   id: Scalars['ID'];
 };
 
 
-export type PlaceDetailsQuery = (
+export type PlaceQuery = (
   { __typename?: 'Query' }
-  & { placeDetails: (
+  & { place?: Maybe<(
     { __typename?: 'Place' }
-    & Pick<Place, 'id'>
+    & Pick<Place, 'id' | 'internalId'>
     & { name?: Maybe<(
-      { __typename?: 'LocalizedObject' }
-      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
     )>, streetAddress?: Maybe<(
-      { __typename?: 'LocalizedObject' }
-      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
     )>, addressLocality?: Maybe<(
-      { __typename?: 'LocalizedObject' }
-      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
     )>, telephone?: Maybe<(
-      { __typename?: 'LocalizedObject' }
-      & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
     )> }
-  ) }
+  )> }
 );
 
-export type PlaceListQueryVariables = {
+export type PlacesQueryVariables = {
   dataSource?: Maybe<Scalars['String']>;
   divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
   page?: Maybe<Scalars['Int']>;
@@ -513,88 +507,89 @@ export type PlaceListQueryVariables = {
 };
 
 
-export type PlaceListQuery = (
+export type PlacesQuery = (
   { __typename?: 'Query' }
-  & { placeList: (
+  & { places?: Maybe<(
     { __typename?: 'PlaceListResponse' }
     & { meta: (
       { __typename?: 'Meta' }
       & Pick<Meta, 'count' | 'next' | 'previous'>
     ), data: Array<(
       { __typename?: 'Place' }
-      & Pick<Place, 'id'>
+      & Pick<Place, 'id' | 'internalId'>
       & { name?: Maybe<(
-        { __typename?: 'LocalizedObject' }
-        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )>, streetAddress?: Maybe<(
-        { __typename?: 'LocalizedObject' }
-        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )>, addressLocality?: Maybe<(
-        { __typename?: 'LocalizedObject' }
-        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )>, telephone?: Maybe<(
-        { __typename?: 'LocalizedObject' }
-        & Pick<LocalizedObject, 'fi' | 'sv' | 'en'>
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )> }
     )> }
-  ) }
+  )> }
 );
 
 
-export const KeywordDetailsDocument = gql`
-    query KeywordDetails($id: ID!) {
-  keywordDetails(id: $id) {
+export const KeywordDocument = gql`
+    query Keyword($id: ID!) {
+  keyword(id: $id) {
     id
     name {
       fi
       sv
       en
     }
+    internalId
   }
 }
     `;
-export type KeywordDetailsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<KeywordDetailsQuery, KeywordDetailsQueryVariables>
+export type KeywordProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<KeywordQuery, KeywordQueryVariables>
     } & TChildProps;
-export function withKeywordDetails<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withKeyword<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  KeywordDetailsQuery,
-  KeywordDetailsQueryVariables,
-  KeywordDetailsProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, KeywordDetailsQuery, KeywordDetailsQueryVariables, KeywordDetailsProps<TChildProps, TDataName>>(KeywordDetailsDocument, {
-      alias: 'keywordDetails',
+  KeywordQuery,
+  KeywordQueryVariables,
+  KeywordProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, KeywordQuery, KeywordQueryVariables, KeywordProps<TChildProps, TDataName>>(KeywordDocument, {
+      alias: 'keyword',
       ...operationOptions
     });
 };
 
 /**
- * __useKeywordDetailsQuery__
+ * __useKeywordQuery__
  *
- * To run a query within a React component, call `useKeywordDetailsQuery` and pass it any options that fit your needs.
- * When your component renders, `useKeywordDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useKeywordQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useKeywordDetailsQuery({
+ * const { data, loading, error } = useKeywordQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useKeywordDetailsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<KeywordDetailsQuery, KeywordDetailsQueryVariables>) {
-        return ApolloReactHooks.useQuery<KeywordDetailsQuery, KeywordDetailsQueryVariables>(KeywordDetailsDocument, baseOptions);
+export function useKeywordQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<KeywordQuery, KeywordQueryVariables>) {
+        return ApolloReactHooks.useQuery<KeywordQuery, KeywordQueryVariables>(KeywordDocument, baseOptions);
       }
-export function useKeywordDetailsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<KeywordDetailsQuery, KeywordDetailsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<KeywordDetailsQuery, KeywordDetailsQueryVariables>(KeywordDetailsDocument, baseOptions);
+export function useKeywordLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<KeywordQuery, KeywordQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<KeywordQuery, KeywordQueryVariables>(KeywordDocument, baseOptions);
         }
-export type KeywordDetailsQueryHookResult = ReturnType<typeof useKeywordDetailsQuery>;
-export type KeywordDetailsLazyQueryHookResult = ReturnType<typeof useKeywordDetailsLazyQuery>;
-export type KeywordDetailsQueryResult = ApolloReactCommon.QueryResult<KeywordDetailsQuery, KeywordDetailsQueryVariables>;
-export const KeywordListDocument = gql`
-    query KeywordList($dataSource: String, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String) {
-  keywordList(dataSource: $dataSource, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) {
+export type KeywordQueryHookResult = ReturnType<typeof useKeywordQuery>;
+export type KeywordLazyQueryHookResult = ReturnType<typeof useKeywordLazyQuery>;
+export type KeywordQueryResult = ApolloReactCommon.QueryResult<KeywordQuery, KeywordQueryVariables>;
+export const KeywordsDocument = gql`
+    query Keywords($dataSource: String, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String) {
+  keywords(dataSource: $dataSource, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) {
     meta {
       count
       next
@@ -607,35 +602,36 @@ export const KeywordListDocument = gql`
         sv
         en
       }
+      internalId
     }
   }
 }
     `;
-export type KeywordListProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<KeywordListQuery, KeywordListQueryVariables>
+export type KeywordsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<KeywordsQuery, KeywordsQueryVariables>
     } & TChildProps;
-export function withKeywordList<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withKeywords<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  KeywordListQuery,
-  KeywordListQueryVariables,
-  KeywordListProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, KeywordListQuery, KeywordListQueryVariables, KeywordListProps<TChildProps, TDataName>>(KeywordListDocument, {
-      alias: 'keywordList',
+  KeywordsQuery,
+  KeywordsQueryVariables,
+  KeywordsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, KeywordsQuery, KeywordsQueryVariables, KeywordsProps<TChildProps, TDataName>>(KeywordsDocument, {
+      alias: 'keywords',
       ...operationOptions
     });
 };
 
 /**
- * __useKeywordListQuery__
+ * __useKeywordsQuery__
  *
- * To run a query within a React component, call `useKeywordListQuery` and pass it any options that fit your needs.
- * When your component renders, `useKeywordListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useKeywordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useKeywordListQuery({
+ * const { data, loading, error } = useKeywordsQuery({
  *   variables: {
  *      dataSource: // value for 'dataSource'
  *      page: // value for 'page'
@@ -646,19 +642,20 @@ export function withKeywordList<TProps, TChildProps = {}, TDataName extends stri
  *   },
  * });
  */
-export function useKeywordListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<KeywordListQuery, KeywordListQueryVariables>) {
-        return ApolloReactHooks.useQuery<KeywordListQuery, KeywordListQueryVariables>(KeywordListDocument, baseOptions);
+export function useKeywordsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<KeywordsQuery, KeywordsQueryVariables>) {
+        return ApolloReactHooks.useQuery<KeywordsQuery, KeywordsQueryVariables>(KeywordsDocument, baseOptions);
       }
-export function useKeywordListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<KeywordListQuery, KeywordListQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<KeywordListQuery, KeywordListQueryVariables>(KeywordListDocument, baseOptions);
+export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<KeywordsQuery, KeywordsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<KeywordsQuery, KeywordsQueryVariables>(KeywordsDocument, baseOptions);
         }
-export type KeywordListQueryHookResult = ReturnType<typeof useKeywordListQuery>;
-export type KeywordListLazyQueryHookResult = ReturnType<typeof useKeywordListLazyQuery>;
-export type KeywordListQueryResult = ApolloReactCommon.QueryResult<KeywordListQuery, KeywordListQueryVariables>;
-export const PlaceDetailsDocument = gql`
-    query PlaceDetails($id: ID!) {
-  placeDetails(id: $id) {
+export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
+export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
+export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
+export const PlaceDocument = gql`
+    query Place($id: ID!) {
+  place(id: $id) {
     id
+    internalId
     name {
       fi
       sv
@@ -682,48 +679,48 @@ export const PlaceDetailsDocument = gql`
   }
 }
     `;
-export type PlaceDetailsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<PlaceDetailsQuery, PlaceDetailsQueryVariables>
+export type PlaceProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<PlaceQuery, PlaceQueryVariables>
     } & TChildProps;
-export function withPlaceDetails<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withPlace<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  PlaceDetailsQuery,
-  PlaceDetailsQueryVariables,
-  PlaceDetailsProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, PlaceDetailsQuery, PlaceDetailsQueryVariables, PlaceDetailsProps<TChildProps, TDataName>>(PlaceDetailsDocument, {
-      alias: 'placeDetails',
+  PlaceQuery,
+  PlaceQueryVariables,
+  PlaceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, PlaceQuery, PlaceQueryVariables, PlaceProps<TChildProps, TDataName>>(PlaceDocument, {
+      alias: 'place',
       ...operationOptions
     });
 };
 
 /**
- * __usePlaceDetailsQuery__
+ * __usePlaceQuery__
  *
- * To run a query within a React component, call `usePlaceDetailsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePlaceDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePlaceQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlaceQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePlaceDetailsQuery({
+ * const { data, loading, error } = usePlaceQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function usePlaceDetailsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PlaceDetailsQuery, PlaceDetailsQueryVariables>) {
-        return ApolloReactHooks.useQuery<PlaceDetailsQuery, PlaceDetailsQueryVariables>(PlaceDetailsDocument, baseOptions);
+export function usePlaceQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PlaceQuery, PlaceQueryVariables>) {
+        return ApolloReactHooks.useQuery<PlaceQuery, PlaceQueryVariables>(PlaceDocument, baseOptions);
       }
-export function usePlaceDetailsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PlaceDetailsQuery, PlaceDetailsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PlaceDetailsQuery, PlaceDetailsQueryVariables>(PlaceDetailsDocument, baseOptions);
+export function usePlaceLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PlaceQuery, PlaceQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PlaceQuery, PlaceQueryVariables>(PlaceDocument, baseOptions);
         }
-export type PlaceDetailsQueryHookResult = ReturnType<typeof usePlaceDetailsQuery>;
-export type PlaceDetailsLazyQueryHookResult = ReturnType<typeof usePlaceDetailsLazyQuery>;
-export type PlaceDetailsQueryResult = ApolloReactCommon.QueryResult<PlaceDetailsQuery, PlaceDetailsQueryVariables>;
-export const PlaceListDocument = gql`
-    query PlaceList($dataSource: String, $divisions: [String], $page: Int, $pageSize: Int, $showAllPlaces: Boolean, $sort: String, $text: String) {
-  placeList(dataSource: $dataSource, divisions: $divisions, page: $page, pageSize: $pageSize, showAllPlaces: $showAllPlaces, sort: $sort, text: $text) {
+export type PlaceQueryHookResult = ReturnType<typeof usePlaceQuery>;
+export type PlaceLazyQueryHookResult = ReturnType<typeof usePlaceLazyQuery>;
+export type PlaceQueryResult = ApolloReactCommon.QueryResult<PlaceQuery, PlaceQueryVariables>;
+export const PlacesDocument = gql`
+    query Places($dataSource: String, $divisions: [String], $page: Int, $pageSize: Int, $showAllPlaces: Boolean, $sort: String, $text: String) {
+  places(dataSource: $dataSource, divisions: $divisions, page: $page, pageSize: $pageSize, showAllPlaces: $showAllPlaces, sort: $sort, text: $text) {
     meta {
       count
       next
@@ -731,6 +728,7 @@ export const PlaceListDocument = gql`
     }
     data {
       id
+      internalId
       name {
         fi
         sv
@@ -755,31 +753,31 @@ export const PlaceListDocument = gql`
   }
 }
     `;
-export type PlaceListProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<PlaceListQuery, PlaceListQueryVariables>
+export type PlacesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<PlacesQuery, PlacesQueryVariables>
     } & TChildProps;
-export function withPlaceList<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+export function withPlaces<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  PlaceListQuery,
-  PlaceListQueryVariables,
-  PlaceListProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, PlaceListQuery, PlaceListQueryVariables, PlaceListProps<TChildProps, TDataName>>(PlaceListDocument, {
-      alias: 'placeList',
+  PlacesQuery,
+  PlacesQueryVariables,
+  PlacesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, PlacesQuery, PlacesQueryVariables, PlacesProps<TChildProps, TDataName>>(PlacesDocument, {
+      alias: 'places',
       ...operationOptions
     });
 };
 
 /**
- * __usePlaceListQuery__
+ * __usePlacesQuery__
  *
- * To run a query within a React component, call `usePlaceListQuery` and pass it any options that fit your needs.
- * When your component renders, `usePlaceListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePlacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePlaceListQuery({
+ * const { data, loading, error } = usePlacesQuery({
  *   variables: {
  *      dataSource: // value for 'dataSource'
  *      divisions: // value for 'divisions'
@@ -791,12 +789,12 @@ export function withPlaceList<TProps, TChildProps = {}, TDataName extends string
  *   },
  * });
  */
-export function usePlaceListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PlaceListQuery, PlaceListQueryVariables>) {
-        return ApolloReactHooks.useQuery<PlaceListQuery, PlaceListQueryVariables>(PlaceListDocument, baseOptions);
+export function usePlacesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PlacesQuery, PlacesQueryVariables>) {
+        return ApolloReactHooks.useQuery<PlacesQuery, PlacesQueryVariables>(PlacesDocument, baseOptions);
       }
-export function usePlaceListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PlaceListQuery, PlaceListQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PlaceListQuery, PlaceListQueryVariables>(PlaceListDocument, baseOptions);
+export function usePlacesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PlacesQuery, PlacesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PlacesQuery, PlacesQueryVariables>(PlacesDocument, baseOptions);
         }
-export type PlaceListQueryHookResult = ReturnType<typeof usePlaceListQuery>;
-export type PlaceListLazyQueryHookResult = ReturnType<typeof usePlaceListLazyQuery>;
-export type PlaceListQueryResult = ApolloReactCommon.QueryResult<PlaceListQuery, PlaceListQueryVariables>;
+export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
+export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
+export type PlacesQueryResult = ApolloReactCommon.QueryResult<PlacesQuery, PlacesQueryVariables>;

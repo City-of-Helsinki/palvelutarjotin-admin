@@ -3,25 +3,35 @@ import React from 'react';
 import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
-import {
-  Place,
-  usePlaceDetailsQuery,
-  usePlaceListQuery,
-} from '../../generated/graphql';
+import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../common/components/autoSuggest/contants';
+import { Place, PlaceDocument, usePlacesQuery } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
+import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
+import apolloClient from '../app/apollo/apolloClient';
+import PlaceText from './PlaceText';
 
 interface Props {
   helperText?: string;
   id: string;
   invalidText?: string;
   labelText: string;
-  onBlur: (val: string | null) => void;
-  onChange: (val: string | null) => void;
+  onBlur: (val: string | string[] | null) => void;
+  onChange: (val: string | string[] | null) => void;
   placeholder?: string;
-  value: string;
+  value: string | string[];
 }
+
+const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
+  const data = apolloClient.readQuery({
+    query: PlaceDocument,
+    variables: { id: option.value },
+  });
+  return data && data.keyword
+    ? getLocalizedString(data.keyword.name || {}, locale)
+    : '';
+};
 
 const PlaceSelector: React.FC<Props> = ({
   helperText,
@@ -36,14 +46,13 @@ const PlaceSelector: React.FC<Props> = ({
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
 
-  const { data: placesData, loading } = usePlaceListQuery({
+  const { data: placesData, loading } = usePlacesQuery({
     skip: !searchValue,
-    variables: { dataSource: 'tprek', pageSize: 20, text: searchValue },
-  });
-
-  const { data: placeData } = usePlaceDetailsQuery({
-    skip: !value,
-    variables: { id: value },
+    variables: {
+      dataSource: 'tprek',
+      pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
+      text: searchValue,
+    },
   });
 
   const locale = useLocale();
@@ -54,19 +63,36 @@ const PlaceSelector: React.FC<Props> = ({
       locale
     )}`;
 
-  const placeOptions = placesData
-    ? placesData.placeList.data.map((place) => ({
-        label: getOptionLabel(place),
-        value: place.id || '',
-      }))
-    : [];
+  const placeOptions =
+    placesData && placesData.places
+      ? placesData.places.data.map((place) => ({
+          label: getOptionLabel(place),
+          value: place.id || '',
+        }))
+      : [];
 
-  const handleBlur = (option: AutoSuggestOption | null) => {
-    onBlur(option ? option.value : null);
+  const handleBlur = (
+    option: AutoSuggestOption | AutoSuggestOption[] | null
+  ) => {
+    onBlur(
+      Array.isArray(option)
+        ? option.map((item) => item.value)
+        : option
+        ? option.value
+        : null
+    );
   };
 
-  const handleChange = (option: AutoSuggestOption | null) => {
-    onChange(option ? option.value : null);
+  const handleChange = (
+    option: AutoSuggestOption | AutoSuggestOption[] | null
+  ) => {
+    onChange(
+      Array.isArray(option)
+        ? option.map((item) => item.value)
+        : option
+        ? option.value
+        : null
+    );
   };
 
   return (
@@ -79,15 +105,18 @@ const PlaceSelector: React.FC<Props> = ({
       loading={loading}
       onBlur={handleBlur}
       onChange={handleChange}
+      optionLabelToString={optionLabelToString}
       options={placeOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}
       value={
-        placeData
-          ? {
-              label: getOptionLabel(placeData.placeDetails),
-              value: placeData.placeDetails.id || '',
-            }
+        Array.isArray(value)
+          ? value.map((item) => ({
+              label: <PlaceText id={item} />,
+              value: item,
+            }))
+          : value
+          ? { label: <PlaceText id={value} />, value: value }
           : null
       }
     />

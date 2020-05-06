@@ -14,9 +14,9 @@ import { store } from '../store';
 const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
-      keywordDetails: (_, args, { getCacheKey }) =>
+      keyword: (_, args, { getCacheKey }) =>
         getCacheKey({ __typename: 'Keyword', id: args.id }),
-      placeDetails: (_, args, { getCacheKey }) =>
+      place: (_, args, { getCacheKey }) =>
         getCacheKey({ __typename: 'Place', id: args.id }),
     },
   },
