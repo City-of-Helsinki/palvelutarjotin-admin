@@ -340,7 +340,7 @@ const AutoSuggest: React.FC<Props> = ({
     <div className={styles.multiValueWrapper}>
       {value.map((item) => {
         return (
-          <div className={styles.multiValue}>
+          <div key={item.value} className={styles.multiValue}>
             {item.label}
             <button
               aria-label={t(

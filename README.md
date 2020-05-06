@@ -87,6 +87,16 @@ and execute the following four commands inside your docker container:
 
 Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
 
+### Install Palvelutarjotin GraphQl server locally
+
+Clone the repository (https://github.com/City-of-Helsinki/palvelutarjotin). Follow the instructions for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in palvelutarjotin roots `docker-compose.env.yaml`:
+
+- DEBUG=1
+- CORS_ORIGIN_ALLOW_ALL=1
+- APPLY_MIGRATIONS=1
+- CREATE_SUPERUSER=1
+- TOKEN_AUTH_AUTHSERVER_URL=http://tunnistamo-backend:8000/openid
+
 ### palvelutarjotin-admin-ui
 
 Copy `cp .env.development.local.example .env.development.local`  
