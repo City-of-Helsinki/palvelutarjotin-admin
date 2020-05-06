@@ -1,17 +1,18 @@
 import gql from 'graphql-tag';
 
 export const QUERY_KEYWORD = gql`
-  query KeywordDetails($id: ID!) {
-    keywordDetails(id: $id) {
+  query Keyword($id: ID!) {
+    keyword(id: $id) {
       id
       name {
         fi
         sv
         en
       }
+      internalId
     }
   }
-  query KeywordList(
+  query Keywords(
     $dataSource: String
     $page: Int
     $pageSize: Int
@@ -19,7 +20,7 @@ export const QUERY_KEYWORD = gql`
     $sort: String
     $text: String
   ) {
-    keywordList(
+    keywords(
       dataSource: $dataSource
       page: $page
       pageSize: $pageSize
@@ -39,6 +40,7 @@ export const QUERY_KEYWORD = gql`
           sv
           en
         }
+        internalId
       }
     }
   }

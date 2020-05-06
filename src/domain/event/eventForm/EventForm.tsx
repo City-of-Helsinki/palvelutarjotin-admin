@@ -19,7 +19,7 @@ const EventForm = () => {
       initialValues={{
         description: '',
         duration: '',
-        keywords: '',
+        keywords: [],
         name: '',
         necessaryVisits: '',
         place: '',

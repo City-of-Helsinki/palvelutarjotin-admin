@@ -22,7 +22,7 @@ const KeywordSelectorField: React.FC<Props> = (props) => {
   } = props;
   const invalidText = getErrorText(errors, touched, name, t);
 
-  const handleBlur = (val: string | null) => {
+  const handleBlur = (val: string | string[] | null) => {
     onBlur({
       target: {
         id: name,
@@ -31,7 +31,7 @@ const KeywordSelectorField: React.FC<Props> = (props) => {
     });
   };
 
-  const handleChange = (val: string | null) => {
+  const handleChange = (val: string | string[] | null) => {
     onChange({
       target: {
         id: name,
