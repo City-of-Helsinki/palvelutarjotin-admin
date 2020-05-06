@@ -12,10 +12,11 @@
   "common": {
     "autoSuggest": {
       "accessibility": {
+        "clearValueButtonAriaMessage": "Klart värde",
+        "deselectOptionAriaMessage": "Alternativet {{value}}, avmarkerat.",
+        "deselectOptionButtonAriaMessage": "Avmarkera alternativet: {{value}}",
         "focusAriaMessage": "{{value}}, {{index}} av {{n}}.",
-        "removeValueAriaMessage": "Bortvald {{value}}.",
-        "removeValueButtonAriaMessage": "Bortvald värde",
-        "selectValueAriaMessage": "Vald {{value}}."
+        "selectOptionAriaMessage": "Alternativet {{value}}, valt."
       },
       "loading": "Laddning ...",
       "noResults": "Inga resultat"

@@ -12,10 +12,11 @@
   "common": {
     "autoSuggest": {
       "accessibility": {
+        "clearValueButtonAriaMessage": "Clear value",
+        "deselectOptionAriaMessage": "Option {{value}}, deselected.",
+        "deselectOptionButtonAriaMessage": "Deselect option: {{value}}",
         "focusAriaMessage": "{{value}}, {{index}} of {{n}}.",
-        "removeValueAriaMessage": "Deselected {{value}}.",
-        "removeValueButtonAriaMessage": "Remove value",
-        "selectValueAriaMessage": "Selected {{value}}."
+        "selectOptionAriaMessage": "Option {{value}}, selected."
       },
       "loading": "Loading ...",
       "noResults": "No results"

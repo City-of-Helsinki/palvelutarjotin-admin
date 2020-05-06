@@ -4,14 +4,20 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import useLocale from '../../../hooks/useLocale';
+import { Language } from '../../../types';
 import ScrollIntoViewWithFocus from '../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
-import { valueEventAriaMessage, valueFocusAriaMessage } from './accessibility';
+import {
+  ACCESSIBILITY_EVENT_TYPE,
+  valueEventAriaMessage,
+  valueFocusAriaMessage,
+} from './accessibility';
 import styles from './autoSuggest.module.scss';
 
 export type AutoSuggestOption = {
-  label: string;
+  label: string | React.ReactElement;
   value: string;
 };
 
@@ -71,13 +77,14 @@ interface Props {
   labelledBy?: string;
   labelText: string;
   loading?: boolean;
-  onBlur: (val: AutoSuggestOption | null) => void;
-  onChange: (val: AutoSuggestOption | null) => void;
+  onBlur: (val: AutoSuggestOption | AutoSuggestOption[] | null) => void;
+  onChange: (val: AutoSuggestOption | AutoSuggestOption[] | null) => void;
   options: AutoSuggestOption[];
+  optionLabelToString?: (option: AutoSuggestOption, locale: Language) => string;
   placeholder?: string;
   readOnly?: boolean;
   setInputValue: (value: string) => void;
-  value: AutoSuggestOption | null;
+  value: AutoSuggestOption | AutoSuggestOption[] | null;
 }
 
 const AutoSuggest: React.FC<Props> = ({
@@ -91,6 +98,7 @@ const AutoSuggest: React.FC<Props> = ({
   loading,
   onBlur,
   onChange,
+  optionLabelToString,
   options,
   placeholder,
   readOnly,
@@ -98,6 +106,7 @@ const AutoSuggest: React.FC<Props> = ({
   value,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
   const [ariaLiveSelection, setAriaLiveSelection] = React.useState('');
@@ -182,35 +191,26 @@ const AutoSuggest: React.FC<Props> = ({
     }
   };
 
-  const announceAriaLiveSelection = ({
-    event,
-    val,
-  }: {
-    event: string;
-    val: string;
-  }) => {
-    setAriaLiveSelection(valueEventAriaMessage({ event, value: val, t }));
-  };
-
-  const selectOption = (newValue: AutoSuggestOption) => {
-    announceAriaLiveSelection({
-      event: 'select-option',
-      val: newValue.label,
-    });
-  };
-
-  const deselectOption = () => {
-    announceAriaLiveSelection({
-      event: 'remove-value',
-      val: value ? value.label : '',
-    });
-  };
-
-  const handleOptionClick = (option: AutoSuggestOption) => {
+  const selectOption = (option: AutoSuggestOption) => {
     ensureMenuIsClosed();
-    onChange(option);
-    selectOption(option);
+    onChange(
+      Array.isArray(value)
+        ? value.map((item) => item.value).includes(option.value)
+          ? value
+          : [...value, option]
+        : option
+    );
+
+    announceAriaLiveSelection({
+      event: ACCESSIBILITY_EVENT_TYPE.SELECT_OPTION,
+      option,
+    });
+
     setInputValue('');
+
+    if (input.current) {
+      input.current.focus();
+    }
   };
 
   const handleDocumentKeyDown = (event: KeyboardEvent) => {
@@ -229,7 +229,7 @@ const AutoSuggest: React.FC<Props> = ({
         break;
       case 'Enter':
         if (focusedValue) {
-          handleOptionClick(focusedValue);
+          selectOption(focusedValue);
         }
         break;
     }
@@ -255,11 +255,29 @@ const AutoSuggest: React.FC<Props> = ({
     };
   });
 
+  const announceAriaLiveSelection = ({
+    event,
+    option,
+  }: {
+    event: ACCESSIBILITY_EVENT_TYPE;
+    option: AutoSuggestOption;
+  }) => {
+    setAriaLiveSelection(
+      valueEventAriaMessage({
+        event,
+        value: optionLabelToString
+          ? optionLabelToString(option, locale)
+          : option.label.toString(),
+        t,
+      })
+    );
+  };
+
   const constructAriaLiveMessage = () => {
     const focusedValueMsg = focusedValue
       ? valueFocusAriaMessage({
           focusedValue,
-          getOptionLabel: () => focusedValue.label,
+          getOptionLabel: () => focusedValue.label.toString(),
           options,
           t,
         })
@@ -268,33 +286,127 @@ const AutoSuggest: React.FC<Props> = ({
     return isMenuOpen ? `${focusedValueMsg}` : '';
   };
 
-  const renderLiveRegion = () => {
-    if (!isFocused) return null;
-
-    return (
-      <span className={styles.a11yText} aria-live="polite">
-        <p>{ariaLiveSelection}</p>
-        <p>{constructAriaLiveMessage()}</p>
-      </span>
-    );
-  };
-
-  const clearValue = () => {
+  const clearValues = () => {
     ensureMenuIsClosed();
-    onChange({ value: '', label: '' });
-    deselectOption();
+    onChange(Array.isArray(value) ? [] : { value: '', label: '' });
     setInputValue('');
+
     if (input.current) {
       input.current.focus();
     }
   };
 
+  const deselectOption = (option: AutoSuggestOption) => {
+    onChange(
+      Array.isArray(value)
+        ? value.filter((item) => item.value !== option.value)
+        : null
+    );
+
+    announceAriaLiveSelection({
+      event: ACCESSIBILITY_EVENT_TYPE.DESELECT_OPTION,
+      option: option,
+    });
+  };
+
+  // Internal components
+  const liveRegion: React.ReactElement | null = isFocused ? (
+    <span className={styles.a11yText} aria-live="polite">
+      <p>{ariaLiveSelection}</p>
+      <p>{constructAriaLiveMessage()}</p>
+    </span>
+  ) : null;
+
+  const clearValueButton: React.ReactElement | null = (
+    Array.isArray(value) ? value.length : !!value
+  ) ? (
+    <button
+      aria-label={t(
+        'common.autoSuggest.accessibility.clearValueButtonAriaMessage'
+      )}
+      className={styles.removeButton}
+      onClick={clearValues}
+    >
+      <IconClose />
+    </button>
+  ) : null;
+
+  const singleValue: React.ReactElement | null =
+    !inputValue && !Array.isArray(value) ? (
+      <div className={styles.singleValue}>{value?.label}</div>
+    ) : null;
+
+  const multiValue: React.ReactElement | null = Array.isArray(value) ? (
+    <div className={styles.multiValueWrapper}>
+      {value.map((item) => {
+        return (
+          <div className={styles.multiValue}>
+            {item.label}
+            <button
+              aria-label={t(
+                'common.autoSuggest.accessibility.deselectOptionButtonAriaMessage',
+                {
+                  value: optionLabelToString
+                    ? optionLabelToString(item, locale)
+                    : item.label.toString(),
+                }
+              )}
+              className={styles.deselectValueButton}
+              onClick={() => deselectOption(item)}
+            >
+              <IconClose />
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  ) : null;
+
+  const menu: React.ReactElement | null = isMenuOpen ? (
+    <div className={styles.autoSuggestMenu}>
+      <>
+        {options.length ? (
+          <ul role="listbox">
+            {options.map((option, index) => {
+              return (
+                <ListOption
+                  key={option.value}
+                  index={index}
+                  isFocused={focusedIndex === index}
+                  isSelected={
+                    Array.isArray(value)
+                      ? value.findIndex(
+                          (item) => item.value === option.value
+                        ) !== -1
+                      : !!value && value.value === option.value
+                  }
+                  onOptionClick={selectOption}
+                  option={option}
+                  setFocusedIndex={setFocusedIndex}
+                />
+              );
+            })}
+          </ul>
+        ) : (
+          <div className={styles.infoMessage}>
+            {loading
+              ? t('common.autoSuggest.loading')
+              : t('common.autoSuggest.noResults')}
+          </div>
+        )}
+      </>
+    </div>
+  ) : null;
+
+  const helper: React.ReactElement | null = helperText ? (
+    <div className={inputStyles.helperText}>{helperText}</div>
+  ) : null;
+
   return (
     <div className={styles.autoSuggest} ref={container}>
-      {renderLiveRegion()}
+      {liveRegion}
 
       <InputWrapper
-        helperText={helperText}
         id={id}
         invalid={!!invalidText}
         invalidText={invalidText}
@@ -309,54 +421,18 @@ const AutoSuggest: React.FC<Props> = ({
           disabled={disabled}
           id={id}
           onChange={handleInputChange}
-          placeholder={!value ? placeholder : ''}
+          placeholder={
+            (Array.isArray(value) ? !value.length : !value) ? placeholder : ''
+          }
           readOnly={readOnly}
           value={inputValue}
         />
-        {value && (
-          <button
-            aria-label={t(
-              'common.autoSuggest.accessibility.removeValueButtonAriaMessage'
-            )}
-            className={styles.removeButton}
-            onClick={clearValue}
-          >
-            <IconClose />
-          </button>
-        )}
-        {!inputValue && (
-          <div className={styles.singleValue}>{value?.label}</div>
-        )}
-        {isMenuOpen && (
-          <div className={styles.autoSuggestMenu}>
-            <>
-              {options.length ? (
-                <ul role="listbox">
-                  {options.map((option, index) => {
-                    return (
-                      <ListOption
-                        key={option.value}
-                        index={index}
-                        isFocused={focusedIndex === index}
-                        isSelected={!!value && value.value === option.value}
-                        onOptionClick={handleOptionClick}
-                        option={option}
-                        setFocusedIndex={setFocusedIndex}
-                      />
-                    );
-                  })}
-                </ul>
-              ) : (
-                <div className={styles.infoMessage}>
-                  {loading
-                    ? t('common.autoSuggest.loading')
-                    : t('common.autoSuggest.noResults')}
-                </div>
-              )}
-            </>
-          </div>
-        )}
+        {singleValue}
+        {clearValueButton}
+        {menu}
       </InputWrapper>
+      {helper}
+      {multiValue}
     </div>
   );
 };

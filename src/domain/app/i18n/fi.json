@@ -12,10 +12,11 @@
   "common": {
     "autoSuggest": {
       "accessibility": {
+        "clearValueButtonAriaMessage": "Poista arvo",
+        "deselectOptionAriaMessage": "Vaihtoehto {{value}}, poistettu.",
+        "deselectOptionButtonAriaMessage": "Poista vaihtoehto: {{value}}",
         "focusAriaMessage": "{{value}}, {{index}}/{{n}}.",
-        "removeValueAriaMessage": "Valinta poistettu {{value}}.",
-        "removeValueButtonAriaMessage": "Poista valinta",
-        "selectValueAriaMessage": "Valittu {{value}}."
+        "selectOptionAriaMessage": "Vaihtoehto {{value}}, valittu."
       },
       "loading": "Ladataan ...",
       "noResults": "Ei tuloksia"
