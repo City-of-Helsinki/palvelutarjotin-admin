@@ -133,7 +133,7 @@ const AutoSuggest: React.FC<Props> = ({
 
   const isComponentFocused = () => {
     const active = document.activeElement;
-    const current = container && container.current;
+    const current = container.current;
 
     if (current && active instanceof Node && current.contains(active)) {
       return true;
@@ -193,13 +193,15 @@ const AutoSuggest: React.FC<Props> = ({
 
   const selectOption = (option: AutoSuggestOption) => {
     ensureMenuIsClosed();
-    onChange(
-      Array.isArray(value)
-        ? value.map((item) => item.value).includes(option.value)
-          ? value
-          : [...value, option]
-        : option
-    );
+
+    if (Array.isArray(value)) {
+      // Add option to value array if it doesn't already exist there
+      if (!value.map((item) => item.value).includes(option.value)) {
+        onChange([...value, option]);
+      }
+    } else {
+      onChange(option);
+    }
 
     announceAriaLiveSelection({
       event: ACCESSIBILITY_EVENT_TYPE.SELECT_OPTION,
@@ -208,9 +210,7 @@ const AutoSuggest: React.FC<Props> = ({
 
     setInputValue('');
 
-    if (input.current) {
-      input.current.focus();
-    }
+    input.current?.focus();
   };
 
   const handleDocumentKeyDown = (event: KeyboardEvent) => {
@@ -291,23 +291,22 @@ const AutoSuggest: React.FC<Props> = ({
     onChange(Array.isArray(value) ? [] : { value: '', label: '' });
     setInputValue('');
 
-    if (input.current) {
-      input.current.focus();
-    }
+    input.current?.focus();
   };
 
   const deselectOption = (option: AutoSuggestOption) => {
-    onChange(
-      Array.isArray(value)
-        ? value.filter((item) => item.value !== option.value)
-        : null
-    );
+    // Deselecting is possible only when value is array
+    if (Array.isArray(value)) {
+      onChange(value.filter((item) => item.value !== option.value));
 
-    announceAriaLiveSelection({
-      event: ACCESSIBILITY_EVENT_TYPE.DESELECT_OPTION,
-      option: option,
-    });
+      announceAriaLiveSelection({
+        event: ACCESSIBILITY_EVENT_TYPE.DESELECT_OPTION,
+        option: option,
+      });
+    }
   };
+
+  const hasValue = Array.isArray(value) ? !!value.length : !!value;
 
   // Internal components
   const liveRegion: React.ReactElement | null = isFocused ? (
@@ -317,9 +316,7 @@ const AutoSuggest: React.FC<Props> = ({
     </span>
   ) : null;
 
-  const clearValueButton: React.ReactElement | null = (
-    Array.isArray(value) ? value.length : !!value
-  ) ? (
+  const clearValueButton: React.ReactElement | null = hasValue ? (
     <button
       aria-label={t(
         'common.autoSuggest.accessibility.clearValueButtonAriaMessage'
@@ -375,10 +372,8 @@ const AutoSuggest: React.FC<Props> = ({
                   isFocused={focusedIndex === index}
                   isSelected={
                     Array.isArray(value)
-                      ? value.findIndex(
-                          (item) => item.value === option.value
-                        ) !== -1
-                      : !!value && value.value === option.value
+                      ? value.map((item) => item.value).includes(option.value)
+                      : value?.value === option.value
                   }
                   onOptionClick={selectOption}
                   option={option}
@@ -421,9 +416,7 @@ const AutoSuggest: React.FC<Props> = ({
           disabled={disabled}
           id={id}
           onChange={handleInputChange}
-          placeholder={
-            (Array.isArray(value) ? !value.length : !value) ? placeholder : ''
-          }
+          placeholder={hasValue ? '' : placeholder}
           readOnly={readOnly}
           value={inputValue}
         />

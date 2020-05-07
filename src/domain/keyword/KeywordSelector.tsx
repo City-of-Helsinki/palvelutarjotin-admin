@@ -7,6 +7,7 @@ import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../common/components/autoSuggest/
 import {
   Keyword,
   KeywordDocument,
+  KeywordQuery,
   useKeywordsQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
@@ -28,13 +29,11 @@ interface Props {
 }
 
 const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
-  const data = apolloClient.readQuery({
+  const data = apolloClient.readQuery<KeywordQuery>({
     query: KeywordDocument,
     variables: { id: option.value },
   });
-  return data && data.keyword
-    ? getLocalizedString(data.keyword.name || {}, locale)
-    : '';
+  return getLocalizedString(data?.keyword?.name || {}, locale);
 };
 
 const KeywordSelector: React.FC<Props> = ({
@@ -61,35 +60,42 @@ const KeywordSelector: React.FC<Props> = ({
     getLocalizedString(keyword.name || {}, locale);
 
   const keywordOptions =
-    keywordsData && keywordsData.keywords
-      ? keywordsData.keywords.data.map((keyword) => ({
-          label: getOptionLabel(keyword),
-          value: keyword.id || '',
-        }))
-      : [];
+    keywordsData?.keywords?.data.map((keyword) => ({
+      label: getOptionLabel(keyword),
+      value: keyword.id || '',
+    })) || [];
 
   const handleBlur = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
   ) => {
-    onBlur(
-      Array.isArray(option)
-        ? option.map((item) => item.value)
-        : option
-        ? option.value
-        : null
-    );
+    if (Array.isArray(option)) {
+      onBlur(option.map((item) => item.value));
+    } else {
+      onBlur(option?.value || null);
+    }
   };
 
   const handleChange = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
   ) => {
-    onChange(
-      Array.isArray(option)
-        ? option.map((item) => item.value)
-        : option
-        ? option.value
-        : null
-    );
+    if (Array.isArray(option)) {
+      onChange(option.map((item) => item.value));
+    } else {
+      onChange(option?.value || null);
+    }
+  };
+
+  const getValue = () => {
+    if (Array.isArray(value)) {
+      return value.map((item) => ({
+        label: <KeywordText id={item} />,
+        value: item,
+      }));
+    } else if (value) {
+      return { label: <KeywordText id={value} />, value: value };
+    }
+
+    return null;
   };
 
   return (
@@ -106,16 +112,7 @@ const KeywordSelector: React.FC<Props> = ({
       options={keywordOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}
-      value={
-        Array.isArray(value)
-          ? value.map((item) => ({
-              label: <KeywordText id={item} />,
-              value: item,
-            }))
-          : value
-          ? { label: <KeywordText id={value} />, value: value }
-          : null
-      }
+      value={getValue()}
     />
   );
 };

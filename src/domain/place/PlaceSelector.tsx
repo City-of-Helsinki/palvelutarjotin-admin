@@ -4,7 +4,12 @@ import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../common/components/autoSuggest/contants';
-import { Place, PlaceDocument, usePlacesQuery } from '../../generated/graphql';
+import {
+  Place,
+  PlaceDocument,
+  PlaceQuery,
+  usePlacesQuery,
+} from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
@@ -24,13 +29,12 @@ interface Props {
 }
 
 const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
-  const data = apolloClient.readQuery({
+  const data = apolloClient.readQuery<PlaceQuery>({
     query: PlaceDocument,
     variables: { id: option.value },
   });
-  return data && data.keyword
-    ? getLocalizedString(data.keyword.name || {}, locale)
-    : '';
+
+  return getLocalizedString(data?.place?.name || {}, locale);
 };
 
 const PlaceSelector: React.FC<Props> = ({
@@ -64,35 +68,42 @@ const PlaceSelector: React.FC<Props> = ({
     )}`;
 
   const placeOptions =
-    placesData && placesData.places
-      ? placesData.places.data.map((place) => ({
-          label: getOptionLabel(place),
-          value: place.id || '',
-        }))
-      : [];
+    placesData?.places?.data.map((place) => ({
+      label: getOptionLabel(place),
+      value: place.id || '',
+    })) || [];
 
   const handleBlur = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
   ) => {
-    onBlur(
-      Array.isArray(option)
-        ? option.map((item) => item.value)
-        : option
-        ? option.value
-        : null
-    );
+    if (Array.isArray(option)) {
+      onBlur(option.map((item) => item.value));
+    } else {
+      onBlur(option?.value || null);
+    }
   };
 
   const handleChange = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
   ) => {
-    onChange(
-      Array.isArray(option)
-        ? option.map((item) => item.value)
-        : option
-        ? option.value
-        : null
-    );
+    if (Array.isArray(option)) {
+      onChange(option.map((item) => item.value));
+    } else {
+      onChange(option?.value || null);
+    }
+  };
+
+  const getValue = () => {
+    if (Array.isArray(value)) {
+      return value.map((item) => ({
+        label: <PlaceText id={item} />,
+        value: item,
+      }));
+    } else if (value) {
+      return { label: <PlaceText id={value} />, value: value };
+    }
+
+    return null;
   };
 
   return (
@@ -109,16 +120,7 @@ const PlaceSelector: React.FC<Props> = ({
       options={placeOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}
-      value={
-        Array.isArray(value)
-          ? value.map((item) => ({
-              label: <PlaceText id={item} />,
-              value: item,
-            }))
-          : value
-          ? { label: <PlaceText id={value} />, value: value }
-          : null
-      }
+      value={getValue()}
     />
   );
 };
