@@ -79,7 +79,7 @@ const PlaceSelector: React.FC<Props> = ({
     if (Array.isArray(option)) {
       onBlur(option.map((item) => item.value));
     } else {
-      onBlur(option?.value || null);
+      onBlur(option?.value || '');
     }
   };
 
@@ -89,7 +89,7 @@ const PlaceSelector: React.FC<Props> = ({
     if (Array.isArray(option)) {
       onChange(option.map((item) => item.value));
     } else {
-      onChange(option?.value || null);
+      onChange(option?.value || '');
     }
   };
 
