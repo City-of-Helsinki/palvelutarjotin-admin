@@ -28,5 +28,6 @@ export default Yup.object().shape({
   place: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   providerContactInfo: Yup.object().shape({
     email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
+    name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   }),
 });

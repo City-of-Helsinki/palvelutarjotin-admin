@@ -2,6 +2,7 @@ import { Field, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
@@ -22,7 +23,7 @@ const EventForm = () => {
         necessaryVisits: '',
         place: '',
         placeDescription: '',
-        providerContactInfo: { email: '', phone: '' },
+        providerContactInfo: { email: '', name: '', phone: '' },
         shortDescription: '',
       }}
       validateOnChange
@@ -41,7 +42,6 @@ const EventForm = () => {
                   component={TextInputField}
                 />
               </FormGroup>
-
               <FormGroup>
                 <Field
                   labelText={t('eventForm.basicInfo.labelShortDescription')}
@@ -137,6 +137,19 @@ const EventForm = () => {
               <h2>{t('eventForm.contactPerson.title')}</h2>
               {/* TODO: Add contact person selector here when dopdown component is implemented */}
 
+              <FormGroup>
+                <Field
+                  component={DropdownSelectField}
+                  labelText={t('eventForm.contactPerson.labelName')}
+                  name="providerContactInfo.name"
+                  // TODO: Use real data when available from api
+                  options={[
+                    { label: 'Option1', value: 'option1' },
+                    { label: 'Option2', value: 'option2' },
+                    { label: 'Option3', value: 'option3' },
+                  ]}
+                />
+              </FormGroup>
               <FormGroup>
                 <Field
                   labelText={t('eventForm.contactPerson.labelEmail')}

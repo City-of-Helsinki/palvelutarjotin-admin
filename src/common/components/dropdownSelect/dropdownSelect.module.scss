@@ -1,0 +1,75 @@
+
+.dropdownSelectButton {
+  border: 2px solid;
+  border-color: inherit;
+  padding: 0.888em 0.72em;
+  font-size: var(--hds-text-md);
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  border-radius: 1px;
+
+  &:focus, &.isOpen {
+    border-color: var(--hds-ui-color-black-90);  
+  }
+
+  .icon {
+    height: 1rem;
+    width: 1rem;
+    position: absolute;
+    right: 0.72em;
+  }
+  .arrowUp {
+    transform: rotate(180deg);
+  }
+
+  &.isDisabled {
+    color: var(--hds-ui-color-black-40);  
+    background-color: var(--hds-ui-color-black-10);  
+  }
+}
+
+.dropdownSelectMenu {
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: var(--hds-ui-color-white);
+  border-radius: 1px;
+
+  &.isOpen {
+    list-style: none;
+    padding: 0;
+    margin-top: -2px;
+    padding-top: 2px;
+    outline: none;
+    border: 2px solid var(--hds-ui-color-black-90);
+    border-top: none;
+    z-index: 2;
+  };
+}
+
+.dropdownSelectMenuItem {
+  font-size: var(--hds-text-md);
+  padding: 0.888em 0.72em;
+  display: flex;
+  align-items: center;
+
+  &:hover, &.isHighlighted {
+    background-color: var(--hds-ui-color-black-10);
+  }
+
+  &.isSelected {
+    background-color: var(--hds-brand-color-bus);
+    color: var(--hds-ui-color-white);
+  }
+
+  .checkIcon {
+    height: 1rem;
+    width: 1rem;
+    position: absolute;
+    right: 0.72em;
+    fill: var(--hds-ui-color-white);
+  }
+}

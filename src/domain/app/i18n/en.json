@@ -19,6 +19,15 @@
       },
       "loading": "Loading ...",
       "noResults": "No results"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "selectionMessage": "{{value}} has been selected.",
+        "statusMessageMultipleResult": "{{resultCount}} results are available, use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.",
+        "statusMessageNoResults": "No results are available",
+        "statusMessageSingleResult": "1 result is available, use up and down arrow keys to navigate. Press Enter or Spacebar keys to select."
+      },
+      "buttonText": "Select..."
     }
   },
   "createEvent": {
@@ -38,6 +47,7 @@
     },
     "contactPerson": {
       "labelEmail": "Email",
+      "labelName": "Name",
       "labelPhone": "Phone",
       "title": "Contact person"
     },

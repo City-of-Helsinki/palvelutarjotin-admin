@@ -19,6 +19,15 @@
       },
       "loading": "Laddning ...",
       "noResults": "Inga resultat"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "selectionMessage": "{{value}} har valts.",
+        "statusMessageMultipleResult": "{{resultCount}} resultaten är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter- eller mellanslagstangenterna för att välja.",
+        "statusMessageNoResults": "Inga resultat finns tillgängliga",
+        "statusMessageSingleResult": "1 resultat finns tillgängligt, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter- eller mellanslagstangenterna för att välja."
+      },
+      "buttonText": "Välj..."
     }
   },
   "createEvent": {
@@ -38,6 +47,7 @@
     },
     "contactPerson": {
       "labelEmail": "E-post",
+      "labelName": "Namn",
       "labelPhone": "Telefon",
       "title": "Kontaktperson"
     },
