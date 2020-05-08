@@ -12,10 +12,11 @@
   "common": {
     "autoSuggest": {
       "accessibility": {
+        "clearValueButtonAriaMessage": "Klart värde",
+        "deselectOptionAriaMessage": "Alternativet {{value}}, avmarkerat.",
+        "deselectOptionButtonAriaMessage": "Avmarkera alternativet: {{value}}",
         "focusAriaMessage": "{{value}}, {{index}} av {{n}}.",
-        "removeValueAriaMessage": "Bortvald {{value}}.",
-        "removeValueButtonAriaMessage": "Bortvald värde",
-        "selectValueAriaMessage": "Vald {{value}}."
+        "selectOptionAriaMessage": "Alternativet {{value}}, valt."
       },
       "loading": "Laddning ...",
       "noResults": "Inga resultat"
@@ -27,12 +28,15 @@
   },
   "eventForm": {
     "basicInfo": {
+      "helperTextKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
+      "labelKeywords": "Evenemangs nyckelord",
       "labelName": "Evenemang namn",
       "labelNecessaryVisits": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
+      "placeholderKeywords": "Lägg nyckelord...",
       "textNecessaryVisits": "I händelse av en händelse som varje grupp vill delta mer än en gång, ange antalet händelsetider som deltagarna måste reservera samtidigt.",
       "title": "Grundläggande information"
     },
@@ -46,6 +50,7 @@
       "helperTextPlaceDescription": "Ytterligare information för att underlätta besöket",
       "labelPlace": "Standard venue",
       "labelPlaceDescription": "Beskrivning av arenan",
+      "placeholderPlace": "Sök plats...",
       "placeholderPlaceDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"
     }

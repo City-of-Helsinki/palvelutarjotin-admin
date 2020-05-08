@@ -1,11 +1,11 @@
 import { SUPPORT_LANGUAGES } from '../constants';
-import { LocalizedObject } from '../generated/graphql';
+import { LocalisedObject } from '../generated/graphql';
 import { Language } from '../types';
 
 /**
  * Check is the instance that is rendering component client (not SSR)
  */
-export default (obj: LocalizedObject, language: Language) => {
+export default (obj: LocalisedObject, language: Language) => {
   const languages = [
     language,
     ...Object.values(SUPPORT_LANGUAGES).filter((item) => item !== language),

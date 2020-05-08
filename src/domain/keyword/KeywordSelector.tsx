@@ -5,17 +5,17 @@ import AutoSuggest, {
 } from '../../common/components/autoSuggest/AutoSuggest';
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../common/components/autoSuggest/contants';
 import {
-  Place,
-  PlaceDocument,
-  PlaceQuery,
-  usePlacesQuery,
+  Keyword,
+  KeywordDocument,
+  KeywordQuery,
+  useKeywordsQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
 import apolloClient from '../app/apollo/apolloClient';
-import PlaceText from './PlaceText';
+import KeywordText from './KeywordText';
 
 interface Props {
   helperText?: string;
@@ -29,15 +29,14 @@ interface Props {
 }
 
 const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
-  const data = apolloClient.readQuery<PlaceQuery>({
-    query: PlaceDocument,
+  const data = apolloClient.readQuery<KeywordQuery>({
+    query: KeywordDocument,
     variables: { id: option.value },
   });
-
-  return getLocalizedString(data?.place?.name || {}, locale);
+  return getLocalizedString(data?.keyword?.name || {}, locale);
 };
 
-const PlaceSelector: React.FC<Props> = ({
+const KeywordSelector: React.FC<Props> = ({
   helperText,
   id,
   invalidText,
@@ -50,27 +49,20 @@ const PlaceSelector: React.FC<Props> = ({
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
 
-  const { data: placesData, loading } = usePlacesQuery({
+  const { data: keywordsData, loading } = useKeywordsQuery({
     skip: !searchValue,
-    variables: {
-      dataSource: 'tprek',
-      pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
-      text: searchValue,
-    },
+    variables: { pageSize: AUTOSUGGEST_OPTIONS_AMOUNT, text: searchValue },
   });
 
   const locale = useLocale();
 
-  const getOptionLabel = (place: Place) =>
-    `${getLocalizedString(place.name || {}, locale)}, ${getLocalizedString(
-      place.streetAddress || {},
-      locale
-    )}`;
+  const getOptionLabel = (keyword: Keyword) =>
+    getLocalizedString(keyword.name || {}, locale);
 
-  const placeOptions =
-    placesData?.places?.data.map((place) => ({
-      label: getOptionLabel(place),
-      value: place.id || '',
+  const keywordOptions =
+    keywordsData?.keywords?.data.map((keyword) => ({
+      label: getOptionLabel(keyword),
+      value: keyword.id || '',
     })) || [];
 
   const handleBlur = (
@@ -96,11 +88,11 @@ const PlaceSelector: React.FC<Props> = ({
   const getValue = () => {
     if (Array.isArray(value)) {
       return value.map((item) => ({
-        label: <PlaceText id={item} />,
+        label: <KeywordText id={item} />,
         value: item,
       }));
     } else if (value) {
-      return { label: <PlaceText id={value} />, value: value };
+      return { label: <KeywordText id={value} />, value: value };
     }
 
     return null;
@@ -117,7 +109,7 @@ const PlaceSelector: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       optionLabelToString={optionLabelToString}
-      options={placeOptions}
+      options={keywordOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}
       value={getValue()}
@@ -125,4 +117,4 @@ const PlaceSelector: React.FC<Props> = ({
   );
 };
 
-export default PlaceSelector;
+export default KeywordSelector;

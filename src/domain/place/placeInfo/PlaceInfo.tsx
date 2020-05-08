@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { usePlaceDetailsQuery } from '../../../generated/graphql';
+import { usePlaceQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import { generateHslLink, generateServiceMapLink } from '../utils';
@@ -11,22 +11,19 @@ interface Props {
 }
 
 const PlaceInfo: React.FC<Props> = ({ id }) => {
-  const { data } = usePlaceDetailsQuery({ variables: { id } });
+  const { data } = usePlaceQuery({ variables: { id } });
   const locale = useLocale();
 
   if (!data) return null;
 
-  const name = getLocalizedString(data.placeDetails.name || {}, locale);
+  const name = getLocalizedString(data.place?.name || {}, locale);
   const streetAddress = getLocalizedString(
-    data.placeDetails.streetAddress || {},
+    data.place?.streetAddress || {},
     locale
   );
-  const telephone = getLocalizedString(
-    data.placeDetails.telephone || {},
-    locale
-  );
+  const telephone = getLocalizedString(data.place?.telephone || {}, locale);
   const addressLocality = getLocalizedString(
-    data.placeDetails.addressLocality || {},
+    data.place?.addressLocality || {},
     locale
   );
   const serviceMapLink = generateServiceMapLink(id, locale);

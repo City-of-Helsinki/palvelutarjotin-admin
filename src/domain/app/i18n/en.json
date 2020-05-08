@@ -12,10 +12,11 @@
   "common": {
     "autoSuggest": {
       "accessibility": {
+        "clearValueButtonAriaMessage": "Clear value",
+        "deselectOptionAriaMessage": "Option {{value}}, deselected.",
+        "deselectOptionButtonAriaMessage": "Deselect option: {{value}}",
         "focusAriaMessage": "{{value}}, {{index}} of {{n}}.",
-        "removeValueAriaMessage": "Deselected {{value}}.",
-        "removeValueButtonAriaMessage": "Remove value",
-        "selectValueAriaMessage": "Selected {{value}}."
+        "selectOptionAriaMessage": "Option {{value}}, selected."
       },
       "loading": "Loading ...",
       "noResults": "No results"
@@ -27,12 +28,15 @@
   },
   "eventForm": {
     "basicInfo": {
+      "helperTextKeywords": "Enter a keyword and select from the suggested options",
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
       "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelKeywords": "Event keywords",
       "labelName": "Event name",
       "labelNecessaryVisits": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
+      "placeholderKeywords": "Add keyword...",
       "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
       "title": "Basic information"
     },
@@ -46,6 +50,7 @@
       "helperTextPlaceDescription": "Additional information to facilitate the visit",
       "labelPlace": "Default venue",
       "labelPlaceDescription": "Description of the venue",
+      "placeholderPlace": "Search place...",
       "placeholderPlaceDescription": "For example, how can a group change clothes, where you can eat snacks ...",
       "title": "Location"
     }

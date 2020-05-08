@@ -2,23 +2,28 @@ import { TFunction } from 'i18next';
 
 import { AutoSuggestOption } from './AutoSuggest';
 
+export enum ACCESSIBILITY_EVENT_TYPE {
+  DESELECT_OPTION = 'deselect_option',
+  SELECT_OPTION = 'select_option',
+}
+
 export const valueEventAriaMessage = ({
   event,
   value,
   t,
 }: {
-  event: string;
+  event: ACCESSIBILITY_EVENT_TYPE;
   value: string;
   t: TFunction;
 }) => {
   if (!value) return '';
   switch (event) {
-    case 'remove-value':
-      return t('common.autoSuggest.accessibility.removeValueAriaMessage', {
+    case ACCESSIBILITY_EVENT_TYPE.DESELECT_OPTION:
+      return t('common.autoSuggest.accessibility.deselectOptionAriaMessage', {
         value: value,
       });
-    case 'select-option':
-      return t('common.autoSuggest.accessibility.selectValueAriaMessage', {
+    case ACCESSIBILITY_EVENT_TYPE.SELECT_OPTION:
+      return t('common.autoSuggest.accessibility.selectOptionAriaMessage', {
         value: value,
       });
     default:

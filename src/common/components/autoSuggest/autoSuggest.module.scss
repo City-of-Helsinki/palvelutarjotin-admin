@@ -23,11 +23,41 @@
     z-index: -1;
   }
 
+  .multiValueWrapper {
+    margin-top: 1rem;
+
+    div {
+      margin-right: 0.5rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .multiValue {
+    display: inline-flex;
+    color: $hel-black-90;
+    font-size: 1rem;
+    background-color: #d8d8d8;
+    padding: 0.625rem 1rem;
+    border-radius: 1.25rem;
+
+    .deselectValueButton {
+      margin-left: 0.5rem;
+
+      svg {
+        width: 0.75rem;
+        height: 0.75rem;
+        fill: $hel-black-50;
+      }
+    }
+  }
+
   .removeButton {
     position: absolute;
     right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 1.25rem;
     display: flex;
 
     svg {
