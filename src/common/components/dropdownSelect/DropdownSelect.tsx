@@ -146,7 +146,9 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
           })}
           disabled={disabled}
         >
-          {buttonText || t('common.dropdownSelect.buttonText')}
+          {selectedItem?.label ||
+            buttonText ||
+            t('common.dropdownSelect.buttonText')}
           <IconAngleDown
             className={classNames(styles.icon, {
               [styles.arrowUp]: isOpen,
