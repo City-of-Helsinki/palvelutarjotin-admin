@@ -40,30 +40,12 @@
     width: 100%;
   }
 
-  .deleteIconWrapper {
-    width: 1rem;
-    margin-right: 1rem;
-    fill: red;
-
-    svg {
-      display: block;
-    }
-  }
-
   .imageSelectRow {
     display: grid;
     grid-gap: $baseMargin;
 
     @include respond_above(sm) {
       grid-template-columns: 180px 1fr;
-    }
-
-    .deleteImageButton {
-      margin: auto;
-      display: flex;
-      margin-top: 42px;
-      align-items: center;
-      color: $hel-bus;
     }
 
     .imageSelect {

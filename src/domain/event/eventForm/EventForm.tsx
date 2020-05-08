@@ -2,16 +2,16 @@ import { Field, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ImageInputField from '../../../common/components/form/fields/ImageInputField';
 import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
-import DeleteIcon from '../../../icons/DeleteIcon';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventForm.module.scss';
+import ImageSelectedFormPart from './ImageSelectedFormPart';
+import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
 
 const EventForm = () => {
@@ -37,7 +37,7 @@ const EventForm = () => {
       onSubmit={(values) => {}}
       validationSchema={ValidationSchema}
     >
-      {({ values: { place, image }, setFieldValue }) => {
+      {({ values: { place, image }, setFieldValue, setFieldTouched }) => {
         const imageSelected = Boolean(image);
         return (
           <div className={styles.eventForm}>
@@ -68,12 +68,13 @@ const EventForm = () => {
               </FormGroup>
 
               {imageSelected ? (
-                <ImageSelectedForm
+                <ImageSelectedFormPart
                   image={image}
                   setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
                 />
               ) : (
-                <SelectImageForm />
+                <SelectImageFormPart />
               )}
 
               <FormGroup>
@@ -181,98 +182,6 @@ const EventForm = () => {
         );
       }}
     </Formik>
-  );
-};
-
-const ImageSelectedForm: React.FC<{
-  image: string;
-  setFieldValue: (
-    field: string,
-    value: any,
-    shouldValidate?: boolean | undefined
-  ) => void;
-}> = ({ setFieldValue, image }) => {
-  const { t } = useTranslation();
-  return (
-    <>
-      <ImagePreview image={image} />
-      <div className={styles.imageSelectRow}>
-        <div className={styles.imageSelect}>
-          <DeleteImageButton
-            onClick={() => {
-              ['image', 'photographer', 'imageAltText'].forEach((field) => {
-                setFieldValue(field, '');
-              });
-            }}
-          />
-        </div>
-        <div>
-          <FormGroup>
-            <Field
-              labelText={t('eventForm.basicInfo.photographer')}
-              name="photographer"
-              component={TextInputField}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              labelText={t('eventForm.basicInfo.labelImageAltText')}
-              name="imageAltText"
-              helperText={t('eventForm.basicInfo.imageAltTextHelp')}
-              component={TextInputField}
-            />
-          </FormGroup>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const SelectImageForm: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <div className={styles.imageSelectRow}>
-      <div className={styles.imageSelect}>
-        <FormGroup>
-          <Field
-            labelText={t('eventForm.basicInfo.labelImage')}
-            name="image"
-            component={ImageInputField}
-          />
-        </FormGroup>
-      </div>
-      <div className={styles.imageInstructionsText}>
-        {t('eventForm.basicInfo.descriptionAddImage')}
-      </div>
-    </div>
-  );
-};
-
-const ImagePreview: React.FC<{ image: string }> = ({ image }) => {
-  const { t } = useTranslation();
-  return (
-    <div className={styles.imagePreview}>
-      <p>{t('eventForm.basicInfo.labelImage')}</p>
-      <img
-        className={styles.eventImage}
-        src={image}
-        alt={t('eventForm.basicInfo.eventImageAltText')}
-      />
-    </div>
-  );
-};
-
-const DeleteImageButton: React.FC<{
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}> = ({ onClick }) => {
-  const { t } = useTranslation();
-  return (
-    <button className={styles.deleteImageButton} onClick={onClick}>
-      <div className={styles.deleteIconWrapper}>
-        <DeleteIcon />
-      </div>
-      <span>{t('eventForm.basicInfo.deleteImage')}</span>
-    </button>
   );
 };
 
