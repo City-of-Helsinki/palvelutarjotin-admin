@@ -9,7 +9,7 @@ exports[`PlaceInfo should match snapshot 1`] = `
     <div class=\\"linkTitle\\">Palvelukartta:</div><a href=\\"https://palvelukartta.hel.fi/fi/unit/15417\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">https://palvelukartta.hel.fi/fi/unit/15417</a>
   </div>
   <div class=\\"linkRow\\">
-    <div class=\\"linkTitle\\">Reittiopas:</div><a href=\\"http://www.reittiopas.fi/fi/?to=Leppävaarankatu+9,Espoo\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">http://www.reittiopas.fi/fi/?to=Leppävaarankatu+9,Espoo</a>
+    <div class=\\"linkTitle\\">Reittiopas:</div><a href=\\"https://www.reittiopas.fi/fi/?to=Leppävaarankatu+9,Espoo\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">https://www.reittiopas.fi/fi/?to=Leppävaarankatu+9,Espoo</a>
   </div>
 </div>"
 `;

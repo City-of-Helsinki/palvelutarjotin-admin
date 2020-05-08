@@ -18,7 +18,13 @@ export type DropdownSelectOption = {
   value: string;
 };
 
-interface Props {
+export const dataTestIds = {
+  toggleButton: 'toggle-button-id',
+  menu: 'menu-id',
+  item: (index: number) => `item-id-${index}`,
+};
+
+export interface DropdownSelectProps {
   buttonText?: string;
   disabled?: boolean;
   helperText?: string;
@@ -31,7 +37,7 @@ interface Props {
   value?: string;
 }
 
-const DropdownSelect: React.FC<Props> = ({
+const DropdownSelect: React.FC<DropdownSelectProps> = ({
   buttonText,
   disabled,
   helperText,
@@ -132,7 +138,7 @@ const DropdownSelect: React.FC<Props> = ({
           {labelText}
         </label>
         <button
-          aria-labelledby={id}
+          data-testid={dataTestIds.toggleButton}
           {...getToggleButtonProps()}
           className={classNames(styles.dropdownSelectButton, {
             [styles.isOpen]: isOpen,
@@ -140,9 +146,7 @@ const DropdownSelect: React.FC<Props> = ({
           })}
           disabled={disabled}
         >
-          {selectedItem?.label ||
-            buttonText ||
-            t('common.dropdownSelect.buttonText')}
+          {buttonText || t('common.dropdownSelect.buttonText')}
           <IconAngleDown
             className={classNames(styles.icon, {
               [styles.arrowUp]: isOpen,
@@ -150,6 +154,7 @@ const DropdownSelect: React.FC<Props> = ({
           />
         </button>
         <ul
+          data-testid={dataTestIds.menu}
           {...getMenuProps()}
           className={classNames(styles.dropdownSelectMenu, {
             [styles.isOpen]: isOpen,
@@ -159,6 +164,7 @@ const DropdownSelect: React.FC<Props> = ({
             options.map((item, index) => {
               return (
                 <li
+                  data-testid={dataTestIds.item(index)}
                   className={classNames(styles.dropdownSelectMenuItem, {
                     [styles.isHighlighted]: highlightedIndex === index,
                     [styles.isSelected]: selectedItem === item,
