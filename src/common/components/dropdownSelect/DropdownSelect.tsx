@@ -10,6 +10,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../textInput/InputWrapper';
+import inputStyles from '../textInput/inputWrapper.module.scss';
 import styles from './dropdownSelect.module.scss';
 
 export type DropdownSelectOption = {
@@ -74,6 +75,7 @@ const DropdownSelect: React.FC<Props> = ({
   const {
     isOpen,
     selectedItem,
+    getLabelProps,
     getToggleButtonProps,
     getMenuProps,
     highlightedIndex,
@@ -118,19 +120,19 @@ const DropdownSelect: React.FC<Props> = ({
     stateReducer,
   });
 
-  const { id: buttonId } = getToggleButtonProps();
-
   return (
     <div ref={container}>
       <InputWrapper
-        disabled={disabled}
+        id={id}
         helperText={helperText}
-        id={buttonId}
         invalid={!!invalidText}
         invalidText={invalidText}
-        labelText={labelText}
       >
+        <label className={inputStyles.label} {...getLabelProps()}>
+          {labelText}
+        </label>
         <button
+          aria-labelledby={id}
           {...getToggleButtonProps()}
           className={classNames(styles.dropdownSelectButton, {
             [styles.isOpen]: isOpen,
