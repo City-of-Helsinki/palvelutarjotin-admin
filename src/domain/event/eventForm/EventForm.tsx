@@ -2,6 +2,7 @@ import { Field, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
 import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -9,6 +10,7 @@ import TextAreaInputField from '../../../common/components/form/fields/TextAreaI
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
+import { EVENT_LANGUAGES } from '../constants';
 import styles from './eventForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
@@ -19,12 +21,14 @@ const EventForm = () => {
       initialValues={{
         description: '',
         duration: '',
+        language: [],
         name: '',
         necessaryVisits: '',
         place: '',
         placeDescription: '',
         providerContactInfo: { email: '', name: '', phone: '' },
         shortDescription: '',
+        targetGroup: [],
       }}
       validateOnChange
       onSubmit={(values) => {}}
@@ -80,10 +84,39 @@ const EventForm = () => {
                   </FormGroup>
                 </div>
 
-                {/* TODO: Language selector will come here when multi-select dropdown component is implemented */}
-                <div></div>
+                <div>
+                  <FormGroup>
+                    <Field
+                      component={DropdownMultiselectField}
+                      labelText={t('eventForm.basicInfo.labelLanguage')}
+                      name="language"
+                      options={[
+                        ...Object.values(EVENT_LANGUAGES).map((language) => ({
+                          label: t(`common.languages.${language}`),
+                          value: language,
+                        })),
+                      ]}
+                    />
+                  </FormGroup>
+                </div>
                 {/* TODO: Target group selector will come here when multi-select dropdown component is implemented */}
-                <div></div>
+                <div>
+                  <div>
+                    <FormGroup>
+                      <Field
+                        component={DropdownMultiselectField}
+                        labelText={t('eventForm.basicInfo.labelTargetGroup')}
+                        name="targetGroup"
+                        // TODO: Use real data when target groups has been decided
+                        options={[
+                          { label: 'Option1', value: 'option1' },
+                          { label: 'Option2', value: 'option2' },
+                          { label: 'Option3', value: 'option3' },
+                        ]}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
               </div>
 
               <div className={styles.necessaryVisitsRow}>
@@ -135,7 +168,6 @@ const EventForm = () => {
             </div>
             <div className={styles.contactInfoWrapper}>
               <h2>{t('eventForm.contactPerson.title')}</h2>
-              {/* TODO: Add contact person selector here when dopdown component is implemented */}
 
               <FormGroup>
                 <Field

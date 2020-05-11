@@ -28,6 +28,14 @@
         "statusMessageSingleResult": "1 result is available, use up and down arrow keys to navigate. Press Enter or Spacebar keys to select."
       },
       "buttonText": "Select..."
+    },
+    "languages": {
+      "ar": "Arabic",
+      "en": "English",
+      "fi": "Finnish",
+      "ru": "Russian",
+      "sv": "Swedish",
+      "zh_hans": "Chinese"
     }
   },
   "createEvent": {
@@ -39,9 +47,11 @@
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
       "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelLanguage": "Event languages",
       "labelName": "Event name",
       "labelNecessaryVisits": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
+      "labelTargetGroup": "Target groups",
       "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
       "title": "Basic information"
     },

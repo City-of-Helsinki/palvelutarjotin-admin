@@ -28,6 +28,14 @@
         "statusMessageSingleResult": "1 tulos on saatavana, käytä ylös- ja alas-nuolinäppäimiä navigoimiseen. Valitse Enter- tai välilyöntipainikkeilla"
       },
       "buttonText": "Valitse..."
+    },
+    "languages": {
+      "ar": "Arabia",
+      "en": "Englanti",
+      "fi": "Suomi",
+      "ru": "Venäjä",
+      "sv": "Ruotsi",
+      "zh_hans": "Kiina"
     }
   },
   "createEvent": {
@@ -39,9 +47,11 @@
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelLanguage": "Tapahtuman kielet",
       "labelName": "Tapahtuman nimi",
       "labelNecessaryVisits": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "labelTargetGroup": "Kohderyhmät",
       "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
       "title": "Tapahtuman perustiedot"
     },
