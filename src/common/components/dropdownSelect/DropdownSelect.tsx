@@ -8,6 +8,7 @@ import { IconAngleDown, IconCheck } from 'hds-react';
 import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { boolean } from 'yup';
 
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
@@ -16,6 +17,39 @@ import styles from './dropdownSelect.module.scss';
 export type DropdownSelectOption = {
   label: string;
   value: string;
+};
+
+export const getA11yStatusMessage = ({
+  isOpen,
+  previousResultCount,
+  resultCount,
+  t,
+}: {
+  isOpen: boolean;
+  previousResultCount: number;
+  resultCount: number;
+  t: (str: string, options?: any) => string;
+}) => {
+  if (!isOpen) {
+    return '';
+  }
+
+  if (!resultCount) {
+    return t('common.dropdownSelect.accessibility.statusMessageNoResults');
+  }
+
+  if (resultCount !== previousResultCount) {
+    if (resultCount === 1) {
+      return t('common.dropdownSelect.accessibility.statusMessageSingleResult');
+    }
+
+    return t(
+      'common.dropdownSelect.accessibility.statusMessageMultipleResult',
+      { resultCount }
+    );
+  }
+
+  return '';
 };
 
 export const dataTestIds = {
@@ -59,24 +93,20 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     onBlur(value);
   }, 1);
 
-  function stateReducer(
+  const stateReducer = (
     state: UseSelectState<DropdownSelectOption>,
     actionAndChanges: UseSelectStateChangeOptions<DropdownSelectOption>
-  ) {
+  ) => {
     const { changes, type } = actionAndChanges;
-    // this prevents the menu from being closed when the user selects an item with 'Enter' or mouse
+
     switch (type) {
-      case useSelect.stateChangeTypes.MenuKeyDownEnter:
-      case useSelect.stateChangeTypes.ItemClick:
-        debouncedBlur(changes.selectedItem.value);
-        return changes;
       case useSelect.stateChangeTypes.MenuBlur:
         debouncedBlur(value);
         return changes;
       default:
         return changes; // otherwise business as usual.
     }
-  }
+  };
 
   const {
     isOpen,
@@ -88,28 +118,12 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     getItemProps,
   } = useSelect({
     getA11yStatusMessage({ isOpen, resultCount, previousResultCount }) {
-      if (!isOpen) {
-        return '';
-      }
-
-      if (!resultCount) {
-        return t('common.dropdownSelect.accessibility.statusMessageNoResults');
-      }
-
-      if (resultCount !== previousResultCount) {
-        if (resultCount === 1) {
-          return t(
-            'common.dropdownSelect.accessibility.statusMessageSingleResult'
-          );
-        }
-
-        return t(
-          'common.dropdownSelect.accessibility.statusMessageMultipleResult',
-          { resultCount }
-        );
-      }
-
-      return '';
+      return getA11yStatusMessage({
+        isOpen,
+        resultCount,
+        previousResultCount,
+        t,
+      });
     },
     getA11ySelectionMessage: ({ itemToString, selectedItem }) => {
       return t('common.dropdownSelect.accessibility.selectionMessage', {

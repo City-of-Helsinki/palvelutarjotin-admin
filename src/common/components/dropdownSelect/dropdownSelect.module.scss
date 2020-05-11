@@ -1,4 +1,3 @@
-
 .dropdownSelectButton {
   border: 2px solid;
   border-color: inherit;
@@ -55,6 +54,7 @@
   padding: 0.888em 0.72em;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   &:hover, &.isHighlighted {
     background-color: var(--hds-ui-color-black-10);
@@ -73,3 +73,77 @@
     fill: var(--hds-ui-color-white);
   }
 }
+
+.checkmark {
+  composes: hds-icon--check from '~hds-core/lib/icons/all.css';
+
+  background-color: transparent;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 1.125rem;
+  background-color: transparent;
+  height: 1.5rem;
+  width: 1.5rem;  
+  position: absolute;
+}
+
+.dropdownMultiselectMenuItem {
+  composes: dropdownSelectMenuItem;
+
+  .checkbox {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    line-height: 1.5rem;
+    font-weight: normal;
+    user-select: none;
+    box-sizing: border-box;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    
+    &::before {
+      content: "";
+      height: 1.5rem;
+      width: 1.5rem;
+      margin-right: 0.5rem;
+      border: 2px solid #c4c4c4;
+    }
+  }
+
+  &.isHighlighted {
+    .checkbox {
+      &::before {
+        border-color: var(--hds-ui-color-black);
+        background-color: var(--hds-ui-color-white);
+      }
+    }
+  }
+
+  &.isChecked {
+    .checkbox {
+      &::before {
+        border-color: var(--hds-brand-color-bus);
+        background-color: var(--hds-brand-color-bus);
+      }
+
+      .checkmark {
+        background-color: var(--hds-ui-color-white);
+      }
+    }
+    &.isHighlighted {
+      .checkbox {
+        &::before {
+          border-color: var(--hds-ui-color-black);
+        } 
+      }
+    }
+  }
+}
+
+
