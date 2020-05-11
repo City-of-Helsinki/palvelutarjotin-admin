@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import DropdownSelect, {
@@ -13,15 +13,16 @@ const defaultIds = {
 const renderSelect = (props: DropdownSelectProps) => {
   const ui = <DropdownSelect {...props} />;
 
-  const wrapper = render(ui);
-  const label = wrapper.getByText(props.labelText || '');
-  const menu = wrapper.getByRole('listbox');
-  const toggleButton = wrapper.getByTestId(dataTestIds.toggleButton);
+  render(ui);
+
+  const label = screen.getByText(props.labelText || '');
+  const menu = screen.getByRole('listbox');
+  const toggleButton = screen.getByTestId(dataTestIds.toggleButton);
 
   const getItemAtIndex = (index: number) =>
-    wrapper.getByTestId(dataTestIds.item(index));
+    screen.getByTestId(dataTestIds.item(index));
 
-  const getItems = () => wrapper.queryAllByRole('option');
+  const getItems = () => screen.queryAllByRole('option');
 
   const clickOnToggleButton = () => {
     fireEvent.click(toggleButton);
@@ -36,7 +37,7 @@ const renderSelect = (props: DropdownSelectProps) => {
   };
 
   return {
-    ...wrapper,
+    ...screen,
     label,
     menu,
     toggleButton,
@@ -104,7 +105,7 @@ describe('ArrowUp, ArrowDown', () => {
     expect(getItemAtIndex(0)).toHaveClass('isHighlighted');
   });
 });
-describe('arrow up', () => {
+describe('ArrowUp', () => {
   test('it highlights the last option number if none is highlighted', () => {
     const {
       clickOnToggleButton,
