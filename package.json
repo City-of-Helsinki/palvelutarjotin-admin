@@ -60,7 +60,9 @@
     "lint": "eslint --ext js,ts,tsx src",
     "test": "react-scripts test",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
-    "codegen": "graphql-codegen -r dotenv/config dotenv_config_path=.env.development.local  --config codegen.yml"
+    "codegen": "graphql-codegen -r dotenv/config dotenv_config_path=.env.development.local  --config codegen.yml",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -83,6 +85,14 @@
     "@graphql-codegen/typescript": "^1.13.3",
     "@graphql-codegen/typescript-operations": "^1.13.3",
     "@graphql-codegen/typescript-react-apollo": "^1.13.3",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
+    "@storybook/addon-links": "^5.3.18",
+    "@storybook/addon-storysource": "^5.3.18",
+    "@storybook/addons": "^5.3.18",
+    "@storybook/preset-create-react-app": "^2.1.1",
+    "@storybook/preset-scss": "^1.0.2",
+    "@storybook/react": "^5.3.18",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/pretty": "^2.0.0",
