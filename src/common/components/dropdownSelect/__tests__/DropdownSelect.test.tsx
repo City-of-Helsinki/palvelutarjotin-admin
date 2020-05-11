@@ -27,6 +27,10 @@ const renderSelect = (props: DropdownSelectProps) => {
     userEvent.click(toggleButton);
   };
 
+  const clickOnItemAtIndex = (index: number) => {
+    userEvent.click(getItemAtIndex(index));
+  };
+
   const keyDownOnToggleButton = (key: string, options = {}) => {
     fireEvent.keyDown(toggleButton, { key, ...options });
   };
@@ -43,6 +47,7 @@ const renderSelect = (props: DropdownSelectProps) => {
     getItemAtIndex,
     getItems,
     keyDownOnToggleButton,
+    clickOnItemAtIndex,
     clickOnToggleButton,
     keyDownOnMenu,
   };
@@ -153,6 +158,36 @@ describe('Escape', () => {
     expect(menu).toHaveClass('isOpen');
     keyDownOnMenu('Escape');
     expect(menu).not.toHaveClass('isOpen');
+  });
+});
+
+describe('Clicking option', () => {
+  test('should close menu by clicking an option', () => {
+    const { clickOnItemAtIndex, clickOnToggleButton, menu } = renderSelect(
+      defaultProps
+    );
+
+    clickOnToggleButton();
+    expect(menu).toHaveClass('isOpen');
+    clickOnItemAtIndex(1);
+    expect(menu).not.toHaveClass('isOpen');
+  });
+
+  test('it should keep highlighted index after click an option', () => {
+    const index = 2;
+    const {
+      clickOnItemAtIndex,
+      clickOnToggleButton,
+      menu,
+      getItemAtIndex,
+    } = renderSelect(defaultProps);
+
+    clickOnToggleButton();
+    clickOnItemAtIndex(index);
+    expect(menu).not.toHaveClass('isOpen');
+
+    clickOnToggleButton();
+    expect(getItemAtIndex(index)).toHaveClass('isHighlighted');
   });
 });
 
