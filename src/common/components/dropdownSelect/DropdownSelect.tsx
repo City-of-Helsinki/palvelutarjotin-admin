@@ -8,7 +8,6 @@ import { IconAngleDown, IconCheck } from 'hds-react';
 import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { boolean } from 'yup';
 
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
@@ -84,7 +83,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
   value,
 }) => {
   const { t } = useTranslation();
-  const container = React.useRef<HTMLDivElement>(null);
 
   // To prevent "Cannot update a component (`Formik`) while rendering a different component
   // (`DropdownSelect`). To locate the bad setState() call inside `DropdownSelect`" error set
@@ -141,63 +139,61 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
   });
 
   return (
-    <div ref={container}>
-      <InputWrapper
-        id={id}
-        helperText={helperText}
-        invalid={!!invalidText}
-        invalidText={invalidText}
+    <InputWrapper
+      id={id}
+      helperText={helperText}
+      invalid={!!invalidText}
+      invalidText={invalidText}
+    >
+      <label className={inputStyles.label} {...getLabelProps()}>
+        {labelText}
+      </label>
+      <button
+        data-testid={dataTestIds.toggleButton}
+        {...getToggleButtonProps()}
+        className={classNames(styles.dropdownSelectButton, {
+          [styles.isOpen]: isOpen,
+          [styles.isDisabled]: disabled,
+        })}
+        disabled={disabled}
       >
-        <label className={inputStyles.label} {...getLabelProps()}>
-          {labelText}
-        </label>
-        <button
-          data-testid={dataTestIds.toggleButton}
-          {...getToggleButtonProps()}
-          className={classNames(styles.dropdownSelectButton, {
-            [styles.isOpen]: isOpen,
-            [styles.isDisabled]: disabled,
+        {selectedItem?.label ||
+          buttonText ||
+          t('common.dropdownSelect.buttonText')}
+        <IconAngleDown
+          className={classNames(styles.icon, {
+            [styles.arrowUp]: isOpen,
           })}
-          disabled={disabled}
-        >
-          {selectedItem?.label ||
-            buttonText ||
-            t('common.dropdownSelect.buttonText')}
-          <IconAngleDown
-            className={classNames(styles.icon, {
-              [styles.arrowUp]: isOpen,
-            })}
-          />
-        </button>
-        <ul
-          data-testid={dataTestIds.menu}
-          {...getMenuProps()}
-          className={classNames(styles.dropdownSelectMenu, {
-            [styles.isOpen]: isOpen,
+        />
+      </button>
+      <ul
+        data-testid={dataTestIds.menu}
+        {...getMenuProps()}
+        className={classNames(styles.dropdownSelectMenu, {
+          [styles.isOpen]: isOpen,
+        })}
+      >
+        {isOpen &&
+          options.map((item, index) => {
+            return (
+              <li
+                data-testid={dataTestIds.item(index)}
+                className={classNames(styles.dropdownSelectMenuItem, {
+                  [styles.isHighlighted]: highlightedIndex === index,
+                  [styles.isSelected]: selectedItem === item,
+                })}
+                key={`${item.value}${index}`}
+                {...getItemProps({ item, index })}
+              >
+                {item.label}
+                {selectedItem === item && (
+                  <IconCheck className={styles.checkIcon} />
+                )}
+              </li>
+            );
           })}
-        >
-          {isOpen &&
-            options.map((item, index) => {
-              return (
-                <li
-                  data-testid={dataTestIds.item(index)}
-                  className={classNames(styles.dropdownSelectMenuItem, {
-                    [styles.isHighlighted]: highlightedIndex === index,
-                    [styles.isSelected]: selectedItem === item,
-                  })}
-                  key={`${item.value}${index}`}
-                  {...getItemProps({ item, index })}
-                >
-                  {item.label}
-                  {selectedItem === item && (
-                    <IconCheck className={styles.checkIcon} />
-                  )}
-                </li>
-              );
-            })}
-        </ul>
-      </InputWrapper>
-    </div>
+      </ul>
+    </InputWrapper>
   );
 };
 
