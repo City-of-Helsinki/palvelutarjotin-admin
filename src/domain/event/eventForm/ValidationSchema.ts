@@ -29,4 +29,15 @@ export default Yup.object().shape({
   providerContactInfo: Yup.object().shape({
     email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
   }),
+  image: Yup.string(),
+  photographer: Yup.string().when('image', {
+    is: (image) => image,
+    then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    otherwise: Yup.string(),
+  }),
+  imageAltText: Yup.string().when('image', {
+    is: (image) => image,
+    then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    otherwise: Yup.string(),
+  }),
 });

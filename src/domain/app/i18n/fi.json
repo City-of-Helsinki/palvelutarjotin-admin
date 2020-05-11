@@ -37,8 +37,17 @@
       "labelNecessaryVisits": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
       "placeholderKeywords": "Lisää avainsana...",
+      "labelImage": "Tapahtuman kuva",
+      "labelImageAltText": "Kuvan alt-teksti",
+      "labelPhotographer": "Valokuvaaja",
       "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
-      "title": "Tapahtuman perustiedot"
+      "title": "Tapahtuman perustiedot",
+      "addImage": "Lisää kuva",
+      "photographer": "Valokuvaaja",
+      "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin",
+      "deleteImage": "Poista kuva",
+      "eventImageAltText": "Tapahtuman kuva",
+      "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto."
     },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",
@@ -98,6 +107,6 @@
     "title": "Tapahtumien hallinta"
   },
   "notFound": {
-    "textNotFound": "Etsimääsi sivua ei löytynyt" 
+    "textNotFound": "Etsimääsi sivua ei löytynyt"
   }
 }

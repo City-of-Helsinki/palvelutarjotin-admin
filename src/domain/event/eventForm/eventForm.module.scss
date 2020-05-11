@@ -1,5 +1,6 @@
-@import "layout";
-@import "variables";
+@import 'layout';
+@import 'variables';
+@import 'colors';
 
 .eventForm {
   display: grid;
@@ -23,10 +24,43 @@
     }
   }
 
+  .imagePreview {
+    margin-bottom: 1rem;
+
+    p {
+      font-size: var(--hds-text-sm);
+      line-height: var(--hds-text-sm-line-height);
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 0.2em;
+    }
+  }
+
+  .eventImage {
+    width: 100%;
+  }
+
+  .imageSelectRow {
+    display: grid;
+    grid-gap: $baseMargin;
+
+    @include respond_above(sm) {
+      grid-template-columns: 180px 1fr;
+    }
+
+    .imageSelect {
+      min-width: 180px;
+    }
+
+    .imageInstructionsText {
+      align-self: center;
+      padding-top: 10px;
+    }
+  }
+
   .necessaryVisitsRow {
     display: grid;
     grid-gap: $largeMargin;
-
 
     @include respond_above(sm) {
       grid-template-columns: 1fr 1.5fr 1.5fr;

@@ -37,8 +37,17 @@
       "labelNecessaryVisits": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
       "placeholderKeywords": "Add keyword...",
+      "labelImage": "Event picture",
+      "labelImageAltText": "Picture alt-text",
+      "labelPhotographer": "Photographer",
       "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
-      "title": "Basic information"
+      "title": "Basic information",
+      "addImage": "Add image",
+      "photographer": "Photographer",
+      "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
+      "deleteImage": "Delete image",
+      "eventImageAltText": "Image for the event",
+      "imageAltTextHelp": "Description of the contents of the image. Add license information also."
     },
     "contactPerson": {
       "labelEmail": "Email",
@@ -98,6 +107,6 @@
     "title": "Event management"
   },
   "notFound": {
-    "textNotFound": "The page you were looking for was not found" 
+    "textNotFound": "The page you were looking for was not found"
   }
 }

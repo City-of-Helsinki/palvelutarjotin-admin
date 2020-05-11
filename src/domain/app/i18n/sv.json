@@ -37,8 +37,16 @@
       "labelNecessaryVisits": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
       "placeholderKeywords": "Lägg nyckelord...",
+      "labelImage": "Händelsebild",
+      "labelImageAltText": "Bild alt-text",
       "textNecessaryVisits": "I händelse av en händelse som varje grupp vill delta mer än en gång, ange antalet händelsetider som deltagarna måste reservera samtidigt.",
-      "title": "Grundläggande information"
+      "title": "Grundläggande information",
+      "addImage": "Lägg till bild",
+      "photographer": "Fotograf",
+      "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen",
+      "deleteImage": "Ta bort bild",
+      "eventImageAltText": "Bild för evenemanget",
+      "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också."
     },
     "contactPerson": {
       "labelEmail": "E-post",
@@ -98,6 +106,6 @@
     "title": "Evenemangshantering"
   },
   "notFound": {
-    "textNotFound": "Sidan du sökte hittades inte" 
+    "textNotFound": "Sidan du sökte hittades inte"
   }
 }

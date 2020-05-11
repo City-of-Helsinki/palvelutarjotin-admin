@@ -10,6 +10,8 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import FormGroup from '../../../common/components/form/FormGroup';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventForm.module.scss';
+import ImageSelectedFormPart from './ImageSelectedFormPart';
+import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
 
 const EventForm = () => {
@@ -26,12 +28,17 @@ const EventForm = () => {
         placeDescription: '',
         providerContactInfo: { email: '', phone: '' },
         shortDescription: '',
+        // TODO: add image file somewhere to be uploaded (this is only object URL at the moment)
+        image: '',
+        photographer: '',
+        imageAltText: '',
       }}
       validateOnChange
       onSubmit={(values) => {}}
       validationSchema={ValidationSchema}
     >
-      {({ values: { place } }) => {
+      {({ values: { place, image }, setFieldValue, setFieldTouched }) => {
+        const imageSelected = Boolean(image);
         return (
           <div className={styles.eventForm}>
             <div className={styles.basicInfoWrapper}>
@@ -60,7 +67,15 @@ const EventForm = () => {
                 />
               </FormGroup>
 
-              {/* TODO: Add image selector component here when implemented */}
+              {imageSelected ? (
+                <ImageSelectedFormPart
+                  image={image}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                />
+              ) : (
+                <SelectImageFormPart />
+              )}
 
               <FormGroup>
                 <Field
