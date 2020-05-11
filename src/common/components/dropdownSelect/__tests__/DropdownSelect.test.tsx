@@ -1,14 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import DropdownSelect, {
-  dataTestIds,
-  DropdownSelectProps,
-} from '../DropdownSelect';
+import DropdownSelect, { DropdownSelectProps } from '../DropdownSelect';
 
 const defaultIds = {
   getItemId: (index: number) => `test_id-item-${index}`,
 };
+
+const labelText = 'Test label';
 
 const renderSelect = (props: DropdownSelectProps) => {
   const ui = <DropdownSelect {...props} />;
@@ -17,15 +17,14 @@ const renderSelect = (props: DropdownSelectProps) => {
 
   const label = screen.getByText(props.labelText || '');
   const menu = screen.getByRole('listbox');
-  const toggleButton = screen.getByTestId(dataTestIds.toggleButton);
+  const toggleButton = screen.getByLabelText(labelText, { selector: 'button' });
 
-  const getItemAtIndex = (index: number) =>
-    screen.getByTestId(dataTestIds.item(index));
+  const getItems = () => screen.getAllByRole('option');
 
-  const getItems = () => screen.queryAllByRole('option');
+  const getItemAtIndex = (index: number) => getItems()[index];
 
   const clickOnToggleButton = () => {
-    fireEvent.click(toggleButton);
+    userEvent.click(toggleButton);
   };
 
   const keyDownOnToggleButton = (key: string, options = {}) => {
@@ -50,7 +49,7 @@ const renderSelect = (props: DropdownSelectProps) => {
 };
 
 const id = 'test_id';
-const labelText = 'Test label';
+
 const onBlur = jest.fn();
 const onChange = jest.fn();
 
@@ -157,10 +156,11 @@ describe('Escape', () => {
   });
 });
 
-describe('when dropdown has been closed, it should reopen with', () => {
+describe('When dropdown has been closed, it should reopen with', () => {
   const getClosedInput = () => {
     const helpers = renderSelect(defaultProps);
     const { clickOnToggleButton, keyDownOnMenu, menu } = helpers;
+
     clickOnToggleButton();
     expect(menu).toHaveClass('isOpen');
     keyDownOnMenu('Escape');

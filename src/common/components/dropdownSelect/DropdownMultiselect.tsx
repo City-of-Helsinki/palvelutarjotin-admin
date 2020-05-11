@@ -11,11 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
-import {
-  dataTestIds,
-  DropdownSelectOption,
-  getA11yStatusMessage,
-} from './DropdownSelect';
+import { DropdownSelectOption, getA11yStatusMessage } from './DropdownSelect';
 import styles from './dropdownSelect.module.scss';
 
 export interface DropdownMultiselectProps {
@@ -135,7 +131,6 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
         {labelText}
       </label>
       <button
-        data-testid={dataTestIds.toggleButton}
         {...getToggleButtonProps()}
         className={classNames(styles.dropdownSelectButton, {
           [styles.isOpen]: isOpen,
@@ -155,7 +150,6 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
         />
       </button>
       <ul
-        data-testid={dataTestIds.menu}
         {...getMenuProps()}
         className={classNames(styles.dropdownSelectMenu, {
           [styles.isOpen]: isOpen,

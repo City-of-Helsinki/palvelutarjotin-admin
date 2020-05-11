@@ -51,12 +51,6 @@ export const getA11yStatusMessage = ({
   return '';
 };
 
-export const dataTestIds = {
-  toggleButton: 'toggle-button-id',
-  menu: 'menu-id',
-  item: (index: number) => `item-id-${index}`,
-};
-
 export interface DropdownSelectProps {
   buttonText?: string;
   disabled?: boolean;
@@ -149,7 +143,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         {labelText}
       </label>
       <button
-        data-testid={dataTestIds.toggleButton}
         {...getToggleButtonProps()}
         className={classNames(styles.dropdownSelectButton, {
           [styles.isOpen]: isOpen,
@@ -167,7 +160,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         />
       </button>
       <ul
-        data-testid={dataTestIds.menu}
         {...getMenuProps()}
         className={classNames(styles.dropdownSelectMenu, {
           [styles.isOpen]: isOpen,
@@ -178,7 +170,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
             return (
               <li
                 key={index}
-                data-testid={dataTestIds.item(index)}
                 className={classNames(styles.dropdownSelectMenuItem, {
                   [styles.isHighlighted]: highlightedIndex === index,
                   [styles.isSelected]: selectedItem === item,
