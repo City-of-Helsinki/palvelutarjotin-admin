@@ -1,4 +1,4 @@
-@import "colors";
+@import 'colours';
 
 .languageDropdown {
   position: relative;
@@ -40,7 +40,7 @@
       border: 2px solid $hel-black;
     }
   }
-  
+
   .languageDropdownMenu {
     display: none;
   }
@@ -51,7 +51,7 @@
         transform: rotate(180deg);
       }
     }
-    
+
     .languageDropdownMenu {
       display: block;
       position: absolute;
@@ -78,7 +78,7 @@
         }
         &:hover {
           text-decoration: underline;
-        } 
+        }
       }
     }
   }

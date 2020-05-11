@@ -1,6 +1,6 @@
-@import "mixins";
-@import "colors";
-@import "variables";
+@import 'mixins';
+@import 'colours';
+@import 'variables';
 
 $logoHeight: 2.5rem;
 $logoWidth: 5.5rem;
@@ -27,12 +27,12 @@ $logoWidth: 5.5rem;
 }
 
 .logo {
-    @include helsinki-logo($hel-black);
-    background-position: center;
-    height: $logoHeight;
-    width: $logoWidth;
+  @include helsinki-logo($hel-black);
+  background-position: center;
+  height: $logoHeight;
+  width: $logoWidth;
 }
-  
+
 .buttonWrapper {
   display: flex;
   flex: 1 1 0%;
@@ -55,7 +55,7 @@ $logoWidth: 5.5rem;
     border: none;
     padding: 0.5rem;
     margin-right: -0.5rem;
-    
+
     svg {
       height: 1.5rem;
       width: 1.5rem;
