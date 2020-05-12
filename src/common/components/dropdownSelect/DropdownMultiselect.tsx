@@ -115,7 +115,9 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     else
       return `${
         [
-          ...value.map((item) => options.find((option) => option.value)?.label),
+          ...value.map(
+            (val) => options.find((option) => option.value === val)?.label
+          ),
         ].sort()[0]
       } + ${value.length - 1}`;
   };
