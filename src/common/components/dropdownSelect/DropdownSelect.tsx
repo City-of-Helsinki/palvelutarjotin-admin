@@ -125,7 +125,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
             [styles.isDisabled]: disabled,
           }),
           disabled,
-          onBlur: handleBlur,
         })}
       >
         {selectedItem?.label ||
@@ -142,7 +141,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
           className: classNames(styles.dropdownSelectMenu, {
             [styles.isOpen]: isOpen,
           }),
-          onBlur: handleBlur,
+          onBlur: () => setTimeout(handleBlur, 0),
         })}
       >
         {isOpen &&
