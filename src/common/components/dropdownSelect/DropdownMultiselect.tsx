@@ -96,18 +96,16 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     stateReducer,
   });
 
+  const getFirstValueFromOptions = () =>
+    value
+      .map((val) => options.find((option) => option.value === val)?.label)
+      .sort()[0];
+
   const getValueText = () => {
     if (!value.length) return null;
     if (value.length === 1)
       return options.find((option) => option.value === value[0])?.label;
-    else
-      return `${
-        [
-          ...value.map(
-            (val) => options.find((option) => option.value === val)?.label
-          ),
-        ].sort()[0]
-      } + ${value.length - 1}`;
+    else return `${getFirstValueFromOptions()} + ${value.length - 1}`;
   };
 
   return (
@@ -127,7 +125,6 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
             [styles.isDisabled]: disabled,
           }),
           disabled,
-          onBlur: handledBlur,
         })}
       >
         <span>
@@ -146,7 +143,7 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
           className: classNames(styles.dropdownSelectMenu, {
             [styles.isOpen]: isOpen,
           }),
-          onBlur: handledBlur,
+          onBlur: () => setTimeout(handledBlur, 0),
         })}
       >
         {isOpen &&
