@@ -52,12 +52,9 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     onChange(newValue);
   }, 1);
 
-  // To prevent "Cannot update a component (`Formik`) while rendering a different component
-  // (`DropdownSelect`). To locate the bad setState() call inside `DropdownSelect`" error set
-  // short debounce/delay to Blur event
-  const debouncedBlur = debounce((val: string[]) => {
-    onBlur(val);
-  }, 1);
+  const handledBlur = () => {
+    onBlur(value);
+  };
 
   const stateReducer = (
     state: UseSelectState<DropdownSelectOption>,
@@ -76,9 +73,6 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
           highlightedIndex: state.highlightedIndex, // keep current hichlighted index
           isOpen: true, // Keep menu open
         };
-      case useSelect.stateChangeTypes.MenuBlur:
-        debouncedBlur(value);
-        return changes;
       default:
         return changes; // otherwise business as usual.
     }
@@ -133,12 +127,14 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
         {labelText}
       </label>
       <button
-        {...getToggleButtonProps()}
-        className={classNames(styles.dropdownSelectButton, {
-          [styles.isOpen]: isOpen,
-          [styles.isDisabled]: disabled,
+        {...getToggleButtonProps({
+          className: classNames(styles.dropdownSelectButton, {
+            [styles.isOpen]: isOpen,
+            [styles.isDisabled]: disabled,
+          }),
+          disabled,
+          onBlur: handledBlur,
         })}
-        disabled={disabled}
       >
         <span>
           {getValueText() ||
@@ -152,9 +148,11 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
         />
       </button>
       <ul
-        {...getMenuProps()}
-        className={classNames(styles.dropdownSelectMenu, {
-          [styles.isOpen]: isOpen,
+        {...getMenuProps({
+          className: classNames(styles.dropdownSelectMenu, {
+            [styles.isOpen]: isOpen,
+          }),
+          onBlur: handledBlur,
         })}
       >
         {isOpen &&

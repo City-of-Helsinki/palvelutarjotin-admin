@@ -1,11 +1,6 @@
 import classNames from 'classnames';
-import {
-  useSelect,
-  UseSelectState,
-  UseSelectStateChangeOptions,
-} from 'downshift';
+import { useSelect } from 'downshift';
 import { IconAngleDown, IconCheck } from 'hds-react';
-import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -78,26 +73,8 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // To prevent "Cannot update a component (`Formik`) while rendering a different component
-  // (`DropdownSelect`). To locate the bad setState() call inside `DropdownSelect`" error set
-  // short debounce/delay to Blur event
-  const debouncedBlur = debounce((value?: string) => {
+  const handleBlur = () => {
     onBlur(value);
-  }, 1);
-
-  const stateReducer = (
-    state: UseSelectState<DropdownSelectOption>,
-    actionAndChanges: UseSelectStateChangeOptions<DropdownSelectOption>
-  ) => {
-    const { changes, type } = actionAndChanges;
-
-    switch (type) {
-      case useSelect.stateChangeTypes.MenuBlur:
-        debouncedBlur(value);
-        return changes;
-      default:
-        return changes; // otherwise business as usual.
-    }
   };
 
   const {
@@ -129,7 +106,6 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
       onChange(event.selectedItem?.value);
     },
     selectedItem: options.find((item) => item.value === value),
-    stateReducer,
   });
 
   return (
@@ -143,12 +119,14 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         {labelText}
       </label>
       <button
-        {...getToggleButtonProps()}
-        className={classNames(styles.dropdownSelectButton, {
-          [styles.isOpen]: isOpen,
-          [styles.isDisabled]: disabled,
+        {...getToggleButtonProps({
+          className: classNames(styles.dropdownSelectButton, {
+            [styles.isOpen]: isOpen,
+            [styles.isDisabled]: disabled,
+          }),
+          disabled,
+          onBlur: handleBlur,
         })}
-        disabled={disabled}
       >
         {selectedItem?.label ||
           buttonText ||
@@ -160,9 +138,11 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         />
       </button>
       <ul
-        {...getMenuProps()}
-        className={classNames(styles.dropdownSelectMenu, {
-          [styles.isOpen]: isOpen,
+        {...getMenuProps({
+          className: classNames(styles.dropdownSelectMenu, {
+            [styles.isOpen]: isOpen,
+          }),
+          onBlur: handleBlur,
         })}
       >
         {isOpen &&
