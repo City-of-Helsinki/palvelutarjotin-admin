@@ -53,10 +53,10 @@ export interface DropdownSelectProps {
   id: string;
   invalidText?: string;
   labelText?: string;
-  onBlur: (value?: string) => void;
-  onChange: (value?: string) => void;
+  onBlur: (value?: DropdownSelectOption) => void;
+  onChange: (value?: DropdownSelectOption) => void;
   options: DropdownSelectOption[];
-  value?: string;
+  value?: DropdownSelectOption;
 }
 
 const DropdownSelect: React.FC<DropdownSelectProps> = ({
@@ -103,9 +103,9 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     itemToString: (item) => item.label,
     items: options,
     onSelectedItemChange: (event) => {
-      onChange(event.selectedItem?.value);
+      onChange(event.selectedItem);
     },
-    selectedItem: options.find((item) => item.value === value),
+    selectedItem: value,
   });
 
   return (

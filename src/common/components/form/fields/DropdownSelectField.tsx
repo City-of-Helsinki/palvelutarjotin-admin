@@ -21,7 +21,7 @@ const DropdownSelectField: React.FC<Props> = (props) => {
   const {
     buttonText,
     disabled,
-    field: { name, onBlur, onChange, ...field },
+    field: { name, onBlur, onChange, value, ...field },
     form: { errors, touched },
     helperText,
     labelText,
@@ -29,20 +29,19 @@ const DropdownSelectField: React.FC<Props> = (props) => {
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
 
-  const handleBlur = (val?: string) => {
+  const handleBlur = () => {
     onBlur({
       target: {
         id: name,
-        value: val,
       },
     });
   };
 
-  const handleChange = (val?: string) => {
+  const handleChange = (val?: DropdownSelectOption) => {
     onChange({
       target: {
         id: name,
-        value: val,
+        value: val?.value,
       },
     });
   };
@@ -58,6 +57,7 @@ const DropdownSelectField: React.FC<Props> = (props) => {
       onBlur={handleBlur}
       onChange={handleChange}
       options={options}
+      value={options.find((option) => option.value === value)}
       {...field}
     />
   );
