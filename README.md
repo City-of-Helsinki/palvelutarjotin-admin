@@ -1,4 +1,5 @@
 # palvelutarjotin-admin
+
 Staff interface for Palvelutarjotin
 
 ## Deployments
@@ -42,6 +43,15 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_ADD_API_URL in .env.development.local
 
+### `yarn storybook`
+
+Runs storybook in development mode
+Open [http://localhost:9009](http://localhost:9009) to view it in browser
+
+### `yarn build-storybook`
+
+Exports storybook as a static app
+
 ## Setting up development environment locally with docker
 
 ### Set tunnistamo hostname
@@ -69,7 +79,8 @@ Follow the instructions for setting up tunnistamo locally. Before running `docke
 - SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
 - SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
 
-To get silent renew to work locally you also need to set: 
+To get silent renew to work locally you also need to set:
+
 - ALLOW_CROSS_SITE_SESSION_COOKIE=True
 
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
@@ -87,9 +98,19 @@ and execute the following four commands inside your docker container:
 
 Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
 
+### Install Palvelutarjotin GraphQl server locally
+
+Clone the repository (https://github.com/City-of-Helsinki/palvelutarjotin). Follow the instructions for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in palvelutarjotin roots `docker-compose.env.yaml`:
+
+- DEBUG=1
+- CORS_ORIGIN_ALLOW_ALL=1
+- APPLY_MIGRATIONS=1
+- CREATE_SUPERUSER=1
+- TOKEN_AUTH_AUTHSERVER_URL=http://tunnistamo-backend:8000/openid
+
 ### palvelutarjotin-admin-ui
 
-Copy `cp .env.development.local.example .env.development.local`  
+Copy `cp .env.development.local.example .env.development.local`
 
 Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
 `docker-compose down` stops the container.
@@ -97,7 +118,6 @@ Run `docker-compose up`, now the app should be running at `http://localhost:3000
 OR
 
 Run `yarn && yarn start`
-
 
 ## Debugging
 

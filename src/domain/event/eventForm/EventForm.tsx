@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
 import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
+import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
@@ -12,6 +13,8 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import { EVENT_LANGUAGES } from '../constants';
 import styles from './eventForm.module.scss';
+import ImageSelectedFormPart from './ImageSelectedFormPart';
+import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
 
 const EventForm = () => {
@@ -21,6 +24,7 @@ const EventForm = () => {
       initialValues={{
         description: '',
         duration: '',
+        keywords: [],
         language: [],
         name: '',
         necessaryVisits: '',
@@ -29,12 +33,17 @@ const EventForm = () => {
         providerContactInfo: { email: '', name: '', phone: '' },
         shortDescription: '',
         targetGroup: [],
+        // TODO: add image file somewhere to be uploaded (this is only object URL at the moment)
+        image: '',
+        photographer: '',
+        imageAltText: '',
       }}
       validateOnChange
       onSubmit={(values) => {}}
       validationSchema={ValidationSchema}
     >
-      {({ values: { place } }) => {
+      {({ values: { place, image }, setFieldValue, setFieldTouched }) => {
+        const imageSelected = Boolean(image);
         return (
           <div className={styles.eventForm}>
             <div className={styles.basicInfoWrapper}>
@@ -62,7 +71,15 @@ const EventForm = () => {
                 />
               </FormGroup>
 
-              {/* TODO: Add image selector component here when implemented */}
+              {imageSelected ? (
+                <ImageSelectedFormPart
+                  image={image}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                />
+              ) : (
+                <SelectImageFormPart />
+              )}
 
               <FormGroup>
                 <Field
@@ -134,7 +151,15 @@ const EventForm = () => {
                   {t('eventForm.basicInfo.textNecessaryVisits')}
                 </div>
               </div>
-              {/* TODO: Add keyword selector component here when implemented */}
+              <FormGroup>
+                <Field
+                  helperText={t('eventForm.basicInfo.helperTextKeywords')}
+                  labelText={t('eventForm.basicInfo.labelKeywords')}
+                  name="keywords"
+                  placeholder={t('eventForm.basicInfo.placeholderKeywords')}
+                  component={KeywordSelectorField}
+                />
+              </FormGroup>
 
               <h2>{t('eventForm.location.title')}</h2>
 
@@ -143,6 +168,7 @@ const EventForm = () => {
                   helperText={t('eventForm.location.helperTextPlace')}
                   labelText={t('eventForm.location.labelPlace')}
                   name="place"
+                  placeholder={t('eventForm.location.placeholderPlace')}
                   component={PlaceSelectorField}
                 />
               </FormGroup>

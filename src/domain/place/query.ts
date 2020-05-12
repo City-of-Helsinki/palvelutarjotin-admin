@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 
 export const QUERY_PLACE = gql`
-  query PlaceDetails($id: ID!) {
-    placeDetails(id: $id) {
+  query Place($id: ID!) {
+    place(id: $id) {
       id
+      internalId
       name {
         fi
         sv
@@ -26,7 +27,7 @@ export const QUERY_PLACE = gql`
       }
     }
   }
-  query PlaceList(
+  query Places(
     $dataSource: String
     $divisions: [String]
     $page: Int
@@ -35,7 +36,7 @@ export const QUERY_PLACE = gql`
     $sort: String
     $text: String
   ) {
-    placeList(
+    places(
       dataSource: $dataSource
       divisions: $divisions
       page: $page
@@ -51,6 +52,7 @@ export const QUERY_PLACE = gql`
       }
       data {
         id
+        internalId
         name {
           fi
           sv

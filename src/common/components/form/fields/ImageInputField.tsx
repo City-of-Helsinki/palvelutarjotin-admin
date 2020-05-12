@@ -2,32 +2,30 @@ import { FieldProps } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-// TODO: Get this component from hds-react when implemented there
-import TextInput from '../../textInput/TextInput';
+import ImageInput from '../../imageInput/ImageInput';
 import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
+  defaultValue?: number;
   labelText: string;
-  helperText: string;
 }
 
 const InputField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
     field: { name, ...field },
-    form: { errors, touched },
+    form: { setFieldValue, errors, touched },
     labelText,
-    helperText,
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
 
   return (
-    <TextInput
+    <ImageInput
       id={name}
+      labelText={labelText}
       invalid={!!errorText}
       invalidText={errorText}
-      labelText={labelText}
-      helperText={helperText}
+      setFieldValue={setFieldValue}
       {...field}
     />
   );

@@ -13,8 +13,7 @@ build-review:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-review'
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'review'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
-    # Temporarily use tapahtumat api proxy to get linkedevents data
-    DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://tapahtumat-proxy.test.kuva.hel.ninja/proxy/graphql'
+    DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql'
   only:
     refs:
       - external_pull_requests
@@ -25,8 +24,7 @@ build-staging:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-staging'
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'staging'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
-    # Temporarily use tapahtumat api proxy to get linkedevents data
-    DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://tapahtumat-proxy.test.kuva.hel.ninja/proxy/graphql'
+    DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql'
   only:
     refs:
       - develop
@@ -37,8 +35,7 @@ build-production:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-production'
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'production'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
-    # Temporarily use tapahtumat api proxy to get linkedevents data
-    DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://tapahtumat-proxy.test.kuva.hel.ninja/proxy/graphql'
+    DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.prod.kuva.hel.ninja/graphql'
   only:
     refs:
       - /^release-.*$/

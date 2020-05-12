@@ -1,4 +1,4 @@
-@import "colors";
+@import 'colours';
 
 $spinnerWidth: 4.375rem;
 
@@ -23,7 +23,7 @@ $spinnerWidth: 4.375rem;
     fill: $hel-coat;
   }
   25% {
-  fill: $hel-copper;
+    fill: $hel-copper;
   }
   33.33% {
     transform: rotate(360deg);
@@ -47,7 +47,7 @@ $spinnerWidth: 4.375rem;
     transform: rotate(1080deg);
   }
 }
-  
+
 .spinner {
   width: $spinnerWidth;
   height: $spinnerWidth;

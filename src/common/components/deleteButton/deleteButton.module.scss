@@ -1,0 +1,19 @@
+@import 'colours';
+
+.deleteIconWrapper {
+  width: 1rem;
+  margin-right: 1rem;
+  fill: red;
+
+  svg {
+    display: block;
+  }
+}
+
+.deleteImageButton {
+  margin: auto;
+  display: flex;
+  margin-top: 42px;
+  align-items: center;
+  color: $hel-bus;
+}
