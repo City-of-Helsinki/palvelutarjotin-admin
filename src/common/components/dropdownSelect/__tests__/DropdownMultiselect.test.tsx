@@ -42,7 +42,6 @@ const renderSelect = (props: DropdownMultiselectProps) => {
   };
 
   return {
-    ...screen,
     label,
     menu,
     toggleButton,

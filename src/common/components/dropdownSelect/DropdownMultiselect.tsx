@@ -162,25 +162,21 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
             const checked = value.includes(item.value);
             const highlighted = highlightedIndex === index;
 
-            const { onClick, ...itemProps } = getItemProps({ item, index });
-
-            const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
-              event.preventDefault();
-              onClick(event);
-            };
-
             return (
               <li
-                key={index}
-                className={classNames(styles.dropdownMultiselectMenuItem, {
-                  [styles.isHighlighted]: highlighted,
-                  [styles.isChecked]: checked,
+                {...getItemProps({
+                  item,
+                  index,
+                  key: index,
+                  onClick: (e: React.MouseEvent<HTMLLIElement>) => {
+                    e.preventDefault();
+                  },
+                  className: classNames(styles.dropdownMultiselectMenuItem, {
+                    [styles.isHighlighted]: highlighted,
+                    [styles.isChecked]: checked,
+                  }),
+                  'aria-checked': checked,
                 })}
-                role="option"
-                aria-checked={checked}
-                aria-selected={highlighted}
-                {...itemProps}
-                onClick={handleClick}
               >
                 <label className={styles.checkbox}>
                   <span className={styles.checkmark} />

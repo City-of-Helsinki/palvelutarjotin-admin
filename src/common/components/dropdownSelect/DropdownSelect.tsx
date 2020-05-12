@@ -169,12 +169,15 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
           options.map((item, index) => {
             return (
               <li
-                key={index}
-                className={classNames(styles.dropdownSelectMenuItem, {
-                  [styles.isHighlighted]: highlightedIndex === index,
-                  [styles.isSelected]: selectedItem === item,
+                {...getItemProps({
+                  item,
+                  index,
+                  key: index,
+                  className: classNames(styles.dropdownSelectMenuItem, {
+                    [styles.isHighlighted]: highlightedIndex === index,
+                    [styles.isSelected]: selectedItem === item,
+                  }),
                 })}
-                {...getItemProps({ item, index })}
               >
                 {item.label}
                 {selectedItem === item && (
