@@ -5,7 +5,6 @@ import {
   UseSelectStateChangeOptions,
 } from 'downshift';
 import { IconAngleDown } from 'hds-react';
-import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -41,16 +40,13 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // To prevent "Cannot update a component (`Formik`) while rendering a different component
-  // (`DropdownSelect`). To locate the bad setState() call inside `DropdownSelect`" error set
-  // short debounce/delay to change event
-  const debouncedChange = debounce((option: DropdownSelectOption) => {
+  const handleChange = (option: DropdownSelectOption) => {
     const newValue = value.includes(option.value)
       ? value.filter((item) => item !== option.value)
       : [...value, option.value];
 
     onChange(newValue);
-  }, 1);
+  };
 
   const handledBlur = () => {
     onBlur(value);
@@ -65,12 +61,9 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     switch (type) {
       case useSelect.stateChangeTypes.MenuKeyDownEnter:
       case useSelect.stateChangeTypes.ItemClick:
-        const { selectedItem } = changes;
-        debouncedChange(selectedItem);
-
         return {
           ...changes,
-          highlightedIndex: state.highlightedIndex, // keep current hichlighted index
+          highlightedIndex: state.highlightedIndex, // keep current highlighted index
           isOpen: true, // Keep menu open
         };
       default:
@@ -98,7 +91,8 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     id,
     itemToString: (item) => item.label,
     items: options,
-    onSelectedItemChange: () => null,
+    onSelectedItemChange: ({ selectedItem }) =>
+      selectedItem && handleChange(selectedItem),
     stateReducer,
   });
 
