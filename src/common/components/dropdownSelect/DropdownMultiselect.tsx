@@ -20,10 +20,10 @@ export interface DropdownMultiselectProps {
   id: string;
   invalidText?: string;
   labelText?: string;
-  onBlur: (value: string[]) => void;
-  onChange: (value: string[]) => void;
+  onBlur: (value: DropdownSelectOption[]) => void;
+  onChange: (value: DropdownSelectOption[]) => void;
   options: DropdownSelectOption[];
-  value: string[];
+  value: DropdownSelectOption[];
 }
 
 const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
@@ -41,14 +41,14 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
   const { t } = useTranslation();
 
   const handleChange = (option: DropdownSelectOption) => {
-    const newValue = value.includes(option.value)
-      ? value.filter((item) => item !== option.value)
-      : [...value, option.value];
+    const newValue = value.includes(option)
+      ? value.filter((item) => item !== option)
+      : [...value, option];
 
     onChange(newValue);
   };
 
-  const handledBlur = () => {
+  const handleBlur = () => {
     onBlur(value);
   };
 
@@ -97,14 +97,11 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
   });
 
   const getFirstValueFromOptions = () =>
-    value
-      .map((val) => options.find((option) => option.value === val)?.label)
-      .sort()[0];
+    value.map((val) => val?.label).sort()[0];
 
   const getValueText = () => {
     if (!value.length) return null;
-    if (value.length === 1)
-      return options.find((option) => option.value === value[0])?.label;
+    if (value.length === 1) return value[0]?.label;
     else return `${getFirstValueFromOptions()} + ${value.length - 1}`;
   };
 
@@ -143,12 +140,12 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
           className: classNames(styles.dropdownSelectMenu, {
             [styles.isOpen]: isOpen,
           }),
-          onBlur: () => setTimeout(handledBlur, 0),
+          onBlur: () => setTimeout(handleBlur, 0),
         })}
       >
         {isOpen &&
           options.map((item, index) => {
-            const checked = value.includes(item.value);
+            const checked = value.includes(item);
             const highlighted = highlightedIndex === index;
 
             return (
