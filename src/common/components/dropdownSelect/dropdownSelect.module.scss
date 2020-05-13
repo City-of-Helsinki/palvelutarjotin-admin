@@ -127,62 +127,6 @@
 
 .dropdownMultiselectMenuItem {
   composes: dropdownSelectMenuItem;
-
-  .checkbox {
-    display: flex;
-    position: relative;
-    cursor: pointer;
-    line-height: var(--height-checkbox-input);
-    font-weight: normal;
-    user-select: none;
-    box-sizing: border-box;
-
-    input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
-      width: 0;
-    }
-    
-    &::before {
-      content: "";
-      height: var(--height-checkbox-input);
-      width: var(--height-checkbox-input);
-      margin-right: 0.5rem;
-      border: 2px solid ;
-    }
-  }
-
-  &.isHighlighted {
-    .checkbox {
-      &::before {
-        border-color: var(--border-color-checkbox-input-highlighted);
-        background-color: var(--background-color-checkbox-input-highlighted);
-      }
-    }
-  }
-
-  &.isChecked {
-    .checkbox {
-      &::before {
-        border-color: var(--border-color-checkbox-input-checked);
-        background-color: var(--background-color-checkbox-input-checked);
-      }
-
-      .checkmark {
-        background-color: var(--icon-color-checkbox-input-checkmark);
-      }
-    }
-
-    &.isHighlighted {
-      .checkbox {
-        &::before {
-          border-color: var(--border-color-checkbox-input-highlighted);
-        } 
-      }
-    }
-  }
 }
 
 

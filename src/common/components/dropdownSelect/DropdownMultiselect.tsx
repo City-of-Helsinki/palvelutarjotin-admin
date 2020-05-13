@@ -4,7 +4,7 @@ import {
   UseSelectState,
   UseSelectStateChangeOptions,
 } from 'downshift';
-import { IconAngleDown } from 'hds-react';
+import { Checkbox, IconAngleDown } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -165,16 +165,12 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
                   'aria-checked': checked,
                 })}
               >
-                <label className={styles.checkbox}>
-                  <span className={styles.checkmark} />
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => null}
-                    tabIndex={-1}
-                  />
-                  <span>{item.label}</span>
-                </label>
+                <Checkbox
+                  checked={checked}
+                  id={`${id}-checknox-${index}`}
+                  labelText={item.label}
+                  tabIndex={-1}
+                />
               </li>
             );
           })}
