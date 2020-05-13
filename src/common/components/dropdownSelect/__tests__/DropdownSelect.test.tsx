@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -15,9 +15,11 @@ const renderSelect = (props: DropdownSelectProps) => {
 
   render(ui);
 
-  const label = screen.getByText(props.labelText || '');
+  const label = screen.getByText(props.labelText || '', { selector: 'label' });
   const menu = screen.getByRole('listbox');
-  const toggleButton = screen.getByLabelText(labelText, { selector: 'button' });
+  const toggleButton = screen.getByLabelText(props.labelText || labelText, {
+    selector: 'button',
+  });
 
   const getItems = () => screen.getAllByRole('option');
 
@@ -215,5 +217,76 @@ describe('When dropdown has been closed, it should reopen with', () => {
 
     keyDownOnToggleButton('ArrowDown');
     expect(menu).toHaveClass('isOpen');
+  });
+});
+
+describe('Dropdown selection', () => {
+  const dropdownOptions = [
+    {
+      label: 'Option 1',
+      value: 'option1',
+    },
+    {
+      label: 'Option 2',
+      value: 'option2',
+    },
+    {
+      label: 'Option 3',
+      value: 'option3',
+    },
+  ];
+  const labelText = 'Valitse...';
+
+  it('shows and selects items correctly', () => {
+    const { toggleButton } = renderSelect({
+      ...defaultProps,
+      options: dropdownOptions,
+      labelText,
+    });
+
+    toggleButton.click();
+    const option = screen.queryByRole('option', {
+      name: dropdownOptions[0].label,
+    });
+    expect(option).toBeVisible();
+    toggleButton.click();
+    expect(option).not.toBeInTheDocument();
+
+    dropdownOptions.forEach((option) => {
+      toggleButton.click();
+
+      dropdownOptions.forEach(({ label }) => {
+        const option = screen.queryByRole('option', { name: label });
+        expect(option).toBeVisible();
+      });
+
+      screen.getByRole('option', { name: option.label }).click();
+
+      dropdownOptions.forEach(({ label }) => {
+        const option = screen.queryByRole('option', { name: label });
+        expect(option).not.toBeInTheDocument();
+      });
+
+      expect(toggleButton).toHaveTextContent(option.label);
+    });
+  });
+
+  it('calls onChange callback correctly', async () => {
+    const onChangeMock = jest.fn();
+    const { toggleButton } = renderSelect({
+      ...defaultProps,
+      options: dropdownOptions,
+      labelText,
+      onChange: onChangeMock,
+    });
+
+    for (const option of dropdownOptions) {
+      toggleButton.click();
+      screen.getByRole('option', { name: option.label }).click();
+
+      await waitFor(() => expect(onChangeMock).toHaveBeenCalledTimes(1));
+      expect(onChangeMock).toHaveBeenCalledWith(option);
+      onChangeMock.mockClear();
+    }
   });
 });

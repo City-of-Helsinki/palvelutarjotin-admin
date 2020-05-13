@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -15,11 +15,13 @@ const labelText = 'Test label';
 const renderSelect = (props: DropdownMultiselectProps) => {
   const ui = <DropdownMultiselect {...props} />;
 
-  render(ui);
+  const { rerender } = render(ui);
 
-  const label = screen.getByText(props.labelText || '');
+  const label = screen.getByText(props.labelText || '', { selector: 'label' });
   const menu = screen.getByRole('listbox');
-  const toggleButton = screen.getByLabelText(labelText, { selector: 'button' });
+  const toggleButton = screen.getByLabelText(props.labelText || labelText, {
+    selector: 'button',
+  });
 
   const getItems = () => screen.getAllByRole('option');
 
@@ -42,6 +44,8 @@ const renderSelect = (props: DropdownMultiselectProps) => {
   };
 
   return {
+    rerender: (props: DropdownMultiselectProps) =>
+      rerender(<DropdownMultiselect {...props} />),
     label,
     menu,
     toggleButton,
@@ -201,5 +205,104 @@ describe('When dropdown has been closed, it should reopen with', () => {
 
     keyDownOnToggleButton('ArrowDown');
     expect(menu).toHaveClass('isOpen');
+  });
+});
+
+describe('Dropdown selection', () => {
+  const dropdownOptions = [
+    {
+      label: 'Option 1',
+      value: 'option1',
+    },
+    {
+      label: 'Option 2',
+      value: 'option2',
+    },
+    {
+      label: 'Option 3',
+      value: 'option3',
+    },
+  ];
+  const labelText = 'Valitse...';
+
+  it('shows and selects items correctly', async () => {
+    const onChangeMock = jest.fn();
+    const { toggleButton } = renderSelect({
+      ...defaultProps,
+      options: dropdownOptions,
+      labelText,
+      onChange: onChangeMock,
+    });
+
+    for (const option of dropdownOptions) {
+      toggleButton.click();
+      const optionElement = screen.getByRole('option', {
+        name: option.label,
+      });
+      expect(optionElement).toBeVisible();
+      optionElement.click();
+      toggleButton.click();
+      expect(optionElement).not.toBeInTheDocument();
+    }
+
+    expect(onChangeMock).toHaveBeenCalledTimes(3);
+    expect(onChangeMock).toHaveBeenNthCalledWith(1, [dropdownOptions[0]]);
+    expect(onChangeMock).toHaveBeenNthCalledWith(2, [dropdownOptions[1]]);
+    expect(onChangeMock).toHaveBeenNthCalledWith(3, [dropdownOptions[2]]);
+  });
+
+  it('calls onChange callback correctly', async () => {
+    const onChangeMock = jest.fn();
+    const { toggleButton } = renderSelect({
+      ...defaultProps,
+      options: dropdownOptions,
+      labelText,
+      onChange: onChangeMock,
+    });
+
+    toggleButton.click();
+
+    for (const option of dropdownOptions) {
+      screen.getByRole('option', { name: option.label }).click();
+
+      await waitFor(() => expect(onChangeMock).toHaveBeenCalledTimes(1));
+      expect(onChangeMock).toHaveBeenCalledWith([option]);
+      onChangeMock.mockClear();
+    }
+  });
+
+  it('correctly displays currently selected items', async () => {
+    const props = {
+      ...defaultProps,
+      options: dropdownOptions,
+      labelText,
+      value: [],
+    };
+    const { toggleButton, rerender } = renderSelect(props);
+
+    toggleButton.click();
+
+    for (const option of dropdownOptions) {
+      expect(
+        screen.getByRole('option', { name: option.label })
+      ).toHaveAttribute('aria-checked', 'false');
+    }
+
+    rerender({ ...props, value: [dropdownOptions[0]] });
+
+    expect(
+      screen.getByRole('option', { name: dropdownOptions[0].label })
+    ).toHaveAttribute('aria-checked', 'true');
+    expect(
+      screen.getByRole('option', { name: dropdownOptions[1].label })
+    ).toHaveAttribute('aria-checked', 'false');
+
+    rerender({ ...props, value: dropdownOptions });
+
+    for (const option of dropdownOptions) {
+      expect(
+        screen.getByRole('option', { name: option.label })
+      ).toHaveAttribute('aria-checked', 'true');
+    }
   });
 });
