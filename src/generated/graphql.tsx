@@ -10,10 +10,24 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /**
+   * The `DateTime` scalar type represents a DateTime
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  DateTime: any;
 };
 
 export type Query = {
    __typename?: 'Query';
+  /** Query personal data of logged user */
+  myProfile?: Maybe<PersonNode>;
+  /** The ID of the object */
+  person?: Maybe<PersonNode>;
+  persons?: Maybe<PersonNodeConnection>;
+  /** The ID of the object */
+  organisation?: Maybe<OrganisationNode>;
+  organisations?: Maybe<OrganisationNodeConnection>;
   events?: Maybe<EventListResponse>;
   event?: Maybe<Event>;
   places?: Maybe<PlaceListResponse>;
@@ -22,6 +36,32 @@ export type Query = {
   keyword?: Maybe<Keyword>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
+};
+
+
+export type QueryPersonArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryOrganisationArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -93,6 +133,106 @@ export type QueryEventsSearchArgs = {
 export type QueryPlacesSearchArgs = {
   input: Scalars['String'];
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type PersonNode = Node & {
+   __typename?: 'PersonNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  emailAddress: Scalars['String'];
+  organisations: OrganisationNodeConnection;
+};
+
+
+export type PersonNodeOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** An object with an ID */
+export type Node = {
+  /** The ID of the object. */
+  id: Scalars['ID'];
+};
+
+
+export type OrganisationNodeConnection = {
+   __typename?: 'OrganisationNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<OrganisationNodeEdge>>;
+};
+
+/** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
+export type PageInfo = {
+   __typename?: 'PageInfo';
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']>;
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']>;
+};
+
+/** A Relay edge containing a `OrganisationNode` and its cursor. */
+export type OrganisationNodeEdge = {
+   __typename?: 'OrganisationNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<OrganisationNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type OrganisationNode = Node & {
+   __typename?: 'OrganisationNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  type: OrganisationType;
+  persons: PersonNodeConnection;
+};
+
+
+export type OrganisationNodePersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** An enumeration. */
+export enum OrganisationType {
+  /** Käyttäjä */
+  User = 'USER',
+  /** Provider */
+  Provider = 'PROVIDER'
+}
+
+export type PersonNodeConnection = {
+   __typename?: 'PersonNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<PersonNodeEdge>>;
+};
+
+/** A Relay edge containing a `PersonNode` and its cursor. */
+export type PersonNodeEdge = {
+   __typename?: 'PersonNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<PersonNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
 };
 
 export type EventListResponse = {
@@ -310,9 +450,33 @@ export type PlaceSearchListResponse = {
 
 export type Mutation = {
    __typename?: 'Mutation';
+  updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
+  addOrganisation?: Maybe<AddOrganisationMutationPayload>;
+  updateOrganisation?: Maybe<UpdateOrganisationMutationPayload>;
+  updatePerson?: Maybe<UpdatePersonMutationPayload>;
   addEventMutation?: Maybe<AddEventMutation>;
   updateEventMutation?: Maybe<UpdateEventMutation>;
   deleteEventMutation?: Maybe<DeleteEventMutation>;
+};
+
+
+export type MutationUpdateMyProfileArgs = {
+  input: UpdateMyProfileMutationInput;
+};
+
+
+export type MutationAddOrganisationArgs = {
+  input: AddOrganisationMutationInput;
+};
+
+
+export type MutationUpdateOrganisationArgs = {
+  input: UpdateOrganisationMutationInput;
+};
+
+
+export type MutationUpdatePersonArgs = {
+  input: UpdatePersonMutationInput;
 };
 
 
@@ -328,6 +492,65 @@ export type MutationUpdateEventMutationArgs = {
 
 export type MutationDeleteEventMutationArgs = {
   eventId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateMyProfileMutationPayload = {
+   __typename?: 'UpdateMyProfileMutationPayload';
+  myProfile?: Maybe<PersonNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateMyProfileMutationInput = {
+  name?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type AddOrganisationMutationPayload = {
+   __typename?: 'AddOrganisationMutationPayload';
+  organisation?: Maybe<OrganisationNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type AddOrganisationMutationInput = {
+  name: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  type: OrganisationTypeEnum;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export enum OrganisationTypeEnum {
+  User = 'USER',
+  Provider = 'PROVIDER'
+}
+
+export type UpdateOrganisationMutationPayload = {
+   __typename?: 'UpdateOrganisationMutationPayload';
+  organisation?: Maybe<OrganisationNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateOrganisationMutationInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  type?: Maybe<OrganisationTypeEnum>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdatePersonMutationPayload = {
+   __typename?: 'UpdatePersonMutationPayload';
+  person?: Maybe<PersonNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdatePersonMutationInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type AddEventMutation = {
