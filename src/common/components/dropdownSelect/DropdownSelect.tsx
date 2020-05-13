@@ -5,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../textInput/InputWrapper';
-import inputStyles from '../textInput/inputWrapper.module.scss';
 import styles from './dropdownSelect.module.scss';
 
 export type DropdownSelectOption = {
@@ -108,65 +107,68 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     selectedItem: value,
   });
 
+  const { id: labelId, ...labelProps } = getLabelProps();
+  const { id: buttonId, ...buttonProps } = getToggleButtonProps({
+    className: classNames(styles.dropdownSelectButton, {
+      [styles.invalid]: !!invalidText,
+      [styles.isOpen]: isOpen,
+      [styles.isDisabled]: disabled,
+    }),
+    disabled,
+  });
   return (
-    <InputWrapper
-      id={id}
-      helperText={helperText}
-      invalid={!!invalidText}
-      invalidText={invalidText}
-    >
-      <label className={inputStyles.label} {...getLabelProps()}>
-        {labelText}
-      </label>
-      <button
-        {...getToggleButtonProps({
-          className: classNames(styles.dropdownSelectButton, {
-            [styles.isOpen]: isOpen,
-            [styles.isDisabled]: disabled,
-          }),
-          disabled,
-        })}
+    <div className={styles.wrapper}>
+      <InputWrapper
+        id={buttonId}
+        hasIcon={true}
+        labelId={labelId}
+        {...labelProps}
+        helperText={invalidText || helperText}
+        invalid={!!invalidText}
+        labelText={labelText}
       >
-        {selectedItem?.label ||
-          buttonText ||
-          t('common.dropdownSelect.buttonText')}
-        <IconAngleDown
-          className={classNames(styles.icon, {
-            [styles.arrowUp]: isOpen,
+        <button id={buttonId} {...buttonProps}>
+          {selectedItem?.label ||
+            buttonText ||
+            t('common.dropdownSelect.buttonText')}
+          <IconAngleDown
+            className={classNames(styles.icon, {
+              [styles.arrowUp]: isOpen,
+            })}
+          />
+        </button>
+        <ul
+          {...getMenuProps({
+            className: classNames(styles.dropdownSelectMenu, {
+              [styles.isOpen]: isOpen,
+            }),
+            onBlur: () => setTimeout(handleBlur, 0),
           })}
-        />
-      </button>
-      <ul
-        {...getMenuProps({
-          className: classNames(styles.dropdownSelectMenu, {
-            [styles.isOpen]: isOpen,
-          }),
-          onBlur: () => setTimeout(handleBlur, 0),
-        })}
-      >
-        {isOpen &&
-          options.map((item, index) => {
-            return (
-              <li
-                {...getItemProps({
-                  item,
-                  index,
-                  key: index,
-                  className: classNames(styles.dropdownSelectMenuItem, {
-                    [styles.isHighlighted]: highlightedIndex === index,
-                    [styles.isSelected]: selectedItem === item,
-                  }),
-                })}
-              >
-                {item.label}
-                {selectedItem === item && (
-                  <IconCheck className={styles.checkIcon} />
-                )}
-              </li>
-            );
-          })}
-      </ul>
-    </InputWrapper>
+        >
+          {isOpen &&
+            options.map((item, index) => {
+              return (
+                <li
+                  {...getItemProps({
+                    item,
+                    index,
+                    key: index,
+                    className: classNames(styles.dropdownSelectMenuItem, {
+                      [styles.isHighlighted]: highlightedIndex === index,
+                      [styles.isSelected]: selectedItem === item,
+                    }),
+                  })}
+                >
+                  {item.label}
+                  {selectedItem === item && (
+                    <IconCheck className={styles.checkIcon} />
+                  )}
+                </li>
+              );
+            })}
+        </ul>
+      </InputWrapper>
+    </div>
   );
 };
 

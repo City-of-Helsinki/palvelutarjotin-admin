@@ -403,8 +403,8 @@ const AutoSuggest: React.FC<Props> = ({
 
       <InputWrapper
         id={id}
+        helperText={invalidText}
         invalid={!!invalidText}
-        invalidText={invalidText}
         labelText={labelText}
       >
         <input
