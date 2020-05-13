@@ -18,7 +18,7 @@ const AppRoutes = () => {
       <Redirect exact path="/" to={`/${currentLocale}`} />
       <Route exact path={ROUTES.SILENT_CALLBACK} component={SilentRenew} />
       <Route exact path={ROUTES.CALLBACK} component={OidcCallback} />
-      <Route path={`/${localeParam}(/+)*`} component={LocaleRoutes} />
+      <Route path={`/${localeParam}`} component={LocaleRoutes} />
       <Route
         render={(props) => {
           return (
