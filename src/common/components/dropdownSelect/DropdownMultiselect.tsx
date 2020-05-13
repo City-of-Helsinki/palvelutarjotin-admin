@@ -114,73 +114,72 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     disabled,
   });
   return (
-    <div className={styles.wrapper}>
-      <InputWrapper
-        id={buttonId}
-        hasIcon={true}
-        labelId={labelId}
-        {...labelProps}
-        helperText={invalidText || helperText}
-        invalid={!!invalidText}
-        labelText={labelText}
-      >
-        <button id={buttonId} {...buttonProps}>
-          <span>
-            {getValueText() ||
-              buttonText ||
-              t('common.dropdownSelect.buttonText')}
-          </span>
-          <IconAngleDown
-            className={classNames(styles.icon, {
-              [styles.arrowUp]: isOpen,
-            })}
-          />
-        </button>
-        <ul
-          {...getMenuProps({
-            className: classNames(styles.dropdownSelectMenu, {
-              [styles.isOpen]: isOpen,
-            }),
-            onBlur: () => setTimeout(handleBlur, 0),
+    <InputWrapper
+      id={buttonId}
+      hasIcon={true}
+      labelId={labelId}
+      {...labelProps}
+      className={styles.wrapper}
+      helperText={invalidText || helperText}
+      invalid={!!invalidText}
+      labelText={labelText}
+    >
+      <button id={buttonId} {...buttonProps}>
+        <span>
+          {getValueText() ||
+            buttonText ||
+            t('common.dropdownSelect.buttonText')}
+        </span>
+        <IconAngleDown
+          className={classNames(styles.icon, {
+            [styles.arrowUp]: isOpen,
           })}
-        >
-          {isOpen &&
-            options.map((item, index) => {
-              const checked = value.includes(item);
-              const highlighted = highlightedIndex === index;
+        />
+      </button>
+      <ul
+        {...getMenuProps({
+          className: classNames(styles.dropdownSelectMenu, {
+            [styles.isOpen]: isOpen,
+          }),
+          onBlur: () => setTimeout(handleBlur, 0),
+        })}
+      >
+        {isOpen &&
+          options.map((item, index) => {
+            const checked = value.includes(item);
+            const highlighted = highlightedIndex === index;
 
-              return (
-                <li
-                  {...getItemProps({
-                    item,
-                    index,
-                    key: index,
-                    onClick: (e: React.MouseEvent<HTMLLIElement>) => {
-                      e.preventDefault();
-                    },
-                    className: classNames(styles.dropdownMultiselectMenuItem, {
-                      [styles.isHighlighted]: highlighted,
-                      [styles.isChecked]: checked,
-                    }),
-                    'aria-checked': checked,
-                  })}
-                >
-                  <label className={styles.checkbox}>
-                    <span className={styles.checkmark} />
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => null}
-                      tabIndex={-1}
-                    />
-                    <span>{item.label}</span>
-                  </label>
-                </li>
-              );
-            })}
-        </ul>
-      </InputWrapper>
-    </div>
+            return (
+              <li
+                {...getItemProps({
+                  item,
+                  index,
+                  key: index,
+                  onClick: (e: React.MouseEvent<HTMLLIElement>) => {
+                    e.preventDefault();
+                  },
+                  className: classNames(styles.dropdownMultiselectMenuItem, {
+                    [styles.isHighlighted]: highlighted,
+                    [styles.isChecked]: checked,
+                  }),
+                  'aria-checked': checked,
+                })}
+              >
+                <label className={styles.checkbox}>
+                  <span className={styles.checkmark} />
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => null}
+                    tabIndex={-1}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              </li>
+            );
+          })}
+      </ul>
+    </InputWrapper>
   );
 };
 

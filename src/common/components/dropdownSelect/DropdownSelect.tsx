@@ -117,58 +117,57 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     disabled,
   });
   return (
-    <div className={styles.wrapper}>
-      <InputWrapper
-        id={buttonId}
-        hasIcon={true}
-        labelId={labelId}
-        {...labelProps}
-        helperText={invalidText || helperText}
-        invalid={!!invalidText}
-        labelText={labelText}
-      >
-        <button id={buttonId} {...buttonProps}>
-          {selectedItem?.label ||
-            buttonText ||
-            t('common.dropdownSelect.buttonText')}
-          <IconAngleDown
-            className={classNames(styles.icon, {
-              [styles.arrowUp]: isOpen,
-            })}
-          />
-        </button>
-        <ul
-          {...getMenuProps({
-            className: classNames(styles.dropdownSelectMenu, {
-              [styles.isOpen]: isOpen,
-            }),
-            onBlur: () => setTimeout(handleBlur, 0),
+    <InputWrapper
+      id={buttonId}
+      hasIcon={true}
+      labelId={labelId}
+      {...labelProps}
+      className={styles.wrapper}
+      helperText={invalidText || helperText}
+      invalid={!!invalidText}
+      labelText={labelText}
+    >
+      <button id={buttonId} {...buttonProps}>
+        {selectedItem?.label ||
+          buttonText ||
+          t('common.dropdownSelect.buttonText')}
+        <IconAngleDown
+          className={classNames(styles.icon, {
+            [styles.arrowUp]: isOpen,
           })}
-        >
-          {isOpen &&
-            options.map((item, index) => {
-              return (
-                <li
-                  {...getItemProps({
-                    item,
-                    index,
-                    key: index,
-                    className: classNames(styles.dropdownSelectMenuItem, {
-                      [styles.isHighlighted]: highlightedIndex === index,
-                      [styles.isSelected]: selectedItem === item,
-                    }),
-                  })}
-                >
-                  {item.label}
-                  {selectedItem === item && (
-                    <IconCheck className={styles.checkIcon} />
-                  )}
-                </li>
-              );
-            })}
-        </ul>
-      </InputWrapper>
-    </div>
+        />
+      </button>
+      <ul
+        {...getMenuProps({
+          className: classNames(styles.dropdownSelectMenu, {
+            [styles.isOpen]: isOpen,
+          }),
+          onBlur: () => setTimeout(handleBlur, 0),
+        })}
+      >
+        {isOpen &&
+          options.map((item, index) => {
+            return (
+              <li
+                {...getItemProps({
+                  item,
+                  index,
+                  key: index,
+                  className: classNames(styles.dropdownSelectMenuItem, {
+                    [styles.isHighlighted]: highlightedIndex === index,
+                    [styles.isSelected]: selectedItem === item,
+                  }),
+                })}
+              >
+                {item.label}
+                {selectedItem === item && (
+                  <IconCheck className={styles.checkIcon} />
+                )}
+              </li>
+            );
+          })}
+      </ul>
+    </InputWrapper>
   );
 };
 
