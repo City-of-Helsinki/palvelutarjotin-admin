@@ -8014,22 +8014,17 @@ hastscript@^5.0.0:
     property-information "^5.0.0"
     space-separated-tokens "^1.0.0"
 
-hds-core@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.4.2.tgz#f740068307dcc112168f27ee29c3afbc2927f005"
-  integrity sha512-/PZ17SkcsVk34+o1kI8FWuqKw6AEGE5700EK98ILm1sOqr0lyEQnvPUUmtP77sqOKRCfziagK+CErdAO29+APA==
+hds-core@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.6.0.tgz#ebdd1fc50bcd82b6e3186ef65af99d8e90350aef"
+  integrity sha512-RqfWmhJqkkDhwKzMRTCaJQZiT3mv1hxPNBvYHQFpRyBlqfcvN8ZyVUwa0FT5zEJDAryT3Z1vhn5pa4Rt0MAFRw==
 
-hds-core@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.5.0.tgz#ec8fc2887d21e6acbf3f38d946952799a008bbf0"
-  integrity sha512-Ta1MuMRVc8wQMwRz83dLfn25ZJAcaaHWM2eZgAUPM6BvCWV9nnnS+9VdrQmhpgPs1sc3b2TPsUAIMYGSCXH0iw==
-
-hds-react@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.6.1.tgz#5b379462ab7f475ee69ba7a37bcce0e58538d606"
-  integrity sha512-VP+BOtgJJbpFEx2yGU9Vr7tQSo2fL5Q2t+vxLlq/5GCrzsRHE4YE17+h4HFO1ts2KHXDbIYtm64WAkgqyrqYUQ==
+hds-react@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.7.0.tgz#320831827b29d94e013f8e0abbd3fe94255ee781"
+  integrity sha512-XAnnTj/jTM2tVv5Sg2ZqHTuTYv2w0C6BroUWDBxnGOEGjl74/EaLaQdymYBm1N9e/e1HNLy08MV77d0mPnXGEA==
   dependencies:
-    hds-core "^0.4.2"
+    hds-core "^0.6.0"
     lodash "^4.17.15"
     react-spring "^8.0.27"
 

@@ -5,7 +5,6 @@ export const getCommonKnobs = () => {
   return {
     labelText: text('labelText', 'Label'),
     invalid: boolean('invalid', false),
-    invalidText: text('invalidText', ''),
     onChange: action('onChange'),
     onBlur: action('onBlur'),
     placeholder: text('placeholder', ''),

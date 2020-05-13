@@ -1,12 +1,12 @@
 import { number, withKnobs } from '@storybook/addon-knobs';
+import { TextInput } from 'hds-react';
 import React from 'react';
 
-import NumberInput from '../NumberInput';
 import { getCommonKnobs } from './helpers';
 
 export default {
   title: 'NumberInput',
-  component: NumberInput,
+  component: TextInput,
   decorators: [withKnobs],
 };
 
@@ -17,10 +17,9 @@ const Container: React.FC = ({ children }) => (
 export const Default = () => {
   return (
     <Container>
-      <NumberInput
+      <TextInput
         id="id1"
         {...getCommonKnobs()}
-        defaultValue={number('defaultValue', 0)}
         max={number('max', 20)}
         min={number('min', 0)}
         step={number('step', 1)}
