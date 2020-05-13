@@ -20,6 +20,7 @@ export const Default = () => {
       <TextInput
         id="id1"
         {...getCommonKnobs()}
+        type="number"
         max={number('max', 20)}
         min={number('min', 0)}
         step={number('step', 1)}
