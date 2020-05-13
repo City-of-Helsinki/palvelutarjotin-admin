@@ -20,6 +20,23 @@
       },
       "loading": "Ladataan ...",
       "noResults": "Ei tuloksia"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "selectionMessage": "{{value}} on valittu.",
+        "statusMessageMultipleResult": "{{resultCount}} tulosta on saatavilla, käytä ylös- ja alas-nuolinäppäimiä navigoimiseen. Valitse Enter- tai välilyöntipainikkeilla.",
+        "statusMessageNoResults": "Tuloksia ei ole saatavana",
+        "statusMessageSingleResult": "1 tulos on saatavana, käytä ylös- ja alas-nuolinäppäimiä navigoimiseen. Valitse Enter- tai välilyöntipainikkeilla"
+      },
+      "buttonText": "Valitse..."
+    },
+    "languages": {
+      "ar": "Arabia",
+      "en": "Englanti",
+      "fi": "Suomi",
+      "ru": "Venäjä",
+      "sv": "Ruotsi",
+      "zh_hans": "Kiina"
     }
   },
   "createEvent": {
@@ -33,9 +50,11 @@
       "labelDuration": "Tapahtuman kesto, min",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
       "labelKeywords": "Tapahtuman avainsanat",
+      "labelLanguage": "Tapahtuman kielet",
       "labelName": "Tapahtuman nimi",
       "labelNecessaryVisits": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "labelTargetGroup": "Kohderyhmät",
       "placeholderKeywords": "Lisää avainsana...",
       "labelImage": "Tapahtuman kuva",
       "labelImageAltText": "Kuvan alt-teksti",
@@ -51,6 +70,7 @@
     },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",
+      "labelName": "Nimi",
       "labelPhone": "Puhelinnumero",
       "title": "Yhteyshenkilö"
     },

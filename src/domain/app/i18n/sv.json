@@ -20,6 +20,23 @@
       },
       "loading": "Laddning ...",
       "noResults": "Inga resultat"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "selectionMessage": "{{value}} har valts.",
+        "statusMessageMultipleResult": "{{resultCount}} resultaten är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter- eller mellanslagstangenterna för att välja.",
+        "statusMessageNoResults": "Inga resultat finns tillgängliga",
+        "statusMessageSingleResult": "1 resultat finns tillgängligt, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter- eller mellanslagstangenterna för att välja."
+      },
+      "buttonText": "Välj..."
+    },
+    "languages": {
+      "ar": "Arabiska",
+      "en": "Engelska",
+      "fi": "Finska",
+      "ru": "Ryska",
+      "sv": "Svenska",
+      "zh_hans": "Kinesisk"
     }
   },
   "createEvent": {
@@ -33,9 +50,11 @@
       "labelDuration": "Evenemang varaktighet, min",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
       "labelKeywords": "Evenemangs nyckelord",
+      "labelLanguage": "Evenemangspråk",
       "labelName": "Evenemang namn",
       "labelNecessaryVisits": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
+      "labelTargetGroup": "Målgrupper",
       "placeholderKeywords": "Lägg nyckelord...",
       "labelImage": "Händelsebild",
       "labelImageAltText": "Bild alt-text",
@@ -50,6 +69,7 @@
     },
     "contactPerson": {
       "labelEmail": "E-post",
+      "labelName": "Namn",
       "labelPhone": "Telefon",
       "title": "Kontaktperson"
     },

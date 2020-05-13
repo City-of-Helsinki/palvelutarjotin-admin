@@ -20,6 +20,23 @@
       },
       "loading": "Loading ...",
       "noResults": "No results"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "selectionMessage": "{{value}} has been selected.",
+        "statusMessageMultipleResult": "{{resultCount}} results are available, use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.",
+        "statusMessageNoResults": "No results are available",
+        "statusMessageSingleResult": "1 result is available, use up and down arrow keys to navigate. Press Enter or Spacebar keys to select."
+      },
+      "buttonText": "Select..."
+    },
+    "languages": {
+      "ar": "Arabic",
+      "en": "English",
+      "fi": "Finnish",
+      "ru": "Russian",
+      "sv": "Swedish",
+      "zh_hans": "Chinese"
     }
   },
   "createEvent": {
@@ -33,9 +50,11 @@
       "labelDuration": "Event duration, min",
       "labelInfoUrl": "A web address where you can find more information about the event",
       "labelKeywords": "Event keywords",
+      "labelLanguage": "Event languages",
       "labelName": "Event name",
       "labelNecessaryVisits": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
+      "labelTargetGroup": "Target groups",
       "placeholderKeywords": "Add keyword...",
       "labelImage": "Event picture",
       "labelImageAltText": "Picture alt-text",
@@ -51,6 +70,7 @@
     },
     "contactPerson": {
       "labelEmail": "Email",
+      "labelName": "Name",
       "labelPhone": "Phone",
       "title": "Contact person"
     },
