@@ -86,6 +86,12 @@
   },
   "events": {
     "buttonNewEvent": "Lisää uusi tapahtuma",
+    "eventCard": {
+      "textEnrolled": "{{count}} ilmoittautunut",
+      "textEnrolled_plural": "{{count}} ilmoittautunutta",
+      "textOccurrences": "{{count}} tapahtuma-aika",
+      "textOccurrences_plural": "{{count}} tapahtuma-aikaa"
+    },
     "textEventCount": "{{count}} kpl",
     "title": "Tapahtumat",
     "titleComingEvents": "Tapahtumat"

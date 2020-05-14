@@ -85,6 +85,12 @@
   },
   "events": {
     "buttonNewEvent": "Skapa ny evenemang",
+    "eventCard": {
+      "textEnrolled": "{{count}} registrerad",
+      "textEnrolled_plural": "{{count}} registrerade",
+      "textOccurrences": "{{count}} händelsetid",
+      "textOccurrences_plural": "{{count}} händelsetider"
+    },
     "textEventCount": "{{count}} st",
     "title": "Evenemang",
     "titleComingEvents": "Evenemang"
