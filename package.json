@@ -60,6 +60,7 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "codegen": "graphql-codegen -r dotenv/config dotenv_config_path=.env.development.local  --config codegen.yml",
     "storybook": "start-storybook -p 9009 -s public",
+    "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
@@ -92,6 +93,7 @@
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/react": "^5.3.18",
+    "@storybook/storybook-deployer": "^2.8.6",
     "@testing-library/jest-dom": "^5.7.0",
     "@testing-library/react": "^10.0.4",
     "@testing-library/user-event": "^10.1.2",
