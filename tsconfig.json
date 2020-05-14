@@ -22,5 +22,5 @@
   "include": [
     "src"
   ],
-  "exclude": ["src/**/*.stories.*", "src/**/stories/helpers.ts"]
+  "exclude": ["src/**/*.stories.*"]
 }
