@@ -21,10 +21,7 @@ export default {
 };
 
 const Container: React.FC = ({ children }) => (
-  <div style={{ backgroundColor: '#eee', padding: '1rem' }}>
-    {/* TODO: Wrap all stories with I18nextProvider */}
-    <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
-  </div>
+  <div style={{ backgroundColor: '#eee', padding: '1rem' }}>{children}</div>
 );
 
 export const Default = () => {
