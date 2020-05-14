@@ -86,6 +86,12 @@
   },
   "events": {
     "buttonNewEvent": "Add new event",
+    "eventCard": {
+      "textEnrolled": "{{count}} enrolled",
+      "textEnrolled_plural": "{{count}} enrolled",
+      "textOccurrences": "{{count}} occurrence",
+      "textOccurrences_plural": "{{count}} occurrences"
+    },
     "textEventCount": "{{count}} pcs",
     "title": "Events",
     "titleComingEvents": "Events"

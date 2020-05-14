@@ -1,0 +1,87 @@
+@import "layout";
+@import "variables";
+
+.eventCard {
+  --background-color-event-card: var(--color-white);
+
+  --color-title: var(--color-black-90);
+  --color-description: var(--color-black-90);
+
+  --fontsize-title: var(--fontsize-h-5);
+  --fontsize-description: var(--fontsize-subtitle);
+
+  --fontweight-title: bold;
+  --fontweight-description: normal;
+
+  --height-image: 8.125rem;
+  --height-image-mobile: 14.5rem;
+
+  --lineheight-title: var(--lineheight-l);
+  --lineheight-description: var(--lineheight-l);
+
+  --width-icon: 1.125rem;
+  --width-image: 11.25rem;
+}
+
+.eventCard {
+  display: grid;
+  background-color: var(--background-color-event-card);
+
+  @include respond_above(sm) {
+    grid-template-columns: var(--width-image) 1fr;
+  }
+
+  .imageWrapper {
+    min-height: var(--height-image-mobile);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    @include respond_above(sm) {
+      min-height: var(--height-image);
+    }
+  }
+
+  .contentWrapper {
+    padding: $basePadding;
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .title {
+    color: var(--color-title);
+    font-size: var(--fontsize-title);
+    font-weight: var(--fontweight-title);
+    line-height: var(--lineheight-title);
+  }
+  
+  .description {
+    color: var(--color-description);
+    font-size: var(--fontsize-description);
+    font-weight: var(--fontweight-description);
+    line-height: var(--lineheight-description);
+  }
+
+  .occurrenceInfoWrapper {
+    display: inline-flex;
+    margin-top: var(--spacing-m);
+
+    div {
+      margin-right: var(--spacing-xl);
+    }
+
+    div:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .textWithIcon {
+    display: flex;
+
+    svg {
+      height: var(--width-icon);
+      width: var(--width-icon);
+      margin-right: var(--spacing-2-xs);
+    }
+  }
+}
