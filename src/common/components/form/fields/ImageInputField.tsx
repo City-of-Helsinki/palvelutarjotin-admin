@@ -22,9 +22,9 @@ const InputField: React.FC<Props> = (props) => {
   return (
     <ImageInput
       id={name}
+      helperText={errorText}
       labelText={labelText}
       invalid={!!errorText}
-      invalidText={errorText}
       setFieldValue={setFieldValue}
       {...field}
     />

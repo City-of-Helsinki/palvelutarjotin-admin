@@ -5,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../textInput/InputWrapper';
-import inputStyles from '../textInput/inputWrapper.module.scss';
 import styles from './dropdownSelect.module.scss';
 
 export type DropdownSelectOption = {
@@ -108,25 +107,27 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     selectedItem: value,
   });
 
+  const { id: labelId, ...labelProps } = getLabelProps();
+  const { id: buttonId, ...buttonProps } = getToggleButtonProps({
+    className: classNames(styles.dropdownSelectButton, {
+      [styles.invalid]: !!invalidText,
+      [styles.isOpen]: isOpen,
+      [styles.isDisabled]: disabled,
+    }),
+    disabled,
+  });
   return (
     <InputWrapper
-      id={id}
-      helperText={helperText}
+      id={buttonId}
+      hasIcon={true}
+      labelId={labelId}
+      {...labelProps}
+      className={styles.wrapper}
+      helperText={invalidText || helperText}
       invalid={!!invalidText}
-      invalidText={invalidText}
+      labelText={labelText}
     >
-      <label className={inputStyles.label} {...getLabelProps()}>
-        {labelText}
-      </label>
-      <button
-        {...getToggleButtonProps({
-          className: classNames(styles.dropdownSelectButton, {
-            [styles.isOpen]: isOpen,
-            [styles.isDisabled]: disabled,
-          }),
-          disabled,
-        })}
-      >
+      <button id={buttonId} {...buttonProps}>
         {selectedItem?.label ||
           buttonText ||
           t('common.dropdownSelect.buttonText')}

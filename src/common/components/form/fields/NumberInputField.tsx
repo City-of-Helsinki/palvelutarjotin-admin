@@ -1,45 +1,32 @@
 import { FieldProps } from 'formik';
+import { TextInput, TextInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-// TODO: Get this component from hds-react when implemented there
-import NumberInput from '../../textInput/NumberInput';
 import { getErrorText } from '../utils';
 
-interface Props extends FieldProps {
-  defaultValue?: number;
-  labelText: string;
-  max?: number;
-  min?: number;
-  step?: number;
-}
+type Props = FieldProps & Omit<TextInputProps, 'form'>;
 
-const InputField: React.FC<Props> = (props) => {
+const NumberInputField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
-    defaultValue,
     field: { name, ...field },
     form: { errors, touched },
-    labelText,
-    max,
-    min,
-    step,
+    helperText,
+    ...rest
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
 
   return (
-    <NumberInput
-      id={name}
-      invalid={!!errorText}
-      invalidText={errorText}
-      labelText={labelText}
-      defaultValue={defaultValue}
-      max={max}
-      min={min}
-      step={step}
+    <TextInput
       {...field}
+      {...rest}
+      id={name}
+      type="number"
+      helperText={errorText || helperText}
+      invalid={!!errorText}
     />
   );
 };
 
-export default InputField;
+export default NumberInputField;

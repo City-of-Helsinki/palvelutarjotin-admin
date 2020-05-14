@@ -1,105 +1,72 @@
 import classNames from 'classnames';
-import { IconLock, Tooltip } from 'hds-react';
-import React, { ChangeEvent } from 'react';
+import { Tooltip } from 'hds-react';
+import React, { CSSProperties, FC, ReactNode } from 'react';
 
 import styles from './inputWrapper.module.scss';
 
 export type InputWrapperProps = {
-  id: string;
-  labelText?: string;
-  labelledBy?: string;
-  alternative?: boolean;
+  children?: ReactNode;
   className?: string;
-  defaultValue?: string;
-  disabled?: boolean;
+  hasIcon?: boolean;
   helperText?: string;
   hideLabel?: boolean;
+  id: string;
   invalid?: boolean;
-  invalidText?: string;
-  onBlur?: (e: ChangeEvent) => void;
-  onChange?: (event: ChangeEvent) => void;
-  placeholder?: string;
-  readOnly?: boolean;
+  labelId?: string;
+  labelText?: string;
+  style?: CSSProperties;
   tooltipLabel?: string;
   tooltipText?: string;
   tooltipOpenButtonLabelText?: string;
   tooltipCloseButtonLabelText?: string;
-  type?: string;
-  value?: string;
 };
 
-const InputWrapper: React.FC<InputWrapperProps> = ({
-  id,
-  labelText = undefined,
-  alternative = false,
-  className = '',
-  disabled = false,
-  helperText = undefined,
-  hideLabel = false,
-  invalid = false,
-  invalidText = undefined,
-  readOnly = false,
-  tooltipLabel = undefined,
-  tooltipText = undefined,
-  tooltipOpenButtonLabelText = undefined,
-  tooltipCloseButtonLabelText = undefined,
+const InputWrapper: FC<InputWrapperProps> = ({
   children,
-}) => {
-  const label: JSX.Element | null = labelText ? (
-    <label
-      htmlFor={id}
-      className={`${styles.label} ${hideLabel ? styles.hiddenLabel : ''}`}
-    >
-      {labelText}
-    </label>
-  ) : null;
-
-  const tooltip: JSX.Element | null = tooltipText ? (
-    <Tooltip
-      alternative={alternative}
-      labelText={tooltipLabel || ''}
-      closeButtonLabelText={tooltipCloseButtonLabelText || ''}
-      openButtonLabelText={tooltipOpenButtonLabelText || ''}
-    >
-      {tooltipText}
-    </Tooltip>
-  ) : null;
-
-  const helper: JSX.Element | null = helperText ? (
-    <div className={styles.helperText}>{helperText}</div>
-  ) : null;
-
-  const invalidMsg: JSX.Element | null = invalidText ? (
-    <div className={styles.invalidText}>{invalidText}</div>
-  ) : null;
-
-  const inputIcon = readOnly ? (
-    <div className={styles.inputIcon}>
-      <IconLock className={styles.iconLock} />
-    </div>
-  ) : null;
-
-  return (
-    <div
-      className={classNames(
-        styles.root,
-        alternative && styles.alternative,
-        disabled && styles.disabled,
-        readOnly && styles.readOnly,
-        invalid && styles.invalid,
-        className
-      )}
-    >
-      {label}
-      {tooltip && tooltip}
-      <div className={styles.inputWrapper}>
-        {children}
-        {inputIcon}
-      </div>
-      {helper}
-      {invalidMsg}
-    </div>
-  );
-};
+  className = '',
+  hasIcon = false,
+  helperText,
+  hideLabel = false,
+  id,
+  invalid = false,
+  labelId,
+  labelText,
+  style,
+  tooltipLabel,
+  tooltipText,
+  tooltipOpenButtonLabelText,
+  tooltipCloseButtonLabelText,
+}: InputWrapperProps) => (
+  <div
+    className={classNames(
+      styles.root,
+      hasIcon && styles.hasIcon,
+      invalid && styles.invalid,
+      className
+    )}
+    style={style}
+  >
+    {labelText && (
+      <label
+        id={labelId}
+        htmlFor={id}
+        className={`${styles.label} ${hideLabel ? styles.hiddenLabel : ''}`}
+      >
+        {labelText}
+      </label>
+    )}
+    {tooltipText && (
+      <Tooltip
+        labelText={tooltipLabel || ''}
+        closeButtonLabelText={tooltipCloseButtonLabelText || ''}
+        openButtonLabelText={tooltipOpenButtonLabelText || ''}
+      >
+        {tooltipText}
+      </Tooltip>
+    )}
+    <div className={classNames(styles.inputWrapper)}>{children}</div>
+    {helperText && <div className={styles.helperText}>{helperText}</div>}
+  </div>
+);
 
 export default InputWrapper;

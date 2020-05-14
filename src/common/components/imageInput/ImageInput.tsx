@@ -37,7 +37,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ setFieldValue, ...props }) => {
         style={{ display: 'none' }}
         onChange={handleImageFile}
       />
-      <Button onClick={handleChooseImageClick} color="secondary">
+      <Button onClick={handleChooseImageClick} variant="secondary">
         {t('eventForm.basicInfo.addImage')}
       </Button>
     </InputWrapper>

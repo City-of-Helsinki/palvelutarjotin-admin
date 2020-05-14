@@ -20,7 +20,7 @@ const LoginPage = () => {
         <Container>
           <div className={styles.contentWrapper}>
             <h1>{t('login.title')}</h1>
-            <Button onClick={login} color="secondary">
+            <Button onClick={login} variant="secondary">
               {t('login.buttonLogin')}
             </Button>
           </div>

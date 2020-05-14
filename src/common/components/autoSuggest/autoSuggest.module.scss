@@ -14,12 +14,16 @@
 }
 
 .autoSuggest {
+  --fontsize-single-value: var(--fontsize-body-medium);
+}
+
+.autoSuggest {
   .singleValue {
     position: absolute;
     top: 2px;
     left: -1px;
     padding: 1rem;
-    font-size: var(--hds-text-md);
+    font-size: var(--fontsize-single-value);
     z-index: -1;
   }
 

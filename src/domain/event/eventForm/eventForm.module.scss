@@ -3,6 +3,13 @@
 @import 'colours';
 
 .eventForm {
+  --fontsize-header: var(--fontsize-h-2);
+  --fontsize-label: 0.875em;
+
+  --lineheight-label: var(--label-height);
+}
+
+.eventForm {
   display: grid;
   grid-gap: $largeMargin;
 
@@ -11,7 +18,7 @@
   }
 
   h2 {
-    font-size: var(--hds-text-lg);
+    font-size: var(--fontsize-header);
     margin: 2rem 0;
   }
 
@@ -28,8 +35,8 @@
     margin-bottom: 1rem;
 
     p {
-      font-size: var(--hds-text-sm);
-      line-height: var(--hds-text-sm-line-height);
+      font-size: var(--fontsize-label);
+      line-height: var(--lineheight-label);
       font-weight: bold;
       margin: 0;
       margin-bottom: 0.2em;

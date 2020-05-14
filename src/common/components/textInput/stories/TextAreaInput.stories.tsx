@@ -1,12 +1,12 @@
 import { number, withKnobs } from '@storybook/addon-knobs';
+import { TextArea } from 'hds-react';
 import React from 'react';
 
-import TextAreaInput from '../TextAreaInput';
 import { getCommonKnobs } from './helpers';
 
 export default {
   title: 'TextAreaInput',
-  component: TextAreaInput,
+  component: TextArea,
   decorators: [withKnobs],
 };
 
@@ -17,7 +17,7 @@ const Container: React.FC = ({ children }) => (
 export const Default = () => {
   return (
     <Container>
-      <TextAreaInput
+      <TextArea
         id="id1"
         {...getCommonKnobs()}
         rows={number('rows', 0)}

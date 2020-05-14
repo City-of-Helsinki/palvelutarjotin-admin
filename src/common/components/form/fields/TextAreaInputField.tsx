@@ -1,45 +1,33 @@
 import { FieldProps } from 'formik';
+import { TextArea, TextAreaProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-// TODO: Get this component from hds-react when implemented there
-import TextAreaInput from '../../textInput/TextAreaInput';
 import { getErrorText } from '../utils';
 
-interface Props extends FieldProps {
-  cols: number;
-  helperText: string;
-  labelText: string;
-  placeholder?: string;
-  rows: number;
-}
+type Props = FieldProps & Omit<TextAreaProps, 'form'>;
 
-const InputField: React.FC<Props> = (props) => {
+const TextAreaField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
-    cols,
     field: { name, ...field },
     form: { errors, touched },
     helperText,
-    labelText,
-    placeholder,
     rows = 10,
+    ...rest
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
 
   return (
-    <TextAreaInput
-      helperText={helperText}
-      id={name}
-      invalid={!!errorText}
-      invalidText={errorText}
-      labelText={labelText}
-      placeholder={placeholder}
-      cols={cols}
-      rows={rows}
+    <TextArea
       {...field}
+      {...rest}
+      id={name}
+      rows={rows}
+      helperText={errorText || helperText}
+      invalid={!!errorText}
     />
   );
 };
 
-export default InputField;
+export default TextAreaField;

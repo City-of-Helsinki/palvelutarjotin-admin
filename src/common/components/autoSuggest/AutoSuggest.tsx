@@ -393,18 +393,14 @@ const AutoSuggest: React.FC<Props> = ({
     </div>
   ) : null;
 
-  const helper: React.ReactElement | null = helperText ? (
-    <div className={inputStyles.helperText}>{helperText}</div>
-  ) : null;
-
   return (
     <div className={styles.autoSuggest} ref={container}>
       {liveRegion}
 
       <InputWrapper
         id={id}
+        helperText={invalidText || helperText}
         invalid={!!invalidText}
-        invalidText={invalidText}
         labelText={labelText}
       >
         <input
@@ -424,7 +420,6 @@ const AutoSuggest: React.FC<Props> = ({
         {clearValueButton}
         {menu}
       </InputWrapper>
-      {helper}
       {multiValue}
     </div>
   );

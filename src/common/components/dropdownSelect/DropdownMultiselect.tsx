@@ -4,12 +4,11 @@ import {
   UseSelectState,
   UseSelectStateChangeOptions,
 } from 'downshift';
-import { IconAngleDown } from 'hds-react';
+import { Checkbox, IconAngleDown } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../textInput/InputWrapper';
-import inputStyles from '../textInput/inputWrapper.module.scss';
 import { DropdownSelectOption, getA11yStatusMessage } from './DropdownSelect';
 import styles from './dropdownSelect.module.scss';
 
@@ -105,25 +104,27 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
     else return `${getFirstValueFromOptions()} + ${value.length - 1}`;
   };
 
+  const { id: labelId, ...labelProps } = getLabelProps();
+  const { id: buttonId, ...buttonProps } = getToggleButtonProps({
+    className: classNames(styles.dropdownSelectButton, {
+      [styles.invalid]: !!invalidText,
+      [styles.isOpen]: isOpen,
+      [styles.isDisabled]: disabled,
+    }),
+    disabled,
+  });
   return (
     <InputWrapper
-      id={id}
-      helperText={helperText}
+      id={buttonId}
+      hasIcon={true}
+      labelId={labelId}
+      {...labelProps}
+      className={styles.wrapper}
+      helperText={invalidText || helperText}
       invalid={!!invalidText}
-      invalidText={invalidText}
+      labelText={labelText}
     >
-      <label className={inputStyles.label} {...getLabelProps()}>
-        {labelText}
-      </label>
-      <button
-        {...getToggleButtonProps({
-          className: classNames(styles.dropdownSelectButton, {
-            [styles.isOpen]: isOpen,
-            [styles.isDisabled]: disabled,
-          }),
-          disabled,
-        })}
-      >
+      <button id={buttonId} {...buttonProps}>
         <span>
           {getValueText() ||
             buttonText ||
@@ -164,16 +165,12 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
                   'aria-checked': checked,
                 })}
               >
-                <label className={styles.checkbox}>
-                  <span className={styles.checkmark} />
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => null}
-                    tabIndex={-1}
-                  />
-                  <span>{item.label}</span>
-                </label>
+                <Checkbox
+                  checked={checked}
+                  id={`${id}-checknox-${index}`}
+                  labelText={item.label}
+                  tabIndex={-1}
+                />
               </li>
             );
           })}

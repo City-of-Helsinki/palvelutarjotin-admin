@@ -1,7 +1,7 @@
 import { text, withKnobs } from '@storybook/addon-knobs';
+import { TextInput } from 'hds-react';
 import React from 'react';
 
-import TextInput from '../TextInput';
 import { getCommonKnobs } from './helpers';
 
 export default {
