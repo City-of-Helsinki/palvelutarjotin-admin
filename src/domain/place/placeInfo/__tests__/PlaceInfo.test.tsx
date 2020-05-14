@@ -5,20 +5,20 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import wait from 'waait';
 
-import mockPlaceDetail from '../../__mocks__/placeDetails.json';
-import { PlaceDetailsDocument } from '../../../../generated/graphql';
+import mockPlace from '../../__mocks__/place.json';
+import { PlaceDocument } from '../../../../generated/graphql';
 import PlaceInfo from '../PlaceInfo';
 
-const placeId = 'tprek:15417';
+const placeId = mockPlace.data.place.id;
 
 const mocks = [
   {
     request: {
-      query: PlaceDetailsDocument,
+      query: PlaceDocument,
       variables: { id: placeId },
     },
     result: {
-      ...mockPlaceDetail,
+      ...mockPlace,
     },
   },
 ];
