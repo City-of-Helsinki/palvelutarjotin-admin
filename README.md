@@ -52,6 +52,12 @@ Open [http://localhost:9009](http://localhost:9009) to view it in browser
 
 Exports storybook as a static app
 
+### `yarn deploy-storybook`
+
+Deploys a new version of Storybook. Storybook is used for development and there's no CI/CD pipeline set up.
+
+To verify deployment, open [https://city-of-helsinki.github.io/palvelutarjotin-admin/](https://city-of-helsinki.github.io/palvelutarjotin-admin/) and check that everything is looking ok.
+
 ## Setting up development environment locally with docker
 
 ### Set tunnistamo hostname
