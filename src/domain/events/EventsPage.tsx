@@ -15,7 +15,7 @@ const EventsPage = () => {
   const locale = useLocale();
 
   const moveToCreateEventPage = () => {
-    history.push(`${locale}${ROUTES.CREATE_EVENT}`);
+    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
   return (
