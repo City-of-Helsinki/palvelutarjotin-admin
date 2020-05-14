@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DeleteIcon from '../../../icons/DeleteIcon';
+import IconDelete from '../../../icons/IconDelete';
 import styles from './deleteButton.module.scss';
 
 const DeleteButton: React.FC<{
@@ -9,7 +9,7 @@ const DeleteButton: React.FC<{
   return (
     <button className={styles.deleteImageButton} onClick={onClick}>
       <div className={styles.deleteIconWrapper}>
-        <DeleteIcon />
+        <IconDelete />
       </div>
       <span>{children}</span>
     </button>
