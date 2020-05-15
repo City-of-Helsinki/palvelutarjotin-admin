@@ -1,0 +1,44 @@
+@import "layout";
+@import "variables";
+
+.eventDetailsPage {
+  --color-text: var(--color-black-90);
+
+  --fontsize-text: var(--fontsize-body-medium);
+  
+  --fontweight-text: normal;
+  
+  --grid-gap: var(--spacing-l);
+  
+  --lineheight-text: var(--lineheight-l);
+  --margin-text: 0 0 var(--spacing-l);
+}
+
+.eventDetailsPage {
+  padding-bottom: $paddingBottomPage;
+  
+  h1 {
+    font-size: var(--fontsize-h-2);
+  }
+
+  h2 {
+    font-size: var(--fontsize-h-4);
+  }
+
+  p {
+    color: var(--color-text);
+    margin: var(--margin-text);
+    font-size: var(--fontsize-text);
+    font-weight: var(--fontweight-text);
+    line-height: var(--lineheight-text);
+  }
+
+  .contentWrapper {
+    display: grid;
+    grid-gap: var(--grid-gap);
+  
+    @include respond_above(sm) {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+}
