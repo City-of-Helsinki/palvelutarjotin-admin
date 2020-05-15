@@ -4,7 +4,6 @@ import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 // TODO: Validate also provideContactInfo.phone field. Sync validation with backend
 export default Yup.object().shape({
-  duration: Yup.number().required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
   name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   shortDescription: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
@@ -19,26 +18,35 @@ export default Yup.object().shape({
       key: VALIDATION_MESSAGE_KEYS.STRING_MAX,
     })),
   infoUrl: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
-  necessaryVisits: Yup.number()
+  duration: Yup.number()
+    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+    .min(0, (param) => ({
+      min: param.min,
+      key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
+    })),
+  neededOccurrences: Yup.number()
+    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, (param) => ({
       min: param.min,
       key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
-    }))
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
-  place: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  providerContactInfo: Yup.object().shape({
-    email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
-    name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  }),
-  image: Yup.string(),
-  photographer: Yup.string().when('image', {
-    is: (image) => image,
-    then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    otherwise: Yup.string(),
-  }),
-  imageAltText: Yup.string().when('image', {
-    is: (image) => image,
-    then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    otherwise: Yup.string(),
-  }),
+    })),
+  keywords: Yup.array()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .min(0),
+  location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  // providerContactInfo: Yup.object().shape({
+  //   email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
+  //   name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  // }),
+  // image: Yup.string(),
+  // photographer: Yup.string().when('image', {
+  //   is: (image) => image,
+  //   then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  //   otherwise: Yup.string(),
+  // }),
+  // imageAltText: Yup.string().when('image', {
+  //   is: (image) => image,
+  //   then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  //   otherwise: Yup.string(),
+  // }),
 });

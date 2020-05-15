@@ -1,4 +1,9 @@
 {
+  "apollo": {
+    "graphQLErrors": {
+      "permissionDeniedError": "You do not have permission to perform this action"
+    }
+  },
   "appName": "Palvelutarjotin Admin",
   "authentication": {
     "errorMessage": "An error occured while logging in. Please try again",
@@ -43,30 +48,19 @@
     "pageTitle": "New event",
     "title": "New event"
   },
-  "eventForm": {
+  "eventDetails": {
     "basicInfo": {
-      "helperTextKeywords": "Enter a keyword and select from the suggested options",
+      "labelAudience": "Target groups",
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
-      "labelInfoUrl": "A web address where you can find more information about the event",
-      "labelKeywords": "Event keywords",
-      "labelLanguage": "Event languages",
-      "labelName": "Event name",
-      "labelNecessaryVisits": "Necessary visits",
-      "labelShortDescription": "Short description (up to 160 characters)",
-      "labelTargetGroup": "Target groups",
-      "placeholderKeywords": "Add keyword...",
       "labelImage": "Event picture",
-      "labelImageAltText": "Picture alt-text",
-      "labelPhotographer": "Photographer",
-      "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
-      "title": "Basic information",
-      "addImage": "Add image",
-      "photographer": "Photographer",
-      "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
-      "deleteImage": "Delete image",
-      "eventImageAltText": "Image for the event",
-      "imageAltTextHelp": "Description of the contents of the image. Add license information also."
+      "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelInLanguage": "Event languages",
+      "labelKeywords": "Event keywords",
+      "labelName": "Event name",
+      "labelNeededOccurrences": "Necessary visits",
+      "labelShortDescription": "Short description (up to 160 characters)",
+      "title": "Basic information"
     },
     "contactPerson": {
       "labelEmail": "Email",
@@ -75,12 +69,51 @@
       "title": "Contact person"
     },
     "location": {
-      "helperTextPlace": "The default venue for event times",
-      "helperTextPlaceDescription": "Additional information to facilitate the visit",
-      "labelPlace": "Default venue",
-      "labelPlaceDescription": "Description of the venue",
-      "placeholderPlace": "Search place...",
-      "placeholderPlaceDescription": "For example, how can a group change clothes, where you can eat snacks ...",
+      "labelLocation": "Default venue",
+      "labelLocationDescription": "Description of the venue",
+      "title": "Location"
+    }
+  },
+  "eventForm": {
+    "basicInfo": {
+      "addImage": "Add image",
+      "deleteImage": "Delete image",
+      "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
+      "eventImageAltText": "Image for the event",
+      "helperKeywords": "Enter a keyword and select from the suggested options",
+      "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
+      "labelAudience": "Target groups",
+      "labelDescription": "Description",
+      "labelDuration": "Event duration, min",
+      "labelImage": "Event picture",
+      "labelImageAltText": "Picture alt-text",
+      "labelImagePhotographer": "Photographer",
+      "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelInLanguage": "Event languages",
+      "labelKeywords": "Event keywords",
+      "labelName": "Event name",
+      "labelNeededOccurrences": "Necessary visits",
+      "labelShortDescription": "Short description (up to 160 characters)",
+      "photographer": "Photographer",
+      "placeholderKeywords": "Add keyword...",
+      "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
+      "title": "Basic information"
+    },
+    "buttonCancel": "Cancel",
+    "buttonSave": "Save",
+    "contactPerson": {
+      "labelEmail": "Email",
+      "labelName": "Name",
+      "labelPhone": "Phone",
+      "title": "Contact person"
+    },
+    "location": {
+      "helperLocation": "The default venue for event times",
+      "helperLocationDescription": "Additional information to facilitate the visit",
+      "labelLocation": "Default venue",
+      "labelLocationDescription": "Description of the venue",
+      "placeholderLocation": "Search place...",
+      "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ...",
       "title": "Location"
     }
   },

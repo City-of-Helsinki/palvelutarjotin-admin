@@ -283,6 +283,7 @@ export type Event = {
   infoUrl?: Maybe<LocalisedObject>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description?: Maybe<LocalisedObject>;
+  pEvent?: Maybe<PalvelutarjotinEventNode>;
 };
 
 export type Place = {
@@ -422,6 +423,19 @@ export type ExtensionCourse = {
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
+};
+
+export type PalvelutarjotinEventNode = Node & {
+   __typename?: 'PalvelutarjotinEventNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  linkedEventId: Scalars['String'];
+  enrolmentStart?: Maybe<Scalars['DateTime']>;
+  enrolmentEnd?: Maybe<Scalars['DateTime']>;
+  duration: Scalars['Int'];
+  neededOccurrences: Scalars['Int'];
 };
 
 export type PlaceListResponse = {
@@ -590,6 +604,8 @@ export type AddEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
+  /** Palvelutarjotin event data */
+  pEvent: PalvelutarjotinEventInput;
 };
 
 export type IdObjectInput = {
@@ -607,6 +623,13 @@ export type LocalisedObjectInput = {
   fi?: Maybe<Scalars['String']>;
   sv?: Maybe<Scalars['String']>;
   en?: Maybe<Scalars['String']>;
+};
+
+export type PalvelutarjotinEventInput = {
+  enrolmentStart?: Maybe<Scalars['DateTime']>;
+  enrolmentEnd?: Maybe<Scalars['DateTime']>;
+  duration: Scalars['Int'];
+  neededOccurrences: Scalars['Int'];
 };
 
 export type UpdateEventMutation = {
@@ -640,6 +663,8 @@ export type UpdateEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
+  /** Palvelutarjotin event data */
+  pEvent: PalvelutarjotinEventInput;
   id: Scalars['String'];
 };
 
@@ -647,6 +672,94 @@ export type DeleteEventMutation = {
    __typename?: 'DeleteEventMutation';
   response?: Maybe<EventMutationResponse>;
 };
+
+export type CreateEventMutationVariables = {
+  event: AddEventMutationInput;
+};
+
+
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { addEventMutation?: Maybe<(
+    { __typename?: 'AddEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId'>
+        & { name: (
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        ), shortDescription?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )>, description?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )>, pEvent?: Maybe<(
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
+        )>, infoUrl?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )> }
+      )> }
+    )> }
+  )> }
+);
+
+export type EventQueryVariables = {
+  id: Scalars['ID'];
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event?: Maybe<(
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'internalId'>
+    & { name: (
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+    ), shortDescription?: Maybe<(
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+    )>, description?: Maybe<(
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+    )>, infoUrl?: Maybe<(
+      { __typename?: 'LocalisedObject' }
+      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+    )>, pEvent?: Maybe<(
+      { __typename?: 'PalvelutarjotinEventNode' }
+      & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
+    )>, inLanguage: Array<(
+      { __typename?: 'InLanguage' }
+      & { name?: Maybe<(
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+      )> }
+    )>, keywords: Array<(
+      { __typename?: 'Keyword' }
+      & { name?: Maybe<(
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+      )> }
+    )>, location?: Maybe<(
+      { __typename?: 'Place' }
+      & Pick<Place, 'id'>
+      & { name?: Maybe<(
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+      )>, streetAddress?: Maybe<(
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+      )> }
+    )> }
+  )> }
+);
 
 export type KeywordQueryVariables = {
   id: Scalars['ID'];
@@ -758,6 +871,180 @@ export type PlacesQuery = (
 );
 
 
+export const CreateEventDocument = gql`
+    mutation CreateEvent($event: AddEventMutationInput!) {
+  addEventMutation(event: $event) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+        name {
+          en
+          fi
+          sv
+        }
+        shortDescription {
+          en
+          fi
+          sv
+        }
+        description {
+          en
+          fi
+          sv
+        }
+        pEvent {
+          duration
+          neededOccurrences
+        }
+        infoUrl {
+          en
+          fi
+          sv
+        }
+      }
+    }
+  }
+}
+    `;
+export type CreateEventMutationFn = ApolloReactCommon.MutationFunction<CreateEventMutation, CreateEventMutationVariables>;
+export type CreateEventProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateEventMutation, CreateEventMutationVariables>
+    } & TChildProps;
+export function withCreateEvent<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateEventMutation,
+  CreateEventMutationVariables,
+  CreateEventProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateEventMutation, CreateEventMutationVariables, CreateEventProps<TChildProps, TDataName>>(CreateEventDocument, {
+      alias: 'createEvent',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      event: // value for 'event'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateEventMutation, CreateEventMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, baseOptions);
+      }
+export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
+export type CreateEventMutationResult = ApolloReactCommon.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const EventDocument = gql`
+    query Event($id: ID!, $include: [String]) {
+  event(id: $id, include: $include) {
+    id
+    internalId
+    name {
+      en
+      fi
+      sv
+    }
+    shortDescription {
+      en
+      fi
+      sv
+    }
+    description {
+      en
+      fi
+      sv
+    }
+    infoUrl {
+      en
+      fi
+      sv
+    }
+    pEvent {
+      duration
+      neededOccurrences
+    }
+    inLanguage {
+      name {
+        en
+        fi
+        sv
+      }
+    }
+    keywords {
+      name {
+        en
+        fi
+        sv
+      }
+    }
+    location {
+      id
+      name {
+        en
+        fi
+        sv
+      }
+      streetAddress {
+        en
+        fi
+        sv
+      }
+    }
+  }
+}
+    `;
+export type EventProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<EventQuery, EventQueryVariables>
+    } & TChildProps;
+export function withEvent<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EventQuery,
+  EventQueryVariables,
+  EventProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, EventQuery, EventQueryVariables, EventProps<TChildProps, TDataName>>(EventDocument, {
+      alias: 'event',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEventQuery__
+ *
+ * To run a query within a React component, call `useEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      include: // value for 'include'
+ *   },
+ * });
+ */
+export function useEventQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EventQuery, EventQueryVariables>) {
+        return ApolloReactHooks.useQuery<EventQuery, EventQueryVariables>(EventDocument, baseOptions);
+      }
+export function useEventLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EventQuery, EventQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EventQuery, EventQueryVariables>(EventDocument, baseOptions);
+        }
+export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
+export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
+export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
 export const KeywordDocument = gql`
     query Keyword($id: ID!) {
   keyword(id: $id) {

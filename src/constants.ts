@@ -14,3 +14,9 @@ export enum SUPPORT_LANGUAGES {
   SV = 'sv',
   EN = 'en',
 }
+
+export enum LINKEDEVENTS_CONTENT_TYPE {
+  KEYWORD = 'keyword',
+  LANGUAGE = 'language',
+  PLACE = 'place',
+}

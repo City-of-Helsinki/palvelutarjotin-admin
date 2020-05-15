@@ -1,4 +1,9 @@
 {
+  "apollo": {
+    "graphQLErrors": {
+      "permissionDeniedError": "Sinulla ei ole lupaa suorittaa tätä toimintoa"
+    }
+  },
   "appName": "Palvelutarjotin Admin",
   "authentication": {
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
@@ -43,30 +48,19 @@
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma"
   },
-  "eventForm": {
+  "eventDetails": {
     "basicInfo": {
-      "helperTextKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "labelAudience": "Kohderyhmät",
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
-      "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
-      "labelKeywords": "Tapahtuman avainsanat",
-      "labelLanguage": "Tapahtuman kielet",
-      "labelName": "Tapahtuman nimi",
-      "labelNecessaryVisits": "Tarvittavat käyntikerrat",
-      "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
-      "labelTargetGroup": "Kohderyhmät",
-      "placeholderKeywords": "Lisää avainsana...",
       "labelImage": "Tapahtuman kuva",
-      "labelImageAltText": "Kuvan alt-teksti",
-      "labelPhotographer": "Valokuvaaja",
-      "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
-      "title": "Tapahtuman perustiedot",
-      "addImage": "Lisää kuva",
-      "photographer": "Valokuvaaja",
-      "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin",
-      "deleteImage": "Poista kuva",
-      "eventImageAltText": "Tapahtuman kuva",
-      "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto."
+      "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelInLanguage": "Tapahtuman kielet",
+      "labelKeywords": "Tapahtuman avainsanat",
+      "labelName": "Tapahtuman nimi",
+      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
+      "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "title": "Tapahtuman perustiedot"
     },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",
@@ -75,12 +69,51 @@
       "title": "Yhteyshenkilö"
     },
     "location": {
-      "helperTextPlace": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
-      "helperTextPlaceDescription": "Vierailua helpottavaa lisätietoa",
-      "labelPlace": "Oletustapahtumapaikka",
-      "labelPlaceDescription": "Tapahtumapaikan kuvaus",
-      "placeholderPlace": "Etsi paikkaa...",
-      "placeholderPlaceDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
+      "labelLocation": "Oletustapahtumapaikka",
+      "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "title": "Tapahtumapaikka"
+    }
+  },
+  "eventForm": {
+    "basicInfo": {
+      "addImage": "Lisää kuva",
+      "deleteImage": "Poista kuva",
+      "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin",
+      "eventImageAltText": "Tapahtuman kuva",
+      "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
+      "labelAudience": "Kohderyhmät",
+      "labelDescription": "Kuvaus",
+      "labelDuration": "Tapahtuman kesto, min",
+      "labelImage": "Tapahtuman kuva",
+      "labelImageAltText": "Kuvan alt-teksti",
+      "labelImagePhotographer": "Valokuvaaja",
+      "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelInLanguage": "Tapahtuman kielet",
+      "labelKeywords": "Tapahtuman avainsanat",
+      "labelName": "Tapahtuman nimi",
+      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
+      "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "photographer": "Valokuvaaja",
+      "placeholderKeywords": "Lisää avainsana...",
+      "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
+      "title": "Tapahtuman perustiedot"
+    },
+    "buttonCancel": "Peruuta",
+    "buttonSave": "Tallenna",
+    "contactPerson": {
+      "labelEmail": "Sähköpostiosoite",
+      "labelName": "Nimi",
+      "labelPhone": "Puhelinnumero",
+      "title": "Yhteyshenkilö"
+    },
+    "location": {
+      "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
+      "helperLocationDescription": "Vierailua helpottavaa lisätietoa",
+      "labelLocation": "Oletustapahtumapaikka",
+      "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "placeholderLocation": "Etsi paikkaa...",
+      "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
       "title": "Tapahtumapaikka"
     }
   },

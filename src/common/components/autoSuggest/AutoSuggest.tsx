@@ -230,6 +230,7 @@ const AutoSuggest: React.FC<Props> = ({
       case 'Enter':
         if (focusedValue) {
           selectOption(focusedValue);
+          event.preventDefault();
         }
         break;
     }
@@ -350,6 +351,7 @@ const AutoSuggest: React.FC<Props> = ({
               )}
               className={styles.deselectValueButton}
               onClick={() => deselectOption(item)}
+              type="button"
             >
               <IconClose />
             </button>

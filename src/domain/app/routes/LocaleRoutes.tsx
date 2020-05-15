@@ -8,6 +8,7 @@ import { tokenFetched } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { apiTokenSelector, userSelector } from '../../auth/selectors';
 import CreateEventPage from '../../event/CreateEventPage';
+import EventDetailsPage from '../../event/EventDetailsPage';
 import EventsPage from '../../events/EventsPage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import PageLayout from '../layout/PageLayout';
@@ -49,6 +50,11 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
           exact
           path={`/${locale}${ROUTES.CREATE_EVENT}`}
           component={CreateEventPage}
+        />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.EVENT_DETAILS}`}
+          component={EventDetailsPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

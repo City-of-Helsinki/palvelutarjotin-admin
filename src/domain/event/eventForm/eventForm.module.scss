@@ -1,17 +1,17 @@
-@import 'layout';
-@import 'variables';
 @import 'colours';
+@import 'layout';
 
 .eventForm {
   --fontsize-header: var(--fontsize-h-2);
   --fontsize-label: 0.875em;
+  --grid-gap: var(--spacing-xl);
 
   --lineheight-label: var(--label-height);
 }
 
 .eventForm {
   display: grid;
-  grid-gap: $largeMargin;
+  grid-gap: var(--grid-gap);
 
   @include respond_above(sm) {
     grid-template-columns: 2fr 1fr;
@@ -24,7 +24,7 @@
 
   .durationRow {
     display: grid;
-    grid-gap: $largeMargin;
+    grid-gap: var(--grid-gap);
 
     @include respond_above(sm) {
       grid-template-columns: 1fr 1.5fr 1.5fr;
@@ -49,7 +49,7 @@
 
   .imageSelectRow {
     display: grid;
-    grid-gap: $baseMargin;
+    grid-gap: var(--grid-gap);
 
     @include respond_above(sm) {
       grid-template-columns: 180px 1fr;
@@ -65,9 +65,9 @@
     }
   }
 
-  .necessaryVisitsRow {
+  .neededOccurrencesRow {
     display: grid;
-    grid-gap: $largeMargin;
+    grid-gap: var(--grid-gap);
 
     @include respond_above(sm) {
       grid-template-columns: 1fr 1.5fr 1.5fr;
@@ -82,5 +82,11 @@
         grid-column: 2 / 4;
       }
     }
+  }
+}
+
+.buttonsWrapper {
+  button {
+    margin-right: var(--spacing-m);
   }
 }
