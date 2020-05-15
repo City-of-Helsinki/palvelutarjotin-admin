@@ -127,7 +127,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
       invalid={!!invalidText}
       labelText={labelText}
     >
-      <button id={buttonId} {...buttonProps} type="button">
+      <button {...buttonProps} id={buttonId} type="button">
         {selectedItem?.label ||
           buttonText ||
           t('common.dropdownSelect.buttonText')}
