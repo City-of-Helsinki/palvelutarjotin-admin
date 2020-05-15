@@ -172,7 +172,7 @@ const EventForm = () => {
                   component={PlaceSelectorField}
                 />
               </FormGroup>
-              {!!place && (
+              {place && (
                 <FormGroup>
                   <PlaceInfo id={place} />
                 </FormGroup>
