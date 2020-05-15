@@ -96,6 +96,27 @@
     "title": "Tapahtumat",
     "titleComingEvents": "Tapahtumat"
   },
+  "createEventOccurrence": {
+    "pageTitle": "Uusi tapahtuma-aika",
+    "title": "Uusi tapahtuma-aika",
+    "formTitle": "Lisää uusi tapahtuma-aika",
+    "buttonShowEventInfo": "Näytä tapahtuman tiedot"
+  },
+  "eventOccurrenceForm": {
+    "labelDate": "Päivämäärä",
+    "labelStartsAt": "Alkaa klo",
+    "labelEndsAt": "Loppuu klo",
+    "labelEnrolmentStarts": "Ilmoittautuminen alkaa",
+    "labelEventLanguage": "Tapahtuman kieli",
+    "labelSpotsInTotal": "Paikkoja yhteensä",
+    "labelGroupSizeMin": "Ryhmäkoko min",
+    "labelGroupSizeMax": "Ryhmäkoko max",
+    "labelEventLocation": "Tapahtumapaikka",
+    "labelLocationDescription": "Tapahtumapaikan kuvaus",
+    "labelPackedLunchEatingPlace": "Eväidensyöntipaikka",
+    "labelOuterwearStorage": "Ulkovaatesäilytys",
+    "titleParticipantRow": "Osallistujamäärä"
+  },
   "form": {
     "validation": {
       "number": {
@@ -109,7 +130,18 @@
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
         "url": "Tämän kentän on oltava kelvollinen URL-osoite"
+      },
+      "date": {
+        "required": "Tämä kenttä on pakollinen"
+      },
+      "time": {
+        "required": "Tämä kenttä on pakollinen"
       }
+    },
+    "actions": {
+      "cancel": "Peruuta",
+      "save": "Tallenna",
+      "saveAndAddNew": "Tallenna ja lisää uusi"
     }
   },
   "footer": {

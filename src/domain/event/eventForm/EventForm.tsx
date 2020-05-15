@@ -10,8 +10,8 @@ import PlaceSelectorField from '../../../common/components/form/fields/PlaceSele
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
+import { EVENT_LANGUAGES } from '../../../constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
-import { EVENT_LANGUAGES } from '../constants';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
@@ -172,7 +172,7 @@ const EventForm = () => {
                   component={PlaceSelectorField}
                 />
               </FormGroup>
-              {!!place && (
+              {place && (
                 <FormGroup>
                   <PlaceInfo id={place} />
                 </FormGroup>

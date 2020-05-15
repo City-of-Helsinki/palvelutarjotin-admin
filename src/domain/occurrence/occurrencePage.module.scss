@@ -1,0 +1,13 @@
+.eventOccurrencePage {
+  h1 {
+    font-size: var(--fontsize-h-2);
+    margin: 0;
+  }
+
+  .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0 2rem;
+  }
+}
