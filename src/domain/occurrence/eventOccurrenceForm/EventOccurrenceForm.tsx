@@ -11,7 +11,7 @@ import TextAreaInputField from '../../../common/components/form/fields/TextAreaI
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
-import { EVENT_LANGUAGES } from '../constants';
+import { EVENT_LANGUAGES } from '../../../constants';
 import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
