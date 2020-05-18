@@ -1,0 +1,14 @@
+@import "layout";
+
+.editEventButtons {
+  --grid-gap: var(--spacing-l);
+}
+.editEventButtons {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  align-items: center;
+
+  @include respond_above(sm) {
+    grid-template-columns: 1fr auto;
+  }
+}

@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { SUPPORT_LANGUAGES } from '../../constants';
 import { useEventQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
@@ -17,16 +16,15 @@ import { getFirstAvailableLanguage } from './utils';
 
 const EventDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [selectedLanguage, setSelectedLanguage] = React.useState(
-    SUPPORT_LANGUAGES.FI
-  );
+  const locale = useLocale();
+  const [selectedLanguage, setSelectedLanguage] = React.useState(locale);
+
   const { data: eventData, loading } = useEventQuery({
     variables: {
       id,
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
-  const locale = useLocale();
 
   React.useEffect(() => {
     if (eventData) {

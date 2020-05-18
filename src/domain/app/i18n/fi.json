@@ -48,6 +48,13 @@
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma"
   },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Tapahtumat"
+    },
+    "pageTitle": "Muokkaa tapahtumaa",
+    "title": "Muokkaa tapahtumaa"
+  },
   "eventDetails": {
     "basicInfo": {
       "labelAudience": "Kohderyhmät",
@@ -63,7 +70,8 @@
       "title": "Tapahtuman perustiedot"
     },
     "buttons": {
-      "buttonBack": "Tapahtumat"
+      "buttonBack": "Tapahtumat",
+      "buttonEdit": "Muokkaa tapahtumaa"
     },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",

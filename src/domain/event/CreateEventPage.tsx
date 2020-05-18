@@ -9,6 +9,7 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import EditEventButtons from './editEventButtons/EditEventButtons';
 import EventForm from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 
@@ -16,20 +17,24 @@ const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
+  const [selectedLanguage, setSelectedLanguage] = React.useState(locale);
 
   const [createEvent] = useCreateEventMutation();
   // TODO: Get event language which user has selected when implemented
-  const language = locale;
 
   return (
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
+          <EditEventButtons
+            onClickLanguage={setSelectedLanguage}
+            selectedLanguage={selectedLanguage}
+          />
           <h1>{t('createEvent.title')}</h1>
           <EventForm
             onSubmit={async (values) => {
               const payload = {
-                name: { [language]: values.name },
+                name: { [selectedLanguage]: values.name },
                 // start_date and offers are mandatory on LinkedEvents to use dummy data
                 startTime: new Date().toISOString(),
                 offers: [
@@ -37,9 +42,11 @@ const CreateEventPage: React.FC = () => {
                     isFree: true,
                   },
                 ],
-                shortDescription: { [language]: values.shortDescription },
-                description: { [language]: values.description },
-                infoUrl: { [language]: values.infoUrl },
+                shortDescription: {
+                  [selectedLanguage]: values.shortDescription,
+                },
+                description: { [selectedLanguage]: values.description },
+                infoUrl: { [selectedLanguage]: values.infoUrl },
                 audience: values.audience.map((keyword) => ({
                   internalId: getLinkedEventsInternalId(
                     LINKEDEVENTS_CONTENT_TYPE.KEYWORD,

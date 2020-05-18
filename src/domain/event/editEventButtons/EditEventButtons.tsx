@@ -1,4 +1,3 @@
-import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -9,55 +8,45 @@ import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
-import styles from './eventDetailsButtons.module.scss';
+import styles from './editEventButtons.module.scss';
 
 interface Props {
-  eventData: EventQuery;
+  eventData?: EventQuery;
   onClickLanguage: (language: Language) => void;
   selectedLanguage: Language;
 }
 
-const EventDetailsButtons: React.FC<Props> = ({
+const EditEventButtons: React.FC<Props> = ({
   eventData,
   onClickLanguage,
   selectedLanguage,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const eventId = eventData.event?.id || '';
 
   const moveToEventList = () => {
     history.push(ROUTES.HOME);
   };
 
-  const moveToEditPage = () => {
-    history.push(ROUTES.EDIT_EVENT.replace(':id', eventId));
-  };
-
   return (
-    <div className={styles.eventDetailsButtons}>
+    <div className={styles.editEventButtons}>
       <div>
         <BackButton onClick={moveToEventList}>
-          {t('eventDetails.buttons.buttonBack')}
+          {t('editEvent.buttons.buttonBack')}
         </BackButton>
       </div>
       <EventLanguageSelector
         languages={Object.values(SUPPORT_LANGUAGES).map((language) => ({
-          isCompleted: !!eventData.event?.name[language],
-          isDisabled: !eventData.event?.name[language],
+          isCompleted: !!eventData?.event?.name[language],
+          isDisabled: false,
           label: t(`common.languages.${language}`),
           value: language,
         }))}
         onClick={onClickLanguage}
         selectedLanguage={selectedLanguage}
       />
-      <div>
-        <Button onClick={moveToEditPage}>
-          {t('eventDetails.buttons.buttonEdit')}
-        </Button>
-      </div>
     </div>
   );
 };
 
-export default EventDetailsButtons;
+export default EditEventButtons;

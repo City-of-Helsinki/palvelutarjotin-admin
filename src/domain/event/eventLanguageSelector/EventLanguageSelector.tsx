@@ -2,20 +2,20 @@ import classNames from 'classnames';
 import { IconAttention, IconCheck } from 'hds-react';
 import React from 'react';
 
-import { SUPPORT_LANGUAGES } from '../../../constants';
+import { Language } from '../../../types';
 import styles from './eventLanguageSelector.module.scss';
 
 type LanguageOption = {
   isCompleted: boolean;
   isDisabled: boolean;
   label: string;
-  value: SUPPORT_LANGUAGES;
+  value: Language;
 };
 
 type Props = {
   languages: LanguageOption[];
-  onClick: (language: SUPPORT_LANGUAGES) => void;
-  selectedLanguage: SUPPORT_LANGUAGES;
+  onClick: (language: Language) => void;
+  selectedLanguage: Language;
 };
 
 const EventLanguageSelector: React.FC<Props> = ({

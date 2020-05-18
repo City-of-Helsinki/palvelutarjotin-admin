@@ -48,6 +48,13 @@
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang"
   },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Evenemang"
+    },
+    "pageTitle": "Redigera evenemang",
+    "title": "Redigera evenemang"
+  },
   "eventDetails": {
     "basicInfo": {
       "labelDescription": "Beskrivning",
@@ -63,7 +70,8 @@
       "title": "Grundläggande information"
     },
     "buttons": {
-      "buttonBack": "Evenemang"
+      "buttonBack": "Evenemang",
+      "buttonEdit": "Redigera evenemang"
     },
     "contactPerson": {
       "labelEmail": "E-post",

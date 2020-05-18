@@ -48,6 +48,13 @@
     "pageTitle": "New event",
     "title": "New event"
   },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Events"
+    },
+    "pageTitle": "Edit event",
+    "title": "Edit event"
+  },
   "eventDetails": {
     "basicInfo": {
       "labelAudience": "Target groups",
@@ -63,7 +70,8 @@
       "title": "Basic information"
     },
     "buttons": {
-      "buttonBack": "Events"
+      "buttonBack": "Events",
+      "buttonEdit": "Edit events"
     },
     "contactPerson": {
       "labelEmail": "Email",
