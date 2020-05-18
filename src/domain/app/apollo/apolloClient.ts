@@ -6,6 +6,7 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import { ErrorMessage } from 'formik';
+import { toast } from 'react-toastify';
 
 import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
@@ -28,14 +29,23 @@ const httpLink = new HttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) => {
+    graphQLErrors.forEach(({ extensions, message, locations, path }) => {
       const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
 
       Sentry.captureException(ErrorMessage);
 
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.error(errorMessage);
+      const code = extensions && extensions['code'];
+      switch (code) {
+        case 'PERMISSION_DENIED_ERROR':
+          toast(i18n.t('apollo.graphQLErrors.permissionDeniedError'), {
+            type: toast.TYPE.ERROR,
+          });
+          break;
+        default:
+          if (process.env.NODE_ENV === 'development') {
+            // eslint-disable-next-line no-console
+            console.error(errorMessage);
+          }
       }
     });
 

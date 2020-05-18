@@ -14,6 +14,7 @@ build-review:
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'review'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql'
+    DOCKER_BUILD_ARG_REACT_APP_LINKEDEVENTS_API_URI: 'https://api.hel.fi/linkedevents-test/v1'
   only:
     refs:
       - external_pull_requests
@@ -25,6 +26,7 @@ build-staging:
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'staging'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql'
+    DOCKER_BUILD_ARG_REACT_APP_LINKEDEVENTS_API_URI: 'https://api.hel.fi/linkedevents-test/v1'
   only:
     refs:
       - develop
@@ -36,6 +38,7 @@ build-production:
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'production'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.prod.kuva.hel.ninja/graphql'
+    DOCKER_BUILD_ARG_REACT_APP_LINKEDEVENTS_API_URI: 'https://api.hel.fi/linkedevents/v1'
   only:
     refs:
       - /^release-.*$/

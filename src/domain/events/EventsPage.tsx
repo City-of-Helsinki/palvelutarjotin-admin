@@ -3,7 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
-import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -12,10 +11,9 @@ import styles from './eventsPage.module.scss';
 const EventsPage = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
 
   const moveToCreateEventPage = () => {
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    history.push(ROUTES.CREATE_EVENT);
   };
 
   return (

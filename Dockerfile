@@ -31,6 +31,9 @@ ARG REACT_APP_ENVIRONMENT
 # Api url
 ARG REACT_APP_API_URI
 
+# Linkedevents api url
+ARG REACT_APP_LINKEDEVENTS_API_URI
+
 USER root
 RUN apt-install.sh build-essential
 

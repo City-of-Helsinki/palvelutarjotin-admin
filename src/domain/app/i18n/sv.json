@@ -1,4 +1,9 @@
 {
+  "apollo": {
+    "graphQLErrors": {
+      "permissionDeniedError": "Du har inte behörighet att utföra den här åtgärden"
+    }
+  },
   "appName": "Palvelutarjotin Admin",
   "authentication": {
     "errorMessage": "Ett fel uppstod. Försök igen",
@@ -43,29 +48,19 @@
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang"
   },
-  "eventForm": {
+  "eventDetails": {
     "basicInfo": {
-      "helperTextKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
+      "labelImage": "Händelsebild",
+      "labelInLanguage": "Evenemangspråk",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
       "labelKeywords": "Evenemangs nyckelord",
-      "labelLanguage": "Evenemangspråk",
       "labelName": "Evenemang namn",
-      "labelNecessaryVisits": "Nödvändiga besök",
+      "labelNeededOccurrences": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
-      "placeholderKeywords": "Lägg nyckelord...",
-      "labelImage": "Händelsebild",
-      "labelImageAltText": "Bild alt-text",
-      "textNecessaryVisits": "I händelse av en händelse som varje grupp vill delta mer än en gång, ange antalet händelsetider som deltagarna måste reservera samtidigt.",
-      "title": "Grundläggande information",
-      "addImage": "Lägg till bild",
-      "photographer": "Fotograf",
-      "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen",
-      "deleteImage": "Ta bort bild",
-      "eventImageAltText": "Bild för evenemanget",
-      "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också."
+      "title": "Grundläggande information"
     },
     "contactPerson": {
       "labelEmail": "E-post",
@@ -74,12 +69,51 @@
       "title": "Kontaktperson"
     },
     "location": {
-      "helperTextPlace": "Standardplats för evenemangtider",
-      "helperTextPlaceDescription": "Ytterligare information för att underlätta besöket",
-      "labelPlace": "Standard venue",
-      "labelPlaceDescription": "Beskrivning av arenan",
-      "placeholderPlace": "Sök plats...",
-      "placeholderPlaceDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
+      "labelLocation": "Standard venue",
+      "labelLocattionDescription": "Beskrivning av arenan",
+      "title": "Plats"
+    }
+  },
+  "eventForm": {
+    "basicInfo": {
+      "addImage": "Lägg till bild",
+      "deleteImage": "Ta bort bild",
+      "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen",
+      "eventImageAltText": "Bild för evenemanget",
+      "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
+      "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
+      "labelDescription": "Beskrivning",
+      "labelDuration": "Evenemang varaktighet, min",
+      "labelImage": "Händelsebild",
+      "labelImageAltText": "Bild alt-text",
+      "labelImagePhotographer": "Fotograf",
+      "labelInLanguage": "Evenemangspråk",
+      "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
+      "labelKeywords": "Evenemangs nyckelord",
+      "labelName": "Evenemang namn",
+      "labelNeededOccurrences": "Nödvändiga besök",
+      "labelShortDescription": "Kort beskrivning",
+      "labelTargetGroup": "Målgrupper",
+      "photographer": "Fotograf",
+      "placeholderKeywords": "Lägg nyckelord...",
+      "textNecessaryVisits": "I händelse av en händelse som varje grupp vill delta mer än en gång, ange antalet händelsetider som deltagarna måste reservera samtidigt.",
+      "title": "Grundläggande information"
+    },
+    "buttonCancel": "Avbryt",
+    "buttonSave": "Spara",
+    "contactPerson": {
+      "labelEmail": "E-post",
+      "labelName": "Namn",
+      "labelPhone": "Telefon",
+      "title": "Kontaktperson"
+    },
+    "location": {
+      "helperLocation": "Standardplats för evenemangtider",
+      "helperLocationDescription": "Ytterligare information för att underlätta besöket",
+      "labelLocation": "Standard venue",
+      "labelLocattionDescription": "Beskrivning av arenan",
+      "placeholderLocation": "Sök plats...",
+      "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"
     }
   },

@@ -50,7 +50,7 @@ const ImageSelectedFormPart: React.FC<{
         <div>
           <FormGroup>
             <Field
-              labelText={t('eventForm.basicInfo.photographer')}
+              labelText={t('eventForm.basicInfo.labelImagePhotographer')}
               name="photographer"
               component={TextInputField}
             />
