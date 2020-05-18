@@ -30,6 +30,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData }) => {
 
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, locale);
   const inLanguage = eventData.event?.inLanguage;
+  const audience = eventData.event?.audience;
 
   const keywords = eventData.event?.keywords;
 
@@ -88,7 +89,13 @@ const EventBasicInfo: React.FC<Props> = ({ eventData }) => {
         </div>
         <div>
           <TextTitle>{t('eventDetails.basicInfo.labelAudience')}</TextTitle>
-          <p>TODO</p>
+          <p>
+            {audience
+              ?.map((keyword) => getLocalizedString(keyword.name || {}, locale))
+              .filter((item) => item)
+              .sort()
+              .join(', ') || '-'}
+          </p>
         </div>
       </div>
 

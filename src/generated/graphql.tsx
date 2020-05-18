@@ -267,7 +267,7 @@ export type Event = {
   subEvents: Array<IdObject>;
   images: Array<Image>;
   inLanguage: Array<InLanguage>;
-  audience: Array<IdObject>;
+  audience: Array<Keyword>;
   datePublished?: Maybe<Scalars['String']>;
   startTime?: Maybe<Scalars['String']>;
   endTime?: Maybe<Scalars['String']>;
@@ -741,6 +741,12 @@ export type EventQuery = (
         { __typename?: 'LocalisedObject' }
         & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
       )> }
+    )>, audience: Array<(
+      { __typename?: 'Keyword' }
+      & { name?: Maybe<(
+        { __typename?: 'LocalisedObject' }
+        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+      )> }
     )>, keywords: Array<(
       { __typename?: 'Keyword' }
       & { name?: Maybe<(
@@ -976,6 +982,13 @@ export const EventDocument = gql`
       neededOccurrences
     }
     inLanguage {
+      name {
+        en
+        fi
+        sv
+      }
+    }
+    audience {
       name {
         en
         fi

@@ -36,6 +36,13 @@ export const QUERY_EVENT = gql`
           sv
         }
       }
+      audience {
+        name {
+          en
+          fi
+          sv
+        }
+      }
       keywords {
         name {
           en

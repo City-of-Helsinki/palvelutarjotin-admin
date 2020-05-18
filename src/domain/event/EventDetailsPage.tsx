@@ -15,7 +15,10 @@ import EventLocation from './eventLocation/EventLocation';
 const EventDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: eventData, loading } = useEventQuery({
-    variables: { id, include: ['keywords', 'in_language', 'location'] },
+    variables: {
+      id,
+      include: ['audience', 'in_language', 'keywords', 'location'],
+    },
   });
   const locale = useLocale();
 
