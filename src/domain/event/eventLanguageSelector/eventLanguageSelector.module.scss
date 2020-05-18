@@ -1,0 +1,53 @@
+.eventLanguageSelector {
+  --button-icon-size: 1.25rem;
+
+  --border-color-button-text-selected: var(--color-bus);
+
+  --color-button-icon: var(--color-error);
+  --color-button-icon-completed: var(--color-success);
+  --color-button-text: var(--color-black-90);
+  --color-button-text-disabled: var(--color-black-40);
+  --color-button-text-selected: var(--color-bus);
+  
+  --fontsize-button-text: var(--fontsize-body-default);
+
+  --fontweight-button-text: 500;
+
+  --spacing-button: var(--spacing-s);
+}
+.eventLanguageSelector {
+  .languageButton {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-button-text);
+    font-size: var(--fontsize-button-text);
+    font-weight: var(--fontweight-button-text);
+    padding: var(--spacing-button);
+
+    &.isDisabled {
+      cursor: not-allowed;
+      color: var(--color-button-text-disabled);
+    }
+
+    &.isSelected {
+      border: 2px solid var(--border-color-button-text-selected);
+      color: var(--color-button-text-selected);
+    }
+  }
+
+  .buttonIconWrapper {
+    height: var(--button-icon-size);
+    width: var(--button-icon-size);
+    margin-right: var(--spacing-xs);
+    fill: var(--color-button-icon);
+    
+  
+    svg {
+      display: block;
+    }
+
+    &.isCompleted {
+      fill: var(--color-button-icon-completed);
+    }
+  }
+}

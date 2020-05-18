@@ -62,6 +62,9 @@
       "labelTargetGroup": "Målgrupper",
       "title": "Grundläggande information"
     },
+    "buttons": {
+      "buttonBack": "Evenemang"
+    },
     "contactPerson": {
       "labelEmail": "E-post",
       "labelName": "Namn",

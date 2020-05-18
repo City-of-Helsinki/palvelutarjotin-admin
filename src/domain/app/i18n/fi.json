@@ -62,6 +62,9 @@
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
       "title": "Tapahtuman perustiedot"
     },
+    "buttons": {
+      "buttonBack": "Tapahtumat"
+    },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",
       "labelName": "Nimi",

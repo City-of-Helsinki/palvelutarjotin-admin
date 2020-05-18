@@ -62,6 +62,9 @@
       "labelShortDescription": "Short description (up to 160 characters)",
       "title": "Basic information"
     },
+    "buttons": {
+      "buttonBack": "Events"
+    },
     "contactPerson": {
       "labelEmail": "Email",
       "labelName": "Name",
