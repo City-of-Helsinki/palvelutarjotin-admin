@@ -11,6 +11,7 @@ import CreateEventPage from '../../event/CreateEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
 import EventsPage from '../../events/EventsPage';
 import NotFoundPage from '../../notFound/NotFoundPage';
+import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import PageLayout from '../layout/PageLayout';
 import { ROUTES } from './constants';
 
@@ -55,6 +56,11 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
           exact
           path={`/${locale}${ROUTES.EVENT_DETAILS}`}
           component={EventDetailsPage}
+        />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.CREATE_OCCURRENCE}`}
+          component={CreateEventOccurrencePage}
         />
         <Route component={NotFoundPage} />
       </Switch>

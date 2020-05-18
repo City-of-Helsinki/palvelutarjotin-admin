@@ -129,6 +129,27 @@
     "title": "Events",
     "titleComingEvents": "Events"
   },
+  "createEventOccurrence": {
+    "pageTitle": "New event occurrence",
+    "title": "New event occurrence",
+    "formTitle": "Add new event occurrence",
+    "buttonShowEventInfo": "Show event information"
+  },
+  "eventOccurrenceForm": {
+    "labelDate": "Date",
+    "labelStartsAt": "Starts at",
+    "labelEndsAt": "Ends at",
+    "labelEnrolmentStarts": "Enrolment starts on",
+    "labelEventLanguage": "Event language",
+    "labelSpotsInTotal": "Total spots",
+    "labelGroupSizeMin": "Group size min",
+    "labelGroupSizeMax": "Group size max",
+    "labelEventLocation": "Event location",
+    "labelLocationDescription": "Event location description",
+    "labelPackedLunchEatingPlace": "Packed lunch eating place",
+    "labelOuterwearStorage": "Outerwear storage",
+    "titleParticipantRow": "Participant count"
+  },
   "form": {
     "validation": {
       "number": {
@@ -142,7 +163,18 @@
         "min": "This field must be at least {{min}} characters long",
         "required": "This field is required",
         "url": "This field must be a valid URL"
+      },
+      "date": {
+        "required": "This field is required"
+      },
+      "time": {
+        "required": "This field is required"
       }
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "saveAndAddNew": "Save and add new"
     }
   },
   "footer": {

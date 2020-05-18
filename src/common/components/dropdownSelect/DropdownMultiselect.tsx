@@ -124,7 +124,7 @@ const DropdownMultiselect: React.FC<DropdownMultiselectProps> = ({
       invalid={!!invalidText}
       labelText={labelText}
     >
-      <button id={buttonId} {...buttonProps}>
+      <button {...buttonProps} id={buttonId} type="button">
         <span>
           {getValueText() ||
             buttonText ||

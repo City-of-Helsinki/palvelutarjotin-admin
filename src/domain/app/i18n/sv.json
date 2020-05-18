@@ -129,6 +129,27 @@
     "title": "Evenemang",
     "titleComingEvents": "Evenemang"
   },
+  "createEventOccurrence": {
+    "pageTitle": "Ny händelse",
+    "title": "Ny händelse",
+    "formTitle": "Lägg till ny händelsehändelse",
+    "buttonShowEventInfo": "Visa information om evenemang"
+  },
+  "eventOccurrenceForm": {
+    "labelDate": "Datum",
+    "labelStartsAt": "Börjar kl",
+    "labelEndsAt": "Slutar kl",
+    "labelEnrolmentStarts": "Anmälan börjar",
+    "labelEventLanguage": "Event språk",
+    "labelSpotsInTotal": "Totala fläckar",
+    "labelGroupSizeMin": "Gruppstorlek min",
+    "labelGroupSizeMax": "Gruppstorlek max",
+    "labelEventLocation": "Eventplats",
+    "labelLocationDescription": "Händelse platsbeskrivning",
+    "labelPackedLunchEatingPlace": "Lunchställe med lunchpaket",
+    "labelOuterwearStorage": "Förvaring av ytterkläder",
+    "titleParticipantRow": "Deltagarantal"
+  },
   "form": {
     "validation": {
       "number": {
@@ -142,7 +163,18 @@
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
         "url": "Detta fält måste vara en giltig URL"
+      },
+      "date": {
+        "required": "This field is required"
+      },
+      "time": {
+        "required": "This field is required"
       }
+    },
+    "actions": {
+      "cancel": "Avbryt",
+      "save": "Spara",
+      "saveAndAddNew": "Spara och lägg till nytt"
     }
   },
   "footer": {

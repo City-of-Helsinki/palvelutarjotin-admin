@@ -118,16 +118,16 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
   });
   return (
     <InputWrapper
+      {...labelProps}
       id={buttonId}
       hasIcon={true}
       labelId={labelId}
-      {...labelProps}
       className={styles.wrapper}
       helperText={invalidText || helperText}
       invalid={!!invalidText}
       labelText={labelText}
     >
-      <button id={buttonId} {...buttonProps}>
+      <button {...buttonProps} id={buttonId} type="button">
         {selectedItem?.label ||
           buttonText ||
           t('common.dropdownSelect.buttonText')}

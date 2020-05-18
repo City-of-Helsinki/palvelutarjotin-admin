@@ -1,7 +1,7 @@
+import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../../common/components/button/Button';
 import { loginTunnistamo } from '../../auth/authenticate';
 import Container from '../layout/Container';
 import PageWrapper from '../layout/PageWrapper';
