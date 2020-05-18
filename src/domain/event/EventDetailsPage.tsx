@@ -47,7 +47,10 @@ const EventDetailsPage = () => {
               <h1>{getLocalizedString(eventData.event?.name || {}, locale)}</h1>
               <div className={styles.contentWrapper}>
                 <div>
-                  <EventBasicInfo eventData={eventData} />
+                  <EventBasicInfo
+                    eventData={eventData}
+                    language={selectedLanguage}
+                  />
                   <EventLocation eventData={eventData} />
                 </div>
                 <div>

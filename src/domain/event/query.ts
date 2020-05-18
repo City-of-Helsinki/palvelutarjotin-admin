@@ -30,6 +30,8 @@ export const QUERY_EVENT = gql`
         neededOccurrences
       }
       inLanguage {
+        id
+        internalId
         name {
           en
           fi
@@ -37,6 +39,8 @@ export const QUERY_EVENT = gql`
         }
       }
       audience {
+        id
+        internalId
         name {
           en
           fi
@@ -44,6 +48,8 @@ export const QUERY_EVENT = gql`
         }
       }
       keywords {
+        id
+        internalId
         name {
           en
           fi
@@ -52,6 +58,7 @@ export const QUERY_EVENT = gql`
       }
       location {
         id
+        internalId
         name {
           en
           fi

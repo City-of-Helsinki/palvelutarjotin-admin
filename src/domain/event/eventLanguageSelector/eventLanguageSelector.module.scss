@@ -23,6 +23,7 @@
     font-size: var(--fontsize-button-text);
     font-weight: var(--fontweight-button-text);
     padding: var(--spacing-button);
+    border: 2px solid transparent;
 
     &.isDisabled {
       cursor: not-allowed;
@@ -30,7 +31,7 @@
     }
 
     &.isSelected {
-      border: 2px solid var(--border-color-button-text-selected);
+      border-color: var(--border-color-button-text-selected);
       color: var(--color-button-text-selected);
     }
   }

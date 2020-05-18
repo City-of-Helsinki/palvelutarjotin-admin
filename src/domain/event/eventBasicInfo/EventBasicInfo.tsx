@@ -3,32 +3,32 @@ import { useTranslation } from 'react-i18next';
 
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { EventQuery } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
+import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import styles from './eventBasicInfo.module.scss';
 
 type Props = {
   eventData: EventQuery;
+  language: Language;
 };
 
-const EventBasicInfo: React.FC<Props> = ({ eventData }) => {
+const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const { t } = useTranslation();
-  const locale = useLocale();
 
-  const name = getLocalizedString(eventData.event?.name || {}, locale);
+  const name = getLocalizedString(eventData.event?.name || {}, language);
   const shortDescription = getLocalizedString(
     eventData.event?.shortDescription || {},
-    locale
+    language
   );
   const description = getLocalizedString(
     eventData.event?.description || {},
-    locale
+    language
   );
 
   const duration = eventData.event?.pEvent?.duration;
   const neededOccurrences = eventData.event?.pEvent?.neededOccurrences;
 
-  const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, locale);
+  const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
   const inLanguage = eventData.event?.inLanguage;
   const audience = eventData.event?.audience;
 
@@ -79,9 +79,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData }) => {
           <TextTitle>{t('eventDetails.basicInfo.labelInLanguage')}</TextTitle>
           <p>
             {inLanguage
-              ?.map((language) =>
-                getLocalizedString(language.name || {}, locale)
-              )
+              ?.map((item) => getLocalizedString(item.name || {}, language))
               .filter((item) => item)
               .sort()
               .join(', ') || '-'}
@@ -91,7 +89,9 @@ const EventBasicInfo: React.FC<Props> = ({ eventData }) => {
           <TextTitle>{t('eventDetails.basicInfo.labelAudience')}</TextTitle>
           <p>
             {audience
-              ?.map((keyword) => getLocalizedString(keyword.name || {}, locale))
+              ?.map((keyword) =>
+                getLocalizedString(keyword.name || {}, language)
+              )
               .filter((item) => item)
               .sort()
               .join(', ') || '-'}
@@ -121,7 +121,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData }) => {
       <TextTitle>{t('eventDetails.basicInfo.labelKeywords')}</TextTitle>
       <p>
         {keywords
-          ?.map((keyword) => getLocalizedString(keyword.name || {}, locale))
+          ?.map((keyword) => getLocalizedString(keyword.name || {}, language))
           .filter((item) => item)
           .sort()
           .join(', ') || '-'}

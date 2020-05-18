@@ -20,7 +20,6 @@ const CreateEventPage: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState(locale);
 
   const [createEvent] = useCreateEventMutation();
-  // TODO: Get event language which user has selected when implemented
 
   return (
     <PageWrapper title="createEvent.pageTitle">
@@ -82,7 +81,7 @@ const CreateEventPage: React.FC = () => {
                   variables: { event: payload },
                 });
                 const id =
-                  data.data?.addEventMutation?.response?.body?.id || '666';
+                  data.data?.addEventMutation?.response?.body?.id || '';
                 history.push(ROUTES.EVENT_DETAILS.replace(':id', id));
               } catch (e) {
                 // Check apolloClient to see error handling

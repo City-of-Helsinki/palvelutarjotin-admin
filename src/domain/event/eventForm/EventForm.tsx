@@ -18,7 +18,7 @@ import styles from './eventForm.module.scss';
 // import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
 
-type EventFormFields = {
+export type EventFormFields = {
   audience: string[];
   description: string;
   duration: string;
@@ -30,6 +30,20 @@ type EventFormFields = {
   neededOccurrences: string;
   shortDescription: string;
 };
+
+export const defaultInitialValues = {
+  audience: [],
+  description: '',
+  duration: '',
+  infoUrl: '',
+  inLanguage: [],
+  keywords: [],
+  location: '',
+  name: '',
+  neededOccurrences: '',
+  shortDescription: '',
+};
+
 /**
  * Following fields are missing:
  *  - Image
@@ -40,31 +54,20 @@ type EventFormFields = {
  */
 
 interface Props {
+  initialValues?: EventFormFields;
   onSubmit: (values: EventFormFields) => void;
 }
 
-const EventForm: React.FC<Props> = ({ onSubmit }) => {
+const EventForm: React.FC<Props> = ({
+  initialValues = defaultInitialValues,
+  onSubmit,
+}) => {
   const { t } = useTranslation();
+
   return (
     <Formik
-      initialValues={{
-        audience: [],
-        description: '',
-        duration: '',
-        infoUrl: '',
-        inLanguage: [],
-        keywords: [],
-        location: '',
-        name: '',
-        neededOccurrences: '',
-        shortDescription: '',
-        // placeDescription: '',
-        // providerContactInfo: { email: '', name: '', phone: '' },
-        // // TODO: add image file somewhere to be uploaded (this is only object URL at the moment)
-        // image: '',
-        // photographer: '',
-        // imageAltText: '',
-      }}
+      enableReinitialize={true}
+      initialValues={initialValues}
       validateOnChange
       onSubmit={(values) => {
         onSubmit(values);

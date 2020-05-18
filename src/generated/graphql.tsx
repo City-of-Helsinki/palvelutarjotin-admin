@@ -709,6 +709,42 @@ export type CreateEventMutation = (
   )> }
 );
 
+export type EditEventMutationVariables = {
+  event: UpdateEventMutationInput;
+};
+
+
+export type EditEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEventMutation?: Maybe<(
+    { __typename?: 'UpdateEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId'>
+        & { name: (
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        ), shortDescription?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )>, description?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )>, pEvent?: Maybe<(
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
+        )>, infoUrl?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )> }
+      )> }
+    )> }
+  )> }
+);
+
 export type EventQueryVariables = {
   id: Scalars['ID'];
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -737,25 +773,28 @@ export type EventQuery = (
       & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
     )>, inLanguage: Array<(
       { __typename?: 'InLanguage' }
+      & Pick<InLanguage, 'id' | 'internalId'>
       & { name?: Maybe<(
         { __typename?: 'LocalisedObject' }
         & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
       )> }
     )>, audience: Array<(
       { __typename?: 'Keyword' }
+      & Pick<Keyword, 'id' | 'internalId'>
       & { name?: Maybe<(
         { __typename?: 'LocalisedObject' }
         & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
       )> }
     )>, keywords: Array<(
       { __typename?: 'Keyword' }
+      & Pick<Keyword, 'id' | 'internalId'>
       & { name?: Maybe<(
         { __typename?: 'LocalisedObject' }
         & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
       )> }
     )>, location?: Maybe<(
       { __typename?: 'Place' }
-      & Pick<Place, 'id'>
+      & Pick<Place, 'id' | 'internalId'>
       & { name?: Maybe<(
         { __typename?: 'LocalisedObject' }
         & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
@@ -952,6 +991,81 @@ export function useCreateEventMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
 export type CreateEventMutationResult = ApolloReactCommon.MutationResult<CreateEventMutation>;
 export type CreateEventMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const EditEventDocument = gql`
+    mutation EditEvent($event: UpdateEventMutationInput!) {
+  updateEventMutation(event: $event) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+        name {
+          en
+          fi
+          sv
+        }
+        shortDescription {
+          en
+          fi
+          sv
+        }
+        description {
+          en
+          fi
+          sv
+        }
+        pEvent {
+          duration
+          neededOccurrences
+        }
+        infoUrl {
+          en
+          fi
+          sv
+        }
+      }
+    }
+  }
+}
+    `;
+export type EditEventMutationFn = ApolloReactCommon.MutationFunction<EditEventMutation, EditEventMutationVariables>;
+export type EditEventProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<EditEventMutation, EditEventMutationVariables>
+    } & TChildProps;
+export function withEditEvent<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditEventMutation,
+  EditEventMutationVariables,
+  EditEventProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditEventMutation, EditEventMutationVariables, EditEventProps<TChildProps, TDataName>>(EditEventDocument, {
+      alias: 'editEvent',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditEventMutation__
+ *
+ * To run a mutation, you first call `useEditEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editEventMutation, { data, loading, error }] = useEditEventMutation({
+ *   variables: {
+ *      event: // value for 'event'
+ *   },
+ * });
+ */
+export function useEditEventMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EditEventMutation, EditEventMutationVariables>) {
+        return ApolloReactHooks.useMutation<EditEventMutation, EditEventMutationVariables>(EditEventDocument, baseOptions);
+      }
+export type EditEventMutationHookResult = ReturnType<typeof useEditEventMutation>;
+export type EditEventMutationResult = ApolloReactCommon.MutationResult<EditEventMutation>;
+export type EditEventMutationOptions = ApolloReactCommon.BaseMutationOptions<EditEventMutation, EditEventMutationVariables>;
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String]) {
   event(id: $id, include: $include) {
@@ -982,6 +1096,8 @@ export const EventDocument = gql`
       neededOccurrences
     }
     inLanguage {
+      id
+      internalId
       name {
         en
         fi
@@ -989,6 +1105,8 @@ export const EventDocument = gql`
       }
     }
     audience {
+      id
+      internalId
       name {
         en
         fi
@@ -996,6 +1114,8 @@ export const EventDocument = gql`
       }
     }
     keywords {
+      id
+      internalId
       name {
         en
         fi
@@ -1004,6 +1124,7 @@ export const EventDocument = gql`
     }
     location {
       id
+      internalId
       name {
         en
         fi

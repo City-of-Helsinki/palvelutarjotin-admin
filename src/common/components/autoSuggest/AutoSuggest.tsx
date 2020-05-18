@@ -331,7 +331,14 @@ const AutoSuggest: React.FC<Props> = ({
 
   const singleValue: React.ReactElement | null =
     !inputValue && !Array.isArray(value) ? (
-      <div className={styles.singleValue}>{value?.label}</div>
+      <div
+        className={styles.singleValue}
+        onClick={() => {
+          input.current?.focus();
+        }}
+      >
+        {value?.label}
+      </div>
     ) : null;
 
   const multiValue: React.ReactElement | null = Array.isArray(value) ? (

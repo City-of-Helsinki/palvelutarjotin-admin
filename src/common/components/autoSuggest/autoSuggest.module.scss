@@ -20,11 +20,10 @@
 .autoSuggest {
   .singleValue {
     position: absolute;
-    top: 2px;
-    left: -1px;
-    padding: 1rem;
+    top: 3px;
+    left: 2px;
+    padding: var(--spacing-s);
     font-size: var(--fontsize-single-value);
-    z-index: -1;
   }
 
   .multiValueWrapper {
