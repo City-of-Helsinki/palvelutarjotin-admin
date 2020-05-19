@@ -51,7 +51,7 @@ const EventOccurrenceForm: React.FC = () => {
                   <Field
                     labelText={t('eventOccurrenceForm.labelDate')}
                     name="date"
-                    component={DateInputField} // TODO: Use date picker when component implemented
+                    component={DateInputField}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -72,7 +72,7 @@ const EventOccurrenceForm: React.FC = () => {
                   <Field
                     labelText={t('eventOccurrenceForm.labelEnrolmentStarts')}
                     name="labelEnrolmentStarts"
-                    component={DateInputField} // TODO: Use date picker when component implemented
+                    component={DateInputField}
                   />
                 </FormGroup>
                 <FormGroup>
