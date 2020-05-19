@@ -1,6 +1,9 @@
 @import "layout";
+@import "variables";
 
 .eventsPage {
+  padding-bottom: $paddingBottomPage;
+
   h1 {
     font-size: var(--fontsize-h-2);
     margin: 1rem 0 3rem;
