@@ -3,6 +3,7 @@ import {
   START_DATE,
   useDatepicker,
 } from '@datepicker-react/hooks';
+import classNames from 'classnames';
 import formatDate from 'date-fns/format';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
@@ -11,6 +12,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../hooks/useLocale';
+import IconCalendar from '../../../icons/IconCalendar';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
 import { DATE_FORMAT, dateLocales } from './contants';
@@ -211,12 +213,13 @@ const Datepicker: React.FC<Props> = ({
             name={id}
             id={id}
             ref={inputRef}
-            className={inputStyles.input}
+            className={classNames(inputStyles.input, styles.datepickerInput)}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
             value={value}
           />
+          <IconCalendar className={styles.iconCalendar} />
           {isCalendarOpen && (
             <div
               className={styles.datepickerContainer}

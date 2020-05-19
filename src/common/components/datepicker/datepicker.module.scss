@@ -89,3 +89,13 @@
     }
   }
 }
+
+.datepickerInput {
+  padding-right: var(--spacing-xl) !important;
+}
+
+.iconCalendar {
+  position: absolute;
+  top: 26%;
+  right: 8%;
+}
