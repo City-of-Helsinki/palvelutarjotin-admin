@@ -50,7 +50,8 @@
   },
   "editEvent": {
     "buttons": {
-      "buttonBack": "Events"
+      "buttonBack": "Events",
+      "textDirty": "There are unsaved changes on this page"
     },
     "pageTitle": "Edit event",
     "title": "Edit event"

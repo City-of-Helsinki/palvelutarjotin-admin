@@ -67,13 +67,8 @@ const EditEventPage: React.FC = () => {
       <LoadingSpinner isLoading={loading}>
         <Container>
           <div className={styles.eventPage}>
-            <EditEventButtons
-              eventData={eventData}
-              onClickLanguage={setSelectedLanguage}
-              selectedLanguage={selectedLanguage}
-            />
-            <h1>{t('editEvent.title')}</h1>
             <EventForm
+              eventData={eventData}
               initialValues={initialValues}
               onSubmit={async (values) => {
                 try {
@@ -90,6 +85,9 @@ const EditEventPage: React.FC = () => {
                   // Check apolloClient to see error handling
                 }
               }}
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+              title={t('editEvent.title')}
             />
           </div>
         </Container>

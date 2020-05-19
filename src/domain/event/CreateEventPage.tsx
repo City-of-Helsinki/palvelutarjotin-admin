@@ -7,7 +7,6 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
-import EditEventButtons from './editEventButtons/EditEventButtons';
 import EventForm from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { getEventPayload } from './utils';
@@ -24,11 +23,6 @@ const CreateEventPage: React.FC = () => {
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
-          <EditEventButtons
-            onClickLanguage={setSelectedLanguage}
-            selectedLanguage={selectedLanguage}
-          />
-          <h1>{t('createEvent.title')}</h1>
           <EventForm
             onSubmit={async (values) => {
               try {
@@ -44,6 +38,9 @@ const CreateEventPage: React.FC = () => {
                 // Check apolloClient to see error handling
               }
             }}
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+            title={t('createEvent.title')}
           />
         </div>
       </Container>

@@ -50,7 +50,8 @@
   },
   "editEvent": {
     "buttons": {
-      "buttonBack": "Tapahtumat"
+      "buttonBack": "Tapahtumat",
+      "textDirty": "Sivulla on tallentamattomia muutoksia"
     },
     "pageTitle": "Muokkaa tapahtumaa",
     "title": "Muokkaa tapahtumaa"

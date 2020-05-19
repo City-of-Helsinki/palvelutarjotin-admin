@@ -50,7 +50,8 @@
   },
   "editEvent": {
     "buttons": {
-      "buttonBack": "Evenemang"
+      "buttonBack": "Evenemang",
+      "textDirty": "Det finns inte sparade ändringar på den här sidan"
     },
     "pageTitle": "Redigera evenemang",
     "title": "Redigera evenemang"

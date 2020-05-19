@@ -11,12 +11,14 @@ import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelecto
 import styles from './editEventButtons.module.scss';
 
 interface Props {
+  dirty: boolean;
   eventData?: EventQuery;
   onClickLanguage: (language: Language) => void;
   selectedLanguage: Language;
 }
 
 const EditEventButtons: React.FC<Props> = ({
+  dirty,
   eventData,
   onClickLanguage,
   selectedLanguage,
@@ -30,10 +32,15 @@ const EditEventButtons: React.FC<Props> = ({
 
   return (
     <div className={styles.editEventButtons}>
-      <div>
+      <div className={styles.backButtonWrapper}>
         <BackButton onClick={moveToEventList}>
           {t('editEvent.buttons.buttonBack')}
         </BackButton>
+        {dirty && (
+          <span className={styles.dirtyText}>
+            {t('editEvent.buttons.textDirty')}
+          </span>
+        )}
       </div>
       <EventLanguageSelector
         languages={Object.values(SUPPORT_LANGUAGES).map((language) => ({
