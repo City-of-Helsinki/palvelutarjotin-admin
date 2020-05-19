@@ -13,11 +13,11 @@ export default ({ className = '' }: Props) => (
     <g
       id="Symbols"
       stroke="none"
-      stroke-width="1"
+      strokeWidth="1"
       fill="none"
-      fill-rule="evenodd"
+      fillRule="evenodd"
     >
-      <g id="icons/calendar-add" stroke="#444444" stroke-width="2">
+      <g id="icons/calendar-add" stroke="#444444" strokeWidth="2">
         <g
           id="event-create-outline-24"
           transform="translate(1.000000, 1.000000)"
@@ -28,7 +28,7 @@ export default ({ className = '' }: Props) => (
             x2="19"
             y2="22"
             id="Path"
-            stroke-linecap="square"
+            strokeLinecap="square"
           ></line>
           <line
             x1="16"
@@ -36,11 +36,11 @@ export default ({ className = '' }: Props) => (
             x2="22"
             y2="19"
             id="Path"
-            stroke-linecap="square"
+            strokeLinecap="square"
           ></line>
           <polyline
             id="Path"
-            stroke-linecap="square"
+            strokeLinecap="square"
             points="11 21 0 21 0 3 22 3 22 11"
           ></polyline>
           <line
@@ -49,7 +49,7 @@ export default ({ className = '' }: Props) => (
             x2="6"
             y2="3"
             id="Path"
-            stroke-linecap="square"
+            strokeLinecap="square"
           ></line>
           <line
             x1="16"
@@ -57,7 +57,7 @@ export default ({ className = '' }: Props) => (
             x2="16"
             y2="3"
             id="Path"
-            stroke-linecap="square"
+            strokeLinecap="square"
           ></line>
           <line x1="0" y1="7" x2="22" y2="7" id="Path"></line>
         </g>

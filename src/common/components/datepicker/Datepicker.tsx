@@ -202,18 +202,22 @@ const Datepicker: React.FC<Props> = ({
           datepickerClicked.current = true;
           setTimeout(() => (datepickerClicked.current = false));
         }}
+        className={styles.datepickerWrapper}
       >
         <InputWrapper
           id={id}
           helperText={invalidText || helperText}
           invalid={!!invalidText}
           labelText={labelText}
+          hasIcon
         >
           <input
             name={id}
             id={id}
             ref={inputRef}
-            className={classNames(inputStyles.input, styles.datepickerInput)}
+            className={classNames(inputStyles.input, styles.datepickerInput, {
+              [styles.invalid]: !!invalidText,
+            })}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}

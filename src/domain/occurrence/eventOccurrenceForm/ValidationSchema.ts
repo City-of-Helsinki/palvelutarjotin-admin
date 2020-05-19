@@ -28,16 +28,19 @@ const addMaxValidationMessage = (
 
 const validateMaxEnrolmentDate = (date: string, schema: Yup.StringSchema) => {
   const parsedDate = parseDate(date, DATE_FORMAT, new Date());
-  return schema.test(
-    'isBeforeOccurrenceDate',
-    () => ({
-      key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
-      max: formatDate(parsedDate, DATE_FORMAT),
-    }),
-    (value: string) => {
-      return isBefore(parseDate(value, DATE_FORMAT, new Date()), parsedDate);
-    }
-  );
+  if (isValidDate(parsedDate)) {
+    return schema.test(
+      'isBeforeOccurrenceDate',
+      () => ({
+        key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
+        max: formatDate(parsedDate, DATE_FORMAT),
+      }),
+      (value: string) => {
+        return isBefore(parseDate(value, DATE_FORMAT, new Date()), parsedDate);
+      }
+    );
+  }
+  return schema;
 };
 
 export default Yup.object().shape({
