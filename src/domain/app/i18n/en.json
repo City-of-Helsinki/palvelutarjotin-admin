@@ -35,6 +35,14 @@
       },
       "buttonText": "Select..."
     },
+    "datepicker": {
+      "accessibility": {
+        "selectDate": "Choose {{value}}",
+        "buttonNextMonth": "Next month",
+        "buttonPreviousMonth": "Previous month"
+      },
+      "buttonClose": "Close"
+    },
     "languages": {
       "ar": "Arabic",
       "en": "English",
@@ -174,10 +182,14 @@
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
         "required": "This field is required",
-        "url": "This field must be a valid URL"
+        "url": "This field must be a valid URL",
+        "date": "This field must be a valid date"
       },
       "date": {
-        "required": "This field is required"
+        "required": "This field is required",
+        "future": "This date must be in the future",
+        "min": "This date must be after {{min}}",
+        "max": "This date must be before {{max}}"
       },
       "time": {
         "required": "This field is required"

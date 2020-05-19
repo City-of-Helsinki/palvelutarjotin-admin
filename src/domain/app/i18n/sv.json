@@ -35,6 +35,14 @@
       },
       "buttonText": "Välj..."
     },
+    "datepicker": {
+      "accessibility": {
+        "selectDate": "Välj {{value}}",
+        "buttonNextMonth": "Nästa månad",
+        "buttonPreviousMonth": "Förra månaden"
+      },
+      "buttonClose": "Stäng"
+    },
     "languages": {
       "ar": "Arabiska",
       "en": "Engelska",
@@ -174,13 +182,17 @@
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
-        "url": "Detta fält måste vara en giltig URL"
+        "url": "Detta fält måste vara en giltig URL",
+        "date": "This field must be valid date"
       },
       "date": {
-        "required": "This field is required"
+        "required": "Detta fält krävs",
+        "future": "Detta datum måste vara i framtiden",
+        "min": "Detta datum måste vara efter {{min}}",
+        "max": "Detta datum måste vara före {{max}}"
       },
       "time": {
-        "required": "This field is required"
+        "required": "Detta fält krävs"
       }
     },
     "actions": {
