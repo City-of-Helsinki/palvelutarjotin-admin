@@ -4,14 +4,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
+import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
-import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import { EVENT_LANGUAGES } from '../../../constants';
+import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
@@ -44,14 +45,13 @@ const EventOccurrenceForm: React.FC = () => {
             <p className={styles.eventOccurrenceFormTitle}>
               {t('createEventOccurrence.formTitle')}
             </p>
-
             <div className={styles.eventOccurrenceForm}>
               <div className={styles.occurrenceFormRow}>
                 <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelDate')}
                     name="date"
-                    component={TextInputField} // TODO: Use date picker when component implemented
+                    component={DateInputField} // TODO: Use date picker when component implemented
                   />
                 </FormGroup>
                 <FormGroup>
@@ -72,7 +72,7 @@ const EventOccurrenceForm: React.FC = () => {
                   <Field
                     labelText={t('eventOccurrenceForm.labelEnrolmentStarts')}
                     name="labelEnrolmentStarts"
-                    component={TextInputField} // TODO: Use date picker when component implemented
+                    component={DateInputField} // TODO: Use date picker when component implemented
                   />
                 </FormGroup>
                 <FormGroup>

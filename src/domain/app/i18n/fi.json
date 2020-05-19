@@ -35,6 +35,14 @@
       },
       "buttonText": "Valitse..."
     },
+    "datepicker": {
+      "accessibility": {
+        "selectDate": "Valitse {{value}}",
+        "buttonNextMonth": "Seuraava kuukausi",
+        "buttonPreviousMonth": "Edellinen kuukausi"
+      },
+      "buttonClose": "Sulje"
+    },
     "languages": {
       "ar": "Arabia",
       "en": "Englanti",
@@ -174,10 +182,14 @@
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
-        "url": "Tämän kentän on oltava kelvollinen URL-osoite"
+        "url": "Tämän kentän on oltava kelvollinen URL-osoite",
+        "date": "Tämän kentän on oltava kelvollinen päivämäärä"
       },
       "date": {
-        "required": "Tämä kenttä on pakollinen"
+        "required": "Tämä kenttä on pakollinen",
+        "future": "Tämän kentän on oltava tulevaisuudessa",
+        "min": "Tämän kentän on oltava {{min}} jälkeen",
+        "max": "Tämän kentän on oltava ennen {{max}}"
       },
       "time": {
         "required": "Tämä kenttä on pakollinen"
