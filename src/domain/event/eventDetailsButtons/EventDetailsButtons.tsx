@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import BackButton from '../../../common/components/backButton/BackButton';
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
@@ -23,6 +24,7 @@ const EventDetailsButtons: React.FC<Props> = ({
   selectedLanguage,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const history = useHistory();
   const eventId = eventData.event?.id || '';
 
@@ -31,7 +33,10 @@ const EventDetailsButtons: React.FC<Props> = ({
   };
 
   const goToEditPage = () => {
-    history.push(ROUTES.EDIT_EVENT.replace(':id', eventId));
+    history.push({
+      pathname: `/${locale}${ROUTES.EDIT_EVENT.replace(':id', eventId)}`,
+      search: `?language=${selectedLanguage}`,
+    });
   };
 
   return (

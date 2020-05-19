@@ -1,23 +1,30 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useEventQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
+import { ROUTES } from '../app/routes/constants';
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
 import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
 import EventDetailsButtons from './eventDetailsButtons/EventDetailsButtons';
 import styles from './eventDetailsPage.module.scss';
 import EventLocation from './eventLocation/EventLocation';
-import { getFirstAvailableLanguage } from './utils';
+import { getEventLanguageFromUrl, getFirstAvailableLanguage } from './utils';
 
 const EventDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const locale = useLocale();
-  const [selectedLanguage, setSelectedLanguage] = React.useState(locale);
+  const location = useLocation();
+  const language = getEventLanguageFromUrl(location.search);
+  const [selectedLanguage, setSelectedLanguage] = React.useState(
+    language || locale
+  );
 
   const { data: eventData, loading } = useEventQuery({
     variables: {
@@ -28,9 +35,17 @@ const EventDetailsPage = () => {
 
   React.useEffect(() => {
     if (eventData) {
-      setSelectedLanguage(getFirstAvailableLanguage(eventData));
+      setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
     }
-  }, [eventData]);
+  }, [eventData, language]);
+
+  const handleLanguageChange = (newLanguage: Language) => {
+    history.push({
+      pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
+      search: `?language=${newLanguage}`,
+    });
+    setSelectedLanguage(newLanguage);
+  };
 
   return (
     <PageWrapper title="eventDetails.title">
@@ -40,7 +55,7 @@ const EventDetailsPage = () => {
             <div className={styles.eventDetailsPage}>
               <EventDetailsButtons
                 eventData={eventData}
-                onClickLanguage={setSelectedLanguage}
+                onClickLanguage={handleLanguageChange}
                 selectedLanguage={selectedLanguage}
               />
 

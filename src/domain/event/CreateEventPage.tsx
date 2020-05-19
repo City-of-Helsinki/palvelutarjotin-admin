@@ -27,7 +27,10 @@ const CreateEventPage: React.FC = () => {
         },
       });
       const id = data.data?.addEventMutation?.response?.body?.id || '';
-      history.push(ROUTES.EVENT_DETAILS.replace(':id', id));
+      history.push({
+        pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
+        search: `?language=${selectedLanguage}`,
+      });
     } catch (e) {
       // Check apolloClient to see error handling
     }

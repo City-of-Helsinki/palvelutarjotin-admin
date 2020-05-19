@@ -20,6 +20,26 @@ export const getEventPlaceholderImage = (id: string): string => {
 };
 
 /**
+ * Get event language from url
+ * @param {string} search
+ * @return {string}
+ */
+export const getEventLanguageFromUrl = (search: string): Language | null => {
+  const searchParams = new URLSearchParams(search);
+  const language = searchParams.get('language');
+  switch (language) {
+    case SUPPORT_LANGUAGES.EN:
+      return 'en';
+    case SUPPORT_LANGUAGES.FI:
+      return 'fi';
+    case SUPPORT_LANGUAGES.SV:
+      return 'sv';
+    default:
+      return null;
+  }
+};
+
+/**
  * Get first availanle language of an event
  * @param {object} eventData
  * @return {string}
