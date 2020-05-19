@@ -12,7 +12,7 @@ const EventsPage = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const moveToCreateEventPage = () => {
+  const goToCreateEventPage = () => {
     history.push(ROUTES.CREATE_EVENT);
   };
 
@@ -30,7 +30,7 @@ const EventsPage = () => {
               </span>
             </h2>
             <div className={styles.searchWrapper}>
-              <Button onClick={moveToCreateEventPage}>
+              <Button onClick={goToCreateEventPage}>
                 {t('events.buttonNewEvent')}
               </Button>
             </div>

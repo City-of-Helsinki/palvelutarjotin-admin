@@ -25,9 +25,9 @@ export const getEventPlaceholderImage = (id: string): string => {
  * @return {string}
  */
 export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
-  if (eventData.event?.name.en) return SUPPORT_LANGUAGES.EN;
   if (eventData.event?.name.fi) return SUPPORT_LANGUAGES.FI;
   if (eventData.event?.name.sv) return SUPPORT_LANGUAGES.SV;
+  if (eventData.event?.name.en) return SUPPORT_LANGUAGES.EN;
 
   return SUPPORT_LANGUAGES.FI;
 };

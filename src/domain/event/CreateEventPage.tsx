@@ -7,7 +7,7 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
-import EventForm from './eventForm/EventForm';
+import EventForm, { EventFormFields } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { getEventPayload } from './utils';
 
@@ -19,25 +19,25 @@ const CreateEventPage: React.FC = () => {
 
   const [createEvent] = useCreateEventMutation();
 
+  const submit = async (values: EventFormFields) => {
+    try {
+      const data = await createEvent({
+        variables: {
+          event: getEventPayload(values, selectedLanguage),
+        },
+      });
+      const id = data.data?.addEventMutation?.response?.body?.id || '';
+      history.push(ROUTES.EVENT_DETAILS.replace(':id', id));
+    } catch (e) {
+      // Check apolloClient to see error handling
+    }
+  };
   return (
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
           <EventForm
-            onSubmit={async (values) => {
-              try {
-                const data = await createEvent({
-                  variables: {
-                    event: getEventPayload(values, selectedLanguage),
-                  },
-                });
-                const id =
-                  data.data?.addEventMutation?.response?.body?.id || '';
-                history.push(ROUTES.EVENT_DETAILS.replace(':id', id));
-              } catch (e) {
-                // Check apolloClient to see error handling
-              }
-            }}
+            onSubmit={submit}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
             title={t('createEvent.title')}

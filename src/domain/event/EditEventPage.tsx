@@ -41,6 +41,22 @@ const EditEventPage: React.FC = () => {
     }
   }, [eventData]);
 
+  const submit = async (values: EventFormFields) => {
+    try {
+      await editEvent({
+        variables: {
+          event: {
+            id: eventData?.event?.id || '',
+            ...getEventPayload(values, selectedLanguage),
+          },
+        },
+      });
+      history.push(ROUTES.EVENT_DETAILS.replace(':id', id));
+    } catch (e) {
+      // Check apolloClient to see error handling
+    }
+  };
+
   React.useEffect(() => {
     if (eventData) {
       setInitialValues({
@@ -69,21 +85,7 @@ const EditEventPage: React.FC = () => {
             <EventForm
               eventData={eventData}
               initialValues={initialValues}
-              onSubmit={async (values) => {
-                try {
-                  await editEvent({
-                    variables: {
-                      event: {
-                        id: eventData?.event?.id || '',
-                        ...getEventPayload(values, selectedLanguage),
-                      },
-                    },
-                  });
-                  history.push(ROUTES.EVENT_DETAILS.replace(':id', id));
-                } catch (e) {
-                  // Check apolloClient to see error handling
-                }
-              }}
+              onSubmit={submit}
               selectedLanguage={selectedLanguage}
               setSelectedLanguage={setSelectedLanguage}
               title={t('editEvent.title')}

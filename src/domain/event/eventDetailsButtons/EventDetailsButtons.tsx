@@ -26,18 +26,18 @@ const EventDetailsButtons: React.FC<Props> = ({
   const history = useHistory();
   const eventId = eventData.event?.id || '';
 
-  const moveToEventList = () => {
+  const goToEventList = () => {
     history.push(ROUTES.HOME);
   };
 
-  const moveToEditPage = () => {
+  const goToEditPage = () => {
     history.push(ROUTES.EDIT_EVENT.replace(':id', eventId));
   };
 
   return (
     <div className={styles.eventDetailsButtons}>
       <div>
-        <BackButton onClick={moveToEventList}>
+        <BackButton onClick={goToEventList}>
           {t('eventDetails.buttons.buttonBack')}
         </BackButton>
       </div>
@@ -52,7 +52,7 @@ const EventDetailsButtons: React.FC<Props> = ({
         selectedLanguage={selectedLanguage}
       />
       <div>
-        <Button onClick={moveToEditPage}>
+        <Button onClick={goToEditPage}>
           {t('eventDetails.buttons.buttonEdit')}
         </Button>
       </div>

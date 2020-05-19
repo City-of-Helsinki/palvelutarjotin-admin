@@ -26,14 +26,14 @@ const EditEventButtons: React.FC<Props> = ({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const moveToEventList = () => {
+  const goToEventList = () => {
     history.push(ROUTES.HOME);
   };
 
   return (
     <div className={styles.editEventButtons}>
       <div className={styles.backButtonWrapper}>
-        <BackButton onClick={moveToEventList}>
+        <BackButton onClick={goToEventList}>
           {t('editEvent.buttons.buttonBack')}
         </BackButton>
         {dirty && (
