@@ -12,13 +12,16 @@ import TextAreaInputField from '../../../common/components/form/fields/TextAreaI
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { EVENT_LANGUAGES } from '../../../constants';
-import PlaceInfo from '../../place/placeInfo/PlaceInfo';
-import styles from './eventForm.module.scss';
+import { EventQuery } from '../../../generated/graphql';
 // import ImageSelectedFormPart from './ImageSelectedFormPart';
 // import SelectImageFormPart from './SelectImageFormPart';
+import { Language } from '../../../types';
+import PlaceInfo from '../../place/placeInfo/PlaceInfo';
+import EditEventButtons from '../editEventButtons/EditEventButtons';
+import styles from './eventForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
-type EventFormFields = {
+export type EventFormFields = {
   audience: string[];
   description: string;
   duration: string;
@@ -30,6 +33,20 @@ type EventFormFields = {
   neededOccurrences: string;
   shortDescription: string;
 };
+
+export const defaultInitialValues = {
+  audience: [],
+  description: '',
+  duration: '',
+  infoUrl: '',
+  inLanguage: [],
+  keywords: [],
+  location: '',
+  name: '',
+  neededOccurrences: '',
+  shortDescription: '',
+};
+
 /**
  * Following fields are missing:
  *  - Image
@@ -40,31 +57,28 @@ type EventFormFields = {
  */
 
 interface Props {
+  eventData?: EventQuery;
+  initialValues?: EventFormFields;
   onSubmit: (values: EventFormFields) => void;
+  selectedLanguage: Language;
+  setSelectedLanguage: (language: Language) => void;
+  title: string;
 }
 
-const EventForm: React.FC<Props> = ({ onSubmit }) => {
+const EventForm: React.FC<Props> = ({
+  eventData,
+  initialValues = defaultInitialValues,
+  onSubmit,
+  selectedLanguage,
+  setSelectedLanguage,
+  title,
+}) => {
   const { t } = useTranslation();
+
   return (
     <Formik
-      initialValues={{
-        audience: [],
-        description: '',
-        duration: '',
-        infoUrl: '',
-        inLanguage: [],
-        keywords: [],
-        location: '',
-        name: '',
-        neededOccurrences: '',
-        shortDescription: '',
-        // placeDescription: '',
-        // providerContactInfo: { email: '', name: '', phone: '' },
-        // // TODO: add image file somewhere to be uploaded (this is only object URL at the moment)
-        // image: '',
-        // photographer: '',
-        // imageAltText: '',
-      }}
+      enableReinitialize={true}
+      initialValues={initialValues}
       validateOnChange
       onSubmit={(values) => {
         onSubmit(values);
@@ -72,6 +86,7 @@ const EventForm: React.FC<Props> = ({ onSubmit }) => {
       validationSchema={ValidationSchema}
     >
       {({
+        dirty,
         errors,
         handleReset,
         handleSubmit,
@@ -83,34 +98,42 @@ const EventForm: React.FC<Props> = ({ onSubmit }) => {
       }) => {
         // const imageSelected = Boolean(image);
         return (
-          <form onSubmit={handleSubmit}>
-            <div className={styles.eventForm}>
-              <div className={styles.basicInfoWrapper}>
-                <h2>{t('eventForm.basicInfo.title')}</h2>
-                <FormGroup>
-                  <Field
-                    labelText={t('eventForm.basicInfo.labelName')}
-                    name="name"
-                    component={TextInputField}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    labelText={t('eventForm.basicInfo.labelShortDescription')}
-                    name="shortDescription"
-                    component={TextInputField}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    labelText={t('eventForm.basicInfo.labelDescription')}
-                    name="description"
-                    component={TextAreaInputField}
-                    rows={20}
-                  />
-                </FormGroup>
+          <>
+            <EditEventButtons
+              dirty={dirty}
+              eventData={eventData}
+              onClickLanguage={setSelectedLanguage}
+              selectedLanguage={selectedLanguage}
+            />
+            <h1>{title}</h1>
+            <form onSubmit={handleSubmit}>
+              <div className={styles.eventForm}>
+                <div className={styles.basicInfoWrapper}>
+                  <h2>{t('eventForm.basicInfo.title')}</h2>
+                  <FormGroup>
+                    <Field
+                      labelText={t('eventForm.basicInfo.labelName')}
+                      name="name"
+                      component={TextInputField}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      labelText={t('eventForm.basicInfo.labelShortDescription')}
+                      name="shortDescription"
+                      component={TextInputField}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      labelText={t('eventForm.basicInfo.labelDescription')}
+                      name="description"
+                      component={TextAreaInputField}
+                      rows={20}
+                    />
+                  </FormGroup>
 
-                {/* {imageSelected ? (
+                  {/* {imageSelected ? (
                   <ImageSelectedFormPart
                     image={image}
                     setFieldValue={setFieldValue}
@@ -120,98 +143,100 @@ const EventForm: React.FC<Props> = ({ onSubmit }) => {
                   <SelectImageFormPart />
                 )} */}
 
-                <FormGroup>
-                  <Field
-                    labelText={t('eventForm.basicInfo.labelInfoUrl')}
-                    name="infoUrl"
-                    component={TextInputField}
-                  />
-                </FormGroup>
-
-                <div className={styles.durationRow}>
-                  <div>
-                    <FormGroup>
-                      <Field
-                        labelText={t('eventForm.basicInfo.labelDuration')}
-                        name="duration"
-                        component={NumberInputField}
-                        min={0}
-                      />
-                    </FormGroup>
-                  </div>
-
-                  <div>
-                    <FormGroup>
-                      <Field
-                        component={DropdownMultiselectField}
-                        labelText={t('eventForm.basicInfo.labelInLanguage')}
-                        name="inLanguage"
-                        options={[
-                          ...Object.values(EVENT_LANGUAGES).map((language) => ({
-                            label: t(`common.languages.${language}`),
-                            value: language,
-                          })),
-                        ]}
-                      />
-                    </FormGroup>
-                  </div>
-                  <div>
-                    <FormGroup>
-                      <Field
-                        component={DropdownMultiselectField}
-                        labelText={t('eventForm.basicInfo.labelAudience')}
-                        name="audience"
-                        // TODO: Add list of audiences later
-                        options={[]}
-                      />
-                    </FormGroup>
-                  </div>
-                </div>
-
-                <div className={styles.neededOccurrencesRow}>
-                  <div>
-                    <FormGroup>
-                      <Field
-                        labelText={t(
-                          'eventForm.basicInfo.labelNeededOccurrences'
-                        )}
-                        name="neededOccurrences"
-                        component={NumberInputField}
-                        min={1}
-                      />
-                    </FormGroup>
-                  </div>
-                  <div className={styles.instructionText}>
-                    {t('eventForm.basicInfo.textNecessaryVisits')}
-                  </div>
-                </div>
-                <FormGroup>
-                  <Field
-                    helperText={t('eventForm.basicInfo.helperKeywords')}
-                    labelText={t('eventForm.basicInfo.labelKeywords')}
-                    name="keywords"
-                    placeholder={t('eventForm.basicInfo.placeholderKeywords')}
-                    component={KeywordSelectorField}
-                  />
-                </FormGroup>
-
-                <h2>{t('eventForm.location.title')}</h2>
-
-                <FormGroup>
-                  <Field
-                    helperText={t('eventForm.location.helperLocation')}
-                    labelText={t('eventForm.location.labelLocation')}
-                    name="location"
-                    placeholder={t('eventForm.location.placeholderLocation')}
-                    component={PlaceSelectorField}
-                  />
-                </FormGroup>
-                {!!location && (
                   <FormGroup>
-                    <PlaceInfo id={location} />
+                    <Field
+                      labelText={t('eventForm.basicInfo.labelInfoUrl')}
+                      name="infoUrl"
+                      component={TextInputField}
+                    />
                   </FormGroup>
-                )}
-                {/* <FormGroup>
+
+                  <div className={styles.durationRow}>
+                    <div>
+                      <FormGroup>
+                        <Field
+                          labelText={t('eventForm.basicInfo.labelDuration')}
+                          name="duration"
+                          component={NumberInputField}
+                          min={0}
+                        />
+                      </FormGroup>
+                    </div>
+
+                    <div>
+                      <FormGroup>
+                        <Field
+                          component={DropdownMultiselectField}
+                          labelText={t('eventForm.basicInfo.labelInLanguage')}
+                          name="inLanguage"
+                          options={[
+                            ...Object.values(EVENT_LANGUAGES).map(
+                              (language) => ({
+                                label: t(`common.languages.${language}`),
+                                value: language,
+                              })
+                            ),
+                          ]}
+                        />
+                      </FormGroup>
+                    </div>
+                    <div>
+                      <FormGroup>
+                        <Field
+                          component={DropdownMultiselectField}
+                          labelText={t('eventForm.basicInfo.labelAudience')}
+                          name="audience"
+                          // TODO: Add list of audiences later
+                          options={[]}
+                        />
+                      </FormGroup>
+                    </div>
+                  </div>
+
+                  <div className={styles.neededOccurrencesRow}>
+                    <div>
+                      <FormGroup>
+                        <Field
+                          labelText={t(
+                            'eventForm.basicInfo.labelNeededOccurrences'
+                          )}
+                          name="neededOccurrences"
+                          component={NumberInputField}
+                          min={1}
+                        />
+                      </FormGroup>
+                    </div>
+                    <div className={styles.instructionText}>
+                      {t('eventForm.basicInfo.textNecessaryVisits')}
+                    </div>
+                  </div>
+                  <FormGroup>
+                    <Field
+                      helperText={t('eventForm.basicInfo.helperKeywords')}
+                      labelText={t('eventForm.basicInfo.labelKeywords')}
+                      name="keywords"
+                      placeholder={t('eventForm.basicInfo.placeholderKeywords')}
+                      component={KeywordSelectorField}
+                    />
+                  </FormGroup>
+
+                  <h2>{t('eventForm.location.title')}</h2>
+
+                  <FormGroup>
+                    <Field
+                      helperText={t('eventForm.location.helperLocation')}
+                      labelText={t('eventForm.location.labelLocation')}
+                      name="location"
+                      placeholder={t('eventForm.location.placeholderLocation')}
+                      component={PlaceSelectorField}
+                    />
+                  </FormGroup>
+                  {!!location && (
+                    <FormGroup>
+                      <PlaceInfo id={location} />
+                    </FormGroup>
+                  )}
+                  {/* <FormGroup>
                   <Field
                     helperText={t(
                       'eventForm.location.helperLocationDescription'
@@ -225,11 +250,11 @@ const EventForm: React.FC<Props> = ({ onSubmit }) => {
                     rows={5}
                   />
                 </FormGroup> */}
-              </div>
-              <div className={styles.contactInfoWrapper}>
-                <h2>{t('eventForm.contactPerson.title')}</h2>
+                </div>
+                <div className={styles.contactInfoWrapper}>
+                  <h2>{t('eventForm.contactPerson.title')}</h2>
 
-                {/* <FormGroup>
+                  {/* <FormGroup>
                   <Field
                     component={DropdownSelectField}
                     labelText={t('eventForm.contactPerson.labelName')}
@@ -256,15 +281,16 @@ const EventForm: React.FC<Props> = ({ onSubmit }) => {
                     component={TextInputField}
                   />
                 </FormGroup> */}
+                </div>
               </div>
-            </div>
-            <div className={styles.buttonsWrapper}>
-              <Button type="reset" onClick={handleReset} variant="secondary">
-                {t('eventForm.buttonCancel')}
-              </Button>
-              <Button type="submit">{t('eventForm.buttonSave')}</Button>
-            </div>
-          </form>
+              <div className={styles.buttonsWrapper}>
+                <Button type="reset" onClick={handleReset} variant="secondary">
+                  {t('eventForm.buttonCancel')}
+                </Button>
+                <Button type="submit">{t('eventForm.buttonSave')}</Button>
+              </div>
+            </form>
+          </>
         );
       }}
     </Formik>

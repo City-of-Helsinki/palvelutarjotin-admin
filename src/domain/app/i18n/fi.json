@@ -48,6 +48,14 @@
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma"
   },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Tapahtumat",
+      "textDirty": "Sivulla on tallentamattomia muutoksia"
+    },
+    "pageTitle": "Muokkaa tapahtumaa",
+    "title": "Muokkaa tapahtumaa"
+  },
   "eventDetails": {
     "basicInfo": {
       "labelAudience": "Kohderyhmät",
@@ -61,6 +69,10 @@
       "labelNeededOccurrences": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
       "title": "Tapahtuman perustiedot"
+    },
+    "buttons": {
+      "buttonBack": "Tapahtumat",
+      "buttonEdit": "Muokkaa tapahtumaa"
     },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",

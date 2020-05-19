@@ -22,7 +22,9 @@ const AppRoutes = () => {
       <Route
         render={(props) => {
           return (
-            <Redirect to={`/${currentLocale}${props.location.pathname}`} />
+            <Redirect
+              to={`/${currentLocale}${props.location.pathname}${props.location.search}`}
+            />
           );
         }}
       />

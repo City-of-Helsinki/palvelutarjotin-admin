@@ -48,6 +48,14 @@
     "pageTitle": "New event",
     "title": "New event"
   },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Events",
+      "textDirty": "There are unsaved changes on this page"
+    },
+    "pageTitle": "Edit event",
+    "title": "Edit event"
+  },
   "eventDetails": {
     "basicInfo": {
       "labelAudience": "Target groups",
@@ -61,6 +69,10 @@
       "labelNeededOccurrences": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
       "title": "Basic information"
+    },
+    "buttons": {
+      "buttonBack": "Events",
+      "buttonEdit": "Edit events"
     },
     "contactPerson": {
       "labelEmail": "Email",
