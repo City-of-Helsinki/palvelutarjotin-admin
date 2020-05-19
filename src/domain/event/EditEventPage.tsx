@@ -8,7 +8,6 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
-import EditEventButtons from './editEventButtons/EditEventButtons';
 import EventForm, {
   defaultInitialValues,
   EventFormFields,

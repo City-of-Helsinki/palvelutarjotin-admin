@@ -3,7 +3,6 @@ import { EventQuery } from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
-import EventDetailsButtons from './eventDetailsButtons/EventDetailsButtons';
 import { EventFormFields } from './eventForm/EventForm';
 /**
  * Get event placeholder image url
