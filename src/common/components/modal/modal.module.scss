@@ -59,6 +59,10 @@
   display: grid;
   grid-template-columns: var(--width-icon) 1fr;
   grid-gap: var(--grid-gap);
+
+  p {
+    margin: var(--spacing-m) 0;
+  }
 }
 
 .iconWrapper {
@@ -76,6 +80,13 @@
   font-weight: var(--fontweight-title);
   line-height: var(--lineheight-title);
   text-transform: uppercase;
+}
+
+.buttonWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: var(--spacing-3-xl);
+  grid-gap: var(--grid-gap);
 }
 
 

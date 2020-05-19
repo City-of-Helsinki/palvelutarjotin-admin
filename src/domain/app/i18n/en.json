@@ -123,6 +123,12 @@
     },
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
+    "changeLanguageModal": {
+      "buttonChangeLanguage": "Change language",
+      "text1": "Are you sure you want to change language?",
+      "text2": "Unsaved changes can not be restored.",
+      "title": "Change language"
+    },
     "contactPerson": {
       "labelEmail": "Email",
       "labelName": "Name",

@@ -13,7 +13,7 @@ interface Props {
   toggleModal: () => void;
 }
 
-const AlertModal: React.FC<Props> = ({
+const ConfirmationModal: React.FC<Props> = ({
   children,
   confirmButtonText,
   isOpen,
@@ -35,7 +35,7 @@ const AlertModal: React.FC<Props> = ({
         <Button type="button" onClick={toggleModal} variant="secondary">
           {t('common.alertModal.buttonCancel')}
         </Button>
-        <Button type="button" onClick={onConfirm} variant="danger">
+        <Button type="button" onClick={onConfirm} variant="primary">
           {confirmButtonText}
         </Button>
       </div>
@@ -43,4 +43,4 @@ const AlertModal: React.FC<Props> = ({
   );
 };
 
-export default AlertModal;
+export default ConfirmationModal;

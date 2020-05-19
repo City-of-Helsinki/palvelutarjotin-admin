@@ -11,6 +11,7 @@ import PlaceSelectorField from '../../../common/components/form/fields/PlaceSele
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
+import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import { EVENT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
 // import ImageSelectedFormPart from './ImageSelectedFormPart';
@@ -73,7 +74,23 @@ const EventForm: React.FC<Props> = ({
   setSelectedLanguage,
   title,
 }) => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [newLanguage, setNewLanguage] = React.useState(selectedLanguage);
   const { t } = useTranslation();
+
+  const openConfirmationModal = (language: Language) => {
+    setNewLanguage(language);
+    toggleModal();
+  };
+
+  const confirmLanguageChange = () => {
+    setSelectedLanguage(newLanguage);
+    toggleModal();
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <Formik
@@ -99,10 +116,24 @@ const EventForm: React.FC<Props> = ({
         // const imageSelected = Boolean(image);
         return (
           <>
+            <ConfirmationModal
+              confirmButtonText={t(
+                'eventForm.changeLanguageModal.buttonChangeLanguage'
+              )}
+              onConfirm={confirmLanguageChange}
+              isOpen={isModalOpen}
+              title={t('eventForm.changeLanguageModal.title')}
+              toggleModal={toggleModal}
+            >
+              <p>{t('eventForm.changeLanguageModal.text1')}</p>
+              <p>{t('eventForm.changeLanguageModal.text2')}</p>
+            </ConfirmationModal>
             <EditEventButtons
               dirty={dirty}
               eventData={eventData}
-              onClickLanguage={setSelectedLanguage}
+              onClickLanguage={
+                dirty ? openConfirmationModal : setSelectedLanguage
+              }
               selectedLanguage={selectedLanguage}
             />
             <h1>{title}</h1>

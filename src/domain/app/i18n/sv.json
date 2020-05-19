@@ -123,6 +123,12 @@
     },
     "buttonCancel": "Avbryt",
     "buttonSave": "Spara",
+    "changeLanguageModal": {
+      "buttonChangeLanguage": "Ändra språk",
+      "text1": "Är du säker på att du vill ändra språk?",
+      "text2": "Ändrade sparade ändringar kan inte ångras.",
+      "title": "Ändra språk"
+    },
     "contactPerson": {
       "labelEmail": "E-post",
       "labelName": "Namn",
