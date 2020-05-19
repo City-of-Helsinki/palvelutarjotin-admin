@@ -1,9 +1,16 @@
+import { Button } from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { useEventQuery } from '../../generated/graphql';
+import AlertModal from '../../common/components/modal/AlertModal';
+import {
+  useDeleteSingleEventMutation,
+  useEventQuery,
+} from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import IconDelete from '../../icons/IconDelete';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
@@ -17,7 +24,13 @@ import EventLocation from './eventLocation/EventLocation';
 import { getEventLanguageFromUrl, getFirstAvailableLanguage } from './utils';
 
 const EventDetailsPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const variables = {
+    id,
+    include: ['audience', 'in_language', 'keywords', 'location'],
+  };
   const history = useHistory();
   const locale = useLocale();
   const location = useLocation();
@@ -27,11 +40,10 @@ const EventDetailsPage = () => {
   );
 
   const { data: eventData, loading } = useEventQuery({
-    variables: {
-      id,
-      include: ['audience', 'in_language', 'keywords', 'location'],
-    },
+    fetchPolicy: 'network-only',
+    variables,
   });
+  const [deleteEventRequest] = useDeleteSingleEventMutation();
 
   React.useEffect(() => {
     if (eventData) {
@@ -47,12 +59,41 @@ const EventDetailsPage = () => {
     setSelectedLanguage(newLanguage);
   };
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const openDeleteModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const deleteEvent = async () => {
+    try {
+      await deleteEventRequest({
+        variables: { eventId: eventData?.event?.id || '' },
+      });
+      history.replace(ROUTES.HOME);
+    } catch (e) {
+      // Check apolloClient to see error handling
+    }
+  };
+
   return (
     <PageWrapper title="eventDetails.title">
       <LoadingSpinner isLoading={loading}>
         <Container>
           {eventData ? (
             <div className={styles.eventDetailsPage}>
+              <AlertModal
+                confirmButtonText={t('eventDetails.deleteModal.buttonDelete')}
+                onConfirm={deleteEvent}
+                isOpen={isModalOpen}
+                title={t('eventDetails.deleteModal.title')}
+                toggleModal={toggleModal}
+              >
+                <p>{t('eventDetails.deleteModal.text1')}</p>
+                <p>{t('eventDetails.deleteModal.text2')}</p>
+              </AlertModal>
               <EventDetailsButtons
                 eventData={eventData}
                 onClickLanguage={handleLanguageChange}
@@ -72,6 +113,14 @@ const EventDetailsPage = () => {
                   <EventContactPersonInfo />
                 </div>
               </div>
+              <Button
+                className={styles.deleteButton}
+                iconLeft={<IconDelete />}
+                onClick={openDeleteModal}
+                variant="secondary"
+              >
+                {t('eventDetails.buttons.buttonDelete')}
+              </Button>
             </div>
           ) : (
             <div>TODO: EVENT NOT FOUND</div>

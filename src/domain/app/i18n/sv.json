@@ -15,6 +15,9 @@
     }
   },
   "common": {
+    "alertModal": {
+      "buttonCancel": "Avbryt"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Klart värde",
@@ -72,6 +75,7 @@
     },
     "buttons": {
       "buttonBack": "Evenemang",
+      "buttonDelete": "Bort händelsen",
       "buttonEdit": "Redigera evenemang"
     },
     "contactPerson": {
@@ -79,6 +83,12 @@
       "labelName": "Namn",
       "labelPhone": "Telefon",
       "title": "Kontaktperson"
+    },
+    "deleteModal": {
+      "buttonDelete": "Bort händelsen",
+      "text1": "Är du säker på att du vill ta bort händelsen?",
+      "text2": "En borttagen händelse kan inte ångras.",
+      "title": "Bort händelsen"
     },
     "location": {
       "labelLocation": "Standard venue",

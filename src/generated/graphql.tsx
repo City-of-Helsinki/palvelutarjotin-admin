@@ -709,6 +709,26 @@ export type CreateEventMutation = (
   )> }
 );
 
+export type DeleteSingleEventMutationVariables = {
+  eventId: Scalars['String'];
+};
+
+
+export type DeleteSingleEventMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteEventMutation?: Maybe<(
+    { __typename?: 'DeleteEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId'>
+      )> }
+    )> }
+  )> }
+);
+
 export type EditEventMutationVariables = {
   event: UpdateEventMutationInput;
 };
@@ -991,6 +1011,57 @@ export function useCreateEventMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
 export type CreateEventMutationResult = ApolloReactCommon.MutationResult<CreateEventMutation>;
 export type CreateEventMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const DeleteSingleEventDocument = gql`
+    mutation DeleteSingleEvent($eventId: String!) {
+  deleteEventMutation(eventId: $eventId) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+      }
+    }
+  }
+}
+    `;
+export type DeleteSingleEventMutationFn = ApolloReactCommon.MutationFunction<DeleteSingleEventMutation, DeleteSingleEventMutationVariables>;
+export type DeleteSingleEventProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteSingleEventMutation, DeleteSingleEventMutationVariables>
+    } & TChildProps;
+export function withDeleteSingleEvent<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteSingleEventMutation,
+  DeleteSingleEventMutationVariables,
+  DeleteSingleEventProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteSingleEventMutation, DeleteSingleEventMutationVariables, DeleteSingleEventProps<TChildProps, TDataName>>(DeleteSingleEventDocument, {
+      alias: 'deleteSingleEvent',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteSingleEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteSingleEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSingleEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSingleEventMutation, { data, loading, error }] = useDeleteSingleEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useDeleteSingleEventMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteSingleEventMutation, DeleteSingleEventMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteSingleEventMutation, DeleteSingleEventMutationVariables>(DeleteSingleEventDocument, baseOptions);
+      }
+export type DeleteSingleEventMutationHookResult = ReturnType<typeof useDeleteSingleEventMutation>;
+export type DeleteSingleEventMutationResult = ApolloReactCommon.MutationResult<DeleteSingleEventMutation>;
+export type DeleteSingleEventMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteSingleEventMutation, DeleteSingleEventMutationVariables>;
 export const EditEventDocument = gql`
     mutation EditEvent($event: UpdateEventMutationInput!) {
   updateEventMutation(event: $event) {

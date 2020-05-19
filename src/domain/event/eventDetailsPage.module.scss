@@ -2,6 +2,7 @@
 @import "variables";
 
 .eventDetailsPage {
+  --color-delete-icon: var(--color-error);
   --color-text: var(--color-black-90);
 
   --fontsize-text: var(--fontsize-body-medium);
@@ -40,5 +41,11 @@
     @include respond_above(sm) {
       grid-template-columns: 2fr 1fr;
     }
+  }
+}
+
+.deleteButton {
+  svg {
+    fill: var(--color-delete-icon);
   }
 }

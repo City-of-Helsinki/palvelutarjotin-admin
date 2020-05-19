@@ -15,6 +15,9 @@
     }
   },
   "common": {
+    "alertModal": {
+      "buttonCancel": "Peruuta"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Poista arvo",
@@ -72,6 +75,7 @@
     },
     "buttons": {
       "buttonBack": "Tapahtumat",
+      "buttonDelete": "Poista tapahtuma",
       "buttonEdit": "Muokkaa tapahtumaa"
     },
     "contactPerson": {
@@ -79,6 +83,12 @@
       "labelName": "Nimi",
       "labelPhone": "Puhelinnumero",
       "title": "Yhteyshenkilö"
+    },
+    "deleteModal": {
+      "buttonDelete": "Poista tapahtuma",
+      "text1": "Oletko varma että haluat poistaa tapahtuman?",
+      "text2": "Poistettua tapahtumaa ei voi palauttaa.",
+      "title": "Poista tapahtuma"
     },
     "location": {
       "labelLocation": "Oletustapahtumapaikka",

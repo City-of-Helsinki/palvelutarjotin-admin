@@ -1,0 +1,15 @@
+.alertModal {
+  --grid-gap: var(--spacing-m);
+
+  p {
+    margin: var(--spacing-m) 0;
+  }
+}
+
+.buttonWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: var(--spacing-3-xl);
+  grid-gap: var(--grid-gap);
+}
+
