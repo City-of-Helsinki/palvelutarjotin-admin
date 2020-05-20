@@ -65,8 +65,16 @@ export default Yup.object().shape({
       (value: string) => isFuture(parseDate(value, DATE_FORMAT, new Date()))
     )
     .when(['date'], validateMaxEnrolmentDate),
-  startsAt: Yup.date().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
-  endsAt: Yup.date().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
+  startsAt: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value: string) =>
+      isValidDate(parseDate(value, 'HH:mm', new Date()))
+    ),
+  endsAt: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value: string) =>
+      isValidDate(parseDate(value, 'HH:mm', new Date()))
+    ),
   location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   locationDescription: Yup.string(),
   eventLanguage: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),

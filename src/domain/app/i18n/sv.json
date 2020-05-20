@@ -183,7 +183,8 @@
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
         "url": "Detta fält måste vara en giltig URL",
-        "date": "This field must be valid date"
+        "date": "This field must be valid date",
+        "time": "Tid måste ges i följande format hh:mm"
       },
       "date": {
         "required": "Detta fält krävs",
@@ -192,7 +193,9 @@
         "max": "Detta datum måste vara före {{max}}"
       },
       "time": {
-        "required": "Detta fält krävs"
+        "required": "Detta fält krävs",
+        "min": "Den här tiden måste vara efter {{min}}",
+        "max": "Den här tiden måste vara innan {{max}}"
       }
     },
     "actions": {

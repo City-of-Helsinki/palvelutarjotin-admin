@@ -183,7 +183,8 @@
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
         "url": "Tämän kentän on oltava kelvollinen URL-osoite",
-        "date": "Tämän kentän on oltava kelvollinen päivämäärä"
+        "date": "Tämän kentän on oltava kelvollinen päivämäärä",
+        "time": "Ajan tulee olla muotoa hh:mm"
       },
       "date": {
         "required": "Tämä kenttä on pakollinen",
@@ -192,7 +193,9 @@
         "max": "Tämän kentän on oltava ennen {{max}}"
       },
       "time": {
-        "required": "Tämä kenttä on pakollinen"
+        "required": "Tämä kenttä on pakollinen",
+        "min": "Arvon tulee olla vähintään {{min}}",
+        "max": "Arvon tulee olla enintään {{max}}"
       }
     },
     "actions": {
