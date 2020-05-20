@@ -24,7 +24,6 @@ const ConfirmationModal: React.FC<Props> = ({
   const { t } = useTranslation();
   return (
     <Modal
-      className={styles.alertModal}
       icon={<IconAttention />}
       isOpen={isOpen}
       title={title}

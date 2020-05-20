@@ -18,6 +18,11 @@
 }
 
 .modal {
+  --background-color-modal: var(--color-white);
+
+  --border-color-modal: var(--color-bus);
+  --border-color-modal-alert: var(--color-error);
+
   --color-icon: var(--color-black);
   --color-title: var(--color-black);
 
@@ -32,12 +37,12 @@
   --spacing-modal: var(--spacing-3-xl);
 
   --width-icon: 2.5rem;
-  --width-modal: 650px;
+  --width-modal: 660px;
 }
 
 .modal {
-  background-color: white;
-  border: 1px solid rgb(196, 18, 62);
+  background-color: var(--background-color-modal);
+  border: 1px solid var(--border-color-modal);
   position: relative;
   padding: var(--spacing-modal);
   outline: none;
@@ -57,7 +62,7 @@
 
 .modalContent {
   display: grid;
-  grid-template-columns: var(--width-icon) 1fr;
+  grid-template-columns: var(--width-icon) 1fr var(--width-icon);
   grid-gap: var(--grid-gap);
 
   p {
@@ -89,4 +94,6 @@
   grid-gap: var(--grid-gap);
 }
 
-
+.alertModal {
+  border-color: var(--border-color-modal-alert);
+}

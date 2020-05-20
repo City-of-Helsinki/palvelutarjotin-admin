@@ -27,11 +27,11 @@ const Modal: React.FC<Props> = ({
           isOpen={isOpen}
           onRequestClose={toggleModal}
           bodyOpenClassName={styles.bodyOpen}
-          className={styles.modal}
+          className={classNames(styles.modal, className)}
           overlayClassName={styles.overlay}
           shouldCloseOnOverlayClick={false}
         >
-          <div className={classNames(styles.modalContent, className)}>
+          <div className={styles.modalContent}>
             <div className={styles.iconWrapper}>{icon}</div>
             <div className={styles.contentWrapper}>
               <div className={styles.title}>{title}</div>
