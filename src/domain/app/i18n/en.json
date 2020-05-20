@@ -15,6 +15,9 @@
     }
   },
   "common": {
+    "alertModal": {
+      "buttonCancel": "Cancel"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Clear value",
@@ -80,6 +83,7 @@
     },
     "buttons": {
       "buttonBack": "Events",
+      "buttonDelete": "Delete event",
       "buttonEdit": "Edit events"
     },
     "contactPerson": {
@@ -87,6 +91,12 @@
       "labelName": "Name",
       "labelPhone": "Phone",
       "title": "Contact person"
+    },
+    "deleteModal": {
+      "buttonDelete": "Delete event",
+      "text1": "Are you sure you want to delete the event?",
+      "text2": "Once deleted, events can not be restored.",
+      "title": "Delete event"
     },
     "location": {
       "labelLocation": "Default venue",
@@ -121,6 +131,12 @@
     },
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
+    "changeLanguageModal": {
+      "buttonChangeLanguage": "Change language",
+      "text1": "Are you sure you want to change language?",
+      "text2": "Unsaved changes can not be restored.",
+      "title": "Change language"
+    },
     "contactPerson": {
       "labelEmail": "Email",
       "labelName": "Name",

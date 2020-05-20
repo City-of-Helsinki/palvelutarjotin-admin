@@ -37,6 +37,18 @@ export const MUTATION_EVENT = gql`
     }
   }
 
+  mutation DeleteSingleEvent($eventId: String!) {
+    deleteEventMutation(eventId: $eventId) {
+      response {
+        statusCode
+        body {
+          id
+          internalId
+        }
+      }
+    }
+  }
+
   mutation EditEvent($event: UpdateEventMutationInput!) {
     updateEventMutation(event: $event) {
       response {

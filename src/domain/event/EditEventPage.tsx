@@ -36,6 +36,7 @@ const EditEventPage: React.FC = () => {
   );
 
   const { data: eventData, loading } = useEventQuery({
+    fetchPolicy: 'network-only',
     variables: {
       id,
       include: ['audience', 'in_language', 'keywords', 'location'],
@@ -101,16 +102,20 @@ const EditEventPage: React.FC = () => {
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
         <Container>
-          <div className={styles.eventPage}>
-            <EventForm
-              eventData={eventData}
-              initialValues={initialValues}
-              onSubmit={submit}
-              selectedLanguage={selectedLanguage}
-              setSelectedLanguage={handleLanguageChange}
-              title={t('editEvent.title')}
-            />
-          </div>
+          {eventData ? (
+            <div className={styles.eventPage}>
+              <EventForm
+                eventData={eventData}
+                initialValues={initialValues}
+                onSubmit={submit}
+                selectedLanguage={selectedLanguage}
+                setSelectedLanguage={handleLanguageChange}
+                title={t('editEvent.title')}
+              />
+            </div>
+          ) : (
+            <div>TODO: EVENT NOT FOUND</div>
+          )}
         </Container>
       </LoadingSpinner>
     </PageWrapper>
