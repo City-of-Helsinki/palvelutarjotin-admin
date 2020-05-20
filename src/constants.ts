@@ -16,6 +16,7 @@ export enum SUPPORT_LANGUAGES {
 }
 
 export enum LINKEDEVENTS_CONTENT_TYPE {
+  IMAGE = 'image',
   KEYWORD = 'keyword',
   LANGUAGE = 'language',
   PLACE = 'place',

@@ -20,6 +20,16 @@ export const QUERY_EVENT = gql`
         fi
         sv
       }
+      images {
+        id
+        internalId
+        license
+        name
+        url
+        cropping
+        photographerName
+        altText
+      }
       infoUrl {
         en
         fi

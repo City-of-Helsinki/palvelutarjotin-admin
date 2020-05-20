@@ -74,6 +74,16 @@ export const getEventPayload = (
       [selectedLanguage]: values.shortDescription,
     },
     description: { [selectedLanguage]: values.description },
+    images: values.image
+      ? [
+          {
+            internalId: getLinkedEventsInternalId(
+              LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+              values.image
+            ),
+          },
+        ]
+      : [],
     infoUrl: { [selectedLanguage]: values.infoUrl },
     audience: values.audience.map((keyword) => ({
       internalId: getLinkedEventsInternalId(

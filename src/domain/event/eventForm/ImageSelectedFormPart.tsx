@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../common/components/deleteButton/DeleteButton';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
+import ImagePreview from '../../image/imagePreview/ImagePreview';
 import styles from './eventForm.module.scss';
-import ImagePreview from './ImagePreview';
 
-const ImageSelectedFormPart: React.FC<{
-  image: string;
+interface Props {
+  imageId: string;
   setFieldValue: (
     field: string,
     value: any,
@@ -20,7 +20,13 @@ const ImageSelectedFormPart: React.FC<{
     isTouched?: boolean | undefined,
     shouldValidate?: boolean | undefined
   ) => void;
-}> = ({ setFieldValue, image, setFieldTouched }) => {
+}
+
+const ImageSelectedFormPart: React.FC<Props> = ({
+  setFieldValue,
+  imageId,
+  setFieldTouched,
+}) => {
   const { t } = useTranslation();
 
   // set fields fields untouched so that errors won't show right away when user deletes and add new image
@@ -34,7 +40,7 @@ const ImageSelectedFormPart: React.FC<{
 
   return (
     <>
-      <ImagePreview image={image} />
+      <ImagePreview id={imageId} />
       <div className={styles.imageSelectRow}>
         <div className={styles.imageSelect}>
           <DeleteButton
@@ -49,14 +55,18 @@ const ImageSelectedFormPart: React.FC<{
         </div>
         <div>
           <FormGroup>
+            {/* TODO: Implement saving image fields when API implemented */}
             <Field
+              disabled
               labelText={t('eventForm.basicInfo.labelImagePhotographer')}
               name="photographer"
               component={TextInputField}
             />
           </FormGroup>
           <FormGroup>
+            {/* TODO: Implement saving image fields when API implemented */}
             <Field
+              disabled
               labelText={t('eventForm.basicInfo.labelImageAltText')}
               name="imageAltText"
               helperText={t('eventForm.basicInfo.imageAltTextHelp')}

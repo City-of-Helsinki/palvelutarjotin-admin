@@ -84,6 +84,7 @@ const EditEventPage: React.FC = () => {
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         description: eventData.event?.description?.[selectedLanguage] || '',
         duration: eventData.event?.pEvent?.duration.toString() || '',
+        image: eventData.event?.images[0].id || '',
         infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
         inLanguage:
           eventData.event?.inLanguage.map((item) => item.id || '') || [],

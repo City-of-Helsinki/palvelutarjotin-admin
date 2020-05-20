@@ -14,18 +14,19 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import { EVENT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
-// import ImageSelectedFormPart from './ImageSelectedFormPart';
-// import SelectImageFormPart from './SelectImageFormPart';
 import { Language } from '../../../types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
 import styles from './eventForm.module.scss';
+import ImageSelectedFormPart from './ImageSelectedFormPart';
+import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
 
 export type EventFormFields = {
   audience: string[];
   description: string;
   duration: string;
+  image: string;
   infoUrl: string;
   inLanguage: string[];
   keywords: string[];
@@ -39,6 +40,7 @@ export const defaultInitialValues = {
   audience: [],
   description: '',
   duration: '',
+  image: '',
   infoUrl: '',
   inLanguage: [],
   keywords: [],
@@ -104,16 +106,14 @@ const EventForm: React.FC<Props> = ({
     >
       {({
         dirty,
-        errors,
         handleReset,
         handleSubmit,
-        submitCount,
-        values: { location },
-        // setFieldValue,
-        // setFieldTouched,
+        values: { image, location },
+        setFieldValue,
+        setFieldTouched,
         touched,
       }) => {
-        // const imageSelected = Boolean(image);
+        const imageSelected = Boolean(image);
         return (
           <>
             <ConfirmationModal
@@ -164,15 +164,15 @@ const EventForm: React.FC<Props> = ({
                     />
                   </FormGroup>
 
-                  {/* {imageSelected ? (
-                  <ImageSelectedFormPart
-                    image={image}
-                    setFieldValue={setFieldValue}
-                    setFieldTouched={setFieldTouched}
-                  />
-                ) : (
-                  <SelectImageFormPart />
-                )} */}
+                  {imageSelected ? (
+                    <ImageSelectedFormPart
+                      imageId={image}
+                      setFieldValue={setFieldValue}
+                      setFieldTouched={setFieldTouched}
+                    />
+                  ) : (
+                    <SelectImageFormPart />
+                  )}
 
                   <FormGroup>
                     <Field

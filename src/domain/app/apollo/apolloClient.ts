@@ -4,7 +4,7 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
-import { HttpLink } from 'apollo-link-http';
+import { createUploadLink } from 'apollo-upload-client';
 import { ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 
@@ -23,7 +23,7 @@ const cache = new InMemoryCache({
   },
 });
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
   uri: process.env.REACT_APP_API_URI,
 });
 

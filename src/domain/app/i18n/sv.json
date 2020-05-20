@@ -71,7 +71,6 @@
     "basicInfo": {
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
-      "labelImage": "Händelsebild",
       "labelInLanguage": "Evenemangspråk",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
       "labelKeywords": "Evenemangs nyckelord",
@@ -109,12 +108,11 @@
       "addImage": "Lägg till bild",
       "deleteImage": "Ta bort bild",
       "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen",
-      "eventImageAltText": "Bild för evenemanget",
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
-      "labelImage": "Händelsebild",
+      "labelImage": "Evenemangbild",
       "labelImageAltText": "Bild alt-text",
       "labelImagePhotographer": "Fotograf",
       "labelInLanguage": "Evenemangspråk",
@@ -231,6 +229,11 @@
       "sv": "På svenska"
     },
     "logout": "Logga ut"
+  },
+  "image": {
+    "labelAltText": "Bild alt-text",
+    "labelImage": "Evenemangbild",
+    "labelPhotographerName": "Fotograf"
   },
   "login": {
     "buttonLogin": "Logga in",

@@ -72,7 +72,6 @@
       "labelAudience": "Kohderyhmät",
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
-      "labelImage": "Tapahtuman kuva",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
       "labelInLanguage": "Tapahtuman kielet",
       "labelKeywords": "Tapahtuman avainsanat",
@@ -109,7 +108,6 @@
       "addImage": "Lisää kuva",
       "deleteImage": "Poista kuva",
       "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin",
-      "eventImageAltText": "Tapahtuman kuva",
       "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
       "labelAudience": "Kohderyhmät",
@@ -231,6 +229,11 @@
       "sv": "På svenska"
     },
     "logout": "Kirjaudu ulos"
+  },
+  "image": {
+    "labelAltText": "Kuvan alt-teksti",
+    "labelImage": "Tapahtuman kuva",
+    "labelPhotographerName": "Valokuvaaja"
   },
   "login": {
     "buttonLogin": "Kirjaudu sisään",

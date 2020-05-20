@@ -23,6 +23,16 @@ export const MUTATION_EVENT = gql`
             fi
             sv
           }
+          images {
+            id
+            internalId
+            license
+            name
+            url
+            cropping
+            photographerName
+            altText
+          }
           pEvent {
             duration
             neededOccurrences
@@ -70,6 +80,16 @@ export const MUTATION_EVENT = gql`
             en
             fi
             sv
+          }
+          images {
+            id
+            internalId
+            license
+            name
+            url
+            cropping
+            photographerName
+            altText
           }
           pEvent {
             duration
