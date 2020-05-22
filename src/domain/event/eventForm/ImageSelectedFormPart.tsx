@@ -33,7 +33,7 @@ const ImageSelectedFormPart: React.FC<Props> = ({
   // there is a problem with validating fields that are unmounted from the dom
   // maybe it has something to do with this issue: https://github.com/jaredpalmer/formik/issues/683
   React.useEffect(() => {
-    ['imageAltText', 'photographer'].forEach((field) => {
+    ['imageAltText', 'imagePhotographerName'].forEach((field) => {
       setFieldTouched(field, false);
     });
   }, [setFieldTouched]);
@@ -45,9 +45,11 @@ const ImageSelectedFormPart: React.FC<Props> = ({
         <div className={styles.imageSelect}>
           <DeleteButton
             onClick={() => {
-              ['image', 'imageAltText', 'photographer'].forEach((field) => {
-                setFieldValue(field, '');
-              });
+              ['image', 'imageAltText', 'imagePhotographerName'].forEach(
+                (field) => {
+                  setFieldValue(field, '');
+                }
+              );
             }}
           >
             {t('eventForm.basicInfo.deleteImage')}
@@ -57,16 +59,14 @@ const ImageSelectedFormPart: React.FC<Props> = ({
           <FormGroup>
             {/* TODO: Implement saving image fields when API implemented */}
             <Field
-              disabled
               labelText={t('eventForm.basicInfo.labelImagePhotographer')}
-              name="photographer"
+              name="imagePhotographerName"
               component={TextInputField}
             />
           </FormGroup>
           <FormGroup>
             {/* TODO: Implement saving image fields when API implemented */}
             <Field
-              disabled
               labelText={t('eventForm.basicInfo.labelImageAltText')}
               name="imageAltText"
               helperText={t('eventForm.basicInfo.imageAltTextHelp')}

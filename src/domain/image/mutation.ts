@@ -18,4 +18,22 @@ export const MUTATION_IMAGE = gql`
       }
     }
   }
+
+  mutation UpdateSingleImage($image: UpdateImageMutationInput!) {
+    updateImageMutation(image: $image) {
+      response {
+        statusCode
+        body {
+          id
+          internalId
+          license
+          name
+          url
+          cropping
+          photographerName
+          altText
+        }
+      }
+    }
+  }
 `;

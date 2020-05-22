@@ -26,7 +26,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
     language
   );
 
-  const imageId = eventData.event?.images[0].id;
+  const imageId = eventData.event?.images[0]?.id;
 
   const duration = eventData.event?.pEvent?.duration;
   const neededOccurrences = eventData.event?.pEvent?.neededOccurrences;

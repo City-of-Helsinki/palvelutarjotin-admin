@@ -27,6 +27,8 @@ export type EventFormFields = {
   description: string;
   duration: string;
   image: string;
+  imageAltText: string;
+  imagePhotographerName: string;
   infoUrl: string;
   inLanguage: string[];
   keywords: string[];
@@ -41,6 +43,8 @@ export const defaultInitialValues = {
   description: '',
   duration: '',
   image: '',
+  imageAltText: '',
+  imagePhotographerName: '',
   infoUrl: '',
   inLanguage: [],
   keywords: [],
@@ -99,13 +103,14 @@ const EventForm: React.FC<Props> = ({
       enableReinitialize={true}
       initialValues={initialValues}
       validateOnChange
-      onSubmit={(values) => {
+      onSubmit={(values, e) => {
         onSubmit(values);
       }}
       validationSchema={ValidationSchema}
     >
       {({
         dirty,
+        errors,
         handleReset,
         handleSubmit,
         values: { image, location },

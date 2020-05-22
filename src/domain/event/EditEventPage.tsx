@@ -3,12 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { useEditEventMutation, useEventQuery } from '../../generated/graphql';
+import {
+  useEditEventMutation,
+  useEventQuery,
+  useUpdateSingleImageMutation,
+} from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import { getImageName } from '../image/utils';
 import EventForm, {
   defaultInitialValues,
   EventFormFields,
@@ -44,6 +49,7 @@ const EditEventPage: React.FC = () => {
   });
 
   const [editEvent] = useEditEventMutation();
+  const [updateImage] = useUpdateSingleImageMutation();
 
   React.useEffect(() => {
     if (eventData) {
@@ -53,14 +59,57 @@ const EditEventPage: React.FC = () => {
 
   const submit = async (values: EventFormFields) => {
     try {
-      await editEvent({
-        variables: {
-          event: {
-            id: eventData?.event?.id || '',
-            ...getEventPayload(values, selectedLanguage),
+      const requests = [];
+
+      requests.push(
+        editEvent({
+          variables: {
+            event: {
+              id: eventData?.event?.id || '',
+              ...getEventPayload(values, selectedLanguage),
+            },
           },
-        },
-      });
+        })
+      );
+
+      const shouldSaveImage =
+        values.image &&
+        (values.image !== initialValues.image ||
+          values.imageAltText !== initialValues.imageAltText ||
+          values.imagePhotographerName !== initialValues.imagePhotographerName);
+
+      if (shouldSaveImage) {
+        const imageName = getImageName(values.image);
+        if (imageName) {
+          requests.push(
+            updateImage({
+              variables: {
+                image: {
+                  altText: values.imageAltText,
+                  id: values.image,
+                  name: imageName,
+                  photographerName: values.imagePhotographerName,
+                },
+              },
+            })
+          );
+        }
+      }
+
+      requests.push(
+        editEvent({
+          variables: {
+            event: {
+              id: eventData?.event?.id || '',
+              ...getEventPayload(values, selectedLanguage),
+            },
+          },
+        })
+      );
+
+      // Run all requests parallel
+      await Promise.all(requests);
+
       history.push({
         pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
         search: `?language=${selectedLanguage}`,
@@ -84,7 +133,10 @@ const EditEventPage: React.FC = () => {
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         description: eventData.event?.description?.[selectedLanguage] || '',
         duration: eventData.event?.pEvent?.duration.toString() || '',
-        image: eventData.event?.images[0].id || '',
+        image: eventData.event?.images[0]?.id || '',
+        imageAltText: eventData.event?.images[0]?.altText || '',
+        imagePhotographerName:
+          eventData.event?.images[0]?.photographerName || '',
         infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
         inLanguage:
           eventData.event?.inLanguage.map((item) => item.id || '') || [],

@@ -689,6 +689,7 @@ export type Mutation = {
   updateEventMutation?: Maybe<UpdateEventMutation>;
   deleteEventMutation?: Maybe<DeleteEventMutation>;
   uploadImageMutation?: Maybe<UploadImageMutation>;
+  updateImageMutation?: Maybe<UpdateImageMutation>;
   deleteImageMutation?: Maybe<DeleteImageMutation>;
 };
 
@@ -745,6 +746,11 @@ export type MutationDeleteEventMutationArgs = {
 
 export type MutationUploadImageMutationArgs = {
   image?: Maybe<UploadImageMutationInput>;
+};
+
+
+export type MutationUpdateImageMutationArgs = {
+  image?: Maybe<UpdateImageMutationInput>;
 };
 
 
@@ -985,6 +991,7 @@ export type ImageMutationResponse = {
 
 export type UploadImageMutationInput = {
   license?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   cropping?: Maybe<Scalars['String']>;
   photographerName?: Maybe<Scalars['String']>;
@@ -992,6 +999,22 @@ export type UploadImageMutationInput = {
   image?: Maybe<Scalars['Upload']>;
 };
 
+
+export type UpdateImageMutation = {
+   __typename?: 'UpdateImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
+export type UpdateImageMutationInput = {
+  license?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  cropping?: Maybe<Scalars['String']>;
+  photographerName?: Maybe<Scalars['String']>;
+  /** Following GraphQL file upload specs here: https://github.com/jaydenseric/graphql-multipart-request-spec */
+  image?: Maybe<Scalars['Upload']>;
+  id: Scalars['String'];
+};
 
 export type DeleteImageMutation = {
    __typename?: 'DeleteImageMutation';
@@ -1169,6 +1192,26 @@ export type UploadSingleImageMutation = (
   { __typename?: 'Mutation' }
   & { uploadImageMutation?: Maybe<(
     { __typename?: 'UploadImageMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'ImageMutationResponse' }
+      & Pick<ImageMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Image' }
+        & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+      )> }
+    )> }
+  )> }
+);
+
+export type UpdateSingleImageMutationVariables = {
+  image: UpdateImageMutationInput;
+};
+
+
+export type UpdateSingleImageMutation = (
+  { __typename?: 'Mutation' }
+  & { updateImageMutation?: Maybe<(
+    { __typename?: 'UpdateImageMutation' }
     & { response?: Maybe<(
       { __typename?: 'ImageMutationResponse' }
       & Pick<ImageMutationResponse, 'statusCode'>
@@ -1704,6 +1747,63 @@ export function useUploadSingleImageMutation(baseOptions?: ApolloReactHooks.Muta
 export type UploadSingleImageMutationHookResult = ReturnType<typeof useUploadSingleImageMutation>;
 export type UploadSingleImageMutationResult = ApolloReactCommon.MutationResult<UploadSingleImageMutation>;
 export type UploadSingleImageMutationOptions = ApolloReactCommon.BaseMutationOptions<UploadSingleImageMutation, UploadSingleImageMutationVariables>;
+export const UpdateSingleImageDocument = gql`
+    mutation UpdateSingleImage($image: UpdateImageMutationInput!) {
+  updateImageMutation(image: $image) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+        license
+        name
+        url
+        cropping
+        photographerName
+        altText
+      }
+    }
+  }
+}
+    `;
+export type UpdateSingleImageMutationFn = ApolloReactCommon.MutationFunction<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>;
+export type UpdateSingleImageProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>
+    } & TChildProps;
+export function withUpdateSingleImage<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateSingleImageMutation,
+  UpdateSingleImageMutationVariables,
+  UpdateSingleImageProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateSingleImageMutation, UpdateSingleImageMutationVariables, UpdateSingleImageProps<TChildProps, TDataName>>(UpdateSingleImageDocument, {
+      alias: 'updateSingleImage',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateSingleImageMutation__
+ *
+ * To run a mutation, you first call `useUpdateSingleImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSingleImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSingleImageMutation, { data, loading, error }] = useUpdateSingleImageMutation({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUpdateSingleImageMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>(UpdateSingleImageDocument, baseOptions);
+      }
+export type UpdateSingleImageMutationHookResult = ReturnType<typeof useUpdateSingleImageMutation>;
+export type UpdateSingleImageMutationResult = ApolloReactCommon.MutationResult<UpdateSingleImageMutation>;
+export type UpdateSingleImageMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>;
 export const ImageDocument = gql`
     query Image($id: ID!) {
   image(id: $id) {
