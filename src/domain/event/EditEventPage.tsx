@@ -57,6 +57,12 @@ const EditEventPage: React.FC = () => {
     }
   }, [eventData, language]);
 
+  const shouldSaveImage = (values: EventFormFields): boolean =>
+    !!values.image &&
+    (values.image !== initialValues.image ||
+      values.imageAltText !== initialValues.imageAltText ||
+      values.imagePhotographerName !== initialValues.imagePhotographerName);
+
   const submit = async (values: EventFormFields) => {
     try {
       const requests = [];
@@ -72,13 +78,7 @@ const EditEventPage: React.FC = () => {
         })
       );
 
-      const shouldSaveImage =
-        values.image &&
-        (values.image !== initialValues.image ||
-          values.imageAltText !== initialValues.imageAltText ||
-          values.imagePhotographerName !== initialValues.imagePhotographerName);
-
-      if (shouldSaveImage) {
+      if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);
         if (imageName) {
           requests.push(

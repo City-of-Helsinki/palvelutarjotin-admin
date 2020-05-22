@@ -38,20 +38,18 @@ const ImageSelectedFormPart: React.FC<Props> = ({
     });
   }, [setFieldTouched]);
 
+  const clearImageFormFields = () => {
+    ['image', 'imageAltText', 'imagePhotographerName'].forEach((field) => {
+      setFieldValue(field, '');
+    });
+  };
+
   return (
     <>
       <ImagePreview id={imageId} />
       <div className={styles.imageSelectRow}>
         <div className={styles.imageSelect}>
-          <DeleteButton
-            onClick={() => {
-              ['image', 'imageAltText', 'imagePhotographerName'].forEach(
-                (field) => {
-                  setFieldValue(field, '');
-                }
-              );
-            }}
-          >
+          <DeleteButton onClick={clearImageFormFields}>
             {t('eventForm.basicInfo.deleteImage')}
           </DeleteButton>
         </div>
