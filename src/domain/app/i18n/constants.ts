@@ -8,9 +8,12 @@ export enum VALIDATION_MESSAGE_KEYS {
   STRING_REQUIRED = 'form.validation.string.required',
   URL = 'form.validation.string.url',
   DATE_REQUIRED = 'form.validation.date.required',
-  TIME_REQUIRED = 'form.validation.time.required',
   DATE = 'form.validation.string.date',
   DATE_FUTURE = 'form.validation.date.future',
   DATE_MIN = 'form.validation.date.min',
   DATE_MAX = 'form.validation.date.max',
+  TIME = 'form.validation.string.time',
+  TIME_MIN = 'form.validation.time.min',
+  TIME_MAX = 'form.validation.time.min',
+  TIME_REQUIRED = 'form.validation.time.required',
 }

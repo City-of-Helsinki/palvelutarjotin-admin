@@ -9,7 +9,7 @@ import DropdownSelectField from '../../../common/components/form/fields/Dropdown
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
-import TextInputField from '../../../common/components/form/fields/TextInputField';
+import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { EVENT_LANGUAGES } from '../../../constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
@@ -58,14 +58,16 @@ const EventOccurrenceForm: React.FC = () => {
                   <Field
                     labelText={t('eventOccurrenceForm.labelStartsAt')}
                     name="startsAt"
-                    component={TextInputField} // TODO: Use time picker when component implemented
+                    component={TimepickerField}
+                    minuteInterval={15}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelEndsAt')}
                     name="endsAt"
-                    component={TextInputField} // TODO: Use time picker when component implemented
+                    component={TimepickerField}
+                    minuteInterval={15}
                   />
                 </FormGroup>
                 <FormGroup>

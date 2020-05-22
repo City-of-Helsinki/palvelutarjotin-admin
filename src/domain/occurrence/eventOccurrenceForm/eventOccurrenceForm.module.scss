@@ -52,7 +52,7 @@
 
   .formActions {
     display: flex;
-    margin: $largeMargin 0;
+    margin-top: $largeMargin 0;
 
     & > :not(:last-child) {
       margin-right: $baseMargin;

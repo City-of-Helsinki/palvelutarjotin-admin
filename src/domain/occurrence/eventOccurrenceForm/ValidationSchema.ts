@@ -43,6 +43,9 @@ const validateMaxEnrolmentDate = (date: string, schema: Yup.StringSchema) => {
   return schema;
 };
 
+const isValidTime = (time: string) =>
+  /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
+
 export default Yup.object().shape({
   date: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
@@ -65,8 +68,37 @@ export default Yup.object().shape({
       (value: string) => isFuture(parseDate(value, DATE_FORMAT, new Date()))
     )
     .when(['date'], validateMaxEnrolmentDate),
-  startsAt: Yup.date().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
-  endsAt: Yup.date().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
+  startsAt: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value: string) =>
+      isValidTime(value)
+    ),
+  endsAt: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value: string) =>
+      isValidTime(value)
+    )
+    // test that startsAt is before endsAt time
+    .when(['startsAt'], (startsAt: string, schema: Yup.StringSchema) => {
+      if (isValidTime(startsAt)) {
+        return schema.test(
+          'isBeforeStartTime',
+          () => ({
+            key: VALIDATION_MESSAGE_KEYS.TIME_MAX,
+            min: startsAt,
+          }),
+          (endsAt: string) => {
+            return isValidTime(endsAt)
+              ? isBefore(
+                  parseDate(startsAt, 'HH:mm', new Date()),
+                  parseDate(endsAt, 'HH:mm', new Date())
+                )
+              : true;
+          }
+        );
+      }
+      return schema;
+    }),
   location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   locationDescription: Yup.string(),
   eventLanguage: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
