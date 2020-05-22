@@ -72,7 +72,6 @@
       "labelAudience": "Target groups",
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
-      "labelImage": "Event picture",
       "labelInfoUrl": "A web address where you can find more information about the event",
       "labelInLanguage": "Event languages",
       "labelKeywords": "Event keywords",
@@ -109,7 +108,6 @@
       "addImage": "Add image",
       "deleteImage": "Delete image",
       "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
-      "eventImageAltText": "Image for the event",
       "helperKeywords": "Enter a keyword and select from the suggested options",
       "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelAudience": "Target groups",
@@ -234,6 +232,11 @@
       "sv": "På svenska"
     },
     "logout": "Log out"
+  },
+  "image": {
+    "labelAltText": "Picture alt-text",
+    "labelImage": "Event picture",
+    "labelPhotographerName": "Photographer"
   },
   "login": {
     "buttonLogin": "Log in",

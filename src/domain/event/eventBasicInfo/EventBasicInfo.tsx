@@ -5,6 +5,7 @@ import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
+import ImageInfo from '../../image/imageInfo/ImageInfo';
 import styles from './eventBasicInfo.module.scss';
 
 type Props = {
@@ -24,6 +25,8 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
     eventData.event?.description || {},
     language
   );
+
+  const imageId = eventData.event?.images[0]?.id;
 
   const duration = eventData.event?.pEvent?.duration;
   const neededOccurrences = eventData.event?.pEvent?.neededOccurrences;
@@ -60,8 +63,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
         </>
       )}
 
-      <TextTitle>{t('eventDetails.basicInfo.labelImage')}</TextTitle>
-      <p>TODO</p>
+      {imageId && <ImageInfo imageId={imageId} />}
 
       {infoUrl && (
         <>

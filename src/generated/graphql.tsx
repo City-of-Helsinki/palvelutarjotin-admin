@@ -16,10 +16,24 @@ export type Scalars = {
    * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
    */
   DateTime: any;
+  /**
+   * Create scalar that ignores normal serialization/deserialization, since
+   * that will be handled by the multipart request spec
+   */
+  Upload: any;
 };
 
 export type Query = {
    __typename?: 'Query';
+  occurrences?: Maybe<OccurrenceNodeConnection>;
+  /** The ID of the object */
+  occurrence?: Maybe<OccurrenceNode>;
+  studyGroups?: Maybe<StudyGroupNodeConnection>;
+  /** The ID of the object */
+  studyGroup?: Maybe<StudyGroupNode>;
+  venues?: Maybe<VenueCustomDataNodeConnection>;
+  /** The ID of the object */
+  venue?: Maybe<VenueCustomDataNode>;
   /** Query personal data of logged user */
   myProfile?: Maybe<PersonNode>;
   /** The ID of the object */
@@ -32,10 +46,51 @@ export type Query = {
   event?: Maybe<Event>;
   places?: Maybe<PlaceListResponse>;
   place?: Maybe<Place>;
+  images?: Maybe<ImageListResponse>;
+  image?: Maybe<Image>;
   keywords?: Maybe<KeywordListResponse>;
   keyword?: Maybe<Keyword>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
+};
+
+
+export type QueryOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryOccurrenceArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStudyGroupsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryStudyGroupArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryVenuesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryVenueArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -109,6 +164,11 @@ export type QueryPlaceArgs = {
 };
 
 
+export type QueryImageArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryKeywordsArgs = {
   dataSource?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
@@ -135,39 +195,12 @@ export type QueryPlacesSearchArgs = {
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type PersonNode = Node & {
-   __typename?: 'PersonNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  emailAddress: Scalars['String'];
-  organisations: OrganisationNodeConnection;
-};
-
-
-export type PersonNodeOrganisationsArgs = {
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-/** An object with an ID */
-export type Node = {
-  /** The ID of the object. */
-  id: Scalars['ID'];
-};
-
-
-export type OrganisationNodeConnection = {
-   __typename?: 'OrganisationNodeConnection';
+export type OccurrenceNodeConnection = {
+   __typename?: 'OccurrenceNodeConnection';
   /** Pagination data for this connection. */
   pageInfo: PageInfo;
   /** Contains the nodes in this connection. */
-  edges: Array<Maybe<OrganisationNodeEdge>>;
+  edges: Array<Maybe<OccurrenceNodeEdge>>;
 };
 
 /** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
@@ -183,13 +216,75 @@ export type PageInfo = {
   endCursor?: Maybe<Scalars['String']>;
 };
 
-/** A Relay edge containing a `OrganisationNode` and its cursor. */
-export type OrganisationNodeEdge = {
-   __typename?: 'OrganisationNodeEdge';
+/** A Relay edge containing a `OccurrenceNode` and its cursor. */
+export type OccurrenceNodeEdge = {
+   __typename?: 'OccurrenceNodeEdge';
   /** The item at the end of the edge */
-  node?: Maybe<OrganisationNode>;
+  node?: Maybe<OccurrenceNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type OccurrenceNode = Node & {
+   __typename?: 'OccurrenceNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  pEvent?: Maybe<PalvelutarjotinEventNode>;
+  minGroupSize: Scalars['Int'];
+  maxGroupSize: Scalars['Int'];
+  startTime: Scalars['DateTime'];
+  endTime: Scalars['DateTime'];
+  organisation: OrganisationNode;
+  contactPersons: PersonNodeConnection;
+  groups: StudyGroupNodeConnection;
+  placeId: Scalars['String'];
+};
+
+
+export type OccurrenceNodeContactPersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OccurrenceNodeGroupsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** An object with an ID */
+export type Node = {
+  /** The ID of the object. */
+  id: Scalars['ID'];
+};
+
+
+export type PalvelutarjotinEventNode = Node & {
+   __typename?: 'PalvelutarjotinEventNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  linkedEventId: Scalars['String'];
+  enrolmentStart?: Maybe<Scalars['DateTime']>;
+  enrolmentEnd?: Maybe<Scalars['DateTime']>;
+  duration: Scalars['Int'];
+  neededOccurrences: Scalars['Int'];
+  occurrences: OccurrenceNodeConnection;
+};
+
+
+export type PalvelutarjotinEventNodeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type OrganisationNode = Node & {
@@ -200,10 +295,19 @@ export type OrganisationNode = Node & {
   phoneNumber: Scalars['String'];
   type: OrganisationType;
   persons: PersonNodeConnection;
+  occurrenceSet: OccurrenceNodeConnection;
 };
 
 
 export type OrganisationNodePersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrganisationNodeOccurrenceSetArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -233,6 +337,122 @@ export type PersonNodeEdge = {
   node?: Maybe<PersonNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type PersonNode = Node & {
+   __typename?: 'PersonNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  emailAddress: Scalars['String'];
+  organisations: OrganisationNodeConnection;
+  occurrences: OccurrenceNodeConnection;
+  studygroupSet: StudyGroupNodeConnection;
+};
+
+
+export type PersonNodeOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodeStudygroupSetArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type OrganisationNodeConnection = {
+   __typename?: 'OrganisationNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<OrganisationNodeEdge>>;
+};
+
+/** A Relay edge containing a `OrganisationNode` and its cursor. */
+export type OrganisationNodeEdge = {
+   __typename?: 'OrganisationNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<OrganisationNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type StudyGroupNodeConnection = {
+   __typename?: 'StudyGroupNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<StudyGroupNodeEdge>>;
+};
+
+/** A Relay edge containing a `StudyGroupNode` and its cursor. */
+export type StudyGroupNodeEdge = {
+   __typename?: 'StudyGroupNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<StudyGroupNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type StudyGroupNode = Node & {
+   __typename?: 'StudyGroupNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  person: PersonNode;
+  name: Scalars['String'];
+  groupSize: Scalars['Int'];
+  occurrences: OccurrenceNodeConnection;
+};
+
+
+export type StudyGroupNodeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type VenueCustomDataNodeConnection = {
+   __typename?: 'VenueCustomDataNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<VenueCustomDataNodeEdge>>;
+};
+
+/** A Relay edge containing a `VenueCustomDataNode` and its cursor. */
+export type VenueCustomDataNodeEdge = {
+   __typename?: 'VenueCustomDataNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<VenueCustomDataNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type VenueCustomDataNode = Node & {
+   __typename?: 'VenueCustomDataNode';
+  placeId: Scalars['String'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
 };
 
 export type EventListResponse = {
@@ -400,6 +620,7 @@ export type Image = {
   url: Scalars['String'];
   cropping?: Maybe<Scalars['String']>;
   photographerName?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
 };
 
 export type InLanguage = {
@@ -425,23 +646,16 @@ export type ExtensionCourse = {
   remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
 };
 
-export type PalvelutarjotinEventNode = Node & {
-   __typename?: 'PalvelutarjotinEventNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  linkedEventId: Scalars['String'];
-  enrolmentStart?: Maybe<Scalars['DateTime']>;
-  enrolmentEnd?: Maybe<Scalars['DateTime']>;
-  duration: Scalars['Int'];
-  neededOccurrences: Scalars['Int'];
-};
-
 export type PlaceListResponse = {
    __typename?: 'PlaceListResponse';
   meta: Meta;
   data: Array<Place>;
+};
+
+export type ImageListResponse = {
+   __typename?: 'ImageListResponse';
+  meta: Meta;
+  data: Array<Image>;
 };
 
 export type KeywordListResponse = {
@@ -464,6 +678,9 @@ export type PlaceSearchListResponse = {
 
 export type Mutation = {
    __typename?: 'Mutation';
+  addOccurrence?: Maybe<AddOccurrenceMutationPayload>;
+  updateOccurrence?: Maybe<UpdateOccurrenceMutationPayload>;
+  deleteOccurrence?: Maybe<DeleteOccurrenceMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
   updateOrganisation?: Maybe<UpdateOrganisationMutationPayload>;
@@ -471,6 +688,24 @@ export type Mutation = {
   addEventMutation?: Maybe<AddEventMutation>;
   updateEventMutation?: Maybe<UpdateEventMutation>;
   deleteEventMutation?: Maybe<DeleteEventMutation>;
+  uploadImageMutation?: Maybe<UploadImageMutation>;
+  updateImageMutation?: Maybe<UpdateImageMutation>;
+  deleteImageMutation?: Maybe<DeleteImageMutation>;
+};
+
+
+export type MutationAddOccurrenceArgs = {
+  input: AddOccurrenceMutationInput;
+};
+
+
+export type MutationUpdateOccurrenceArgs = {
+  input: UpdateOccurrenceMutationInput;
+};
+
+
+export type MutationDeleteOccurrenceArgs = {
+  input: DeleteOccurrenceMutationInput;
 };
 
 
@@ -505,7 +740,77 @@ export type MutationUpdateEventMutationArgs = {
 
 
 export type MutationDeleteEventMutationArgs = {
-  eventId?: Maybe<Scalars['String']>;
+  eventId: Scalars['String'];
+};
+
+
+export type MutationUploadImageMutationArgs = {
+  image?: Maybe<UploadImageMutationInput>;
+};
+
+
+export type MutationUpdateImageMutationArgs = {
+  image?: Maybe<UpdateImageMutationInput>;
+};
+
+
+export type MutationDeleteImageMutationArgs = {
+  imageId: Scalars['String'];
+};
+
+export type AddOccurrenceMutationPayload = {
+   __typename?: 'AddOccurrenceMutationPayload';
+  occurrence?: Maybe<OccurrenceNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type AddOccurrenceMutationInput = {
+  placeId: Scalars['String'];
+  minGroupSize: Scalars['Int'];
+  maxGroupSize: Scalars['Int'];
+  startTime: Scalars['DateTime'];
+  endTime: Scalars['DateTime'];
+  organisationId: Scalars['ID'];
+  contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
+  pEventId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type PersonNodeInput = {
+  id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  emailAddress: Scalars['String'];
+};
+
+export type UpdateOccurrenceMutationPayload = {
+   __typename?: 'UpdateOccurrenceMutationPayload';
+  occurrence?: Maybe<OccurrenceNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateOccurrenceMutationInput = {
+  id: Scalars['ID'];
+  placeId?: Maybe<Scalars['String']>;
+  minGroupSize?: Maybe<Scalars['Int']>;
+  maxGroupSize?: Maybe<Scalars['Int']>;
+  startTime?: Maybe<Scalars['DateTime']>;
+  endTime?: Maybe<Scalars['DateTime']>;
+  organisationId?: Maybe<Scalars['ID']>;
+  /** Should include all contact persons of the occurrence, missing contact persons will be removed during mutation */
+  contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
+  pEventId?: Maybe<Scalars['ID']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeleteOccurrenceMutationPayload = {
+   __typename?: 'DeleteOccurrenceMutationPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeleteOccurrenceMutationInput = {
+  id: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type UpdateMyProfileMutationPayload = {
@@ -673,6 +978,49 @@ export type DeleteEventMutation = {
   response?: Maybe<EventMutationResponse>;
 };
 
+export type UploadImageMutation = {
+   __typename?: 'UploadImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
+export type ImageMutationResponse = {
+   __typename?: 'ImageMutationResponse';
+  statusCode: Scalars['Int'];
+  body?: Maybe<Image>;
+};
+
+export type UploadImageMutationInput = {
+  license?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  cropping?: Maybe<Scalars['String']>;
+  photographerName?: Maybe<Scalars['String']>;
+  /** Following GraphQL file upload specs here: https://github.com/jaydenseric/graphql-multipart-request-spec */
+  image?: Maybe<Scalars['Upload']>;
+};
+
+
+export type UpdateImageMutation = {
+   __typename?: 'UpdateImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
+export type UpdateImageMutationInput = {
+  license?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  cropping?: Maybe<Scalars['String']>;
+  photographerName?: Maybe<Scalars['String']>;
+  /** Following GraphQL file upload specs here: https://github.com/jaydenseric/graphql-multipart-request-spec */
+  image?: Maybe<Scalars['Upload']>;
+  id: Scalars['String'];
+};
+
+export type DeleteImageMutation = {
+   __typename?: 'DeleteImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
 export type CreateEventMutationVariables = {
   event: AddEventMutationInput;
 };
@@ -697,6 +1045,9 @@ export type CreateEventMutation = (
         )>, description?: Maybe<(
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )>, images: Array<(
+          { __typename?: 'Image' }
+          & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
         )>, pEvent?: Maybe<(
           { __typename?: 'PalvelutarjotinEventNode' }
           & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
@@ -753,6 +1104,9 @@ export type EditEventMutation = (
         )>, description?: Maybe<(
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+        )>, images: Array<(
+          { __typename?: 'Image' }
+          & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
         )>, pEvent?: Maybe<(
           { __typename?: 'PalvelutarjotinEventNode' }
           & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
@@ -785,6 +1139,9 @@ export type EventQuery = (
     )>, description?: Maybe<(
       { __typename?: 'LocalisedObject' }
       & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+    )>, images: Array<(
+      { __typename?: 'Image' }
+      & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
     )>, infoUrl?: Maybe<(
       { __typename?: 'LocalisedObject' }
       & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
@@ -823,6 +1180,59 @@ export type EventQuery = (
         & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
       )> }
     )> }
+  )> }
+);
+
+export type UploadSingleImageMutationVariables = {
+  image: UploadImageMutationInput;
+};
+
+
+export type UploadSingleImageMutation = (
+  { __typename?: 'Mutation' }
+  & { uploadImageMutation?: Maybe<(
+    { __typename?: 'UploadImageMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'ImageMutationResponse' }
+      & Pick<ImageMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Image' }
+        & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+      )> }
+    )> }
+  )> }
+);
+
+export type UpdateSingleImageMutationVariables = {
+  image: UpdateImageMutationInput;
+};
+
+
+export type UpdateSingleImageMutation = (
+  { __typename?: 'Mutation' }
+  & { updateImageMutation?: Maybe<(
+    { __typename?: 'UpdateImageMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'ImageMutationResponse' }
+      & Pick<ImageMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Image' }
+        & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+      )> }
+    )> }
+  )> }
+);
+
+export type ImageQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type ImageQuery = (
+  { __typename?: 'Query' }
+  & { image?: Maybe<(
+    { __typename?: 'Image' }
+    & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
   )> }
 );
 
@@ -959,6 +1369,16 @@ export const CreateEventDocument = gql`
           fi
           sv
         }
+        images {
+          id
+          internalId
+          license
+          name
+          url
+          cropping
+          photographerName
+          altText
+        }
         pEvent {
           duration
           neededOccurrences
@@ -1085,6 +1505,16 @@ export const EditEventDocument = gql`
           fi
           sv
         }
+        images {
+          id
+          internalId
+          license
+          name
+          url
+          cropping
+          photographerName
+          altText
+        }
         pEvent {
           duration
           neededOccurrences
@@ -1156,6 +1586,16 @@ export const EventDocument = gql`
       en
       fi
       sv
+    }
+    images {
+      id
+      internalId
+      license
+      name
+      url
+      cropping
+      photographerName
+      altText
     }
     infoUrl {
       en
@@ -1250,6 +1690,173 @@ export function useEventLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
+export const UploadSingleImageDocument = gql`
+    mutation UploadSingleImage($image: UploadImageMutationInput!) {
+  uploadImageMutation(image: $image) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+        license
+        name
+        url
+        cropping
+        photographerName
+        altText
+      }
+    }
+  }
+}
+    `;
+export type UploadSingleImageMutationFn = ApolloReactCommon.MutationFunction<UploadSingleImageMutation, UploadSingleImageMutationVariables>;
+export type UploadSingleImageProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UploadSingleImageMutation, UploadSingleImageMutationVariables>
+    } & TChildProps;
+export function withUploadSingleImage<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UploadSingleImageMutation,
+  UploadSingleImageMutationVariables,
+  UploadSingleImageProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UploadSingleImageMutation, UploadSingleImageMutationVariables, UploadSingleImageProps<TChildProps, TDataName>>(UploadSingleImageDocument, {
+      alias: 'uploadSingleImage',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUploadSingleImageMutation__
+ *
+ * To run a mutation, you first call `useUploadSingleImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadSingleImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadSingleImageMutation, { data, loading, error }] = useUploadSingleImageMutation({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUploadSingleImageMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UploadSingleImageMutation, UploadSingleImageMutationVariables>) {
+        return ApolloReactHooks.useMutation<UploadSingleImageMutation, UploadSingleImageMutationVariables>(UploadSingleImageDocument, baseOptions);
+      }
+export type UploadSingleImageMutationHookResult = ReturnType<typeof useUploadSingleImageMutation>;
+export type UploadSingleImageMutationResult = ApolloReactCommon.MutationResult<UploadSingleImageMutation>;
+export type UploadSingleImageMutationOptions = ApolloReactCommon.BaseMutationOptions<UploadSingleImageMutation, UploadSingleImageMutationVariables>;
+export const UpdateSingleImageDocument = gql`
+    mutation UpdateSingleImage($image: UpdateImageMutationInput!) {
+  updateImageMutation(image: $image) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+        license
+        name
+        url
+        cropping
+        photographerName
+        altText
+      }
+    }
+  }
+}
+    `;
+export type UpdateSingleImageMutationFn = ApolloReactCommon.MutationFunction<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>;
+export type UpdateSingleImageProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>
+    } & TChildProps;
+export function withUpdateSingleImage<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateSingleImageMutation,
+  UpdateSingleImageMutationVariables,
+  UpdateSingleImageProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateSingleImageMutation, UpdateSingleImageMutationVariables, UpdateSingleImageProps<TChildProps, TDataName>>(UpdateSingleImageDocument, {
+      alias: 'updateSingleImage',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateSingleImageMutation__
+ *
+ * To run a mutation, you first call `useUpdateSingleImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSingleImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSingleImageMutation, { data, loading, error }] = useUpdateSingleImageMutation({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUpdateSingleImageMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>(UpdateSingleImageDocument, baseOptions);
+      }
+export type UpdateSingleImageMutationHookResult = ReturnType<typeof useUpdateSingleImageMutation>;
+export type UpdateSingleImageMutationResult = ApolloReactCommon.MutationResult<UpdateSingleImageMutation>;
+export type UpdateSingleImageMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>;
+export const ImageDocument = gql`
+    query Image($id: ID!) {
+  image(id: $id) {
+    id
+    internalId
+    license
+    name
+    url
+    cropping
+    photographerName
+    altText
+  }
+}
+    `;
+export type ImageProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<ImageQuery, ImageQueryVariables>
+    } & TChildProps;
+export function withImage<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ImageQuery,
+  ImageQueryVariables,
+  ImageProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, ImageQuery, ImageQueryVariables, ImageProps<TChildProps, TDataName>>(ImageDocument, {
+      alias: 'image',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useImageQuery__
+ *
+ * To run a query within a React component, call `useImageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useImageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useImageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useImageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ImageQuery, ImageQueryVariables>) {
+        return ApolloReactHooks.useQuery<ImageQuery, ImageQueryVariables>(ImageDocument, baseOptions);
+      }
+export function useImageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ImageQuery, ImageQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ImageQuery, ImageQueryVariables>(ImageDocument, baseOptions);
+        }
+export type ImageQueryHookResult = ReturnType<typeof useImageQuery>;
+export type ImageLazyQueryHookResult = ReturnType<typeof useImageLazyQuery>;
+export type ImageQueryResult = ApolloReactCommon.QueryResult<ImageQuery, ImageQueryVariables>;
 export const KeywordDocument = gql`
     query Keyword($id: ID!) {
   keyword(id: $id) {

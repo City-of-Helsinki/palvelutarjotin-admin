@@ -1,9 +1,17 @@
 @import 'colours';
 
+.deleteImageButton {
+  --color-icon: var(--color-error);
+  --color-text: var(--color-bus);
+  --fontweight-text: 500;
+  --width-icon: 1.5rem;
+}
+
 .deleteIconWrapper {
-  width: 1rem;
-  margin-right: 1rem;
-  fill: red;
+  height: var(--width-icon);
+  width: var(--width-icon);
+  margin-right: var(--spacing-s);
+  fill: var(--color-icon);
 
   svg {
     display: block;
@@ -15,5 +23,6 @@
   display: flex;
   margin-top: 42px;
   align-items: center;
-  color: $hel-bus;
+  color: var(--color-text);
+  font-weight: var(--fontweight-text);
 }

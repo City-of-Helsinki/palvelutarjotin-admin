@@ -31,22 +31,6 @@
     }
   }
 
-  .imagePreview {
-    margin-bottom: 1rem;
-
-    p {
-      font-size: var(--fontsize-label);
-      line-height: var(--lineheight-label);
-      font-weight: bold;
-      margin: 0;
-      margin-bottom: 0.2em;
-    }
-  }
-
-  .eventImage {
-    width: 100%;
-  }
-
   .imageSelectRow {
     display: grid;
     grid-gap: var(--grid-gap);
