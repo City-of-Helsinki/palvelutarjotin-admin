@@ -8,7 +8,7 @@ import inputStyles from '../textInput/inputWrapper.module.scss';
 import styles from './timepicker.module.scss';
 import { getTimes } from './utils';
 
-type Props = {
+export type Props = {
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -42,7 +42,6 @@ const Timepicker: React.FC<Props> = ({
   const handleInputValueChange = ({
     inputValue,
   }: Partial<UseComboboxState<string>>) => {
-    onChange(inputValue || '');
     if (inputValue) {
       const modifiedInputValue = inputValue.replace('.', ':').toLowerCase();
       setInputItems(
@@ -51,6 +50,7 @@ const Timepicker: React.FC<Props> = ({
     } else {
       setInputItems(timesList);
     }
+    onChange(inputValue || '');
   };
 
   const {
@@ -65,10 +65,8 @@ const Timepicker: React.FC<Props> = ({
     getItemProps,
   } = useCombobox({
     id,
-    inputValue: value,
     items: inputItems,
     onInputValueChange: handleInputValueChange,
-    onSelectedItemChange: () => {},
     getA11ySelectionMessage: ({ selectedItem }) => {
       return t('common.dropdownSelect.accessibility.selectionMessage', {
         value: selectedItem,
