@@ -16,10 +16,24 @@ export type Scalars = {
    * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
    */
   DateTime: any;
+  /**
+   * Create scalar that ignores normal serialization/deserialization, since
+   * that will be handled by the multipart request spec
+   */
+  Upload: any;
 };
 
 export type Query = {
    __typename?: 'Query';
+  occurrences?: Maybe<OccurrenceNodeConnection>;
+  /** The ID of the object */
+  occurrence?: Maybe<OccurrenceNode>;
+  studyGroups?: Maybe<StudyGroupNodeConnection>;
+  /** The ID of the object */
+  studyGroup?: Maybe<StudyGroupNode>;
+  venues?: Maybe<VenueCustomDataNodeConnection>;
+  /** The ID of the object */
+  venue?: Maybe<VenueCustomDataNode>;
   /** Query personal data of logged user */
   myProfile?: Maybe<PersonNode>;
   /** The ID of the object */
@@ -32,10 +46,51 @@ export type Query = {
   event?: Maybe<Event>;
   places?: Maybe<PlaceListResponse>;
   place?: Maybe<Place>;
+  images?: Maybe<ImageListResponse>;
+  image?: Maybe<Image>;
   keywords?: Maybe<KeywordListResponse>;
   keyword?: Maybe<Keyword>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
+};
+
+
+export type QueryOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryOccurrenceArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStudyGroupsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryStudyGroupArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryVenuesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryVenueArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -109,6 +164,11 @@ export type QueryPlaceArgs = {
 };
 
 
+export type QueryImageArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryKeywordsArgs = {
   dataSource?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
@@ -135,39 +195,12 @@ export type QueryPlacesSearchArgs = {
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type PersonNode = Node & {
-   __typename?: 'PersonNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  emailAddress: Scalars['String'];
-  organisations: OrganisationNodeConnection;
-};
-
-
-export type PersonNodeOrganisationsArgs = {
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-/** An object with an ID */
-export type Node = {
-  /** The ID of the object. */
-  id: Scalars['ID'];
-};
-
-
-export type OrganisationNodeConnection = {
-   __typename?: 'OrganisationNodeConnection';
+export type OccurrenceNodeConnection = {
+   __typename?: 'OccurrenceNodeConnection';
   /** Pagination data for this connection. */
   pageInfo: PageInfo;
   /** Contains the nodes in this connection. */
-  edges: Array<Maybe<OrganisationNodeEdge>>;
+  edges: Array<Maybe<OccurrenceNodeEdge>>;
 };
 
 /** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
@@ -183,13 +216,75 @@ export type PageInfo = {
   endCursor?: Maybe<Scalars['String']>;
 };
 
-/** A Relay edge containing a `OrganisationNode` and its cursor. */
-export type OrganisationNodeEdge = {
-   __typename?: 'OrganisationNodeEdge';
+/** A Relay edge containing a `OccurrenceNode` and its cursor. */
+export type OccurrenceNodeEdge = {
+   __typename?: 'OccurrenceNodeEdge';
   /** The item at the end of the edge */
-  node?: Maybe<OrganisationNode>;
+  node?: Maybe<OccurrenceNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type OccurrenceNode = Node & {
+   __typename?: 'OccurrenceNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  pEvent?: Maybe<PalvelutarjotinEventNode>;
+  minGroupSize: Scalars['Int'];
+  maxGroupSize: Scalars['Int'];
+  startTime: Scalars['DateTime'];
+  endTime: Scalars['DateTime'];
+  organisation: OrganisationNode;
+  contactPersons: PersonNodeConnection;
+  groups: StudyGroupNodeConnection;
+  placeId: Scalars['String'];
+};
+
+
+export type OccurrenceNodeContactPersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OccurrenceNodeGroupsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** An object with an ID */
+export type Node = {
+  /** The ID of the object. */
+  id: Scalars['ID'];
+};
+
+
+export type PalvelutarjotinEventNode = Node & {
+   __typename?: 'PalvelutarjotinEventNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  linkedEventId: Scalars['String'];
+  enrolmentStart?: Maybe<Scalars['DateTime']>;
+  enrolmentEnd?: Maybe<Scalars['DateTime']>;
+  duration: Scalars['Int'];
+  neededOccurrences: Scalars['Int'];
+  occurrences: OccurrenceNodeConnection;
+};
+
+
+export type PalvelutarjotinEventNodeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type OrganisationNode = Node & {
@@ -200,10 +295,19 @@ export type OrganisationNode = Node & {
   phoneNumber: Scalars['String'];
   type: OrganisationType;
   persons: PersonNodeConnection;
+  occurrenceSet: OccurrenceNodeConnection;
 };
 
 
 export type OrganisationNodePersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrganisationNodeOccurrenceSetArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -233,6 +337,122 @@ export type PersonNodeEdge = {
   node?: Maybe<PersonNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type PersonNode = Node & {
+   __typename?: 'PersonNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  emailAddress: Scalars['String'];
+  organisations: OrganisationNodeConnection;
+  occurrences: OccurrenceNodeConnection;
+  studygroupSet: StudyGroupNodeConnection;
+};
+
+
+export type PersonNodeOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodeStudygroupSetArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type OrganisationNodeConnection = {
+   __typename?: 'OrganisationNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<OrganisationNodeEdge>>;
+};
+
+/** A Relay edge containing a `OrganisationNode` and its cursor. */
+export type OrganisationNodeEdge = {
+   __typename?: 'OrganisationNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<OrganisationNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type StudyGroupNodeConnection = {
+   __typename?: 'StudyGroupNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<StudyGroupNodeEdge>>;
+};
+
+/** A Relay edge containing a `StudyGroupNode` and its cursor. */
+export type StudyGroupNodeEdge = {
+   __typename?: 'StudyGroupNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<StudyGroupNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type StudyGroupNode = Node & {
+   __typename?: 'StudyGroupNode';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  person: PersonNode;
+  name: Scalars['String'];
+  groupSize: Scalars['Int'];
+  occurrences: OccurrenceNodeConnection;
+};
+
+
+export type StudyGroupNodeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type VenueCustomDataNodeConnection = {
+   __typename?: 'VenueCustomDataNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<VenueCustomDataNodeEdge>>;
+};
+
+/** A Relay edge containing a `VenueCustomDataNode` and its cursor. */
+export type VenueCustomDataNodeEdge = {
+   __typename?: 'VenueCustomDataNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<VenueCustomDataNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type VenueCustomDataNode = Node & {
+   __typename?: 'VenueCustomDataNode';
+  placeId: Scalars['String'];
+  /** The ID of the object. */
+  id: Scalars['ID'];
 };
 
 export type EventListResponse = {
@@ -400,6 +620,7 @@ export type Image = {
   url: Scalars['String'];
   cropping?: Maybe<Scalars['String']>;
   photographerName?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
 };
 
 export type InLanguage = {
@@ -425,23 +646,16 @@ export type ExtensionCourse = {
   remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
 };
 
-export type PalvelutarjotinEventNode = Node & {
-   __typename?: 'PalvelutarjotinEventNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  linkedEventId: Scalars['String'];
-  enrolmentStart?: Maybe<Scalars['DateTime']>;
-  enrolmentEnd?: Maybe<Scalars['DateTime']>;
-  duration: Scalars['Int'];
-  neededOccurrences: Scalars['Int'];
-};
-
 export type PlaceListResponse = {
    __typename?: 'PlaceListResponse';
   meta: Meta;
   data: Array<Place>;
+};
+
+export type ImageListResponse = {
+   __typename?: 'ImageListResponse';
+  meta: Meta;
+  data: Array<Image>;
 };
 
 export type KeywordListResponse = {
@@ -464,6 +678,9 @@ export type PlaceSearchListResponse = {
 
 export type Mutation = {
    __typename?: 'Mutation';
+  addOccurrence?: Maybe<AddOccurrenceMutationPayload>;
+  updateOccurrence?: Maybe<UpdateOccurrenceMutationPayload>;
+  deleteOccurrence?: Maybe<DeleteOccurrenceMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
   updateOrganisation?: Maybe<UpdateOrganisationMutationPayload>;
@@ -471,6 +688,24 @@ export type Mutation = {
   addEventMutation?: Maybe<AddEventMutation>;
   updateEventMutation?: Maybe<UpdateEventMutation>;
   deleteEventMutation?: Maybe<DeleteEventMutation>;
+  uploadImageMutation?: Maybe<UploadImageMutation>;
+  updateImageMutation?: Maybe<UpdateImageMutation>;
+  deleteImageMutation?: Maybe<DeleteImageMutation>;
+};
+
+
+export type MutationAddOccurrenceArgs = {
+  input: AddOccurrenceMutationInput;
+};
+
+
+export type MutationUpdateOccurrenceArgs = {
+  input: UpdateOccurrenceMutationInput;
+};
+
+
+export type MutationDeleteOccurrenceArgs = {
+  input: DeleteOccurrenceMutationInput;
 };
 
 
@@ -505,7 +740,77 @@ export type MutationUpdateEventMutationArgs = {
 
 
 export type MutationDeleteEventMutationArgs = {
-  eventId?: Maybe<Scalars['String']>;
+  eventId: Scalars['String'];
+};
+
+
+export type MutationUploadImageMutationArgs = {
+  image?: Maybe<UploadImageMutationInput>;
+};
+
+
+export type MutationUpdateImageMutationArgs = {
+  image?: Maybe<UpdateImageMutationInput>;
+};
+
+
+export type MutationDeleteImageMutationArgs = {
+  imageId: Scalars['String'];
+};
+
+export type AddOccurrenceMutationPayload = {
+   __typename?: 'AddOccurrenceMutationPayload';
+  occurrence?: Maybe<OccurrenceNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type AddOccurrenceMutationInput = {
+  placeId: Scalars['String'];
+  minGroupSize: Scalars['Int'];
+  maxGroupSize: Scalars['Int'];
+  startTime: Scalars['DateTime'];
+  endTime: Scalars['DateTime'];
+  organisationId: Scalars['ID'];
+  contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
+  pEventId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type PersonNodeInput = {
+  id?: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  emailAddress: Scalars['String'];
+};
+
+export type UpdateOccurrenceMutationPayload = {
+   __typename?: 'UpdateOccurrenceMutationPayload';
+  occurrence?: Maybe<OccurrenceNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateOccurrenceMutationInput = {
+  id: Scalars['ID'];
+  placeId?: Maybe<Scalars['String']>;
+  minGroupSize?: Maybe<Scalars['Int']>;
+  maxGroupSize?: Maybe<Scalars['Int']>;
+  startTime?: Maybe<Scalars['DateTime']>;
+  endTime?: Maybe<Scalars['DateTime']>;
+  organisationId?: Maybe<Scalars['ID']>;
+  /** Should include all contact persons of the occurrence, missing contact persons will be removed during mutation */
+  contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
+  pEventId?: Maybe<Scalars['ID']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeleteOccurrenceMutationPayload = {
+   __typename?: 'DeleteOccurrenceMutationPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeleteOccurrenceMutationInput = {
+  id: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type UpdateMyProfileMutationPayload = {
@@ -673,6 +978,49 @@ export type DeleteEventMutation = {
   response?: Maybe<EventMutationResponse>;
 };
 
+export type UploadImageMutation = {
+   __typename?: 'UploadImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
+export type ImageMutationResponse = {
+   __typename?: 'ImageMutationResponse';
+  statusCode: Scalars['Int'];
+  body?: Maybe<Image>;
+};
+
+export type UploadImageMutationInput = {
+  license?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  cropping?: Maybe<Scalars['String']>;
+  photographerName?: Maybe<Scalars['String']>;
+  /** Following GraphQL file upload specs here: https://github.com/jaydenseric/graphql-multipart-request-spec */
+  image?: Maybe<Scalars['Upload']>;
+};
+
+
+export type UpdateImageMutation = {
+   __typename?: 'UpdateImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
+export type UpdateImageMutationInput = {
+  license?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  cropping?: Maybe<Scalars['String']>;
+  photographerName?: Maybe<Scalars['String']>;
+  /** Following GraphQL file upload specs here: https://github.com/jaydenseric/graphql-multipart-request-spec */
+  image?: Maybe<Scalars['Upload']>;
+  id: Scalars['String'];
+};
+
+export type DeleteImageMutation = {
+   __typename?: 'DeleteImageMutation';
+  response?: Maybe<ImageMutationResponse>;
+};
+
 export type CreateEventMutationVariables = {
   event: AddEventMutationInput;
 };
@@ -775,7 +1123,7 @@ export type EventQuery = (
   { __typename?: 'Query' }
   & { event?: Maybe<(
     { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'internalId'>
+    & Pick<Event, 'id' | 'internalId' | 'startTime'>
     & { name: (
       { __typename?: 'LocalisedObject' }
       & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
@@ -791,6 +1139,16 @@ export type EventQuery = (
     )>, pEvent?: Maybe<(
       { __typename?: 'PalvelutarjotinEventNode' }
       & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
+      & { occurrences: (
+        { __typename?: 'OccurrenceNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OccurrenceNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OccurrenceNode' }
+            & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+          )> }
+        )>> }
+      ) }
     )>, inLanguage: Array<(
       { __typename?: 'InLanguage' }
       & Pick<InLanguage, 'id' | 'internalId'>
@@ -868,6 +1226,49 @@ export type KeywordsQuery = (
         & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )> }
     )> }
+  )> }
+);
+
+export type DeleteOccurrenceMutationVariables = {
+  input: DeleteOccurrenceMutationInput;
+};
+
+
+export type DeleteOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOccurrence?: Maybe<(
+    { __typename?: 'DeleteOccurrenceMutationPayload' }
+    & Pick<DeleteOccurrenceMutationPayload, 'clientMutationId'>
+  )> }
+);
+
+export type OccurrencesQueryVariables = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OccurrencesQuery = (
+  { __typename?: 'Query' }
+  & { occurrences?: Maybe<(
+    { __typename?: 'OccurrenceNodeConnection' }
+    & { pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<Maybe<(
+      { __typename?: 'OccurrenceNodeEdge' }
+      & Pick<OccurrenceNodeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename?: 'OccurrenceNode' }
+        & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime'>
+        & { pEvent?: Maybe<(
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & Pick<PalvelutarjotinEventNode, 'id'>
+        )> }
+      )> }
+    )>> }
   )> }
 );
 
@@ -1165,6 +1566,18 @@ export const EventDocument = gql`
     pEvent {
       duration
       neededOccurrences
+      occurrences {
+        edges {
+          node {
+            id
+            maxGroupSize
+            minGroupSize
+            startTime
+            endTime
+            placeId
+          }
+        }
+      }
     }
     inLanguage {
       id
@@ -1207,6 +1620,7 @@ export const EventDocument = gql`
         sv
       }
     }
+    startTime
   }
 }
     `;
@@ -1366,6 +1780,118 @@ export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
+export const DeleteOccurrenceDocument = gql`
+    mutation DeleteOccurrence($input: DeleteOccurrenceMutationInput!) {
+  deleteOccurrence(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type DeleteOccurrenceMutationFn = ApolloReactCommon.MutationFunction<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>;
+export type DeleteOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>
+    } & TChildProps;
+export function withDeleteOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteOccurrenceMutation,
+  DeleteOccurrenceMutationVariables,
+  DeleteOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables, DeleteOccurrenceProps<TChildProps, TDataName>>(DeleteOccurrenceDocument, {
+      alias: 'deleteOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useDeleteOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteOccurrenceMutation, { data, loading, error }] = useDeleteOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>(DeleteOccurrenceDocument, baseOptions);
+      }
+export type DeleteOccurrenceMutationHookResult = ReturnType<typeof useDeleteOccurrenceMutation>;
+export type DeleteOccurrenceMutationResult = ApolloReactCommon.MutationResult<DeleteOccurrenceMutation>;
+export type DeleteOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>;
+export const OccurrencesDocument = gql`
+    query Occurrences($after: String, $before: String, $first: Int, $last: Int) {
+  occurrences(after: $after, before: $before, first: $first, last: $last) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      node {
+        id
+        pEvent {
+          id
+        }
+        minGroupSize
+        maxGroupSize
+        startTime
+        endTime
+      }
+      cursor
+    }
+  }
+}
+    `;
+export type OccurrencesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<OccurrencesQuery, OccurrencesQueryVariables>
+    } & TChildProps;
+export function withOccurrences<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OccurrencesQuery,
+  OccurrencesQueryVariables,
+  OccurrencesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, OccurrencesQuery, OccurrencesQueryVariables, OccurrencesProps<TChildProps, TDataName>>(OccurrencesDocument, {
+      alias: 'occurrences',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOccurrencesQuery__
+ *
+ * To run a query within a React component, call `useOccurrencesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOccurrencesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOccurrencesQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *   },
+ * });
+ */
+export function useOccurrencesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OccurrencesQuery, OccurrencesQueryVariables>) {
+        return ApolloReactHooks.useQuery<OccurrencesQuery, OccurrencesQueryVariables>(OccurrencesDocument, baseOptions);
+      }
+export function useOccurrencesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OccurrencesQuery, OccurrencesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OccurrencesQuery, OccurrencesQueryVariables>(OccurrencesDocument, baseOptions);
+        }
+export type OccurrencesQueryHookResult = ReturnType<typeof useOccurrencesQuery>;
+export type OccurrencesLazyQueryHookResult = ReturnType<typeof useOccurrencesLazyQuery>;
+export type OccurrencesQueryResult = ApolloReactCommon.QueryResult<OccurrencesQuery, OccurrencesQueryVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!) {
   place(id: $id) {

@@ -239,5 +239,35 @@
   },
   "notFound": {
     "textNotFound": "Etsimääsi sivua ei löytynyt"
+  },
+  "occurrences": {
+    "actionsDropdown": {
+      "menuItemDelete": "Poista",
+      "menuItemEdit": "Muokkaa",
+      "menuItemEnrollments": "Ilmoittautuneet",
+      "toggleButton": "Valitse"
+    },
+    "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
+    "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "buttonShowMore": "Näytä lisää",
+    "count": "{{count}} kpl",
+    "deleteModal": {
+      "buttonDelete": "Poista tapahtuma-aika",
+      "text1": "Oletko varma että haluat poistaa tapahtuma-ajan?",
+      "text2": "Poistettua tapahtuma-aikaa ei voi palauttaa.",
+      "title": "Poista tapahtuma-aika"
+    },
+    "pageTitle": "Tapahtuma-ajat",
+    "table": {
+      "columnActions": "Toiminnot",
+      "columnDate": "Pvm",
+      "columnEnrollmentStarts": "Ilm. alkaa",
+      "columnEnrollments": "Ilmoittautuneita",
+      "columnLocation": "Tapahtumapaikka",
+      "columnMaxGroupSize": "Paikkoja",
+      "columnTime": "Kellonaika"
+    },
+    "titleComingOccurrences": "Tulevat tapahtuma-ajat",
+    "titlePastOccurrences": "Menneet tapahtuma-ajat"
   }
 }

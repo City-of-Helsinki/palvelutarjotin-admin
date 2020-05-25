@@ -28,6 +28,18 @@ export const QUERY_EVENT = gql`
       pEvent {
         duration
         neededOccurrences
+        occurrences {
+          edges {
+            node {
+              id
+              maxGroupSize
+              minGroupSize
+              startTime
+              endTime
+              placeId
+            }
+          }
+        }
       }
       inLanguage {
         id
@@ -70,6 +82,7 @@ export const QUERY_EVENT = gql`
           sv
         }
       }
+      startTime
     }
   }
 `;

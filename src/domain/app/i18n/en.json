@@ -239,5 +239,35 @@
   },
   "notFound": {
     "textNotFound": "The page you were looking for was not found"
+  },
+  "occurrences": {
+    "actionsDropdown": {
+      "menuItemDelete": "Delete",
+      "menuItemEdit": "Edit",
+      "menuItemEnrollments": "Registrations",
+      "toggleButton": "Select"
+    },
+    "buttonCreateOccurrence": "Add new event time",
+    "buttonEventDetails": "View event details",
+    "buttonShowMore": "Show more",
+    "count": "{{count}} pcs",
+    "deleteModal": {
+      "buttonDelete": "Delete event time",
+      "text1": "Are you sure you want to delete the event time?",
+      "text2": "Once deleted, event times can not be restored.",
+      "title": "Delete event time"
+    },
+    "pageTitle": "Event times",
+    "table": {
+      "columnActions": "Actions",
+      "columnDate": "Date",
+      "columnEnrollmentStarts": "Registration begins",
+      "columnEnrollments": "Registrations",
+      "columnLocation": "Location",
+      "columnMaxGroupSize": "Seats",
+      "columnTime": "Time"
+    },
+    "titleComingOccurrences": "Coming event times",
+    "titlePastOccurrences": "Past event times"
   }
 }

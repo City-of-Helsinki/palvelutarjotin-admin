@@ -93,10 +93,10 @@
       "title": "Kontaktperson"
     },
     "deleteModal": {
-      "buttonDelete": "Bort händelsen",
-      "text1": "Är du säker på att du vill ta bort händelsen?",
-      "text2": "En borttagen händelse kan inte ångras.",
-      "title": "Bort händelsen"
+      "buttonDelete": "Bort evenemang",
+      "text1": "Är du säker på att du vill ta bort evenemang?",
+      "text2": "En borttagen evenemang kan inte ångras.",
+      "title": "Bort evenemang"
     },
     "location": {
       "labelLocation": "Standard venue",
@@ -239,5 +239,35 @@
   },
   "notFound": {
     "textNotFound": "Sidan du sökte hittades inte"
+  },
+  "occurrences": {
+    "actionsDropdown": {
+      "menuItemDelete": "Radera",
+      "menuItemEdit": "Redigera",
+      "menuItemEnrollments": "Registreringar",
+      "toggleButton": "Välj"
+    },
+    "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
+    "buttonEventDetails": "Visa information om evenemanget",
+    "buttonShowMore": "Visa mer",
+    "count": "{{count}} st",
+    "deleteModal": {
+      "buttonDelete": "Bort evenemangtid",
+      "text1": "Är du säker på att du vill ta bort evenemangtid?",
+      "text2": "En borttagen evenemangtid kan inte ångras.",
+      "title": "Bort evenemangtid"
+    },
+    "pageTitle": "Evenemangtider",
+    "table": {
+      "columnActions": "Funktioner",
+      "columnDate": "Datum",
+      "columnEnrollmentStarts": "Registrering börjar",
+      "columnEnrollments": "Registreringar",
+      "columnLocation": "Evenemang plats",
+      "columnMaxGroupSize": "Platser",
+      "columnTime": "Tid"
+    },
+    "titleComingOccurrences": "Framtida evenemangtider",
+    "titlePastOccurrences": "Tidigare evenemangtider"
   }
 }

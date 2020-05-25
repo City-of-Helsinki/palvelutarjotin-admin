@@ -7,12 +7,15 @@ import { SUPPORT_LANGUAGES } from '../../../constants';
 import { tokenFetched } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { apiTokenSelector, userSelector } from '../../auth/selectors';
+import EnrollmentsPage from '../../enrollments/EnrollmentsPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
 import EventsPage from '../../events/EventsPage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
+import EditOccurrencePage from '../../occurrence/EditOccurrencePage';
+import OccurrencesPage from '../../occurrences/OccurrencesPage';
 import PageLayout from '../layout/PageLayout';
 import { ROUTES } from './constants';
 
@@ -65,8 +68,23 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         />
         <Route
           exact
+          path={`/${locale}${ROUTES.OCCURRENCES}`}
+          component={OccurrencesPage}
+        />
+        <Route
+          exact
           path={`/${locale}${ROUTES.CREATE_OCCURRENCE}`}
           component={CreateEventOccurrencePage}
+        />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.EDIT_OCCURRENCE}`}
+          component={EditOccurrencePage}
+        />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.ENROLLMENTS}`}
+          component={EnrollmentsPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

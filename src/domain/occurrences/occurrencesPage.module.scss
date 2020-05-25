@@ -1,0 +1,54 @@
+@import "variables";
+
+.occurrencesPage {
+  --color-link: var(--color-bus);
+
+  --fontsize-link: var(--fontsize-body-default);
+
+  --fontweight-link: 500;
+
+  --grid-gap: var(--spacing-m);
+}
+
+.occurrencesPage {
+  padding-bottom: $paddingBottomPage;
+
+  h1 {
+    font-size: var(--fontsize-h-2);
+    margin: 1rem 0 1rem;
+  }
+
+  h2 {
+    font-size: var(--fontsize-h-4);
+  }
+
+  .link {
+    color: var(--color-link);
+    font-size: var(--fontsize-link);
+    font-weight: var(--fontweight-link);
+    text-decoration: none;
+  }
+
+  .count {
+    font-weight: normal;
+    margin-left: 0.5rem;
+  }
+
+  .titleRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: (var(--grid-gap))
+  }
+
+  .buttonWrapper {
+    align-self: center;
+  }
+
+  .showMoreButtonWrapper {
+    text-align: center;
+    color: var(--color-link);
+    font-size: var(--fontsize-link);
+    font-weight: var(--fontweight-link);
+    text-decoration: none;
+  }
+}
