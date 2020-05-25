@@ -21,7 +21,7 @@ import DatepickerContext from './datepickerContext';
 import Month from './Month';
 import MonthNavButton from './MonthNavButton';
 
-const dateRegex = /^\d\d\.\d\d\.\d\d\d\d$/;
+const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
 
 type Props = {
   disabled?: boolean;
