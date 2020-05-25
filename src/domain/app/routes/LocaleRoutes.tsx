@@ -15,6 +15,7 @@ import EventsPage from '../../events/EventsPage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import EditOccurrencePage from '../../occurrence/EditOccurrencePage';
+import OccurrenceDetailsPage from '../../occurrence/OccurrenceDetailsPage';
 import OccurrencesPage from '../../occurrences/OccurrencesPage';
 import PageLayout from '../layout/PageLayout';
 import { ROUTES } from './constants';
@@ -85,6 +86,11 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
           exact
           path={`/${locale}${ROUTES.ENROLMENTS}`}
           component={EnrolmentsPage}
+        />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.OCCURRENCE_DETAILS}`}
+          component={OccurrenceDetailsPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

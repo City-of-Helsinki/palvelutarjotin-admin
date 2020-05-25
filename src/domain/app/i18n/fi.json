@@ -246,6 +246,13 @@
   "notFound": {
     "textNotFound": "Etsimääsi sivua ei löytynyt"
   },
+  "occurrenceDetails": {
+    "buttonBack": "Tapahtuma-ajat",
+    "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
+    "pageTitle": "Tapahtuma-aika",
+    "textDateAndTime": "{{date}} klo {{time}}",
+    "textGroupInfo": "{{maxGroupSize}} paikkaa, ryhmän koko {{maxGroupSize}}–{{maxGroupSize}}"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Poista",
