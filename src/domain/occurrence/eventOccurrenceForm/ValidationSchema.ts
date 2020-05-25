@@ -1,11 +1,8 @@
-import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
-import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 const addMinValidationMessage = (
@@ -26,48 +23,16 @@ const addMaxValidationMessage = (
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
 
-const validateMaxEnrolmentDate = (date: string, schema: Yup.StringSchema) => {
-  const parsedDate = parseDate(date, DATE_FORMAT, new Date());
-  if (isValidDate(parsedDate)) {
-    return schema.test(
-      'isBeforeOccurrenceDate',
-      () => ({
-        key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
-        max: formatDate(parsedDate, DATE_FORMAT),
-      }),
-      (value: string) => {
-        return isBefore(parseDate(value, DATE_FORMAT, new Date()), parsedDate);
-      }
-    );
-  }
-  return schema;
-};
-
 const isValidTime = (time: string) =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
 
 export default Yup.object().shape({
-  date: Yup.string()
+  date: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDateString', VALIDATION_MESSAGE_KEYS.DATE, (value: string) =>
-      isValidDate(parseDate(value, DATE_FORMAT, new Date()))
-    )
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (value: string) => isFuture(parseDate(value, DATE_FORMAT, new Date()))
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (value: Date) =>
+      isFuture(value)
     ),
-  labelEnrolmentStarts: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDateString', VALIDATION_MESSAGE_KEYS.DATE, (value: string) =>
-      isValidDate(parseDate(value, DATE_FORMAT, new Date()))
-    )
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (value: string) => isFuture(parseDate(value, DATE_FORMAT, new Date()))
-    )
-    .when(['date'], validateMaxEnrolmentDate),
   startsAt: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
     .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value: string) =>

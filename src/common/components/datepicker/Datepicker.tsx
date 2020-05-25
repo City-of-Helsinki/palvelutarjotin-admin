@@ -28,8 +28,8 @@ type Props = {
   invalidText?: string;
   labelText?: string;
   onBlur: () => void;
-  onChange: (value?: string) => void;
-  value: string;
+  onChange: (value?: Date | null) => void;
+  value: Date | null;
 };
 
 const Datepicker: React.FC<Props> = ({
@@ -41,6 +41,7 @@ const Datepicker: React.FC<Props> = ({
   onChange,
   onBlur,
 }) => {
+  const [dateValue, setDateValue] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const datepickerClicked = React.useRef<boolean>(false);
   const container = React.useRef<HTMLDivElement>(null);
@@ -48,6 +49,13 @@ const Datepicker: React.FC<Props> = ({
   const datepickerContainer = React.useRef<HTMLDivElement>(null);
   const locale = useLocale();
   const { t } = useTranslation();
+
+  React.useEffect(() => {
+    if (value && isValidDate(value)) {
+      const formattedDate = formatDate(value, DATE_FORMAT);
+      setDateValue(formattedDate);
+    }
+  }, [value]);
 
   const isComponentFocused = () => {
     const active = document.activeElement;
@@ -63,9 +71,9 @@ const Datepicker: React.FC<Props> = ({
     setIsCalendarOpen(false);
     inputRef.current?.focus();
     if (data.startDate) {
-      onChange(formatDate(data.startDate, DATE_FORMAT));
+      onChange(data.startDate);
     } else {
-      onChange('');
+      onChange(null);
     }
   };
 
@@ -144,7 +152,13 @@ const Datepicker: React.FC<Props> = ({
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    setDateValue(event.target.value);
+    const parsedDate = parseDate(event.target.value, DATE_FORMAT, new Date());
+    if (isValidDate(parsedDate) && parsedDate.getFullYear() > 1970) {
+      onChange(parsedDate);
+    } else {
+      onChange(null);
+    }
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -152,8 +166,6 @@ const Datepicker: React.FC<Props> = ({
       onBlur();
     }
   };
-
-  const dateObject = parseDate(value, DATE_FORMAT, new Date());
 
   const {
     firstDayOfWeek,
@@ -170,8 +182,8 @@ const Datepicker: React.FC<Props> = ({
     goToPreviousMonths,
     goToNextMonths,
   } = useDatepicker({
-    startDate: isValidDate(dateObject) ? dateObject : new Date(),
-    endDate: isValidDate(dateObject) ? dateObject : new Date(),
+    startDate: isValidDate(value) ? value : new Date(),
+    endDate: isValidDate(value) ? value : new Date(),
     focusedInput: START_DATE,
     onDatesChange: handleDateChange,
     numberOfMonths: 1,
@@ -221,7 +233,7 @@ const Datepicker: React.FC<Props> = ({
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
-            value={value}
+            value={dateValue}
           />
           <IconCalendar className={styles.iconCalendar} />
           {isCalendarOpen && (
