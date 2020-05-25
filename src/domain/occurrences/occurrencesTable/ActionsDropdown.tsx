@@ -214,6 +214,7 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
         <span>{t('occurrences.actionsDropdown.toggleButton')}</span>
         <IconAngleDown className={styles.iconAngleDown} />
       </button>
+
       <ul role="menu" className={styles.dropdownMenu}>
         <MenuItem isFocused={focusedIndex === 0} onClick={goToEnrollmentsPage}>
           <IconPerson />
