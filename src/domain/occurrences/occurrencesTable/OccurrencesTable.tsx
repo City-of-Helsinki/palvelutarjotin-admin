@@ -70,11 +70,7 @@ const OccurrencesTable: React.FC<Props> = ({
     ],
     [eventId, locale, onDelete, t]
   );
-  return (
-    <div>
-      <Table columns={columns} data={occurrences} />
-    </div>
-  );
+  return <Table columns={columns} data={occurrences} />;
 };
 
 export default OccurrencesTable;

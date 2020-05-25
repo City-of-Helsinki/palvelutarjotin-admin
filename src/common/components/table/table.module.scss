@@ -13,6 +13,11 @@
   --margin-bottom-table: var(--spacing-m);
   --spacing-cell: var(--spacing-s);
 }
+.tableWrapper {
+  max-width: 100%;
+  overflow: auto;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;

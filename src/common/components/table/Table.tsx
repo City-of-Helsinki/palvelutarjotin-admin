@@ -23,7 +23,7 @@ export default function Table<D extends object>({ columns, data }: Props<D>) {
 
   // Render the UI for your table
   return (
-    <>
+    <div className={styles.tableWrapper}>
       <table {...getTableProps({ className: styles.table })}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -47,6 +47,6 @@ export default function Table<D extends object>({ columns, data }: Props<D>) {
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }
