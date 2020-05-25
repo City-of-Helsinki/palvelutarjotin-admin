@@ -110,6 +110,7 @@ const OccurrencesPage = () => {
                 {comingOccurrences.length ? (
                   <OccurrencesTable
                     eventId={eventId}
+                    id="coming-occurrences"
                     occurrences={comingOccurrences}
                     onDelete={handleDeleteOccurrence}
                   />
@@ -129,6 +130,7 @@ const OccurrencesPage = () => {
                     </h2>
                     <OccurrencesTable
                       eventId={eventId}
+                      id="past-occurrences"
                       occurrences={
                         showAllPastEvents
                           ? pastOccurrences
