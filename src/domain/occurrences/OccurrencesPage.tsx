@@ -20,7 +20,7 @@ import styles from './occurrencesPage.module.scss';
 import OccurrencesTable from './occurrencesTable/OccurrencesTable';
 import { OccurrenceInTable } from './types';
 
-const PAST_OCCURRENCE_AMOUNT = 1;
+const PAST_OCCURRENCE_AMOUNT = 4;
 
 interface Params {
   id: string;
@@ -107,12 +107,15 @@ const OccurrencesPage = () => {
                     </Link>
                   </div>
                 </div>
-
-                <OccurrencesTable
-                  eventId={eventId}
-                  occurrences={comingOccurrences}
-                  onDelete={handleDeleteOccurrence}
-                />
+                {comingOccurrences.length ? (
+                  <OccurrencesTable
+                    eventId={eventId}
+                    occurrences={comingOccurrences}
+                    onDelete={handleDeleteOccurrence}
+                  />
+                ) : (
+                  <div>{t('occurrences.textNoComingOccurrences')}</div>
+                )}
 
                 {pastOccurrences.length && (
                   <>
