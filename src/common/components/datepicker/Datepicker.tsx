@@ -21,6 +21,8 @@ import DatepickerContext from './datepickerContext';
 import Month from './Month';
 import MonthNavButton from './MonthNavButton';
 
+const dateRegex = /^\d\d\.\d\d\.\d\d\d\d$/;
+
 type Props = {
   disabled?: boolean;
   helperText?: string;
@@ -151,10 +153,23 @@ const Datepicker: React.FC<Props> = ({
     };
   });
 
+  const handleChange = (value: string) => {
+    const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+    if (isValidDate(parsedDate)) {
+      onChange(parsedDate);
+    }
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDateValue(event.target.value);
+    const eventValue = event.target.value;
     const parsedDate = parseDate(event.target.value, DATE_FORMAT, new Date());
-    if (isValidDate(parsedDate) && parsedDate.getFullYear() > 1970) {
+    const dateIsInValidFormat =
+      isValidDate(parsedDate) &&
+      dateRegex.test(eventValue) &&
+      parsedDate.getFullYear() > 1970;
+    setDateValue(eventValue);
+
+    if (dateIsInValidFormat) {
       onChange(parsedDate);
     } else {
       onChange(null);
@@ -162,8 +177,16 @@ const Datepicker: React.FC<Props> = ({
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    handleChange(dateValue);
+
     if (!isCalendarOpen) {
-      onBlur();
+      setTimeout(() => onBlur());
+    }
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleChange(dateValue);
     }
   };
 
@@ -234,6 +257,7 @@ const Datepicker: React.FC<Props> = ({
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
             value={dateValue}
+            onKeyDown={handleInputKeyDown}
           />
           <IconCalendar className={styles.iconCalendar} />
           {isCalendarOpen && (
