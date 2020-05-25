@@ -22,12 +22,11 @@ const EventOccurrenceForm: React.FC = () => {
   return (
     <Formik
       initialValues={{
-        date: '',
+        date: new Date(),
         startsAt: '',
         endsAt: '',
         location: '',
         locationDescription: '',
-        labelEnrolmentStarts: '',
         eventLanguage: '',
         spotsInTotal: 30,
         minGroupSize: 10,
@@ -70,13 +69,9 @@ const EventOccurrenceForm: React.FC = () => {
                     minuteInterval={15}
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Field
-                    labelText={t('eventOccurrenceForm.labelEnrolmentStarts')}
-                    name="labelEnrolmentStarts"
-                    component={DateInputField}
-                  />
-                </FormGroup>
+              </div>
+
+              <div className={styles.occurrenceFormRow}>
                 <FormGroup>
                   <Field
                     component={DropdownSelectField}
@@ -91,12 +86,6 @@ const EventOccurrenceForm: React.FC = () => {
                     ]}
                   />
                 </FormGroup>
-              </div>
-
-              <div className={styles.occurrenceFormRow}>
-                <p className={styles.participantRowTitle}>
-                  {t('eventOccurrenceForm.titleParticipantRow')}:
-                </p>
                 <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelSpotsInTotal')}

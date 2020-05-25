@@ -26,7 +26,7 @@ const InputField: React.FC<Props> = (props) => {
     });
   };
 
-  const handleChange = (val?: string) => {
+  const handleChange = (val?: Date | null) => {
     onChange({
       target: {
         id: name,
