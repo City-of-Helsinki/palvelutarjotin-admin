@@ -247,6 +247,7 @@
       "menuItemEnrollments": "Ilmoittautuneet",
       "toggleButton": "Valitse"
     },
+    "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
     "buttonShowMore": "Näytä lisää",

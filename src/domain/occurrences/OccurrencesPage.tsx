@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
+import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   useDeleteOccurrenceMutation,
@@ -50,6 +51,9 @@ const OccurrencesPage = () => {
   const pastOccurrences = occurrences.filter((item) =>
     isPast(new Date(item.startTime))
   );
+  const goToEventList = () => {
+    history.push(`/${locale}${ROUTES.HOME}`);
+  };
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
@@ -69,6 +73,9 @@ const OccurrencesPage = () => {
           <div className={styles.occurrencesPage}>
             <Container>
               <div>
+                <BackButton onClick={goToEventList}>
+                  {t('occurrences.buttonBack')}
+                </BackButton>
                 <div className={styles.titleRow}>
                   <h1>
                     {getLocalizedString(eventData.event?.name || {}, locale)}

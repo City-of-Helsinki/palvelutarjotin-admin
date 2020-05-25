@@ -247,6 +247,7 @@
       "menuItemEnrollments": "Registreringar",
       "toggleButton": "Välj"
     },
+    "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
     "buttonShowMore": "Visa mer",

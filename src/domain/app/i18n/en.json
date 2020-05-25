@@ -247,6 +247,7 @@
       "menuItemEnrollments": "Registrations",
       "toggleButton": "Select"
     },
+    "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
     "buttonEventDetails": "View event details",
     "buttonShowMore": "Show more",
