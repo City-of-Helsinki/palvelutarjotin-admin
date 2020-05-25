@@ -74,6 +74,11 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const handleToggleButtonClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    toggleMenu();
+  };
+
   const toggleMenu = React.useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
@@ -206,7 +211,7 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen}
         className={styles.toggleButton}
-        onClick={toggleMenu}
+        onClick={handleToggleButtonClick}
         type="button"
       >
         <span>{t('occurrences.actionsDropdown.toggleButton')}</span>

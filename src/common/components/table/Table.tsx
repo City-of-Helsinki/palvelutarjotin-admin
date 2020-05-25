@@ -1,14 +1,20 @@
+import classNames from 'classnames';
 import React from 'react';
-import { Column, useTable } from 'react-table';
+import { Column, Row, useTable } from 'react-table';
 
 import styles from './table.module.scss';
 
 type Props<D extends object> = {
   columns: Array<Column<D>>;
   data: Array<D>;
+  onRowClick?: (row: Row<D>) => void;
 };
 
-export default function Table<D extends object>({ columns, data }: Props<D>) {
+export default function Table<D extends object>({
+  columns,
+  data,
+  onRowClick,
+}: Props<D>) {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableBodyProps,
@@ -37,8 +43,27 @@ export default function Table<D extends object>({ columns, data }: Props<D>) {
         <tbody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             prepareRow(row);
+
+            const handleKeyDown = (
+              event: React.KeyboardEvent<HTMLTableRowElement>
+            ) => {
+              if (
+                event.target === event.currentTarget &&
+                event.key === 'Enter' &&
+                onRowClick
+              ) {
+                onRowClick(row);
+              }
+            };
+
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                className={classNames({ [styles.clickableRow]: onRowClick })}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                onKeyDown={handleKeyDown}
+                tabIndex={onRowClick ? 0 : -1}
+              >
                 {row.cells.map((cell) => {
                   return <td {...cell.getCellProps()}>{cell.value}</td>;
                 })}

@@ -47,5 +47,9 @@
         border-bottom: 1px solid var(--border-color-cell);
       }
     }
+
+    tr.clickableRow {
+      cursor: pointer;
+    }
   }
 }

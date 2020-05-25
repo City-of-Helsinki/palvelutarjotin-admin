@@ -8,5 +8,6 @@ export enum ROUTES {
   EVENT_DETAILS = '/events/:id',
   HOME = '/',
   OCCURRENCES = '/events/:id/occurrences',
+  OCCURRENCE_DETAILS = '/events/:id/occurrences/:occurrenceId',
   SILENT_CALLBACK = '/silent-callback',
 }

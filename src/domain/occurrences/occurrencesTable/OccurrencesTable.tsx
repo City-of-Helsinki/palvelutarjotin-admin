@@ -2,11 +2,14 @@ import { Checkbox } from 'hds-react';
 import forEach from 'lodash/forEach';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
 import useLocale from '../../../hooks/useLocale';
 import formatData from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
+import { ROUTES } from '../../app/routes/constants';
 import PlaceText from '../../place/PlaceText';
 import { OccurrenceInTable } from '../types';
 import ActionsDropdown from './ActionsDropdown';
@@ -25,6 +28,7 @@ const OccurrencesTable: React.FC<Props> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
   const locale = useLocale();
   const [selectedOccurrences, setSelectedOccurrences] = React.useState<
     string[]
@@ -57,6 +61,19 @@ const OccurrencesTable: React.FC<Props> = ({
     );
   };
 
+  const handleCheckboxClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
+
+  const goToOccurrenceDetailsPage = (row: Row<OccurrenceInTable>) => {
+    history.push(
+      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+        ':occurrenceId',
+        row.original.id
+      )}`
+    );
+  };
+
   const columns = [
     {
       Header: (
@@ -71,6 +88,7 @@ const OccurrencesTable: React.FC<Props> = ({
           id={`${id}_${row.id}_checkbox`}
           checked={selectedOccurrences.includes(row.id)}
           onChange={() => handleCheckboxChange(row)}
+          onClick={handleCheckboxClick}
         />
       ),
       id: 'selectRow',
@@ -105,7 +123,7 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnEnrolments'),
       accessor: (row: OccurrenceInTable) => 'TODO',
-      id: 'enrolments',
+      id: 'enrollments',
     },
     {
       Header: t('occurrences.table.columnActions'),
@@ -115,7 +133,14 @@ const OccurrencesTable: React.FC<Props> = ({
       id: 'actions',
     },
   ];
-  return <Table columns={columns} data={occurrences} />;
+
+  return (
+    <Table
+      columns={columns}
+      data={occurrences}
+      onRowClick={goToOccurrenceDetailsPage}
+    />
+  );
 };
 
 export default OccurrencesTable;
