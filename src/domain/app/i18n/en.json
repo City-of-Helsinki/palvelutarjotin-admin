@@ -244,7 +244,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Delete",
       "menuItemEdit": "Edit",
-      "menuItemEnrollments": "Registrations",
+      "menuItemEnrolments": "Registrations",
       "toggleButton": "Select"
     },
     "buttonBack": "Events",
@@ -262,8 +262,8 @@
     "table": {
       "columnActions": "Actions",
       "columnDate": "Date",
-      "columnEnrollmentStarts": "Registration begins",
-      "columnEnrollments": "Registrations",
+      "columnEnrolmentStarts": "Registration begins",
+      "columnEnrolments": "Registrations",
       "columnLocation": "Location",
       "columnMaxGroupSize": "Seats",
       "columnTime": "Time"

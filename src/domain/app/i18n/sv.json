@@ -244,7 +244,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Radera",
       "menuItemEdit": "Redigera",
-      "menuItemEnrollments": "Registreringar",
+      "menuItemEnrolments": "Registreringar",
       "toggleButton": "Välj"
     },
     "buttonBack": "Evenemang",
@@ -262,8 +262,8 @@
     "table": {
       "columnActions": "Funktioner",
       "columnDate": "Datum",
-      "columnEnrollmentStarts": "Registrering börjar",
-      "columnEnrollments": "Registreringar",
+      "columnEnrolmentStarts": "Registrering börjar",
+      "columnEnrolments": "Registreringar",
       "columnLocation": "Evenemang plats",
       "columnMaxGroupSize": "Platser",
       "columnTime": "Tid"

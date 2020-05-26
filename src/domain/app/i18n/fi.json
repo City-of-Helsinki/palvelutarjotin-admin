@@ -244,7 +244,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Poista",
       "menuItemEdit": "Muokkaa",
-      "menuItemEnrollments": "Ilmoittautuneet",
+      "menuItemEnrolments": "Ilmoittautuneet",
       "toggleButton": "Valitse"
     },
     "buttonBack": "Tapahtumiin",
@@ -262,8 +262,8 @@
     "table": {
       "columnActions": "Toiminnot",
       "columnDate": "Pvm",
-      "columnEnrollmentStarts": "Ilm. alkaa",
-      "columnEnrollments": "Ilmoittautuneita",
+      "columnEnrolmentStarts": "Ilm. alkaa",
+      "columnEnrolments": "Ilmoittautuneita",
       "columnLocation": "Tapahtumapaikka",
       "columnMaxGroupSize": "Paikkoja",
       "columnTime": "Kellonaika"

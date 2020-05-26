@@ -106,14 +106,14 @@ const OccurrencesTable: React.FC<Props> = ({
         id: 'maxGroupSize',
       },
       {
-        Header: t('occurrences.table.columnEnrollmentStarts'),
+        Header: t('occurrences.table.columnEnrolmentStarts'),
         accessor: (row) => 'TODO',
         id: 'elrollmentStarts',
       },
       {
-        Header: t('occurrences.table.columnEnrollments'),
+        Header: t('occurrences.table.columnEnrolments'),
         accessor: (row) => 'TODO',
-        id: 'enrollments',
+        id: 'enrolments',
       },
       {
         Header: t('occurrences.table.columnActions'),

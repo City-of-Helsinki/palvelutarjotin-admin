@@ -7,7 +7,7 @@ import { SUPPORT_LANGUAGES } from '../../../constants';
 import { tokenFetched } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { apiTokenSelector, userSelector } from '../../auth/selectors';
-import EnrollmentsPage from '../../enrollments/EnrollmentsPage';
+import EnrolmentsPage from '../../enrolments/EnrolmentsPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
@@ -83,8 +83,8 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         />
         <Route
           exact
-          path={`/${locale}${ROUTES.ENROLLMENTS}`}
-          component={EnrollmentsPage}
+          path={`/${locale}${ROUTES.ENROLMENTS}`}
+          component={EnrolmentsPage}
         />
         <Route component={NotFoundPage} />
       </Switch>
