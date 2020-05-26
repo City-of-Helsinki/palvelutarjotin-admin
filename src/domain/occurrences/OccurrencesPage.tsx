@@ -26,7 +26,7 @@ interface Params {
   id: string;
 }
 
-const OccurrencesPage = () => {
+const OccurrencesPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { id: eventId } = useParams<Params>();
