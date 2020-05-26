@@ -123,7 +123,7 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnEnrolments'),
       accessor: (row: OccurrenceInTable) => 'TODO',
-      id: 'enrollments',
+      id: 'enrolments',
     },
     {
       Header: t('occurrences.table.columnActions'),
