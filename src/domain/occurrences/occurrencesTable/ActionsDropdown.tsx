@@ -19,10 +19,8 @@ const MenuItem: React.FC<{
   const component = React.useRef<HTMLLIElement>(null);
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
-    switch (event.key) {
-      case 'Enter':
-        onClick();
-        break;
+    if (event.key === 'Enter') {
+      onClick();
     }
   };
 
