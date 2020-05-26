@@ -2,11 +2,14 @@ import { Checkbox } from 'hds-react';
 import forEach from 'lodash/forEach';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
 import useLocale from '../../../hooks/useLocale';
 import formatData from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
+import { ROUTES } from '../../app/routes/constants';
 import PlaceText from '../../place/PlaceText';
 import { OccurrenceInTable } from '../types';
 import ActionsDropdown from './ActionsDropdown';
@@ -25,6 +28,7 @@ const OccurrencesTable: React.FC<Props> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
   const locale = useLocale();
   const [selectedOccurrences, setSelectedOccurrences] = React.useState<
     string[]
@@ -54,6 +58,15 @@ const OccurrencesTable: React.FC<Props> = ({
       selectedOccurrences.includes(row.id)
         ? selectedOccurrences.filter((item) => item !== row.id)
         : [...selectedOccurrences, row.id]
+    );
+  };
+
+  const goToOccurrenceDetailsPage = (row: Row<OccurrenceInTable>) => {
+    history.push(
+      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+        ':occurrenceId',
+        row.original.id
+      )}`
     );
   };
 
@@ -113,9 +126,17 @@ const OccurrencesTable: React.FC<Props> = ({
         <ActionsDropdown eventId={eventId} onDelete={onDelete} row={row} />
       ),
       id: 'actions',
+      rowClickDisabled: true,
     },
   ];
-  return <Table columns={columns} data={occurrences} />;
+
+  return (
+    <Table
+      columns={columns}
+      data={occurrences}
+      onRowClick={goToOccurrenceDetailsPage}
+    />
+  );
 };
 
 export default OccurrencesTable;

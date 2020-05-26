@@ -246,6 +246,13 @@
   "notFound": {
     "textNotFound": "Sidan du sökte hittades inte"
   },
+  "occurrenceDetails": {
+    "buttonBack": "Evenemangtider",
+    "buttonEditOccurrence": "Redigera evenemangtid",
+    "pageTitle": "Evenemangtid",
+    "textDateAndTime": "{{date}} kl. {{time}}",
+    "textGroupInfo": "{{maxGroupSize}} platser, gruppstorlek {{maxGroupSize}}–{{maxGroupSize}}"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Radera",

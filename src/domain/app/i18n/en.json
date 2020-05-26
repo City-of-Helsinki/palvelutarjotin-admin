@@ -246,6 +246,13 @@
   "notFound": {
     "textNotFound": "The page you were looking for was not found"
   },
+  "occurrenceDetails": {
+    "buttonBack": "Event times",
+    "buttonEditOccurrence": "Edit event time",
+    "pageTitle": "Event time",
+    "textDateAndTime": "{{date}} at {{time}}",
+    "textGroupInfo": "{{maxGroupSize}} seats, group size {{maxGroupSize}}–{{maxGroupSize}}"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Delete",

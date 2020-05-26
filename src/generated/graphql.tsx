@@ -1291,6 +1291,23 @@ export type KeywordsQuery = (
   )> }
 );
 
+export type OccurrenceQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type OccurrenceQuery = (
+  { __typename?: 'Query' }
+  & { occurrence?: Maybe<(
+    { __typename?: 'OccurrenceNode' }
+    & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+    & { pEvent?: Maybe<(
+      { __typename?: 'PalvelutarjotinEventNode' }
+      & Pick<PalvelutarjotinEventNode, 'id'>
+    )> }
+  )> }
+);
+
 export type DeleteOccurrenceMutationVariables = {
   input: DeleteOccurrenceMutationInput;
 };
@@ -2039,6 +2056,60 @@ export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
+export const OccurrenceDocument = gql`
+    query Occurrence($id: ID!) {
+  occurrence(id: $id) {
+    id
+    pEvent {
+      id
+    }
+    minGroupSize
+    maxGroupSize
+    startTime
+    endTime
+    placeId
+  }
+}
+    `;
+export type OccurrenceProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<OccurrenceQuery, OccurrenceQueryVariables>
+    } & TChildProps;
+export function withOccurrence<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OccurrenceQuery,
+  OccurrenceQueryVariables,
+  OccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, OccurrenceQuery, OccurrenceQueryVariables, OccurrenceProps<TChildProps, TDataName>>(OccurrenceDocument, {
+      alias: 'occurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOccurrenceQuery__
+ *
+ * To run a query within a React component, call `useOccurrenceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOccurrenceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOccurrenceQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useOccurrenceQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OccurrenceQuery, OccurrenceQueryVariables>) {
+        return ApolloReactHooks.useQuery<OccurrenceQuery, OccurrenceQueryVariables>(OccurrenceDocument, baseOptions);
+      }
+export function useOccurrenceLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OccurrenceQuery, OccurrenceQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OccurrenceQuery, OccurrenceQueryVariables>(OccurrenceDocument, baseOptions);
+        }
+export type OccurrenceQueryHookResult = ReturnType<typeof useOccurrenceQuery>;
+export type OccurrenceLazyQueryHookResult = ReturnType<typeof useOccurrenceLazyQuery>;
+export type OccurrenceQueryResult = ApolloReactCommon.QueryResult<OccurrenceQuery, OccurrenceQueryVariables>;
 export const DeleteOccurrenceDocument = gql`
     mutation DeleteOccurrence($input: DeleteOccurrenceMutationInput!) {
   deleteOccurrence(input: $input) {
