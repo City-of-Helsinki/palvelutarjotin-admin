@@ -44,6 +44,17 @@ export default function Table<D extends object>({
           {rows.map((row, i) => {
             prepareRow(row);
 
+            const handleClick = (event: React.MouseEvent) => {
+              const element = event.target as HTMLElement;
+              if (
+                element.tagName === 'TD' &&
+                event.currentTarget.contains(element) &&
+                onRowClick
+              ) {
+                onRowClick(row);
+              }
+            };
+
             const handleKeyDown = (
               event: React.KeyboardEvent<HTMLTableRowElement>
             ) => {
@@ -60,7 +71,7 @@ export default function Table<D extends object>({
               <tr
                 {...row.getRowProps()}
                 className={classNames({ [styles.clickableRow]: onRowClick })}
-                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                onClick={handleClick}
                 onKeyDown={handleKeyDown}
                 tabIndex={onRowClick ? 0 : -1}
               >

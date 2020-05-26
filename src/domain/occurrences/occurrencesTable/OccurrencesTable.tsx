@@ -61,10 +61,6 @@ const OccurrencesTable: React.FC<Props> = ({
     );
   };
 
-  const handleCheckboxClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-  };
-
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceInTable>) => {
     history.push(
       `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
@@ -88,7 +84,6 @@ const OccurrencesTable: React.FC<Props> = ({
           id={`${id}_${row.id}_checkbox`}
           checked={selectedOccurrences.includes(row.id)}
           onChange={() => handleCheckboxChange(row)}
-          onClick={handleCheckboxClick}
         />
       ),
       id: 'selectRow',
@@ -131,6 +126,7 @@ const OccurrencesTable: React.FC<Props> = ({
         <ActionsDropdown eventId={eventId} onDelete={onDelete} row={row} />
       ),
       id: 'actions',
+      rowClickDisabled: true,
     },
   ];
 
