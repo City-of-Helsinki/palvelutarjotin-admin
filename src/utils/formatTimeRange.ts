@@ -5,11 +5,11 @@ import getTimeFormat from './getTimeFormat';
 /**
  * Format and localize time range
  */
-export default (
+export default function formatTimeRange(
   start: Date,
   end: Date | null | undefined,
   locale: Language
-) => {
+): string {
   const timeFormat = getTimeFormat(locale);
 
   if (!end) {
@@ -21,4 +21,4 @@ export default (
       locale
     )}`;
   }
-};
+}
