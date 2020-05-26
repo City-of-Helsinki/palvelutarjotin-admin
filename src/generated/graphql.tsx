@@ -1129,7 +1129,7 @@ export type EventQuery = (
   { __typename?: 'Query' }
   & { event?: Maybe<(
     { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'internalId'>
+    & Pick<Event, 'id' | 'internalId' | 'startTime'>
     & { name: (
       { __typename?: 'LocalisedObject' }
       & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
@@ -1148,6 +1148,16 @@ export type EventQuery = (
     )>, pEvent?: Maybe<(
       { __typename?: 'PalvelutarjotinEventNode' }
       & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
+      & { occurrences: (
+        { __typename?: 'OccurrenceNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OccurrenceNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OccurrenceNode' }
+            & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+          )> }
+        )>> }
+      ) }
     )>, inLanguage: Array<(
       { __typename?: 'InLanguage' }
       & Pick<InLanguage, 'id' | 'internalId'>
@@ -1278,6 +1288,49 @@ export type KeywordsQuery = (
         & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
       )> }
     )> }
+  )> }
+);
+
+export type DeleteOccurrenceMutationVariables = {
+  input: DeleteOccurrenceMutationInput;
+};
+
+
+export type DeleteOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOccurrence?: Maybe<(
+    { __typename?: 'DeleteOccurrenceMutationPayload' }
+    & Pick<DeleteOccurrenceMutationPayload, 'clientMutationId'>
+  )> }
+);
+
+export type OccurrencesQueryVariables = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OccurrencesQuery = (
+  { __typename?: 'Query' }
+  & { occurrences?: Maybe<(
+    { __typename?: 'OccurrenceNodeConnection' }
+    & { pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<Maybe<(
+      { __typename?: 'OccurrenceNodeEdge' }
+      & Pick<OccurrenceNodeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename?: 'OccurrenceNode' }
+        & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime'>
+        & { pEvent?: Maybe<(
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & Pick<PalvelutarjotinEventNode, 'id'>
+        )> }
+      )> }
+    )>> }
   )> }
 );
 
@@ -1605,6 +1658,18 @@ export const EventDocument = gql`
     pEvent {
       duration
       neededOccurrences
+      occurrences {
+        edges {
+          node {
+            id
+            maxGroupSize
+            minGroupSize
+            startTime
+            endTime
+            placeId
+          }
+        }
+      }
     }
     inLanguage {
       id
@@ -1647,6 +1712,7 @@ export const EventDocument = gql`
         sv
       }
     }
+    startTime
   }
 }
     `;
@@ -1973,6 +2039,118 @@ export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
+export const DeleteOccurrenceDocument = gql`
+    mutation DeleteOccurrence($input: DeleteOccurrenceMutationInput!) {
+  deleteOccurrence(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type DeleteOccurrenceMutationFn = ApolloReactCommon.MutationFunction<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>;
+export type DeleteOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>
+    } & TChildProps;
+export function withDeleteOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteOccurrenceMutation,
+  DeleteOccurrenceMutationVariables,
+  DeleteOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables, DeleteOccurrenceProps<TChildProps, TDataName>>(DeleteOccurrenceDocument, {
+      alias: 'deleteOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useDeleteOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteOccurrenceMutation, { data, loading, error }] = useDeleteOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>(DeleteOccurrenceDocument, baseOptions);
+      }
+export type DeleteOccurrenceMutationHookResult = ReturnType<typeof useDeleteOccurrenceMutation>;
+export type DeleteOccurrenceMutationResult = ApolloReactCommon.MutationResult<DeleteOccurrenceMutation>;
+export type DeleteOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>;
+export const OccurrencesDocument = gql`
+    query Occurrences($after: String, $before: String, $first: Int, $last: Int) {
+  occurrences(after: $after, before: $before, first: $first, last: $last) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      node {
+        id
+        pEvent {
+          id
+        }
+        minGroupSize
+        maxGroupSize
+        startTime
+        endTime
+      }
+      cursor
+    }
+  }
+}
+    `;
+export type OccurrencesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<OccurrencesQuery, OccurrencesQueryVariables>
+    } & TChildProps;
+export function withOccurrences<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OccurrencesQuery,
+  OccurrencesQueryVariables,
+  OccurrencesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, OccurrencesQuery, OccurrencesQueryVariables, OccurrencesProps<TChildProps, TDataName>>(OccurrencesDocument, {
+      alias: 'occurrences',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOccurrencesQuery__
+ *
+ * To run a query within a React component, call `useOccurrencesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOccurrencesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOccurrencesQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *   },
+ * });
+ */
+export function useOccurrencesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OccurrencesQuery, OccurrencesQueryVariables>) {
+        return ApolloReactHooks.useQuery<OccurrencesQuery, OccurrencesQueryVariables>(OccurrencesDocument, baseOptions);
+      }
+export function useOccurrencesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OccurrencesQuery, OccurrencesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OccurrencesQuery, OccurrencesQueryVariables>(OccurrencesDocument, baseOptions);
+        }
+export type OccurrencesQueryHookResult = ReturnType<typeof useOccurrencesQuery>;
+export type OccurrencesLazyQueryHookResult = ReturnType<typeof useOccurrencesLazyQuery>;
+export type OccurrencesQueryResult = ApolloReactCommon.QueryResult<OccurrencesQuery, OccurrencesQueryVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!) {
   place(id: $id) {
