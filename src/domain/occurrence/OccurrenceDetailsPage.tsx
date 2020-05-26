@@ -98,7 +98,7 @@ const OccurrenceDetailsPage = () => {
                       to={`/${locale}${ROUTES.EDIT_OCCURRENCE.replace(
                         ':id',
                         id
-                      )}`}
+                      ).replace(':occurrenceId', occurrenceId)}`}
                     >
                       {t('occurrenceDetails.buttonEditOccurrence')}
                     </Link>

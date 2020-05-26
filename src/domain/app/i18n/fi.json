@@ -163,13 +163,20 @@
     "title": "Tapahtumat",
     "titleComingEvents": "Tapahtumat"
   },
-  "createEventOccurrence": {
+  "createOccurrence": {
     "pageTitle": "Uusi tapahtuma-aika",
-    "title": "Uusi tapahtuma-aika",
     "formTitle": "Lisää uusi tapahtuma-aika",
     "buttonShowEventInfo": "Näytä tapahtuman tiedot"
   },
+  "editOccurrence": {
+    "pageTitle": "Muokkaa tapahtuma-aikaa",
+    "formTitle": "Muokkaa tapahtuma-aikaa",
+    "buttonShowEventInfo": "Näytä tapahtuman tiedot"
+  },
   "eventOccurrenceForm": {
+    "infoText1": "Lisää tapahtumalle tapahtuma-aika, johon asiakkaat voivat ilmoittautua. Huomaathan, että voit luoda kerralla suuremman määrän aikoja kopioimalla jo luomiasi tapahtuma-aikoja.",
+    "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
+    "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "labelDate": "Päivämäärä",
     "labelStartsAt": "Alkaa klo",
     "labelEndsAt": "Loppuu klo",

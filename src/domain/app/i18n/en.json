@@ -163,13 +163,20 @@
     "title": "Events",
     "titleComingEvents": "Events"
   },
-  "createEventOccurrence": {
-    "pageTitle": "New event occurrence",
-    "title": "New event occurrence",
-    "formTitle": "Add new event occurrence",
-    "buttonShowEventInfo": "Show event information"
+  "createOccurrence": {
+    "pageTitle": "New occurrence",
+    "formTitle": "Add new occurrence",
+    "buttonShowEventInfo": "Show event details"
+  },
+  "editOccurrence": {
+    "pageTitle": "Edit occurrence",
+    "formTitle": "Edit occurrence",
+    "buttonShowEventInfo": "Show event details"
   },
   "eventOccurrenceForm": {
+    "infoText1": "Add an event time for the event that customers can sign up for. Please note that you can create more times at once by copying the event times you have already created.",
+    "infoText2": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> day before the start of the event time. You can change these settings in the event information.",
+    "infoText2_plural": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> days before the start of the event time. You can change these settings in the event information.",
     "labelDate": "Date",
     "labelStartsAt": "Starts at",
     "labelEndsAt": "Ends at",

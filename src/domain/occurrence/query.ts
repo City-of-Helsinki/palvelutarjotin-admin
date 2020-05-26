@@ -11,6 +11,9 @@ export const QUERY_OCCURRENCE = gql`
       maxGroupSize
       startTime
       endTime
+      organisation {
+        id
+      }
       placeId
     }
   }

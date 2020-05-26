@@ -72,6 +72,7 @@ const Timepicker: React.FC<Props> = ({
         value: selectedItem,
       });
     },
+    defaultSelectedItem: value,
   });
 
   const handleInputOnFocus = () => {

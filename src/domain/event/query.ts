@@ -36,6 +36,7 @@ export const QUERY_EVENT = gql`
         sv
       }
       pEvent {
+        id
         duration
         neededOccurrences
         occurrences {

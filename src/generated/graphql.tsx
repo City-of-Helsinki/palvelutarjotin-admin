@@ -1147,7 +1147,7 @@ export type EventQuery = (
       & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
     )>, pEvent?: Maybe<(
       { __typename?: 'PalvelutarjotinEventNode' }
-      & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
+      & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'neededOccurrences'>
       & { occurrences: (
         { __typename?: 'OccurrenceNodeConnection' }
         & { edges: Array<Maybe<(
@@ -1291,6 +1291,75 @@ export type KeywordsQuery = (
   )> }
 );
 
+export type MyProfileQueryVariables = {};
+
+
+export type MyProfileQuery = (
+  { __typename?: 'Query' }
+  & { myProfile?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & Pick<PersonNode, 'id' | 'name' | 'phoneNumber'>
+    & { organisations: (
+      { __typename?: 'OrganisationNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'OrganisationNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'OrganisationNode' }
+          & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+        )> }
+      )>> }
+    ) }
+  )> }
+);
+
+export type AddOccurrenceMutationVariables = {
+  input: AddOccurrenceMutationInput;
+};
+
+
+export type AddOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { addOccurrence?: Maybe<(
+    { __typename?: 'AddOccurrenceMutationPayload' }
+    & Pick<AddOccurrenceMutationPayload, 'clientMutationId'>
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+      & { pEvent?: Maybe<(
+        { __typename?: 'PalvelutarjotinEventNode' }
+        & Pick<PalvelutarjotinEventNode, 'id'>
+      )>, organisation: (
+        { __typename?: 'OrganisationNode' }
+        & Pick<OrganisationNode, 'id'>
+      ) }
+    )> }
+  )> }
+);
+
+export type EditOccurrenceMutationVariables = {
+  input: UpdateOccurrenceMutationInput;
+};
+
+
+export type EditOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOccurrence?: Maybe<(
+    { __typename?: 'UpdateOccurrenceMutationPayload' }
+    & Pick<UpdateOccurrenceMutationPayload, 'clientMutationId'>
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+      & { pEvent?: Maybe<(
+        { __typename?: 'PalvelutarjotinEventNode' }
+        & Pick<PalvelutarjotinEventNode, 'id'>
+      )>, organisation: (
+        { __typename?: 'OrganisationNode' }
+        & Pick<OrganisationNode, 'id'>
+      ) }
+    )> }
+  )> }
+);
+
 export type OccurrenceQueryVariables = {
   id: Scalars['ID'];
 };
@@ -1304,7 +1373,10 @@ export type OccurrenceQuery = (
     & { pEvent?: Maybe<(
       { __typename?: 'PalvelutarjotinEventNode' }
       & Pick<PalvelutarjotinEventNode, 'id'>
-    )> }
+    )>, organisation: (
+      { __typename?: 'OrganisationNode' }
+      & Pick<OrganisationNode, 'id'>
+    ) }
   )> }
 );
 
@@ -1673,6 +1745,7 @@ export const EventDocument = gql`
       sv
     }
     pEvent {
+      id
       duration
       neededOccurrences
       occurrences {
@@ -2056,6 +2129,181 @@ export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
+export const MyProfileDocument = gql`
+    query MyProfile {
+  myProfile {
+    id
+    name
+    phoneNumber
+    organisations {
+      edges {
+        node {
+          id
+          name
+          phoneNumber
+          type
+        }
+      }
+    }
+  }
+}
+    `;
+export type MyProfileProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<MyProfileQuery, MyProfileQueryVariables>
+    } & TChildProps;
+export function withMyProfile<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  MyProfileQuery,
+  MyProfileQueryVariables,
+  MyProfileProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, MyProfileQuery, MyProfileQueryVariables, MyProfileProps<TChildProps, TDataName>>(MyProfileDocument, {
+      alias: 'myProfile',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useMyProfileQuery__
+ *
+ * To run a query within a React component, call `useMyProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyProfileQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyProfileQuery, MyProfileQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyProfileQuery, MyProfileQueryVariables>(MyProfileDocument, baseOptions);
+      }
+export function useMyProfileLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyProfileQuery, MyProfileQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyProfileQuery, MyProfileQueryVariables>(MyProfileDocument, baseOptions);
+        }
+export type MyProfileQueryHookResult = ReturnType<typeof useMyProfileQuery>;
+export type MyProfileLazyQueryHookResult = ReturnType<typeof useMyProfileLazyQuery>;
+export type MyProfileQueryResult = ApolloReactCommon.QueryResult<MyProfileQuery, MyProfileQueryVariables>;
+export const AddOccurrenceDocument = gql`
+    mutation AddOccurrence($input: AddOccurrenceMutationInput!) {
+  addOccurrence(input: $input) {
+    occurrence {
+      id
+      pEvent {
+        id
+      }
+      minGroupSize
+      maxGroupSize
+      startTime
+      endTime
+      organisation {
+        id
+      }
+      placeId
+    }
+    clientMutationId
+  }
+}
+    `;
+export type AddOccurrenceMutationFn = ApolloReactCommon.MutationFunction<AddOccurrenceMutation, AddOccurrenceMutationVariables>;
+export type AddOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<AddOccurrenceMutation, AddOccurrenceMutationVariables>
+    } & TChildProps;
+export function withAddOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AddOccurrenceMutation,
+  AddOccurrenceMutationVariables,
+  AddOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, AddOccurrenceMutation, AddOccurrenceMutationVariables, AddOccurrenceProps<TChildProps, TDataName>>(AddOccurrenceDocument, {
+      alias: 'addOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAddOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useAddOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addOccurrenceMutation, { data, loading, error }] = useAddOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddOccurrenceMutation, AddOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddOccurrenceMutation, AddOccurrenceMutationVariables>(AddOccurrenceDocument, baseOptions);
+      }
+export type AddOccurrenceMutationHookResult = ReturnType<typeof useAddOccurrenceMutation>;
+export type AddOccurrenceMutationResult = ApolloReactCommon.MutationResult<AddOccurrenceMutation>;
+export type AddOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<AddOccurrenceMutation, AddOccurrenceMutationVariables>;
+export const EditOccurrenceDocument = gql`
+    mutation EditOccurrence($input: UpdateOccurrenceMutationInput!) {
+  updateOccurrence(input: $input) {
+    occurrence {
+      id
+      pEvent {
+        id
+      }
+      minGroupSize
+      maxGroupSize
+      startTime
+      endTime
+      organisation {
+        id
+      }
+      placeId
+    }
+    clientMutationId
+  }
+}
+    `;
+export type EditOccurrenceMutationFn = ApolloReactCommon.MutationFunction<EditOccurrenceMutation, EditOccurrenceMutationVariables>;
+export type EditOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<EditOccurrenceMutation, EditOccurrenceMutationVariables>
+    } & TChildProps;
+export function withEditOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditOccurrenceMutation,
+  EditOccurrenceMutationVariables,
+  EditOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditOccurrenceMutation, EditOccurrenceMutationVariables, EditOccurrenceProps<TChildProps, TDataName>>(EditOccurrenceDocument, {
+      alias: 'editOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useEditOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editOccurrenceMutation, { data, loading, error }] = useEditOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EditOccurrenceMutation, EditOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<EditOccurrenceMutation, EditOccurrenceMutationVariables>(EditOccurrenceDocument, baseOptions);
+      }
+export type EditOccurrenceMutationHookResult = ReturnType<typeof useEditOccurrenceMutation>;
+export type EditOccurrenceMutationResult = ApolloReactCommon.MutationResult<EditOccurrenceMutation>;
+export type EditOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<EditOccurrenceMutation, EditOccurrenceMutationVariables>;
 export const OccurrenceDocument = gql`
     query Occurrence($id: ID!) {
   occurrence(id: $id) {
@@ -2067,6 +2315,9 @@ export const OccurrenceDocument = gql`
     maxGroupSize
     startTime
     endTime
+    organisation {
+      id
+    }
     placeId
   }
 }
