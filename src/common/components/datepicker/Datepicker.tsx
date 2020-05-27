@@ -53,7 +53,9 @@ const Datepicker: React.FC<Props> = ({
   const { t } = useTranslation();
 
   React.useEffect(() => {
-    if (value && isValidDate(value)) {
+    if (!value) {
+      setDateValue('');
+    } else if (value && isValidDate(value)) {
       const formattedDate = formatDate(value, DATE_FORMAT);
       setDateValue(formattedDate);
     }
