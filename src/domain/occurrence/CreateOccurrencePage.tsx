@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 
+import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   useAddOccurrenceMutation,
@@ -11,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
+import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -51,15 +53,23 @@ const CreateOccurrencePage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
   };
 
+  const goToOccurrencesPage = () => {
+    history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
+  };
+
+  const getPayload = (values: OccurrenceFormFields) => {
+    return getOccurrencePayload(
+      values,
+      myProfileData?.myProfile?.organisations.edges[0]?.node?.id,
+      eventData?.event?.pEvent?.id
+    );
+  };
+
   const submit = async (values: OccurrenceFormFields) => {
     try {
       await createOccurrence({
         variables: {
-          input: getOccurrencePayload(
-            values,
-            myProfileData?.myProfile?.organisations.edges[0]?.node?.id,
-            eventData?.event?.pEvent?.id
-          ),
+          input: getPayload(values),
         },
       });
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
@@ -73,11 +83,7 @@ const CreateOccurrencePage: React.FC = () => {
     try {
       await createOccurrence({
         variables: {
-          input: getOccurrencePayload(
-            values,
-            myProfileData?.myProfile?.organisations.edges[0]?.node?.id,
-            eventData?.event?.pEvent?.id
-          ),
+          input: getPayload(values),
         },
       });
       history.push(
@@ -85,6 +91,7 @@ const CreateOccurrencePage: React.FC = () => {
       );
       refetchEvent();
       resetForm();
+      scrollToTop();
     } catch (e) {}
   };
 
@@ -96,6 +103,9 @@ const CreateOccurrencePage: React.FC = () => {
             {eventData ? (
               <Container>
                 <div className={styles.eventOccurrencePage}>
+                  <BackButton onClick={goToOccurrencesPage}>
+                    {t('createOccurrence.buttonBack')}
+                  </BackButton>
                   <div className={styles.headerContainer}>
                     {/* TODO: use selected event name as title */}
                     <h1>

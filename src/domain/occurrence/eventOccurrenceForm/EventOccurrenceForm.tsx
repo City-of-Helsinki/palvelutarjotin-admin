@@ -93,7 +93,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
       }}
       validationSchema={ValidationSchema}
     >
-      {({ values: { location }, handleSubmit }) => {
+      {({ values: { location }, handleReset, handleSubmit }) => {
         return (
           <form
             className={styles.eventOccurrenceForm}
@@ -213,7 +213,9 @@ const EventOccurrenceForm: React.FC<Props> = ({
 
               {/* TODO: Add action handler to buttons */}
               <div className={styles.formActions}>
-                <Button variant="secondary">{t('form.actions.cancel')}</Button>
+                <Button onClick={handleReset} variant="secondary">
+                  {t('form.actions.cancel')}
+                </Button>
                 <Button
                   onClick={() => {
                     addNew.current = true;

@@ -164,14 +164,16 @@
     "titleComingEvents": "Events"
   },
   "createOccurrence": {
-    "pageTitle": "New occurrence",
+    "buttonBack": "Event times",
+    "buttonShowEventInfo": "Show event details",
     "formTitle": "Add new occurrence",
-    "buttonShowEventInfo": "Show event details"
+    "pageTitle": "New occurrence"
   },
   "editOccurrence": {
-    "pageTitle": "Edit occurrence",
+    "buttonBack": "Event times",
+    "buttonShowEventInfo": "Show event details",
     "formTitle": "Edit occurrence",
-    "buttonShowEventInfo": "Show event details"
+    "pageTitle": "Edit occurrence"
   },
   "eventOccurrenceForm": {
     "infoText1": "Add an event time for the event that customers can sign up for. Please note that you can create more times at once by copying the event times you have already created.",

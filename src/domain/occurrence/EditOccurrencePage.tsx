@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 
+import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   useEditOccurrenceMutation,
@@ -12,6 +13,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import formatDate from '../../utils/formatDate';
 import getLocalizedString from '../../utils/getLocalizedString';
+import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -50,18 +52,26 @@ const EditOccurrencePage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
   };
 
+  const goToOccurrencesPage = () => {
+    history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
+  };
+
+  const getPayload = (values: OccurrenceFormFields) => {
+    return {
+      id: occurrenceId,
+      ...getOccurrencePayload(
+        values,
+        occurrenceData?.occurrence?.organisation.id,
+        occurrenceData?.occurrence?.pEvent?.id
+      ),
+    };
+  };
+
   const submit = async (values: OccurrenceFormFields) => {
     try {
       await editOccurrence({
         variables: {
-          input: {
-            id: occurrenceId,
-            ...getOccurrencePayload(
-              values,
-              occurrenceData?.occurrence?.organisation.id,
-              occurrenceData?.occurrence?.pEvent?.id
-            ),
-          },
+          input: getPayload(values),
         },
       });
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
@@ -75,20 +85,14 @@ const EditOccurrencePage: React.FC = () => {
     try {
       await editOccurrence({
         variables: {
-          input: {
-            id: occurrenceId,
-            ...getOccurrencePayload(
-              values,
-              occurrenceData?.occurrence?.organisation.id,
-              occurrenceData?.occurrence?.pEvent?.id
-            ),
-          },
+          input: getPayload(values),
         },
       });
       history.push(
         `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
       );
       resetForm();
+      scrollToTop();
     } catch (e) {}
   };
 
@@ -98,6 +102,9 @@ const EditOccurrencePage: React.FC = () => {
         {eventData && occurrenceData ? (
           <Container>
             <div className={styles.eventOccurrencePage}>
+              <BackButton onClick={goToOccurrencesPage}>
+                {t('editOccurrence.buttonBack')}
+              </BackButton>
               <div className={styles.headerContainer}>
                 {/* TODO: use selected event name as title */}
                 <h1>
