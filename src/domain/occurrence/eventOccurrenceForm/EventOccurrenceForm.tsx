@@ -3,16 +3,12 @@ import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
-import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
-import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { EVENT_LANGUAGES } from '../../../constants';
-import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
