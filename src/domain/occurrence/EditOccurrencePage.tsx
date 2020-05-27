@@ -106,11 +106,9 @@ const EditOccurrencePage: React.FC = () => {
                 {t('editOccurrence.buttonBack')}
               </BackButton>
               <div className={styles.headerContainer}>
-                {/* TODO: use selected event name as title */}
                 <h1>
                   {getLocalizedString(eventData?.event?.name || {}, locale)}
                 </h1>
-                {/* TODO: show eventi information when clicking this button */}
                 <Button variant="secondary" onClick={goToEventDetailsPage}>
                   {t('editOccurrence.buttonShowEventInfo')}
                 </Button>
