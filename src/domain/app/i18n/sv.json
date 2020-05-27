@@ -92,10 +92,10 @@
       "title": "Kontaktperson"
     },
     "deleteModal": {
-      "buttonDelete": "Bort händelsen",
-      "text1": "Är du säker på att du vill ta bort händelsen?",
-      "text2": "En borttagen händelse kan inte ångras.",
-      "title": "Bort händelsen"
+      "buttonDelete": "Bort evenemang",
+      "text1": "Är du säker på att du vill ta bort evenemang?",
+      "text2": "En borttagen evenemang kan inte ångras.",
+      "title": "Bort evenemang"
     },
     "location": {
       "labelLocation": "Standard venue",
@@ -245,5 +245,44 @@
   },
   "notFound": {
     "textNotFound": "Sidan du sökte hittades inte"
+  },
+  "occurrenceDetails": {
+    "buttonBack": "Evenemangtider",
+    "buttonEditOccurrence": "Redigera evenemangtid",
+    "pageTitle": "Evenemangtid",
+    "textDateAndTime": "{{date}} kl. {{time}}",
+    "textGroupInfo": "{{maxGroupSize}} platser, gruppstorlek {{maxGroupSize}}–{{maxGroupSize}}"
+  },
+  "occurrences": {
+    "actionsDropdown": {
+      "menuItemDelete": "Radera",
+      "menuItemEdit": "Redigera",
+      "menuItemEnrolments": "Registreringar",
+      "toggleButton": "Välj"
+    },
+    "buttonBack": "Evenemang",
+    "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
+    "buttonEventDetails": "Visa information om evenemanget",
+    "buttonShowMore": "Visa mer",
+    "count": "{{count}} st",
+    "deleteModal": {
+      "buttonDelete": "Bort evenemangtid",
+      "text1": "Är du säker på att du vill ta bort evenemangtid?",
+      "text2": "En borttagen evenemangtid kan inte ångras.",
+      "title": "Bort evenemangtid"
+    },
+    "pageTitle": "Evenemangtider",
+    "table": {
+      "columnActions": "Funktioner",
+      "columnDate": "Datum",
+      "columnEnrolmentStarts": "Registrering börjar",
+      "columnEnrolments": "Registreringar",
+      "columnLocation": "Evenemang plats",
+      "columnMaxGroupSize": "Platser",
+      "columnTime": "Tid"
+    },
+    "textNoComingOccurrences": "Inga framtida evenemangtider",
+    "titleComingOccurrences": "Framtida evenemangtider",
+    "titlePastOccurrences": "Tidigare evenemangtider"
   }
 }
