@@ -18,7 +18,7 @@ const EventOccurrenceForm: React.FC = () => {
   return (
     <Formik
       initialValues={{
-        date: new Date(),
+        date: null,
         startsAt: '',
         endsAt: '',
         location: '',

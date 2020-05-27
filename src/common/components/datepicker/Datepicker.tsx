@@ -15,13 +15,16 @@ import useLocale from '../../../hooks/useLocale';
 import IconCalendar from '../../../icons/IconCalendar';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
-import { DATE_FORMAT, dateLocales } from './contants';
+import { getTimeObjects, TimeObject } from '../timepicker/utils';
+import { DATE_FORMAT, dateLocales, DATETIME_FORMAT } from './contants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 import Month from './Month';
 import MonthNavButton from './MonthNavButton';
+import TimesList from './TimesList';
 
 const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
+const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
 
 type Props = {
   disabled?: boolean;
@@ -32,6 +35,7 @@ type Props = {
   onBlur: () => void;
   onChange: (value?: Date | null) => void;
   value: Date | null;
+  timeSelector?: boolean;
 };
 
 const Datepicker: React.FC<Props> = ({
@@ -42,22 +46,32 @@ const Datepicker: React.FC<Props> = ({
   labelText,
   onChange,
   onBlur,
+  timeSelector,
 }) => {
+  const [times] = useState(() => getTimeObjects(15));
   const [dateValue, setDateValue] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const datepickerClicked = React.useRef<boolean>(false);
   const container = React.useRef<HTMLDivElement>(null);
+  const closeButton = React.useRef<HTMLButtonElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datepickerContainer = React.useRef<HTMLDivElement>(null);
+  const timesContainer = React.useRef<HTMLDivElement>(null);
   const locale = useLocale();
   const { t } = useTranslation();
 
+  // Update formatted input string when date value changes
   React.useEffect(() => {
     if (value && isValidDate(value)) {
-      const formattedDate = formatDate(value, DATE_FORMAT);
-      setDateValue(formattedDate);
+      if (timeSelector) {
+        const formattedDate = formatDate(value, DATETIME_FORMAT);
+        setDateValue(formattedDate);
+      } else {
+        const formattedDate = formatDate(value, DATE_FORMAT);
+        setDateValue(formattedDate);
+      }
     }
-  }, [value]);
+  }, [timeSelector, value]);
 
   const isComponentFocused = () => {
     const active = document.activeElement;
@@ -70,8 +84,11 @@ const Datepicker: React.FC<Props> = ({
   };
 
   const handleDateChange = (data: OnDatesChangeProps) => {
-    setIsCalendarOpen(false);
-    inputRef.current?.focus();
+    if (!timeSelector) {
+      setIsCalendarOpen(false);
+      inputRef.current?.focus();
+    }
+
     if (data.startDate) {
       onChange(data.startDate);
     } else {
@@ -160,16 +177,22 @@ const Datepicker: React.FC<Props> = ({
     }
   };
 
+  const dateIsInValidFormat = (parsedDate: Date, inputValue: string) => {
+    const isParsedDateValid =
+      isValidDate(parsedDate) && parsedDate.getFullYear() > 1970;
+    if (timeSelector) {
+      return isParsedDateValid && datetimeRegex.test(inputValue);
+    }
+    return isParsedDateValid && dateRegex.test(inputValue);
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const eventValue = event.target.value;
-    const parsedDate = parseDate(event.target.value, DATE_FORMAT, new Date());
-    const dateIsInValidFormat =
-      isValidDate(parsedDate) &&
-      dateRegex.test(eventValue) &&
-      parsedDate.getFullYear() > 1970;
+    const dateFormat = timeSelector ? DATETIME_FORMAT : DATE_FORMAT;
+    const parsedDate = parseDate(event.target.value, dateFormat, new Date());
     setDateValue(eventValue);
 
-    if (dateIsInValidFormat) {
+    if (dateIsInValidFormat(parsedDate, eventValue)) {
       onChange(parsedDate);
     } else {
       onChange(null);
@@ -188,6 +211,19 @@ const Datepicker: React.FC<Props> = ({
     if (e.key === 'Enter') {
       handleChange(dateValue);
     }
+  };
+
+  const handleTimeClick = (time: TimeObject): void => {
+    let newDate: Date;
+    if (value) {
+      newDate = new Date(value);
+    } else {
+      newDate = new Date();
+    }
+    newDate.setHours(time.hours);
+    newDate.setMinutes(time.minutes);
+    onChange(newDate);
+    closeCalendar();
   };
 
   const {
@@ -265,42 +301,58 @@ const Datepicker: React.FC<Props> = ({
               className={styles.datepickerContainer}
               ref={datepickerContainer}
             >
-              <div className={styles.monthNavigation}>
-                <MonthNavButton
-                  onClick={goToPreviousMonths}
-                  aria-label={t(
-                    'common.datepicker.accessibility.buttonPreviousMonth'
-                  )}
-                >
-                  <IconAngleLeft />
-                </MonthNavButton>
-                <div className={styles.currentMonth} aria-live="polite">
-                  {formatDate(new Date(year, month), 'LLLL yyyy', {
-                    locale: dateLocales[locale],
-                  })}
+              <div className={styles.selectorsWrapper}>
+                <div>
+                  <div className={styles.monthNavigation}>
+                    <MonthNavButton
+                      onClick={goToPreviousMonths}
+                      aria-label={t(
+                        'common.datepicker.accessibility.buttonPreviousMonth'
+                      )}
+                    >
+                      <IconAngleLeft />
+                    </MonthNavButton>
+                    <div className={styles.currentMonth} aria-live="polite">
+                      {formatDate(new Date(year, month), 'LLLL yyyy', {
+                        locale: dateLocales[locale],
+                      })}
+                    </div>
+                    <MonthNavButton
+                      onClick={goToNextMonths}
+                      aria-label={t(
+                        'common.datepicker.accessibility.buttonNextMonth'
+                      )}
+                    >
+                      <IconAngleRight />
+                    </MonthNavButton>
+                  </div>
+                  <div className={styles.daysContainer}>
+                    <Month
+                      key={`${year}-${month}`}
+                      year={year}
+                      month={month}
+                      firstDayOfWeek={firstDayOfWeek}
+                    />
+                  </div>
+                  <button
+                    ref={closeButton}
+                    className={styles.closeButton}
+                    onClick={closeCalendar}
+                    type="button"
+                    tabIndex={-1}
+                  >
+                    {t('common.datepicker.buttonClose')}
+                  </button>
                 </div>
-                <MonthNavButton
-                  onClick={goToNextMonths}
-                  aria-label={t(
-                    'common.datepicker.accessibility.buttonNextMonth'
-                  )}
-                >
-                  <IconAngleRight />
-                </MonthNavButton>
+                {timeSelector && (
+                  <TimesList
+                    times={times}
+                    datetime={value}
+                    ref={timesContainer}
+                    onTimeClick={handleTimeClick}
+                  />
+                )}
               </div>
-              <Month
-                key={`${year}-${month}`}
-                year={year}
-                month={month}
-                firstDayOfWeek={firstDayOfWeek}
-              />
-              <button
-                className={styles.closeButton}
-                onClick={closeCalendar}
-                type="button"
-              >
-                {t('common.datepicker.buttonClose')}
-              </button>
             </div>
           )}
         </InputWrapper>
