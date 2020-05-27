@@ -51,6 +51,7 @@ const EventOccurrenceForm: React.FC = () => {
                     labelText={t('eventOccurrenceForm.labelDate')}
                     name="date"
                     component={DateInputField}
+                    timeSelector
                   />
                 </FormGroup>
                 <FormGroup>
@@ -108,60 +109,6 @@ const EventOccurrenceForm: React.FC = () => {
                     name="maxGroupSize"
                     component={NumberInputField}
                     min={0}
-                  />
-                </FormGroup>
-              </div>
-
-              <div className={styles.occurrenceFormRow}>
-                <div className={styles.locationRow}>
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventOccurrenceForm.labelEventLocation')}
-                      name="location"
-                      component={PlaceSelectorField}
-                    />
-                  </FormGroup>
-                  {location && (
-                    <FormGroup>
-                      <PlaceInfo id={location} />
-                    </FormGroup>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.occurrenceFormRow}>
-                <div className={styles.locationDescriptionRow}>
-                  <FormGroup>
-                    <Field
-                      helperText={t('eventForm.location.helperTextPlace')}
-                      labelText={t(
-                        'eventOccurrenceForm.labelLocationDescription'
-                      )}
-                      name="locationDescription"
-                      component={TextAreaInputField}
-                      rows={20}
-                    />
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className={styles.checkboxRow}>
-                <FormGroup>
-                  <Field
-                    name="hasPackedLunchEatingPlace"
-                    labelText={t(
-                      'eventOccurrenceForm.labelPackedLunchEatingPlace'
-                    )}
-                    component={CheckboxField}
-                    type="checkbox"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    name="hasOuterwearStorage"
-                    labelText={t('eventOccurrenceForm.labelOuterwearStorage')}
-                    component={CheckboxField}
-                    type="checkbox"
                   />
                 </FormGroup>
               </div>
