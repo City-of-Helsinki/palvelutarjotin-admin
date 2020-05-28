@@ -324,6 +324,7 @@ const AutoSuggest: React.FC<Props> = ({
       )}
       className={styles.removeButton}
       onClick={clearValues}
+      type="button"
     >
       <IconClose />
     </button>

@@ -1,30 +1,26 @@
 import gql from 'graphql-tag';
 
 export const QUERY_PLACE = gql`
+  fragment placeFields on Place {
+    id
+    internalId
+    name {
+      ...localisedFields
+    }
+    streetAddress {
+      ...localisedFields
+    }
+    addressLocality {
+      ...localisedFields
+    }
+    telephone {
+      ...localisedFields
+    }
+  }
+
   query Place($id: ID!) {
     place(id: $id) {
-      id
-      internalId
-      name {
-        fi
-        sv
-        en
-      }
-      streetAddress {
-        fi
-        sv
-        en
-      }
-      addressLocality {
-        fi
-        sv
-        en
-      }
-      telephone {
-        fi
-        sv
-        en
-      }
+      ...placeFields
     }
   }
   query Places(
@@ -51,28 +47,7 @@ export const QUERY_PLACE = gql`
         previous
       }
       data {
-        id
-        internalId
-        name {
-          fi
-          sv
-          en
-        }
-        streetAddress {
-          fi
-          sv
-          en
-        }
-        addressLocality {
-          fi
-          sv
-          en
-        }
-        telephone {
-          fi
-          sv
-          en
-        }
+        ...placeFields
       }
     }
   }

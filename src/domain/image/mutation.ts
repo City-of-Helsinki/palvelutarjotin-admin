@@ -6,14 +6,7 @@ export const MUTATION_IMAGE = gql`
       response {
         statusCode
         body {
-          id
-          internalId
-          license
-          name
-          url
-          cropping
-          photographerName
-          altText
+          ...imageFields
         }
       }
     }
@@ -24,14 +17,7 @@ export const MUTATION_IMAGE = gql`
       response {
         statusCode
         body {
-          id
-          internalId
-          license
-          name
-          url
-          cropping
-          photographerName
-          altText
+          ...imageFields
         }
       }
     }

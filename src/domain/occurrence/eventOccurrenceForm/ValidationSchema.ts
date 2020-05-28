@@ -65,9 +65,6 @@ export default Yup.object().shape({
       return schema;
     }),
   location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  locationDescription: Yup.string(),
-  eventLanguage: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  spotsInTotal: Yup.number().required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
   minGroupSize: Yup.number()
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
@@ -80,6 +77,4 @@ export default Yup.object().shape({
     .when(['spotsInTotal'], (spotsInTotal: number, schema: Yup.NumberSchema) =>
       spotsInTotal ? schema.max(spotsInTotal, addMaxValidationMessage) : schema
     ),
-  hasPackedLunchEatingPlace: Yup.boolean(),
-  hasOuterwearStorage: Yup.boolean(),
 });

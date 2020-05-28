@@ -1,50 +1,116 @@
+import { isPast } from 'date-fns';
 import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
-import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { EVENT_LANGUAGES } from '../../../constants';
+import {
+  useDeleteOccurrenceMutation,
+  useEventQuery,
+} from '../../../generated/graphql';
+import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
+import { OccurrenceInTable } from '../../occurrences/types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
-const EventOccurrenceForm: React.FC = () => {
+export type OccurrenceFormFields = {
+  date: Date | null;
+  startsAt: string;
+  endsAt: string;
+  location: string;
+  maxGroupSize: string;
+  minGroupSize: string;
+};
+
+export const defaultInitialValues = {
+  date: null,
+  startsAt: '',
+  endsAt: '',
+  location: '',
+  minGroupSize: '',
+  maxGroupSize: '',
+};
+
+interface Props {
+  eventId: string;
+  formTitle: string;
+  initialValues: OccurrenceFormFields;
+  occurrenceId?: string;
+  onSubmit: (values: OccurrenceFormFields) => void;
+  onSubmitAndAdd: (values: OccurrenceFormFields, resetForm: () => void) => void;
+}
+
+const EventOccurrenceForm: React.FC<Props> = ({
+  eventId,
+  formTitle,
+  initialValues,
+  occurrenceId,
+  onSubmit,
+  onSubmitAndAdd,
+}) => {
+  const addNew = React.useRef(false);
   const { t } = useTranslation();
+
+  const { data: eventData, refetch: refetchEventData } = useEventQuery({
+    variables: { id: eventId },
+  });
+  const [deleteOccurrence] = useDeleteOccurrenceMutation();
+
+  const occurrences =
+    (eventData?.event?.pEvent?.occurrences.edges.map(
+      (edge) => edge?.node
+    ) as OccurrenceInTable[]) || [];
+  const comingOccurrences = occurrences.filter(
+    (item) => !isPast(new Date(item.startTime))
+  );
+
+  const handleDeleteOccurrence = async (occurrence: OccurrenceInTable) => {
+    try {
+      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
+      refetchEventData();
+    } catch (e) {}
+  };
 
   return (
     <Formik
-      initialValues={{
-        date: new Date(),
-        startsAt: '',
-        endsAt: '',
-        location: '',
-        locationDescription: '',
-        eventLanguage: '',
-        spotsInTotal: 30,
-        minGroupSize: 10,
-        maxGroupSize: 30,
-        hasPackedLunchEatingPlace: false,
-        hasOuterwearStorage: false,
-      }}
+      enableReinitialize={true}
+      initialValues={initialValues}
       validateOnChange
-      onSubmit={(values) => {}}
+      onSubmit={(values, action) => {
+        if (addNew.current) {
+          onSubmitAndAdd(values, action.resetForm);
+        } else {
+          onSubmit(values);
+        }
+      }}
       validationSchema={ValidationSchema}
     >
-      {({ values: { location }, handleSubmit }) => {
+      {({ values: { location }, handleReset, handleSubmit }) => {
         return (
-          <form onSubmit={handleSubmit}>
-            <p className={styles.eventOccurrenceFormTitle}>
-              {t('createEventOccurrence.formTitle')}
-            </p>
-            <div className={styles.eventOccurrenceForm}>
+          <form
+            className={styles.eventOccurrenceForm}
+            onSubmit={(e) => {
+              addNew.current = false;
+              handleSubmit(e);
+            }}
+          >
+            <p className={styles.title}>{formTitle}</p>
+            <div className={styles.occurrenceFormRow}>
+              <div className={styles.locationRow}>
+                <p>{t('eventOccurrenceForm.infoText1')}</p>
+              </div>
+            </div>
+
+            <div className={styles.divider}></div>
+            <div>
               <div className={styles.occurrenceFormRow}>
                 <FormGroup>
                   <Field
@@ -69,6 +135,22 @@ const EventOccurrenceForm: React.FC = () => {
                     minuteInterval={15}
                   />
                 </FormGroup>
+              </div>
+
+              <div className={styles.occurrenceFormRow}>
+                <div className={styles.locationRow}>
+                  <FormGroup>
+                    {/* TODO: Get real values from api when implemented */}
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: t('eventOccurrenceForm.infoText2', {
+                          date: '12.5.2020',
+                          count: 1,
+                        }),
+                      }}
+                    />
+                  </FormGroup>
+                </div>
               </div>
 
               <div className={styles.occurrenceFormRow}>
@@ -113,7 +195,7 @@ const EventOccurrenceForm: React.FC = () => {
               </div>
 
               <div className={styles.occurrenceFormRow}>
-                <div className={styles.locationRow}>
+                <div className={styles.fullRow}>
                   <FormGroup>
                     <Field
                       labelText={t('eventOccurrenceForm.labelEventLocation')}
@@ -129,49 +211,47 @@ const EventOccurrenceForm: React.FC = () => {
                 </div>
               </div>
 
-              <div className={styles.occurrenceFormRow}>
-                <div className={styles.locationDescriptionRow}>
-                  <FormGroup>
-                    <Field
-                      helperText={t('eventForm.location.helperTextPlace')}
-                      labelText={t(
-                        'eventOccurrenceForm.labelLocationDescription'
-                      )}
-                      name="locationDescription"
-                      component={TextAreaInputField}
-                      rows={20}
-                    />
-                  </FormGroup>
-                </div>
-              </div>
-
-              <div className={styles.checkboxRow}>
-                <FormGroup>
-                  <Field
-                    name="hasPackedLunchEatingPlace"
-                    labelText={t(
-                      'eventOccurrenceForm.labelPackedLunchEatingPlace'
-                    )}
-                    component={CheckboxField}
-                    type="checkbox"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    name="hasOuterwearStorage"
-                    labelText={t('eventOccurrenceForm.labelOuterwearStorage')}
-                    component={CheckboxField}
-                    type="checkbox"
-                  />
-                </FormGroup>
-              </div>
-
               {/* TODO: Add action handler to buttons */}
               <div className={styles.formActions}>
-                <Button variant="secondary">{t('form.actions.cancel')}</Button>
-                <Button>{t('form.actions.saveAndAddNew')}</Button>
+                <Button onClick={handleReset} variant="secondary">
+                  {t('form.actions.cancel')}
+                </Button>
+                <Button
+                  onClick={() => {
+                    addNew.current = true;
+                    handleSubmit();
+                  }}
+                >
+                  {t('form.actions.saveAndAddNew')}
+                </Button>
                 <Button type="submit">{t('form.actions.save')}</Button>
               </div>
+
+              <div className={styles.divider} />
+              <h2>
+                {t('occurrences.titleComingOccurrences')}{' '}
+                <span className={styles.count}>
+                  {t('occurrences.count', {
+                    count: comingOccurrences.length,
+                  })}
+                </span>
+              </h2>
+              {comingOccurrences.length ? (
+                <OccurrencesTable
+                  eventId={eventId}
+                  id="coming-occurrences"
+                  occurrences={
+                    occurrenceId
+                      ? comingOccurrences.filter(
+                          (item) => item.id !== occurrenceId
+                        )
+                      : comingOccurrences
+                  }
+                  onDelete={handleDeleteOccurrence}
+                />
+              ) : (
+                <div>{t('occurrences.textNoComingOccurrences')}</div>
+              )}
             </div>
           </form>
         );

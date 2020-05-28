@@ -2,57 +2,56 @@
 @import 'variables';
 @import 'colours';
 
-.eventOccurrenceFormTitle {
-  font-weight: bold;
-  font-size: 1rem;
-  border-bottom-color: rgba(0, 0, 0, 0.1);
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  padding-bottom: 1.5em;
+.eventOccurrenceForm {
+  --color-title: var(--color-black-90);
+
+  --fontsize-title: var(--fontsize-h-4);
+
+  --margin-bottom-action-buttons: var(--spacing-2-xl);
+  --margin-bottom-title: var(--spacing-s);
+
+  --spacing-divider: var(--spacing-m);
 }
 
 .eventOccurrenceForm {
+  .title {
+    font-size: var(--fontsize-title);
+    color: var(--color-title);
+    font-weight: bold;
+    margin-bottom: var(--margin-bottom-title);
+  }
+
+  .divider {
+    margin: var(--spacing-divider) 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .count {
+    font-weight: normal;
+    margin-left: 0.5rem;
+  }
+
   .occurrenceFormRow {
     display: grid;
-    margin-bottom: $baseMargin;
 
     @include respond_above(md) {
       grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr 0.5fr;
       grid-gap: $baseMargin;
     }
+  }
 
-    .participantRowTitle {
-      margin: 0;
-      margin-top: 13px;
-      align-self: center;
-    }
+  .fullRow {
+    grid-column: 1 / 5;
   }
 
   .locationRow {
     grid-column: 1 / 5;
   }
 
-  .locationDescriptionRow {
-    grid-column: 1 / 5;
-  }
-
-  .checkboxRow {
-    display: flex;
-    margin: $baseMargin 0;
-    margin-top: -$baseMargin;
-
-    & > * {
-      margin-top: 0;
-    }
-
-    & > :not(:last-child) {
-      margin-right: $baseMargin;
-    }
-  }
-
   .formActions {
     display: flex;
     margin-top: $largeMargin;
+    margin-bottom: var(--margin-bottom-action-buttons);
 
     & > :not(:last-child) {
       margin-right: $baseMargin;
