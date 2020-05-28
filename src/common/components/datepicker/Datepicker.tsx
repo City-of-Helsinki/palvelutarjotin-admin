@@ -8,6 +8,7 @@ import formatDate from 'date-fns/format';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
+import uniqueId from 'lodash/uniqueId';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -22,6 +23,10 @@ import DatepickerContext from './datepickerContext';
 import Month from './Month';
 import MonthNavButton from './MonthNavButton';
 import TimesList from './TimesList';
+
+function generateUniqueId(prefix = 'datepicker-id') {
+  return `${prefix}-${uniqueId()}`;
+}
 
 const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
 const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
@@ -58,6 +63,10 @@ const Datepicker: React.FC<Props> = ({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datepickerContainer = React.useRef<HTMLDivElement>(null);
   const timesContainer = React.useRef<HTMLDivElement>(null);
+  const dialogLabelId = React.useMemo(
+    () => generateUniqueId('dialog-label'),
+    []
+  );
   const locale = useLocale();
   const { t } = useTranslation();
 
@@ -231,6 +240,8 @@ const Datepicker: React.FC<Props> = ({
       newDate.setMinutes(time.minutes);
       onChange(newDate);
       ensureCalendarIsClosed();
+      // focus input for screen readers
+      inputRef.current?.focus();
     },
     [ensureCalendarIsClosed, onChange, value]
   );
@@ -310,7 +321,13 @@ const Datepicker: React.FC<Props> = ({
             <div
               className={styles.datepickerContainer}
               ref={datepickerContainer}
+              role="dialog"
+              aria-modal="true"
+              labelled-by={dialogLabelId}
             >
+              <p className="sr-only" aria-live="polite">
+                {labelText}
+              </p>
               <div className={styles.selectorsWrapper}>
                 <div>
                   <div className={styles.monthNavigation}>
@@ -322,7 +339,11 @@ const Datepicker: React.FC<Props> = ({
                     >
                       <IconAngleLeft />
                     </MonthNavButton>
-                    <div className={styles.currentMonth} aria-live="polite">
+                    <div
+                      className={styles.currentMonth}
+                      aria-live="polite"
+                      id={dialogLabelId}
+                    >
                       {formatDate(new Date(year, month), 'LLLL yyyy', {
                         locale: dateLocales[locale],
                       })}

@@ -43,7 +43,8 @@
         "selectDate": "Valitse {{value}}",
         "buttonNextMonth": "Seuraava kuukausi",
         "buttonPreviousMonth": "Edellinen kuukausi",
-        "selectTime": "Valitse {{value}}"
+        "selectTime": "Valitse kellonajaksi {{value}}",
+        "timeInstructions": "Valitse kellonaika nuolinäppäimillä"
       },
       "buttonClose": "Sulje"
     },
