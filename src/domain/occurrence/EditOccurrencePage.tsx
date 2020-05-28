@@ -59,11 +59,11 @@ const EditOccurrencePage: React.FC = () => {
   const getPayload = (values: OccurrenceFormFields) => {
     return {
       id: occurrenceId,
-      ...getOccurrencePayload(
+      ...getOccurrencePayload({
         values,
-        occurrenceData?.occurrence?.organisation.id,
-        occurrenceData?.occurrence?.pEvent?.id
-      ),
+        organisationId: occurrenceData?.occurrence?.organisation.id || '',
+        pEventId: occurrenceData?.occurrence?.pEvent?.id || '',
+      }),
     };
   };
 
@@ -96,6 +96,24 @@ const EditOccurrencePage: React.FC = () => {
     } catch (e) {}
   };
 
+  const initialValues = React.useMemo(
+    () => ({
+      date: occurrenceData?.occurrence?.startTime
+        ? new Date(occurrenceData?.occurrence?.startTime)
+        : null,
+      startsAt: occurrenceData?.occurrence?.startTime
+        ? formatDate(new Date(occurrenceData?.occurrence?.startTime), 'HH:mm')
+        : '',
+      endsAt: occurrenceData?.occurrence?.endTime
+        ? formatDate(new Date(occurrenceData?.occurrence?.endTime), 'HH:mm')
+        : '',
+      location: occurrenceData?.occurrence?.placeId || '',
+      maxGroupSize: occurrenceData?.occurrence?.maxGroupSize.toString() || '',
+      minGroupSize: occurrenceData?.occurrence?.minGroupSize.toString() || '',
+    }),
+    [occurrenceData]
+  );
+
   return (
     <PageWrapper title="editOccurrence.pageTitle">
       <LoadingSpinner isLoading={loadingEvent || loadingOccurrence}>
@@ -116,28 +134,7 @@ const EditOccurrencePage: React.FC = () => {
               <EventOccurrenceForm
                 eventId={eventId}
                 formTitle={t('editOccurrence.formTitle')}
-                initialValues={{
-                  date: occurrenceData.occurrence?.startTime
-                    ? new Date(occurrenceData.occurrence?.startTime)
-                    : null,
-                  startsAt: occurrenceData.occurrence?.startTime
-                    ? formatDate(
-                        new Date(occurrenceData.occurrence?.startTime),
-                        'HH:mm'
-                      )
-                    : '',
-                  endsAt: occurrenceData.occurrence?.endTime
-                    ? formatDate(
-                        new Date(occurrenceData.occurrence?.endTime),
-                        'HH:mm'
-                      )
-                    : '',
-                  location: occurrenceData.occurrence?.placeId || '',
-                  maxGroupSize:
-                    occurrenceData.occurrence?.maxGroupSize.toString() || '',
-                  minGroupSize:
-                    occurrenceData.occurrence?.minGroupSize.toString() || '',
-                }}
+                initialValues={initialValues}
                 occurrenceId={occurrenceId}
                 onSubmit={submit}
                 onSubmitAndAdd={submitAndAdd}

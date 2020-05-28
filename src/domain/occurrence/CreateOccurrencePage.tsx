@@ -58,11 +58,12 @@ const CreateOccurrencePage: React.FC = () => {
   };
 
   const getPayload = (values: OccurrenceFormFields) => {
-    return getOccurrencePayload(
+    return getOccurrencePayload({
       values,
-      myProfileData?.myProfile?.organisations.edges[0]?.node?.id,
-      eventData?.event?.pEvent?.id
-    );
+      organisationId:
+        myProfileData?.myProfile?.organisations.edges[0]?.node?.id || '',
+      pEventId: eventData?.event?.pEvent?.id || '',
+    });
   };
 
   const submit = async (values: OccurrenceFormFields) => {

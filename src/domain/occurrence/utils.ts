@@ -6,11 +6,15 @@ import { OccurrenceFormFields } from './eventOccurrenceForm/EventOccurrenceForm'
  * @param {object} values
  * @return {object}
  */
-export const getOccurrencePayload = (
-  values: OccurrenceFormFields,
-  organisationId = '',
-  pEventId = ''
-) => {
+export const getOccurrencePayload = ({
+  values,
+  organisationId,
+  pEventId,
+}: {
+  values: OccurrenceFormFields;
+  organisationId: string;
+  pEventId: string;
+}) => {
   const getMinutes = (time: string) => Number(/:(.*)/.exec(time)?.[1]);
   const getHours = (time: string) => Number(/(.*):/.exec(time)?.[1]);
 
