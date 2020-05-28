@@ -11,14 +11,7 @@ export const QUERY_OCCURRENCES = gql`
       }
       edges {
         node {
-          id
-          pEvent {
-            id
-          }
-          minGroupSize
-          maxGroupSize
-          startTime
-          endTime
+          ...occurrenceFields
         }
         cursor
       }

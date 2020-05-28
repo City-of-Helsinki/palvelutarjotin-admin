@@ -1,17 +1,20 @@
 import gql from 'graphql-tag';
 
 export const QUERY_KEYWORD = gql`
+  fragment keywordFields on Keyword {
+    id
+    name {
+      ...localisedFields
+    }
+    internalId
+  }
+
   query Keyword($id: ID!) {
     keyword(id: $id) {
-      id
-      name {
-        fi
-        sv
-        en
-      }
-      internalId
+      ...keywordFields
     }
   }
+
   query Keywords(
     $dataSource: String
     $page: Int
@@ -34,13 +37,7 @@ export const QUERY_KEYWORD = gql`
         previous
       }
       data {
-        id
-        name {
-          fi
-          sv
-          en
-        }
-        internalId
+        ...keywordFields
       }
     }
   }
