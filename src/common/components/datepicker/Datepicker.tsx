@@ -155,12 +155,12 @@ const Datepicker: React.FC<Props> = ({
     }
   };
 
-  const ensureCalendarIsClosed = () => {
+  const ensureCalendarIsClosed = React.useCallback(() => {
     if (isCalendarOpen) {
       setIsCalendarOpen(false);
       onBlur();
     }
-  };
+  }, [isCalendarOpen, onBlur]);
 
   const ensureCalendarIsOpen = React.useCallback(() => {
     if (!isCalendarOpen) {
@@ -219,18 +219,21 @@ const Datepicker: React.FC<Props> = ({
     }
   };
 
-  const handleTimeClick = (time: TimeObject): void => {
-    let newDate: Date;
-    if (value) {
-      newDate = new Date(value);
-    } else {
-      newDate = new Date();
-    }
-    newDate.setHours(time.hours);
-    newDate.setMinutes(time.minutes);
-    onChange(newDate);
-    ensureCalendarIsClosed();
-  };
+  const handleTimeClick = React.useCallback(
+    (time: TimeObject): void => {
+      let newDate: Date;
+      if (value) {
+        newDate = new Date(value);
+      } else {
+        newDate = new Date();
+      }
+      newDate.setHours(time.hours);
+      newDate.setMinutes(time.minutes);
+      onChange(newDate);
+      ensureCalendarIsClosed();
+    },
+    [ensureCalendarIsClosed, onChange, value]
+  );
 
   const {
     firstDayOfWeek,
