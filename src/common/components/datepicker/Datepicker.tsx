@@ -120,23 +120,29 @@ const Datepicker: React.FC<Props> = ({
     return false;
   };
 
+  const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
+    const hours = previousDate.getHours();
+    const minutes = previousDate.getMinutes();
+    const date = new Date(newDate);
+    date.setMinutes(minutes);
+    date.setHours(hours);
+    onChange(date);
+  };
+
   const handleDateChange = (data: OnDatesChangeProps) => {
     if (!timeSelector) {
       setIsCalendarOpen(false);
       inputRef.current?.focus();
     }
 
-    if (data.startDate) {
+    if (value && data.startDate) {
+      setNewDateWithTime(value, data.startDate);
+    } else if (data.startDate) {
       onChange(data.startDate);
     } else {
       onChange(null);
     }
   };
-
-  // const closeCalendar = () => {
-  //   setIsCalendarOpen(false);
-  //   onBlur();
-  // };
 
   const preventArrowKeyScroll = (
     event: React.KeyboardEvent<HTMLDivElement>
