@@ -73,6 +73,43 @@ const Datepicker: React.FC<Props> = ({
     }
   }, [timeSelector, value]);
 
+  const handleDocumentKeyDown = (event: KeyboardEvent) => {
+    if (!isComponentFocused()) return;
+    switch (event.key) {
+      case 'Escape':
+        ensureCalendarIsClosed();
+        break;
+      case 'ArrowDown':
+        ensureCalendarIsOpen();
+        break;
+    }
+  };
+
+  const onDocumentClick = () => {
+    if (!isComponentFocused() && !datepickerClicked.current) {
+      ensureCalendarIsClosed();
+    }
+    datepickerClicked.current = false;
+  };
+
+  const onDocumentFocusin = () => {
+    if (!isComponentFocused()) {
+      ensureCalendarIsClosed();
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', handleDocumentKeyDown);
+    document.addEventListener('focusin', onDocumentFocusin);
+
+    return () => {
+      document.removeEventListener('click', onDocumentClick);
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+      document.removeEventListener('focusin', onDocumentFocusin);
+    };
+  });
+
   const isComponentFocused = () => {
     const active = document.activeElement;
     const current = container.current;
@@ -96,29 +133,10 @@ const Datepicker: React.FC<Props> = ({
     }
   };
 
-  const handleDocumentKeyDown = (event: KeyboardEvent) => {
-    if (!isComponentFocused()) return;
-    switch (event.key) {
-      case 'Escape':
-        ensureCalendarIsClosed();
-        break;
-      case 'ArrowDown':
-        ensureCalendarIsOpen();
-        break;
-    }
-  };
-
-  const onDocumentClick = () => {
-    if (!isComponentFocused() && !datepickerClicked.current) {
-      ensureCalendarIsClosed();
-    }
-    datepickerClicked.current = false;
-  };
-
-  const closeCalendar = () => {
-    setIsCalendarOpen(false);
-    onBlur();
-  };
+  // const closeCalendar = () => {
+  //   setIsCalendarOpen(false);
+  //   onBlur();
+  // };
 
   const preventArrowKeyScroll = (
     event: React.KeyboardEvent<HTMLDivElement>
@@ -128,12 +146,6 @@ const Datepicker: React.FC<Props> = ({
       case 'ArrowUp':
         event.preventDefault();
         break;
-    }
-  };
-
-  const onDocumentFocusin = () => {
-    if (!isComponentFocused()) {
-      ensureCalendarIsClosed();
     }
   };
 
@@ -157,18 +169,6 @@ const Datepicker: React.FC<Props> = ({
       setIsCalendarOpen(false);
     }
   };
-
-  React.useEffect(() => {
-    document.addEventListener('click', onDocumentClick);
-    document.addEventListener('keydown', handleDocumentKeyDown);
-    document.addEventListener('focusin', onDocumentFocusin);
-
-    return () => {
-      document.removeEventListener('click', onDocumentClick);
-      document.removeEventListener('keydown', handleDocumentKeyDown);
-      document.removeEventListener('focusin', onDocumentFocusin);
-    };
-  });
 
   const handleChange = (value: string) => {
     const parsedDate = parseDate(value, DATE_FORMAT, new Date());
@@ -223,7 +223,7 @@ const Datepicker: React.FC<Props> = ({
     newDate.setHours(time.hours);
     newDate.setMinutes(time.minutes);
     onChange(newDate);
-    closeCalendar();
+    ensureCalendarIsClosed();
   };
 
   const {
@@ -263,6 +263,7 @@ const Datepicker: React.FC<Props> = ({
         onDateSelect,
         onDateFocus,
         onDateHover,
+        selectedDate: value,
       }}
     >
       <div
@@ -337,7 +338,7 @@ const Datepicker: React.FC<Props> = ({
                   <button
                     ref={closeButton}
                     className={styles.closeButton}
-                    onClick={closeCalendar}
+                    onClick={ensureCalendarIsClosed}
                     type="button"
                     tabIndex={-1}
                   >

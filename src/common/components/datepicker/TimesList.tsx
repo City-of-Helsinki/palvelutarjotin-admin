@@ -37,6 +37,7 @@ const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
     } = useDropdownKeyboardNavigation({
       container: forwardedRef as React.MutableRefObject<HTMLDivElement | null>,
       listLength: times.length,
+      initialFocusedIndex: findSelectedIndex(),
     });
 
     React.useEffect(() => {
@@ -50,14 +51,6 @@ const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
       setSelectedIndex(findSelectedIndex());
     }, [datetime, findSelectedIndex, setFocusedIndex]);
 
-    const handleTimesListKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      switch (e.key) {
-        case 'DownArrow':
-        case 'UpArrow':
-        // handle initial focus
-      }
-    };
-
     return (
       <>
         <div className={styles.timesDivider} />
@@ -65,7 +58,6 @@ const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
           className={styles.timesListContainer}
           tabIndex={0}
           ref={forwardedRef}
-          onKeyDown={handleTimesListKeyDown}
         >
           <div className={styles.timesList}>
             {times.map((time, index) => (

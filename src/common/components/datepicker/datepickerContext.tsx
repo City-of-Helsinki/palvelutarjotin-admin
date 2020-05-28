@@ -2,6 +2,7 @@ import { createContext } from 'react';
 
 export const datepickerContextDefaultValue: DatepickerContext = {
   focusedDate: null,
+  selectedDate: null,
   isDateFocused: (date: Date) => false,
   isDateSelected: (date: Date) => false,
   isDateHovered: (date: Date) => false,
@@ -13,7 +14,8 @@ export const datepickerContextDefaultValue: DatepickerContext = {
 };
 
 type DatepickerContext = {
-  focusedDate: null | Date;
+  focusedDate: Date | null;
+  selectedDate: Date | null;
   isDateFocused: (date: Date) => boolean;
   isDateSelected: (date: Date) => boolean;
   isDateHovered: (date: Date) => boolean;

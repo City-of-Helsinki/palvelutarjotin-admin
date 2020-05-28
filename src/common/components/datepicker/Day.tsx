@@ -28,16 +28,10 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
     onDateSelect,
     onDateFocus,
     onDateHover,
+    selectedDate,
   } = useContext(DatepickerContext);
 
-  const {
-    isSelected,
-    disabledDate,
-    onClick,
-    onKeyDown,
-    onMouseEnter,
-    tabIndex,
-  } = useDay({
+  const { disabledDate, onClick, onKeyDown, onMouseEnter, tabIndex } = useDay({
     date,
     focusedDate,
     isDateFocused,
@@ -58,7 +52,9 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
   return (
     <button
       className={classNames(styles.dayButton, {
-        [styles.daySelected]: isSelected,
+        [styles.daySelected]: selectedDate
+          ? isSameDay(selectedDate, date)
+          : false,
         [styles.dayDisabled]: disabledDate,
         [styles.dayToday]: isSameDay(new Date(), date),
       })}
