@@ -11,8 +11,8 @@ export const getOccurrencePayload = (
   organisationId = '',
   pEventId = ''
 ) => {
-  const getMinutes = (time: string) => Number(/:(.*)$/.exec(time)?.[1]);
-  const getHours = (time: string) => Number(/(.*?):/.exec(time)?.[1]);
+  const getMinutes = (time: string) => Number(/:(.*)/.exec(time)?.[1]);
+  const getHours = (time: string) => Number(/(.*):/.exec(time)?.[1]);
 
   return {
     startTime: values.date
