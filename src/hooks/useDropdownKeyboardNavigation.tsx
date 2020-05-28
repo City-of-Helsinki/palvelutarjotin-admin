@@ -16,7 +16,7 @@ interface DropdownKeyboardNavigationState {
 const useDropdownKeyboardNavigation = ({
   container,
   listLength,
-  initialFocusedIndex = -1,
+  initialFocusedIndex,
 }: Props): DropdownKeyboardNavigationState => {
   const [focusedIndex, setFocusedIndex] = React.useState<number>(-1);
   const [isInitialNavigation, setIsInitialNavigation] = React.useState(true);
@@ -54,7 +54,7 @@ const useDropdownKeyboardNavigation = ({
 
       switch (event.key) {
         case 'ArrowUp':
-          if (isInitialNavigation && initialFocusedIndex) {
+          if (isInitialNavigation && typeof initialFocusedIndex === 'number') {
             focusOption('up', initialFocusedIndex);
           } else if (isStartingPosition) {
             setFocusedIndex(listLength - 1);
@@ -64,8 +64,10 @@ const useDropdownKeyboardNavigation = ({
           event.preventDefault();
           break;
         case 'ArrowDown':
-          if (isInitialNavigation && initialFocusedIndex) {
+          if (isInitialNavigation && typeof initialFocusedIndex === 'number') {
             focusOption('down', initialFocusedIndex);
+          } else if (isStartingPosition) {
+            setFocusedIndex(listLength + 1);
           } else {
             focusOption('down', focusedIndex);
           }
