@@ -66,6 +66,7 @@ const LanguageDropdown: React.FC<Props> = ({
 
   const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   const {
     focusedIndex,
     setup: setupKeyboardNav,
@@ -73,6 +74,37 @@ const LanguageDropdown: React.FC<Props> = ({
   } = useKeyboardNavigation({
     container: container,
     listLength: languageOptions.length,
+    onKeyDown: (event) => {
+      if (!isComponentFocused()) return;
+
+      switch (event.key) {
+        case 'ArrowUp':
+          ensureMenuIsOpen();
+          event.preventDefault();
+          break;
+        case 'ArrowDown':
+          ensureMenuIsOpen();
+          event.preventDefault();
+          break;
+        case 'Escape':
+          if (isMenuOpen) {
+            setIsMenuOpen(false);
+            setFocusToButton();
+            event.preventDefault();
+          }
+          break;
+        case 'Enter':
+          if (isMenuOpen) {
+            const option = languageOptions[focusedIndex];
+            handleOptionClick(option);
+            setFocusToButton();
+            event.preventDefault();
+          }
+          break;
+        case 'Tab':
+          setIsMenuOpen(false);
+      }
+    },
   });
 
   const toggleMenu = () => {
@@ -128,62 +160,17 @@ const LanguageDropdown: React.FC<Props> = ({
     }
   };
 
-  const onKeyDown = React.useCallback(
-    (event: KeyboardEvent) => {
-      if (!isComponentFocused()) return;
-
-      switch (event.key) {
-        case 'ArrowUp':
-          ensureMenuIsOpen();
-          event.preventDefault();
-          break;
-        case 'ArrowDown':
-          ensureMenuIsOpen();
-          event.preventDefault();
-          break;
-        case 'Escape':
-          if (isMenuOpen) {
-            setIsMenuOpen(false);
-            setFocusToButton();
-            event.preventDefault();
-          }
-          break;
-        case 'Enter':
-          if (isMenuOpen) {
-            const option = languageOptions[focusedIndex];
-            handleOptionClick(option);
-            setFocusToButton();
-            event.preventDefault();
-          }
-          break;
-        case 'Tab':
-          setIsMenuOpen(false);
-      }
-    },
-    [
-      ensureMenuIsOpen,
-      focusedIndex,
-      handleOptionClick,
-      isComponentFocused,
-      isMenuOpen,
-      languageOptions,
-    ]
-  );
-
   React.useEffect(() => {
     setupKeyboardNav();
     document.addEventListener('click', onDocumentClick);
     document.addEventListener('focusin', onDocumentFocusin);
-    document.addEventListener('keydown', onKeyDown);
 
-    // Clean up event listener to prevent memory leaks
     return () => {
       teardownKeyboardNav();
       document.removeEventListener('click', onDocumentClick);
       document.removeEventListener('focusin', onDocumentFocusin);
-      document.removeEventListener('keydown', onKeyDown);
     };
-  }, [onDocumentFocusin, onKeyDown, setupKeyboardNav, teardownKeyboardNav]);
+  }, [onDocumentFocusin, setupKeyboardNav, teardownKeyboardNav]);
 
   return (
     <div
