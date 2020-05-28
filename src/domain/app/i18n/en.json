@@ -42,7 +42,9 @@
       "accessibility": {
         "selectDate": "Choose {{value}}",
         "buttonNextMonth": "Next month",
-        "buttonPreviousMonth": "Previous month"
+        "buttonPreviousMonth": "Previous month",
+        "selectTime": "Choose {{value}}",
+        "timeInstructions": "Choose time with arrow keys"
       },
       "buttonClose": "Close"
     },

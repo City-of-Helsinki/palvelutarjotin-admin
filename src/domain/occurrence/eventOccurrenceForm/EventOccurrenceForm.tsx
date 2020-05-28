@@ -117,6 +117,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     labelText={t('eventOccurrenceForm.labelDate')}
                     name="date"
                     component={DateInputField}
+                    timeSelector
                   />
                 </FormGroup>
                 <FormGroup>

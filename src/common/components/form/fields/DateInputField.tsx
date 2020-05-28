@@ -18,13 +18,13 @@ const InputField: React.FC<Props> = (props) => {
   } = props;
   const errorText = getErrorText(errors, touched, name, t);
 
-  const handleBlur = () => {
+  const handleBlur = React.useCallback(() => {
     onBlur({
       target: {
         id: name,
       },
     });
-  };
+  }, [name, onBlur]);
 
   const handleChange = (val?: Date | null) => {
     onChange({

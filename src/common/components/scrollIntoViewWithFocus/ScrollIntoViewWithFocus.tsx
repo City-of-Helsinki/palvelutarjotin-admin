@@ -1,18 +1,24 @@
 import React from 'react';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 interface Props {
   children: React.ReactNode;
   isFocused: boolean;
+  scrollIntoViewOptions?: ScrollIntoViewOptions;
 }
 
-const ScrollIntoViewWithFocus: React.FC<Props> = ({ children, isFocused }) => {
+const ScrollIntoViewWithFocus: React.FC<Props> = ({
+  children,
+  isFocused,
+  scrollIntoViewOptions = { block: 'nearest', inline: 'nearest' },
+}) => {
   const selfRef = React.useRef<HTMLDivElement | null>(null);
 
-  React.useEffect(() => {
-    if (isFocused && selfRef.current?.scrollIntoView) {
-      selfRef.current.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  useDeepCompareEffect(() => {
+    if (isFocused) {
+      selfRef.current?.scrollIntoView(scrollIntoViewOptions);
     }
-  }, [isFocused]);
+  }, [isFocused, scrollIntoViewOptions]);
 
   return <div ref={selfRef}>{children}</div>;
 };
