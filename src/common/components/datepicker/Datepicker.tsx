@@ -72,7 +72,9 @@ const Datepicker: React.FC<Props> = ({
 
   // Update formatted input string when date value changes
   React.useEffect(() => {
-    if (value && isValidDate(value)) {
+    if (!value) {
+      setDateValue('');
+    } else if (value && isValidDate(value)) {
       if (timeSelector) {
         const formattedDate = formatDate(value, DATETIME_FORMAT);
         setDateValue(formattedDate);

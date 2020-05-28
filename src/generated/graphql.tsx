@@ -1119,6 +1119,66 @@ export type EditEventMutation = (
   )> }
 );
 
+export type PEventFieldsFragment = (
+  { __typename?: 'PalvelutarjotinEventNode' }
+  & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'neededOccurrences'>
+  & { occurrences: (
+    { __typename?: 'OccurrenceNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OccurrenceNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OccurrenceNode' }
+        & OccurrenceFieldsFragment
+      )> }
+    )>> }
+  ) }
+);
+
+export type LocalisedFieldsFragment = (
+  { __typename?: 'LocalisedObject' }
+  & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+);
+
+export type EventFieldsFragment = (
+  { __typename?: 'Event' }
+  & Pick<Event, 'id' | 'internalId' | 'startTime'>
+  & { name: (
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  ), shortDescription?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, description?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, images: Array<(
+    { __typename?: 'Image' }
+    & ImageFieldsFragment
+  )>, infoUrl?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, pEvent?: Maybe<(
+    { __typename?: 'PalvelutarjotinEventNode' }
+    & PEventFieldsFragment
+  )>, inLanguage: Array<(
+    { __typename?: 'InLanguage' }
+    & Pick<InLanguage, 'id' | 'internalId'>
+    & { name?: Maybe<(
+      { __typename?: 'LocalisedObject' }
+      & LocalisedFieldsFragment
+    )> }
+  )>, audience: Array<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>, keywords: Array<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>, location?: Maybe<(
+    { __typename?: 'Place' }
+    & PlaceFieldsFragment
+  )> }
+);
+
 export type EventQueryVariables = {
   id: Scalars['ID'];
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -1129,67 +1189,7 @@ export type EventQuery = (
   { __typename?: 'Query' }
   & { event?: Maybe<(
     { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'internalId' | 'startTime'>
-    & { name: (
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-    ), shortDescription?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-    )>, description?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-    )>, images: Array<(
-      { __typename?: 'Image' }
-      & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
-    )>, infoUrl?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-    )>, pEvent?: Maybe<(
-      { __typename?: 'PalvelutarjotinEventNode' }
-      & Pick<PalvelutarjotinEventNode, 'duration' | 'neededOccurrences'>
-      & { occurrences: (
-        { __typename?: 'OccurrenceNodeConnection' }
-        & { edges: Array<Maybe<(
-          { __typename?: 'OccurrenceNodeEdge' }
-          & { node?: Maybe<(
-            { __typename?: 'OccurrenceNode' }
-            & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize' | 'startTime' | 'endTime' | 'placeId'>
-          )> }
-        )>> }
-      ) }
-    )>, inLanguage: Array<(
-      { __typename?: 'InLanguage' }
-      & Pick<InLanguage, 'id' | 'internalId'>
-      & { name?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-      )> }
-    )>, audience: Array<(
-      { __typename?: 'Keyword' }
-      & Pick<Keyword, 'id' | 'internalId'>
-      & { name?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-      )> }
-    )>, keywords: Array<(
-      { __typename?: 'Keyword' }
-      & Pick<Keyword, 'id' | 'internalId'>
-      & { name?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-      )> }
-    )>, location?: Maybe<(
-      { __typename?: 'Place' }
-      & Pick<Place, 'id' | 'internalId'>
-      & { name?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-      )>, streetAddress?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-      )> }
-    )> }
+    & EventFieldsFragment
   )> }
 );
 
@@ -1207,7 +1207,7 @@ export type UploadSingleImageMutation = (
       & Pick<ImageMutationResponse, 'statusCode'>
       & { body?: Maybe<(
         { __typename?: 'Image' }
-        & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+        & ImageFieldsFragment
       )> }
     )> }
   )> }
@@ -1227,10 +1227,15 @@ export type UpdateSingleImageMutation = (
       & Pick<ImageMutationResponse, 'statusCode'>
       & { body?: Maybe<(
         { __typename?: 'Image' }
-        & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+        & ImageFieldsFragment
       )> }
     )> }
   )> }
+);
+
+export type ImageFieldsFragment = (
+  { __typename?: 'Image' }
+  & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
 );
 
 export type ImageQueryVariables = {
@@ -1242,7 +1247,16 @@ export type ImageQuery = (
   { __typename?: 'Query' }
   & { image?: Maybe<(
     { __typename?: 'Image' }
-    & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+    & ImageFieldsFragment
+  )> }
+);
+
+export type KeywordFieldsFragment = (
+  { __typename?: 'Keyword' }
+  & Pick<Keyword, 'id' | 'internalId'>
+  & { name?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
   )> }
 );
 
@@ -1255,11 +1269,7 @@ export type KeywordQuery = (
   { __typename?: 'Query' }
   & { keyword?: Maybe<(
     { __typename?: 'Keyword' }
-    & Pick<Keyword, 'id' | 'internalId'>
-    & { name?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-    )> }
+    & KeywordFieldsFragment
   )> }
 );
 
@@ -1282,13 +1292,74 @@ export type KeywordsQuery = (
       & Pick<Meta, 'count' | 'next' | 'previous'>
     ), data: Array<(
       { __typename?: 'Keyword' }
-      & Pick<Keyword, 'id' | 'internalId'>
-      & { name?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-      )> }
+      & KeywordFieldsFragment
     )> }
   )> }
+);
+
+export type MyProfileQueryVariables = {};
+
+
+export type MyProfileQuery = (
+  { __typename?: 'Query' }
+  & { myProfile?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & Pick<PersonNode, 'id' | 'name' | 'phoneNumber'>
+    & { organisations: (
+      { __typename?: 'OrganisationNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'OrganisationNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'OrganisationNode' }
+          & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+        )> }
+      )>> }
+    ) }
+  )> }
+);
+
+export type AddOccurrenceMutationVariables = {
+  input: AddOccurrenceMutationInput;
+};
+
+
+export type AddOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { addOccurrence?: Maybe<(
+    { __typename?: 'AddOccurrenceMutationPayload' }
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & OccurrenceFieldsFragment
+    )> }
+  )> }
+);
+
+export type EditOccurrenceMutationVariables = {
+  input: UpdateOccurrenceMutationInput;
+};
+
+
+export type EditOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOccurrence?: Maybe<(
+    { __typename?: 'UpdateOccurrenceMutationPayload' }
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & OccurrenceFieldsFragment
+    )> }
+  )> }
+);
+
+export type OccurrenceFieldsFragment = (
+  { __typename?: 'OccurrenceNode' }
+  & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+  & { pEvent?: Maybe<(
+    { __typename?: 'PalvelutarjotinEventNode' }
+    & Pick<PalvelutarjotinEventNode, 'id'>
+  )>, organisation: (
+    { __typename?: 'OrganisationNode' }
+    & Pick<OrganisationNode, 'id'>
+  ) }
 );
 
 export type OccurrenceQueryVariables = {
@@ -1300,11 +1371,7 @@ export type OccurrenceQuery = (
   { __typename?: 'Query' }
   & { occurrence?: Maybe<(
     { __typename?: 'OccurrenceNode' }
-    & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime' | 'placeId'>
-    & { pEvent?: Maybe<(
-      { __typename?: 'PalvelutarjotinEventNode' }
-      & Pick<PalvelutarjotinEventNode, 'id'>
-    )> }
+    & OccurrenceFieldsFragment
   )> }
 );
 
@@ -1341,13 +1408,27 @@ export type OccurrencesQuery = (
       & Pick<OccurrenceNodeEdge, 'cursor'>
       & { node?: Maybe<(
         { __typename?: 'OccurrenceNode' }
-        & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime'>
-        & { pEvent?: Maybe<(
-          { __typename?: 'PalvelutarjotinEventNode' }
-          & Pick<PalvelutarjotinEventNode, 'id'>
-        )> }
+        & OccurrenceFieldsFragment
       )> }
     )>> }
+  )> }
+);
+
+export type PlaceFieldsFragment = (
+  { __typename?: 'Place' }
+  & Pick<Place, 'id' | 'internalId'>
+  & { name?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, streetAddress?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, addressLocality?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, telephone?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
   )> }
 );
 
@@ -1360,20 +1441,7 @@ export type PlaceQuery = (
   { __typename?: 'Query' }
   & { place?: Maybe<(
     { __typename?: 'Place' }
-    & Pick<Place, 'id' | 'internalId'>
-    & { name?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-    )>, streetAddress?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-    )>, addressLocality?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-    )>, telephone?: Maybe<(
-      { __typename?: 'LocalisedObject' }
-      & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-    )> }
+    & PlaceFieldsFragment
   )> }
 );
 
@@ -1397,25 +1465,132 @@ export type PlacesQuery = (
       & Pick<Meta, 'count' | 'next' | 'previous'>
     ), data: Array<(
       { __typename?: 'Place' }
-      & Pick<Place, 'id' | 'internalId'>
-      & { name?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-      )>, streetAddress?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-      )>, addressLocality?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-      )>, telephone?: Maybe<(
-        { __typename?: 'LocalisedObject' }
-        & Pick<LocalisedObject, 'fi' | 'sv' | 'en'>
-      )> }
+      & PlaceFieldsFragment
     )> }
   )> }
 );
 
-
+export const LocalisedFieldsFragmentDoc = gql`
+    fragment localisedFields on LocalisedObject {
+  en
+  fi
+  sv
+}
+    `;
+export const ImageFieldsFragmentDoc = gql`
+    fragment imageFields on Image {
+  id
+  internalId
+  license
+  name
+  url
+  cropping
+  photographerName
+  altText
+}
+    `;
+export const OccurrenceFieldsFragmentDoc = gql`
+    fragment occurrenceFields on OccurrenceNode {
+  id
+  pEvent {
+    id
+  }
+  minGroupSize
+  maxGroupSize
+  startTime
+  endTime
+  organisation {
+    id
+  }
+  placeId
+}
+    `;
+export const PEventFieldsFragmentDoc = gql`
+    fragment pEventFields on PalvelutarjotinEventNode {
+  id
+  duration
+  neededOccurrences
+  occurrences {
+    edges {
+      node {
+        ...occurrenceFields
+      }
+    }
+  }
+}
+    ${OccurrenceFieldsFragmentDoc}`;
+export const KeywordFieldsFragmentDoc = gql`
+    fragment keywordFields on Keyword {
+  id
+  name {
+    ...localisedFields
+  }
+  internalId
+}
+    ${LocalisedFieldsFragmentDoc}`;
+export const PlaceFieldsFragmentDoc = gql`
+    fragment placeFields on Place {
+  id
+  internalId
+  name {
+    ...localisedFields
+  }
+  streetAddress {
+    ...localisedFields
+  }
+  addressLocality {
+    ...localisedFields
+  }
+  telephone {
+    ...localisedFields
+  }
+}
+    ${LocalisedFieldsFragmentDoc}`;
+export const EventFieldsFragmentDoc = gql`
+    fragment eventFields on Event {
+  id
+  internalId
+  name {
+    ...localisedFields
+  }
+  shortDescription {
+    ...localisedFields
+  }
+  description {
+    ...localisedFields
+  }
+  images {
+    ...imageFields
+  }
+  infoUrl {
+    ...localisedFields
+  }
+  pEvent {
+    ...pEventFields
+  }
+  inLanguage {
+    id
+    internalId
+    name {
+      ...localisedFields
+    }
+  }
+  audience {
+    ...keywordFields
+  }
+  keywords {
+    ...keywordFields
+  }
+  location {
+    ...placeFields
+  }
+  startTime
+}
+    ${LocalisedFieldsFragmentDoc}
+${ImageFieldsFragmentDoc}
+${PEventFieldsFragmentDoc}
+${KeywordFieldsFragmentDoc}
+${PlaceFieldsFragmentDoc}`;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {
@@ -1640,99 +1815,10 @@ export type EditEventMutationOptions = ApolloReactCommon.BaseMutationOptions<Edi
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String]) {
   event(id: $id, include: $include) {
-    id
-    internalId
-    name {
-      en
-      fi
-      sv
-    }
-    shortDescription {
-      en
-      fi
-      sv
-    }
-    description {
-      en
-      fi
-      sv
-    }
-    images {
-      id
-      internalId
-      license
-      name
-      url
-      cropping
-      photographerName
-      altText
-    }
-    infoUrl {
-      en
-      fi
-      sv
-    }
-    pEvent {
-      duration
-      neededOccurrences
-      occurrences {
-        edges {
-          node {
-            id
-            maxGroupSize
-            minGroupSize
-            startTime
-            endTime
-            placeId
-          }
-        }
-      }
-    }
-    inLanguage {
-      id
-      internalId
-      name {
-        en
-        fi
-        sv
-      }
-    }
-    audience {
-      id
-      internalId
-      name {
-        en
-        fi
-        sv
-      }
-    }
-    keywords {
-      id
-      internalId
-      name {
-        en
-        fi
-        sv
-      }
-    }
-    location {
-      id
-      internalId
-      name {
-        en
-        fi
-        sv
-      }
-      streetAddress {
-        en
-        fi
-        sv
-      }
-    }
-    startTime
+    ...eventFields
   }
 }
-    `;
+    ${EventFieldsFragmentDoc}`;
 export type EventProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<EventQuery, EventQueryVariables>
     } & TChildProps;
@@ -1779,19 +1865,12 @@ export const UploadSingleImageDocument = gql`
     response {
       statusCode
       body {
-        id
-        internalId
-        license
-        name
-        url
-        cropping
-        photographerName
-        altText
+        ...imageFields
       }
     }
   }
 }
-    `;
+    ${ImageFieldsFragmentDoc}`;
 export type UploadSingleImageMutationFn = ApolloReactCommon.MutationFunction<UploadSingleImageMutation, UploadSingleImageMutationVariables>;
 export type UploadSingleImageProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: ApolloReactCommon.MutationFunction<UploadSingleImageMutation, UploadSingleImageMutationVariables>
@@ -1836,19 +1915,12 @@ export const UpdateSingleImageDocument = gql`
     response {
       statusCode
       body {
-        id
-        internalId
-        license
-        name
-        url
-        cropping
-        photographerName
-        altText
+        ...imageFields
       }
     }
   }
 }
-    `;
+    ${ImageFieldsFragmentDoc}`;
 export type UpdateSingleImageMutationFn = ApolloReactCommon.MutationFunction<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>;
 export type UpdateSingleImageProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateSingleImageMutation, UpdateSingleImageMutationVariables>
@@ -1890,17 +1962,10 @@ export type UpdateSingleImageMutationOptions = ApolloReactCommon.BaseMutationOpt
 export const ImageDocument = gql`
     query Image($id: ID!) {
   image(id: $id) {
-    id
-    internalId
-    license
-    name
-    url
-    cropping
-    photographerName
-    altText
+    ...imageFields
   }
 }
-    `;
+    ${ImageFieldsFragmentDoc}`;
 export type ImageProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<ImageQuery, ImageQueryVariables>
     } & TChildProps;
@@ -1943,16 +2008,10 @@ export type ImageQueryResult = ApolloReactCommon.QueryResult<ImageQuery, ImageQu
 export const KeywordDocument = gql`
     query Keyword($id: ID!) {
   keyword(id: $id) {
-    id
-    name {
-      fi
-      sv
-      en
-    }
-    internalId
+    ...keywordFields
   }
 }
-    `;
+    ${KeywordFieldsFragmentDoc}`;
 export type KeywordProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<KeywordQuery, KeywordQueryVariables>
     } & TChildProps;
@@ -2001,17 +2060,11 @@ export const KeywordsDocument = gql`
       previous
     }
     data {
-      id
-      name {
-        fi
-        sv
-        en
-      }
-      internalId
+      ...keywordFields
     }
   }
 }
-    `;
+    ${KeywordFieldsFragmentDoc}`;
 export type KeywordsProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<KeywordsQuery, KeywordsQueryVariables>
     } & TChildProps;
@@ -2056,21 +2109,164 @@ export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
-export const OccurrenceDocument = gql`
-    query Occurrence($id: ID!) {
-  occurrence(id: $id) {
+export const MyProfileDocument = gql`
+    query MyProfile {
+  myProfile {
     id
-    pEvent {
-      id
+    name
+    phoneNumber
+    organisations {
+      edges {
+        node {
+          id
+          name
+          phoneNumber
+          type
+        }
+      }
     }
-    minGroupSize
-    maxGroupSize
-    startTime
-    endTime
-    placeId
   }
 }
     `;
+export type MyProfileProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<MyProfileQuery, MyProfileQueryVariables>
+    } & TChildProps;
+export function withMyProfile<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  MyProfileQuery,
+  MyProfileQueryVariables,
+  MyProfileProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, MyProfileQuery, MyProfileQueryVariables, MyProfileProps<TChildProps, TDataName>>(MyProfileDocument, {
+      alias: 'myProfile',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useMyProfileQuery__
+ *
+ * To run a query within a React component, call `useMyProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyProfileQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyProfileQuery, MyProfileQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyProfileQuery, MyProfileQueryVariables>(MyProfileDocument, baseOptions);
+      }
+export function useMyProfileLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyProfileQuery, MyProfileQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyProfileQuery, MyProfileQueryVariables>(MyProfileDocument, baseOptions);
+        }
+export type MyProfileQueryHookResult = ReturnType<typeof useMyProfileQuery>;
+export type MyProfileLazyQueryHookResult = ReturnType<typeof useMyProfileLazyQuery>;
+export type MyProfileQueryResult = ApolloReactCommon.QueryResult<MyProfileQuery, MyProfileQueryVariables>;
+export const AddOccurrenceDocument = gql`
+    mutation AddOccurrence($input: AddOccurrenceMutationInput!) {
+  addOccurrence(input: $input) {
+    occurrence {
+      ...occurrenceFields
+    }
+  }
+}
+    ${OccurrenceFieldsFragmentDoc}`;
+export type AddOccurrenceMutationFn = ApolloReactCommon.MutationFunction<AddOccurrenceMutation, AddOccurrenceMutationVariables>;
+export type AddOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<AddOccurrenceMutation, AddOccurrenceMutationVariables>
+    } & TChildProps;
+export function withAddOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  AddOccurrenceMutation,
+  AddOccurrenceMutationVariables,
+  AddOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, AddOccurrenceMutation, AddOccurrenceMutationVariables, AddOccurrenceProps<TChildProps, TDataName>>(AddOccurrenceDocument, {
+      alias: 'addOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useAddOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useAddOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addOccurrenceMutation, { data, loading, error }] = useAddOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddOccurrenceMutation, AddOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddOccurrenceMutation, AddOccurrenceMutationVariables>(AddOccurrenceDocument, baseOptions);
+      }
+export type AddOccurrenceMutationHookResult = ReturnType<typeof useAddOccurrenceMutation>;
+export type AddOccurrenceMutationResult = ApolloReactCommon.MutationResult<AddOccurrenceMutation>;
+export type AddOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<AddOccurrenceMutation, AddOccurrenceMutationVariables>;
+export const EditOccurrenceDocument = gql`
+    mutation EditOccurrence($input: UpdateOccurrenceMutationInput!) {
+  updateOccurrence(input: $input) {
+    occurrence {
+      ...occurrenceFields
+    }
+  }
+}
+    ${OccurrenceFieldsFragmentDoc}`;
+export type EditOccurrenceMutationFn = ApolloReactCommon.MutationFunction<EditOccurrenceMutation, EditOccurrenceMutationVariables>;
+export type EditOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<EditOccurrenceMutation, EditOccurrenceMutationVariables>
+    } & TChildProps;
+export function withEditOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditOccurrenceMutation,
+  EditOccurrenceMutationVariables,
+  EditOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditOccurrenceMutation, EditOccurrenceMutationVariables, EditOccurrenceProps<TChildProps, TDataName>>(EditOccurrenceDocument, {
+      alias: 'editOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useEditOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editOccurrenceMutation, { data, loading, error }] = useEditOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EditOccurrenceMutation, EditOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<EditOccurrenceMutation, EditOccurrenceMutationVariables>(EditOccurrenceDocument, baseOptions);
+      }
+export type EditOccurrenceMutationHookResult = ReturnType<typeof useEditOccurrenceMutation>;
+export type EditOccurrenceMutationResult = ApolloReactCommon.MutationResult<EditOccurrenceMutation>;
+export type EditOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<EditOccurrenceMutation, EditOccurrenceMutationVariables>;
+export const OccurrenceDocument = gql`
+    query Occurrence($id: ID!) {
+  occurrence(id: $id) {
+    ...occurrenceFields
+  }
+}
+    ${OccurrenceFieldsFragmentDoc}`;
 export type OccurrenceProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<OccurrenceQuery, OccurrenceQueryVariables>
     } & TChildProps;
@@ -2166,20 +2362,13 @@ export const OccurrencesDocument = gql`
     }
     edges {
       node {
-        id
-        pEvent {
-          id
-        }
-        minGroupSize
-        maxGroupSize
-        startTime
-        endTime
+        ...occurrenceFields
       }
       cursor
     }
   }
 }
-    `;
+    ${OccurrenceFieldsFragmentDoc}`;
 export type OccurrencesProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<OccurrencesQuery, OccurrencesQueryVariables>
     } & TChildProps;
@@ -2225,31 +2414,10 @@ export type OccurrencesQueryResult = ApolloReactCommon.QueryResult<OccurrencesQu
 export const PlaceDocument = gql`
     query Place($id: ID!) {
   place(id: $id) {
-    id
-    internalId
-    name {
-      fi
-      sv
-      en
-    }
-    streetAddress {
-      fi
-      sv
-      en
-    }
-    addressLocality {
-      fi
-      sv
-      en
-    }
-    telephone {
-      fi
-      sv
-      en
-    }
+    ...placeFields
   }
 }
-    `;
+    ${PlaceFieldsFragmentDoc}`;
 export type PlaceProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<PlaceQuery, PlaceQueryVariables>
     } & TChildProps;
@@ -2298,32 +2466,11 @@ export const PlacesDocument = gql`
       previous
     }
     data {
-      id
-      internalId
-      name {
-        fi
-        sv
-        en
-      }
-      streetAddress {
-        fi
-        sv
-        en
-      }
-      addressLocality {
-        fi
-        sv
-        en
-      }
-      telephone {
-        fi
-        sv
-        en
-      }
+      ...placeFields
     }
   }
 }
-    `;
+    ${PlaceFieldsFragmentDoc}`;
 export type PlacesProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<PlacesQuery, PlacesQueryVariables>
     } & TChildProps;

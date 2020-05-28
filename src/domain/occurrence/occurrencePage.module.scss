@@ -25,8 +25,12 @@
     font-size: var(--fontsize-h-2);
   }
 
+  h2 {
+    font-size: var(--fontsize-h-4);
+  }
+
   p {
-    color: var(-plain-text);
+    color: var(--color-plain-text);
     font-size: var(--fontsize-plain-text);
     line-height: var(--lineheight-plain-text);
     margin: 0;

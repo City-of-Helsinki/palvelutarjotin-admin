@@ -89,6 +89,7 @@ const Timepicker: React.FC<Props> = ({
     className: classNames(inputStyles.input),
     onFocus: handleInputOnFocus,
     onBlur: handleInputOnBlur,
+    value: value,
   });
   const showDropdown = isOpen && inputItems.length > 0;
 

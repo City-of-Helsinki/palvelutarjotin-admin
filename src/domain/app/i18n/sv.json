@@ -164,13 +164,22 @@
     "title": "Evenemang",
     "titleComingEvents": "Evenemang"
   },
-  "createEventOccurrence": {
-    "pageTitle": "Ny händelse",
-    "title": "Ny händelse",
+  "createOccurrence": {
+    "buttonBack": "Evenemangtider",
+    "buttonShowEventInfo": "Visa information om evenemang",
     "formTitle": "Lägg till ny händelsehändelse",
-    "buttonShowEventInfo": "Visa information om evenemang"
+    "pageTitle": "Ny händelse"
+  },
+  "editOccurrence": {
+    "buttonBack": "Evenemangtider",
+    "buttonShowEventInfo": "Visa information om evenemang",
+    "formTitle": "Redigera evenemangtid",
+    "pageTitle": "Redigera evenemangtid"
   },
   "eventOccurrenceForm": {
+    "infoText1": "Lägg till en evenemangtid för det evenemang som kunder kan registrera sig för. Observera att du kan skapa fler gånger samtidigt genom att kopiera händelsetiderna som du redan har skapat.",
+    "infoText2": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dag före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
+    "infoText2_plural": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
     "labelDate": "Datum",
     "labelStartsAt": "Börjar kl",
     "labelEndsAt": "Slutar kl",

@@ -11,6 +11,7 @@ import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import { MobileMenuProvider } from './mobileMenu/MobileMenu';
 import AppRoutes from './routes/AppRoutes';
+import ScrollToTop from './ScrollToTop';
 import { store } from './store';
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <ApolloProvider client={apolloClient}>
           <BrowserRouter>
             <MobileMenuProvider>
+              <ScrollToTop />
               <AppRoutes />
             </MobileMenuProvider>
           </BrowserRouter>
