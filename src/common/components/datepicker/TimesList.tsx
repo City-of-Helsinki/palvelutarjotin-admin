@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import ScrollIntoViewWithFocus from '../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
 import { formatTime, TimeObject } from '../timepicker/utils';
 import styles from './datepicker.module.scss';
 
@@ -13,6 +15,7 @@ type TimesListProps = {
 
 const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
   ({ times, onTimeClick, datetime }, forwardedRef) => {
+    const { t } = useTranslation();
     const findSelectedIndex = React.useCallback(() => {
       if (datetime) {
         const index = times.findIndex(
@@ -63,6 +66,9 @@ const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
             {times.map((time, index) => (
               <TimeItem
                 key={`${time.hours}:${time.minutes}`}
+                label={t('common.datepicker.accessibility.selectTime', {
+                  value: `${time.hours}:${time.minutes}`,
+                })}
                 time={time}
                 index={index}
                 selected={selectedIndex === index}
@@ -85,6 +91,7 @@ type TimeItemProps = {
   setFocusedIndex: (index: number) => void;
   onTimeClick: (time: TimeObject) => void;
   selected: boolean;
+  label: string;
 };
 
 const TimeItem: React.FC<TimeItemProps> = ({
@@ -92,21 +99,21 @@ const TimeItem: React.FC<TimeItemProps> = ({
   focused,
   index,
   selected,
+  label,
   setFocusedIndex,
   onTimeClick,
 }) => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
 
   // Scrolls selected time button smoothly into view
-  React.useEffect(() => {
-    if (selected) {
-      buttonRef.current?.scrollIntoView({
-        block: 'center',
-        inline: 'center',
-        behavior: 'smooth',
-      });
-    }
-  }, [selected]);
+  // React.useEffect(() => {
+  //   if (selected) {
+  //     buttonRef.current?.scrollIntoView({
+  //       block: 'center',
+  //       inline: 'nearest',
+  //     });
+  //   }
+  // }, [selected]);
 
   // scroll focused element into view
   React.useEffect(() => {
@@ -131,20 +138,26 @@ const TimeItem: React.FC<TimeItemProps> = ({
   };
 
   return (
-    <button
-      className={classNames(styles.timeItem, {
-        [styles.selectedTimeItem]: selected,
-      })}
-      ref={buttonRef}
-      type="button"
-      onMouseEnter={(e) => {
-        handleMouseEnter(e);
-      }}
-      tabIndex={focused ? 0 : -1}
-      onClick={() => onTimeClick(time)}
+    <ScrollIntoViewWithFocus
+      isFocused={selected}
+      scrollIntoViewOptions={{ block: 'center', inline: 'center' }}
     >
-      {formatTime(time)}
-    </button>
+      <button
+        className={classNames(styles.timeItem, {
+          [styles.selectedTimeItem]: selected,
+        })}
+        aria-label={label}
+        ref={buttonRef}
+        type="button"
+        onMouseEnter={(e) => {
+          handleMouseEnter(e);
+        }}
+        tabIndex={focused ? 0 : -1}
+        onClick={() => onTimeClick(time)}
+      >
+        {formatTime(time)}
+      </button>
+    </ScrollIntoViewWithFocus>
   );
 };
 

@@ -25,6 +25,7 @@ import TimesList from './TimesList';
 
 const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
 const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
+const MINUTE_INTERVAL = 15;
 
 type Props = {
   disabled?: boolean;
@@ -48,7 +49,7 @@ const Datepicker: React.FC<Props> = ({
   onBlur,
   timeSelector,
 }) => {
-  const [times] = useState(() => getTimeObjects(15));
+  const [times] = useState(() => getTimeObjects(MINUTE_INTERVAL));
   const [dateValue, setDateValue] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const datepickerClicked = React.useRef<boolean>(false);
@@ -111,10 +112,9 @@ const Datepicker: React.FC<Props> = ({
   });
 
   const isComponentFocused = () => {
-    const active = document.activeElement;
-    const current = container.current;
+    const activeElement = document.activeElement;
 
-    if (current && active instanceof Node && current.contains(active)) {
+    if (container.current?.contains(activeElement)) {
       return true;
     }
     return false;

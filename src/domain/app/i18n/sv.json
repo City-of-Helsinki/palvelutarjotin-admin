@@ -42,7 +42,8 @@
       "accessibility": {
         "selectDate": "Välj {{value}}",
         "buttonNextMonth": "Nästa månad",
-        "buttonPreviousMonth": "Förra månaden"
+        "buttonPreviousMonth": "Förra månaden",
+        "selectTime": "Välj {{value}}"
       },
       "buttonClose": "Stäng"
     },

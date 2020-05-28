@@ -2,6 +2,7 @@ import { useDay } from '@datepicker-react/hooks';
 import classNames from 'classnames';
 import formatDate from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
+import isToday from 'date-fns/isToday';
 import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -56,7 +57,7 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
           ? isSameDay(selectedDate, date)
           : false,
         [styles.dayDisabled]: disabledDate,
-        [styles.dayToday]: isSameDay(new Date(), date),
+        [styles.dayToday]: isToday(date),
       })}
       onClick={onClick}
       onKeyDown={onKeyDown}
