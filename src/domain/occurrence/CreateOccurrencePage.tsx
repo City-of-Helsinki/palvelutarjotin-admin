@@ -2,6 +2,7 @@ import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -74,7 +75,12 @@ const CreateOccurrencePage: React.FC = () => {
         },
       });
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
-    } catch (e) {}
+    } catch (e) {
+      // TODO: Improve error handling when API returns more informative errors
+      toast(t('createOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   const submitAndAdd = async (
@@ -93,7 +99,12 @@ const CreateOccurrencePage: React.FC = () => {
       refetchEvent();
       resetForm();
       scrollToTop();
-    } catch (e) {}
+    } catch (e) {
+      // TODO: Improve error handling when API returns more informative errors
+      toast(t('createOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   return (

@@ -16,6 +16,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import PlaceInfo from '../place/placeInfo/PlaceInfo';
+import OccurrenceGroupInfo from './occurrenceGroupInfo/OccurrenceGroupInfo';
 import styles from './occurrencePage.module.scss';
 
 interface Params {
@@ -45,12 +46,6 @@ const OccurrenceDetailsPage = () => {
     : null;
   const date = formatDate(startTime);
   const time = startTime && formatTimeRange(startTime, endTime, locale);
-
-  const languages = eventData?.event?.inLanguage
-    .map((language) => getLocalizedString(language.name || {}, locale))
-    .join(', ');
-  const maxGroupSize = occurrenceData?.occurrence?.maxGroupSize;
-  const minGroupSize = occurrenceData?.occurrence?.minGroupSize;
 
   const placeId = occurrenceData?.occurrence?.placeId;
 
@@ -109,13 +104,7 @@ const OccurrenceDetailsPage = () => {
                   <div className={styles.iconWrapper}>
                     <IconPerson />
                   </div>
-                  <p>
-                    {t('occurrenceDetails.textGroupInfo', {
-                      maxGroupSize,
-                      minGroupSize,
-                    })}
-                    {!!languages && `, ${languages}`}
-                  </p>
+                  <OccurrenceGroupInfo occurrenceData={occurrenceData} />
                 </div>
                 <div className={styles.infoRow}>
                   <div className={styles.iconWrapper}>

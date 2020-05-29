@@ -167,12 +167,14 @@
   "createOccurrence": {
     "buttonBack": "Evenemangtider",
     "buttonShowEventInfo": "Visa information om evenemang",
+    "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Lägg till ny händelsehändelse",
     "pageTitle": "Ny händelse"
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",
     "buttonShowEventInfo": "Visa information om evenemang",
+    "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Redigera evenemangtid",
     "pageTitle": "Redigera evenemangtid"
   },
@@ -184,10 +186,11 @@
     "labelStartsAt": "Börjar kl",
     "labelEndsAt": "Slutar kl",
     "labelEnrolmentStarts": "Anmälan börjar",
-    "labelEventLanguage": "Event språk",
-    "labelSpotsInTotal": "Totala fläckar",
+    "labelLanguages": "Event språk",
+    "labelAmountOfSeats": "Totala fläckar",
     "labelGroupSizeMin": "Gruppstorlek min",
     "labelGroupSizeMax": "Gruppstorlek max",
+    "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
     "labelEventLocation": "Eventplats",
     "labelLocationDescription": "Händelse platsbeskrivning",
     "labelPackedLunchEatingPlace": "Lunchställe med lunchpaket",
@@ -261,7 +264,14 @@
     "buttonEditOccurrence": "Redigera evenemangtid",
     "pageTitle": "Evenemangtid",
     "textDateAndTime": "{{date}} kl. {{time}}",
-    "textGroupInfo": "{{maxGroupSize}} platser, gruppstorlek {{maxGroupSize}}–{{maxGroupSize}}"
+    "textAmountOfSeats": "{{count}} plats",
+    "textAmountOfSeats_plural": "{{count}} platser",
+    "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
+    "languages": {
+      "en": "engelsk",
+      "fi": "finska",
+      "sv": "svenska"
+    }
   },
   "occurrences": {
     "actionsDropdown": {
@@ -275,6 +285,7 @@
     "buttonEventDetails": "Visa information om evenemanget",
     "buttonShowMore": "Visa mer",
     "count": "{{count}} st",
+    "deleteError": "Det gick inte att ta bort evenemangtiden",
     "deleteModal": {
       "buttonDelete": "Bort evenemangtid",
       "text1": "Är du säker på att du vill ta bort evenemangtid?",
@@ -284,11 +295,11 @@
     "pageTitle": "Evenemangtider",
     "table": {
       "columnActions": "Funktioner",
+      "columnAmountOfSeats": "Platser",
       "columnDate": "Datum",
       "columnEnrolmentStarts": "Registrering börjar",
       "columnEnrolments": "Registreringar",
       "columnLocation": "Evenemang plats",
-      "columnMaxGroupSize": "Platser",
       "columnTime": "Tid"
     },
     "textNoComingOccurrences": "Inga framtida evenemangtider",

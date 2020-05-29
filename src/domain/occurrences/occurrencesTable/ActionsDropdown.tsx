@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
 import AlertModal from '../../../common/components/modal/AlertModal';
+import { OccurrenceFieldsFragment } from '../../../generated/graphql';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import useLocale from '../../../hooks/useLocale';
 import IconDelete from '../../../icons/IconDelete';
 import { ROUTES } from '../../app/routes/constants';
-import { OccurrenceInTable } from '../types';
 import styles from './actionsDropdown.module.scss';
 
 const MenuItem: React.FC<{
@@ -48,8 +48,8 @@ const MenuItem: React.FC<{
 
 interface Props {
   eventId: string;
-  onDelete: (row: OccurrenceInTable) => void;
-  row: OccurrenceInTable;
+  onDelete: (row: OccurrenceFieldsFragment) => void;
+  row: OccurrenceFieldsFragment;
 }
 
 const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {

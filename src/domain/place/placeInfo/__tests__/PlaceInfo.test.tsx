@@ -41,7 +41,7 @@ afterEach(() => {
 test('PlaceInfo should match snapshot', async () => {
   await act(async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks} addTypename={true}>
         <PlaceInfo id={placeId} />
       </MockedProvider>,
       container

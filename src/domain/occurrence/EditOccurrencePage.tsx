@@ -2,6 +2,7 @@ import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -75,7 +76,12 @@ const EditOccurrencePage: React.FC = () => {
         },
       });
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
-    } catch (e) {}
+    } catch (e) {
+      // TODO: Improve error handling when API returns more informative errors
+      toast(t('editOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   const submitAndAdd = async (
@@ -93,7 +99,12 @@ const EditOccurrencePage: React.FC = () => {
       );
       resetForm();
       scrollToTop();
-    } catch (e) {}
+    } catch (e) {
+      // TODO: Improve error handling when API returns more informative errors
+      toast(t('editOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   const initialValues = React.useMemo(
@@ -107,9 +118,15 @@ const EditOccurrencePage: React.FC = () => {
       endsAt: occurrenceData?.occurrence?.endTime
         ? formatDate(new Date(occurrenceData?.occurrence?.endTime), 'HH:mm')
         : '',
+      languages:
+        occurrenceData?.occurrence?.languages.map((language) =>
+          language.id.toUpperCase()
+        ) || [],
       location: occurrenceData?.occurrence?.placeId || '',
+      amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize.toString() || '',
       minGroupSize: occurrenceData?.occurrence?.minGroupSize.toString() || '',
+      autoAcceptance: Boolean(occurrenceData?.occurrence?.autoAcceptance),
     }),
     [occurrenceData]
   );

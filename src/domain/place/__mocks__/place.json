@@ -6,23 +6,28 @@
       "name": {
         "fi": "Sellon kirjasto",
         "sv": "Sellobiblioteket",
-        "en": "Sello Library"
+        "en": "Sello Library",
+        "__typename": "LocalisedObject"
       },
       "streetAddress": {
         "fi": "Leppävaarankatu 9",
         "sv": "Albergagatan 9",
-        "en": "Leppävaarankatu 9"
+        "en": "Leppävaarankatu 9",
+        "__typename": "LocalisedObject"
       },
       "addressLocality": {
         "fi": "Espoo",
         "sv": "Esbo",
-        "en": "Espoo"
+        "en": "Espoo",
+        "__typename": "LocalisedObject"
       },
       "telephone": {
         "fi": "+358 9 8165 7603",
         "sv": null,
-        "en": null
-      }
+        "en": null,
+        "__typename": "LocalisedObject"
+      },
+      "__typename": "Place"
     }
   }
 }

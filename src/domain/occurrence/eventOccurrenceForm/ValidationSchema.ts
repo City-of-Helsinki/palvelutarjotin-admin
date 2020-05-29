@@ -65,6 +65,9 @@ export default Yup.object().shape({
       return schema;
     }),
   location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  amountOfSeats: Yup.number()
+    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+    .min(1, addMinValidationMessage),
   minGroupSize: Yup.number()
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
@@ -74,7 +77,11 @@ export default Yup.object().shape({
   maxGroupSize: Yup.number()
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
-    .when(['spotsInTotal'], (spotsInTotal: number, schema: Yup.NumberSchema) =>
-      spotsInTotal ? schema.max(spotsInTotal, addMaxValidationMessage) : schema
+    .when(
+      ['amountOfSeats'],
+      (amountOfSeats: number, schema: Yup.NumberSchema) =>
+        amountOfSeats
+          ? schema.max(amountOfSeats, addMaxValidationMessage)
+          : schema
     ),
 });

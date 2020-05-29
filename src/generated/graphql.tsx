@@ -31,9 +31,9 @@ export type Query = {
   studyGroups?: Maybe<StudyGroupNodeConnection>;
   /** The ID of the object */
   studyGroup?: Maybe<StudyGroupNode>;
-  venues?: Maybe<VenueCustomDataNodeConnection>;
+  venues?: Maybe<VenueNodeConnection>;
   /** The ID of the object */
-  venue?: Maybe<VenueCustomDataNode>;
+  venue?: Maybe<VenueNode>;
   /** Query personal data of logged user */
   myProfile?: Maybe<PersonNode>;
   /** The ID of the object */
@@ -238,8 +238,11 @@ export type OccurrenceNode = Node & {
   endTime: Scalars['DateTime'];
   organisation: OrganisationNode;
   contactPersons: PersonNodeConnection;
-  groups: StudyGroupNodeConnection;
+  studyGroups: StudyGroupNodeConnection;
   placeId: Scalars['String'];
+  autoAcceptance: Scalars['Boolean'];
+  amountOfSeats: Scalars['Int'];
+  languages: Array<LanguageType>;
 };
 
 
@@ -251,7 +254,7 @@ export type OccurrenceNodeContactPersonsArgs = {
 };
 
 
-export type OccurrenceNodeGroupsArgs = {
+export type OccurrenceNodeStudyGroupsArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -431,29 +434,59 @@ export type StudyGroupNodeOccurrencesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type VenueCustomDataNodeConnection = {
-   __typename?: 'VenueCustomDataNodeConnection';
+export type LanguageType = {
+   __typename?: 'LanguageType';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  occurrences: OccurrenceNodeConnection;
+};
+
+
+export type LanguageTypeOccurrencesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type VenueNodeConnection = {
+   __typename?: 'VenueNodeConnection';
   /** Pagination data for this connection. */
   pageInfo: PageInfo;
   /** Contains the nodes in this connection. */
-  edges: Array<Maybe<VenueCustomDataNodeEdge>>;
+  edges: Array<Maybe<VenueNodeEdge>>;
 };
 
-/** A Relay edge containing a `VenueCustomDataNode` and its cursor. */
-export type VenueCustomDataNodeEdge = {
-   __typename?: 'VenueCustomDataNodeEdge';
+/** A Relay edge containing a `VenueNode` and its cursor. */
+export type VenueNodeEdge = {
+   __typename?: 'VenueNodeEdge';
   /** The item at the end of the edge */
-  node?: Maybe<VenueCustomDataNode>;
+  node?: Maybe<VenueNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
 };
 
-export type VenueCustomDataNode = Node & {
-   __typename?: 'VenueCustomDataNode';
-  placeId: Scalars['String'];
-  /** The ID of the object. */
+export type VenueNode = Node & {
+   __typename?: 'VenueNode';
+  translations: Array<VenueTranslationType>;
+  /** Venue custom data ID is the encoded place_id from linkedEvent */
   id: Scalars['ID'];
+  /** Translated field in the language defined in request ACCEPT-LANGUAGE header  */
+  description?: Maybe<Scalars['String']>;
 };
+
+export type VenueTranslationType = {
+   __typename?: 'VenueTranslationType';
+  languageCode: Language;
+  description: Scalars['String'];
+};
+
+/** An enumeration. */
+export enum Language {
+  Fi = 'FI',
+  En = 'EN',
+  Sv = 'SV'
+}
 
 export type EventListResponse = {
    __typename?: 'EventListResponse';
@@ -681,6 +714,9 @@ export type Mutation = {
   addOccurrence?: Maybe<AddOccurrenceMutationPayload>;
   updateOccurrence?: Maybe<UpdateOccurrenceMutationPayload>;
   deleteOccurrence?: Maybe<DeleteOccurrenceMutationPayload>;
+  addVenue?: Maybe<AddVenueMutationPayload>;
+  updateVenue?: Maybe<UpdateVenueMutationPayload>;
+  deleteVenue?: Maybe<DeleteVenueMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
   updateOrganisation?: Maybe<UpdateOrganisationMutationPayload>;
@@ -706,6 +742,21 @@ export type MutationUpdateOccurrenceArgs = {
 
 export type MutationDeleteOccurrenceArgs = {
   input: DeleteOccurrenceMutationInput;
+};
+
+
+export type MutationAddVenueArgs = {
+  input: AddVenueMutationInput;
+};
+
+
+export type MutationUpdateVenueArgs = {
+  input: UpdateVenueMutationInput;
+};
+
+
+export type MutationDeleteVenueArgs = {
+  input: DeleteVenueMutationInput;
 };
 
 
@@ -773,6 +824,9 @@ export type AddOccurrenceMutationInput = {
   organisationId: Scalars['ID'];
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId: Scalars['ID'];
+  autoAcceptance: Scalars['Boolean'];
+  amountOfSeats: Scalars['Int'];
+  languages: Array<Maybe<OccurrenceLanguageInput>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -781,6 +835,10 @@ export type PersonNodeInput = {
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress: Scalars['String'];
+};
+
+export type OccurrenceLanguageInput = {
+  id: Language;
 };
 
 export type UpdateOccurrenceMutationPayload = {
@@ -800,6 +858,10 @@ export type UpdateOccurrenceMutationInput = {
   /** Should include all contact persons of the occurrence, missing contact persons will be removed during mutation */
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId?: Maybe<Scalars['ID']>;
+  autoAcceptance?: Maybe<Scalars['Boolean']>;
+  amountOfSeats?: Maybe<Scalars['Int']>;
+  /** If present, should include all languages of the occurrence */
+  languages: Array<Maybe<OccurrenceLanguageInput>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -809,6 +871,48 @@ export type DeleteOccurrenceMutationPayload = {
 };
 
 export type DeleteOccurrenceMutationInput = {
+  id: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type AddVenueMutationPayload = {
+   __typename?: 'AddVenueMutationPayload';
+  venue?: Maybe<VenueNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type AddVenueMutationInput = {
+  /** Place id from linked event */
+  id: Scalars['ID'];
+  translations?: Maybe<Array<Maybe<VenueTranslationsInput>>>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type VenueTranslationsInput = {
+  description?: Maybe<Scalars['String']>;
+  languageCode: Language;
+};
+
+export type UpdateVenueMutationPayload = {
+   __typename?: 'UpdateVenueMutationPayload';
+  venue?: Maybe<VenueNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateVenueMutationInput = {
+  /** Place id from linked event */
+  id: Scalars['ID'];
+  translations?: Maybe<Array<Maybe<VenueTranslationsInput>>>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeleteVenueMutationPayload = {
+   __typename?: 'DeleteVenueMutationPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeleteVenueMutationInput = {
+  /** Place id from linked event */
   id: Scalars['ID'];
   clientMutationId?: Maybe<Scalars['String']>;
 };
@@ -1352,10 +1456,13 @@ export type EditOccurrenceMutation = (
 
 export type OccurrenceFieldsFragment = (
   { __typename?: 'OccurrenceNode' }
-  & Pick<OccurrenceNode, 'id' | 'minGroupSize' | 'maxGroupSize' | 'startTime' | 'endTime' | 'placeId'>
+  & Pick<OccurrenceNode, 'id' | 'amountOfSeats' | 'minGroupSize' | 'maxGroupSize' | 'autoAcceptance' | 'startTime' | 'endTime' | 'placeId'>
   & { pEvent?: Maybe<(
     { __typename?: 'PalvelutarjotinEventNode' }
     & Pick<PalvelutarjotinEventNode, 'id'>
+  )>, languages: Array<(
+    { __typename?: 'LanguageType' }
+    & Pick<LanguageType, 'id' | 'name'>
   )>, organisation: (
     { __typename?: 'OrganisationNode' }
     & Pick<OrganisationNode, 'id'>
@@ -1495,8 +1602,14 @@ export const OccurrenceFieldsFragmentDoc = gql`
   pEvent {
     id
   }
+  amountOfSeats
   minGroupSize
   maxGroupSize
+  autoAcceptance
+  languages {
+    id
+    name
+  }
   startTime
   endTime
   organisation {
