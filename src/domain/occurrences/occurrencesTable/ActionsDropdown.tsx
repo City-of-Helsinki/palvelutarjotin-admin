@@ -68,6 +68,31 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
   } = useKeyboardNavigation({
     container: container,
     listLength: 3,
+    onKeyDown: (event) => {
+      if (!isComponentFocused()) return;
+
+      switch (event.key) {
+        case 'ArrowUp':
+        case 'ArrowDown':
+          ensureMenuIsOpen();
+          break;
+        case 'Enter':
+          if (isMenuOpen) {
+            toggleMenu();
+            setFocusToButton();
+            event.preventDefault();
+          }
+          break;
+        case 'Escape':
+          if (isMenuOpen) {
+            setIsMenuOpen(false);
+            setFocusToButton();
+          }
+          break;
+        case 'Tab':
+          setIsMenuOpen(false);
+      }
+    },
   });
 
   const toggleModal = () => {
@@ -111,51 +136,18 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
     toggleButton.current?.focus();
   };
 
-  const onKeyDown = React.useCallback(
-    (event: KeyboardEvent) => {
-      if (!isComponentFocused()) return;
-
-      switch (event.key) {
-        case 'ArrowUp':
-          ensureMenuIsOpen();
-          break;
-        case 'ArrowDown':
-          ensureMenuIsOpen();
-          break;
-        case 'Enter':
-          if (isMenuOpen) {
-            toggleMenu();
-            setFocusToButton();
-            event.preventDefault();
-          }
-          break;
-        case 'Escape':
-          if (isMenuOpen) {
-            setIsMenuOpen(false);
-            setFocusToButton();
-          }
-          break;
-        case 'Tab':
-          setIsMenuOpen(false);
-      }
-    },
-    [ensureMenuIsOpen, isComponentFocused, isMenuOpen, toggleMenu]
-  );
-
   React.useEffect(() => {
     setupKeyboardNav();
     document.addEventListener('click', onDocumentClick);
     document.addEventListener('focusin', onDocumentFocusin);
-    document.addEventListener('keydown', onKeyDown);
 
     // Clean up event listener to prevent memory leaks
     return () => {
       teardownKeyboardNav();
       document.removeEventListener('click', onDocumentClick);
       document.removeEventListener('focusin', onDocumentFocusin);
-      document.removeEventListener('keydown', onKeyDown);
     };
-  }, [onDocumentFocusin, onKeyDown, setupKeyboardNav, teardownKeyboardNav]);
+  }, [onDocumentFocusin, setupKeyboardNav, teardownKeyboardNav]);
 
   const goToEnrolmentsPage = () => {
     history.push(

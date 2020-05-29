@@ -79,18 +79,13 @@ const LanguageDropdown: React.FC<Props> = ({
 
       switch (event.key) {
         case 'ArrowUp':
-          ensureMenuIsOpen();
-          event.preventDefault();
-          break;
         case 'ArrowDown':
           ensureMenuIsOpen();
-          event.preventDefault();
           break;
         case 'Escape':
           if (isMenuOpen) {
             setIsMenuOpen(false);
             setFocusToButton();
-            event.preventDefault();
           }
           break;
         case 'Enter':
