@@ -4,6 +4,7 @@ interface Props {
   container: React.MutableRefObject<HTMLDivElement | null>;
   listLength: number;
   initialFocusedIndex?: number;
+  onKeyDown?: (event: KeyboardEvent) => void;
 }
 
 interface DropdownKeyboardNavigationState {
@@ -17,6 +18,7 @@ const useDropdownKeyboardNavigation = ({
   container,
   listLength,
   initialFocusedIndex,
+  onKeyDown,
 }: Props): DropdownKeyboardNavigationState => {
   const [focusedIndex, setFocusedIndex] = React.useState<number>(-1);
   const [isInitialNavigation, setIsInitialNavigation] = React.useState(true);
@@ -47,11 +49,12 @@ const useDropdownKeyboardNavigation = ({
     return false;
   }, [container]);
 
-  const onKeyDown = React.useCallback(
+  const handleKeyDown = React.useCallback(
     (event: KeyboardEvent) => {
       // Handle keyboard events only if current element is focused
       if (!isComponentFocused()) return;
 
+      onKeyDown && onKeyDown(event);
       switch (event.key) {
         case 'ArrowUp':
           if (isInitialNavigation && typeof initialFocusedIndex === 'number') {
@@ -66,8 +69,6 @@ const useDropdownKeyboardNavigation = ({
         case 'ArrowDown':
           if (isInitialNavigation && typeof initialFocusedIndex === 'number') {
             focusOption('down', initialFocusedIndex);
-          } else if (isStartingPosition) {
-            setFocusedIndex(listLength + 1);
           } else {
             focusOption('down', focusedIndex);
           }
@@ -87,16 +88,17 @@ const useDropdownKeyboardNavigation = ({
       isInitialNavigation,
       isStartingPosition,
       listLength,
+      onKeyDown,
     ]
   );
 
   const setup = React.useCallback(() => {
-    document.addEventListener('keydown', onKeyDown);
-  }, [onKeyDown]);
+    document.addEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const teardown = React.useCallback(() => {
-    document.removeEventListener('keydown', onKeyDown);
-  }, [onKeyDown]);
+    document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   React.useEffect(() => {
     setIsInitialNavigation(true);
