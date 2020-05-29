@@ -6,8 +6,14 @@ export const QUERY_OCCURRENCE = gql`
     pEvent {
       id
     }
+    amountOfSeats
     minGroupSize
     maxGroupSize
+    autoAcceptance
+    languages {
+      id
+      name
+    }
     startTime
     endTime
     organisation {

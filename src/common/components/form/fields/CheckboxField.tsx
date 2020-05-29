@@ -10,7 +10,7 @@ const CheckboxField: React.FC<Props> = (props) => {
     ...rest
   } = props;
 
-  return <Checkbox {...field} {...rest} id={name} />;
+  return <Checkbox {...field} {...rest} id={name} checked={field.value} />;
 };
 
 export default CheckboxField;

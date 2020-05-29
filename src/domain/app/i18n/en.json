@@ -185,10 +185,11 @@
     "labelStartsAt": "Starts at",
     "labelEndsAt": "Ends at",
     "labelEnrolmentStarts": "Enrolment starts on",
-    "labelEventLanguage": "Event language",
-    "labelSpotsInTotal": "Total spots",
+    "labelLanguages": "Event language",
+    "labelAmountOfSeats": "Total spots",
     "labelGroupSizeMin": "Group size min",
     "labelGroupSizeMax": "Group size max",
+    "labelAutoAcceptance": "Automatically confirm registrations within the number of participants",
     "labelEventLocation": "Event location",
     "labelLocationDescription": "Event location description",
     "labelPackedLunchEatingPlace": "Packed lunch eating place",
@@ -262,7 +263,14 @@
     "buttonEditOccurrence": "Edit event time",
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
-    "textGroupInfo": "{{maxGroupSize}} seats, group size {{maxGroupSize}}–{{maxGroupSize}}"
+    "textAmountOfSeats": "{{count}} seat",
+    "textAmountOfSeats_plural": "{{count}} seats",
+    "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
+    "languages": {
+      "en": "in English",
+      "fi": "in Finnish",
+      "sv": "in Swedish"
+    }
   },
   "occurrences": {
     "actionsDropdown": {
@@ -285,11 +293,11 @@
     "pageTitle": "Event times",
     "table": {
       "columnActions": "Actions",
+      "columnAmountOfSeats": "Seats",
       "columnDate": "Date",
       "columnEnrolmentStarts": "Registration begins",
       "columnEnrolments": "Registrations",
       "columnLocation": "Location",
-      "columnMaxGroupSize": "Seats",
       "columnTime": "Time"
     },
     "textNoComingOccurrences": "No coming event times",

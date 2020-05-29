@@ -46,9 +46,10 @@ const OccurrenceDetailsPage = () => {
   const date = formatDate(startTime);
   const time = startTime && formatTimeRange(startTime, endTime, locale);
 
-  const languages = eventData?.event?.inLanguage
-    .map((language) => getLocalizedString(language.name || {}, locale))
-    .join(', ');
+  const languages = occurrenceData?.occurrence?.languages.map(
+    (language) => language.id
+  );
+  const amountOfSeats = occurrenceData?.occurrence?.amountOfSeats;
   const maxGroupSize = occurrenceData?.occurrence?.maxGroupSize;
   const minGroupSize = occurrenceData?.occurrence?.minGroupSize;
 
@@ -110,11 +111,20 @@ const OccurrenceDetailsPage = () => {
                     <IconPerson />
                   </div>
                   <p>
-                    {t('occurrenceDetails.textGroupInfo', {
-                      maxGroupSize,
-                      minGroupSize,
-                    })}
-                    {!!languages && `, ${languages}`}
+                    {[
+                      t('occurrenceDetails.textAmountOfSeats', {
+                        count: amountOfSeats,
+                      }),
+                      t('occurrenceDetails.textGroupInfo', {
+                        maxGroupSize,
+                        minGroupSize,
+                      }),
+                      languages
+                        ?.map((language) =>
+                          t(`occurrenceDetails.languages.${language}`)
+                        )
+                        .join(', '),
+                    ].join(', ')}
                   </p>
                 </div>
                 <div className={styles.infoRow}>

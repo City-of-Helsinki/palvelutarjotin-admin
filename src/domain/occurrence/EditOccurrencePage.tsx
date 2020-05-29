@@ -107,9 +107,15 @@ const EditOccurrencePage: React.FC = () => {
       endsAt: occurrenceData?.occurrence?.endTime
         ? formatDate(new Date(occurrenceData?.occurrence?.endTime), 'HH:mm')
         : '',
+      languages:
+        occurrenceData?.occurrence?.languages.map((language) =>
+          language.id.toUpperCase()
+        ) || [],
       location: occurrenceData?.occurrence?.placeId || '',
+      amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize.toString() || '',
       minGroupSize: occurrenceData?.occurrence?.minGroupSize.toString() || '',
+      autoAcceptance: Boolean(occurrenceData?.occurrence?.autoAcceptance),
     }),
     [occurrenceData]
   );

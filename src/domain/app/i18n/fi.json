@@ -185,10 +185,11 @@
     "labelStartsAt": "Alkaa klo",
     "labelEndsAt": "Loppuu klo",
     "labelEnrolmentStarts": "Ilmoittautuminen alkaa",
-    "labelEventLanguage": "Tapahtuman kieli",
-    "labelSpotsInTotal": "Paikkoja yhteensä",
+    "labelLanguages": "Tapahtuman kieli",
+    "labelAmountOfSeats": "Paikkoja yhteensä",
     "labelGroupSizeMin": "Ryhmäkoko min",
     "labelGroupSizeMax": "Ryhmäkoko max",
+    "labelAutoAcceptance": "Vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa",
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
     "labelPackedLunchEatingPlace": "Eväidensyöntipaikka",
@@ -262,7 +263,14 @@
     "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",
-    "textGroupInfo": "{{maxGroupSize}} paikkaa, ryhmän koko {{maxGroupSize}}–{{maxGroupSize}}"
+    "textAmountOfSeats": "{{count}} paikka",
+    "textAmountOfSeats_plural": "{{count}} paikkaa",
+    "textGroupInfo": "ryhmän koko {{minGroupSize}}–{{maxGroupSize}}",
+    "languages": {
+      "en": "englanninkielinen",
+      "fi": "suomenkielinen",
+      "sv": "ruotsinkielinen"
+    }
   },
   "occurrences": {
     "actionsDropdown": {
@@ -285,11 +293,11 @@
     "pageTitle": "Tapahtuma-ajat",
     "table": {
       "columnActions": "Toiminnot",
+      "columnAmountOfSeats": "Paikkoja",
       "columnDate": "Pvm",
       "columnEnrolmentStarts": "Ilm. alkaa",
       "columnEnrolments": "Ilmoittautuneita",
       "columnLocation": "Tapahtumapaikka",
-      "columnMaxGroupSize": "Paikkoja",
       "columnTime": "Kellonaika"
     },
     "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",

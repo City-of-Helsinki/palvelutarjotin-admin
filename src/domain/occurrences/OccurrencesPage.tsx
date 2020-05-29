@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
   useEventQuery,
 } from '../../generated/graphql';
@@ -18,7 +19,6 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import styles from './occurrencesPage.module.scss';
 import OccurrencesTable from './occurrencesTable/OccurrencesTable';
-import { OccurrenceInTable } from './types';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
 
@@ -44,7 +44,7 @@ const OccurrencesPage: React.FC = () => {
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
       (edge) => edge?.node
-    ) as OccurrenceInTable[]) || [];
+    ) as OccurrenceFieldsFragment[]) || [];
   const comingOccurrences = occurrences.filter(
     (item) => !isPast(new Date(item.startTime))
   );
@@ -59,7 +59,9 @@ const OccurrencesPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
   };
 
-  const handleDeleteOccurrence = async (occurrence: OccurrenceInTable) => {
+  const handleDeleteOccurrence = async (
+    occurrence: OccurrenceFieldsFragment
+  ) => {
     try {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
       refetchEventData();

@@ -4,37 +4,44 @@ import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
-import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
+import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
-import { EVENT_LANGUAGES } from '../../../constants';
 import {
+  Language,
+  OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
   useEventQuery,
 } from '../../../generated/graphql';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
-import { OccurrenceInTable } from '../../occurrences/types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
 export type OccurrenceFormFields = {
+  autoAcceptance: boolean;
   date: Date | null;
   startsAt: string;
   endsAt: string;
+  languages: string[];
   location: string;
+  amountOfSeats: string;
   maxGroupSize: string;
   minGroupSize: string;
 };
 
 export const defaultInitialValues = {
+  autoAcceptance: true,
   date: null,
+  languages: [],
   startsAt: '',
   endsAt: '',
   location: '',
+  amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
 };
@@ -67,12 +74,14 @@ const EventOccurrenceForm: React.FC<Props> = ({
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
       (edge) => edge?.node
-    ) as OccurrenceInTable[]) || [];
+    ) as OccurrenceFieldsFragment[]) || [];
   const comingOccurrences = occurrences.filter(
     (item) => !isPast(new Date(item.startTime))
   );
 
-  const handleDeleteOccurrence = async (occurrence: OccurrenceInTable) => {
+  const handleDeleteOccurrence = async (
+    occurrence: OccurrenceFieldsFragment
+  ) => {
     try {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
       refetchEventData();
@@ -117,7 +126,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     labelText={t('eventOccurrenceForm.labelDate')}
                     name="date"
                     component={DateInputField}
-                    timeSelector
                   />
                 </FormGroup>
                 <FormGroup>
@@ -157,13 +165,13 @@ const EventOccurrenceForm: React.FC<Props> = ({
               <div className={styles.occurrenceFormRow}>
                 <FormGroup>
                   <Field
-                    component={DropdownSelectField}
-                    labelText={t('eventOccurrenceForm.labelEventLanguage')}
-                    name="eventLanguage"
+                    component={DropdownMultiselectField}
+                    labelText={t('eventOccurrenceForm.labelLanguages')}
+                    name="languages"
                     // TODO: Use real data when available from api
                     options={[
-                      ...Object.values(EVENT_LANGUAGES).map((language) => ({
-                        label: t(`common.languages.${language}`),
+                      ...Object.values(Language).map((language) => ({
+                        label: t(`common.languages.${language.toLowerCase()}`),
                         value: language,
                       })),
                     ]}
@@ -171,8 +179,8 @@ const EventOccurrenceForm: React.FC<Props> = ({
                 </FormGroup>
                 <FormGroup>
                   <Field
-                    labelText={t('eventOccurrenceForm.labelSpotsInTotal')}
-                    name="spotsInTotal"
+                    labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
+                    name="amountOfSeats"
                     component={NumberInputField}
                     min={0}
                   />
@@ -194,6 +202,14 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   />
                 </FormGroup>
               </div>
+
+              <FormGroup>
+                <Field
+                  labelText={t('eventOccurrenceForm.labelAutoAcceptance')}
+                  name="autoAcceptance"
+                  component={CheckboxField}
+                />
+              </FormGroup>
 
               <div className={styles.occurrenceFormRow}>
                 <div className={styles.fullRow}>

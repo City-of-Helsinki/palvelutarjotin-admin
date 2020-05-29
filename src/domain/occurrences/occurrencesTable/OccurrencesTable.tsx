@@ -6,19 +6,19 @@ import { useHistory } from 'react-router';
 import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
+import { OccurrenceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatData from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import PlaceText from '../../place/PlaceText';
-import { OccurrenceInTable } from '../types';
 import ActionsDropdown from './ActionsDropdown';
 
 interface Props {
   eventId: string;
   id: string;
-  occurrences: OccurrenceInTable[];
-  onDelete: (occurrence: OccurrenceInTable) => void;
+  occurrences: OccurrenceFieldsFragment[];
+  onDelete: (occurrence: OccurrenceFieldsFragment) => void;
 }
 
 const OccurrencesTable: React.FC<Props> = ({
@@ -53,7 +53,7 @@ const OccurrencesTable: React.FC<Props> = ({
     return allSelected;
   }, [occurrences, selectedOccurrences]);
 
-  const handleCheckboxChange = (row: OccurrenceInTable) => {
+  const handleCheckboxChange = (row: OccurrenceFieldsFragment) => {
     setSelectedOccurrences(
       selectedOccurrences.includes(row.id)
         ? selectedOccurrences.filter((item) => item !== row.id)
@@ -61,7 +61,7 @@ const OccurrencesTable: React.FC<Props> = ({
     );
   };
 
-  const goToOccurrenceDetailsPage = (row: Row<OccurrenceInTable>) => {
+  const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
     history.push(
       `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
@@ -79,7 +79,7 @@ const OccurrencesTable: React.FC<Props> = ({
           onChange={isAllSelected ? unselectAll : selectAll}
         />
       ),
-      accessor: (row: OccurrenceInTable) => (
+      accessor: (row: OccurrenceFieldsFragment) => (
         <Checkbox
           id={`${id}_${row.id}_checkbox`}
           checked={selectedOccurrences.includes(row.id)}
@@ -90,39 +90,40 @@ const OccurrencesTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrences.table.columnDate'),
-      accessor: (row: OccurrenceInTable) => formatData(new Date(row.startTime)),
+      accessor: (row: OccurrenceFieldsFragment) =>
+        formatData(new Date(row.startTime)),
       id: 'date',
     },
     {
       Header: t('occurrences.table.columnTime'),
-      accessor: (row: OccurrenceInTable) =>
+      accessor: (row: OccurrenceFieldsFragment) =>
         formatTimeRange(new Date(row.startTime), new Date(row.endTime), locale),
       id: 'time',
     },
     {
       Header: t('occurrences.table.columnLocation'),
-      accessor: (row: OccurrenceInTable) =>
+      accessor: (row: OccurrenceFieldsFragment) =>
         row.placeId ? <PlaceText id={row.placeId} /> : '-',
       id: 'place',
     },
     {
-      Header: t('occurrences.table.columnMaxGroupSize'),
-      accessor: (row: OccurrenceInTable) => row.maxGroupSize,
-      id: 'maxGroupSize',
+      Header: t('occurrences.table.columnAmountOfSeats'),
+      accessor: (row: OccurrenceFieldsFragment) => row.amountOfSeats,
+      id: 'amountOfSeats',
     },
     {
       Header: t('occurrences.table.columnEnrolmentStarts'),
-      accessor: (row: OccurrenceInTable) => 'TODO',
-      id: 'elrollmentStarts',
+      accessor: (row: OccurrenceFieldsFragment) => 'TODO',
+      id: 'elrolmentStarts',
     },
     {
       Header: t('occurrences.table.columnEnrolments'),
-      accessor: (row: OccurrenceInTable) => 'TODO',
+      accessor: (row: OccurrenceFieldsFragment) => 'TODO',
       id: 'enrolments',
     },
     {
       Header: t('occurrences.table.columnActions'),
-      accessor: (row: OccurrenceInTable) => (
+      accessor: (row: OccurrenceFieldsFragment) => (
         <ActionsDropdown eventId={eventId} onDelete={onDelete} row={row} />
       ),
       id: 'actions',
