@@ -167,12 +167,14 @@
   "createOccurrence": {
     "buttonBack": "Evenemangtider",
     "buttonShowEventInfo": "Visa information om evenemang",
+    "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Lägg till ny händelsehändelse",
     "pageTitle": "Ny händelse"
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",
     "buttonShowEventInfo": "Visa information om evenemang",
+    "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Redigera evenemangtid",
     "pageTitle": "Redigera evenemangtid"
   },
@@ -283,6 +285,7 @@
     "buttonEventDetails": "Visa information om evenemanget",
     "buttonShowMore": "Visa mer",
     "count": "{{count}} st",
+    "deleteError": "Det gick inte att ta bort evenemangtiden",
     "deleteModal": {
       "buttonDelete": "Bort evenemangtid",
       "text1": "Är du säker på att du vill ta bort evenemangtid?",

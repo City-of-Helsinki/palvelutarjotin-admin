@@ -168,12 +168,14 @@
   "createOccurrence": {
     "buttonBack": "Tapahtuma-ajat",
     "buttonShowEventInfo": "Näytä tapahtuman tiedot",
+    "error": "Tapahtuma-ajan tallentaminen epäonnistui",
     "formTitle": "Lisää uusi tapahtuma-aika",
     "pageTitle": "Uusi tapahtuma-aika"
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",
     "buttonShowEventInfo": "Näytä tapahtuman tiedot",
+    "error": "Tapahtuma-ajan tallentaminen epäonnistui",
     "formTitle": "Muokkaa tapahtuma-aikaa",
     "pageTitle": "Muokkaa tapahtuma-aikaa"
   },
@@ -284,6 +286,7 @@
     "buttonEventDetails": "Näytä tapahtuman tiedot",
     "buttonShowMore": "Näytä lisää",
     "count": "{{count}} kpl",
+    "deleteError": "Tapahtuma-ajan poistaminen epäonnistui",
     "deleteModal": {
       "buttonDelete": "Poista tapahtuma-aika",
       "text1": "Oletko varma että haluat poistaa tapahtuma-ajan?",

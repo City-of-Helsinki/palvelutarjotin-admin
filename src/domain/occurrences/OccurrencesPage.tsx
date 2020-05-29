@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -65,7 +66,11 @@ const OccurrencesPage: React.FC = () => {
     try {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
       refetchEventData();
-    } catch (e) {}
+    } catch (e) {
+      toast(t('occurrences.deleteError'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   return (

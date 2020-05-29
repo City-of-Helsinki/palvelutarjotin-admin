@@ -3,6 +3,7 @@ import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
@@ -85,7 +86,11 @@ const EventOccurrenceForm: React.FC<Props> = ({
     try {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
       refetchEventData();
-    } catch (e) {}
+    } catch (e) {
+      toast(t('occurrences.deleteError'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   return (

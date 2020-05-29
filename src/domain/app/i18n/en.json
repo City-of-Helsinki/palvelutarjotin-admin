@@ -168,12 +168,14 @@
   "createOccurrence": {
     "buttonBack": "Event times",
     "buttonShowEventInfo": "Show event details",
+    "error": "Failed to save event time",
     "formTitle": "Add new occurrence",
     "pageTitle": "New occurrence"
   },
   "editOccurrence": {
     "buttonBack": "Event times",
     "buttonShowEventInfo": "Show event details",
+    "error": "Failed to save event time",
     "formTitle": "Edit occurrence",
     "pageTitle": "Edit occurrence"
   },
@@ -284,6 +286,7 @@
     "buttonEventDetails": "View event details",
     "buttonShowMore": "Show more",
     "count": "{{count}} pcs",
+    "deleteError": "Failed to delete event time",
     "deleteModal": {
       "buttonDelete": "Delete event time",
       "text1": "Are you sure you want to delete the event time?",
