@@ -68,7 +68,7 @@ const useDropdownKeyboardNavigation = ({
           break;
         case 'ArrowDown':
           if (isInitialNavigation && typeof initialFocusedIndex === 'number') {
-            focusOption('down', initialFocusedIndex);
+            focusOption('down', initialFocusedIndex - 1);
           } else {
             focusOption('down', focusedIndex);
           }

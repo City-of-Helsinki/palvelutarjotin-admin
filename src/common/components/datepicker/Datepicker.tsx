@@ -32,7 +32,7 @@ const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
 const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
 const MINUTE_INTERVAL = 15;
 
-type Props = {
+export type DatepickerProps = {
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -42,9 +42,10 @@ type Props = {
   onChange: (value?: Date | null) => void;
   value: Date | null;
   timeSelector?: boolean;
+  minuteInterval?: number;
 };
 
-const Datepicker: React.FC<Props> = ({
+const Datepicker: React.FC<DatepickerProps> = ({
   value,
   id,
   helperText,
@@ -53,8 +54,11 @@ const Datepicker: React.FC<Props> = ({
   onChange,
   onBlur,
   timeSelector,
+  minuteInterval,
 }) => {
-  const [times] = useState(() => getTimeObjects(MINUTE_INTERVAL));
+  const [times] = useState(() =>
+    getTimeObjects(minuteInterval || MINUTE_INTERVAL)
+  );
   const [dateValue, setDateValue] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const datepickerClicked = React.useRef<boolean>(false);
@@ -87,6 +91,7 @@ const Datepicker: React.FC<Props> = ({
 
   const handleDocumentKeyDown = (event: KeyboardEvent) => {
     if (!isComponentFocused()) return;
+
     switch (event.key) {
       case 'Escape':
         ensureCalendarIsClosed();
