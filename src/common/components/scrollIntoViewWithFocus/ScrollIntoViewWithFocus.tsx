@@ -16,6 +16,7 @@ const ScrollIntoViewWithFocus: React.FC<Props> = ({
 
   useDeepCompareEffect(() => {
     if (isFocused) {
+      // jsdom doesn't support scrollIntoView
       selfRef.current?.scrollIntoView?.(scrollIntoViewOptions);
     }
   }, [isFocused, scrollIntoViewOptions]);
