@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 
 import {
   useCreateEventMutation,
@@ -67,7 +68,10 @@ const CreateEventPage: React.FC = () => {
         search: `?language=${selectedLanguage}`,
       });
     } catch (e) {
-      // Check apolloClient to see error handling
+      // TODO: Improve error handling when API returns more informative errors
+      toast(t('createEvent.error'), {
+        type: toast.TYPE.ERROR,
+      });
     }
   };
   return (
