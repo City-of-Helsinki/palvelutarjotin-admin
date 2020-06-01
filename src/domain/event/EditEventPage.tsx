@@ -13,6 +13,7 @@ import { Language } from '../../types';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import ErrorPage from '../errorPage/ErrorPage';
 import { getImageName } from '../image/utils';
 import EventForm, {
   defaultInitialValues,
@@ -167,7 +168,7 @@ const EditEventPage: React.FC = () => {
               />
             </div>
           ) : (
-            <div>TODO: EVENT NOT FOUND</div>
+            <ErrorPage />
           )}
         </Container>
       </LoadingSpinner>

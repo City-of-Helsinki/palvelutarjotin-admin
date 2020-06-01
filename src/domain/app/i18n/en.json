@@ -57,6 +57,11 @@
       "zh_hans": "Chinese"
     }
   },
+  "errorPage": {
+    "title": "Tjänsten stötte på ett fel",
+    "description": "We're sorry, but there was an error with the service. You can try again, but if the situation persists, please let us know via the feedback link at the bottom.",
+    "returnToHome": "Return to homepage"
+  },
   "createEvent": {
     "pageTitle": "New event",
     "title": "New event"

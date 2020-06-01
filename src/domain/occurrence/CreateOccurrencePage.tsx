@@ -17,6 +17,7 @@ import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import ErrorPage from '../errorPage/ErrorPage';
 import EventOccurrenceForm, {
   defaultInitialValues,
   OccurrenceFormFields,
@@ -136,7 +137,7 @@ const CreateOccurrencePage: React.FC = () => {
                 </div>
               </Container>
             ) : (
-              <div>TODO: Event not found page</div>
+              <ErrorPage />
             )}
           </>
         ) : (

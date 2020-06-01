@@ -18,6 +18,7 @@ import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import ErrorPage from '../errorPage/ErrorPage';
 import styles from './occurrencesPage.module.scss';
 import OccurrencesTable from './occurrencesTable/OccurrencesTable';
 
@@ -162,7 +163,7 @@ const OccurrencesPage: React.FC = () => {
             </Container>
           </div>
         ) : (
-          <div>TODO: Event not found page</div>
+          <ErrorPage />
         )}
       </LoadingSpinner>
     </PageWrapper>

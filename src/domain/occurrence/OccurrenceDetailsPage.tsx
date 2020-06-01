@@ -15,6 +15,7 @@ import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import ErrorPage from '../errorPage/ErrorPage';
 import PlaceInfo from '../place/placeInfo/PlaceInfo';
 import OccurrenceGroupInfo from './occurrenceGroupInfo/OccurrenceGroupInfo';
 import styles from './occurrencePage.module.scss';
@@ -116,7 +117,7 @@ const OccurrenceDetailsPage = () => {
             </Container>
           </div>
         ) : (
-          <div>TODO: OCCURRENCE NOT FOUND</div>
+          <ErrorPage />
         )}
       </LoadingSpinner>
     </PageWrapper>

@@ -1,15 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Container from '../app/layout/Container';
+import ErrorPage from '../errorPage/ErrorPage';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();
-  return (
-    <Container>
-      <h1>{t('notFound.textNotFound')}</h1>
-    </Container>
-  );
+  return <ErrorPage title={t('notFound.textNotFound')} />;
 };
 
 export default NotFoundPage;
