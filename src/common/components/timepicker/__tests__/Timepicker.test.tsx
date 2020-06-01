@@ -10,24 +10,30 @@ const defaultLabel = 'Timepicker';
 function renderTimepicker(props?: Partial<Props>) {
   const onChange = jest.fn();
   const onBlur = jest.fn();
-  render(
-    <Timepicker
-      id={id}
-      labelText={defaultLabel}
-      value=""
-      onChange={onChange}
-      onBlur={onBlur}
-      invalid={false}
-      {...props}
-    />
-  );
 
-  return { onChange, onBlur };
+  const defaultProps = {
+    id,
+    labelText: defaultLabel,
+    value: '',
+    onChange,
+    onBlur,
+    invalid: false,
+    ...props,
+  };
+
+  const { rerender } = render(<Timepicker {...defaultProps} />);
+
+  return {
+    onChange,
+    onBlur,
+    rerender: (newProps?: Partial<Props>) =>
+      rerender(<Timepicker {...defaultProps} {...newProps} />),
+  };
 }
 
 describe('Selecting time', () => {
   it('autocompletes and selects time when user clicks an option', async () => {
-    const { onChange } = renderTimepicker();
+    const { onChange, rerender } = renderTimepicker();
 
     const input = screen.getByLabelText(defaultLabel);
     userEvent.type(input, '12');
@@ -38,6 +44,8 @@ describe('Selecting time', () => {
     userEvent.click(option);
 
     await waitFor(() => expect(onChange).toHaveBeenLastCalledWith('12:15'));
+
+    rerender({ value: '12:15' });
     expect(input).toHaveValue('12:15');
 
     expect(
