@@ -16,6 +16,7 @@ import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import ErrorPage from '../errorPage/ErrorPage';
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
 import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
 import EventDetailsButtons from './eventDetailsButtons/EventDetailsButtons';
@@ -123,7 +124,7 @@ const EventDetailsPage = () => {
               </Button>
             </div>
           ) : (
-            <div>TODO: EVENT NOT FOUND</div>
+            <ErrorPage />
           )}
         </Container>
       </LoadingSpinner>

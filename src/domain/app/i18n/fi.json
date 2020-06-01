@@ -57,6 +57,11 @@
       "zh_hans": "Kiina"
     }
   },
+  "errorPage": {
+    "title": "Palvelussa ilmeni virhe",
+    "description": "Pahoittelemme, mutta palvelussa ilmeni virhe. Voit yrittää uudestaan, mutta jos tilanne toistuu, kerro siitä meille alalaidan palautelinkin kautta.",
+    "returnToHome": "Palaa etusivulle"
+  },
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma"

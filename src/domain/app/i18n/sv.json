@@ -56,6 +56,11 @@
       "zh_hans": "Kinesisk"
     }
   },
+  "errorPage": {
+    "title": "Tjänsten stötte på ett fel",
+    "description": "Vi är ledsna, men det var ett fel med tjänsten. Du kan försöka igen, men om situationen kvarstår, vänligen meddela oss via feedbacklänken längst ner.",
+    "returnToHome": "Återgå till hemsidan"
+  },
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang"
