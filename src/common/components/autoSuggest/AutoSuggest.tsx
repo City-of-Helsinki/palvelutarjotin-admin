@@ -68,7 +68,7 @@ const ListOption: React.FC<ListOptionProps> = ({
   );
 };
 
-interface Props {
+export interface AutoSuggestProps {
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -87,7 +87,7 @@ interface Props {
   value: AutoSuggestOption | AutoSuggestOption[] | null;
 }
 
-const AutoSuggest: React.FC<Props> = ({
+const AutoSuggest: React.FC<AutoSuggestProps> = ({
   disabled,
   helperText,
   id,
@@ -110,6 +110,7 @@ const AutoSuggest: React.FC<Props> = ({
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
   const [ariaLiveSelection, setAriaLiveSelection] = React.useState('');
+
   const input = React.useRef<HTMLInputElement>(null);
 
   const container = React.useRef<HTMLDivElement>(null);

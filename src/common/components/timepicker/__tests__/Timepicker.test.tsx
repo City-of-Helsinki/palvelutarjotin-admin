@@ -33,7 +33,7 @@ function renderTimepicker(props?: Partial<Props>) {
 
 describe('Selecting time', () => {
   it('autocompletes and selects time when user clicks an option', async () => {
-    const { onChange, rerender } = renderTimepicker();
+    const { onChange, rerender } = renderTimepicker({ minuteInterval: 15 });
 
     const input = screen.getByLabelText(defaultLabel);
     userEvent.type(input, '12');
@@ -53,12 +53,16 @@ describe('Selecting time', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('autocompletes and selects time when user navigates with keyboar', async () => {
-    const { onChange } = renderTimepicker();
+  it('autocompletes and selects time when user navigates with keyboard', async () => {
+    const { onChange } = renderTimepicker({ minuteInterval: 15 });
 
     const input = screen.getByLabelText(defaultLabel);
 
-    fireEvent.focus(input);
+    expect(screen.getByRole('listbox').children).toHaveLength(0);
+
+    userEvent.tab();
+
+    expect(screen.getByRole('listbox').children).toHaveLength(96);
 
     userEvent.type(input, '14');
 
@@ -76,5 +80,7 @@ describe('Selecting time', () => {
     expect(
       screen.queryByRole('option', { name: '14:15' })
     ).not.toBeInTheDocument();
+
+    expect(screen.getByRole('listbox').children.length).toBe(0);
   });
 });
