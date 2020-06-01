@@ -6,10 +6,13 @@
 
 .container {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: var(--spacing-4-xl);
+  padding: var(--spacing-4-xl) 0;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .iconWrapper {
     width: 3rem;

@@ -21,16 +21,18 @@ const NotFoundPage: React.FC<{ title?: string; description?: string }> = ({
 
   return (
     <Container className={styles.container}>
-      <div className={styles.iconWrapper}>
-        <IconAttention />
+      <div className={styles.content}>
+        <div className={styles.iconWrapper}>
+          <IconAttention />
+        </div>
+        <h1>{title || t('errorPage.title')}</h1>
+        <p className={styles.description}>
+          {description || t('errorPage.description')}
+        </p>
+        <Button onClick={goToFrontPage} style={{ maxWidth: '300px' }}>
+          {t('errorPage.returnToHome')}
+        </Button>
       </div>
-      <h1>{title || t('errorPage.title')}</h1>
-      <p className={styles.description}>
-        {description || t('errorPage.description')}
-      </p>
-      <Button onClick={goToFrontPage} style={{ maxWidth: '300px' }}>
-        {t('errorPage.returnToHome')}
-      </Button>
     </Container>
   );
 };
