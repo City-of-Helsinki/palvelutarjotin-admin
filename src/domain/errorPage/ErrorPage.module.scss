@@ -1,7 +1,9 @@
 @import 'variables';
+@import 'layout';
 
 .container {
   --header-fontsize: var(--fontsize-h-2);
+  --content-spacing: var(--spacing-l);
 }
 
 .container {
@@ -31,6 +33,10 @@
 
   button {
     width: 300px;
-    margin-top: 4rem;
+    margin-top: var(--content-spacing);
+
+    @include respond_above(sm) {
+      margin-top: 4rem;
+    }
   }
 }
