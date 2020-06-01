@@ -111,7 +111,7 @@ const TimeItem: React.FC<TimeItemProps> = ({
   // scroll focused element into view
   React.useEffect(() => {
     if (focused) {
-      buttonRef.current?.scrollIntoView({
+      buttonRef.current?.scrollIntoView?.({
         block: 'nearest',
         inline: 'nearest',
       });
