@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-interface Props {
+export interface KeyboardNavigationProps {
   container: React.MutableRefObject<HTMLDivElement | null>;
   listLength: number;
   initialFocusedIndex?: number;
@@ -19,7 +19,7 @@ const useDropdownKeyboardNavigation = ({
   listLength,
   initialFocusedIndex,
   onKeyDown,
-}: Props): DropdownKeyboardNavigationState => {
+}: KeyboardNavigationProps): DropdownKeyboardNavigationState => {
   const [focusedIndex, setFocusedIndex] = React.useState<number>(-1);
   const [isInitialNavigation, setIsInitialNavigation] = React.useState(true);
   const isStartingPosition = focusedIndex === -1;
