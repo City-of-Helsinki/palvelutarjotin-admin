@@ -65,7 +65,7 @@
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma",
-    "error": "Tapahtuma tallentaminen epäonnistui"
+    "error": "Tapahtuman tallentaminen epäonnistui"
   },
   "editEvent": {
     "buttons": {
@@ -74,7 +74,7 @@
     },
     "pageTitle": "Muokkaa tapahtumaa",
     "title": "Muokkaa tapahtumaa",
-    "error": "Tapahtuma tallentaminen epäonnistui",
+    "error": "Tapahtuman tallentaminen epäonnistui",
     "errorEventIsInThePast": "Tapahtuma on menneisyydessä",
     "errorEventIsInThePastDescription": "Menneisyydessä olevaa tapahtumaa ei voi enää muokata."
   },

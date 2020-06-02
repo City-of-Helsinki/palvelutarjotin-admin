@@ -1,4 +1,3 @@
-import isFutureDate from 'date-fns/isFuture';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +10,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
+import { isFutureEvent } from '../utils';
 import styles from './eventDetailsButtons.module.scss';
 
 interface Props {
@@ -28,11 +28,6 @@ const EventDetailsButtons: React.FC<Props> = ({
   const locale = useLocale();
   const history = useHistory();
   const eventId = eventData.event?.id || '';
-
-  const isFutureEvent = () =>
-    eventData?.event?.startTime
-      ? isFutureDate(new Date(eventData?.event?.startTime))
-      : false;
 
   const goToEventList = () => {
     history.push(ROUTES.HOME);
@@ -62,7 +57,7 @@ const EventDetailsButtons: React.FC<Props> = ({
         onClick={onClickLanguage}
         selectedLanguage={selectedLanguage}
       />
-      {isFutureEvent() && (
+      {isFutureEvent(eventData) && (
         <div>
           <Button onClick={goToEditPage}>
             {t('eventDetails.buttons.buttonEdit')}
