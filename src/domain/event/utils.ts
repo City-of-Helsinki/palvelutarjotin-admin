@@ -1,3 +1,6 @@
+import isFutureDate from 'date-fns/isFuture';
+import isPastDate from 'date-fns/isPast';
+
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import { EventQuery } from '../../generated/graphql';
 import { Language } from '../../types';
@@ -115,3 +118,16 @@ export const getEventPayload = (
     },
   };
 };
+
+export const isPastEvent = (eventData: EventQuery | undefined) =>
+  eventData?.event?.startTime
+    ? isPastDate(new Date(eventData?.event?.startTime))
+    : false;
+
+export const isFutureEvent = (eventData: EventQuery | undefined) =>
+  eventData?.event?.startTime
+    ? isFutureDate(new Date(eventData?.event?.startTime))
+    : false;
+
+export const isEditableEvent = (eventData: EventQuery | undefined) =>
+  isFutureEvent(eventData);
