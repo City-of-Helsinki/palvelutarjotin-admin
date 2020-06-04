@@ -17,9 +17,9 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
+import { hasComingOccurrences, hasOccurrences } from '../event/utils';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from './constants';
 import styles from './eventsPage.module.scss';
-import { hasComingOccurrences, hasOccurrences } from './utils';
 
 const EventsTitle: React.FC<{ count: number; title: string }> = ({
   count,
