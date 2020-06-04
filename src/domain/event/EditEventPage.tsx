@@ -1,11 +1,9 @@
-import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
-  EventQuery,
   useCreateVenueMutation,
   useEditEventMutation,
   useEditVenueMutation,
