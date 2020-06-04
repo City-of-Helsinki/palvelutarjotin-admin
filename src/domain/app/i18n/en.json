@@ -163,16 +163,22 @@
     }
   },
   "events": {
+    "buttonLoadMore": "Show more",
     "buttonNewEvent": "Add new event",
     "eventCard": {
-      "textEnrolled": "{{count}} enrolled",
-      "textEnrolled_plural": "{{count}} enrolled",
+      "ariaLabelOpenOccurrences": "Go to event times of {{eventName}}",
+      "textEnrolments": "{{count}} enrolments",
+      "textEnrolments_plural": "{{count}} enrolments",
       "textOccurrences": "{{count}} occurrence",
       "textOccurrences_plural": "{{count}} occurrences"
     },
+    "placeholderSearch": "Search",
     "textEventCount": "{{count}} pcs",
+    "textNoComingEvents": "No events with coming event times",
     "title": "Events",
-    "titleComingEvents": "Events"
+    "titleComingEvents": "Events",
+    "titleEventsWithPastOccurrences": "Past events",
+    "titleEventsWithoutOccurrences": "Events without event times"
   },
   "createOccurrence": {
     "buttonBack": "Event times",

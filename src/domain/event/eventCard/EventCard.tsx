@@ -8,24 +8,41 @@ import styles from './eventCard.module.scss';
 
 interface Props {
   description?: string;
-  enrolledCount: number;
+  enrolmentsCount: number;
   id: string;
   image?: string;
   name: string;
   occurrencesCount: number;
+  onClick?: (id: string) => void;
 }
 
 const EventCard: React.FC<Props> = ({
   description,
-  enrolledCount,
+  enrolmentsCount,
   id,
   image,
   name,
   occurrencesCount,
+  onClick,
 }) => {
   const { t } = useTranslation();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick(id);
+    }
+  };
+
   return (
-    <div className={styles.eventCard}>
+    <div
+      role="button"
+      className={styles.eventCard}
+      tabIndex={0}
+      onClick={handleClick}
+      aria-label={t('events.eventCard.ariaLabelOpenOccurrences', {
+        eventName: name,
+      })}
+    >
       <div
         className={styles.imageWrapper}
         style={{
@@ -46,8 +63,8 @@ const EventCard: React.FC<Props> = ({
           </div>
           <div className={styles.textWithIcon}>
             <IconPerson />
-            {t('events.eventCard.textEnrolled', {
-              count: enrolledCount || 0,
+            {t('events.eventCard.textEnrolments', {
+              count: enrolmentsCount || 0,
             })}
           </div>
         </div>

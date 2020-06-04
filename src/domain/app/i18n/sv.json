@@ -162,16 +162,22 @@
     }
   },
   "events": {
+    "buttonLoadMore": "Visa mer",
     "buttonNewEvent": "Skapa ny evenemang",
     "eventCard": {
-      "textEnrolled": "{{count}} registrerad",
-      "textEnrolled_plural": "{{count}} registrerade",
+      "ariaLabelOpenOccurrences": "Gå till evenemangtided av {{eventName}}",
+      "textEnrolments": "{{count}} registrerad",
+      "textEnrolments_plural": "{{count}} registrerade",
       "textOccurrences": "{{count}} händelsetid",
-      "textOccurrences_plural": "{{count}} händelsetider"
+      "textOccurrences_plural": "{{count}} evenemangtider"
     },
+    "placeholderSearch": "Sök",
     "textEventCount": "{{count}} st",
+    "textNoComingEvents": "Inga evenemang med kommande evenemangtider",
     "title": "Evenemang",
-    "titleComingEvents": "Evenemang"
+    "titleComingEvents": "Evenemang",
+    "titleEventsWithPastOccurrences": "Tidigare evenemang",
+    "titleEventsWithoutOccurrences": "Evenemang utan evenemangtider"
   },
   "createOccurrence": {
     "buttonBack": "Evenemangtider",

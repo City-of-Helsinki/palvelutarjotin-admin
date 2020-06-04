@@ -126,7 +126,7 @@ const OccurrencesPage: React.FC = () => {
                   <div>{t('occurrences.textNoComingOccurrences')}</div>
                 )}
 
-                {pastOccurrences.length && (
+                {!!pastOccurrences.length && (
                   <>
                     <h2>
                       {t('occurrences.titlePastOccurrences')}{' '}
