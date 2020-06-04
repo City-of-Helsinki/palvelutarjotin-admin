@@ -1,5 +1,11 @@
+import omit from 'lodash/omit';
+
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
-import { EventQuery } from '../../generated/graphql';
+import {
+  EventQuery,
+  Language as TranslationLanguage,
+  VenueQuery,
+} from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
@@ -114,4 +120,67 @@ export const getEventPayload = (
       neededOccurrences: Number(values.neededOccurrences),
     },
   };
+};
+
+export const getExistingVenuePayload = ({
+  venueData,
+  selectedLanguage,
+  formValues: { locationDescription, location: locationId },
+}: {
+  venueData: VenueQuery;
+  selectedLanguage: Language;
+  formValues: EventFormFields;
+}) => {
+  return {
+    venue: {
+      id: locationId,
+      // TODO: handle these 2 fields
+      hasClothingStorage: false,
+      hasSnackEatingPlace: false,
+      translations: [
+        ...(venueData?.venue?.translations
+          .map((t) => omit(t, ['__typename']))
+          .filter((t) => t.languageCode !== selectedLanguage.toUpperCase()) ||
+          []),
+        {
+          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
+          description: locationDescription,
+        },
+      ],
+    },
+  };
+};
+
+export const getNewVenuePayload = ({
+  formValues,
+  selectedLanguage,
+}: {
+  formValues: EventFormFields;
+  selectedLanguage: Language;
+}) => {
+  return {
+    venue: {
+      id: formValues.location,
+      // TODO: handle these 2 fields
+      hasClothingStorage: false,
+      hasSnackEatingPlace: false,
+      translations: [
+        {
+          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
+          description: formValues.locationDescription,
+        },
+      ],
+    },
+  };
+};
+
+export const getLocationDescription = (
+  eventData: EventQuery | null,
+  selectedLanguage: Language
+) => {
+  return (
+    eventData?.event?.venue?.translations.find(
+      (t) => (t.languageCode as string) === selectedLanguage.toUpperCase()
+    )?.description || ''
+  );
 };

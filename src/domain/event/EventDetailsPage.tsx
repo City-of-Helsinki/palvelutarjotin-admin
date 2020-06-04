@@ -44,6 +44,7 @@ const EventDetailsPage = () => {
     fetchPolicy: 'network-only',
     variables,
   });
+
   const [deleteEventRequest] = useDeleteSingleEventMutation();
 
   React.useEffect(() => {
@@ -108,7 +109,10 @@ const EventDetailsPage = () => {
                     eventData={eventData}
                     language={selectedLanguage}
                   />
-                  <EventLocation eventData={eventData} />
+                  <EventLocation
+                    eventData={eventData}
+                    language={selectedLanguage}
+                  />
                 </div>
                 <div>
                   <EventContactPersonInfo />

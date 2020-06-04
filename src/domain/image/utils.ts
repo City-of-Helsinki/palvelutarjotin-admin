@@ -4,7 +4,7 @@ import apolloClient from '../app/apollo/apolloClient';
 export const getImageName = (id: string) => {
   const data = apolloClient.readQuery<ImageQuery>({
     query: ImageDocument,
-    variables: { id: id },
+    variables: { id },
   });
   return data?.image?.name;
 };

@@ -21,6 +21,7 @@ import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
+import VenueInfoFormPart from './VenueInfoFormPart';
 
 export type EventFormFields = {
   audience: string[];
@@ -36,6 +37,7 @@ export type EventFormFields = {
   name: string;
   neededOccurrences: string;
   shortDescription: string;
+  locationDescription: string;
 };
 
 export const defaultInitialValues = {
@@ -52,6 +54,7 @@ export const defaultInitialValues = {
   name: '',
   neededOccurrences: '',
   shortDescription: '',
+  locationDescription: '',
 };
 
 /**
@@ -119,6 +122,7 @@ const EventForm: React.FC<Props> = ({
         touched,
       }) => {
         const imageSelected = Boolean(image);
+
         return (
           <>
             <ConfirmationModal
@@ -267,25 +271,18 @@ const EventForm: React.FC<Props> = ({
                       component={PlaceSelectorField}
                     />
                   </FormGroup>
-                  {!!location && (
-                    <FormGroup>
-                      <PlaceInfo id={location} />
-                    </FormGroup>
+                  {location && (
+                    <>
+                      <FormGroup>
+                        <PlaceInfo id={location} />
+                      </FormGroup>
+                      <VenueInfoFormPart
+                        locationId={location}
+                        selectedLanguage={selectedLanguage}
+                        setFieldValue={setFieldValue}
+                      />
+                    </>
                   )}
-                  {/* <FormGroup>
-                  <Field
-                    helperText={t(
-                      'eventForm.location.helperLocationDescription'
-                    )}
-                    labelText={t('eventForm.location.labelLocationDescription')}
-                    name="locationDescription"
-                    placeholder={t(
-                      'eventForm.location.placeholderLocationDescription'
-                    )}
-                    component={TextAreaInputField}
-                    rows={5}
-                  />
-                </FormGroup> */}
                 </div>
                 <div className={styles.contactInfoWrapper}>
                   <h2>{t('eventForm.contactPerson.title')}</h2>

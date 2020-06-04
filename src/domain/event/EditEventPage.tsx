@@ -1,15 +1,22 @@
+import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  EventQuery,
+  useCreateVenueMutation,
   useEditEventMutation,
+  useEditVenueMutation,
   useEventQuery,
   useUpdateSingleImageMutation,
+  VenueDocument,
+  VenueQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
+import apolloClient from '../app/apollo/apolloClient';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -23,7 +30,10 @@ import styles from './eventPage.module.scss';
 import {
   getEventLanguageFromUrl,
   getEventPayload,
+  getExistingVenuePayload,
   getFirstAvailableLanguage,
+  getLocationDescription,
+  getNewVenuePayload,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -51,6 +61,8 @@ const EditEventPage: React.FC = () => {
 
   const [editEvent] = useEditEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
+  const [editVenue] = useEditVenueMutation();
+  const [createVenue] = useCreateVenueMutation();
 
   React.useEffect(() => {
     if (eventData) {
@@ -79,6 +91,41 @@ const EditEventPage: React.FC = () => {
         })
       );
 
+      const venueData = apolloClient.readQuery<VenueQuery>({
+        query: VenueDocument,
+        variables: { id: values.location },
+      });
+
+      const venueShouldBeUpdated = Boolean(
+        venueData?.venue &&
+          values.locationDescription !== initialValues.locationDescription
+      );
+      const newVenueShouldBeCreated = Boolean(
+        !venueData?.venue && values.locationDescription
+      );
+
+      // Update venue info
+      if (venueShouldBeUpdated) {
+        requests.push(
+          editVenue({
+            variables: getExistingVenuePayload({
+              formValues: values,
+              selectedLanguage,
+              venueData: venueData as VenueQuery,
+            }),
+          })
+        );
+      } else if (newVenueShouldBeCreated) {
+        requests.push(
+          createVenue({
+            variables: getNewVenuePayload({
+              selectedLanguage,
+              formValues: values,
+            }),
+          })
+        );
+      }
+
       if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);
         if (imageName) {
@@ -96,17 +143,6 @@ const EditEventPage: React.FC = () => {
           );
         }
       }
-
-      requests.push(
-        editEvent({
-          variables: {
-            event: {
-              id: eventData?.event?.id || '',
-              ...getEventPayload(values, selectedLanguage),
-            },
-          },
-        })
-      );
 
       // Run all requests parallel
       await Promise.all(requests);
@@ -148,6 +184,10 @@ const EditEventPage: React.FC = () => {
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
+        locationDescription: getLocationDescription(
+          eventData,
+          selectedLanguage
+        ),
       });
     }
   }, [eventData, selectedLanguage]);
