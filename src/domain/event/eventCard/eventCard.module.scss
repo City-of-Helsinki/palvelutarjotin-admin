@@ -25,6 +25,7 @@
 
 .eventCard {
   display: grid;
+  cursor: pointer;
   background-color: var(--background-color-event-card);
 
   @include respond_above(sm) {

@@ -13,6 +13,7 @@ import useLocale from '../../hooks/useLocale';
 import IconDelete from '../../icons/IconDelete';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
+import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -74,6 +75,11 @@ const EventDetailsPage = () => {
       await deleteEventRequest({
         variables: { eventId: eventData?.event?.id || '' },
       });
+      // TODO: Use cache.modify function from apollo-client v3 to filter
+      // deleted event from event list
+      // https://github.com/apollographql/apollo-client/blob/v3.0.0-rc.0/CHANGELOG.md
+      // Clear apollo cache to force eventlist reload
+      await clearApolloCache();
       history.replace(ROUTES.HOME);
     } catch (e) {
       // Check apolloClient to see error handling

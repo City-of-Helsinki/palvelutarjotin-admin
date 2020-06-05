@@ -1,6 +1,10 @@
 @import "layout";
 
 .pageLayout {
+  --background-color-body: #f7f6f6;
+}
+
+.pageLayout {
   height: 100%;
   width: 100%;
 
@@ -11,6 +15,7 @@
 
 .pageBody {
   display: grid;
+  background-color: var(--background-color-body);
 
   @include respond-below(sm) {
     opacity: 1;

@@ -1,6 +1,8 @@
-import omit from 'lodash/omit';
+import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
+import forEach from 'lodash/forEach';
+import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
@@ -8,6 +10,7 @@ import {
   CreateVenueMutation,
   EditVenueDocument,
   EditVenueMutation,
+  EventFieldsFragment,
   EventQuery,
   Language as TranslationLanguage,
   VenueDocument,
@@ -18,6 +21,7 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import apolloClient from '../app/apollo/apolloClient';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
+
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -242,7 +246,7 @@ export const createOrUpdateVenue = ({
 
   return null;
 };
-        
+
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
     ? isPastDate(new Date(eventData?.event?.startTime))
@@ -255,3 +259,20 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
 
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
   isFutureEvent(eventData);
+
+export const hasOccurrences = (event: EventFieldsFragment): boolean => {
+  return Boolean(event.pEvent?.occurrences.edges.length);
+};
+
+export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
+  let hasComingItems = false;
+
+  forEach(event.pEvent?.occurrences.edges, (edge) => {
+    if (edge?.node?.startTime && isFuture(new Date(edge?.node?.startTime))) {
+      hasComingItems = true;
+      return false;
+    }
+  });
+
+  return hasComingItems;
+};
