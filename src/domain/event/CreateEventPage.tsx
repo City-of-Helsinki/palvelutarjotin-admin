@@ -3,14 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
-import apolloClient from '../../domain/app/apollo/apolloClient';
 import {
   useCreateEventMutation,
-  useCreateVenueMutation,
-  useEditVenueMutation,
   useUpdateSingleImageMutation,
-  VenueDocument,
-  VenueQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
@@ -19,13 +14,7 @@ import { ROUTES } from '../app/routes/constants';
 import { getImageName } from '../image/utils';
 import EventForm, { EventFormFields } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
-import {
-  createOrUpdateVenue,
-  getEventPayload,
-  getExistingVenuePayload,
-  getNewVenuePayload,
-  getVenueDescription,
-} from './utils';
+import { createOrUpdateVenue, getEventPayload } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
@@ -35,8 +24,6 @@ const CreateEventPage: React.FC = () => {
 
   const [createEvent] = useCreateEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
-  // const [updateVenue] = useEditVenueMutation();
-  // const [createVenue] = useCreateVenueMutation();
 
   const submit = async (values: EventFormFields) => {
     try {

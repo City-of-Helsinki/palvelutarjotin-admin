@@ -4,17 +4,12 @@ import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
-  useCreateVenueMutation,
   useEditEventMutation,
-  useEditVenueMutation,
   useEventQuery,
   useUpdateSingleImageMutation,
-  VenueDocument,
-  VenueQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
-import apolloClient from '../app/apollo/apolloClient';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -29,9 +24,7 @@ import {
   createOrUpdateVenue,
   getEventLanguageFromUrl,
   getEventPayload,
-  getExistingVenuePayload,
   getFirstAvailableLanguage,
-  getNewVenuePayload,
   getVenueDescription,
 } from './utils';
 

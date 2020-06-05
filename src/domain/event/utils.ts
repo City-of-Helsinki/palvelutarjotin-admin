@@ -2,14 +2,12 @@ import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
-  AddVenueMutationInput,
   CreateVenueDocument,
   CreateVenueMutation,
   EditVenueDocument,
   EditVenueMutation,
   EventQuery,
   Language as TranslationLanguage,
-  UpdateVenueMutationInput,
   VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
