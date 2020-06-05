@@ -28,7 +28,6 @@ import {
   getEventVenueDescription,
   getFirstAvailableLanguage,
   isEditableEvent,
-  isPastEvent,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -71,7 +70,7 @@ const EditEventPage: React.FC = () => {
 
   const submit = async (values: EventFormFields) => {
     try {
-      const requests = [];
+      const requests: Promise<any>[] = [];
 
       requests.push(
         editEvent({
@@ -83,13 +82,14 @@ const EditEventPage: React.FC = () => {
           },
         })
       );
+      const createOrUpdateVenueRequest = createOrUpdateVenue({
+        formValues: values,
+        selectedLanguage,
+      });
 
-      requests.push(
-        createOrUpdateVenue({
-          formValues: values,
-          selectedLanguage,
-        })
-      );
+      if (createOrUpdateVenueRequest) {
+        requests.push(createOrUpdateVenueRequest);
+      }
 
       if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);
@@ -167,7 +167,7 @@ const EditEventPage: React.FC = () => {
   return (
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        {isEditableEvent(eventData) ? (
+        {!!eventData ? (
           <Container>
             <div className={styles.eventPage}>
               <EventForm
@@ -180,7 +180,7 @@ const EditEventPage: React.FC = () => {
               />
             </div>
           </Container>
-        ) : isPastEvent(eventData) ? (
+        ) : isEditableEvent(eventData) ? (
           <ErrorPage
             title={t('editEvent.errorEventIsInThePast')}
             description={t('editEvent.errorEventIsInThePastDescription')}
