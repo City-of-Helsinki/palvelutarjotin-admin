@@ -137,7 +137,12 @@ export const getEventPayload = (
 export const getExistingVenuePayload = ({
   venueData,
   selectedLanguage,
-  formValues: { locationDescription, location: locationId },
+  formValues: {
+    locationDescription,
+    location: locationId,
+    hasClothingStorage,
+    hasSnackEatingPlace,
+  },
 }: {
   venueData: VenueQuery;
   selectedLanguage: Language;
@@ -146,9 +151,8 @@ export const getExistingVenuePayload = ({
   return {
     venue: {
       id: locationId,
-      // TODO: handle these 2 fields
-      hasClothingStorage: false,
-      hasSnackEatingPlace: false,
+      hasClothingStorage,
+      hasSnackEatingPlace,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
@@ -164,7 +168,12 @@ export const getExistingVenuePayload = ({
 };
 
 export const getNewVenuePayload = ({
-  formValues,
+  formValues: {
+    location: locationId,
+    hasSnackEatingPlace,
+    hasClothingStorage,
+    locationDescription,
+  },
   selectedLanguage,
 }: {
   formValues: EventFormFields;
@@ -172,14 +181,13 @@ export const getNewVenuePayload = ({
 }) => {
   return {
     venue: {
-      id: formValues.location,
-      // TODO: handle these 2 fields
-      hasClothingStorage: false,
-      hasSnackEatingPlace: false,
+      id: locationId,
+      hasClothingStorage,
+      hasSnackEatingPlace,
       translations: [
         {
           languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
-          description: formValues.locationDescription,
+          description: locationDescription,
         },
       ],
     },
@@ -216,9 +224,14 @@ export const createOrUpdateVenue = ({
   });
 
   const venueDescription = getVenueDescription(venueData, selectedLanguage);
+  const hasClothingStorage = venueData?.venue?.hasClothingStorage;
+  const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
 
   const venueShouldBeUpdated = Boolean(
-    venueData?.venue && formValues.locationDescription !== venueDescription
+    venueData?.venue &&
+      (formValues.locationDescription !== venueDescription ||
+        formValues.hasClothingStorage !== hasClothingStorage ||
+        formValues.hasSnackEatingPlace !== hasSnackEatingPlace)
   );
   const newVenueShouldBeCreated = Boolean(
     !venueData?.venue && formValues.locationDescription
@@ -243,8 +256,6 @@ export const createOrUpdateVenue = ({
       mutation: CreateVenueDocument,
     });
   }
-
-  return null;
 };
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>

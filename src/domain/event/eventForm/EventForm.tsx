@@ -38,6 +38,8 @@ export type EventFormFields = {
   neededOccurrences: string;
   shortDescription: string;
   locationDescription: string;
+  hasClothingStorage: boolean;
+  hasSnackEatingPlace: boolean;
 };
 
 export const defaultInitialValues = {
@@ -55,6 +57,8 @@ export const defaultInitialValues = {
   neededOccurrences: '',
   shortDescription: '',
   locationDescription: '',
+  hasClothingStorage: false,
+  hasSnackEatingPlace: false,
 };
 
 /**

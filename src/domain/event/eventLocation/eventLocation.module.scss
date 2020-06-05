@@ -1,3 +1,12 @@
 .placeInfoWrapper {
   margin-bottom: var(--spacing-l);
 }
+
+.venueAmenities {
+  display: flex;
+  margin: var(--spacing-l) 0;
+
+  & > :not(:last-child) {
+    margin-right: 1rem;
+  }
+}

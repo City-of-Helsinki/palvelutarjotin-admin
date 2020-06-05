@@ -29,6 +29,8 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
   );
   const id = eventData.event?.location?.id;
   const venueDescription = getEventVenueDescription(eventData, language);
+  const hasClothingStorage = eventData.event?.venue?.hasClothingStorage;
+  const hasSnackEatingPlace = eventData.event?.venue?.hasSnackEatingPlace;
 
   return (
     <div>
@@ -50,6 +52,14 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
           <p>{venueDescription}</p>
         </>
       )}
+      <div className={styles.venueAmenities}>
+        {hasClothingStorage && (
+          <div>{t('eventDetails.location.clothingStorage')}</div>
+        )}
+        {hasSnackEatingPlace && (
+          <div>{t('eventDetails.location.snackEatingPlace')}</div>
+        )}
+      </div>
     </div>
   );
 };

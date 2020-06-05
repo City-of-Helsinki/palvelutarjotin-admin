@@ -2,11 +2,13 @@ import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { VenueDocument, VenueQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import apolloClient from '../../app/apollo/apolloClient';
+import styles from './eventForm.module.scss';
 
 const VenueDataFields: React.FC<{
   locationId: string;
@@ -52,6 +54,18 @@ const VenueDataFields: React.FC<{
           component={TextAreaInputField}
           rows={5}
         />
+        <div className={styles.venueCheckboxFields}>
+          <Field
+            component={CheckboxField}
+            name="hasClothingStorage"
+            labelText={t('eventForm.location.labelHasClothingStorage')}
+          />
+          <Field
+            component={CheckboxField}
+            name="hasSnackEatingPlace"
+            labelText={t('eventForm.location.labelHasSnackEatingPlace')}
+          />
+        </div>
       </FormGroup>
     </>
   );
