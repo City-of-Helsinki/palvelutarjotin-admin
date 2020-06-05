@@ -61,6 +61,30 @@
     "description": "Vi är ledsna, men det var ett fel med tjänsten. Du kan försöka igen, men om situationen kvarstår, vänligen meddela oss via feedbacklänken längst ner.",
     "returnToHome": "Återgå till hemsidan"
   },
+  "createMyProfile": {
+    "buttonSubmit": "Spara och fortsätt",
+    "infoText1": "Hej, välkommen till servicefacket!",
+    "infoText2": "För att ange transaktioner i systemet ber vi dig verifiera följande information:",
+    "pageTitle": "Fyll i din information",
+    "title": "Fyll i din information"
+  },
+  "myProfileForm": {
+    "checkboxPrivacyPolicy": "Jag godkänner användningen av den information som jag tillhandahåller i transaktionsinformationen. <a href='TODO: Add url'>Integritetspolicy</a>",
+    "checkboxTermsOfService": "Jag har accepterat <a href='TODO: Add url'>användarvillkoren</a>",
+    "helperEmail": "Detta är ditt användarnamn",
+    "helperName": "Kan användas för evenemangkontakter",
+    "helperOrganisations": "Organisationen vars evenemang du hanterar",
+    "helperPhoneNumber": "Kan användas för evenemangkontakter",
+    "labelEmail": "E-post",
+    "labelName": "Namn",
+    "labelOrganisations": "Organisation",
+    "labelPhoneNumber": "Telefonnummer",
+    "placeholderOrganisations": "Välj organisation",
+    "validation": {
+      "isPrivacyPolicyAccepted": "Integritetspolicy måste accepteras",
+      "isTermsOfUsageServiceRead": "Användarvillkoren måste accepteras"
+    }
+  },
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang",

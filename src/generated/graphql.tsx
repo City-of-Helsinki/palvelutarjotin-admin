@@ -821,6 +821,7 @@ export type Mutation = {
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
   /** Required logged in user for authorization */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
+  createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
   updateOrganisation?: Maybe<UpdateOrganisationMutationPayload>;
@@ -886,6 +887,11 @@ export type MutationEnrolOccurrenceArgs = {
 
 export type MutationUnenrolOccurrenceArgs = {
   input: UnenrolOccurrenceMutationInput;
+};
+
+
+export type MutationCreateMyProfileArgs = {
+  input: CreateMyProfileMutationInput;
 };
 
 
@@ -1117,6 +1123,20 @@ export type UnenrolOccurrenceMutationInput = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+export type CreateMyProfileMutationPayload = {
+   __typename?: 'CreateMyProfileMutationPayload';
+  myProfile?: Maybe<PersonNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CreateMyProfileMutationInput = {
+  name: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  emailAddress: Scalars['String'];
+  organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 export type UpdateMyProfileMutationPayload = {
    __typename?: 'UpdateMyProfileMutationPayload';
   myProfile?: Maybe<PersonNode>;
@@ -1127,6 +1147,7 @@ export type UpdateMyProfileMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
+  organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1706,6 +1727,37 @@ export type KeywordsQuery = (
   )> }
 );
 
+export type CreateMyProfileMutationVariables = {
+  myProfile: CreateMyProfileMutationInput;
+};
+
+
+export type CreateMyProfileMutation = (
+  { __typename?: 'Mutation' }
+  & { createMyProfile?: Maybe<(
+    { __typename?: 'CreateMyProfileMutationPayload' }
+    & { myProfile?: Maybe<(
+      { __typename?: 'PersonNode' }
+      & PersonFieldsFragment
+    )> }
+  )> }
+);
+
+export type PersonFieldsFragment = (
+  { __typename?: 'PersonNode' }
+  & Pick<PersonNode, 'id' | 'name' | 'phoneNumber'>
+  & { organisations: (
+    { __typename?: 'OrganisationNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OrganisationNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationNode' }
+        & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+      )> }
+    )>> }
+  ) }
+);
+
 export type MyProfileQueryVariables = {};
 
 
@@ -1713,17 +1765,7 @@ export type MyProfileQuery = (
   { __typename?: 'Query' }
   & { myProfile?: Maybe<(
     { __typename?: 'PersonNode' }
-    & Pick<PersonNode, 'id' | 'name' | 'phoneNumber'>
-    & { organisations: (
-      { __typename?: 'OrganisationNodeConnection' }
-      & { edges: Array<Maybe<(
-        { __typename?: 'OrganisationNodeEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'OrganisationNode' }
-          & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
-        )> }
-      )>> }
-    ) }
+    & PersonFieldsFragment
   )> }
 );
 
@@ -1823,6 +1865,54 @@ export type OccurrencesQuery = (
         & OccurrenceFieldsFragment
       )> }
     )>> }
+  )> }
+);
+
+export type PageInfoFieldsFragment = (
+  { __typename?: 'PageInfo' }
+  & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+);
+
+export type OrganisationsQueryVariables = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrganisationsQuery = (
+  { __typename?: 'Query' }
+  & { organisations?: Maybe<(
+    { __typename?: 'OrganisationNodeConnection' }
+    & { pageInfo: (
+      { __typename?: 'PageInfo' }
+      & PageInfoFieldsFragment
+    ), edges: Array<Maybe<(
+      { __typename?: 'OrganisationNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationNode' }
+        & OrganisationNodeFieldsFragment
+      )> }
+    )>> }
+  )> }
+);
+
+export type OrganisationNodeFieldsFragment = (
+  { __typename?: 'OrganisationNode' }
+  & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+);
+
+export type OrganisationQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type OrganisationQuery = (
+  { __typename?: 'Query' }
+  & { organisation?: Maybe<(
+    { __typename?: 'OrganisationNode' }
+    & OrganisationNodeFieldsFragment
   )> }
 );
 
@@ -2023,6 +2113,39 @@ export const MetaFieldsFragmentDoc = gql`
   count
   next
   previous
+}
+    `;
+export const PersonFieldsFragmentDoc = gql`
+    fragment personFields on PersonNode {
+  id
+  name
+  phoneNumber
+  organisations {
+    edges {
+      node {
+        id
+        name
+        phoneNumber
+        type
+      }
+    }
+  }
+}
+    `;
+export const PageInfoFieldsFragmentDoc = gql`
+    fragment pageInfoFields on PageInfo {
+  hasNextPage
+  hasPreviousPage
+  startCursor
+  endCursor
+}
+    `;
+export const OrganisationNodeFieldsFragmentDoc = gql`
+    fragment organisationNodeFields on OrganisationNode {
+  id
+  name
+  phoneNumber
+  type
 }
     `;
 export const CreateEventDocument = gql`
@@ -2772,25 +2895,60 @@ export function useKeywordsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
-export const MyProfileDocument = gql`
-    query MyProfile {
-  myProfile {
-    id
-    name
-    phoneNumber
-    organisations {
-      edges {
-        node {
-          id
-          name
-          phoneNumber
-          type
-        }
-      }
+export const CreateMyProfileDocument = gql`
+    mutation CreateMyProfile($myProfile: CreateMyProfileMutationInput!) {
+  createMyProfile(input: $myProfile) {
+    myProfile {
+      ...personFields
     }
   }
 }
-    `;
+    ${PersonFieldsFragmentDoc}`;
+export type CreateMyProfileMutationFn = ApolloReactCommon.MutationFunction<CreateMyProfileMutation, CreateMyProfileMutationVariables>;
+export type CreateMyProfileProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateMyProfileMutation, CreateMyProfileMutationVariables>
+    } & TChildProps;
+export function withCreateMyProfile<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateMyProfileMutation,
+  CreateMyProfileMutationVariables,
+  CreateMyProfileProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateMyProfileMutation, CreateMyProfileMutationVariables, CreateMyProfileProps<TChildProps, TDataName>>(CreateMyProfileDocument, {
+      alias: 'createMyProfile',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateMyProfileMutation__
+ *
+ * To run a mutation, you first call `useCreateMyProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMyProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMyProfileMutation, { data, loading, error }] = useCreateMyProfileMutation({
+ *   variables: {
+ *      myProfile: // value for 'myProfile'
+ *   },
+ * });
+ */
+export function useCreateMyProfileMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateMyProfileMutation, CreateMyProfileMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateMyProfileMutation, CreateMyProfileMutationVariables>(CreateMyProfileDocument, baseOptions);
+      }
+export type CreateMyProfileMutationHookResult = ReturnType<typeof useCreateMyProfileMutation>;
+export type CreateMyProfileMutationResult = ApolloReactCommon.MutationResult<CreateMyProfileMutation>;
+export type CreateMyProfileMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateMyProfileMutation, CreateMyProfileMutationVariables>;
+export const MyProfileDocument = gql`
+    query MyProfile {
+  myProfile {
+    ...personFields
+  }
+}
+    ${PersonFieldsFragmentDoc}`;
 export type MyProfileProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<MyProfileQuery, MyProfileQueryVariables>
     } & TChildProps;
@@ -3074,6 +3232,109 @@ export function useOccurrencesLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type OccurrencesQueryHookResult = ReturnType<typeof useOccurrencesQuery>;
 export type OccurrencesLazyQueryHookResult = ReturnType<typeof useOccurrencesLazyQuery>;
 export type OccurrencesQueryResult = ApolloReactCommon.QueryResult<OccurrencesQuery, OccurrencesQueryVariables>;
+export const OrganisationsDocument = gql`
+    query Organisations($after: String, $before: String, $first: Int, $last: Int) {
+  organisations(after: $after, before: $before, first: $first, last: $last) {
+    pageInfo {
+      ...pageInfoFields
+    }
+    edges {
+      node {
+        ...organisationNodeFields
+      }
+    }
+  }
+}
+    ${PageInfoFieldsFragmentDoc}
+${OrganisationNodeFieldsFragmentDoc}`;
+export type OrganisationsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<OrganisationsQuery, OrganisationsQueryVariables>
+    } & TChildProps;
+export function withOrganisations<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OrganisationsQuery,
+  OrganisationsQueryVariables,
+  OrganisationsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, OrganisationsQuery, OrganisationsQueryVariables, OrganisationsProps<TChildProps, TDataName>>(OrganisationsDocument, {
+      alias: 'organisations',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOrganisationsQuery__
+ *
+ * To run a query within a React component, call `useOrganisationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganisationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganisationsQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *   },
+ * });
+ */
+export function useOrganisationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
+        return ApolloReactHooks.useQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, baseOptions);
+      }
+export function useOrganisationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, baseOptions);
+        }
+export type OrganisationsQueryHookResult = ReturnType<typeof useOrganisationsQuery>;
+export type OrganisationsLazyQueryHookResult = ReturnType<typeof useOrganisationsLazyQuery>;
+export type OrganisationsQueryResult = ApolloReactCommon.QueryResult<OrganisationsQuery, OrganisationsQueryVariables>;
+export const OrganisationDocument = gql`
+    query Organisation($id: ID!) {
+  organisation(id: $id) {
+    ...organisationNodeFields
+  }
+}
+    ${OrganisationNodeFieldsFragmentDoc}`;
+export type OrganisationProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<OrganisationQuery, OrganisationQueryVariables>
+    } & TChildProps;
+export function withOrganisation<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OrganisationQuery,
+  OrganisationQueryVariables,
+  OrganisationProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, OrganisationQuery, OrganisationQueryVariables, OrganisationProps<TChildProps, TDataName>>(OrganisationDocument, {
+      alias: 'organisation',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOrganisationQuery__
+ *
+ * To run a query within a React component, call `useOrganisationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganisationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganisationQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useOrganisationQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrganisationQuery, OrganisationQueryVariables>) {
+        return ApolloReactHooks.useQuery<OrganisationQuery, OrganisationQueryVariables>(OrganisationDocument, baseOptions);
+      }
+export function useOrganisationLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrganisationQuery, OrganisationQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OrganisationQuery, OrganisationQueryVariables>(OrganisationDocument, baseOptions);
+        }
+export type OrganisationQueryHookResult = ReturnType<typeof useOrganisationQuery>;
+export type OrganisationLazyQueryHookResult = ReturnType<typeof useOrganisationLazyQuery>;
+export type OrganisationQueryResult = ApolloReactCommon.QueryResult<OrganisationQuery, OrganisationQueryVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!) {
   place(id: $id) {

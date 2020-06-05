@@ -19,5 +19,11 @@
   & > * {
     grid-column: 2;
   }
+
+  &.narrow {
+    @include respond-above(sm) {
+      grid-template-columns: 1fr minmax(auto, $containerNarrowMaxWidth) 1fr;
+    }
+  }
 }
 
