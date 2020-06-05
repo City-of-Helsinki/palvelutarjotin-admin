@@ -24,8 +24,8 @@ import {
   createOrUpdateVenue,
   getEventLanguageFromUrl,
   getEventPayload,
+  getEventVenueDescription,
   getFirstAvailableLanguage,
-  getVenueDescription,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -146,7 +146,10 @@ const EditEventPage: React.FC = () => {
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
-        locationDescription: getVenueDescription(eventData, selectedLanguage),
+        locationDescription: getEventVenueDescription(
+          eventData,
+          selectedLanguage
+        ),
       });
     }
   }, [eventData, selectedLanguage]);

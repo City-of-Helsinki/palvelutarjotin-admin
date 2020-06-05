@@ -64,7 +64,8 @@
   },
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
-    "title": "Uusi tapahtuma"
+    "title": "Uusi tapahtuma",
+    "error": "Tapahtuman tallentaminen ei onnistunut"
   },
   "editEvent": {
     "buttons": {

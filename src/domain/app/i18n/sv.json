@@ -63,7 +63,8 @@
   },
   "createEvent": {
     "pageTitle": "Ny evenemang",
-    "title": "Ny evenemang"
+    "title": "Ny evenemang",
+    "error": "Det gick inte att spara händelsen"
   },
   "editEvent": {
     "buttons": {

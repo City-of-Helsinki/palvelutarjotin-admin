@@ -181,6 +181,14 @@ export const getNewVenuePayload = ({
 };
 
 export const getVenueDescription = (
+  venueData: VenueQuery | null,
+  selectedLanguage: Language
+): string =>
+  venueData?.venue?.translations.find(
+    (t) => t.languageCode === selectedLanguage.toUpperCase()
+  )?.description || '';
+
+export const getEventVenueDescription = (
   eventData: EventQuery | null,
   selectedLanguage: Language
 ): string =>
