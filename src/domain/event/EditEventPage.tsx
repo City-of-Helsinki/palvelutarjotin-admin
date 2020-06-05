@@ -26,12 +26,13 @@ import EventForm, {
 } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import {
+  createOrUpdateVenue,
   getEventLanguageFromUrl,
   getEventPayload,
   getExistingVenuePayload,
   getFirstAvailableLanguage,
-  getLocationDescription,
   getNewVenuePayload,
+  getVenueDescription,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -59,8 +60,6 @@ const EditEventPage: React.FC = () => {
 
   const [editEvent] = useEditEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
-  const [editVenue] = useEditVenueMutation();
-  const [createVenue] = useCreateVenueMutation();
 
   React.useEffect(() => {
     if (eventData) {
@@ -89,40 +88,12 @@ const EditEventPage: React.FC = () => {
         })
       );
 
-      const venueData = apolloClient.readQuery<VenueQuery>({
-        query: VenueDocument,
-        variables: { id: values.location },
-      });
-
-      const venueShouldBeUpdated = Boolean(
-        venueData?.venue &&
-          values.locationDescription !== initialValues.locationDescription
+      requests.push(
+        createOrUpdateVenue({
+          formValues: values,
+          selectedLanguage,
+        })
       );
-      const newVenueShouldBeCreated = Boolean(
-        !venueData?.venue && values.locationDescription
-      );
-
-      // Update venue info
-      if (venueShouldBeUpdated) {
-        requests.push(
-          editVenue({
-            variables: getExistingVenuePayload({
-              formValues: values,
-              selectedLanguage,
-              venueData: venueData as VenueQuery,
-            }),
-          })
-        );
-      } else if (newVenueShouldBeCreated) {
-        requests.push(
-          createVenue({
-            variables: getNewVenuePayload({
-              selectedLanguage,
-              formValues: values,
-            }),
-          })
-        );
-      }
 
       if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);
@@ -182,10 +153,7 @@ const EditEventPage: React.FC = () => {
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
-        locationDescription: getLocationDescription(
-          eventData,
-          selectedLanguage
-        ),
+        locationDescription: getVenueDescription(eventData, selectedLanguage),
       });
     }
   }, [eventData, selectedLanguage]);

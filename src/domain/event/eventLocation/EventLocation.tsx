@@ -7,6 +7,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
+import { getVenueDescription } from '../utils';
 import styles from './eventLocation.module.scss';
 
 type Props = {
@@ -27,10 +28,7 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
     locale
   );
   const id = eventData.event?.location?.id;
-  const venueDescription =
-    eventData?.event?.venue?.translations.find(
-      (t) => t.languageCode === language.toUpperCase()
-    )?.description || '';
+  const venueDescription = getVenueDescription(eventData, language);
 
   return (
     <div>

@@ -2,12 +2,20 @@ import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
+  AddVenueMutationInput,
+  CreateVenueDocument,
+  CreateVenueMutation,
+  EditVenueDocument,
+  EditVenueMutation,
   EventQuery,
   Language as TranslationLanguage,
+  UpdateVenueMutationInput,
+  VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
+import apolloClient from '../app/apollo/apolloClient';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
 /**
@@ -174,13 +182,55 @@ export const getNewVenuePayload = ({
   };
 };
 
-export const getLocationDescription = (
+export const getVenueDescription = (
   eventData: EventQuery | null,
   selectedLanguage: Language
-) => {
-  return (
-    eventData?.event?.venue?.translations.find(
-      (t) => (t.languageCode as string) === selectedLanguage.toUpperCase()
-    )?.description || ''
+): string =>
+  eventData?.event?.venue?.translations.find(
+    (t) => t.languageCode === selectedLanguage.toUpperCase()
+  )?.description || '';
+
+export const createOrUpdateVenue = ({
+  formValues,
+  selectedLanguage,
+}: {
+  formValues: EventFormFields;
+  selectedLanguage: Language;
+}) => {
+  // get venueData from cache. It is fetched in the form when evnet location changes
+  const venueData = apolloClient.readQuery<VenueQuery>({
+    query: VenueDocument,
+    variables: { id: formValues.location },
+  });
+
+  const venueDescription = getVenueDescription(venueData, selectedLanguage);
+
+  const venueShouldBeUpdated = Boolean(
+    venueData?.venue && formValues.locationDescription !== venueDescription
   );
+  const newVenueShouldBeCreated = Boolean(
+    !venueData?.venue && formValues.locationDescription
+  );
+
+  if (venueShouldBeUpdated) {
+    return apolloClient.mutate<EditVenueMutation>({
+      variables: getExistingVenuePayload({
+        formValues: formValues,
+        selectedLanguage,
+        venueData: venueData as VenueQuery,
+      }),
+      mutation: EditVenueDocument,
+    });
+  } else if (newVenueShouldBeCreated) {
+    return apolloClient.mutate<CreateVenueMutation>({
+      variables: getExistingVenuePayload({
+        formValues: formValues,
+        selectedLanguage,
+        venueData: venueData as VenueQuery,
+      }),
+      mutation: CreateVenueDocument,
+    });
+  }
+
+  return null;
 };

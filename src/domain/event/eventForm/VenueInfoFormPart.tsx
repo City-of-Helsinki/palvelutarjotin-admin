@@ -33,8 +33,8 @@ const VenueDataFields: React.FC<{
           );
           setFieldValue('locationDescription', description?.description || '');
         } catch (err) {
-          console.log(err);
-          // TODO: handle get venue error
+          // clear description when error happens
+          setFieldValue('locationDescription', '');
         }
       }
     };

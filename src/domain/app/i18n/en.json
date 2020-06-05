@@ -64,7 +64,8 @@
   },
   "createEvent": {
     "pageTitle": "New event",
-    "title": "New event"
+    "title": "New event",
+    "error": "Failed to save event"
   },
   "editEvent": {
     "buttons": {
