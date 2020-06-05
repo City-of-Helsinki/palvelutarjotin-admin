@@ -56,6 +56,10 @@ const EditEventPage: React.FC = () => {
   const [editEvent] = useEditEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
 
+  const goToEventDetailsPage = () => {
+    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+  };
+
   React.useEffect(() => {
     if (eventData) {
       setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
@@ -112,10 +116,7 @@ const EditEventPage: React.FC = () => {
       // Run all requests parallel
       await Promise.all(requests);
 
-      history.push({
-        pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
-        search: `?language=${selectedLanguage}`,
-      });
+      goToEventDetailsPage();
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
       toast(t('editEvent.error'), {
@@ -173,6 +174,7 @@ const EditEventPage: React.FC = () => {
               <EventForm
                 eventData={eventData}
                 initialValues={initialValues}
+                onCancel={goToEventDetailsPage}
                 onSubmit={submit}
                 selectedLanguage={selectedLanguage}
                 setSelectedLanguage={handleLanguageChange}

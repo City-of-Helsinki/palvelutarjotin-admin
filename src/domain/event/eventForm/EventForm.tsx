@@ -73,6 +73,7 @@ export const defaultInitialValues = {
 interface Props {
   eventData?: EventQuery;
   initialValues?: EventFormFields;
+  onCancel: () => void;
   onSubmit: (values: EventFormFields) => void;
   selectedLanguage: Language;
   setSelectedLanguage: (language: Language) => void;
@@ -82,6 +83,7 @@ interface Props {
 const EventForm: React.FC<Props> = ({
   eventData,
   initialValues = defaultInitialValues,
+  onCancel,
   onSubmit,
   selectedLanguage,
   setSelectedLanguage,
@@ -321,7 +323,7 @@ const EventForm: React.FC<Props> = ({
                 </div>
               </div>
               <div className={styles.buttonsWrapper}>
-                <Button type="reset" onClick={handleReset} variant="secondary">
+                <Button type="button" onClick={onCancel} variant="secondary">
                   {t('eventForm.buttonCancel')}
                 </Button>
                 <Button type="submit">{t('eventForm.buttonSave')}</Button>

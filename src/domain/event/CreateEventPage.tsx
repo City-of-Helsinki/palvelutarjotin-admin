@@ -26,6 +26,10 @@ const CreateEventPage: React.FC = () => {
   const [createEvent] = useCreateEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
 
+  const goToEventList = () => {
+    history.push(ROUTES.HOME);
+  };
+
   const submit = async (values: EventFormFields) => {
     try {
       const requests: Promise<any>[] = [];
@@ -98,6 +102,7 @@ const CreateEventPage: React.FC = () => {
       <Container>
         <div className={styles.eventPage}>
           <EventForm
+            onCancel={goToEventList}
             onSubmit={submit}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
