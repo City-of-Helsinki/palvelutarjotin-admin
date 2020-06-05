@@ -54,6 +54,15 @@ const EditOccurrencePage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
   };
 
+  const goToOccurrenceDetailsPage = () => {
+    history.push(
+      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+        ':occurrenceId',
+        occurrenceId
+      )}`
+    );
+  };
+
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
   };
@@ -154,6 +163,7 @@ const EditOccurrencePage: React.FC = () => {
                 formTitle={t('editOccurrence.formTitle')}
                 initialValues={initialValues}
                 occurrenceId={occurrenceId}
+                onCancel={goToOccurrenceDetailsPage}
                 onSubmit={submit}
                 onSubmitAndAdd={submitAndAdd}
               />

@@ -52,6 +52,7 @@ interface Props {
   formTitle: string;
   initialValues: OccurrenceFormFields;
   occurrenceId?: string;
+  onCancel: () => void;
   onSubmit: (values: OccurrenceFormFields) => void;
   onSubmitAndAdd: (values: OccurrenceFormFields, resetForm: () => void) => void;
 }
@@ -61,6 +62,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
   formTitle,
   initialValues,
   occurrenceId,
+  onCancel,
   onSubmit,
   onSubmitAndAdd,
 }) => {
@@ -107,7 +109,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
       }}
       validationSchema={ValidationSchema}
     >
-      {({ values: { location }, handleReset, handleSubmit }) => {
+      {({ values: { location }, handleSubmit }) => {
         return (
           <form
             className={styles.eventOccurrenceForm}
@@ -235,7 +237,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
 
               {/* TODO: Add action handler to buttons */}
               <div className={styles.formActions}>
-                <Button onClick={handleReset} variant="secondary">
+                <Button onClick={onCancel} variant="secondary">
                   {t('form.actions.cancel')}
                 </Button>
                 <Button

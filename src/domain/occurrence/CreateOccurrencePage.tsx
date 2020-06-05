@@ -131,6 +131,7 @@ const CreateOccurrencePage: React.FC = () => {
                     eventId={eventId}
                     formTitle={t('createOccurrence.formTitle')}
                     initialValues={defaultInitialValues}
+                    onCancel={goToOccurrencesPage}
                     onSubmit={submit}
                     onSubmitAndAdd={submitAndAdd}
                   />
