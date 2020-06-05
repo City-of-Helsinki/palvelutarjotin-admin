@@ -260,7 +260,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
               </h2>
               {comingOccurrences.length ? (
                 <OccurrencesTable
-                  eventId={eventId}
+                  eventData={eventData}
                   id="coming-occurrences"
                   occurrences={
                     occurrenceId

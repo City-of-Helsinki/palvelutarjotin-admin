@@ -38,7 +38,7 @@ const OccurrencesPage: React.FC = () => {
   const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
     {
       fetchPolicy: 'network-only',
-      variables: { id: eventId },
+      variables: { id: eventId, include: ['location'] },
     }
   );
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
@@ -115,9 +115,9 @@ const OccurrencesPage: React.FC = () => {
                     </Link>
                   </div>
                 </div>
-                {comingOccurrences.length ? (
+                {!!comingOccurrences.length ? (
                   <OccurrencesTable
-                    eventId={eventId}
+                    eventData={eventData}
                     id="coming-occurrences"
                     occurrences={comingOccurrences}
                     onDelete={handleDeleteOccurrence}
@@ -126,7 +126,7 @@ const OccurrencesPage: React.FC = () => {
                   <div>{t('occurrences.textNoComingOccurrences')}</div>
                 )}
 
-                {pastOccurrences.length && (
+                {!!pastOccurrences.length && (
                   <>
                     <h2>
                       {t('occurrences.titlePastOccurrences')}{' '}
@@ -137,7 +137,7 @@ const OccurrencesPage: React.FC = () => {
                       </span>
                     </h2>
                     <OccurrencesTable
-                      eventId={eventId}
+                      eventData={eventData}
                       id="past-occurrences"
                       occurrences={
                         showAllPastEvents

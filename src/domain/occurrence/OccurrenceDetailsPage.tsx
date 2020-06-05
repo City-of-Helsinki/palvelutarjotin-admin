@@ -31,7 +31,7 @@ const OccurrenceDetailsPage = () => {
   const locale = useLocale();
   const { id, occurrenceId } = useParams<Params>();
   const { data: eventData, loading: loadingEvent } = useEventQuery({
-    variables: { id },
+    variables: { id, include: ['location'] },
   });
   const {
     data: occurrenceData,
@@ -48,7 +48,8 @@ const OccurrenceDetailsPage = () => {
   const date = formatDate(startTime);
   const time = startTime && formatTimeRange(startTime, endTime, locale);
 
-  const placeId = occurrenceData?.occurrence?.placeId;
+  const placeId =
+    occurrenceData?.occurrence?.placeId || eventData?.event?.location?.id;
 
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', id)}`);
