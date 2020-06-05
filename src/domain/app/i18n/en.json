@@ -111,6 +111,8 @@
     "location": {
       "labelLocation": "Default venue",
       "labelLocationDescription": "Description of the venue",
+      "snackEatingPlace": "Snack eating place",
+      "clothingStorage": "Clothing storage",
       "title": "Location"
     }
   },
@@ -157,6 +159,8 @@
       "helperLocationDescription": "Additional information to facilitate the visit",
       "labelLocation": "Default venue",
       "labelLocationDescription": "Description of the venue",
+      "labelHasClothingStorage": "Clothing storage",
+      "labelHasSnackEatingPlace": "Snack eating place",
       "placeholderLocation": "Search place...",
       "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ...",
       "title": "Location"

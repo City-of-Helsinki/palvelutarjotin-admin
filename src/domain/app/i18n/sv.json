@@ -110,6 +110,8 @@
     "location": {
       "labelLocation": "Standard venue",
       "labelLocattionDescription": "Beskrivning av arenan",
+      "snackEatingPlace": "Snack äta plats",
+      "clothingStorage": "Klädförvaring",
       "title": "Plats"
     }
   },
@@ -156,6 +158,8 @@
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelLocation": "Standard venue",
       "labelLocattionDescription": "Beskrivning av arenan",
+      "labelHasClothingStorage": "Klädförvaring",
+      "labelHasSnackEatingPlace": "Snack äta plats",
       "placeholderLocation": "Sök plats...",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"

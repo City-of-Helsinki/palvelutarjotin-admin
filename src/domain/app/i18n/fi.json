@@ -111,6 +111,8 @@
     "location": {
       "labelLocation": "Oletustapahtumapaikka",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "snackEatingPlace": "Eväidensyöntipaikka",
+      "clothingStorage": "Vaatesäilytys",
       "title": "Tapahtumapaikka"
     }
   },
@@ -157,6 +159,8 @@
       "helperLocationDescription": "Vierailua helpottavaa lisätietoa",
       "labelLocation": "Oletustapahtumapaikka",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "labelHasClothingStorage": "Ulkovaatesäilytys",
+      "labelHasSnackEatingPlace": "Eväidensyöntipaikka",
       "placeholderLocation": "Etsi paikkaa...",
       "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
       "title": "Tapahtumapaikka"

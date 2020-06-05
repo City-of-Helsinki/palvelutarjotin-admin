@@ -156,6 +156,10 @@ const EditEventPage: React.FC = () => {
           eventData,
           selectedLanguage
         ),
+        hasClothingStorage:
+          eventData?.event?.venue?.hasClothingStorage || false,
+        hasSnackEatingPlace:
+          eventData?.event?.venue?.hasSnackEatingPlace || false,
       });
     }
   }, [eventData, selectedLanguage]);
