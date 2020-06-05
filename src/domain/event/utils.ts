@@ -1,6 +1,7 @@
 import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
+import isToday from 'date-fns/isToday';
 import forEach from 'lodash/forEach';
 import omit from 'lodash/omit';
 
@@ -260,7 +261,8 @@ export const createOrUpdateVenue = ({
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
-    ? isPastDate(new Date(eventData?.event?.startTime))
+    ? isPastDate(new Date(eventData?.event?.startTime)) &&
+      !isToday(new Date(eventData?.event?.startTime))
     : false;
 
 export const isFutureEvent = (eventData: EventQuery | undefined) =>
@@ -269,7 +271,7 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
     : false;
 
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
-  isFutureEvent(eventData);
+  !isPastEvent(eventData);
 
 export const hasOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(event.pEvent?.occurrences.edges.length);
