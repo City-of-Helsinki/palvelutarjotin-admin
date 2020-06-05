@@ -38,7 +38,7 @@ const EditOccurrencePage: React.FC = () => {
   const { id: eventId, occurrenceId } = useParams<Params>();
 
   const { data: eventData, loading: loadingEvent } = useEventQuery({
-    variables: { id: eventId },
+    variables: { id: eventId, include: ['location'] },
   });
 
   const [editOccurrence] = useEditOccurrenceMutation();

@@ -41,7 +41,7 @@ const CreateOccurrencePage: React.FC = () => {
     loading: loadingEvent,
     refetch: refetchEvent,
   } = useEventQuery({
-    variables: { id: eventId },
+    variables: { id: eventId, include: ['location'] },
   });
 
   const {
