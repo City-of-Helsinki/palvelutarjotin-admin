@@ -6,7 +6,10 @@ import { useHistory } from 'react-router';
 import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
-import { OccurrenceFieldsFragment } from '../../../generated/graphql';
+import {
+  EventQuery,
+  OccurrenceFieldsFragment,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatData from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
@@ -15,14 +18,14 @@ import PlaceText from '../../place/PlaceText';
 import ActionsDropdown from './ActionsDropdown';
 
 interface Props {
-  eventId: string;
+  eventData?: EventQuery;
   id: string;
   occurrences: OccurrenceFieldsFragment[];
   onDelete: (occurrence: OccurrenceFieldsFragment) => void;
 }
 
 const OccurrencesTable: React.FC<Props> = ({
-  eventId,
+  eventData,
   id,
   occurrences,
   onDelete,
@@ -33,6 +36,8 @@ const OccurrencesTable: React.FC<Props> = ({
   const [selectedOccurrences, setSelectedOccurrences] = React.useState<
     string[]
   >([]);
+  const eventId = eventData?.event?.id || '';
+  const eventLocationId = eventData?.event?.location?.id || '';
 
   const selectAll = () => {
     setSelectedOccurrences(occurrences.map((item) => item.id));
@@ -102,8 +107,10 @@ const OccurrencesTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrences.table.columnLocation'),
-      accessor: (row: OccurrenceFieldsFragment) =>
-        row.placeId ? <PlaceText id={row.placeId} /> : '-',
+      accessor: (row: OccurrenceFieldsFragment) => {
+        const placeId = row.placeId || eventLocationId;
+        return placeId ? <PlaceText id={placeId} /> : '-';
+      },
       id: 'place',
     },
     {

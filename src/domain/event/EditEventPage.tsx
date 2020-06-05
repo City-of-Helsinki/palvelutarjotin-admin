@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -26,6 +27,8 @@ import {
   getEventPayload,
   getEventVenueDescription,
   getFirstAvailableLanguage,
+  isEditableEvent,
+  isPastEvent,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -114,7 +117,10 @@ const EditEventPage: React.FC = () => {
         search: `?language=${selectedLanguage}`,
       });
     } catch (e) {
-      // Check apolloClient to see error handling
+      // TODO: Improve error handling when API returns more informative errors
+      toast(t('editEvent.error'), {
+        type: toast.TYPE.ERROR,
+      });
     }
   };
 
@@ -157,8 +163,8 @@ const EditEventPage: React.FC = () => {
   return (
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        <Container>
-          {eventData ? (
+        {isEditableEvent(eventData) ? (
+          <Container>
             <div className={styles.eventPage}>
               <EventForm
                 eventData={eventData}
@@ -169,10 +175,15 @@ const EditEventPage: React.FC = () => {
                 title={t('editEvent.title')}
               />
             </div>
-          ) : (
-            <ErrorPage />
-          )}
-        </Container>
+          </Container>
+        ) : isPastEvent(eventData) ? (
+          <ErrorPage
+            title={t('editEvent.errorEventIsInThePast')}
+            description={t('editEvent.errorEventIsInThePastDescription')}
+          />
+        ) : (
+          <ErrorPage />
+        )}
       </LoadingSpinner>
     </PageWrapper>
   );

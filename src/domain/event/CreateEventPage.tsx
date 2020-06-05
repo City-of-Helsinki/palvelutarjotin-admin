@@ -79,10 +79,10 @@ const CreateEventPage: React.FC = () => {
         search: `?language=${selectedLanguage}`,
       });
     } catch (e) {
+      // TODO: Improve error handling when API returns more informative errors
       toast(t('createEvent.error'), {
         type: toast.TYPE.ERROR,
       });
-      // Check apolloClient to see error handling
     }
   };
   return (

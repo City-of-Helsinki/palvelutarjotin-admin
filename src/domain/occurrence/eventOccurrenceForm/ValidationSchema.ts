@@ -64,7 +64,6 @@ export default Yup.object().shape({
       }
       return schema;
     }),
-  location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   amountOfSeats: Yup.number()
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage),

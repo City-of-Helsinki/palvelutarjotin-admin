@@ -72,7 +72,10 @@
       "textDirty": "Det finns inte sparade ändringar på den här sidan"
     },
     "pageTitle": "Redigera evenemang",
-    "title": "Redigera evenemang"
+    "title": "Redigera evenemang",
+    "error": "Det gick inte att spara händelsen",
+    "errorEventIsInThePast": "Händelsen är i det förflutna",
+    "errorEventIsInThePastDescription": "Händelse som är tidigare kan inte redigeras."
   },
   "eventDetails": {
     "basicInfo": {

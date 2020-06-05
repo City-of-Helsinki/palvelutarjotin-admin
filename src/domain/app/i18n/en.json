@@ -58,7 +58,7 @@
     }
   },
   "errorPage": {
-    "title": "Tjänsten stötte på ett fel",
+    "title": "The service encountered an error",
     "description": "We're sorry, but there was an error with the service. You can try again, but if the situation persists, please let us know via the feedback link at the bottom.",
     "returnToHome": "Return to homepage"
   },
@@ -73,7 +73,10 @@
       "textDirty": "There are unsaved changes on this page"
     },
     "pageTitle": "Edit event",
-    "title": "Edit event"
+    "title": "Edit event",
+    "error": "Failed to save event",
+    "errorEventIsInThePast": "Event is in the past",
+    "errorEventIsInThePastDescription": "Event that is in the past can't be edited."
   },
   "eventDetails": {
     "basicInfo": {
