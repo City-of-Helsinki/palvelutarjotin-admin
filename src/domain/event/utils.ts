@@ -135,11 +135,11 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
   isFutureEvent(eventData);
 
-export const hasOccurrences = (event: EventFieldsFragment) => {
+export const hasOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(event.pEvent?.occurrences.edges.length);
 };
 
-export const hasComingOccurrences = (event: EventFieldsFragment) => {
+export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
   let hasComingItems = false;
 
   forEach(event.pEvent?.occurrences.edges, (edge) => {
@@ -149,5 +149,5 @@ export const hasComingOccurrences = (event: EventFieldsFragment) => {
     }
   });
 
-  return Boolean(hasComingItems);
+  return hasComingItems;
 };

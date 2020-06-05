@@ -12,7 +12,7 @@ import {
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
-import getPageFromUrl from '../../utils/getPageFromUrl';
+import getPageNumberFromUrl from '../../utils/getPageNumberFromUrl';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -101,7 +101,7 @@ const EventsPage = () => {
 
   const nextPage = React.useMemo(() => {
     const nextUrl = data?.events?.meta.next;
-    return nextUrl ? getPageFromUrl(nextUrl) : null;
+    return nextUrl ? getPageNumberFromUrl(nextUrl) : null;
   }, [data]);
 
   const shouldShowLoadMore = Boolean(nextPage);
