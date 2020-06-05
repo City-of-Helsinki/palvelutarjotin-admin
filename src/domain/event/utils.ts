@@ -9,6 +9,7 @@ import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
+
 /**
  * Get event placeholder image url
  * @param {string} id

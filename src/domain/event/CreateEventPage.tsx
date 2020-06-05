@@ -8,6 +8,7 @@ import {
   useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -63,6 +64,11 @@ const CreateEventPage: React.FC = () => {
 
       const id = responses[0].data.addEventMutation.response.body.id || '';
 
+      // TODO: After apollo-client 3.0 release check is there a better way to force
+      // eventlist reload
+      // https://github.com/apollographql/apollo-client/blob/v3.0.0-rc.0/CHANGELOG.md
+      // Clear apollo cache to force eventlist reload
+      await clearApolloCache();
       history.push({
         pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
         search: `?language=${selectedLanguage}`,
