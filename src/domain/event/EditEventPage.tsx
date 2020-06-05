@@ -169,24 +169,28 @@ const EditEventPage: React.FC = () => {
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
         {!!eventData ? (
-          <Container>
-            <div className={styles.eventPage}>
-              <EventForm
-                eventData={eventData}
-                initialValues={initialValues}
-                onCancel={goToEventDetailsPage}
-                onSubmit={submit}
-                selectedLanguage={selectedLanguage}
-                setSelectedLanguage={handleLanguageChange}
-                title={t('editEvent.title')}
+          <>
+            {isEditableEvent(eventData) ? (
+              <Container>
+                <div className={styles.eventPage}>
+                  <EventForm
+                    eventData={eventData}
+                    initialValues={initialValues}
+                    onCancel={goToEventDetailsPage}
+                    onSubmit={submit}
+                    selectedLanguage={selectedLanguage}
+                    setSelectedLanguage={handleLanguageChange}
+                    title={t('editEvent.title')}
+                  />
+                </div>
+              </Container>
+            ) : (
+              <ErrorPage
+                title={t('editEvent.errorEventIsInThePast')}
+                description={t('editEvent.errorEventIsInThePastDescription')}
               />
-            </div>
-          </Container>
-        ) : isEditableEvent(eventData) ? (
-          <ErrorPage
-            title={t('editEvent.errorEventIsInThePast')}
-            description={t('editEvent.errorEventIsInThePastDescription')}
-          />
+            )}
+          </>
         ) : (
           <ErrorPage />
         )}
