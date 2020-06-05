@@ -1297,6 +1297,47 @@ export type EventQuery = (
   )> }
 );
 
+export type MetaFieldsFragment = (
+  { __typename?: 'Meta' }
+  & Pick<Meta, 'count' | 'next' | 'previous'>
+);
+
+export type EventsQueryVariables = {
+  divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  end?: Maybe<Scalars['String']>;
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+  inLanguage?: Maybe<Scalars['String']>;
+  isFree?: Maybe<Scalars['Boolean']>;
+  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
+  language?: Maybe<Scalars['String']>;
+  locations?: Maybe<Scalars['String']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  publisher?: Maybe<Scalars['ID']>;
+  sort?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['String']>;
+  superEvent?: Maybe<Scalars['ID']>;
+  superEventType?: Maybe<Array<Maybe<Scalars['String']>>>;
+  text?: Maybe<Scalars['String']>;
+  translation?: Maybe<Scalars['String']>;
+};
+
+
+export type EventsQuery = (
+  { __typename?: 'Query' }
+  & { events?: Maybe<(
+    { __typename?: 'EventListResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<(
+      { __typename?: 'Event' }
+      & EventFieldsFragment
+    )> }
+  )> }
+);
+
 export type UploadSingleImageMutationVariables = {
   image: UploadImageMutationInput;
 };
@@ -1704,6 +1745,13 @@ ${ImageFieldsFragmentDoc}
 ${PEventFieldsFragmentDoc}
 ${KeywordFieldsFragmentDoc}
 ${PlaceFieldsFragmentDoc}`;
+export const MetaFieldsFragmentDoc = gql`
+    fragment metaFields on Meta {
+  count
+  next
+  previous
+}
+    `;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {
@@ -1972,6 +2020,75 @@ export function useEventLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
+export const EventsDocument = gql`
+    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $locations: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String) {
+  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, locations: $locations, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...eventFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${EventFieldsFragmentDoc}`;
+export type EventsProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<EventsQuery, EventsQueryVariables>
+    } & TChildProps;
+export function withEvents<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EventsQuery,
+  EventsQueryVariables,
+  EventsProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, EventsQuery, EventsQueryVariables, EventsProps<TChildProps, TDataName>>(EventsDocument, {
+      alias: 'events',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEventsQuery__
+ *
+ * To run a query within a React component, call `useEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventsQuery({
+ *   variables: {
+ *      divisions: // value for 'divisions'
+ *      end: // value for 'end'
+ *      include: // value for 'include'
+ *      inLanguage: // value for 'inLanguage'
+ *      isFree: // value for 'isFree'
+ *      keywords: // value for 'keywords'
+ *      keywordNot: // value for 'keywordNot'
+ *      language: // value for 'language'
+ *      locations: // value for 'locations'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      publisher: // value for 'publisher'
+ *      sort: // value for 'sort'
+ *      start: // value for 'start'
+ *      superEvent: // value for 'superEvent'
+ *      superEventType: // value for 'superEventType'
+ *      text: // value for 'text'
+ *      translation: // value for 'translation'
+ *   },
+ * });
+ */
+export function useEventsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EventsQuery, EventsQueryVariables>) {
+        return ApolloReactHooks.useQuery<EventsQuery, EventsQueryVariables>(EventsDocument, baseOptions);
+      }
+export function useEventsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EventsQuery, EventsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EventsQuery, EventsQueryVariables>(EventsDocument, baseOptions);
+        }
+export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
+export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
+export type EventsQueryResult = ApolloReactCommon.QueryResult<EventsQuery, EventsQueryVariables>;
 export const UploadSingleImageDocument = gql`
     mutation UploadSingleImage($image: UploadImageMutationInput!) {
   uploadImageMutation(image: $image) {

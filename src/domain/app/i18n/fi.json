@@ -163,16 +163,22 @@
     }
   },
   "events": {
+    "buttonLoadMore": "Näytä lisää",
     "buttonNewEvent": "Lisää uusi tapahtuma",
     "eventCard": {
-      "textEnrolled": "{{count}} ilmoittautunut",
-      "textEnrolled_plural": "{{count}} ilmoittautunutta",
+      "ariaLabelOpenOccurrences": "Siirry tapahtuman {{eventName}} tapahtuma-aikoihin",
+      "textEnrolments": "{{count}} ilmoittautunut",
+      "textEnrolments_plural": "{{count}} ilmoittautunutta",
       "textOccurrences": "{{count}} tapahtuma-aika",
       "textOccurrences_plural": "{{count}} tapahtuma-aikaa"
     },
+    "placeholderSearch": "Haku",
     "textEventCount": "{{count}} kpl",
+    "textNoComingEvents": "Ei tapahtumia joissa on tulevia tapahtumia-aikoja",
     "title": "Tapahtumat",
-    "titleComingEvents": "Tapahtumat"
+    "titleComingEvents": "Tapahtumat",
+    "titleEventsWithPastOccurrences": "Menneet tapahtumat",
+    "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja"
   },
   "createOccurrence": {
     "buttonBack": "Tapahtuma-ajat",

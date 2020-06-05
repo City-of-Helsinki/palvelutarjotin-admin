@@ -1,12 +1,15 @@
+import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
+import forEach from 'lodash/forEach';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
-import { EventQuery } from '../../generated/graphql';
+import { EventFieldsFragment, EventQuery } from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
+
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -131,3 +134,20 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
 
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
   isFutureEvent(eventData);
+
+export const hasOccurrences = (event: EventFieldsFragment): boolean => {
+  return Boolean(event.pEvent?.occurrences.edges.length);
+};
+
+export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
+  let hasComingItems = false;
+
+  forEach(event.pEvent?.occurrences.edges, (edge) => {
+    if (edge?.node?.startTime && isFuture(new Date(edge?.node?.startTime))) {
+      hasComingItems = true;
+      return false;
+    }
+  });
+
+  return hasComingItems;
+};
