@@ -2,11 +2,23 @@ import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
 import forEach from 'lodash/forEach';
+import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
-import { EventFieldsFragment, EventQuery } from '../../generated/graphql';
+import {
+  CreateVenueDocument,
+  CreateVenueMutation,
+  EditVenueDocument,
+  EditVenueMutation,
+  EventFieldsFragment,
+  EventQuery,
+  Language as TranslationLanguage,
+  VenueDocument,
+  VenueQuery,
+} from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
+import apolloClient from '../app/apollo/apolloClient';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
 
@@ -120,6 +132,119 @@ export const getEventPayload = (
       neededOccurrences: Number(values.neededOccurrences),
     },
   };
+};
+
+export const getExistingVenuePayload = ({
+  venueData,
+  selectedLanguage,
+  formValues: { locationDescription, location: locationId },
+}: {
+  venueData: VenueQuery;
+  selectedLanguage: Language;
+  formValues: EventFormFields;
+}) => {
+  return {
+    venue: {
+      id: locationId,
+      // TODO: handle these 2 fields
+      hasClothingStorage: false,
+      hasSnackEatingPlace: false,
+      translations: [
+        ...(venueData?.venue?.translations
+          .map((t) => omit(t, ['__typename']))
+          .filter((t) => t.languageCode !== selectedLanguage.toUpperCase()) ||
+          []),
+        {
+          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
+          description: locationDescription,
+        },
+      ],
+    },
+  };
+};
+
+export const getNewVenuePayload = ({
+  formValues,
+  selectedLanguage,
+}: {
+  formValues: EventFormFields;
+  selectedLanguage: Language;
+}) => {
+  return {
+    venue: {
+      id: formValues.location,
+      // TODO: handle these 2 fields
+      hasClothingStorage: false,
+      hasSnackEatingPlace: false,
+      translations: [
+        {
+          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
+          description: formValues.locationDescription,
+        },
+      ],
+    },
+  };
+};
+
+export const getVenueDescription = (
+  venueData: VenueQuery | null,
+  selectedLanguage: Language
+): string =>
+  venueData?.venue?.translations.find(
+    (t) => t.languageCode === selectedLanguage.toUpperCase()
+  )?.description || '';
+
+export const getEventVenueDescription = (
+  eventData: EventQuery | null,
+  selectedLanguage: Language
+): string =>
+  eventData?.event?.venue?.translations.find(
+    (t) => t.languageCode === selectedLanguage.toUpperCase()
+  )?.description || '';
+
+export const createOrUpdateVenue = ({
+  formValues,
+  selectedLanguage,
+}: {
+  formValues: EventFormFields;
+  selectedLanguage: Language;
+}) => {
+  // get venueData from cache. It is fetched in the form when evnet location changes
+  const venueData = apolloClient.readQuery<VenueQuery>({
+    query: VenueDocument,
+    variables: { id: formValues.location },
+  });
+
+  const venueDescription = getVenueDescription(venueData, selectedLanguage);
+
+  const venueShouldBeUpdated = Boolean(
+    venueData?.venue && formValues.locationDescription !== venueDescription
+  );
+  const newVenueShouldBeCreated = Boolean(
+    !venueData?.venue && formValues.locationDescription
+  );
+
+  if (venueShouldBeUpdated) {
+    return apolloClient.mutate<EditVenueMutation>({
+      variables: getExistingVenuePayload({
+        formValues: formValues,
+        selectedLanguage,
+        venueData: venueData as VenueQuery,
+      }),
+      mutation: EditVenueDocument,
+    });
+  } else if (newVenueShouldBeCreated) {
+    return apolloClient.mutate<CreateVenueMutation>({
+      variables: getExistingVenuePayload({
+        formValues: formValues,
+        selectedLanguage,
+        venueData: venueData as VenueQuery,
+      }),
+      mutation: CreateVenueDocument,
+    });
+  }
+
+  return null;
 };
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>

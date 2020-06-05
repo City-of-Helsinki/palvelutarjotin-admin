@@ -22,8 +22,10 @@ import EventForm, {
 } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import {
+  createOrUpdateVenue,
   getEventLanguageFromUrl,
   getEventPayload,
+  getEventVenueDescription,
   getFirstAvailableLanguage,
   isEditableEvent,
   isPastEvent,
@@ -82,6 +84,13 @@ const EditEventPage: React.FC = () => {
         })
       );
 
+      requests.push(
+        createOrUpdateVenue({
+          formValues: values,
+          selectedLanguage,
+        })
+      );
+
       if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);
         if (imageName) {
@@ -99,17 +108,6 @@ const EditEventPage: React.FC = () => {
           );
         }
       }
-
-      requests.push(
-        editEvent({
-          variables: {
-            event: {
-              id: eventData?.event?.id || '',
-              ...getEventPayload(values, selectedLanguage),
-            },
-          },
-        })
-      );
 
       // Run all requests parallel
       await Promise.all(requests);
@@ -154,6 +152,10 @@ const EditEventPage: React.FC = () => {
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
+        locationDescription: getEventVenueDescription(
+          eventData,
+          selectedLanguage
+        ),
       });
     }
   }, [eventData, selectedLanguage]);

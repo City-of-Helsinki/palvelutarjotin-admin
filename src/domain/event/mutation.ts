@@ -34,6 +34,7 @@ export const MUTATION_EVENT = gql`
             altText
           }
           pEvent {
+            id
             duration
             neededOccurrences
           }
@@ -92,6 +93,7 @@ export const MUTATION_EVENT = gql`
             altText
           }
           pEvent {
+            id
             duration
             neededOccurrences
           }
@@ -100,6 +102,34 @@ export const MUTATION_EVENT = gql`
             fi
             sv
           }
+        }
+      }
+    }
+  }
+
+  mutation EditVenue($venue: UpdateVenueMutationInput!) {
+    updateVenue(input: $venue) {
+      venue {
+        id
+        hasClothingStorage
+        hasSnackEatingPlace
+        translations {
+          languageCode
+          description
+        }
+      }
+    }
+  }
+
+  mutation CreateVenue($venue: AddVenueMutationInput!) {
+    addVenue(input: $venue) {
+      venue {
+        id
+        hasClothingStorage
+        hasSnackEatingPlace
+        translations {
+          languageCode
+          description
         }
       }
     }

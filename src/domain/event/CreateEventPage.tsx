@@ -15,7 +15,7 @@ import { ROUTES } from '../app/routes/constants';
 import { getImageName } from '../image/utils';
 import EventForm, { EventFormFields } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
-import { getEventPayload } from './utils';
+import { createOrUpdateVenue, getEventPayload } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
@@ -29,6 +29,13 @@ const CreateEventPage: React.FC = () => {
   const submit = async (values: EventFormFields) => {
     try {
       const requests = [];
+
+      requests.push(
+        createOrUpdateVenue({
+          formValues: values,
+          selectedLanguage,
+        })
+      );
 
       // Request to create new event
       requests.push(
@@ -62,7 +69,11 @@ const CreateEventPage: React.FC = () => {
       // Run all requests parallel
       const responses: any[] = await Promise.all(requests);
 
-      const id = responses[0].data.addEventMutation.response.body.id || '';
+      // TODO: come up with a better way to handle this
+      // Find the request that made the eventMutation and get the id
+      const id =
+        responses.find((r) => r.data.addEventMutation).data.addEventMutation
+          .response.body.id || '';
 
       // TODO: After apollo-client 3.0 release check is there a better way to force
       // eventlist reload

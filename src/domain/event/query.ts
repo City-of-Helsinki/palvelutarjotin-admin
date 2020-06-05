@@ -57,12 +57,33 @@ export const QUERY_EVENT = gql`
     location {
       ...placeFields
     }
+    venue {
+      id
+      hasClothingStorage
+      hasSnackEatingPlace
+      translations {
+        languageCode
+        description
+      }
+    }
     startTime
   }
 
   query Event($id: ID!, $include: [String]) {
     event(id: $id, include: $include) {
       ...eventFields
+    }
+  }
+
+  query Venue($id: ID!) {
+    venue(id: $id) {
+      id
+      hasClothingStorage
+      hasSnackEatingPlace
+      translations {
+        languageCode
+        description
+      }
     }
   }
 `;
