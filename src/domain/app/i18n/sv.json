@@ -63,10 +63,18 @@
   },
   "createMyProfile": {
     "buttonSubmit": "Spara och fortsätt",
+    "error": "Det gick inte att spara min profil",
     "infoText1": "Hej, välkommen till servicefacket!",
     "infoText2": "För att ange transaktioner i systemet ber vi dig verifiera följande information:",
     "pageTitle": "Fyll i din information",
     "title": "Fyll i din information"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Spara uppdaterade informationen",
+    "error": "Det gick inte att spara min profil",
+    "pageTitle": "Min profil",
+    "success": "Min profil har sparats",
+    "title": "Min profil"
   },
   "myProfileForm": {
     "checkboxPrivacyPolicy": "Jag godkänner användningen av den information som jag tillhandahåller i transaktionsinformationen. <a href='TODO: Add url'>Integritetspolicy</a>",

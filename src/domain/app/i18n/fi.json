@@ -64,10 +64,18 @@
   },
   "createMyProfile": {
     "buttonSubmit": "Tallenna ja jatka",
+    "error": "Omien tietojen tallentaminen epäonnistui",
     "infoText1": "Hei, tervetuloa Palvelutarjottimeen!",
     "infoText2": "Jotta voisit syöttää järjestelmään tapahtumia, pyydämme sinua tarkistamaan seuraavat tietosi:",
     "pageTitle": "Täydennä tietosi",
     "title": "Täydennä tietosi"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Tallenna päivitetyt tiedot",
+    "error": "Omien tietojen tallentaminen epäonnistui",
+    "pageTitle": "Omat tiedot",
+    "success": "Omat tiedot tallennettu onnistuneesti",
+    "title": "Omat tiedot"
   },
   "myProfileForm": {
     "checkboxPrivacyPolicy": "Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. <a href='TODO: Add url'>Tietosuojaseloste</a>",

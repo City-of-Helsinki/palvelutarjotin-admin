@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import { useCreateMyProfileMutation } from '../../generated/graphql';
 import scrollToTop from '../../utils/scrollToTop';
@@ -9,6 +10,7 @@ import styles from './myProfile.module.scss';
 import MyProfileForm, {
   MyProfileFormFields,
 } from './myProfileForm/MyProfileForm';
+import { getMyProfilePayload } from './utils';
 
 interface Props {
   refetch: () => void;
@@ -22,17 +24,16 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
     try {
       await createMyProfile({
         variables: {
-          myProfile: {
-            name: values.name,
-            phoneNumber: values.phoneNumber,
-            emailAddress: values.emailAddress,
-            organisations: values.organisations,
-          },
+          myProfile: getMyProfilePayload(values),
         },
       });
       await refetch();
       scrollToTop();
-    } catch (e) {}
+    } catch (e) {
+      toast(t('createMyProfile.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   return (

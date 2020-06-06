@@ -1743,9 +1743,25 @@ export type CreateMyProfileMutation = (
   )> }
 );
 
+export type UpdateMyProfileMutationVariables = {
+  myProfile: UpdateMyProfileMutationInput;
+};
+
+
+export type UpdateMyProfileMutation = (
+  { __typename?: 'Mutation' }
+  & { updateMyProfile?: Maybe<(
+    { __typename?: 'UpdateMyProfileMutationPayload' }
+    & { myProfile?: Maybe<(
+      { __typename?: 'PersonNode' }
+      & PersonFieldsFragment
+    )> }
+  )> }
+);
+
 export type PersonFieldsFragment = (
   { __typename?: 'PersonNode' }
-  & Pick<PersonNode, 'id' | 'name' | 'phoneNumber'>
+  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber'>
   & { organisations: (
     { __typename?: 'OrganisationNodeConnection' }
     & { edges: Array<Maybe<(
@@ -2118,6 +2134,7 @@ export const MetaFieldsFragmentDoc = gql`
 export const PersonFieldsFragmentDoc = gql`
     fragment personFields on PersonNode {
   id
+  emailAddress
   name
   phoneNumber
   organisations {
@@ -2942,6 +2959,53 @@ export function useCreateMyProfileMutation(baseOptions?: ApolloReactHooks.Mutati
 export type CreateMyProfileMutationHookResult = ReturnType<typeof useCreateMyProfileMutation>;
 export type CreateMyProfileMutationResult = ApolloReactCommon.MutationResult<CreateMyProfileMutation>;
 export type CreateMyProfileMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateMyProfileMutation, CreateMyProfileMutationVariables>;
+export const UpdateMyProfileDocument = gql`
+    mutation UpdateMyProfile($myProfile: UpdateMyProfileMutationInput!) {
+  updateMyProfile(input: $myProfile) {
+    myProfile {
+      ...personFields
+    }
+  }
+}
+    ${PersonFieldsFragmentDoc}`;
+export type UpdateMyProfileMutationFn = ApolloReactCommon.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
+export type UpdateMyProfileProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>
+    } & TChildProps;
+export function withUpdateMyProfile<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateMyProfileMutation,
+  UpdateMyProfileMutationVariables,
+  UpdateMyProfileProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateMyProfileMutation, UpdateMyProfileMutationVariables, UpdateMyProfileProps<TChildProps, TDataName>>(UpdateMyProfileDocument, {
+      alias: 'updateMyProfile',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateMyProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateMyProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMyProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMyProfileMutation, { data, loading, error }] = useUpdateMyProfileMutation({
+ *   variables: {
+ *      myProfile: // value for 'myProfile'
+ *   },
+ * });
+ */
+export function useUpdateMyProfileMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>(UpdateMyProfileDocument, baseOptions);
+      }
+export type UpdateMyProfileMutationHookResult = ReturnType<typeof useUpdateMyProfileMutation>;
+export type UpdateMyProfileMutationResult = ApolloReactCommon.MutationResult<UpdateMyProfileMutation>;
+export type UpdateMyProfileMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
 export const MyProfileDocument = gql`
     query MyProfile {
   myProfile {

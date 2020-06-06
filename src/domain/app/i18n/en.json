@@ -64,10 +64,18 @@
   },
   "createMyProfile": {
     "buttonSubmit": "Save and continue",
+    "error": "Failed to save my profile",
     "infoText1": "Hello, welcome to the Service Tray!",
     "infoText2": "In order to enter transactions into the system, we ask that you verify the following information:",
     "pageTitle": "Complete your information",
     "title": "Complete your information"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Save updated information",
+    "error": "Failed to save my profile",
+    "pageTitle": "My profile",
+    "success": "My profile saved successfully",
+    "title": "My profile"
   },
   "myProfileForm": {
     "checkboxPrivacyPolicy": "I authorize the use of the information I provide in the transaction information. <a href='TODO: Add url'>Privacy Policy</a>",

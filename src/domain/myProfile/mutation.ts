@@ -8,4 +8,11 @@ export const MUTATION_MY_PROFILE = gql`
       }
     }
   }
+  mutation UpdateMyProfile($myProfile: UpdateMyProfileMutationInput!) {
+    updateMyProfile(input: $myProfile) {
+      myProfile {
+        ...personFields
+      }
+    }
+  }
 `;
