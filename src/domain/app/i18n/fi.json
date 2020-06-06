@@ -284,7 +284,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "logout": "Kirjaudu ulos"
+    "logout": "Kirjaudu ulos",
+    "userMenu": {
+      "ariaLabelButton": "Avaa käyttäjän valikko",
+      "logout": "Kirjaudu ulos",
+      "openMyProfile": "Omat tiedot"
+    }
   },
   "image": {
     "labelAltText": "Kuvan alt-teksti",

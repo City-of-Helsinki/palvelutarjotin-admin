@@ -284,7 +284,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "logout": "Log out"
+    "logout": "Log out",
+    "userMenu": {
+      "ariaLabelButton": "Open user menu",
+      "logout": "Log out",
+      "openMyProfile": "My profile"
+    }
   },
   "image": {
     "labelAltText": "Picture alt-text",
