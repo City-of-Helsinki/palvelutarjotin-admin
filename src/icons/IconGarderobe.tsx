@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = { className?: string };
 
-export default function IconDelete({ className = '' }: Props) {
+export default function IconGarderobe({ className = '' }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
