@@ -19,6 +19,7 @@ import {
   OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
@@ -71,6 +72,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
+  const locale = useLocale();
 
   const eventPlaceId = eventData?.event?.location?.id || '';
   const [editPlaceMode, setEditPlaceMode] = React.useState(
@@ -247,8 +249,10 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     <FormGroup>
                       <PlaceInfo
                         id={location || eventPlaceId}
-                        showEditButton={!editPlaceMode}
+                        language={locale}
                         onEditButtonClick={setEditPlaceMode}
+                        showEditButton={!editPlaceMode}
+                        showVenueInfo={true}
                       />
                     </FormGroup>
                   )}

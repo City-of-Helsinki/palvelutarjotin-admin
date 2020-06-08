@@ -3,13 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { EventQuery } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
-import IconFood from '../../../icons/IconFood';
-import IconGarderobe from '../../../icons/IconGarderobe';
 import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
-import { getEventVenueDescription } from '../utils';
 import styles from './eventLocation.module.scss';
 
 type Props = {
@@ -19,20 +15,16 @@ type Props = {
 
 const EventLocation: React.FC<Props> = ({ eventData, language }) => {
   const { t } = useTranslation();
-  const locale = useLocale();
 
   const name = getLocalizedString(
     eventData.event?.location?.name || {},
-    locale
+    language
   );
   const streetAddress = getLocalizedString(
     eventData.event?.location?.streetAddress || {},
-    locale
+    language
   );
   const id = eventData.event?.location?.id;
-  const venueDescription = getEventVenueDescription(eventData, language);
-  const hasClothingStorage = eventData.event?.venue?.hasClothingStorage;
-  const hasSnackEatingPlace = eventData.event?.venue?.hasSnackEatingPlace;
 
   return (
     <div className={styles.eventLocation}>
@@ -43,31 +35,13 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
           <p>{[name, streetAddress].filter((item) => item).join(', ')}</p>
         </>
       )}
-      <div className={styles.placeInfoWrapper}>
-        <PlaceInfo id={id || ''} />
-      </div>
-      {venueDescription && (
+      {!!id && (
         <>
-          <TextTitle>
-            {t('eventDetails.location.labelLocationDescription')}
-          </TextTitle>
-          <p>{venueDescription}</p>
+          <div className={styles.placeInfoWrapper}>
+            <PlaceInfo id={id || ''} language={language} showVenueInfo={true} />
+          </div>
         </>
       )}
-      <div className={styles.venueAmenities}>
-        {hasSnackEatingPlace && (
-          <div>
-            <IconFood />
-            {t('eventDetails.location.snackEatingPlace')}
-          </div>
-        )}
-        {hasClothingStorage && (
-          <div>
-            <IconGarderobe />
-            {t('eventDetails.location.clothingStorage')}
-          </div>
-        )}
-      </div>
     </div>
   );
 };

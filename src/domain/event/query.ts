@@ -58,13 +58,7 @@ export const QUERY_EVENT = gql`
       ...placeFields
     }
     venue {
-      id
-      hasClothingStorage
-      hasSnackEatingPlace
-      translations {
-        languageCode
-        description
-      }
+      ...venueFields
     }
     startTime
   }
@@ -72,18 +66,6 @@ export const QUERY_EVENT = gql`
   query Event($id: ID!, $include: [String]) {
     event(id: $id, include: $include) {
       ...eventFields
-    }
-  }
-
-  query Venue($id: ID!) {
-    venue(id: $id) {
-      id
-      hasClothingStorage
-      hasSnackEatingPlace
-      translations {
-        languageCode
-        description
-      }
     }
   }
 `;

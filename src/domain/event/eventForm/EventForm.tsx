@@ -119,13 +119,10 @@ const EventForm: React.FC<Props> = ({
     >
       {({
         dirty,
-        errors,
-        handleReset,
         handleSubmit,
         values: { image, location },
         setFieldValue,
         setFieldTouched,
-        touched,
       }) => {
         const imageSelected = Boolean(image);
 
@@ -280,7 +277,7 @@ const EventForm: React.FC<Props> = ({
                   {location && (
                     <>
                       <FormGroup>
-                        <PlaceInfo id={location} />
+                        <PlaceInfo id={location} language={selectedLanguage} />
                       </FormGroup>
                       <VenueInfoFormPart
                         locationId={location}
