@@ -34,6 +34,14 @@ const VenueDataFields: React.FC<{
             (t) => (t.languageCode as string).toLowerCase() === selectedLanguage
           );
           setFieldValue('locationDescription', description?.description || '');
+          setFieldValue(
+            'hasSnackEatingPlace',
+            data.venue?.hasSnackEatingPlace || false
+          );
+          setFieldValue(
+            'hasClothingStorage',
+            data.venue?.hasClothingStorage || false
+          );
         } catch (err) {
           // clear description when error happens
           setFieldValue('locationDescription', '');
