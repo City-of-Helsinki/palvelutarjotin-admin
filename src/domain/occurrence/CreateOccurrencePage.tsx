@@ -128,12 +128,13 @@ const CreateOccurrencePage: React.FC = () => {
                     </Button>
                   </div>
                   <EventOccurrenceForm
-                    eventId={eventId}
+                    eventData={eventData}
                     formTitle={t('createOccurrence.formTitle')}
                     initialValues={defaultInitialValues}
                     onCancel={goToOccurrencesPage}
                     onSubmit={submit}
                     onSubmitAndAdd={submitAndAdd}
+                    refetchEvent={refetchEvent}
                   />
                 </div>
               </Container>

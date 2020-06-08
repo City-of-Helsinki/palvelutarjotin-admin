@@ -249,6 +249,11 @@
       "cancel": "Peruuta",
       "save": "Tallenna",
       "saveAndAddNew": "Tallenna ja lisää uusi"
+    },
+    "placeInfo": {
+      "buttonEdit": "Vaihda",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Palvelukartta:"
     }
   },
   "footer": {
