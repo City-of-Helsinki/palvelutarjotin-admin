@@ -1,3 +1,8 @@
+.eventLocation {
+  --icon-size: 1.5rem;
+  --icon-spacing: var(--spacing-xs);
+}
+
 .placeInfoWrapper {
   margin-bottom: var(--spacing-l);
 }
@@ -5,6 +10,17 @@
 .venueAmenities {
   display: flex;
   margin: var(--spacing-l) 0;
+
+  & > div {
+    align-items: center;
+    display: flex;
+
+    svg {
+      height: var(--icon-size);
+      width: var(--icon-size);
+      margin-right: var(--icon-spacing);
+    }
+  }
 
   & > :not(:last-child) {
     margin-right: 1rem;

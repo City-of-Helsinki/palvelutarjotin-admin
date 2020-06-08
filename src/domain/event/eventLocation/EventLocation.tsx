@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { EventQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import IconFood from '../../../icons/IconFood';
+import IconGarderobe from '../../../icons/IconGarderobe';
 import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
@@ -33,7 +35,7 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
   const hasSnackEatingPlace = eventData.event?.venue?.hasSnackEatingPlace;
 
   return (
-    <div>
+    <div className={styles.eventLocation}>
       <h2>{t('eventDetails.location.title')}</h2>
       {name && (
         <>
@@ -53,11 +55,17 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
         </>
       )}
       <div className={styles.venueAmenities}>
-        {hasClothingStorage && (
-          <div>{t('eventDetails.location.clothingStorage')}</div>
-        )}
         {hasSnackEatingPlace && (
-          <div>{t('eventDetails.location.snackEatingPlace')}</div>
+          <div>
+            <IconFood />
+            {t('eventDetails.location.snackEatingPlace')}
+          </div>
+        )}
+        {hasClothingStorage && (
+          <div>
+            <IconGarderobe />
+            {t('eventDetails.location.clothingStorage')}
+          </div>
         )}
       </div>
     </div>
