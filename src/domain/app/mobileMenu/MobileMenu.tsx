@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconPerson } from 'hds-react';
+import { IconArrowRight, IconPerson } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -108,7 +108,7 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
           {!!isAuthenticated && (
             <li className={styles.link}>
               <Link onClick={logout} to="#">
-                <IconPerson />
+                <IconArrowRight />
                 {t('header.userMenu.logout')}
               </Link>
             </li>

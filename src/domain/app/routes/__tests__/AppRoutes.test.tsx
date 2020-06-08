@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MockedProvider } from '@apollo/react-testing';
 import { mount } from 'enzyme';
 import i18n from 'i18next';
 import React from 'react';
@@ -6,17 +7,32 @@ import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 
+import { MyProfileDocument } from '../../../../generated/graphql';
+import mockMyProfile from '../../../myProfile/__mocks__/myProfile.json';
 import { store } from '../../store';
 import AppRoutes from '../AppRoutes';
 import LocaleRoutes from '../LocaleRoutes';
 
+const mocks = [
+  {
+    request: {
+      query: MyProfileDocument,
+    },
+    result: {
+      ...mockMyProfile,
+    },
+  },
+];
+
 const wrapperCreator = (route: string) =>
   mount(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={[route]}>
-        <AppRoutes />
-      </MemoryRouter>
-    </Provider>
+    <MockedProvider mocks={mocks}>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[route]}>
+          <AppRoutes />
+        </MemoryRouter>
+      </Provider>
+    </MockedProvider>
   );
 
 beforeEach(() => {
