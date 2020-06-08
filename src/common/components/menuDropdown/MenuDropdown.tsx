@@ -53,7 +53,7 @@ const MenuItem: React.FC<{
   );
 };
 
-interface Props {
+export interface MenuDropdownProps {
   buttonAriaLabel?: string;
   buttonText: string;
   icon?: React.ReactElement;
@@ -62,7 +62,7 @@ interface Props {
   value?: string;
 }
 
-const MenuDropdown: React.FC<Props> = ({
+const MenuDropdown: React.FC<MenuDropdownProps> = ({
   buttonAriaLabel,
   buttonText,
   icon,
