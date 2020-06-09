@@ -10,10 +10,6 @@ type Option = {
   value: string;
 };
 
-type OptionType = {
-  [key: string]: any;
-};
-
 interface Props extends DropdownProps, FieldProps {
   options: Option[];
 }
@@ -30,7 +26,7 @@ const DropdownField: React.FC<Props> = ({
   const { t } = useTranslation();
   const errorText = getErrorText(errors, touched, name, t);
 
-  const handleChange = (val: OptionType | OptionType[]) => {
+  const handleChange = (val: Option | Option[]) => {
     onChange({
       target: {
         id: name,
@@ -56,7 +52,7 @@ const DropdownField: React.FC<Props> = ({
       optionLabelField={'label'}
       multiselect={multiselect}
       closeMenuOnSelect={!multiselect}
-      onChange={handleChange}
+      onChange={handleChange as (selectedItems: any) => void}
       options={options}
       placeholder={placeholder || t('common.dropdown.placeholder')}
       selectedOption={
