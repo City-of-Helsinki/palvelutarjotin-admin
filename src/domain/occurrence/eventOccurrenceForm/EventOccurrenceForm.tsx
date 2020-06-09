@@ -12,12 +12,14 @@ import NumberInputField from '../../../common/components/form/fields/NumberInput
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
+import TextTitle from '../../../common/components/textTitle/TextTitle';
 import {
+  EventQuery,
   Language,
   OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
-  useEventQuery,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
@@ -48,46 +50,55 @@ export const defaultInitialValues = {
 };
 
 interface Props {
-  eventId: string;
+  eventData: EventQuery;
   formTitle: string;
   initialValues: OccurrenceFormFields;
   occurrenceId?: string;
   onCancel: () => void;
   onSubmit: (values: OccurrenceFormFields) => void;
   onSubmitAndAdd: (values: OccurrenceFormFields, resetForm: () => void) => void;
+  refetchEvent: () => void;
 }
 
 const EventOccurrenceForm: React.FC<Props> = ({
-  eventId,
+  eventData,
   formTitle,
   initialValues,
   occurrenceId,
   onCancel,
   onSubmit,
   onSubmitAndAdd,
+  refetchEvent,
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
+  const locale = useLocale();
 
-  const { data: eventData, refetch: refetchEventData } = useEventQuery({
-    variables: { id: eventId },
-  });
+  const eventPlaceId = eventData?.event?.location?.id || '';
+  const [editPlaceMode, setEditPlaceMode] = React.useState(
+    Boolean(initialValues.location)
+  );
+
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
       (edge) => edge?.node
     ) as OccurrenceFieldsFragment[]) || [];
+
   const comingOccurrences = occurrences.filter(
     (item) => !isPast(new Date(item.startTime))
   );
+  const filteredComingOccurrences = occurrenceId
+    ? comingOccurrences.filter((item) => item.id !== occurrenceId)
+    : comingOccurrences;
 
   const handleDeleteOccurrence = async (
     occurrence: OccurrenceFieldsFragment
   ) => {
     try {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-      refetchEventData();
+      refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,
@@ -220,16 +231,29 @@ const EventOccurrenceForm: React.FC<Props> = ({
 
               <div className={styles.occurrenceFormRow}>
                 <div className={styles.fullRow}>
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventOccurrenceForm.labelEventLocation')}
-                      name="location"
-                      component={PlaceSelectorField}
-                    />
-                  </FormGroup>
-                  {location && (
+                  {editPlaceMode ? (
                     <FormGroup>
-                      <PlaceInfo id={location} />
+                      <Field
+                        labelText={t('eventOccurrenceForm.labelEventLocation')}
+                        name="location"
+                        component={PlaceSelectorField}
+                      />
+                    </FormGroup>
+                  ) : (
+                    <TextTitle>
+                      {t('eventOccurrenceForm.labelEventLocation')}
+                    </TextTitle>
+                  )}
+
+                  {(!!location || !!eventPlaceId) && (
+                    <FormGroup>
+                      <PlaceInfo
+                        id={location || eventPlaceId}
+                        language={locale}
+                        onEditButtonClick={setEditPlaceMode}
+                        showEditButton={!editPlaceMode}
+                        showVenueInfo={true}
+                      />
                     </FormGroup>
                   )}
                 </div>
@@ -256,21 +280,15 @@ const EventOccurrenceForm: React.FC<Props> = ({
                 {t('occurrences.titleComingOccurrences')}{' '}
                 <span className={styles.count}>
                   {t('occurrences.count', {
-                    count: comingOccurrences.length,
+                    count: filteredComingOccurrences.length,
                   })}
                 </span>
               </h2>
-              {comingOccurrences.length ? (
+              {filteredComingOccurrences.length ? (
                 <OccurrencesTable
                   eventData={eventData}
                   id="coming-occurrences"
-                  occurrences={
-                    occurrenceId
-                      ? comingOccurrences.filter(
-                          (item) => item.id !== occurrenceId
-                        )
-                      : comingOccurrences
-                  }
+                  occurrences={filteredComingOccurrences}
                   onDelete={handleDeleteOccurrence}
                 />
               ) : (

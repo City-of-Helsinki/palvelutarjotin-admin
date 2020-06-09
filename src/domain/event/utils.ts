@@ -20,6 +20,7 @@ import {
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import apolloClient from '../app/apollo/apolloClient';
+import { getVenueDescription } from '../venue/utils';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
 
@@ -194,14 +195,6 @@ export const getNewVenuePayload = ({
     },
   };
 };
-
-export const getVenueDescription = (
-  venueData: VenueQuery | null,
-  selectedLanguage: Language
-): string =>
-  venueData?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
 
 export const getEventVenueDescription = (
   eventData: EventQuery | null,

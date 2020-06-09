@@ -249,6 +249,11 @@
       "cancel": "Cancel",
       "save": "Save",
       "saveAndAddNew": "Save and add new"
+    },
+    "placeInfo": {
+      "buttonEdit": "Change",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Servicemap:"
     }
   },
   "footer": {
