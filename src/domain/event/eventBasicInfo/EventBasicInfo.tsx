@@ -5,7 +5,9 @@ import TextTitle from '../../../common/components/textTitle/TextTitle';
 import TextWithLineBreaks from '../../../common/components/textWithLineBreaks/TextWithLineBreaks';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
+import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
+import getTimeFormat from '../../../utils/getTimeFormat';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
 import styles from './eventBasicInfo.module.scss';
 
@@ -30,13 +32,17 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const imageId = eventData.event?.images[0]?.id;
 
   const duration = eventData.event?.pEvent?.duration;
-  const neededOccurrences = eventData.event?.pEvent?.neededOccurrences;
 
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
-  const inLanguage = eventData.event?.inLanguage;
-  const audience = eventData.event?.audience;
-
-  const keywords = eventData.event?.keywords;
+  const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
+    ? t('eventDetails.basicInfo.enrolmentStart', {
+        date: formatDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
+        time: formatDate(
+          new Date(eventData.event?.pEvent?.enrolmentStart),
+          getTimeFormat(language)
+        ),
+      })
+    : '';
 
   return (
     <div className={styles.eventBasicInfo}>
@@ -79,56 +85,18 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           <p>{duration}</p>
         </div>
         <div>
-          <TextTitle>{t('eventDetails.basicInfo.labelInLanguage')}</TextTitle>
-          <p>
-            {inLanguage
-              ?.map((item) => getLocalizedString(item.name || {}, language))
-              .filter((item) => item)
-              .sort()
-              .join(', ') || '-'}
-          </p>
+          <TextTitle>
+            {t('eventDetails.basicInfo.labelEnrolmentStart')}
+          </TextTitle>
+          <p>{enrolmentStart}</p>
         </div>
-        <div>
-          <TextTitle>{t('eventDetails.basicInfo.labelAudience')}</TextTitle>
-          <p>
-            {audience
-              ?.map((keyword) =>
-                getLocalizedString(keyword.name || {}, language)
-              )
-              .filter((item) => item)
-              .sort()
-              .join(', ') || '-'}
-          </p>
-        </div>
-      </div>
-
-      <div className={styles.neededOccurrencesRow}>
         <div>
           <TextTitle>
-            {t('eventDetails.basicInfo.labelNeededOccurrences')}
+            {t('eventDetails.basicInfo.labelEnrolmentEndDays')}
           </TextTitle>
-          <p>{neededOccurrences}</p>
-        </div>
-        <div>
-          <TextTitle>Toiminnan tyyppi</TextTitle>
-          <p>TODO</p>
-        </div>
-        <div>
-          <TextTitle>VASU / OPS sisällöt</TextTitle>
-          <p>TODO</p>
+          <p>{eventData.event?.pEvent?.enrolmentEndDays}</p>
         </div>
       </div>
-
-      <TextTitle>Hinta</TextTitle>
-      <p>TODO</p>
-      <TextTitle>{t('eventDetails.basicInfo.labelKeywords')}</TextTitle>
-      <p>
-        {keywords
-          ?.map((keyword) => getLocalizedString(keyword.name || {}, language))
-          .filter((item) => item)
-          .sort()
-          .join(', ') || '-'}
-      </p>
     </div>
   );
 };

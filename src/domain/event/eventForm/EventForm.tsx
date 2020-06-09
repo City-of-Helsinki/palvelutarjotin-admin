@@ -3,8 +3,9 @@ import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CheckboxField from '../../../common/components/form/fields/CheckboxField';
+import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
-// import DropdownSelectField from '../../../common/components/form/fields/DropdownSelectField';
 import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -27,34 +28,42 @@ export type EventFormFields = {
   audience: string[];
   description: string;
   duration: string;
+  enrolmentEndDays: string;
+  enrolmentStart: Date | null;
   image: string;
   imageAltText: string;
   imagePhotographerName: string;
   infoUrl: string;
   inLanguage: string[];
+  isFree: boolean;
   keywords: string[];
   location: string;
   name: string;
   neededOccurrences: string;
+  price: string;
   shortDescription: string;
   locationDescription: string;
   hasClothingStorage: boolean;
   hasSnackEatingPlace: boolean;
 };
 
-export const defaultInitialValues = {
+export const defaultInitialValues: EventFormFields = {
   audience: [],
   description: '',
   duration: '',
+  enrolmentEndDays: '',
+  enrolmentStart: null,
   image: '',
   imageAltText: '',
   imagePhotographerName: '',
   infoUrl: '',
   inLanguage: [],
+  isFree: true,
   keywords: [],
   location: '',
   name: '',
   neededOccurrences: '',
+  price: '',
   shortDescription: '',
   locationDescription: '',
   hasClothingStorage: false,
@@ -63,8 +72,6 @@ export const defaultInitialValues = {
 
 /**
  * Following fields are missing:
- *  - Image
- *  - Location desciption
  *  - Contact person name
  *  - Contact person email
  *  - Contact person phone
@@ -119,13 +126,10 @@ const EventForm: React.FC<Props> = ({
     >
       {({
         dirty,
-        errors,
-        handleReset,
         handleSubmit,
         values: { image, location },
         setFieldValue,
         setFieldTouched,
-        touched,
       }) => {
         const imageSelected = Boolean(image);
 
@@ -208,12 +212,41 @@ const EventForm: React.FC<Props> = ({
                         />
                       </FormGroup>
                     </div>
+                    <div>
+                      <FormGroup>
+                        <Field
+                          labelText={t(
+                            'eventForm.basicInfo.labelEnrolmentStart'
+                          )}
+                          name="enrolmentStart"
+                          component={DateInputField}
+                          timeSelector={true}
+                        />
+                      </FormGroup>
+                    </div>
+                    <div>
+                      <FormGroup>
+                        <Field
+                          labelText={t(
+                            'eventForm.basicInfo.labelEnrolmentEndDays'
+                          )}
+                          name="enrolmentEndDays"
+                          component={NumberInputField}
+                          min={0}
+                        />
+                      </FormGroup>
+                    </div>
+                  </div>
 
+                  <h2>{t('eventForm.categorisation.title')}</h2>
+                  <div className={styles.languageRow}>
                     <div>
                       <FormGroup>
                         <Field
                           component={DropdownMultiselectField}
-                          labelText={t('eventForm.basicInfo.labelInLanguage')}
+                          labelText={t(
+                            'eventForm.categorisation.labelInLanguage'
+                          )}
                           name="inLanguage"
                           options={[
                             ...Object.values(EVENT_LANGUAGES).map(
@@ -230,7 +263,9 @@ const EventForm: React.FC<Props> = ({
                       <FormGroup>
                         <Field
                           component={DropdownMultiselectField}
-                          labelText={t('eventForm.basicInfo.labelAudience')}
+                          labelText={t(
+                            'eventForm.categorisation.labelAudience'
+                          )}
                           name="audience"
                           // TODO: Add list of audiences later
                           options={[]}
@@ -238,13 +273,44 @@ const EventForm: React.FC<Props> = ({
                       </FormGroup>
                     </div>
                   </div>
+                  <FormGroup>
+                    <Field
+                      helperText={t('eventForm.categorisation.helperKeywords')}
+                      labelText={t('eventForm.categorisation.labelKeywords')}
+                      name="keywords"
+                      placeholder={t(
+                        'eventForm.categorisation.placeholderKeywords'
+                      )}
+                      component={KeywordSelectorField}
+                    />
+                  </FormGroup>
 
-                  <div className={styles.neededOccurrencesRow}>
+                  <div className={styles.priceRow}>
+                    <div>
+                      <FormGroup>
+                        <Field
+                          disabled
+                          labelText={t('eventForm.categorisation.labelPrice')}
+                          name="price"
+                          component={TextInputField}
+                        />
+                      </FormGroup>
+                    </div>
+                    <div className={styles.isFreeWrapper}>
+                      <FormGroup>
+                        <Field
+                          disabled
+                          labelText={t('eventForm.categorisation.labelIsFree')}
+                          name="isFree"
+                          component={CheckboxField}
+                        />
+                      </FormGroup>
+                    </div>
                     <div>
                       <FormGroup>
                         <Field
                           labelText={t(
-                            'eventForm.basicInfo.labelNeededOccurrences'
+                            'eventForm.categorisation.labelNeededOccurrences'
                           )}
                           name="neededOccurrences"
                           component={NumberInputField}
@@ -252,19 +318,7 @@ const EventForm: React.FC<Props> = ({
                         />
                       </FormGroup>
                     </div>
-                    <div className={styles.instructionText}>
-                      {t('eventForm.basicInfo.textNecessaryVisits')}
-                    </div>
                   </div>
-                  <FormGroup>
-                    <Field
-                      helperText={t('eventForm.basicInfo.helperKeywords')}
-                      labelText={t('eventForm.basicInfo.labelKeywords')}
-                      name="keywords"
-                      placeholder={t('eventForm.basicInfo.placeholderKeywords')}
-                      component={KeywordSelectorField}
-                    />
-                  </FormGroup>
 
                   <h2>{t('eventForm.location.title')}</h2>
 

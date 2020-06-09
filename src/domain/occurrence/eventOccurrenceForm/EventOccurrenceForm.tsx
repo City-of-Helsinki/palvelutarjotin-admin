@@ -13,11 +13,12 @@ import PlaceSelectorField from '../../../common/components/form/fields/PlaceSele
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import {
+  EventQuery,
   Language,
   OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
-  useEventQuery,
 } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
@@ -48,30 +49,29 @@ export const defaultInitialValues = {
 };
 
 interface Props {
-  eventId: string;
+  eventData: EventQuery;
   formTitle: string;
   initialValues: OccurrenceFormFields;
   occurrenceId?: string;
   onCancel: () => void;
   onSubmit: (values: OccurrenceFormFields) => void;
   onSubmitAndAdd: (values: OccurrenceFormFields, resetForm: () => void) => void;
+  refetchEvent: () => void;
 }
 
 const EventOccurrenceForm: React.FC<Props> = ({
-  eventId,
+  eventData,
   formTitle,
   initialValues,
   occurrenceId,
   onCancel,
   onSubmit,
   onSubmitAndAdd,
+  refetchEvent,
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
 
-  const { data: eventData, refetch: refetchEventData } = useEventQuery({
-    variables: { id: eventId },
-  });
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const occurrences =
@@ -87,7 +87,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
   ) => {
     try {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-      refetchEventData();
+      refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,
@@ -160,8 +160,14 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     <p
                       dangerouslySetInnerHTML={{
                         __html: t('eventOccurrenceForm.infoText2', {
-                          date: '12.5.2020',
-                          count: 1,
+                          date: eventData.event?.pEvent?.enrolmentStart
+                            ? formatDate(
+                                new Date(
+                                  eventData.event?.pEvent?.enrolmentStart
+                                )
+                              )
+                            : '',
+                          count: eventData.event?.pEvent?.enrolmentEndDays || 0,
                         }),
                       }}
                     />

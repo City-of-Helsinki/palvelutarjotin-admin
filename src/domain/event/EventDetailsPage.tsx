@@ -19,6 +19,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
+import EventCategorisation from './eventCategorisation/EventCategorisation';
 import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
 import EventDetailsButtons from './eventDetailsButtons/EventDetailsButtons';
 import styles from './eventDetailsPage.module.scss';
@@ -112,6 +113,10 @@ const EventDetailsPage = () => {
               <div className={styles.contentWrapper}>
                 <div>
                   <EventBasicInfo
+                    eventData={eventData}
+                    language={selectedLanguage}
+                  />
+                  <EventCategorisation
                     eventData={eventData}
                     language={selectedLanguage}
                   />

@@ -139,6 +139,11 @@ const EditEventPage: React.FC = () => {
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         description: eventData.event?.description?.[selectedLanguage] || '',
         duration: eventData.event?.pEvent?.duration.toString() || '',
+        enrolmentEndDays:
+          eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
+        enrolmentStart: eventData.event?.pEvent?.enrolmentStart
+          ? new Date(eventData.event?.pEvent?.enrolmentStart)
+          : null,
         image: eventData.event?.images[0]?.id || '',
         imageAltText: eventData.event?.images[0]?.altText || '',
         imagePhotographerName:
@@ -146,11 +151,15 @@ const EditEventPage: React.FC = () => {
         infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
         inLanguage:
           eventData.event?.inLanguage.map((item) => item.id || '') || [],
+        // TODO: Get price info from event data
+        isFree: true,
         keywords: eventData.event?.keywords.map((item) => item.id || '') || [],
         location: eventData.event?.location?.id || '',
         name: eventData.event?.name[selectedLanguage] || '',
         neededOccurrences:
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
+        // TODO: Get price info from event data
+        price: '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
         locationDescription: getEventVenueDescription(

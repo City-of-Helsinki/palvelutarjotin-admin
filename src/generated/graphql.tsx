@@ -821,6 +821,7 @@ export type Mutation = {
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
   /** Required logged in user for authorization */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
+  createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
   updateOrganisation?: Maybe<UpdateOrganisationMutationPayload>;
@@ -886,6 +887,11 @@ export type MutationEnrolOccurrenceArgs = {
 
 export type MutationUnenrolOccurrenceArgs = {
   input: UnenrolOccurrenceMutationInput;
+};
+
+
+export type MutationCreateMyProfileArgs = {
+  input: CreateMyProfileMutationInput;
 };
 
 
@@ -1117,6 +1123,20 @@ export type UnenrolOccurrenceMutationInput = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+export type CreateMyProfileMutationPayload = {
+   __typename?: 'CreateMyProfileMutationPayload';
+  myProfile?: Maybe<PersonNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CreateMyProfileMutationInput = {
+  name: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  emailAddress: Scalars['String'];
+  organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 export type UpdateMyProfileMutationPayload = {
    __typename?: 'UpdateMyProfileMutationPayload';
   myProfile?: Maybe<PersonNode>;
@@ -1127,6 +1147,8 @@ export type UpdateMyProfileMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
+  /** If present, should include all organisation ids of user */
+  organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1465,7 +1487,7 @@ export type CreateVenueMutation = (
 
 export type PEventFieldsFragment = (
   { __typename?: 'PalvelutarjotinEventNode' }
-  & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'neededOccurrences'>
+  & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences'>
   & { occurrences: (
     { __typename?: 'OccurrenceNodeConnection' }
     & { edges: Array<Maybe<(
@@ -1927,6 +1949,8 @@ export const PEventFieldsFragmentDoc = gql`
     fragment pEventFields on PalvelutarjotinEventNode {
   id
   duration
+  enrolmentEndDays
+  enrolmentStart
   neededOccurrences
   occurrences {
     edges {

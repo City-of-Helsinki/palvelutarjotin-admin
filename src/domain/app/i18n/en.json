@@ -80,14 +80,13 @@
   },
   "eventDetails": {
     "basicInfo": {
-      "labelAudience": "Target groups",
+      "enrolmentStart": "{{date}} at {{time}}",
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
+      "labelEnrolmentEndDays": "Enrolment closes, days",
+      "labelEnrolmentStart": "Enrolment begins",
       "labelInfoUrl": "A web address where you can find more information about the event",
-      "labelInLanguage": "Event languages",
-      "labelKeywords": "Event keywords",
       "labelName": "Event name",
-      "labelNeededOccurrences": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
       "title": "Basic information"
     },
@@ -95,6 +94,15 @@
       "buttonBack": "Events",
       "buttonDelete": "Delete event",
       "buttonEdit": "Edit events"
+    },
+    "categorisation": {
+      "eventIsFree": "Event is free",
+      "labelAudience": "Target groups",
+      "labelInLanguage": "Event languages",
+      "labelKeywords": "Event keywords",
+      "labelNeededOccurrences": "Necessary visits",
+      "labelPrice": "Price, €",
+      "title": "Event classifications"
     },
     "contactPerson": {
       "labelEmail": "Email",
@@ -121,27 +129,33 @@
       "addImage": "Add image",
       "deleteImage": "Delete image",
       "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
-      "helperKeywords": "Enter a keyword and select from the suggested options",
-      "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
-      "labelAudience": "Target groups",
+      "imageAltTextHelp": "Description of the contents of the image. Add license information also.", 
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
+      "labelEnrolmentEndDays": "Enrolment closes, days",
+      "labelEnrolmentStart": "Enrolment begins",
       "labelImage": "Event picture",
       "labelImageAltText": "Picture alt-text",
       "labelImagePhotographer": "Photographer",
-      "labelInfoUrl": "A web address where you can find more information about the event",
-      "labelInLanguage": "Event languages",
-      "labelKeywords": "Event keywords",
+      "labelInfoUrl": "A web address where you can find more information about the event",  
       "labelName": "Event name",
-      "labelNeededOccurrences": "Necessary visits",
       "labelShortDescription": "Short description (up to 160 characters)",
       "photographer": "Photographer",
-      "placeholderKeywords": "Add keyword...",
-      "textNecessaryVisits": "In the case of an event that each group is wanted to attend more than once, enter the number of event times that entrants must reserve at one time.",
       "title": "Basic information"
     },
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
+    "categorisation": {
+      "helperKeywords": "Enter a keyword and select from the suggested options",
+      "labelAudience": "Target groups",
+      "labelInLanguage": "Event languages",
+      "labelIsFree": "Event is free",
+      "labelKeywords": "Event keywords",
+      "labelNeededOccurrences": "Necessary visits",
+      "labelPrice": "Price, €",
+      "placeholderKeywords": "Add keyword...",
+      "title": "Event classifications"
+    },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Change language",
       "text1": "Are you sure you want to change language?",
@@ -164,7 +178,8 @@
       "placeholderLocation": "Search place...",
       "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ...",
       "title": "Location"
-    }
+    },
+    "title": "Event details"
   },
   "events": {
     "buttonLoadMore": "Show more",

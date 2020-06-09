@@ -37,7 +37,11 @@ const EditOccurrencePage: React.FC = () => {
 
   const { id: eventId, occurrenceId } = useParams<Params>();
 
-  const { data: eventData, loading: loadingEvent } = useEventQuery({
+  const {
+    data: eventData,
+    loading: loadingEvent,
+    refetch: refetchEvent,
+  } = useEventQuery({
     variables: { id: eventId, include: ['location'] },
   });
 
@@ -159,13 +163,14 @@ const EditOccurrencePage: React.FC = () => {
                 </Button>
               </div>
               <EventOccurrenceForm
-                eventId={eventId}
+                eventData={eventData}
                 formTitle={t('editOccurrence.formTitle')}
                 initialValues={initialValues}
                 occurrenceId={occurrenceId}
                 onCancel={goToOccurrenceDetailsPage}
                 onSubmit={submit}
                 onSubmitAndAdd={submitAndAdd}
+                refetchEvent={refetchEvent}
               />
             </div>
           </Container>
