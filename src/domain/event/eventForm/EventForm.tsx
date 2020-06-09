@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
-import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
+import DropdownField from '../../../common/components/form/fields/DropdownField';
 import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -243,11 +243,10 @@ const EventForm: React.FC<Props> = ({
                     <div>
                       <FormGroup>
                         <Field
-                          component={DropdownMultiselectField}
-                          labelText={t(
-                            'eventForm.categorisation.labelInLanguage'
-                          )}
+                          component={DropdownField}
+                          label={t('eventForm.categorisation.labelInLanguage')}
                           name="inLanguage"
+                          multiselect={true}
                           options={[
                             ...Object.values(EVENT_LANGUAGES).map(
                               (language) => ({
@@ -262,11 +261,10 @@ const EventForm: React.FC<Props> = ({
                     <div>
                       <FormGroup>
                         <Field
-                          component={DropdownMultiselectField}
-                          labelText={t(
-                            'eventForm.categorisation.labelAudience'
-                          )}
+                          component={DropdownField}
+                          label={t('eventForm.categorisation.labelAudience')}
                           name="audience"
+                          multiselect={true}
                           // TODO: Add list of audiences later
                           options={[]}
                         />

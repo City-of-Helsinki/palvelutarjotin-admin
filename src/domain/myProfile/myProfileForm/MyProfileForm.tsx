@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import ErrorMessage from '../../../common/components/form/ErrorMessage';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
-import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
+import DropdownField from '../../../common/components/form/fields/DropdownField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import HelperText from '../../../common/components/form/HelperText';
@@ -92,11 +92,12 @@ const MyProfileForm: React.FC<Props> = ({
             </FormGroup>
             <FormGroup>
               <Field
-                labelText={t('myProfileForm.labelOrganisations')}
                 name="organisations"
-                helperText={t('myProfileForm.helperOrganisations')}
-                buttonText={t('myProfileForm.placeholderOrganisations')}
-                component={DropdownMultiselectField}
+                label={t('myProfileForm.labelOrganisations')}
+                helper={t('myProfileForm.helperOrganisations')}
+                placeholder={t('myProfileForm.placeholderOrganisations')}
+                component={DropdownField}
+                multiselect={true}
                 options={organisationOptions}
               />
             </FormGroup>
