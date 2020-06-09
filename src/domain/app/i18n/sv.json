@@ -111,13 +111,13 @@
   },
   "eventDetails": {
     "basicInfo": {
+      "enrolmentStart": "{{date}} på {{time}}",
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
-      "labelInLanguage": "Evenemangspråk",
+      "labelEnrolmentEndDays": "Registreringen stängs, dagar",
+      "labelEnrolmentStart": "Registrering börjar",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
-      "labelKeywords": "Evenemangs nyckelord",
       "labelName": "Evenemang namn",
-      "labelNeededOccurrences": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
       "title": "Grundläggande information"
@@ -126,6 +126,15 @@
       "buttonBack": "Evenemang",
       "buttonDelete": "Bort händelsen",
       "buttonEdit": "Redigera evenemang"
+    },
+    "categorisation": {
+      "eventIsFree": "Evenemanget är gratis",
+      "labelAudience": "Målgrupper",
+      "labelInLanguage": "Evenemangspråk",
+      "labelKeywords": "Evenemangs nyckelord",
+      "labelNeededOccurrences": "Nödvändiga besök",
+      "labelPrice": "Pris, €",
+      "title": "Klassificeringar av evenemang"
     },
     "contactPerson": {
       "labelEmail": "E-post",
@@ -142,35 +151,45 @@
     "location": {
       "labelLocation": "Standard venue",
       "labelLocattionDescription": "Beskrivning av arenan",
+      "snackEatingPlace": "Snack äta plats",
+      "clothingStorage": "Klädförvaring",
       "title": "Plats"
-    }
+    },
+    "title": "Evenemangsdetaljer"
   },
   "eventForm": {
     "basicInfo": {
       "addImage": "Lägg till bild",
       "deleteImage": "Ta bort bild",
       "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen",
-      "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
+      "labelEnrolmentEndDays": "Registreringen stängs, dagar",
+      "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",
       "labelImageAltText": "Bild alt-text",
       "labelImagePhotographer": "Fotograf",
-      "labelInLanguage": "Evenemangspråk",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
-      "labelKeywords": "Evenemangs nyckelord",
       "labelName": "Evenemang namn",
-      "labelNeededOccurrences": "Nödvändiga besök",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
       "photographer": "Fotograf",
-      "placeholderKeywords": "Lägg nyckelord...",
-      "textNecessaryVisits": "I händelse av en händelse som varje grupp vill delta mer än en gång, ange antalet händelsetider som deltagarna måste reservera samtidigt.",
       "title": "Grundläggande information"
     },
     "buttonCancel": "Avbryt",
     "buttonSave": "Spara",
+    "categorisation": {
+      "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
+      "labelAudience": "Målgrupper",
+      "labelInLanguage": "Evenemangspråk",
+      "labelIsFree": "Evenemanget är gratis",
+      "labelKeywords": "Evenemangs nyckelord",
+      "labelNeededOccurrences": "Nödvändiga besök",
+      "labelPrice": "Pris, €",
+      "placeholderKeywords": "Lägg nyckelord...",
+      "title": "Klassificeringar av evenemang"
+    },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Ändra språk",
       "text1": "Är du säker på att du vill ändra språk?",
@@ -188,6 +207,8 @@
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelLocation": "Standard venue",
       "labelLocattionDescription": "Beskrivning av arenan",
+      "labelHasClothingStorage": "Klädförvaring",
+      "labelHasSnackEatingPlace": "Snack äta plats",
       "placeholderLocation": "Sök plats...",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"
@@ -276,6 +297,11 @@
       "cancel": "Avbryt",
       "save": "Spara",
       "saveAndAddNew": "Spara och lägg till nytt"
+    },
+    "placeInfo": {
+      "buttonEdit": "Förändra",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Servicekartan:"
     }
   },
   "footer": {

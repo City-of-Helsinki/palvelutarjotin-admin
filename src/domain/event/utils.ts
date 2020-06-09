@@ -1,6 +1,7 @@
 import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
+import isToday from 'date-fns/isToday';
 import forEach from 'lodash/forEach';
 import omit from 'lodash/omit';
 
@@ -19,6 +20,7 @@ import {
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import apolloClient from '../app/apollo/apolloClient';
+import { getVenueDescription } from '../venue/utils';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './eventForm/EventForm';
 
@@ -129,6 +131,8 @@ export const getEventPayload = (
     },
     pEvent: {
       duration: Number(values.duration),
+      enrolmentEndDays: Number(values.enrolmentEndDays),
+      enrolmentStart: values.enrolmentStart,
       neededOccurrences: Number(values.neededOccurrences),
     },
   };
@@ -137,7 +141,12 @@ export const getEventPayload = (
 export const getExistingVenuePayload = ({
   venueData,
   selectedLanguage,
-  formValues: { locationDescription, location: locationId },
+  formValues: {
+    locationDescription,
+    location: locationId,
+    hasClothingStorage,
+    hasSnackEatingPlace,
+  },
 }: {
   venueData: VenueQuery;
   selectedLanguage: Language;
@@ -146,9 +155,8 @@ export const getExistingVenuePayload = ({
   return {
     venue: {
       id: locationId,
-      // TODO: handle these 2 fields
-      hasClothingStorage: false,
-      hasSnackEatingPlace: false,
+      hasClothingStorage,
+      hasSnackEatingPlace,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
@@ -164,7 +172,12 @@ export const getExistingVenuePayload = ({
 };
 
 export const getNewVenuePayload = ({
-  formValues,
+  formValues: {
+    location: locationId,
+    hasSnackEatingPlace,
+    hasClothingStorage,
+    locationDescription,
+  },
   selectedLanguage,
 }: {
   formValues: EventFormFields;
@@ -172,27 +185,18 @@ export const getNewVenuePayload = ({
 }) => {
   return {
     venue: {
-      id: formValues.location,
-      // TODO: handle these 2 fields
-      hasClothingStorage: false,
-      hasSnackEatingPlace: false,
+      id: locationId,
+      hasClothingStorage,
+      hasSnackEatingPlace,
       translations: [
         {
           languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
-          description: formValues.locationDescription,
+          description: locationDescription,
         },
       ],
     },
   };
 };
-
-export const getVenueDescription = (
-  venueData: VenueQuery | null,
-  selectedLanguage: Language
-): string =>
-  venueData?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
 
 export const getEventVenueDescription = (
   eventData: EventQuery | null,
@@ -216,9 +220,14 @@ export const createOrUpdateVenue = ({
   });
 
   const venueDescription = getVenueDescription(venueData, selectedLanguage);
+  const hasClothingStorage = venueData?.venue?.hasClothingStorage;
+  const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
 
   const venueShouldBeUpdated = Boolean(
-    venueData?.venue && formValues.locationDescription !== venueDescription
+    venueData?.venue &&
+      (formValues.locationDescription !== venueDescription ||
+        formValues.hasClothingStorage !== hasClothingStorage ||
+        formValues.hasSnackEatingPlace !== hasSnackEatingPlace)
   );
   const newVenueShouldBeCreated = Boolean(
     !venueData?.venue && formValues.locationDescription
@@ -243,13 +252,12 @@ export const createOrUpdateVenue = ({
       mutation: CreateVenueDocument,
     });
   }
-
-  return null;
 };
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
-    ? isPastDate(new Date(eventData?.event?.startTime))
+    ? isPastDate(new Date(eventData?.event?.startTime)) &&
+      !isToday(new Date(eventData?.event?.startTime))
     : false;
 
 export const isFutureEvent = (eventData: EventQuery | undefined) =>
@@ -258,7 +266,7 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
     : false;
 
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
-  isFutureEvent(eventData);
+  !isPastEvent(eventData);
 
 export const hasOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(event.pEvent?.occurrences.edges.length);

@@ -112,14 +112,13 @@
   },
   "eventDetails": {
     "basicInfo": {
-      "labelAudience": "Kohderyhmät",
+      "enrolmentStart": "{{date}} klo {{time}}",
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
+      "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
+      "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
-      "labelInLanguage": "Tapahtuman kielet",
-      "labelKeywords": "Tapahtuman avainsanat",
       "labelName": "Tapahtuman nimi",
-      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
       "title": "Tapahtuman perustiedot"
     },
@@ -127,6 +126,15 @@
       "buttonBack": "Tapahtumat",
       "buttonDelete": "Poista tapahtuma",
       "buttonEdit": "Muokkaa tapahtumaa"
+    },
+    "categorisation": {
+      "eventIsFree": "Tapahtuma on ilmainen",
+      "labelAudience": "Kohderyhmät",
+      "labelInLanguage": "Tapahtuman kielet",
+      "labelKeywords": "Tapahtuman avainsanat",
+      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
+      "labelPrice": "Hinta, €",
+      "title": "Tapahtuman luokittelut"
     },
     "contactPerson": {
       "labelEmail": "Sähköpostiosoite",
@@ -143,35 +151,44 @@
     "location": {
       "labelLocation": "Oletustapahtumapaikka",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "snackEatingPlace": "Eväidensyöntipaikka",
+      "clothingStorage": "Vaatesäilytys",
       "title": "Tapahtumapaikka"
-    }
+    },
+    "title": "Tapahtuman tiedot"
   },
   "eventForm": {
     "basicInfo": {
       "addImage": "Lisää kuva",
       "deleteImage": "Poista kuva",
       "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin",
-      "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
-      "labelAudience": "Kohderyhmät",
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
+      "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
+      "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelImage": "Tapahtuman kuva",
       "labelImageAltText": "Kuvan alt-teksti",
       "labelImagePhotographer": "Valokuvaaja",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
-      "labelInLanguage": "Tapahtuman kielet",
-      "labelKeywords": "Tapahtuman avainsanat",
       "labelName": "Tapahtuman nimi",
-      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
       "photographer": "Valokuvaaja",
-      "placeholderKeywords": "Lisää avainsana...",
-      "textNecessaryVisits": "Jos kyseessä on tapahtuma, johon kunkin ryhmän halutaan tulevan useamman kerran, anna lukumäärä, kuinka monta tapahtuma-aikaa ilmoittautujien tulee varata kerralla.",
       "title": "Tapahtuman perustiedot"
     },
     "buttonCancel": "Peruuta",
     "buttonSave": "Tallenna",
+    "categorisation": {
+      "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "labelAudience": "Kohderyhmät",
+      "labelInLanguage": "Tapahtuman kielet",
+      "labelIsFree": "Tapahtuma on ilmainen",
+      "labelKeywords": "Tapahtuman avainsanat",
+      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
+      "labelPrice": "Hinta, €",
+      "placeholderKeywords": "Lisää avainsana...",
+      "title": "Tapahtuman luokittelut"
+    },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Vaihda kieli",
       "text1": "Haluatko varmasti vaihtaa kielen?",
@@ -189,6 +206,8 @@
       "helperLocationDescription": "Vierailua helpottavaa lisätietoa",
       "labelLocation": "Oletustapahtumapaikka",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "labelHasClothingStorage": "Ulkovaatesäilytys",
+      "labelHasSnackEatingPlace": "Eväidensyöntipaikka",
       "placeholderLocation": "Etsi paikkaa...",
       "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä...",
       "title": "Tapahtumapaikka"
@@ -277,6 +296,11 @@
       "cancel": "Peruuta",
       "save": "Tallenna",
       "saveAndAddNew": "Tallenna ja lisää uusi"
+    },
+    "placeInfo": {
+      "buttonEdit": "Vaihda",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Palvelukartta:"
     }
   },
   "footer": {

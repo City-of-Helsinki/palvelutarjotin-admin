@@ -10,7 +10,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
-import { isFutureEvent } from '../utils';
+import { isEditableEvent } from '../utils';
 import styles from './eventDetailsButtons.module.scss';
 
 interface Props {
@@ -57,7 +57,7 @@ const EventDetailsButtons: React.FC<Props> = ({
         onClick={onClickLanguage}
         selectedLanguage={selectedLanguage}
       />
-      {isFutureEvent(eventData) && (
+      {isEditableEvent(eventData) && (
         <div>
           <Button onClick={goToEditPage}>
             {t('eventDetails.buttons.buttonEdit')}

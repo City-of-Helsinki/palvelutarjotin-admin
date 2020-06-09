@@ -1,3 +1,4 @@
+import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -24,6 +25,18 @@ export default Yup.object().shape({
       min: param.min,
       key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
     })),
+  enrolmentEndDays: Yup.number()
+    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+    .min(0, (param) => ({
+      min: param.min,
+      key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
+    })),
+  enrolmentStart: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (value: Date) =>
+      isFuture(value)
+    ),
   neededOccurrences: Yup.number()
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, (param) => ({

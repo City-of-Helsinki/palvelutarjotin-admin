@@ -28,7 +28,6 @@ import {
   getEventVenueDescription,
   getFirstAvailableLanguage,
   isEditableEvent,
-  isPastEvent,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -57,6 +56,10 @@ const EditEventPage: React.FC = () => {
   const [editEvent] = useEditEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
 
+  const goToEventDetailsPage = () => {
+    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+  };
+
   React.useEffect(() => {
     if (eventData) {
       setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
@@ -71,7 +74,7 @@ const EditEventPage: React.FC = () => {
 
   const submit = async (values: EventFormFields) => {
     try {
-      const requests = [];
+      const requests: Promise<any>[] = [];
 
       requests.push(
         editEvent({
@@ -83,13 +86,14 @@ const EditEventPage: React.FC = () => {
           },
         })
       );
+      const createOrUpdateVenueRequest = createOrUpdateVenue({
+        formValues: values,
+        selectedLanguage,
+      });
 
-      requests.push(
-        createOrUpdateVenue({
-          formValues: values,
-          selectedLanguage,
-        })
-      );
+      if (createOrUpdateVenueRequest) {
+        requests.push(createOrUpdateVenueRequest);
+      }
 
       if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);
@@ -112,10 +116,7 @@ const EditEventPage: React.FC = () => {
       // Run all requests parallel
       await Promise.all(requests);
 
-      history.push({
-        pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
-        search: `?language=${selectedLanguage}`,
-      });
+      goToEventDetailsPage();
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
       toast(t('editEvent.error'), {
@@ -138,6 +139,11 @@ const EditEventPage: React.FC = () => {
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         description: eventData.event?.description?.[selectedLanguage] || '',
         duration: eventData.event?.pEvent?.duration.toString() || '',
+        enrolmentEndDays:
+          eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
+        enrolmentStart: eventData.event?.pEvent?.enrolmentStart
+          ? new Date(eventData.event?.pEvent?.enrolmentStart)
+          : null,
         image: eventData.event?.images[0]?.id || '',
         imageAltText: eventData.event?.images[0]?.altText || '',
         imagePhotographerName:
@@ -145,17 +151,25 @@ const EditEventPage: React.FC = () => {
         infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
         inLanguage:
           eventData.event?.inLanguage.map((item) => item.id || '') || [],
+        // TODO: Get price info from event data
+        isFree: true,
         keywords: eventData.event?.keywords.map((item) => item.id || '') || [],
         location: eventData.event?.location?.id || '',
         name: eventData.event?.name[selectedLanguage] || '',
         neededOccurrences:
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
+        // TODO: Get price info from event data
+        price: '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
         locationDescription: getEventVenueDescription(
           eventData,
           selectedLanguage
         ),
+        hasClothingStorage:
+          eventData?.event?.venue?.hasClothingStorage || false,
+        hasSnackEatingPlace:
+          eventData?.event?.venue?.hasSnackEatingPlace || false,
       });
     }
   }, [eventData, selectedLanguage]);
@@ -163,24 +177,29 @@ const EditEventPage: React.FC = () => {
   return (
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        {isEditableEvent(eventData) ? (
-          <Container>
-            <div className={styles.eventPage}>
-              <EventForm
-                eventData={eventData}
-                initialValues={initialValues}
-                onSubmit={submit}
-                selectedLanguage={selectedLanguage}
-                setSelectedLanguage={handleLanguageChange}
-                title={t('editEvent.title')}
+        {!!eventData ? (
+          <>
+            {isEditableEvent(eventData) ? (
+              <Container>
+                <div className={styles.eventPage}>
+                  <EventForm
+                    eventData={eventData}
+                    initialValues={initialValues}
+                    onCancel={goToEventDetailsPage}
+                    onSubmit={submit}
+                    selectedLanguage={selectedLanguage}
+                    setSelectedLanguage={handleLanguageChange}
+                    title={t('editEvent.title')}
+                  />
+                </div>
+              </Container>
+            ) : (
+              <ErrorPage
+                title={t('editEvent.errorEventIsInThePast')}
+                description={t('editEvent.errorEventIsInThePastDescription')}
               />
-            </div>
-          </Container>
-        ) : isPastEvent(eventData) ? (
-          <ErrorPage
-            title={t('editEvent.errorEventIsInThePast')}
-            description={t('editEvent.errorEventIsInThePastDescription')}
-          />
+            )}
+          </>
         ) : (
           <ErrorPage />
         )}

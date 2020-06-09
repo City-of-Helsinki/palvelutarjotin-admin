@@ -26,16 +26,13 @@ const CreateEventPage: React.FC = () => {
   const [createEvent] = useCreateEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
 
+  const goToEventList = () => {
+    history.push(ROUTES.HOME);
+  };
+
   const submit = async (values: EventFormFields) => {
     try {
-      const requests = [];
-
-      requests.push(
-        createOrUpdateVenue({
-          formValues: values,
-          selectedLanguage,
-        })
-      );
+      const requests: Promise<any>[] = [];
 
       // Request to create new event
       requests.push(
@@ -45,6 +42,15 @@ const CreateEventPage: React.FC = () => {
           },
         })
       );
+
+      const createOrUpdateVenueRequest = createOrUpdateVenue({
+        formValues: values,
+        selectedLanguage,
+      });
+
+      if (createOrUpdateVenueRequest) {
+        requests.push(createOrUpdateVenueRequest);
+      }
 
       const imageId = values.image;
       if (imageId) {
@@ -67,7 +73,7 @@ const CreateEventPage: React.FC = () => {
       }
 
       // Run all requests parallel
-      const responses: any[] = await Promise.all(requests);
+      const responses = await Promise.all(requests);
 
       // TODO: come up with a better way to handle this
       // Find the request that made the eventMutation and get the id
@@ -96,6 +102,7 @@ const CreateEventPage: React.FC = () => {
       <Container>
         <div className={styles.eventPage}>
           <EventForm
+            onCancel={goToEventList}
             onSubmit={submit}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}

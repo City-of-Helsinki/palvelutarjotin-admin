@@ -37,8 +37,12 @@ const EditOccurrencePage: React.FC = () => {
 
   const { id: eventId, occurrenceId } = useParams<Params>();
 
-  const { data: eventData, loading: loadingEvent } = useEventQuery({
-    variables: { id: eventId },
+  const {
+    data: eventData,
+    loading: loadingEvent,
+    refetch: refetchEvent,
+  } = useEventQuery({
+    variables: { id: eventId, include: ['location'] },
   });
 
   const [editOccurrence] = useEditOccurrenceMutation();
@@ -52,6 +56,15 @@ const EditOccurrencePage: React.FC = () => {
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
+  };
+
+  const goToOccurrenceDetailsPage = () => {
+    history.push(
+      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+        ':occurrenceId',
+        occurrenceId
+      )}`
+    );
   };
 
   const goToOccurrencesPage = () => {
@@ -150,12 +163,14 @@ const EditOccurrencePage: React.FC = () => {
                 </Button>
               </div>
               <EventOccurrenceForm
-                eventId={eventId}
+                eventData={eventData}
                 formTitle={t('editOccurrence.formTitle')}
                 initialValues={initialValues}
                 occurrenceId={occurrenceId}
+                onCancel={goToOccurrenceDetailsPage}
                 onSubmit={submit}
                 onSubmitAndAdd={submitAndAdd}
+                refetchEvent={refetchEvent}
               />
             </div>
           </Container>

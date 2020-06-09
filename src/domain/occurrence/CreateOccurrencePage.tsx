@@ -41,7 +41,7 @@ const CreateOccurrencePage: React.FC = () => {
     loading: loadingEvent,
     refetch: refetchEvent,
   } = useEventQuery({
-    variables: { id: eventId },
+    variables: { id: eventId, include: ['location'] },
   });
 
   const {
@@ -128,11 +128,13 @@ const CreateOccurrencePage: React.FC = () => {
                     </Button>
                   </div>
                   <EventOccurrenceForm
-                    eventId={eventId}
+                    eventData={eventData}
                     formTitle={t('createOccurrence.formTitle')}
                     initialValues={defaultInitialValues}
+                    onCancel={goToOccurrencesPage}
                     onSubmit={submit}
                     onSubmitAndAdd={submitAndAdd}
+                    refetchEvent={refetchEvent}
                   />
                 </div>
               </Container>
