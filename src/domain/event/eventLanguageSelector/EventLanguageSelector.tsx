@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconAttention, IconCheck } from 'hds-react';
+import { IconCheck, IconInfoCircle } from 'hds-react';
 import React from 'react';
 
 import { Language } from '../../../types';
@@ -45,7 +45,7 @@ const EventLanguageSelector: React.FC<Props> = ({
                 [styles.isCompleted]: language.isCompleted,
               })}
             >
-              {language.isCompleted ? <IconCheck /> : <IconAttention />}
+              {language.isCompleted ? <IconCheck /> : <IconInfoCircle />}
             </div>
             <span>{language.label}</span>
           </button>

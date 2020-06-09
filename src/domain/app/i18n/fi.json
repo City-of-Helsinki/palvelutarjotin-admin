@@ -29,14 +29,8 @@
       "loading": "Ladataan ...",
       "noResults": "Ei tuloksia"
     },
-    "dropdownSelect": {
-      "accessibility": {
-        "selectionMessage": "{{value}} on valittu.",
-        "statusMessageMultipleResult": "{{resultCount}} tulosta on saatavilla, käytä ylös- ja alas-nuolinäppäimiä navigoimiseen. Valitse Enter- tai välilyöntipainikkeilla.",
-        "statusMessageNoResults": "Tuloksia ei ole saatavana",
-        "statusMessageSingleResult": "1 tulos on saatavana, käytä ylös- ja alas-nuolinäppäimiä navigoimiseen. Valitse Enter- tai välilyöntipainikkeilla"
-      },
-      "buttonText": "Valitse..."
+    "dropdown": {
+      "placeholder": "Valitse..."
     },
     "datepicker": {
       "accessibility": {

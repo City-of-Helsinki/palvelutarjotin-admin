@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
-import DropdownMultiselectField from '../../../common/components/form/fields/DropdownMultiselectField';
+import DropdownField from '../../../common/components/form/fields/DropdownField';
 import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
@@ -190,10 +190,10 @@ const EventOccurrenceForm: React.FC<Props> = ({
               <div className={styles.occurrenceFormRow}>
                 <FormGroup>
                   <Field
-                    component={DropdownMultiselectField}
-                    labelText={t('eventOccurrenceForm.labelLanguages')}
+                    component={DropdownField}
+                    label={t('eventOccurrenceForm.labelLanguages')}
                     name="languages"
-                    // TODO: Use real data when available from api
+                    multiselect={true}
                     options={[
                       ...Object.values(Language).map((language) => ({
                         label: t(`common.languages.${language.toLowerCase()}`),

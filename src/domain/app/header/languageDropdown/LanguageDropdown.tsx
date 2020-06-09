@@ -1,4 +1,4 @@
-import { IconLanguage } from 'hds-react';
+import { IconGlobe } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -40,7 +40,7 @@ const LanguageDropdown: React.FC = () => {
     <MenuDropdown
       buttonAriaLabel={t('header.changeLanguage')}
       buttonText={locale.toUpperCase()}
-      icon={<IconLanguage />}
+      icon={<IconGlobe />}
       items={languageOptions}
       onMenuItemClick={handleMenuItemClick}
       value={locale}

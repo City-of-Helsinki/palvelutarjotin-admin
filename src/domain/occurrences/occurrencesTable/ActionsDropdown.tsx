@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconAngleDown, IconFill, IconPerson } from 'hds-react';
+import { IconAngleDown, IconPenLine, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -207,14 +207,14 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
 
       <ul role="menu" className={styles.dropdownMenu}>
         <MenuItem isFocused={focusedIndex === 0} onClick={goToEnrolmentsPage}>
-          <IconPerson />
+          <IconUser />
           {t('occurrences.actionsDropdown.menuItemEnrolments')}
         </MenuItem>
         <MenuItem
           isFocused={focusedIndex === 1}
           onClick={goToEditOccurrencePage}
         >
-          <IconFill />
+          <IconPenLine />
           {t('occurrences.actionsDropdown.menuItemEdit')}
         </MenuItem>
         <MenuItem isFocused={focusedIndex === 2} onClick={openDeleteModal}>

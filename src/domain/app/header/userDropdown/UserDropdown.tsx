@@ -1,4 +1,4 @@
-import { IconArrowRight, IconPerson } from 'hds-react';
+import { IconArrowRight, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -35,10 +35,10 @@ const UserDropdown: React.FC<Props> = ({ myProfileData }) => {
     <MenuDropdown
       buttonAriaLabel={t('header.userMenu.ariaLabelButton')}
       buttonText={myProfileData.myProfile?.name || ''}
-      icon={<IconPerson />}
+      icon={<IconUser />}
       items={[
         {
-          icon: <IconPerson />,
+          icon: <IconUser />,
           onClick: goToEditMyProfile,
           text: t('header.userMenu.openMyProfile'),
           value: MENU_ITEM_VALUES.OPEN_MY_PROFILE,

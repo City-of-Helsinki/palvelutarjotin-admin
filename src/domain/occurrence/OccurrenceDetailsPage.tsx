@@ -1,4 +1,4 @@
-import { Button, IconLocation, IconPerson } from 'hds-react';
+import { Button, IconLocation, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -104,7 +104,7 @@ const OccurrenceDetailsPage = () => {
 
                 <div className={styles.infoRow}>
                   <div className={styles.iconWrapper}>
-                    <IconPerson />
+                    <IconUser />
                   </div>
                   <OccurrenceGroupInfo occurrenceData={occurrenceData} />
                 </div>
