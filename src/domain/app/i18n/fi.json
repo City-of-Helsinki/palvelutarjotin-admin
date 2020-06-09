@@ -62,6 +62,38 @@
     "description": "Pahoittelemme, mutta palvelussa ilmeni virhe. Voit yrittää uudestaan, mutta jos tilanne toistuu, kerro siitä meille alalaidan palautelinkin kautta.",
     "returnToHome": "Palaa etusivulle"
   },
+  "createMyProfile": {
+    "buttonSubmit": "Tallenna ja jatka",
+    "error": "Omien tietojen tallentaminen epäonnistui",
+    "infoText1": "Hei, tervetuloa Palvelutarjottimeen!",
+    "infoText2": "Jotta voisit syöttää järjestelmään tapahtumia, pyydämme sinua tarkistamaan seuraavat tietosi:",
+    "pageTitle": "Täydennä tietosi",
+    "title": "Täydennä tietosi"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Tallenna päivitetyt tiedot",
+    "error": "Omien tietojen tallentaminen epäonnistui",
+    "pageTitle": "Omat tiedot",
+    "success": "Omat tiedot tallennettu onnistuneesti",
+    "title": "Omat tiedot"
+  },
+  "myProfileForm": {
+    "checkboxPrivacyPolicy": "Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. <a href='TODO: Add url'>Tietosuojaseloste</a>",
+    "checkboxTermsOfService": "Olen hyväksynyt palvelut <a href='TODO: Add url'>käyttöehdot</a>",
+    "helperEmail": "Tämä on käyttäjätunnuksesi",
+    "helperName": "Voidaan käyttää tapahtumien yhteystiedoissa",
+    "helperOrganisations": "Organisaatio, jonka tapahtumia hallinnoit",
+    "helperPhoneNumber": "Voidaan käyttää tapahtumien yhteystiedoissa",
+    "labelEmail": "Sähköpostiosoite",
+    "labelName": "Nimi",
+    "labelOrganisations": "Organisaatio",
+    "labelPhoneNumber": "Puhelinnumero",
+    "placeholderOrganisations": "Valitse organisaatio",
+    "validation": {
+      "isPrivacyPolicyAccepted": "Tietosuojakäytäntö on hyväksyttävä",
+      "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"
+    }
+  },
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma",
@@ -284,7 +316,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "logout": "Kirjaudu ulos"
+    "logout": "Kirjaudu ulos",
+    "userMenu": {
+      "ariaLabelButton": "Avaa käyttäjän valikko",
+      "logout": "Kirjaudu ulos",
+      "openMyProfile": "Omat tiedot"
+    }
   },
   "image": {
     "labelAltText": "Kuvan alt-teksti",

@@ -12,6 +12,7 @@ import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
 import EventsPage from '../../events/EventsPage';
+import MyProfilePage from '../../myProfile/MyProfilePage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import EditOccurrencePage from '../../occurrence/EditOccurrencePage';
@@ -52,6 +53,11 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
     <PageLayout>
       <Switch>
         <Route exact path={`/${locale}`} component={EventsPage} />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.MY_PROFILE}`}
+          component={MyProfilePage}
+        />
         <Route
           exact
           path={`/${locale}${ROUTES.CREATE_EVENT}`}

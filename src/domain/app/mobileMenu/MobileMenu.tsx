@@ -1,16 +1,20 @@
 import classNames from 'classnames';
-import { IconPerson } from 'hds-react';
+import { IconArrowRight, IconPerson } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { SUPPORT_LANGUAGES } from '../../../constants';
+import { useMyProfileQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
+import { ROUTES } from '../routes/constants';
 import styles from './mobileMenu.module.scss';
+
 interface MobileMenuContext {
   closeMobileMenu: () => void;
   isMobileMenuOpen: boolean;
@@ -59,9 +63,11 @@ interface Props {
 
 const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   const { t } = useTranslation();
+  const history = useHistory();
   const locale = useLocale();
   const location = useLocation();
   const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
 
   const getUrl = (newLanguage: string) => {
     return `${updateLocaleParam(location.pathname, locale, newLanguage)}${
@@ -69,10 +75,17 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
     }`;
   };
 
+  const goToEditMyProfile = () => {
+    history.push(`/${locale}${ROUTES.MY_PROFILE}`);
+    onClose();
+  };
+
   const logout = () => {
     logoutTunnistamo();
     onClose();
   };
+
+  const hasProfile = Boolean(myProfileData?.myProfile);
 
   return (
     <div
@@ -84,11 +97,19 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
     >
       <div className={styles.linkWrapper}>
         <ul>
+          {!!hasProfile && (
+            <li className={styles.link}>
+              <Link onClick={goToEditMyProfile} to="#">
+                <IconPerson />
+                {t('header.userMenu.openMyProfile')}
+              </Link>
+            </li>
+          )}
           {!!isAuthenticated && (
             <li className={styles.link}>
               <Link onClick={logout} to="#">
-                <IconPerson />
-                {t('header.logout')}
+                <IconArrowRight />
+                {t('header.userMenu.logout')}
               </Link>
             </li>
           )}

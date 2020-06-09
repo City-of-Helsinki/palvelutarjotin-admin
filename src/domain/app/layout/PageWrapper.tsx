@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
@@ -7,10 +8,15 @@ import useLocale from '../../../hooks/useLocale';
 import styles from './pageWrapper.module.scss';
 
 interface Props {
+  className?: string;
   title?: string;
 }
 
-const PageWrapper: React.FC<Props> = ({ children, title = 'appName' }) => {
+const PageWrapper: React.FC<Props> = ({
+  children,
+  className,
+  title = 'appName',
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const { pathname } = useLocation();
@@ -22,7 +28,7 @@ const PageWrapper: React.FC<Props> = ({ children, title = 'appName' }) => {
   path = path.startsWith('/') ? path.slice(1) : path;
 
   return (
-    <div className={styles.pageWrapper}>
+    <div className={classNames(styles.pageWrapper, className)}>
       <Helmet>
         <html lang={locale} />
         <title>{translatedTitle}</title>

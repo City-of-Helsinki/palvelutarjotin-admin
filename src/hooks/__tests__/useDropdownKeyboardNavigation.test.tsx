@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import useDropdownKeyboardNavigation, {

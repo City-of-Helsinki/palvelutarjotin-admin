@@ -62,6 +62,38 @@
     "description": "We're sorry, but there was an error with the service. You can try again, but if the situation persists, please let us know via the feedback link at the bottom.",
     "returnToHome": "Return to homepage"
   },
+  "createMyProfile": {
+    "buttonSubmit": "Save and continue",
+    "error": "Failed to save my profile",
+    "infoText1": "Hello, welcome to the Service Tray!",
+    "infoText2": "In order to enter transactions into the system, we ask that you verify the following information:",
+    "pageTitle": "Complete your information",
+    "title": "Complete your information"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Save updated information",
+    "error": "Failed to save my profile",
+    "pageTitle": "My profile",
+    "success": "My profile saved successfully",
+    "title": "My profile"
+  },
+  "myProfileForm": {
+    "checkboxPrivacyPolicy": "I authorize the use of the information I provide in the transaction information. <a href='TODO: Add url'>Privacy Policy</a>",
+    "checkboxTermsOfService": "I have accepted the <a href='TODO: Add url'>terms of service</a>",
+    "helperEmail": "This is your username",
+    "helperName": "Can be used for event contacts",
+    "helperOrganisations": "The organization whose events you manage",
+    "helperPhoneNumber": "Can be used for event contacts",
+    "labelEmail": "Email",
+    "labelName": "Name",
+    "labelOrganisations": "Organisation",
+    "labelPhoneNumber": "Phone number",
+    "placeholderOrganisations": "Select organisation",
+    "validation": {
+      "isPrivacyPolicyAccepted": "Privacy policy must be accepted",
+      "isTermsOfServiceRead": "The terms of use must be accepted"
+    }
+  },
   "createEvent": {
     "pageTitle": "New event",
     "title": "New event",
@@ -284,7 +316,12 @@
       "fi": "Suomeksi",
       "sv": "På svenska"
     },
-    "logout": "Log out"
+    "logout": "Log out",
+    "userMenu": {
+      "ariaLabelButton": "Open user menu",
+      "logout": "Log out",
+      "openMyProfile": "My profile"
+    }
   },
   "image": {
     "labelAltText": "Picture alt-text",

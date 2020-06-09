@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { useMyProfileQuery } from '../../../generated/graphql';
 import {
   isAuthenticatedSelector,
   isLoadingUserSelector,
 } from '../../auth/selectors';
+import MyProfileWrapper from '../../myProfile/MyProfileWrapper';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import LoginPage from '../login/LoginPage';
@@ -20,6 +22,9 @@ const PageLayout: React.FC = ({ children }) => {
   const { isMobileMenuOpen } = useMobileMenuContext();
   const isAuthenticated = useSelector(isAuthenticatedSelector);
   const isLoadingUser = useSelector(isLoadingUserSelector);
+  const { loading: loadingMyProfile } = useMyProfileQuery({
+    skip: !isAuthenticated,
+  });
 
   return (
     <div className={styles.pageLayout}>
@@ -33,10 +38,12 @@ const PageLayout: React.FC = ({ children }) => {
       >
         {/* Make sure that loading spinner is not restarted on callback page */}
         <LoadingSpinner
-          isLoading={isLoadingUser || pathname === ROUTES.CALLBACK}
+          isLoading={
+            isLoadingUser || loadingMyProfile || pathname === ROUTES.CALLBACK
+          }
         >
           {!!isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
-            children
+            <MyProfileWrapper>{children}</MyProfileWrapper>
           ) : (
             <LoginPage />
           )}
