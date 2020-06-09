@@ -1445,46 +1445,6 @@ export type EditEventMutation = (
   )> }
 );
 
-export type EditVenueMutationVariables = {
-  venue: UpdateVenueMutationInput;
-};
-
-
-export type EditVenueMutation = (
-  { __typename?: 'Mutation' }
-  & { updateVenue?: Maybe<(
-    { __typename?: 'UpdateVenueMutationPayload' }
-    & { venue?: Maybe<(
-      { __typename?: 'VenueNode' }
-      & Pick<VenueNode, 'id' | 'hasClothingStorage' | 'hasSnackEatingPlace'>
-      & { translations: Array<(
-        { __typename?: 'VenueTranslationType' }
-        & Pick<VenueTranslationType, 'languageCode' | 'description'>
-      )> }
-    )> }
-  )> }
-);
-
-export type CreateVenueMutationVariables = {
-  venue: AddVenueMutationInput;
-};
-
-
-export type CreateVenueMutation = (
-  { __typename?: 'Mutation' }
-  & { addVenue?: Maybe<(
-    { __typename?: 'AddVenueMutationPayload' }
-    & { venue?: Maybe<(
-      { __typename?: 'VenueNode' }
-      & Pick<VenueNode, 'id' | 'hasClothingStorage' | 'hasSnackEatingPlace'>
-      & { translations: Array<(
-        { __typename?: 'VenueTranslationType' }
-        & Pick<VenueTranslationType, 'languageCode' | 'description'>
-      )> }
-    )> }
-  )> }
-);
-
 export type PEventFieldsFragment = (
   { __typename?: 'PalvelutarjotinEventNode' }
   & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences'>
@@ -1544,11 +1504,7 @@ export type EventFieldsFragment = (
     & PlaceFieldsFragment
   )>, venue?: Maybe<(
     { __typename?: 'VenueNode' }
-    & Pick<VenueNode, 'id' | 'hasClothingStorage' | 'hasSnackEatingPlace'>
-    & { translations: Array<(
-      { __typename?: 'VenueTranslationType' }
-      & Pick<VenueTranslationType, 'languageCode' | 'description'>
-    )> }
+    & VenueFieldsFragment
   )> }
 );
 
@@ -1563,23 +1519,6 @@ export type EventQuery = (
   & { event?: Maybe<(
     { __typename?: 'Event' }
     & EventFieldsFragment
-  )> }
-);
-
-export type VenueQueryVariables = {
-  id: Scalars['ID'];
-};
-
-
-export type VenueQuery = (
-  { __typename?: 'Query' }
-  & { venue?: Maybe<(
-    { __typename?: 'VenueNode' }
-    & Pick<VenueNode, 'id' | 'hasClothingStorage' | 'hasSnackEatingPlace'>
-    & { translations: Array<(
-      { __typename?: 'VenueTranslationType' }
-      & Pick<VenueTranslationType, 'languageCode' | 'description'>
-    )> }
   )> }
 );
 
@@ -1904,6 +1843,60 @@ export type PlacesQuery = (
   )> }
 );
 
+export type CreateVenueMutationVariables = {
+  venue: AddVenueMutationInput;
+};
+
+
+export type CreateVenueMutation = (
+  { __typename?: 'Mutation' }
+  & { addVenue?: Maybe<(
+    { __typename?: 'AddVenueMutationPayload' }
+    & { venue?: Maybe<(
+      { __typename?: 'VenueNode' }
+      & VenueFieldsFragment
+    )> }
+  )> }
+);
+
+export type EditVenueMutationVariables = {
+  venue: UpdateVenueMutationInput;
+};
+
+
+export type EditVenueMutation = (
+  { __typename?: 'Mutation' }
+  & { updateVenue?: Maybe<(
+    { __typename?: 'UpdateVenueMutationPayload' }
+    & { venue?: Maybe<(
+      { __typename?: 'VenueNode' }
+      & VenueFieldsFragment
+    )> }
+  )> }
+);
+
+export type VenueFieldsFragment = (
+  { __typename?: 'VenueNode' }
+  & Pick<VenueNode, 'id' | 'hasClothingStorage' | 'hasSnackEatingPlace'>
+  & { translations: Array<(
+    { __typename?: 'VenueTranslationType' }
+    & Pick<VenueTranslationType, 'languageCode' | 'description'>
+  )> }
+);
+
+export type VenueQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type VenueQuery = (
+  { __typename?: 'Query' }
+  & { venue?: Maybe<(
+    { __typename?: 'VenueNode' }
+    & VenueFieldsFragment
+  )> }
+);
+
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
   en
@@ -1988,6 +1981,17 @@ export const PlaceFieldsFragmentDoc = gql`
   }
 }
     ${LocalisedFieldsFragmentDoc}`;
+export const VenueFieldsFragmentDoc = gql`
+    fragment venueFields on VenueNode {
+  id
+  hasClothingStorage
+  hasSnackEatingPlace
+  translations {
+    languageCode
+    description
+  }
+}
+    `;
 export const EventFieldsFragmentDoc = gql`
     fragment eventFields on Event {
   id
@@ -2027,13 +2031,7 @@ export const EventFieldsFragmentDoc = gql`
     ...placeFields
   }
   venue {
-    id
-    hasClothingStorage
-    hasSnackEatingPlace
-    translations {
-      languageCode
-      description
-    }
+    ...venueFields
   }
   startTime
 }
@@ -2041,7 +2039,8 @@ export const EventFieldsFragmentDoc = gql`
 ${ImageFieldsFragmentDoc}
 ${PEventFieldsFragmentDoc}
 ${KeywordFieldsFragmentDoc}
-${PlaceFieldsFragmentDoc}`;
+${PlaceFieldsFragmentDoc}
+${VenueFieldsFragmentDoc}`;
 export const MetaFieldsFragmentDoc = gql`
     fragment metaFields on Meta {
   count
@@ -2272,112 +2271,6 @@ export function useEditEventMutation(baseOptions?: ApolloReactHooks.MutationHook
 export type EditEventMutationHookResult = ReturnType<typeof useEditEventMutation>;
 export type EditEventMutationResult = ApolloReactCommon.MutationResult<EditEventMutation>;
 export type EditEventMutationOptions = ApolloReactCommon.BaseMutationOptions<EditEventMutation, EditEventMutationVariables>;
-export const EditVenueDocument = gql`
-    mutation EditVenue($venue: UpdateVenueMutationInput!) {
-  updateVenue(input: $venue) {
-    venue {
-      id
-      hasClothingStorage
-      hasSnackEatingPlace
-      translations {
-        languageCode
-        description
-      }
-    }
-  }
-}
-    `;
-export type EditVenueMutationFn = ApolloReactCommon.MutationFunction<EditVenueMutation, EditVenueMutationVariables>;
-export type EditVenueProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-      [key in TDataName]: ApolloReactCommon.MutationFunction<EditVenueMutation, EditVenueMutationVariables>
-    } & TChildProps;
-export function withEditVenue<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  EditVenueMutation,
-  EditVenueMutationVariables,
-  EditVenueProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withMutation<TProps, EditVenueMutation, EditVenueMutationVariables, EditVenueProps<TChildProps, TDataName>>(EditVenueDocument, {
-      alias: 'editVenue',
-      ...operationOptions
-    });
-};
-
-/**
- * __useEditVenueMutation__
- *
- * To run a mutation, you first call `useEditVenueMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEditVenueMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [editVenueMutation, { data, loading, error }] = useEditVenueMutation({
- *   variables: {
- *      venue: // value for 'venue'
- *   },
- * });
- */
-export function useEditVenueMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EditVenueMutation, EditVenueMutationVariables>) {
-        return ApolloReactHooks.useMutation<EditVenueMutation, EditVenueMutationVariables>(EditVenueDocument, baseOptions);
-      }
-export type EditVenueMutationHookResult = ReturnType<typeof useEditVenueMutation>;
-export type EditVenueMutationResult = ApolloReactCommon.MutationResult<EditVenueMutation>;
-export type EditVenueMutationOptions = ApolloReactCommon.BaseMutationOptions<EditVenueMutation, EditVenueMutationVariables>;
-export const CreateVenueDocument = gql`
-    mutation CreateVenue($venue: AddVenueMutationInput!) {
-  addVenue(input: $venue) {
-    venue {
-      id
-      hasClothingStorage
-      hasSnackEatingPlace
-      translations {
-        languageCode
-        description
-      }
-    }
-  }
-}
-    `;
-export type CreateVenueMutationFn = ApolloReactCommon.MutationFunction<CreateVenueMutation, CreateVenueMutationVariables>;
-export type CreateVenueProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateVenueMutation, CreateVenueMutationVariables>
-    } & TChildProps;
-export function withCreateVenue<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  CreateVenueMutation,
-  CreateVenueMutationVariables,
-  CreateVenueProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withMutation<TProps, CreateVenueMutation, CreateVenueMutationVariables, CreateVenueProps<TChildProps, TDataName>>(CreateVenueDocument, {
-      alias: 'createVenue',
-      ...operationOptions
-    });
-};
-
-/**
- * __useCreateVenueMutation__
- *
- * To run a mutation, you first call `useCreateVenueMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateVenueMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createVenueMutation, { data, loading, error }] = useCreateVenueMutation({
- *   variables: {
- *      venue: // value for 'venue'
- *   },
- * });
- */
-export function useCreateVenueMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateVenueMutation, CreateVenueMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateVenueMutation, CreateVenueMutationVariables>(CreateVenueDocument, baseOptions);
-      }
-export type CreateVenueMutationHookResult = ReturnType<typeof useCreateVenueMutation>;
-export type CreateVenueMutationResult = ApolloReactCommon.MutationResult<CreateVenueMutation>;
-export type CreateVenueMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateVenueMutation, CreateVenueMutationVariables>;
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String]) {
   event(id: $id, include: $include) {
@@ -2425,58 +2318,6 @@ export function useEventLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
-export const VenueDocument = gql`
-    query Venue($id: ID!) {
-  venue(id: $id) {
-    id
-    hasClothingStorage
-    hasSnackEatingPlace
-    translations {
-      languageCode
-      description
-    }
-  }
-}
-    `;
-export type VenueProps<TChildProps = {}, TDataName extends string = 'data'> = {
-      [key in TDataName]: ApolloReactHoc.DataValue<VenueQuery, VenueQueryVariables>
-    } & TChildProps;
-export function withVenue<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  VenueQuery,
-  VenueQueryVariables,
-  VenueProps<TChildProps, TDataName>>) {
-    return ApolloReactHoc.withQuery<TProps, VenueQuery, VenueQueryVariables, VenueProps<TChildProps, TDataName>>(VenueDocument, {
-      alias: 'venue',
-      ...operationOptions
-    });
-};
-
-/**
- * __useVenueQuery__
- *
- * To run a query within a React component, call `useVenueQuery` and pass it any options that fit your needs.
- * When your component renders, `useVenueQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useVenueQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useVenueQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<VenueQuery, VenueQueryVariables>) {
-        return ApolloReactHooks.useQuery<VenueQuery, VenueQueryVariables>(VenueDocument, baseOptions);
-      }
-export function useVenueLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<VenueQuery, VenueQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<VenueQuery, VenueQueryVariables>(VenueDocument, baseOptions);
-        }
-export type VenueQueryHookResult = ReturnType<typeof useVenueQuery>;
-export type VenueLazyQueryHookResult = ReturnType<typeof useVenueLazyQuery>;
-export type VenueQueryResult = ApolloReactCommon.QueryResult<VenueQuery, VenueQueryVariables>;
 export const EventsDocument = gql`
     query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $locations: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String) {
   events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, locations: $locations, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) {
@@ -3203,3 +3044,143 @@ export function usePlacesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookO
 export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
 export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = ApolloReactCommon.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const CreateVenueDocument = gql`
+    mutation CreateVenue($venue: AddVenueMutationInput!) {
+  addVenue(input: $venue) {
+    venue {
+      ...venueFields
+    }
+  }
+}
+    ${VenueFieldsFragmentDoc}`;
+export type CreateVenueMutationFn = ApolloReactCommon.MutationFunction<CreateVenueMutation, CreateVenueMutationVariables>;
+export type CreateVenueProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CreateVenueMutation, CreateVenueMutationVariables>
+    } & TChildProps;
+export function withCreateVenue<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateVenueMutation,
+  CreateVenueMutationVariables,
+  CreateVenueProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateVenueMutation, CreateVenueMutationVariables, CreateVenueProps<TChildProps, TDataName>>(CreateVenueDocument, {
+      alias: 'createVenue',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateVenueMutation__
+ *
+ * To run a mutation, you first call `useCreateVenueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVenueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVenueMutation, { data, loading, error }] = useCreateVenueMutation({
+ *   variables: {
+ *      venue: // value for 'venue'
+ *   },
+ * });
+ */
+export function useCreateVenueMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateVenueMutation, CreateVenueMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateVenueMutation, CreateVenueMutationVariables>(CreateVenueDocument, baseOptions);
+      }
+export type CreateVenueMutationHookResult = ReturnType<typeof useCreateVenueMutation>;
+export type CreateVenueMutationResult = ApolloReactCommon.MutationResult<CreateVenueMutation>;
+export type CreateVenueMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateVenueMutation, CreateVenueMutationVariables>;
+export const EditVenueDocument = gql`
+    mutation EditVenue($venue: UpdateVenueMutationInput!) {
+  updateVenue(input: $venue) {
+    venue {
+      ...venueFields
+    }
+  }
+}
+    ${VenueFieldsFragmentDoc}`;
+export type EditVenueMutationFn = ApolloReactCommon.MutationFunction<EditVenueMutation, EditVenueMutationVariables>;
+export type EditVenueProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<EditVenueMutation, EditVenueMutationVariables>
+    } & TChildProps;
+export function withEditVenue<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EditVenueMutation,
+  EditVenueMutationVariables,
+  EditVenueProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, EditVenueMutation, EditVenueMutationVariables, EditVenueProps<TChildProps, TDataName>>(EditVenueDocument, {
+      alias: 'editVenue',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEditVenueMutation__
+ *
+ * To run a mutation, you first call `useEditVenueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditVenueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editVenueMutation, { data, loading, error }] = useEditVenueMutation({
+ *   variables: {
+ *      venue: // value for 'venue'
+ *   },
+ * });
+ */
+export function useEditVenueMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EditVenueMutation, EditVenueMutationVariables>) {
+        return ApolloReactHooks.useMutation<EditVenueMutation, EditVenueMutationVariables>(EditVenueDocument, baseOptions);
+      }
+export type EditVenueMutationHookResult = ReturnType<typeof useEditVenueMutation>;
+export type EditVenueMutationResult = ApolloReactCommon.MutationResult<EditVenueMutation>;
+export type EditVenueMutationOptions = ApolloReactCommon.BaseMutationOptions<EditVenueMutation, EditVenueMutationVariables>;
+export const VenueDocument = gql`
+    query Venue($id: ID!) {
+  venue(id: $id) {
+    ...venueFields
+  }
+}
+    ${VenueFieldsFragmentDoc}`;
+export type VenueProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<VenueQuery, VenueQueryVariables>
+    } & TChildProps;
+export function withVenue<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  VenueQuery,
+  VenueQueryVariables,
+  VenueProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, VenueQuery, VenueQueryVariables, VenueProps<TChildProps, TDataName>>(VenueDocument, {
+      alias: 'venue',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useVenueQuery__
+ *
+ * To run a query within a React component, call `useVenueQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVenueQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVenueQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useVenueQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<VenueQuery, VenueQueryVariables>) {
+        return ApolloReactHooks.useQuery<VenueQuery, VenueQueryVariables>(VenueDocument, baseOptions);
+      }
+export function useVenueLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<VenueQuery, VenueQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<VenueQuery, VenueQueryVariables>(VenueDocument, baseOptions);
+        }
+export type VenueQueryHookResult = ReturnType<typeof useVenueQuery>;
+export type VenueLazyQueryHookResult = ReturnType<typeof useVenueLazyQuery>;
+export type VenueQueryResult = ApolloReactCommon.QueryResult<VenueQuery, VenueQueryVariables>;

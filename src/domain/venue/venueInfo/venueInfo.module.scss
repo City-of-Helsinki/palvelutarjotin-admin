@@ -1,0 +1,29 @@
+.venueInfo {
+  --icon-size: 1.5rem;
+  --icon-spacing: var(--spacing-xs);
+  --section-spacing: var(--spacing-l) 0;
+}
+
+.venueDescription {
+  margin: var(--section-spacing);
+}
+
+.venueAmenities {
+  display: flex;
+  margin: var(--section-spacing);
+
+  & > div {
+    align-items: center;
+    display: flex;
+
+    svg {
+      height: var(--icon-size);
+      width: var(--icon-size);
+      margin-right: var(--icon-spacing);
+    }
+  }
+
+  & > :not(:last-child) {
+    margin-right: 1rem;
+  }
+}

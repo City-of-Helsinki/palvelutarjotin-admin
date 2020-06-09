@@ -334,7 +334,7 @@ const EventForm: React.FC<Props> = ({
                   {location && (
                     <>
                       <FormGroup>
-                        <PlaceInfo id={location} />
+                        <PlaceInfo id={location} language={selectedLanguage} />
                       </FormGroup>
                       <VenueInfoFormPart
                         locationId={location}

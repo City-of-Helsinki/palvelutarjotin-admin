@@ -22,4 +22,11 @@
       padding-right: 1rem;
     }
   }
+
+  .buttonChange {
+    color: var(--color-bus);
+    font-size: var(--fontsize-body-default);
+    font-weight: 500;
+    margin-left: var(--spacing-s);
+  }
 }

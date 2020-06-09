@@ -112,7 +112,17 @@ const OccurrenceDetailsPage = () => {
                   <div className={styles.iconWrapper}>
                     <IconLocation />
                   </div>
-                  <div>{placeId ? <PlaceInfo id={placeId} /> : '-'}</div>
+                  <div>
+                    {placeId ? (
+                      <PlaceInfo
+                        id={placeId}
+                        language={locale}
+                        showVenueInfo={true}
+                      />
+                    ) : (
+                      '-'
+                    )}
+                  </div>
                 </div>
               </div>
             </Container>

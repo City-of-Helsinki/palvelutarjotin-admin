@@ -12,12 +12,14 @@ import NumberInputField from '../../../common/components/form/fields/NumberInput
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FormGroup from '../../../common/components/form/FormGroup';
+import TextTitle from '../../../common/components/textTitle/TextTitle';
 import {
   EventQuery,
   Language,
   OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
@@ -71,6 +73,12 @@ const EventOccurrenceForm: React.FC<Props> = ({
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
+  const locale = useLocale();
+
+  const eventPlaceId = eventData?.event?.location?.id || '';
+  const [editPlaceMode, setEditPlaceMode] = React.useState(
+    Boolean(initialValues.location)
+  );
 
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
@@ -78,9 +86,13 @@ const EventOccurrenceForm: React.FC<Props> = ({
     (eventData?.event?.pEvent?.occurrences.edges.map(
       (edge) => edge?.node
     ) as OccurrenceFieldsFragment[]) || [];
+
   const comingOccurrences = occurrences.filter(
     (item) => !isPast(new Date(item.startTime))
   );
+  const filteredComingOccurrences = occurrenceId
+    ? comingOccurrences.filter((item) => item.id !== occurrenceId)
+    : comingOccurrences;
 
   const handleDeleteOccurrence = async (
     occurrence: OccurrenceFieldsFragment
@@ -226,16 +238,29 @@ const EventOccurrenceForm: React.FC<Props> = ({
 
               <div className={styles.occurrenceFormRow}>
                 <div className={styles.fullRow}>
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventOccurrenceForm.labelEventLocation')}
-                      name="location"
-                      component={PlaceSelectorField}
-                    />
-                  </FormGroup>
-                  {location && (
+                  {editPlaceMode ? (
                     <FormGroup>
-                      <PlaceInfo id={location} />
+                      <Field
+                        labelText={t('eventOccurrenceForm.labelEventLocation')}
+                        name="location"
+                        component={PlaceSelectorField}
+                      />
+                    </FormGroup>
+                  ) : (
+                    <TextTitle>
+                      {t('eventOccurrenceForm.labelEventLocation')}
+                    </TextTitle>
+                  )}
+
+                  {(!!location || !!eventPlaceId) && (
+                    <FormGroup>
+                      <PlaceInfo
+                        id={location || eventPlaceId}
+                        language={locale}
+                        onEditButtonClick={setEditPlaceMode}
+                        showEditButton={!editPlaceMode}
+                        showVenueInfo={true}
+                      />
                     </FormGroup>
                   )}
                 </div>
@@ -262,21 +287,15 @@ const EventOccurrenceForm: React.FC<Props> = ({
                 {t('occurrences.titleComingOccurrences')}{' '}
                 <span className={styles.count}>
                   {t('occurrences.count', {
-                    count: comingOccurrences.length,
+                    count: filteredComingOccurrences.length,
                   })}
                 </span>
               </h2>
-              {comingOccurrences.length ? (
+              {filteredComingOccurrences.length ? (
                 <OccurrencesTable
                   eventData={eventData}
                   id="coming-occurrences"
-                  occurrences={
-                    occurrenceId
-                      ? comingOccurrences.filter(
-                          (item) => item.id !== occurrenceId
-                        )
-                      : comingOccurrences
-                  }
+                  occurrences={filteredComingOccurrences}
                   onDelete={handleDeleteOccurrence}
                 />
               ) : (

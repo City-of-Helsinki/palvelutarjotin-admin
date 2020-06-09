@@ -265,6 +265,11 @@
       "cancel": "Avbryt",
       "save": "Spara",
       "saveAndAddNew": "Spara och lägg till nytt"
+    },
+    "placeInfo": {
+      "buttonEdit": "Förändra",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Servicekartan:"
     }
   },
   "footer": {

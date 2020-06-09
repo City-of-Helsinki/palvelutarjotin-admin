@@ -106,32 +106,4 @@ export const MUTATION_EVENT = gql`
       }
     }
   }
-
-  mutation EditVenue($venue: UpdateVenueMutationInput!) {
-    updateVenue(input: $venue) {
-      venue {
-        id
-        hasClothingStorage
-        hasSnackEatingPlace
-        translations {
-          languageCode
-          description
-        }
-      }
-    }
-  }
-
-  mutation CreateVenue($venue: AddVenueMutationInput!) {
-    addVenue(input: $venue) {
-      venue {
-        id
-        hasClothingStorage
-        hasSnackEatingPlace
-        translations {
-          languageCode
-          description
-        }
-      }
-    }
-  }
 `;
