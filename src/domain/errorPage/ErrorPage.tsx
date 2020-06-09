@@ -1,4 +1,4 @@
-import { Button, IconAttention } from 'hds-react';
+import { Button, IconInfoCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -23,7 +23,7 @@ const NotFoundPage: React.FC<{ title?: string; description?: string }> = ({
     <Container className={styles.container}>
       <div className={styles.content}>
         <div className={styles.iconWrapper}>
-          <IconAttention />
+          <IconInfoCircle />
         </div>
         <h1>{title || t('errorPage.title')}</h1>
         <p className={styles.description}>

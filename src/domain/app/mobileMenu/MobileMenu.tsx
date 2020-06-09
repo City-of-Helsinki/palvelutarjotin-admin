@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconArrowRight, IconPerson } from 'hds-react';
+import { IconArrowRight, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -100,7 +100,7 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
           {!!hasProfile && (
             <li className={styles.link}>
               <Link onClick={goToEditMyProfile} to="#">
-                <IconPerson />
+                <IconUser />
                 {t('header.userMenu.openMyProfile')}
               </Link>
             </li>

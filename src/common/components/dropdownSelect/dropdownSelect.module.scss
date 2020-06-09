@@ -115,7 +115,7 @@
 }
 
 .checkmark {
-  composes: hds-icon--check from '~hds-core/lib/icons/icon-check.css';
+  composes: hds-icon--check from '~hds-core/lib/icons/ui/icon-cross.css';
 
   background-color: transparent;
   mask-repeat: no-repeat;

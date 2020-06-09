@@ -1,4 +1,4 @@
-import { IconClose, IconMenu } from 'hds-react';
+import { IconCross, IconMenuHamburger } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -43,7 +43,7 @@ const MobileNavbar: React.FC = () => {
                 onClick={handleCloseMenu}
                 aria-label={t('header.ariaButtonCloseMenu')}
               >
-                <IconClose />
+                <IconCross />
               </button>
             ) : (
               <button
@@ -51,7 +51,7 @@ const MobileNavbar: React.FC = () => {
                 onClick={handleOpenMenu}
                 aria-label={t('header.ariaButtonOpenMenu')}
               >
-                <IconMenu />
+                <IconMenuHamburger />
               </button>
             )}
           </div>

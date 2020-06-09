@@ -1,4 +1,4 @@
-import { Button, IconAttention } from 'hds-react';
+import { Button, IconInfoCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,7 +24,7 @@ const ConfirmationModal: React.FC<Props> = ({
   const { t } = useTranslation();
   return (
     <Modal
-      icon={<IconAttention />}
+      icon={<IconInfoCircle />}
       isOpen={isOpen}
       title={title}
       toggleModal={toggleModal}

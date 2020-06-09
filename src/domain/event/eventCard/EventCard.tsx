@@ -1,4 +1,4 @@
-import { IconPerson } from 'hds-react';
+import { IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -62,7 +62,7 @@ const EventCard: React.FC<Props> = ({
             })}
           </div>
           <div className={styles.textWithIcon}>
-            <IconPerson />
+            <IconUser />
             {t('events.eventCard.textEnrolments', {
               count: enrolmentsCount || 0,
             })}

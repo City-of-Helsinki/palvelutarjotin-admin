@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconCheck, IconClose } from 'hds-react';
+import { IconCheck, IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -327,7 +327,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
       onClick={clearValues}
       type="button"
     >
-      <IconClose />
+      <IconCross />
     </button>
   ) : null;
 
@@ -362,7 +362,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
               onClick={() => deselectOption(item)}
               type="button"
             >
-              <IconClose />
+              <IconCross />
             </button>
           </div>
         );

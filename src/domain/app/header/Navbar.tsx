@@ -1,4 +1,4 @@
-import { IconPerson } from 'hds-react';
+import { IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
         {myProfileData && !hasProfile && (
           <button onClick={logout} className={styles.logoutButton}>
             {t('header.userMenu.logout')}
-            <IconPerson />
+            <IconUser />
           </button>
         )}
 
