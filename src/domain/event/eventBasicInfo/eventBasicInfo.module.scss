@@ -13,13 +13,4 @@
       grid-template-columns: 1fr 1.5fr 1.5fr;
     }
   }
-
-  .neededOccurrencesRow {
-    display: grid;
-    grid-gap: var(--grid-gap);
-
-    @include respond_above(sm) {
-      grid-template-columns: 1fr 1.5fr 1.5fr;
-    }
-  }
 }

@@ -1447,7 +1447,7 @@ export type EditEventMutation = (
 
 export type PEventFieldsFragment = (
   { __typename?: 'PalvelutarjotinEventNode' }
-  & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'neededOccurrences'>
+  & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences'>
   & { occurrences: (
     { __typename?: 'OccurrenceNodeConnection' }
     & { edges: Array<Maybe<(
@@ -1942,6 +1942,8 @@ export const PEventFieldsFragmentDoc = gql`
     fragment pEventFields on PalvelutarjotinEventNode {
   id
   duration
+  enrolmentEndDays
+  enrolmentStart
   neededOccurrences
   occurrences {
     edges {

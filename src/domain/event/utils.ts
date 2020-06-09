@@ -131,6 +131,8 @@ export const getEventPayload = (
     },
     pEvent: {
       duration: Number(values.duration),
+      enrolmentEndDays: Number(values.enrolmentEndDays),
+      enrolmentStart: values.enrolmentStart,
       neededOccurrences: Number(values.neededOccurrences),
     },
   };

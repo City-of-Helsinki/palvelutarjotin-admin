@@ -20,6 +20,7 @@ import {
   useDeleteOccurrenceMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import formatDate from '../../../utils/formatDate';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import styles from './eventOccurrenceForm.module.scss';
@@ -171,8 +172,14 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     <p
                       dangerouslySetInnerHTML={{
                         __html: t('eventOccurrenceForm.infoText2', {
-                          date: '12.5.2020',
-                          count: 1,
+                          date: eventData.event?.pEvent?.enrolmentStart
+                            ? formatDate(
+                                new Date(
+                                  eventData.event?.pEvent?.enrolmentStart
+                                )
+                              )
+                            : '',
+                          count: eventData.event?.pEvent?.enrolmentEndDays || 0,
                         }),
                       }}
                     />

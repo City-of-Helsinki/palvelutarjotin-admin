@@ -11,7 +11,7 @@ import {
   OccurrenceFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import formatData from '../../../utils/formatDate';
+import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import PlaceText from '../../place/PlaceText';
@@ -96,7 +96,7 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnDate'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatData(new Date(row.startTime)),
+        formatDate(new Date(row.startTime)),
       id: 'date',
     },
     {
@@ -120,7 +120,10 @@ const OccurrencesTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrences.table.columnEnrolmentStarts'),
-      accessor: (row: OccurrenceFieldsFragment) => 'TODO',
+      accessor: (row: OccurrenceFieldsFragment) =>
+        eventData?.event?.pEvent?.enrolmentStart
+          ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
+          : '',
       id: 'elrolmentStarts',
     },
     {
