@@ -37,18 +37,17 @@
   }
 
   .buttonIconWrapper {
-    height: var(--button-icon-size);
-    width: var(--button-icon-size);
     margin-right: var(--spacing-xs);
-    fill: var(--color-button-icon);
     
-  
     svg {
+      color: var(--color-button-icon);
       display: block;
     }
 
     &.isCompleted {
-      fill: var(--color-button-icon-completed);
+      svg {
+        color: var(--color-button-icon-completed);
+      }
     }
   }
 }
