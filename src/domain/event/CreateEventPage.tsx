@@ -13,6 +13,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import { getImageName } from '../image/utils';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import EventForm, { EventFormFields } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { createOrUpdateVenue, getEventPayload } from './utils';
@@ -101,6 +102,7 @@ const CreateEventPage: React.FC = () => {
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
+          <ActiveOrganisationInfo />
           <EventForm
             onCancel={goToEventList}
             onSubmit={submit}

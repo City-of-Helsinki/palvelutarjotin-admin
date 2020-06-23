@@ -19,6 +19,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import EventOccurrenceForm, {
   OccurrenceFormFields,
 } from './eventOccurrenceForm/EventOccurrenceForm';
@@ -151,6 +152,8 @@ const EditOccurrencePage: React.FC = () => {
         {eventData && occurrenceData ? (
           <Container>
             <div className={styles.eventOccurrencePage}>
+              <ActiveOrganisationInfo />
+
               <BackButton onClick={goToOccurrencesPage}>
                 {t('editOccurrence.buttonBack')}
               </BackButton>

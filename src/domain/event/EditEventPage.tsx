@@ -16,6 +16,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { getImageName } from '../image/utils';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import EventForm, {
   defaultInitialValues,
   EventFormFields,
@@ -182,6 +183,8 @@ const EditEventPage: React.FC = () => {
             {isEditableEvent(eventData) ? (
               <Container>
                 <div className={styles.eventPage}>
+                  <ActiveOrganisationInfo />
+
                   <EventForm
                     eventData={eventData}
                     initialValues={initialValues}

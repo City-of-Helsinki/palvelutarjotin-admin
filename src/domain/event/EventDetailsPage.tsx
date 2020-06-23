@@ -18,6 +18,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
 import EventCategorisation from './eventCategorisation/EventCategorisation';
 import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
@@ -103,6 +104,9 @@ const EventDetailsPage = () => {
                 <p>{t('eventDetails.deleteModal.text1')}</p>
                 <p>{t('eventDetails.deleteModal.text2')}</p>
               </AlertModal>
+
+              <ActiveOrganisationInfo />
+
               <EventDetailsButtons
                 eventData={eventData}
                 onClickLanguage={handleLanguageChange}

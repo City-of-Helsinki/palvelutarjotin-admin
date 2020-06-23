@@ -18,6 +18,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
 import { hasComingOccurrences, hasOccurrences } from '../event/utils';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from './constants';
 import styles from './eventsPage.module.scss';
 
@@ -49,6 +50,7 @@ const Events: React.FC<{
       {events?.map((event) => {
         return (
           <EventCard
+            key={event.id || ''}
             description={getLocalizedString(event.description || {}, locale)}
             enrolmentsCount={0}
             id={event.id || ''}
@@ -141,7 +143,7 @@ const EventsPage = () => {
     <PageWrapper>
       <Container>
         <div className={styles.eventsPage}>
-          <h1>{t('events.title')}</h1>
+          <ActiveOrganisationInfo as="h1" />
 
           <div className={styles.comingEventsTitleWrapper}>
             <EventsTitle

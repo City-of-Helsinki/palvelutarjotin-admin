@@ -16,6 +16,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import PlaceInfo from '../place/placeInfo/PlaceInfo';
 import OccurrenceGroupInfo from './occurrenceGroupInfo/OccurrenceGroupInfo';
 import styles from './occurrencePage.module.scss';
@@ -66,6 +67,8 @@ const OccurrenceDetailsPage = () => {
           <div className={styles.eventOccurrencePage}>
             <Container>
               <div>
+                <ActiveOrganisationInfo />
+
                 <BackButton onClick={goToOccurrencesPage}>
                   {t('occurrenceDetails.buttonBack')}
                 </BackButton>
