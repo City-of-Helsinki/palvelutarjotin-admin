@@ -1,17 +1,21 @@
 import classNames from 'classnames';
-import { IconArrowRight, IconUser } from 'hds-react';
+import { IconAngleRight, IconArrowRight, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { SUPPORT_LANGUAGES } from '../../../constants';
-import { useMyProfileQuery } from '../../../generated/graphql';
+import {
+  OrganisationNodeFieldsFragment,
+  useMyProfileQuery,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
+import { setActiveOrganisation } from '../../organisation/actions';
 import { ROUTES } from '../routes/constants';
 import styles from './mobileMenu.module.scss';
 
@@ -63,6 +67,7 @@ interface Props {
 
 const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const history = useHistory();
   const locale = useLocale();
   const location = useLocation();
@@ -85,7 +90,17 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
     onClose();
   };
 
+  const changeActiveOrganisation = (id: string) => {
+    dispatch(setActiveOrganisation(id));
+    onClose();
+  };
+
   const hasProfile = Boolean(myProfileData?.myProfile);
+
+  const organisations: OrganisationNodeFieldsFragment[] =
+    myProfileData?.myProfile?.organisations.edges.map((edge) => ({
+      ...(edge?.node as OrganisationNodeFieldsFragment),
+    })) || [];
 
   return (
     <div
@@ -105,6 +120,19 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
               </Link>
             </li>
           )}
+          {organisations.map((organisation) => {
+            return (
+              <li className={styles.link}>
+                <Link
+                  onClick={() => changeActiveOrganisation(organisation.id)}
+                  to="#"
+                >
+                  <IconAngleRight />
+                  {organisation.name}
+                </Link>
+              </li>
+            );
+          })}
           {!!isAuthenticated && (
             <li className={styles.link}>
               <Link onClick={logout} to="#">

@@ -15,7 +15,6 @@ type Props = {
 const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   const { t } = useTranslation();
 
-  const duration = eventData.event?.pEvent?.duration;
   const neededOccurrences = eventData.event?.pEvent?.neededOccurrences;
 
   const inLanguage = eventData.event?.inLanguage;
