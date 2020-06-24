@@ -1746,7 +1746,7 @@ export type PersonFieldsFragment = (
       { __typename?: 'OrganisationNodeEdge' }
       & { node?: Maybe<(
         { __typename?: 'OrganisationNode' }
-        & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+        & OrganisationNodeFieldsFragment
       )> }
     )>> }
   ) }
@@ -2193,15 +2193,12 @@ export const PersonFieldsFragmentDoc = gql`
   organisations {
     edges {
       node {
-        id
-        name
-        phoneNumber
-        type
+        ...organisationNodeFields
       }
     }
   }
 }
-    `;
+    ${OrganisationNodeFieldsFragmentDoc}`;
 export const PageInfoFieldsFragmentDoc = gql`
     fragment pageInfoFields on PageInfo {
   hasNextPage
