@@ -169,6 +169,7 @@ export type QueryEventsArgs = {
   superEventType?: Maybe<Array<Maybe<Scalars['String']>>>;
   text?: Maybe<Scalars['String']>;
   translation?: Maybe<Scalars['String']>;
+  organisationId?: Maybe<Scalars['String']>;
 };
 
 
@@ -320,6 +321,7 @@ export type PalvelutarjotinEventNode = Node & {
   enrolmentEndDays?: Maybe<Scalars['Int']>;
   duration: Scalars['Int'];
   neededOccurrences: Scalars['Int'];
+  organisation?: Maybe<OrganisationNode>;
   occurrences: OccurrenceNodeConnection;
 };
 
@@ -334,8 +336,6 @@ export type PalvelutarjotinEventNodeOccurrencesArgs = {
   time?: Maybe<Scalars['Time']>;
 };
 
-
-
 export type OrganisationNode = Node & {
    __typename?: 'OrganisationNode';
   /** The ID of the object. */
@@ -344,11 +344,21 @@ export type OrganisationNode = Node & {
   phoneNumber: Scalars['String'];
   type: OrganisationType;
   persons: PersonNodeConnection;
+  publisherId: Scalars['String'];
+  pEvent: PalvelutarjotinEventNodeConnection;
   occurrenceSet: OccurrenceNodeConnection;
 };
 
 
 export type OrganisationNodePersonsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrganisationNodePEventArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -449,6 +459,8 @@ export type OrganisationNodeEdge = {
   cursor: Scalars['String'];
 };
 
+
+
 export type StudyGroupNodeConnection = {
    __typename?: 'StudyGroupNodeConnection';
   /** Pagination data for this connection. */
@@ -522,6 +534,23 @@ export type EnrolmentNode = Node & {
   studyGroup: StudyGroupNode;
   occurrence: OccurrenceNode;
   enrolmentTime: Scalars['DateTime'];
+};
+
+export type PalvelutarjotinEventNodeConnection = {
+   __typename?: 'PalvelutarjotinEventNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<PalvelutarjotinEventNodeEdge>>;
+};
+
+/** A Relay edge containing a `PalvelutarjotinEventNode` and its cursor. */
+export type PalvelutarjotinEventNodeEdge = {
+   __typename?: 'PalvelutarjotinEventNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<PalvelutarjotinEventNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
 };
 
 export type LanguageType = {
@@ -819,7 +848,7 @@ export type Mutation = {
   /** Mutation for admin only */
   deleteStudyGroup?: Maybe<DeleteStudyGroupMutationPayload>;
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
-  /** Required logged in user for authorization */
+  /** Only staff can unenrol study group */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
@@ -1162,6 +1191,7 @@ export type AddOrganisationMutationInput = {
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   type: OrganisationTypeEnum;
+  publisherId?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1181,6 +1211,7 @@ export type UpdateOrganisationMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   type?: Maybe<OrganisationTypeEnum>;
+  publisherId?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1237,6 +1268,8 @@ export type AddEventMutationInput = {
   description: LocalisedObjectInput;
   /** Palvelutarjotin event data */
   pEvent: PalvelutarjotinEventInput;
+  /** Organisation global id which the created event belongs to */
+  organisationId: Scalars['String'];
 };
 
 export type IdObjectInput = {
@@ -1296,6 +1329,8 @@ export type UpdateEventMutationInput = {
   description: LocalisedObjectInput;
   /** Palvelutarjotin event data */
   pEvent: PalvelutarjotinEventInput;
+  /** Organisation global id which the created event belongs to */
+  organisationId: Scalars['String'];
   id: Scalars['String'];
 };
 
@@ -1448,7 +1483,10 @@ export type EditEventMutation = (
 export type PEventFieldsFragment = (
   { __typename?: 'PalvelutarjotinEventNode' }
   & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences'>
-  & { occurrences: (
+  & { organisation?: Maybe<(
+    { __typename?: 'OrganisationNode' }
+    & OrganisationNodeFieldsFragment
+  )>, occurrences: (
     { __typename?: 'OccurrenceNodeConnection' }
     & { edges: Array<Maybe<(
       { __typename?: 'OccurrenceNodeEdge' }
@@ -1856,7 +1894,7 @@ export type OrganisationsQuery = (
 
 export type OrganisationNodeFieldsFragment = (
   { __typename?: 'OrganisationNode' }
-  & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+  & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'publisherId' | 'type'>
 );
 
 export type OrganisationQueryVariables = {
@@ -2001,6 +2039,15 @@ export const ImageFieldsFragmentDoc = gql`
   altText
 }
     `;
+export const OrganisationNodeFieldsFragmentDoc = gql`
+    fragment organisationNodeFields on OrganisationNode {
+  id
+  name
+  phoneNumber
+  publisherId
+  type
+}
+    `;
 export const OccurrenceFieldsFragmentDoc = gql`
     fragment occurrenceFields on OccurrenceNode {
   id
@@ -2030,6 +2077,9 @@ export const PEventFieldsFragmentDoc = gql`
   enrolmentEndDays
   enrolmentStart
   neededOccurrences
+  organisation {
+    ...organisationNodeFields
+  }
   occurrences {
     edges {
       node {
@@ -2038,7 +2088,8 @@ export const PEventFieldsFragmentDoc = gql`
     }
   }
 }
-    ${OccurrenceFieldsFragmentDoc}`;
+    ${OrganisationNodeFieldsFragmentDoc}
+${OccurrenceFieldsFragmentDoc}`;
 export const KeywordFieldsFragmentDoc = gql`
     fragment keywordFields on Keyword {
   id
@@ -2157,14 +2208,6 @@ export const PageInfoFieldsFragmentDoc = gql`
   hasPreviousPage
   startCursor
   endCursor
-}
-    `;
-export const OrganisationNodeFieldsFragmentDoc = gql`
-    fragment organisationNodeFields on OrganisationNode {
-  id
-  name
-  phoneNumber
-  type
 }
     `;
 export const CreateEventDocument = gql`

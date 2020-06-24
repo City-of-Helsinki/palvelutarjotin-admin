@@ -82,7 +82,12 @@ const EditEventPage: React.FC = () => {
           variables: {
             event: {
               id: eventData?.event?.id || '',
-              ...getEventPayload(values, selectedLanguage),
+              ...getEventPayload({
+                values,
+                selectedLanguage,
+                organisationId:
+                  eventData?.event?.pEvent?.organisation?.id || '',
+              }),
             },
           },
         })

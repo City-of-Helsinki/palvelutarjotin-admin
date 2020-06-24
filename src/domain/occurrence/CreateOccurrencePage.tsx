@@ -63,8 +63,7 @@ const CreateOccurrencePage: React.FC = () => {
   const getPayload = (values: OccurrenceFormFields) => {
     return getOccurrencePayload({
       values,
-      organisationId:
-        myProfileData?.myProfile?.organisations.edges[0]?.node?.id || '',
+      organisationId: eventData?.event?.pEvent?.organisation?.id || '',
       pEventId: eventData?.event?.pEvent?.id || '',
     });
   };

@@ -5,6 +5,7 @@ export const QUERY_ORGANISATION = gql`
     id
     name
     phoneNumber
+    publisherId
     type
   }
 

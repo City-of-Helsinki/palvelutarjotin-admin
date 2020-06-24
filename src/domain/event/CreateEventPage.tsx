@@ -1,10 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
 import {
   useCreateEventMutation,
+  useMyProfileQuery,
   useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
@@ -13,7 +15,9 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import { getImageName } from '../image/utils';
+import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { activeOrganisationSelector } from '../organisation/selector';
 import EventForm, { EventFormFields } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { createOrUpdateVenue, getEventPayload } from './utils';
@@ -26,6 +30,12 @@ const CreateEventPage: React.FC = () => {
 
   const [createEvent] = useCreateEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
+  const { data: myProfileData } = useMyProfileQuery();
+
+  const activeOrganisation = useSelector(activeOrganisationSelector);
+  const selectedOrganisation =
+    myProfileData?.myProfile &&
+    getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
 
   const goToEventList = () => {
     history.push(ROUTES.HOME);
@@ -39,7 +49,13 @@ const CreateEventPage: React.FC = () => {
       requests.push(
         createEvent({
           variables: {
-            event: getEventPayload(values, selectedLanguage),
+            event: {
+              ...getEventPayload({
+                values,
+                selectedLanguage,
+                organisationId: selectedOrganisation?.id || '',
+              }),
+            },
           },
         })
       );
