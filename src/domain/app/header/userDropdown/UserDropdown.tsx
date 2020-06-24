@@ -1,7 +1,7 @@
 import { IconAngleRight, IconArrowRight, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdown';
@@ -12,7 +12,9 @@ import {
 import useLocale from '../../../../hooks/useLocale';
 import { logoutTunnistamo } from '../../../auth/authenticate';
 import { setActiveOrganisation } from '../../../organisation/actions';
+import { activeOrganisationSelector } from '../../../organisation/selector';
 import { ROUTES } from '../../routes/constants';
+import styles from './userDropdown.module.scss';
 
 const MENU_ITEM_VALUES = {
   LOGOUT: 'logout',
@@ -25,6 +27,7 @@ interface Props {
 
 const UserDropdown: React.FC<Props> = ({ myProfileData }) => {
   const { t } = useTranslation();
+  const activeOrganisation = useSelector(activeOrganisationSelector);
   const dispatch = useDispatch();
   const history = useHistory();
   const locale = useLocale();
@@ -59,6 +62,10 @@ const UserDropdown: React.FC<Props> = ({ myProfileData }) => {
           value: MENU_ITEM_VALUES.OPEN_MY_PROFILE,
         },
         ...organisations?.map((organisation) => ({
+          className:
+            activeOrganisation === organisation.id
+              ? styles.activeOrganisation
+              : undefined,
           icon: <IconAngleRight />,
           onClick: changeActiveOrganisation,
           text: organisation.name || '',

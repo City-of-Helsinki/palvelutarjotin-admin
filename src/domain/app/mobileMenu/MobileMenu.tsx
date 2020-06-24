@@ -16,6 +16,7 @@ import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
 import { setActiveOrganisation } from '../../organisation/actions';
+import { activeOrganisationSelector } from '../../organisation/selector';
 import { ROUTES } from '../routes/constants';
 import styles from './mobileMenu.module.scss';
 
@@ -67,6 +68,7 @@ interface Props {
 
 const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   const { t } = useTranslation();
+  const activeOrganisation = useSelector(activeOrganisationSelector);
   const dispatch = useDispatch();
   const history = useHistory();
   const locale = useLocale();
@@ -122,7 +124,12 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
           )}
           {organisations.map((organisation) => {
             return (
-              <li className={styles.link}>
+              <li
+                className={classNames(styles.link, {
+                  [styles.activeOrganisation]:
+                    activeOrganisation === organisation.id,
+                })}
+              >
                 <Link
                   onClick={() => changeActiveOrganisation(organisation.id)}
                   to="#"
