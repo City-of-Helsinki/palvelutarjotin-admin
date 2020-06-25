@@ -2,7 +2,7 @@
 
 exports[`PlaceInfo should match snapshot 1`] = `
 "<div class=\\"placeInfo\\">
-  <p>Sellon kirjasto</p>
+  <div>Sellon kirjasto </div>
   <p>Leppävaarankatu 9</p>
   <p>+358 9 8165 7603</p>
   <div class=\\"linkRow\\">

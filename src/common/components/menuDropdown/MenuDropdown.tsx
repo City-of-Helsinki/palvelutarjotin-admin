@@ -7,6 +7,7 @@ import { Language } from '../../../types';
 import styles from './menuDropdown.module.scss';
 
 export type MenuItem = {
+  className?: string;
   icon?: React.ReactElement;
   language?: Language;
   onClick?: (value: string) => void;
@@ -37,10 +38,14 @@ const MenuItem: React.FC<{
       ref={selfRef}
       key={item.value}
       lang={item.language || undefined}
-      className={classNames(styles.menuItem, {
-        [styles.isFocused]: isFocused,
-        [styles.isSelected]: isSelected,
-      })}
+      className={classNames(
+        styles.menuItem,
+        {
+          [styles.isFocused]: isFocused,
+          [styles.isSelected]: isSelected,
+        },
+        item.className
+      )}
       onClick={handleClick}
       role="menuitem"
       tabIndex={0}

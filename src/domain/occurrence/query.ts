@@ -16,9 +16,6 @@ export const QUERY_OCCURRENCE = gql`
     }
     startTime
     endTime
-    organisation {
-      id
-    }
     placeId
   }
 

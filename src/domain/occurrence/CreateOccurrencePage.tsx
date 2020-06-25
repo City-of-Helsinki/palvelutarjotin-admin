@@ -18,6 +18,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import EventOccurrenceForm, {
   defaultInitialValues,
   OccurrenceFormFields,
@@ -62,8 +63,6 @@ const CreateOccurrencePage: React.FC = () => {
   const getPayload = (values: OccurrenceFormFields) => {
     return getOccurrencePayload({
       values,
-      organisationId:
-        myProfileData?.myProfile?.organisations.edges[0]?.node?.id || '',
       pEventId: eventData?.event?.pEvent?.id || '',
     });
   };
@@ -116,6 +115,8 @@ const CreateOccurrencePage: React.FC = () => {
             {eventData ? (
               <Container>
                 <div className={styles.eventOccurrencePage}>
+                  <ActiveOrganisationInfo />
+
                   <BackButton onClick={goToOccurrencesPage}>
                     {t('createOccurrence.buttonBack')}
                   </BackButton>

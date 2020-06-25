@@ -77,10 +77,15 @@ export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
  * @param {object} values
  * @return {object}
  */
-export const getEventPayload = (
-  values: EventFormFields,
-  selectedLanguage: Language
-) => {
+export const getEventPayload = ({
+  values,
+  organisationId,
+  selectedLanguage,
+}: {
+  values: EventFormFields;
+  organisationId: string;
+  selectedLanguage: Language;
+}) => {
   return {
     name: { [selectedLanguage]: values.name },
     // start_date and offers are mandatory on LinkedEvents to use dummy data
@@ -135,6 +140,7 @@ export const getEventPayload = (
       enrolmentStart: values.enrolmentStart,
       neededOccurrences: Number(values.neededOccurrences),
     },
+    organisationId,
   };
 };
 

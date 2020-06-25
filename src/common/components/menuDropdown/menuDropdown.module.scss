@@ -21,9 +21,9 @@
   --margin-right-button-icon: var(--spacing-xs);
   --margin-right-menu-item-icon: var(--spacing-xs);
   
-  --size-menu-item-icon: 1.25rem;
-  --size-button-icon: 1.25rem;
-  --size-button-angle-icon: 1rem;
+  --size-menu-item-icon: 1.5rem;
+  --size-button-icon: 1.5rem;
+  --size-button-angle-icon: 1.25rem;
 
   --spacing-button: var(--spacing-2-xs);
   --spacing-menu-item: var(--spacing-s);
@@ -110,8 +110,13 @@
   }
 
   .menuItemIconWrapper {
-    height: var(--size-menu-item-icon);
-    width: var(--size-menu-item-icon);
     margin-right: var(--margin-right-menu-item-icon);
+    align-items: center;
+    display: flex;
+
+    svg {
+      height: var(--size-menu-item-icon);
+      width: var(--size-menu-item-icon);
+    }
   }
 }

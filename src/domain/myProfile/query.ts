@@ -9,10 +9,7 @@ export const QUERY_KEYWORD = gql`
     organisations {
       edges {
         node {
-          id
-          name
-          phoneNumber
-          type
+          ...organisationNodeFields
         }
       }
     }

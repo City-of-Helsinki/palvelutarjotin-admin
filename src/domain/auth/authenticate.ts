@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 import { TUNNISTAMO_API_TOKEN_ENDPOINT } from '../../constants';
 import { StoreThunk } from '../../types';
 import i18n from '../app/i18n/i18nInit';
-import { store } from '../app/store';
+import { persistor, store } from '../app/store';
+import { clearActiveOrganisation } from '../organisation/actions';
 import {
   fetchTokenError,
   fetchTokenSuccess,
@@ -38,8 +39,8 @@ export const loginTunnistamo = (path?: string) => {
 
 export const logoutTunnistamo = async () => {
   try {
+    await clearAllState();
     await userManager.signoutRedirect();
-    flushAllState();
   } catch (e) {
     Sentry.captureException(e);
   }
@@ -69,7 +70,15 @@ export const getApiToken = (accessToken: string): StoreThunk => async (
   }
 };
 
-export const flushAllState = () => {
-  // Clear backend auth data
-  store.dispatch(resetApiTokenData());
+export const clearAllState = async () => {
+  await Promise.all([
+    // Clear backend auth data
+    store.dispatch(resetApiTokenData()),
+
+    // Clear backend auth data
+    store.dispatch(clearActiveOrganisation()),
+
+    // Clear data in redux store and localStorage
+    persistor.purge(),
+  ]);
 };

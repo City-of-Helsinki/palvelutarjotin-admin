@@ -169,6 +169,7 @@ export type QueryEventsArgs = {
   superEventType?: Maybe<Array<Maybe<Scalars['String']>>>;
   text?: Maybe<Scalars['String']>;
   translation?: Maybe<Scalars['String']>;
+  organisationId?: Maybe<Scalars['String']>;
 };
 
 
@@ -266,7 +267,6 @@ export type OccurrenceNode = Node & {
   maxGroupSize: Scalars['Int'];
   startTime: Scalars['DateTime'];
   endTime: Scalars['DateTime'];
-  organisation: OrganisationNode;
   contactPersons: PersonNodeConnection;
   studyGroups: StudyGroupNodeConnection;
   placeId: Scalars['String'];
@@ -320,6 +320,7 @@ export type PalvelutarjotinEventNode = Node & {
   enrolmentEndDays?: Maybe<Scalars['Int']>;
   duration: Scalars['Int'];
   neededOccurrences: Scalars['Int'];
+  organisation?: Maybe<OrganisationNode>;
   occurrences: OccurrenceNodeConnection;
 };
 
@@ -334,8 +335,6 @@ export type PalvelutarjotinEventNodeOccurrencesArgs = {
   time?: Maybe<Scalars['Time']>;
 };
 
-
-
 export type OrganisationNode = Node & {
    __typename?: 'OrganisationNode';
   /** The ID of the object. */
@@ -344,7 +343,8 @@ export type OrganisationNode = Node & {
   phoneNumber: Scalars['String'];
   type: OrganisationType;
   persons: PersonNodeConnection;
-  occurrenceSet: OccurrenceNodeConnection;
+  publisherId: Scalars['String'];
+  pEvent: PalvelutarjotinEventNodeConnection;
 };
 
 
@@ -356,14 +356,11 @@ export type OrganisationNodePersonsArgs = {
 };
 
 
-export type OrganisationNodeOccurrenceSetArgs = {
+export type OrganisationNodePEventArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-  upcoming?: Maybe<Scalars['Boolean']>;
-  date?: Maybe<Scalars['Date']>;
-  time?: Maybe<Scalars['Time']>;
 };
 
 /** An enumeration. */
@@ -449,6 +446,8 @@ export type OrganisationNodeEdge = {
   cursor: Scalars['String'];
 };
 
+
+
 export type StudyGroupNodeConnection = {
    __typename?: 'StudyGroupNodeConnection';
   /** Pagination data for this connection. */
@@ -522,6 +521,23 @@ export type EnrolmentNode = Node & {
   studyGroup: StudyGroupNode;
   occurrence: OccurrenceNode;
   enrolmentTime: Scalars['DateTime'];
+};
+
+export type PalvelutarjotinEventNodeConnection = {
+   __typename?: 'PalvelutarjotinEventNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<PalvelutarjotinEventNodeEdge>>;
+};
+
+/** A Relay edge containing a `PalvelutarjotinEventNode` and its cursor. */
+export type PalvelutarjotinEventNodeEdge = {
+   __typename?: 'PalvelutarjotinEventNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<PalvelutarjotinEventNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
 };
 
 export type LanguageType = {
@@ -819,7 +835,7 @@ export type Mutation = {
   /** Mutation for admin only */
   deleteStudyGroup?: Maybe<DeleteStudyGroupMutationPayload>;
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
-  /** Required logged in user for authorization */
+  /** Only staff can unenrol study group */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
@@ -956,7 +972,6 @@ export type AddOccurrenceMutationInput = {
   maxGroupSize: Scalars['Int'];
   startTime: Scalars['DateTime'];
   endTime: Scalars['DateTime'];
-  organisationId: Scalars['ID'];
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId: Scalars['ID'];
   autoAcceptance: Scalars['Boolean'];
@@ -989,7 +1004,6 @@ export type UpdateOccurrenceMutationInput = {
   maxGroupSize?: Maybe<Scalars['Int']>;
   startTime?: Maybe<Scalars['DateTime']>;
   endTime?: Maybe<Scalars['DateTime']>;
-  organisationId?: Maybe<Scalars['ID']>;
   /** Should include all contact persons of the occurrence, missing contact persons will be removed during mutation */
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId?: Maybe<Scalars['ID']>;
@@ -1162,6 +1176,7 @@ export type AddOrganisationMutationInput = {
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   type: OrganisationTypeEnum;
+  publisherId?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1181,6 +1196,7 @@ export type UpdateOrganisationMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   type?: Maybe<OrganisationTypeEnum>;
+  publisherId?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1237,6 +1253,8 @@ export type AddEventMutationInput = {
   description: LocalisedObjectInput;
   /** Palvelutarjotin event data */
   pEvent: PalvelutarjotinEventInput;
+  /** Organisation global id which the created event belongs to */
+  organisationId: Scalars['String'];
 };
 
 export type IdObjectInput = {
@@ -1296,6 +1314,8 @@ export type UpdateEventMutationInput = {
   description: LocalisedObjectInput;
   /** Palvelutarjotin event data */
   pEvent: PalvelutarjotinEventInput;
+  /** Organisation global id which the created event belongs to */
+  organisationId: Scalars['String'];
   id: Scalars['String'];
 };
 
@@ -1448,7 +1468,10 @@ export type EditEventMutation = (
 export type PEventFieldsFragment = (
   { __typename?: 'PalvelutarjotinEventNode' }
   & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences'>
-  & { occurrences: (
+  & { organisation?: Maybe<(
+    { __typename?: 'OrganisationNode' }
+    & OrganisationNodeFieldsFragment
+  )>, occurrences: (
     { __typename?: 'OccurrenceNodeConnection' }
     & { edges: Array<Maybe<(
       { __typename?: 'OccurrenceNodeEdge' }
@@ -1708,7 +1731,7 @@ export type PersonFieldsFragment = (
       { __typename?: 'OrganisationNodeEdge' }
       & { node?: Maybe<(
         { __typename?: 'OrganisationNode' }
-        & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+        & OrganisationNodeFieldsFragment
       )> }
     )>> }
   ) }
@@ -1766,10 +1789,7 @@ export type OccurrenceFieldsFragment = (
   )>, languages: Array<(
     { __typename?: 'LanguageType' }
     & Pick<LanguageType, 'id' | 'name'>
-  )>, organisation: (
-    { __typename?: 'OrganisationNode' }
-    & Pick<OrganisationNode, 'id'>
-  ) }
+  )> }
 );
 
 export type OccurrenceQueryVariables = {
@@ -1856,7 +1876,7 @@ export type OrganisationsQuery = (
 
 export type OrganisationNodeFieldsFragment = (
   { __typename?: 'OrganisationNode' }
-  & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'type'>
+  & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'publisherId' | 'type'>
 );
 
 export type OrganisationQueryVariables = {
@@ -2001,6 +2021,15 @@ export const ImageFieldsFragmentDoc = gql`
   altText
 }
     `;
+export const OrganisationNodeFieldsFragmentDoc = gql`
+    fragment organisationNodeFields on OrganisationNode {
+  id
+  name
+  phoneNumber
+  publisherId
+  type
+}
+    `;
 export const OccurrenceFieldsFragmentDoc = gql`
     fragment occurrenceFields on OccurrenceNode {
   id
@@ -2017,9 +2046,6 @@ export const OccurrenceFieldsFragmentDoc = gql`
   }
   startTime
   endTime
-  organisation {
-    id
-  }
   placeId
 }
     `;
@@ -2030,6 +2056,9 @@ export const PEventFieldsFragmentDoc = gql`
   enrolmentEndDays
   enrolmentStart
   neededOccurrences
+  organisation {
+    ...organisationNodeFields
+  }
   occurrences {
     edges {
       node {
@@ -2038,7 +2067,8 @@ export const PEventFieldsFragmentDoc = gql`
     }
   }
 }
-    ${OccurrenceFieldsFragmentDoc}`;
+    ${OrganisationNodeFieldsFragmentDoc}
+${OccurrenceFieldsFragmentDoc}`;
 export const KeywordFieldsFragmentDoc = gql`
     fragment keywordFields on Keyword {
   id
@@ -2142,29 +2172,18 @@ export const PersonFieldsFragmentDoc = gql`
   organisations {
     edges {
       node {
-        id
-        name
-        phoneNumber
-        type
+        ...organisationNodeFields
       }
     }
   }
 }
-    `;
+    ${OrganisationNodeFieldsFragmentDoc}`;
 export const PageInfoFieldsFragmentDoc = gql`
     fragment pageInfoFields on PageInfo {
   hasNextPage
   hasPreviousPage
   startCursor
   endCursor
-}
-    `;
-export const OrganisationNodeFieldsFragmentDoc = gql`
-    fragment organisationNodeFields on OrganisationNode {
-  id
-  name
-  phoneNumber
-  type
 }
     `;
 export const CreateEventDocument = gql`

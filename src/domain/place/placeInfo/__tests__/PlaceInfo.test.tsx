@@ -42,7 +42,7 @@ test('PlaceInfo should match snapshot', async () => {
   await act(async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={true}>
-        <PlaceInfo id={placeId} />
+        <PlaceInfo language="fi" id={placeId} />
       </MockedProvider>,
       container
     );

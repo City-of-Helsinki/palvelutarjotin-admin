@@ -19,6 +19,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import styles from './occurrencesPage.module.scss';
 import OccurrencesTable from './occurrencesTable/OccurrencesTable';
 
@@ -81,6 +82,8 @@ const OccurrencesPage: React.FC = () => {
           <div className={styles.occurrencesPage}>
             <Container>
               <div>
+                <ActiveOrganisationInfo />
+
                 <BackButton onClick={goToEventList}>
                   {t('occurrences.buttonBack')}
                 </BackButton>

@@ -1,6 +1,7 @@
 import { Button, TextInput } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -8,6 +9,7 @@ import {
   EventFieldsFragment,
   EventsQuery,
   useEventsQuery,
+  useMyProfileQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
@@ -18,6 +20,9 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
 import { hasComingOccurrences, hasOccurrences } from '../event/utils';
+import { getSelectedOrganisation } from '../myProfile/utils';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { activeOrganisationSelector } from '../organisation/selector';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from './constants';
 import styles from './eventsPage.module.scss';
 
@@ -49,6 +54,7 @@ const Events: React.FC<{
       {events?.map((event) => {
         return (
           <EventCard
+            key={event.id || ''}
             description={getLocalizedString(event.description || {}, locale)}
             enrolmentsCount={0}
             id={event.id || ''}
@@ -71,10 +77,18 @@ const EventsPage = () => {
   const history = useHistory();
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
 
+  const { data: myProfileData } = useMyProfileQuery();
+
+  const activeOrganisation = useSelector(activeOrganisationSelector);
+  const selectedOrganisation =
+    myProfileData?.myProfile &&
+    getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
+
   const { data, loading, fetchMore } = useEventsQuery({
     errorPolicy: 'ignore',
     variables: {
       pageSize: PAGE_SIZE,
+      publisher: selectedOrganisation?.publisherId,
       sort: EVENT_SORT_KEYS.START_TIME,
       text: searchValue,
     },
@@ -141,7 +155,7 @@ const EventsPage = () => {
     <PageWrapper>
       <Container>
         <div className={styles.eventsPage}>
-          <h1>{t('events.title')}</h1>
+          <ActiveOrganisationInfo as="h1" />
 
           <div className={styles.comingEventsTitleWrapper}>
             <EventsTitle
