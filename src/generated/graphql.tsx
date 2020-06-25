@@ -267,7 +267,6 @@ export type OccurrenceNode = Node & {
   maxGroupSize: Scalars['Int'];
   startTime: Scalars['DateTime'];
   endTime: Scalars['DateTime'];
-  organisation: OrganisationNode;
   contactPersons: PersonNodeConnection;
   studyGroups: StudyGroupNodeConnection;
   placeId: Scalars['String'];
@@ -346,7 +345,6 @@ export type OrganisationNode = Node & {
   persons: PersonNodeConnection;
   publisherId: Scalars['String'];
   pEvent: PalvelutarjotinEventNodeConnection;
-  occurrenceSet: OccurrenceNodeConnection;
 };
 
 
@@ -363,17 +361,6 @@ export type OrganisationNodePEventArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-};
-
-
-export type OrganisationNodeOccurrenceSetArgs = {
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  upcoming?: Maybe<Scalars['Boolean']>;
-  date?: Maybe<Scalars['Date']>;
-  time?: Maybe<Scalars['Time']>;
 };
 
 /** An enumeration. */
@@ -985,7 +972,6 @@ export type AddOccurrenceMutationInput = {
   maxGroupSize: Scalars['Int'];
   startTime: Scalars['DateTime'];
   endTime: Scalars['DateTime'];
-  organisationId: Scalars['ID'];
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId: Scalars['ID'];
   autoAcceptance: Scalars['Boolean'];
@@ -1018,7 +1004,6 @@ export type UpdateOccurrenceMutationInput = {
   maxGroupSize?: Maybe<Scalars['Int']>;
   startTime?: Maybe<Scalars['DateTime']>;
   endTime?: Maybe<Scalars['DateTime']>;
-  organisationId?: Maybe<Scalars['ID']>;
   /** Should include all contact persons of the occurrence, missing contact persons will be removed during mutation */
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId?: Maybe<Scalars['ID']>;
@@ -1804,10 +1789,7 @@ export type OccurrenceFieldsFragment = (
   )>, languages: Array<(
     { __typename?: 'LanguageType' }
     & Pick<LanguageType, 'id' | 'name'>
-  )>, organisation: (
-    { __typename?: 'OrganisationNode' }
-    & Pick<OrganisationNode, 'id'>
-  ) }
+  )> }
 );
 
 export type OccurrenceQueryVariables = {
@@ -2064,9 +2046,6 @@ export const OccurrenceFieldsFragmentDoc = gql`
   }
   startTime
   endTime
-  organisation {
-    id
-  }
   placeId
 }
     `;

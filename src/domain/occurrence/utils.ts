@@ -9,11 +9,9 @@ import { OccurrenceFormFields } from './eventOccurrenceForm/EventOccurrenceForm'
  */
 export const getOccurrencePayload = ({
   values,
-  organisationId,
   pEventId,
 }: {
   values: OccurrenceFormFields;
-  organisationId: string;
   pEventId: string;
 }) => {
   const getMinutes = (time: string) => Number(/:(.*)/.exec(time)?.[1]);
@@ -33,7 +31,6 @@ export const getOccurrencePayload = ({
         )
       : new Date(),
     languages: values.languages.map((lang) => ({ id: lang as Language })),
-    organisationId,
     pEventId,
     placeId: values.location,
     amountOfSeats: Number(values.amountOfSeats) || 0,

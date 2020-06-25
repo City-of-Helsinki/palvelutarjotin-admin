@@ -77,7 +77,6 @@ const EditOccurrencePage: React.FC = () => {
       id: occurrenceId,
       ...getOccurrencePayload({
         values,
-        organisationId: occurrenceData?.occurrence?.organisation.id || '',
         pEventId: occurrenceData?.occurrence?.pEvent?.id || '',
       }),
     };
