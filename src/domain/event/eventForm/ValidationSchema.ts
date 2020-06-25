@@ -62,4 +62,5 @@ export default Yup.object().shape({
     then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     otherwise: Yup.string(),
   }),
+  contactEmail: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
 });

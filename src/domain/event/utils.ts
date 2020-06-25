@@ -135,6 +135,8 @@ export const getEventPayload = ({
       ),
     },
     pEvent: {
+      contactEmail: values.contactEmail,
+      contactPhoneNumber: values.contactPhoneNumber,
       duration: Number(values.duration),
       enrolmentEndDays: Number(values.enrolmentEndDays),
       enrolmentStart: values.enrolmentStart,

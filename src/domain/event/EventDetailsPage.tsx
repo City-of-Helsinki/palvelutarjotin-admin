@@ -47,6 +47,7 @@ const EventDetailsPage = () => {
     fetchPolicy: 'network-only',
     variables,
   });
+  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
   const [deleteEventRequest] = useDeleteSingleEventMutation();
 
@@ -105,7 +106,7 @@ const EventDetailsPage = () => {
                 <p>{t('eventDetails.deleteModal.text2')}</p>
               </AlertModal>
 
-              <ActiveOrganisationInfo />
+              <ActiveOrganisationInfo organisationId={organisationId} />
 
               <EventDetailsButtons
                 eventData={eventData}
@@ -130,7 +131,7 @@ const EventDetailsPage = () => {
                   />
                 </div>
                 <div>
-                  <EventContactPersonInfo />
+                  <EventContactPersonInfo eventData={eventData} />
                 </div>
               </div>
               <Button

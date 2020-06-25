@@ -42,6 +42,7 @@ const OccurrencesPage: React.FC = () => {
       variables: { id: eventId, include: ['location'] },
     }
   );
+  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const occurrences =
@@ -82,7 +83,7 @@ const OccurrencesPage: React.FC = () => {
           <div className={styles.occurrencesPage}>
             <Container>
               <div>
-                <ActiveOrganisationInfo />
+                <ActiveOrganisationInfo organisationId={organisationId} />
 
                 <BackButton onClick={goToEventList}>
                   {t('occurrences.buttonBack')}

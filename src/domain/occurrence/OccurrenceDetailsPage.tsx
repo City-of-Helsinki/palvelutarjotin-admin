@@ -31,15 +31,19 @@ const OccurrenceDetailsPage = () => {
   const history = useHistory();
   const locale = useLocale();
   const { id, occurrenceId } = useParams<Params>();
+
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     variables: { id, include: ['location'] },
   });
+  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
+
   const {
     data: occurrenceData,
     loading: loadingOccurrence,
   } = useOccurrenceQuery({
     variables: { id: occurrenceId },
   });
+
   const startTime = occurrenceData?.occurrence?.startTime
     ? new Date(occurrenceData?.occurrence?.startTime)
     : null;
@@ -67,7 +71,7 @@ const OccurrenceDetailsPage = () => {
           <div className={styles.eventOccurrencePage}>
             <Container>
               <div>
-                <ActiveOrganisationInfo />
+                <ActiveOrganisationInfo organisationId={organisationId} />
 
                 <BackButton onClick={goToOccurrencesPage}>
                   {t('occurrenceDetails.buttonBack')}

@@ -1,6 +1,6 @@
 import {
+  MyProfileFieldsFragment,
   OrganisationNodeFieldsFragment,
-  PersonFieldsFragment,
 } from '../../generated/graphql';
 import { MyProfileFormFields } from './myProfileForm/MyProfileForm';
 
@@ -12,8 +12,9 @@ export const getMyProfilePayload = (values: MyProfileFormFields) => ({
 });
 
 export const getSelectedOrganisation = (
-  myProfile: PersonFieldsFragment,
-  activeOrganisation: string | null
+  myProfile: MyProfileFieldsFragment,
+  activeOrganisation: string | null,
+  useFirstAsDefault = true
 ): OrganisationNodeFieldsFragment | null => {
   const organisations =
     myProfile.organisations.edges.map((edge) => ({
@@ -24,5 +25,5 @@ export const getSelectedOrganisation = (
     ? organisations.find((item) => item.id === activeOrganisation)
     : null;
 
-  return organisation || organisations[0];
+  return organisation || (useFirstAsDefault ? organisations[0] : null);
 };

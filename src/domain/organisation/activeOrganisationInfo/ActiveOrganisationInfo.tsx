@@ -8,16 +8,23 @@ import styles from './activeOrganisationInfo.module.scss';
 
 interface Props {
   as?: 'h1' | 'div';
+  // You can override activeOrganisation by organisationId prop
+  organisationId?: string;
 }
 
 const ActiveOrganisationInfo = ({
   as: Tag = 'div',
+  organisationId,
 }: Props): ReactElement | null => {
   const { data: myProfileData } = useMyProfileQuery();
   const activeOrganisation = useSelector(activeOrganisationSelector);
 
   const organisation = myProfileData?.myProfile
-    ? getSelectedOrganisation(myProfileData.myProfile, activeOrganisation)
+    ? getSelectedOrganisation(
+        myProfileData.myProfile,
+        organisationId || activeOrganisation,
+        Boolean(organisationId)
+      )
     : null;
 
   return organisation ? (

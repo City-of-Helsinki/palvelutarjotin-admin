@@ -45,6 +45,7 @@ const EditOccurrencePage: React.FC = () => {
   } = useEventQuery({
     variables: { id: eventId, include: ['location'] },
   });
+  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
   const [editOccurrence] = useEditOccurrenceMutation();
 
@@ -151,7 +152,7 @@ const EditOccurrencePage: React.FC = () => {
         {eventData && occurrenceData ? (
           <Container>
             <div className={styles.eventOccurrencePage}>
-              <ActiveOrganisationInfo />
+              <ActiveOrganisationInfo organisationId={organisationId} />
 
               <BackButton onClick={goToOccurrencesPage}>
                 {t('editOccurrence.buttonBack')}

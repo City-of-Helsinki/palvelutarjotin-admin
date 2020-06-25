@@ -6,6 +6,10 @@ export const QUERY_KEYWORD = gql`
     emailAddress
     name
     phoneNumber
+  }
+
+  fragment myProfileFields on PersonNode {
+    ...personFields
     organisations {
       edges {
         node {
@@ -14,9 +18,10 @@ export const QUERY_KEYWORD = gql`
       }
     }
   }
+
   query MyProfile {
     myProfile {
-      ...personFields
+      ...myProfileFields
     }
   }
 `;

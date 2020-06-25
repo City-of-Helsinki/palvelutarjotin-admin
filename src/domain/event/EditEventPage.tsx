@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  PersonFieldsFragment,
   useEditEventMutation,
   useEventQuery,
   useUpdateSingleImageMutation,
@@ -53,6 +54,11 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
+  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
+  const persons =
+    eventData?.event?.pEvent?.organisation?.persons.edges.map(
+      (edge) => edge?.node as PersonFieldsFragment
+    ) || [];
 
   const [editEvent] = useEditEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
@@ -85,8 +91,7 @@ const EditEventPage: React.FC = () => {
               ...getEventPayload({
                 values,
                 selectedLanguage,
-                organisationId:
-                  eventData?.event?.pEvent?.organisation?.id || '',
+                organisationId,
               }),
             },
           },
@@ -143,6 +148,8 @@ const EditEventPage: React.FC = () => {
     if (eventData) {
       setInitialValues({
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
+        contactEmail: eventData.event?.pEvent?.contactEmail || '',
+        contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
         description: eventData.event?.description?.[selectedLanguage] || '',
         duration: eventData.event?.pEvent?.duration.toString() || '',
         enrolmentEndDays:
@@ -188,13 +195,14 @@ const EditEventPage: React.FC = () => {
             {isEditableEvent(eventData) ? (
               <Container>
                 <div className={styles.eventPage}>
-                  <ActiveOrganisationInfo />
+                  <ActiveOrganisationInfo organisationId={organisationId} />
 
                   <EventForm
                     eventData={eventData}
                     initialValues={initialValues}
                     onCancel={goToEventDetailsPage}
                     onSubmit={submit}
+                    persons={persons}
                     selectedLanguage={selectedLanguage}
                     setSelectedLanguage={handleLanguageChange}
                     title={t('editEvent.title')}

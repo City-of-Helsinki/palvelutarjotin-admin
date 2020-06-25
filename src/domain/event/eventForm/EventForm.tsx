@@ -2,6 +2,7 @@ import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { string } from 'yup';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
@@ -14,7 +15,7 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import { EVENT_LANGUAGES } from '../../../constants';
-import { EventQuery } from '../../../generated/graphql';
+import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
@@ -26,6 +27,8 @@ import VenueInfoFormPart from './VenueInfoFormPart';
 
 export type EventFormFields = {
   audience: string[];
+  contactEmail: string;
+  contactPhoneNumber: string;
   description: string;
   duration: string;
   enrolmentEndDays: string;
@@ -49,6 +52,8 @@ export type EventFormFields = {
 
 export const defaultInitialValues: EventFormFields = {
   audience: [],
+  contactEmail: '',
+  contactPhoneNumber: '',
   description: '',
   duration: '',
   enrolmentEndDays: '',
@@ -82,6 +87,7 @@ interface Props {
   initialValues?: EventFormFields;
   onCancel: () => void;
   onSubmit: (values: EventFormFields) => void;
+  persons: PersonFieldsFragment[];
   selectedLanguage: Language;
   setSelectedLanguage: (language: Language) => void;
   title: string;
@@ -92,6 +98,7 @@ const EventForm: React.FC<Props> = ({
   initialValues = defaultInitialValues,
   onCancel,
   onSubmit,
+  persons,
   selectedLanguage,
   setSelectedLanguage,
   title,
@@ -357,21 +364,21 @@ const EventForm: React.FC<Props> = ({
                       { label: 'Option3', value: 'option3' },
                     ]}
                   />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    labelText={t('eventForm.contactPerson.labelEmail')}
-                    name="providerContactInfo.email"
-                    component={TextInputField}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    labelText={t('eventForm.contactPerson.labelPhone')}
-                    name="providerContactInfo.phone"
-                    component={TextInputField}
-                  />
                 </FormGroup> */}
+                  <FormGroup>
+                    <Field
+                      labelText={t('eventForm.contactPerson.labelEmail')}
+                      name="contactEmail"
+                      component={TextInputField}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      labelText={t('eventForm.contactPerson.labelPhone')}
+                      name="contactPhoneNumber"
+                      component={TextInputField}
+                    />
+                  </FormGroup>
                 </div>
               </div>
               <div className={styles.buttonsWrapper}>

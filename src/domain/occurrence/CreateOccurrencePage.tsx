@@ -44,6 +44,7 @@ const CreateOccurrencePage: React.FC = () => {
   } = useEventQuery({
     variables: { id: eventId, include: ['location'] },
   });
+  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
   const {
     data: myProfileData,
@@ -115,7 +116,7 @@ const CreateOccurrencePage: React.FC = () => {
             {eventData ? (
               <Container>
                 <div className={styles.eventOccurrencePage}>
-                  <ActiveOrganisationInfo />
+                  <ActiveOrganisationInfo organisationId={organisationId} />
 
                   <BackButton onClick={goToOccurrencesPage}>
                     {t('createOccurrence.buttonBack')}

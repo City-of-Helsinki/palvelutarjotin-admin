@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
 import {
+  PersonFieldsFragment,
   useCreateEventMutation,
   useMyProfileQuery,
   useUpdateSingleImageMutation,
@@ -36,6 +37,11 @@ const CreateEventPage: React.FC = () => {
   const selectedOrganisation =
     myProfileData?.myProfile &&
     getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
+
+  const persons =
+    selectedOrganisation?.persons.edges.map(
+      (edge) => edge?.node as PersonFieldsFragment
+    ) || [];
 
   const goToEventList = () => {
     history.push(ROUTES.HOME);
@@ -122,6 +128,7 @@ const CreateEventPage: React.FC = () => {
           <EventForm
             onCancel={goToEventList}
             onSubmit={submit}
+            persons={persons}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
             title={t('createEvent.title')}

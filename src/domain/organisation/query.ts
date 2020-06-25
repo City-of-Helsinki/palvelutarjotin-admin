@@ -1,28 +1,24 @@
 import gql from 'graphql-tag';
 
-export const QUERY_ORGANISATIONS = gql`
-  fragment pageInfoFields on PageInfo {
-    hasNextPage
-    hasPreviousPage
-    startCursor
-    endCursor
-  }
-
-  query Organisations(
-    $after: String
-    $before: String
-    $first: Int
-    $last: Int
-  ) {
-    organisations(after: $after, before: $before, first: $first, last: $last) {
-      pageInfo {
-        ...pageInfoFields
-      }
+export const QUERY_ORGANISATION = gql`
+  fragment organisationNodeFields on OrganisationNode {
+    id
+    name
+    persons {
       edges {
         node {
-          ...organisationNodeFields
+          ...personFields
         }
       }
+    }
+    phoneNumber
+    publisherId
+    type
+  }
+
+  query Organisation($id: ID!) {
+    organisation(id: $id) {
+      ...organisationNodeFields
     }
   }
 `;
