@@ -149,6 +149,7 @@ const EditEventPage: React.FC = () => {
       setInitialValues({
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         contactEmail: eventData.event?.pEvent?.contactEmail || '',
+        contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
         contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
         description: eventData.event?.description?.[selectedLanguage] || '',
         duration: eventData.event?.pEvent?.duration.toString() || '',
