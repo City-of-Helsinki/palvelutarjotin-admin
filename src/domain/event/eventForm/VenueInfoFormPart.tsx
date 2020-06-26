@@ -28,7 +28,6 @@ const VenueDataFields: React.FC<{
           const { data } = await apolloClient.query<VenueQuery>({
             query: VenueDocument,
             variables: { id: locationId },
-            fetchPolicy: 'network-only',
           });
           const description = data.venue?.translations.find(
             (t) => (t.languageCode as string).toLowerCase() === selectedLanguage
