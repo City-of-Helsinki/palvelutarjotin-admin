@@ -18,6 +18,7 @@ import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
+import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
@@ -138,9 +139,10 @@ const EventForm: React.FC<Props> = ({
       {({
         dirty,
         handleSubmit,
-        values: { image, location },
+        values: { contactPersonId, image, location },
         setFieldValue,
         setFieldTouched,
+        touched,
       }) => {
         const imageSelected = Boolean(image);
         return (
@@ -353,30 +355,12 @@ const EventForm: React.FC<Props> = ({
                   )}
                 </div>
                 <div className={styles.contactInfoWrapper}>
-                  <h2>{t('eventForm.contactPerson.title')}</h2>
-                  <FormGroup>
-                    <Field
-                      component={DropdownField}
-                      label={t('eventForm.contactPerson.labelName')}
-                      name="contactPersonId"
-                      multiselect={false}
-                      options={personOptions}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventForm.contactPerson.labelEmail')}
-                      name="contactEmail"
-                      component={TextInputField}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventForm.contactPerson.labelPhone')}
-                      name="contactPhoneNumber"
-                      component={TextInputField}
-                    />
-                  </FormGroup>
+                  <ContactPersonInfoPart
+                    contactPersonId={contactPersonId}
+                    personOptions={personOptions}
+                    setFieldValue={setFieldValue}
+                    touched={touched}
+                  />
                 </div>
               </div>
               <div className={styles.buttonsWrapper}>

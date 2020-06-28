@@ -81,6 +81,7 @@ const EditEventPage: React.FC = () => {
 
   const submit = async (values: EventFormFields) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
 
       requests.push(
