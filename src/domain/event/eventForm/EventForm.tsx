@@ -2,7 +2,6 @@ import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { string } from 'yup';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
@@ -19,6 +18,7 @@ import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
+import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
@@ -28,6 +28,7 @@ import VenueInfoFormPart from './VenueInfoFormPart';
 export type EventFormFields = {
   audience: string[];
   contactEmail: string;
+  contactPersonId: string;
   contactPhoneNumber: string;
   description: string;
   duration: string;
@@ -53,6 +54,7 @@ export type EventFormFields = {
 export const defaultInitialValues: EventFormFields = {
   audience: [],
   contactEmail: '',
+  contactPersonId: '',
   contactPhoneNumber: '',
   description: '',
   duration: '',
@@ -74,13 +76,6 @@ export const defaultInitialValues: EventFormFields = {
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
 };
-
-/**
- * Following fields are missing:
- *  - Contact person name
- *  - Contact person email
- *  - Contact person phone
- */
 
 interface Props {
   eventData?: EventQuery;
@@ -106,6 +101,16 @@ const EventForm: React.FC<Props> = ({
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [newLanguage, setNewLanguage] = React.useState(selectedLanguage);
   const { t } = useTranslation();
+
+  const personOptions = React.useMemo(
+    () => [
+      ...persons.map((person) => ({
+        label: person.name,
+        value: person.id,
+      })),
+    ],
+    [persons]
+  );
 
   const openConfirmationModal = (language: Language) => {
     setNewLanguage(language);
@@ -134,12 +139,12 @@ const EventForm: React.FC<Props> = ({
       {({
         dirty,
         handleSubmit,
-        values: { image, location },
+        values: { contactPersonId, image, location },
         setFieldValue,
         setFieldTouched,
+        touched,
       }) => {
         const imageSelected = Boolean(image);
-
         return (
           <>
             <ConfirmationModal
@@ -350,35 +355,12 @@ const EventForm: React.FC<Props> = ({
                   )}
                 </div>
                 <div className={styles.contactInfoWrapper}>
-                  <h2>{t('eventForm.contactPerson.title')}</h2>
-
-                  {/* <FormGroup>
-                  <Field
-                    component={DropdownSelectField}
-                    labelText={t('eventForm.contactPerson.labelName')}
-                    name="providerContactInfo.name"
-                    // TODO: Use real data when available from api
-                    options={[
-                      { label: 'Option1', value: 'option1' },
-                      { label: 'Option2', value: 'option2' },
-                      { label: 'Option3', value: 'option3' },
-                    ]}
+                  <ContactPersonInfoPart
+                    contactPersonId={contactPersonId}
+                    personOptions={personOptions}
+                    setFieldValue={setFieldValue}
+                    touched={touched}
                   />
-                </FormGroup> */}
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventForm.contactPerson.labelEmail')}
-                      name="contactEmail"
-                      component={TextInputField}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Field
-                      labelText={t('eventForm.contactPerson.labelPhone')}
-                      name="contactPhoneNumber"
-                      component={TextInputField}
-                    />
-                  </FormGroup>
                 </div>
               </div>
               <div className={styles.buttonsWrapper}>

@@ -5,13 +5,19 @@ import { useTranslation } from 'react-i18next';
 
 import { getErrorText } from '../utils';
 
-type Option = {
+export type Option = {
   label: string;
   value: string;
 };
 
 interface Props extends DropdownProps, FieldProps {
   options: Option[];
+  setFieldValue?: (
+    field: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => void;
 }
 
 const DropdownField: React.FC<Props> = ({
@@ -21,18 +27,26 @@ const DropdownField: React.FC<Props> = ({
   multiselect,
   options,
   placeholder,
+  setFieldValue,
   ...rest
 }) => {
   const { t } = useTranslation();
   const errorText = getErrorText(errors, touched, name, t);
 
   const handleChange = (val: Option | Option[]) => {
-    onChange({
-      target: {
-        id: name,
-        value: Array.isArray(val) ? val.map((item) => item.value) : val.value,
-      },
-    });
+    const value = Array.isArray(val)
+      ? val.map((item) => item.value)
+      : val.value;
+    if (setFieldValue) {
+      setFieldValue(name, value);
+    } else {
+      onChange({
+        target: {
+          id: name,
+          value,
+        },
+      });
+    }
 
     setTimeout(() => {
       // Automatically call onBlur event to make formik set touched value to true
@@ -52,8 +66,10 @@ const DropdownField: React.FC<Props> = ({
       optionLabelField={'label'}
       multiselect={multiselect}
       closeMenuOnSelect={!multiselect}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
+      id={name}
       placeholder={placeholder || t('common.dropdown.placeholder')}
       selectedOption={
         multiselect

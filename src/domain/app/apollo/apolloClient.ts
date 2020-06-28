@@ -17,8 +17,12 @@ const cache = new InMemoryCache({
     Query: {
       keyword: (_, args, { getCacheKey }) =>
         getCacheKey({ __typename: 'Keyword', id: args.id }),
+      person: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: 'PersonNode', id: args.id }),
       place: (_, args, { getCacheKey }) =>
         getCacheKey({ __typename: 'Place', id: args.id }),
+      venue: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: 'VenueNode', id: args.id }),
     },
   },
 });

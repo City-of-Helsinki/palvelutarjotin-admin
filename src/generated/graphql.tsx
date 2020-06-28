@@ -170,6 +170,8 @@ export type QueryEventsArgs = {
   text?: Maybe<Scalars['String']>;
   translation?: Maybe<Scalars['String']>;
   organisationId?: Maybe<Scalars['String']>;
+  showAll?: Maybe<Scalars['Boolean']>;
+  publicationStatus?: Maybe<Scalars['String']>;
 };
 
 
@@ -321,6 +323,7 @@ export type PalvelutarjotinEventNode = Node & {
   duration: Scalars['Int'];
   neededOccurrences: Scalars['Int'];
   organisation?: Maybe<OrganisationNode>;
+  contactPerson?: Maybe<PersonNode>;
   contactPhoneNumber: Scalars['String'];
   contactEmail: Scalars['String'];
   occurrences: OccurrenceNodeConnection;
@@ -399,13 +402,23 @@ export type PersonNode = Node & {
   name: Scalars['String'];
   phoneNumber: Scalars['String'];
   emailAddress: Scalars['String'];
+  language: Language;
   organisations: OrganisationNodeConnection;
+  pEvent: PalvelutarjotinEventNodeConnection;
   occurrences: OccurrenceNodeConnection;
   studygroupSet: StudyGroupNodeConnection;
 };
 
 
 export type PersonNodeOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodePEventArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -431,6 +444,13 @@ export type PersonNodeStudygroupSetArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+/** An enumeration. */
+export enum Language {
+  Fi = 'FI',
+  En = 'EN',
+  Sv = 'SV'
+}
+
 export type OrganisationNodeConnection = {
    __typename?: 'OrganisationNodeConnection';
   /** Pagination data for this connection. */
@@ -444,6 +464,23 @@ export type OrganisationNodeEdge = {
    __typename?: 'OrganisationNodeEdge';
   /** The item at the end of the edge */
   node?: Maybe<OrganisationNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type PalvelutarjotinEventNodeConnection = {
+   __typename?: 'PalvelutarjotinEventNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<PalvelutarjotinEventNodeEdge>>;
+};
+
+/** A Relay edge containing a `PalvelutarjotinEventNode` and its cursor. */
+export type PalvelutarjotinEventNodeEdge = {
+   __typename?: 'PalvelutarjotinEventNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<PalvelutarjotinEventNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
 };
@@ -525,23 +562,6 @@ export type EnrolmentNode = Node & {
   enrolmentTime: Scalars['DateTime'];
 };
 
-export type PalvelutarjotinEventNodeConnection = {
-   __typename?: 'PalvelutarjotinEventNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<PalvelutarjotinEventNodeEdge>>;
-};
-
-/** A Relay edge containing a `PalvelutarjotinEventNode` and its cursor. */
-export type PalvelutarjotinEventNodeEdge = {
-   __typename?: 'PalvelutarjotinEventNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<PalvelutarjotinEventNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
 export type LanguageType = {
    __typename?: 'LanguageType';
   id: Scalars['String'];
@@ -593,13 +613,6 @@ export type VenueTranslationType = {
   languageCode: Language;
   description: Scalars['String'];
 };
-
-/** An enumeration. */
-export enum Language {
-  Fi = 'FI',
-  En = 'EN',
-  Sv = 'SV'
-}
 
 export type EventListResponse = {
    __typename?: 'EventListResponse';
@@ -987,6 +1000,8 @@ export type PersonNodeInput = {
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress: Scalars['String'];
+  /** Default `fi` */
+  language?: Maybe<Language>;
 };
 
 export type OccurrenceLanguageInput = {
@@ -1150,6 +1165,8 @@ export type CreateMyProfileMutationInput = {
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress: Scalars['String'];
   organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Default `fi` */
+  language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1165,6 +1182,8 @@ export type UpdateMyProfileMutationInput = {
   emailAddress?: Maybe<Scalars['String']>;
   /** If present, should include all organisation ids of user */
   organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Default `fi` */
+  language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1213,6 +1232,7 @@ export type UpdatePersonMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
+  language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1281,6 +1301,7 @@ export type PalvelutarjotinEventInput = {
   enrolmentEndDays?: Maybe<Scalars['Int']>;
   duration: Scalars['Int'];
   neededOccurrences: Scalars['Int'];
+  contactPersonId?: Maybe<Scalars['ID']>;
   contactPhoneNumber?: Maybe<Scalars['String']>;
   contactEmail?: Maybe<Scalars['String']>;
 };
@@ -1472,7 +1493,10 @@ export type EditEventMutation = (
 export type PEventFieldsFragment = (
   { __typename?: 'PalvelutarjotinEventNode' }
   & Pick<PalvelutarjotinEventNode, 'id' | 'contactEmail' | 'contactPhoneNumber' | 'duration' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences'>
-  & { organisation?: Maybe<(
+  & { contactPerson?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  )>, organisation?: Maybe<(
     { __typename?: 'OrganisationNode' }
     & OrganisationNodeFieldsFragment
   )>, occurrences: (
@@ -1726,11 +1750,6 @@ export type UpdateMyProfileMutation = (
   )> }
 );
 
-export type PersonFieldsFragment = (
-  { __typename?: 'PersonNode' }
-  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber'>
-);
-
 export type MyProfileFieldsFragment = (
   { __typename?: 'PersonNode' }
   & { organisations: (
@@ -1911,6 +1930,24 @@ export type OrganisationsQuery = (
   )> }
 );
 
+export type PersonFieldsFragment = (
+  { __typename?: 'PersonNode' }
+  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber'>
+);
+
+export type PersonQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type PersonQuery = (
+  { __typename?: 'Query' }
+  & { person?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  )> }
+);
+
 export type PlaceFieldsFragment = (
   { __typename?: 'Place' }
   & Pick<Place, 'id' | 'internalId'>
@@ -2086,6 +2123,9 @@ export const OccurrenceFieldsFragmentDoc = gql`
 export const PEventFieldsFragmentDoc = gql`
     fragment pEventFields on PalvelutarjotinEventNode {
   id
+  contactPerson {
+    ...personFields
+  }
   contactEmail
   contactPhoneNumber
   duration
@@ -2103,7 +2143,8 @@ export const PEventFieldsFragmentDoc = gql`
     }
   }
 }
-    ${OrganisationNodeFieldsFragmentDoc}
+    ${PersonFieldsFragmentDoc}
+${OrganisationNodeFieldsFragmentDoc}
 ${OccurrenceFieldsFragmentDoc}`;
 export const KeywordFieldsFragmentDoc = gql`
     fragment keywordFields on Keyword {
@@ -3296,6 +3337,52 @@ export function useOrganisationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type OrganisationsQueryHookResult = ReturnType<typeof useOrganisationsQuery>;
 export type OrganisationsLazyQueryHookResult = ReturnType<typeof useOrganisationsLazyQuery>;
 export type OrganisationsQueryResult = ApolloReactCommon.QueryResult<OrganisationsQuery, OrganisationsQueryVariables>;
+export const PersonDocument = gql`
+    query Person($id: ID!) {
+  person(id: $id) {
+    ...personFields
+  }
+}
+    ${PersonFieldsFragmentDoc}`;
+export type PersonProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<PersonQuery, PersonQueryVariables>
+    } & TChildProps;
+export function withPerson<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  PersonQuery,
+  PersonQueryVariables,
+  PersonProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, PersonQuery, PersonQueryVariables, PersonProps<TChildProps, TDataName>>(PersonDocument, {
+      alias: 'person',
+      ...operationOptions
+    });
+};
+
+/**
+ * __usePersonQuery__
+ *
+ * To run a query within a React component, call `usePersonQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePersonQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePersonQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePersonQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PersonQuery, PersonQueryVariables>) {
+        return ApolloReactHooks.useQuery<PersonQuery, PersonQueryVariables>(PersonDocument, baseOptions);
+      }
+export function usePersonLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PersonQuery, PersonQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PersonQuery, PersonQueryVariables>(PersonDocument, baseOptions);
+        }
+export type PersonQueryHookResult = ReturnType<typeof usePersonQuery>;
+export type PersonLazyQueryHookResult = ReturnType<typeof usePersonLazyQuery>;
+export type PersonQueryResult = ApolloReactCommon.QueryResult<PersonQuery, PersonQueryVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!) {
   place(id: $id) {
