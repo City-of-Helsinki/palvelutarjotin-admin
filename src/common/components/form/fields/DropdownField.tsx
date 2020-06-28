@@ -14,6 +14,7 @@ interface Props extends DropdownProps, FieldProps {
   options: Option[];
   setFieldValue?: (
     field: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
     shouldValidate?: boolean | undefined
   ) => void;
@@ -65,6 +66,7 @@ const DropdownField: React.FC<Props> = ({
       optionLabelField={'label'}
       multiselect={multiselect}
       closeMenuOnSelect={!multiselect}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
       id={name}
