@@ -13374,14 +13374,6 @@ react-modal@^3.11.2:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-persist@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-persist/-/react-persist-1.0.2.tgz#32955ba2f38f65d945055470a1ee90c4894f8b05"
-  integrity sha512-IB+AthS5K+DTvHBvcBjYzmaNBpWi6zFWK7RYuhUMDtuQOQ3Umuom2VUf7pfJUJCoXyMVxLo2fxIn3YiZyUA8Qg==
-  dependencies:
-    lodash.debounce "^4.0.8"
-    lodash.isequal "^4.5.0"
-
 react-popper-tooltip@^2.8.3:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/react-popper-tooltip/-/react-popper-tooltip-2.11.1.tgz#3c4bdfd8bc10d1c2b9a162e859bab8958f5b2644"

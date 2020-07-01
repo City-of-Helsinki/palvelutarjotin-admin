@@ -42,7 +42,7 @@ const PageLayout: React.FC = ({ children }) => {
             isLoadingUser || loadingMyProfile || pathname === ROUTES.CALLBACK
           }
         >
-          {!!isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
+          {isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
             <MyProfileWrapper>{children}</MyProfileWrapper>
           ) : (
             <LoginPage />
