@@ -1,8 +1,17 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import formatDate from 'date-fns/format';
+import { fi } from 'date-fns/locale';
 import React from 'react';
 
 import Datepicker, { DatepickerProps } from '../Datepicker';
+
+function getTestDate(daysFromToday = 0): Date {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromToday);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
 
 function renderDatepicker(props?: Partial<DatepickerProps>) {
   const defaultProps: DatepickerProps = {
@@ -98,19 +107,31 @@ describe('<Datepicker />', () => {
   });
 
   it('calls onChange handler correctly when user selects a date', async () => {
-    const { onChange } = renderDatepicker();
+    const date = getTestDate(10);
+    const { onChange } = renderDatepicker({ value: date });
+
+    const monthRegex = new RegExp(
+      formatDate(date, 'LLLL yyyy', { locale: fi }),
+      'i'
+    );
+    const dateSelectRegex = new RegExp(
+      `Valitse ${formatDate(date, 'dd.MM.yyyy')}`,
+      'i'
+    );
 
     userEvent.tab();
 
     await waitFor(() =>
-      expect(screen.queryByText(/kesäkuu 2020/i)).toBeInTheDocument()
+      expect(screen.queryByText(monthRegex)).toBeInTheDocument()
     );
 
     userEvent.click(
-      screen.getByRole('button', { name: /Valitse 15\.06\.2020/i })
+      screen.getByRole('button', {
+        name: dateSelectRegex,
+      })
     );
 
-    expect(onChange).toHaveBeenCalledWith(new Date(2020, 5, 15));
+    expect(onChange).toHaveBeenCalledWith(date);
   });
 
   it('changes month when next or previous month button is clicked', () => {
@@ -203,28 +224,33 @@ describe('<Datepicker timeSelector /> with time selector', () => {
   });
 
   it('calls onChange correctly when selecting date with time', async () => {
-    const value = new Date(2020, 6, 20);
+    const value = getTestDate(1);
     const { labelText, onChange, rerender } = renderDatepicker({
       timeSelector: true,
       minuteInterval: 15,
       value,
     });
 
-    userEvent.click(screen.getByLabelText(labelText || ''));
+    const testDate = getTestDate(5);
 
-    userEvent.click(
-      screen.getByRole('button', { name: /Valitse 23\.07\.2020/i })
+    const dateSelectRegex = new RegExp(
+      `Valitse ${formatDate(testDate, 'dd.MM.yyyy')}`,
+      'i'
     );
 
-    expect(onChange).toHaveBeenCalledWith(new Date(2020, 6, 23));
+    userEvent.click(screen.getByLabelText(labelText || ''));
 
-    rerender({ value: new Date(2020, 6, 23) });
+    userEvent.click(screen.getByRole('button', { name: dateSelectRegex }));
+
+    expect(onChange).toHaveBeenCalledWith(testDate);
+
+    rerender({ value: testDate });
 
     userEvent.click(
       screen.getByRole('button', { name: /Valitse kellonajaksi 12:15/i })
     );
 
-    const expectedDateValue = new Date(2020, 6, 23);
+    const expectedDateValue = testDate;
     expectedDateValue.setHours(12);
     expectedDateValue.setMinutes(15);
 
