@@ -23,7 +23,7 @@ const ActiveOrganisationInfo = ({
     ? getSelectedOrganisation(
         myProfileData.myProfile,
         organisationId || activeOrganisation,
-        Boolean(organisationId)
+        !organisationId
       )
     : null;
 
