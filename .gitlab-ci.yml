@@ -11,6 +11,7 @@ build-review:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-review'
+    DOCKER_BUILD_ARG_REACT_APP_SENTRY_DSN: '$GL_SENTRY_DSN'
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'review'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql'
@@ -23,6 +24,7 @@ build-staging:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-staging'
+    DOCKER_BUILD_ARG_REACT_APP_SENTRY_DSN: '$GL_SENTRY_DSN'
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'staging'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql'
@@ -35,6 +37,7 @@ build-production:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-production'
+    DOCKER_BUILD_ARG_REACT_APP_SENTRY_DSN: '$GL_SENTRY_DSN'
     DOCKER_BUILD_ARG_REACT_APP_ENVIRONMENT: 'production'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.prod.kuva.hel.ninja/graphql'
