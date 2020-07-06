@@ -1,9 +1,10 @@
-@import "layout";
-@import "variables";
+@import 'layout';
+@import 'variables';
 
 .container {
   display: grid;
   grid-row: span;
+  padding: $basePadding 0;
   place-content: flex-start;
 
   grid-template-columns: 0.75rem 1fr 0.75rem;
@@ -26,4 +27,3 @@
     }
   }
 }
-
