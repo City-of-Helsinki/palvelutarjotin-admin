@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ImageInput from '../../imageInput/ImageInput';
+import { invalidFieldClass } from '../constants';
 import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
@@ -21,12 +22,13 @@ const InputField: React.FC<Props> = (props) => {
 
   return (
     <ImageInput
+      {...field}
       id={name}
       helperText={errorText}
       labelText={labelText}
       invalid={!!errorText}
       setFieldValue={setFieldValue}
-      {...field}
+      className={errorText ? invalidFieldClass : undefined}
     />
   );
 };

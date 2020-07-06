@@ -33,6 +33,7 @@ const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
 const MINUTE_INTERVAL = 15;
 
 export type DatepickerProps = {
+  className?: string;
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -46,6 +47,7 @@ export type DatepickerProps = {
 };
 
 const Datepicker: React.FC<DatepickerProps> = ({
+  className,
   value,
   id,
   helperText,
@@ -304,6 +306,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
         className={styles.datepickerWrapper}
       >
         <InputWrapper
+          className={className}
           id={id}
           helperText={invalidText || helperText}
           invalid={!!invalidText}

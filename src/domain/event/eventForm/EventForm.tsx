@@ -7,10 +7,10 @@ import CheckboxField from '../../../common/components/form/fields/CheckboxField'
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
 import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
-import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
+import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import { EVENT_LANGUAGES } from '../../../constants';
@@ -147,6 +147,7 @@ const EventForm: React.FC<Props> = ({
         const imageSelected = Boolean(image);
         return (
           <>
+            <FocusToFirstError />
             <ConfirmationModal
               confirmButtonText={t(
                 'eventForm.changeLanguageModal.buttonChangeLanguage'
@@ -219,8 +220,9 @@ const EventForm: React.FC<Props> = ({
                         <Field
                           labelText={t('eventForm.basicInfo.labelDuration')}
                           name="duration"
-                          component={NumberInputField}
+                          component={TextInputField}
                           min={0}
+                          type="number"
                         />
                       </FormGroup>
                     </div>
@@ -243,8 +245,9 @@ const EventForm: React.FC<Props> = ({
                             'eventForm.basicInfo.labelEnrolmentEndDays'
                           )}
                           name="enrolmentEndDays"
-                          component={NumberInputField}
+                          component={TextInputField}
                           min={0}
+                          type="number"
                         />
                       </FormGroup>
                     </div>
@@ -323,8 +326,9 @@ const EventForm: React.FC<Props> = ({
                             'eventForm.categorisation.labelNeededOccurrences'
                           )}
                           name="neededOccurrences"
-                          component={NumberInputField}
+                          component={TextInputField}
                           min={1}
+                          type="number"
                         />
                       </FormGroup>
                     </div>

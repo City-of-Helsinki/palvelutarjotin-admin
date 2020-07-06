@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import { FieldProps } from 'formik';
 import { Dropdown, DropdownProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { invalidFieldClass } from '../constants';
 import { getErrorText } from '../utils';
 
 export type Option = {
@@ -21,6 +23,7 @@ interface Props extends DropdownProps, FieldProps {
 }
 
 const DropdownField: React.FC<Props> = ({
+  className,
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
   helper,
@@ -80,6 +83,7 @@ const DropdownField: React.FC<Props> = ({
               .filter((i: Option | undefined) => i)
           : options.find((option) => option.value === value)
       }
+      className={classNames(className, { [invalidFieldClass]: errorText })}
     />
   );
 };

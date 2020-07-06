@@ -1,11 +1,14 @@
+import classNames from 'classnames';
 import { FieldProps } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Timepicker from '../../timepicker/Timepicker';
+import { invalidFieldClass } from '../constants';
 import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
+  className?: string;
   helperText: string;
   labelText: string;
   placeholder?: string;
@@ -14,6 +17,7 @@ interface Props extends FieldProps {
 const InputField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
+    className,
     field: { name, onBlur, onChange, ...field },
     form: { errors, touched },
     helperText,
@@ -49,6 +53,7 @@ const InputField: React.FC<Props> = (props) => {
       helperText={errorText || helperText}
       invalid={!!errorText}
       invalidText={errorText}
+      className={classNames(className, { [invalidFieldClass]: errorText })}
     />
   );
 };
