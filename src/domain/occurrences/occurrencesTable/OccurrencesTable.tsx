@@ -1,5 +1,4 @@
 import { Checkbox } from 'hds-react';
-import forEach from 'lodash/forEach';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -38,6 +37,10 @@ const OccurrencesTable: React.FC<Props> = ({
   >([]);
   const eventId = eventData?.event?.id || '';
   const eventLocationId = eventData?.event?.location?.id || '';
+  const isAllSelected = React.useMemo(
+    () => occurrences.every((o) => selectedOccurrences.includes(o.id)),
+    [occurrences, selectedOccurrences]
+  );
 
   const selectAll = () => {
     setSelectedOccurrences(occurrences.map((item) => item.id));
@@ -46,17 +49,6 @@ const OccurrencesTable: React.FC<Props> = ({
   const unselectAll = () => {
     setSelectedOccurrences([]);
   };
-
-  const isAllSelected = React.useMemo(() => {
-    let allSelected = true;
-    forEach(occurrences, (occurrence) => {
-      if (!selectedOccurrences.includes(occurrence.id)) {
-        allSelected = false;
-        return false;
-      }
-    });
-    return allSelected;
-  }, [occurrences, selectedOccurrences]);
 
   const handleCheckboxChange = (row: OccurrenceFieldsFragment) => {
     setSelectedOccurrences(

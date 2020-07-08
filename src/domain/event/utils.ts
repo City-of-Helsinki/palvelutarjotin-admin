@@ -2,7 +2,6 @@ import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
 import isToday from 'date-fns/isToday';
-import forEach from 'lodash/forEach';
 import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
@@ -282,14 +281,10 @@ export const hasOccurrences = (event: EventFieldsFragment): boolean => {
 };
 
 export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
-  let hasComingItems = false;
-
-  forEach(event.pEvent?.occurrences.edges, (edge) => {
-    if (edge?.node?.startTime && isFuture(new Date(edge?.node?.startTime))) {
-      hasComingItems = true;
-      return false;
-    }
-  });
-
-  return hasComingItems;
+  return Boolean(
+    event.pEvent?.occurrences.edges.some(
+      (edge) =>
+        edge?.node?.startTime && isFuture(new Date(edge?.node?.startTime))
+    )
+  );
 };
