@@ -8,9 +8,10 @@ import { toast } from 'react-toastify';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
-import NumberInputField from '../../../common/components/form/fields/NumberInputField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
+import TextInputField from '../../../common/components/form/fields/TextInputField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
+import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import {
@@ -130,6 +131,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
               handleSubmit(e);
             }}
           >
+            <FocusToFirstError />
             <p className={styles.title}>{formTitle}</p>
             <div className={styles.occurrenceFormRow}>
               <div className={styles.locationRow}>
@@ -206,24 +208,27 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   <Field
                     labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
                     name="amountOfSeats"
-                    component={NumberInputField}
+                    component={TextInputField}
                     min={0}
+                    type="number"
                   />
                 </FormGroup>
                 <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelGroupSizeMin')}
                     name="minGroupSize"
-                    component={NumberInputField}
+                    component={TextInputField}
                     min={0}
+                    type="number"
                   />
                 </FormGroup>
                 <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelGroupSizeMax')}
                     name="maxGroupSize"
-                    component={NumberInputField}
+                    component={TextInputField}
                     min={0}
+                    type="number"
                   />
                 </FormGroup>
               </div>

@@ -8,6 +8,7 @@ import ErrorMessage from '../../../common/components/form/ErrorMessage';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
+import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import HelperText from '../../../common/components/form/HelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
@@ -69,6 +70,7 @@ const MyProfileForm: React.FC<Props> = ({
       {({ errors, handleSubmit, touched }) => {
         return (
           <form onSubmit={handleSubmit}>
+            <FocusToFirstError />
             <FormGroup>
               <TextTitle>{t('myProfileForm.labelEmail')}</TextTitle>
               <p>{user?.profile.email}</p>

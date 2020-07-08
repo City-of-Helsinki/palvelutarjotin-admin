@@ -69,6 +69,7 @@ const ListOption: React.FC<ListOptionProps> = ({
 };
 
 export interface AutoSuggestProps {
+  className?: string;
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -88,6 +89,7 @@ export interface AutoSuggestProps {
 }
 
 const AutoSuggest: React.FC<AutoSuggestProps> = ({
+  className,
   disabled,
   helperText,
   id,
@@ -413,6 +415,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
         helperText={invalidText || helperText}
         invalid={!!invalidText}
         labelText={labelText}
+        className={className}
       >
         <input
           ref={input}

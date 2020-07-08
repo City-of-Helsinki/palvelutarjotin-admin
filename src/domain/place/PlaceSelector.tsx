@@ -18,6 +18,7 @@ import apolloClient from '../app/apollo/apolloClient';
 import PlaceText from './PlaceText';
 
 interface Props {
+  className?: string;
   helperText?: string;
   id: string;
   invalidText?: string;
@@ -38,6 +39,7 @@ const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
 };
 
 const PlaceSelector: React.FC<Props> = ({
+  className,
   helperText,
   id,
   invalidText,
@@ -108,6 +110,7 @@ const PlaceSelector: React.FC<Props> = ({
 
   return (
     <AutoSuggest
+      className={className}
       helperText={helperText}
       id={id}
       inputValue={inputValue}

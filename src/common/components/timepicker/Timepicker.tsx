@@ -9,6 +9,7 @@ import styles from './timepicker.module.scss';
 import { getTimes } from './utils';
 
 export type Props = {
+  className?: string;
   disabled?: boolean;
   helperText?: string;
   id: string;
@@ -24,6 +25,7 @@ export type Props = {
 const TIME_INTERVAL = 15;
 
 const Timepicker: React.FC<Props> = ({
+  className,
   value,
   invalidText,
   helperText,
@@ -97,7 +99,7 @@ const Timepicker: React.FC<Props> = ({
     <InputWrapper
       {...getLabelProps()}
       id={inputId}
-      className={styles.wrapper}
+      className={classNames(styles.wrapper, className)}
       helperText={invalidText || helperText}
       invalid={!!invalidText}
       labelText={labelText}

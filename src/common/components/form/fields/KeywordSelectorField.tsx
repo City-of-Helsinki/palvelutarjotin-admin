@@ -1,11 +1,14 @@
+import classNames from 'classnames';
 import { FieldProps } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import KeywordSelector from '../../../../domain/keyword/KeywordSelector';
+import { invalidFieldClass } from '../constants';
 import { getErrorText } from '../utils';
 
 interface Props extends FieldProps {
+  className?: string;
   helperText: string;
   labelText: string;
   placeholder?: string;
@@ -14,6 +17,7 @@ interface Props extends FieldProps {
 const KeywordSelectorField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
+    className,
     field: { name, onBlur, onChange, ...field },
     form: { errors, touched },
     helperText,
@@ -42,6 +46,7 @@ const KeywordSelectorField: React.FC<Props> = (props) => {
 
   return (
     <KeywordSelector
+      {...field}
       id={name}
       invalidText={invalidText}
       helperText={helperText}
@@ -49,7 +54,7 @@ const KeywordSelectorField: React.FC<Props> = (props) => {
       onBlur={handleBlur}
       onChange={handleChange}
       placeholder={placeholder}
-      {...field}
+      className={classNames(className, { [invalidFieldClass]: invalidText })}
     />
   );
 };

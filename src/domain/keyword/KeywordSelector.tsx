@@ -18,6 +18,7 @@ import apolloClient from '../app/apollo/apolloClient';
 import KeywordText from './KeywordText';
 
 interface Props {
+  className?: string;
   helperText?: string;
   id: string;
   invalidText?: string;
@@ -37,6 +38,7 @@ const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
 };
 
 const KeywordSelector: React.FC<Props> = ({
+  className,
   helperText,
   id,
   invalidText,
@@ -100,6 +102,7 @@ const KeywordSelector: React.FC<Props> = ({
 
   return (
     <AutoSuggest
+      className={className}
       helperText={helperText}
       id={id}
       inputValue={inputValue}
