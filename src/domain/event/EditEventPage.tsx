@@ -18,11 +18,9 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { getImageName } from '../image/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import EventForm, {
-  defaultInitialValues,
-  EventFormFields,
-} from './eventForm/EventForm';
+import EventForm, { defaultInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
+import { EventFormFields } from './types';
 import {
   createOrUpdateVenue,
   getEventLanguageFromUrl,

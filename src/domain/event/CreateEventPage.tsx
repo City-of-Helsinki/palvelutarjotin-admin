@@ -19,8 +19,9 @@ import { getImageName } from '../image/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
-import EventForm, { EventFormFields } from './eventForm/EventForm';
+import EventForm from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
+import { EventFormFields } from './types';
 import { createOrUpdateVenue, getEventPayload } from './utils';
 
 const CreateEventPage: React.FC = () => {

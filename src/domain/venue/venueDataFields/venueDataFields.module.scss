@@ -1,0 +1,15 @@
+@import 'colours';
+@import 'layout';
+
+.venueCheckboxFields {
+  display: flex;
+  margin-top: 0.5rem;
+
+  & > * {
+    margin-top: var(--spacing-2-xs);
+  }
+
+  & > :not(:last-child) {
+    margin-right: 1rem;
+  }
+}

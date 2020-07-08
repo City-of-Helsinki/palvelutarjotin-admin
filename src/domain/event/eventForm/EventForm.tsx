@@ -17,39 +17,14 @@ import { EVENT_LANGUAGES } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
+import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
+import { EventFormFields } from '../types';
 import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
 import ValidationSchema from './ValidationSchema';
-import VenueInfoFormPart from './VenueInfoFormPart';
-
-export type EventFormFields = {
-  audience: string[];
-  contactEmail: string;
-  contactPersonId: string;
-  contactPhoneNumber: string;
-  description: string;
-  duration: string;
-  enrolmentEndDays: string;
-  enrolmentStart: Date | null;
-  image: string;
-  imageAltText: string;
-  imagePhotographerName: string;
-  infoUrl: string;
-  inLanguage: string[];
-  isFree: boolean;
-  keywords: string[];
-  location: string;
-  name: string;
-  neededOccurrences: string;
-  price: string;
-  shortDescription: string;
-  locationDescription: string;
-  hasClothingStorage: boolean;
-  hasSnackEatingPlace: boolean;
-};
 
 export const defaultInitialValues: EventFormFields = {
   audience: [],
@@ -350,7 +325,7 @@ const EventForm: React.FC<Props> = ({
                       <FormGroup>
                         <PlaceInfo id={location} language={selectedLanguage} />
                       </FormGroup>
-                      <VenueInfoFormPart
+                      <VenueDataFields
                         locationId={location}
                         selectedLanguage={selectedLanguage}
                         setFieldValue={setFieldValue}

@@ -144,7 +144,7 @@
     },
     "location": {
       "labelLocation": "Standard venue",
-      "labelLocattionDescription": "Beskrivning av arenan",
+      "labelLocationDescription": "Beskrivning av arenan",
       "snackEatingPlace": "Snack äta plats",
       "clothingStorage": "Klädförvaring",
       "title": "Plats"
@@ -198,13 +198,8 @@
     },
     "location": {
       "helperLocation": "Standardplats för evenemangtider",
-      "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelLocation": "Standard venue",
-      "labelLocattionDescription": "Beskrivning av arenan",
-      "labelHasClothingStorage": "Klädförvaring",
-      "labelHasSnackEatingPlace": "Snack äta plats",
       "placeholderLocation": "Sök plats...",
-      "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ...",
       "title": "Plats"
     }
   },
@@ -377,5 +372,14 @@
     "textNoComingOccurrences": "Inga framtida evenemangtider",
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider"
+  },
+  "venue": {
+    "venueDataFields": {
+      "helperLocationDescription": "Ytterligare information för att underlätta besöket",
+      "labelHasClothingStorage": "Klädförvaring",
+      "labelHasSnackEatingPlace": "Snack äta plats",
+      "labelLocationDescription": "Beskrivning av arenan",
+      "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
+    }
   }
 }

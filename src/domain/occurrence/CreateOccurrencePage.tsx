@@ -19,11 +19,12 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { createOrUpdateVenue } from '../venue/utils';
 import EventOccurrenceForm, {
   defaultInitialValues,
-  OccurrenceFormFields,
 } from './eventOccurrenceForm/EventOccurrenceForm';
 import styles from './occurrencePage.module.scss';
+import { OccurrenceFormFields } from './types';
 import { getOccurrencePayload } from './utils';
 
 interface Params {
@@ -68,13 +69,37 @@ const CreateOccurrencePage: React.FC = () => {
     });
   };
 
+  const runSubmitRequests = async (values: OccurrenceFormFields) => {
+    try {
+      const requests: Promise<any>[] = [];
+
+      requests.push(
+        createOccurrence({
+          variables: {
+            input: getPayload(values),
+          },
+        })
+      );
+
+      const createOrUpdateVenueRequest = createOrUpdateVenue({
+        formValues: values,
+        locationId: values.placeId,
+        language: locale,
+      });
+
+      if (createOrUpdateVenueRequest) {
+        requests.push(createOrUpdateVenueRequest);
+      }
+
+      await Promise.all(requests);
+    } catch (e) {
+      throw e;
+    }
+  };
+
   const submit = async (values: OccurrenceFormFields) => {
     try {
-      await createOccurrence({
-        variables: {
-          input: getPayload(values),
-        },
-      });
+      await runSubmitRequests(values);
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
@@ -89,11 +114,7 @@ const CreateOccurrencePage: React.FC = () => {
     resetForm: () => void
   ) => {
     try {
-      await createOccurrence({
-        variables: {
-          input: getPayload(values),
-        },
-      });
+      await runSubmitRequests(values);
       history.push(
         `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
       );

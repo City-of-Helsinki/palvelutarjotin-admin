@@ -21,7 +21,7 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import apolloClient from '../app/apollo/apolloClient';
 import { getVenueDescription } from '../venue/utils';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
-import { EventFormFields } from './eventForm/EventForm';
+import { EventFormFields } from './types';
 
 /**
  * Get event placeholder image url
