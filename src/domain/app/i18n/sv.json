@@ -87,6 +87,14 @@
       "isTermsOfUsageServiceRead": "Användarvillkoren måste accepteras"
     }
   },
+  "enrolment": {
+    "status": {
+      "approved": "Godkänd",
+      "cancelled": "Inställt",
+      "declined": "Avböja",
+      "pending": "Ny"
+    }
+  },
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang",
@@ -330,6 +338,14 @@
     "buttonBack": "Evenemangtider",
     "buttonEditOccurrence": "Redigera evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
+    "enrolmentTable": {
+      "columnEnrolmentTime": "Anmäld kl",
+      "columnGroupSize": "Barn / vuxna",
+      "columnPersonName": "Namn",
+      "columnStatus": "Status",
+      "columnStudyGroupGroupName": "Grupp",
+      "columnStudyGroupName": "Förskola / skola / högskola"
+    },
     "pageTitle": "Evenemangtid",
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",

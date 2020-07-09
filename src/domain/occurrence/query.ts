@@ -23,6 +23,13 @@ export const QUERY_OCCURRENCE = gql`
   query Occurrence($id: ID!) {
     occurrence(id: $id) {
       ...occurrenceFields
+      enrolments {
+        edges {
+          node {
+            ...enrolmentFields
+          }
+        }
+      }
     }
   }
 `;

@@ -104,6 +104,14 @@
     "errorEventIsInThePast": "Event is in the past",
     "errorEventIsInThePastDescription": "Event that is in the past can't be edited."
   },
+  "enrolment": {
+    "status": {
+      "approved": "Approved",
+      "cancelled": "Cancelled",
+      "declined": "Declined",
+      "pending": "New"
+    }
+  },
   "eventDetails": {
     "basicInfo": {
       "enrolmentStart": "{{date}} at {{time}}",
@@ -329,6 +337,14 @@
     "buttonBack": "Event times",
     "buttonEditOccurrence": "Edit event time",
     "buttonEventDetails": "View event details",
+    "enrolmentTable": {
+      "columnEnrolmentTime": "Enrolled at",
+      "columnGroupSize": "Children / Adults",
+      "columnPersonName": "Name",
+      "columnStatus": "Status",
+      "columnStudyGroupGroupName": "Group",
+      "columnStudyGroupName": "Kindergarten / School / College"
+    },
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",

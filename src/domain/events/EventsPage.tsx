@@ -13,7 +13,6 @@ import {
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
-import getLocalizedString from '../../utils/getLocalizedString';
 import getPageNumberFromUrl from '../../utils/getPageNumberFromUrl';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';

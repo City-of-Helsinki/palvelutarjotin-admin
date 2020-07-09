@@ -88,6 +88,14 @@
       "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"
     }
   },
+  "enrolment": {
+    "status": {
+      "approved": "Hyväksytty",
+      "cancelled": "Peruttu",
+      "declined": "Hylätty",
+      "pending": "Uusi"
+    }
+  },
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma",
@@ -329,6 +337,14 @@
     "buttonBack": "Tapahtuma-ajat",
     "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "enrolmentTable": {
+      "columnEnrolmentTime": "Ilmoittautunut",
+      "columnGroupSize": "Lapsia / aik.",
+      "columnPersonName": "Nimi",
+      "columnStatus": "Tila",
+      "columnStudyGroupGroupName": "Ryhmä",
+      "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos"
+    },
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",
     "textAmountOfSeats": "{{count}} paikka",
