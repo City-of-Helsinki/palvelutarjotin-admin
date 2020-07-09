@@ -338,6 +338,7 @@
     "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
     "enrolmentTable": {
+      "columnAdditionalInfo": "Lisätiedot",
       "columnEnrolmentTime": "Ilmoittautunut",
       "columnGroupSize": "Lapsia / aik.",
       "columnPersonName": "Nimi",
@@ -345,6 +346,8 @@
       "columnStudyGroupGroupName": "Ryhmä",
       "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos",
       "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} jonossa",
+      "messages": "Viestit: {{language}}",
+      "showEnrolmentDetails": "Näytä ilmoittautumisen lisätiedot",
       "titleEnrolled": "Ilmoittautuneet"
     },
     "pageTitle": "Tapahtuma-aika",

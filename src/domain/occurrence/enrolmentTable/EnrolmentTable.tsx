@@ -1,4 +1,5 @@
-import { Checkbox } from 'hds-react';
+import classNames from 'classnames';
+import { Checkbox, IconAngleDown } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,6 +10,7 @@ import {
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
+import AdditionalInfo from './additionalInfo/AdditionalInfo';
 import styles from './enrolmentTable.module.scss';
 
 interface Props {
@@ -112,7 +114,45 @@ const EnrolmentTable: React.FC<Props> = ({
       ),
       id: 'status',
     },
+    {
+      Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
+      accessor: (row: EnrolmentFieldsFragment) => row,
+      Cell: ({
+        row,
+      }: {
+        value: EnrolmentFieldsFragment;
+        row: {
+          getToggleRowExpandedProps: () => void;
+          isExpanded: boolean;
+        };
+      }) => {
+        return (
+          <button
+            aria-label={t(
+              'occurrenceDetails.enrolmentTable.showEnrolmentDetails'
+            )}
+            {...row.getToggleRowExpandedProps()}
+          >
+            <IconAngleDown
+              className={classNames(styles.iconAngle, {
+                [styles.iconAngleUp]: row.isExpanded,
+              })}
+            />
+          </button>
+        );
+      },
+      style: {
+        textAlign: 'center',
+        width: '1%',
+      },
+      id: 'additionalInfo',
+    },
   ];
+
+  const renderEnrolmentInfo = (enrolment: EnrolmentFieldsFragment) => (
+    <AdditionalInfo enrolment={enrolment} />
+  );
+
   return (
     <div className={styles.enrolmentTable}>
       <div className={styles.count}>
@@ -123,7 +163,14 @@ const EnrolmentTable: React.FC<Props> = ({
           seatsTaken,
         })}
       </div>
-      {!!enrolments.length && <Table columns={columns} data={enrolments} />}
+      {!!enrolments.length && (
+        <Table
+          columns={columns}
+          data={enrolments}
+          renderExpandedArea={renderEnrolmentInfo}
+          expandedAreaOffset={1}
+        />
+      )}
     </div>
   );
 };

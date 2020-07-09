@@ -339,6 +339,7 @@
     "buttonEditOccurrence": "Redigera evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
     "enrolmentTable": {
+      "columnAdditionalInfo": "Ytterligare info",
       "columnEnrolmentTime": "Anmäld kl",
       "columnGroupSize": "Barn / vuxna",
       "columnPersonName": "Namn",
@@ -346,6 +347,8 @@
       "columnStudyGroupGroupName": "Grupp",
       "columnStudyGroupName": "Förskola / skola / högskola",
       "count": "{{seatsTaken}} st, {{approvedCount}} bekräftade, {{pendingCount}} i rad",
+      "messages": "Inlägg: {{language}}",
+      "showEnrolmentDetails": "Visa mer registreringsinformation",
       "titleEnrolled": "Registreringar"
     },
     "pageTitle": "Evenemangtid",

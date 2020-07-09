@@ -2070,7 +2070,7 @@ export type OrganisationsQuery = (
 
 export type PersonFieldsFragment = (
   { __typename?: 'PersonNode' }
-  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber'>
+  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber' | 'language'>
 );
 
 export type PersonQueryVariables = {
@@ -2202,6 +2202,7 @@ export const PersonFieldsFragmentDoc = gql`
   emailAddress
   name
   phoneNumber
+  language
 }
     `;
 export const StudyGroupFieldsFragmentDoc = gql`

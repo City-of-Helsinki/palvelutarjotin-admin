@@ -6,6 +6,7 @@ export const QUERY_PLACE = gql`
     emailAddress
     name
     phoneNumber
+    language
   }
 
   query Person($id: ID!) {

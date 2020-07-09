@@ -338,6 +338,7 @@
     "buttonEditOccurrence": "Edit event time",
     "buttonEventDetails": "View event details",
     "enrolmentTable": {
+      "columnAdditionalInfo": "Additional info",
       "columnEnrolmentTime": "Enrolled at",
       "columnGroupSize": "Children / Adults",
       "columnPersonName": "Name",
@@ -345,6 +346,8 @@
       "columnStudyGroupGroupName": "Group",
       "columnStudyGroupName": "Kindergarten / School / College",
       "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} in line",
+      "messages": "Messages: {{language}}",
+      "showEnrolmentDetails": "Show enrolment details",
       "titleEnrolled": "Registrations"
     },
     "pageTitle": "Event time",

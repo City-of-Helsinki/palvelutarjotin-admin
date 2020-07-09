@@ -1,0 +1,11 @@
+.additionalInfo {
+  font-size: var(--fontsize-body-default);
+
+  .contactInfo {
+    margin-bottom: var(--spacing-s);
+
+    span {
+      margin-right: var(--spacing-m);
+    }
+  }
+}
