@@ -120,7 +120,7 @@ const OccurrencesTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrences.table.columnEnrolments'),
-      accessor: (row: OccurrenceFieldsFragment) => 'TODO',
+      accessor: (row: OccurrenceFieldsFragment) => row.seatsTaken || 0,
       id: 'enrolments',
     },
     {

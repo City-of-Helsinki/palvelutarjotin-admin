@@ -17,6 +17,7 @@ export const QUERY_OCCURRENCE = gql`
     startTime
     endTime
     placeId
+    seatsTaken
   }
 
   query Occurrence($id: ID!) {

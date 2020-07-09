@@ -13,11 +13,13 @@ import {
   EventFieldsFragment,
   EventQuery,
   Language as TranslationLanguage,
+  OccurrenceFieldsFragment,
   VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
+import getLocalisedString from '../../utils/getLocalizedString';
 import apolloClient from '../app/apollo/apolloClient';
 import { getVenueDescription } from '../venue/utils';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
@@ -288,3 +290,36 @@ export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
     )
   );
 };
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const getEventFields = (
+  event: EventFieldsFragment | undefined | null,
+  locale: Language
+) =>
+  event
+    ? {
+        id: event.id,
+        eventName: getLocalisedString(event.name, locale),
+        shortDescription: getLocalisedString(event.shortDescription, locale),
+        description: getLocalisedString(event.description, locale),
+        infoUrl: getLocalisedString(event.infoUrl, locale),
+        imageUrl:
+          event.images?.[0]?.url || getEventPlaceholderImage(event.id || ''),
+        imageAltText: event.images?.[0]?.altText,
+        locationId: event.location?.id,
+        photographerName: event.images?.[0]?.photographerName,
+        organization: event.pEvent?.organisation?.name,
+        contactPhoneNumber: event.pEvent?.contactPhoneNumber,
+        contactEmail: event.pEvent?.contactEmail,
+        contactPerson: event.pEvent?.contactPerson?.name,
+        neededOccurrences: event.pEvent?.neededOccurrences,
+        occurrences:
+          event.pEvent?.occurrences.edges.map(
+            (edge) => edge?.node as OccurrenceFieldsFragment
+          ) || [],
+        totalSeatsTakes: event.pEvent?.occurrences.edges.reduce(
+          (acc, cur) => acc + (cur?.node?.seatsTaken || 0),
+          0
+        ),
+      }
+    : {};

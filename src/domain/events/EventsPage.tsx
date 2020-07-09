@@ -19,7 +19,11 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
-import { hasComingOccurrences, hasOccurrences } from '../event/utils';
+import {
+  getEventFields,
+  hasComingOccurrences,
+  hasOccurrences,
+} from '../event/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
@@ -52,15 +56,23 @@ const Events: React.FC<{
   return (
     <div className={styles.eventsContainer}>
       {events?.map((event) => {
+        const {
+          description,
+          eventName = '',
+          id,
+          imageUrl,
+          occurrences,
+          totalSeatsTakes = 0,
+        } = getEventFields(event, locale);
         return (
           <EventCard
-            key={event.id || ''}
-            description={getLocalizedString(event.description || {}, locale)}
-            enrolmentsCount={0}
-            id={event.id || ''}
-            image={event.images[0]?.url}
-            name={getLocalizedString(event.name || {}, locale)}
-            occurrencesCount={event.pEvent?.occurrences.edges.length || 0}
+            key={id || ''}
+            description={description}
+            enrolmentsCount={totalSeatsTakes}
+            id={id || ''}
+            image={imageUrl}
+            name={eventName}
+            occurrencesCount={occurrences?.length || 0}
             onClick={goToEventOccurrencesPage}
           />
         );
