@@ -334,6 +334,7 @@
   "occurrenceDetails": {
     "buttonBack": "Evenemangtider",
     "buttonEditOccurrence": "Redigera evenemangtid",
+    "buttonEventDetails": "Visa information om evenemanget",
     "pageTitle": "Evenemangtid",
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",

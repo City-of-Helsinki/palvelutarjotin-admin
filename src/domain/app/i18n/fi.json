@@ -333,6 +333,7 @@
   "occurrenceDetails": {
     "buttonBack": "Tapahtuma-ajat",
     "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
+    "buttonEventDetails": "Näytä tapahtuman tiedot",
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",
     "textAmountOfSeats": "{{count}} paikka",
