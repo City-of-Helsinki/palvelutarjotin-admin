@@ -63,6 +63,8 @@ const OccurrenceDetailsPage = () => {
 
                 <OccurrenceInfo event={event} occurrence={occurrence} />
 
+                <div className={styles.divider} />
+
                 <EnrolmentTable
                   enrolments={occurrence.enrolments.edges.map(
                     (e) => e?.node as EnrolmentFieldsFragment
