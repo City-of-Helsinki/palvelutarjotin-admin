@@ -149,9 +149,9 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
     };
   }, [onDocumentFocusin, setupKeyboardNav, teardownKeyboardNav]);
 
-  const goToEnrolmentsPage = () => {
+  const goToOccurrenceDetailsPage = () => {
     history.push(
-      `/${locale}${ROUTES.ENROLMENTS.replace(':id', eventId).replace(
+      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id
       )}`
@@ -206,7 +206,10 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
       </button>
 
       <ul role="menu" className={styles.dropdownMenu}>
-        <MenuItem isFocused={focusedIndex === 0} onClick={goToEnrolmentsPage}>
+        <MenuItem
+          isFocused={focusedIndex === 0}
+          onClick={goToOccurrenceDetailsPage}
+        >
           <IconUser />
           {t('occurrences.actionsDropdown.menuItemEnrolments')}
         </MenuItem>
