@@ -67,6 +67,7 @@ const OccurrenceDetailsPage = () => {
                   enrolments={occurrence.enrolments.edges.map(
                     (e) => e?.node as EnrolmentFieldsFragment
                   )}
+                  id="enrolments-table"
                 />
               </div>
             </Container>
