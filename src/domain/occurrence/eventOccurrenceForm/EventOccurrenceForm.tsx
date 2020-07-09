@@ -24,31 +24,24 @@ import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
+import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
+import { OccurrenceFormFields } from '../types';
 import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
-export type OccurrenceFormFields = {
-  autoAcceptance: boolean;
-  date: Date | null;
-  startsAt: string;
-  endsAt: string;
-  languages: string[];
-  location: string;
-  amountOfSeats: string;
-  maxGroupSize: string;
-  minGroupSize: string;
-};
-
-export const defaultInitialValues = {
+export const defaultInitialValues: OccurrenceFormFields = {
   autoAcceptance: true,
   date: null,
   languages: [],
   startsAt: '',
   endsAt: '',
-  location: '',
+  placeId: '',
   amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
+  locationDescription: '',
+  hasClothingStorage: false,
+  hasSnackEatingPlace: false,
 };
 
 interface Props {
@@ -78,7 +71,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
 
   const eventPlaceId = eventData?.event?.location?.id || '';
   const [editPlaceMode, setEditPlaceMode] = React.useState(
-    Boolean(initialValues.location)
+    Boolean(initialValues.placeId)
   );
 
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
@@ -122,7 +115,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
       }}
       validationSchema={ValidationSchema}
     >
-      {({ values: { location }, handleSubmit }) => {
+      {({ values: { placeId }, handleSubmit, setFieldValue }) => {
         return (
           <form
             className={styles.eventOccurrenceForm}
@@ -247,7 +240,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     <FormGroup>
                       <Field
                         labelText={t('eventOccurrenceForm.labelEventLocation')}
-                        name="location"
+                        name="placeId"
                         component={PlaceSelectorField}
                       />
                     </FormGroup>
@@ -257,16 +250,23 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     </TextTitle>
                   )}
 
-                  {(!!location || !!eventPlaceId) && (
+                  {(!!placeId || !!eventPlaceId) && (
                     <FormGroup>
                       <PlaceInfo
-                        id={location || eventPlaceId}
+                        id={placeId || eventPlaceId}
                         language={locale}
                         onEditButtonClick={setEditPlaceMode}
                         showEditButton={!editPlaceMode}
-                        showVenueInfo={true}
+                        showVenueInfo={!placeId}
                       />
                     </FormGroup>
+                  )}
+                  {placeId && (
+                    <VenueDataFields
+                      locationId={placeId}
+                      selectedLanguage={locale}
+                      setFieldValue={setFieldValue}
+                    />
                   )}
                 </div>
               </div>

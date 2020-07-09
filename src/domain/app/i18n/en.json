@@ -155,7 +155,7 @@
       "addImage": "Add image",
       "deleteImage": "Delete image",
       "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
-      "imageAltTextHelp": "Description of the contents of the image. Add license information also.", 
+      "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
       "labelEnrolmentEndDays": "Enrolment closes, days",
@@ -163,7 +163,7 @@
       "labelImage": "Event picture",
       "labelImageAltText": "Picture alt-text",
       "labelImagePhotographer": "Photographer",
-      "labelInfoUrl": "A web address where you can find more information about the event",  
+      "labelInfoUrl": "A web address where you can find more information about the event",
       "labelName": "Event name",
       "labelShortDescription": "Short description (up to 160 characters)",
       "photographer": "Photographer",
@@ -196,13 +196,8 @@
     },
     "location": {
       "helperLocation": "The default venue for event times",
-      "helperLocationDescription": "Additional information to facilitate the visit",
       "labelLocation": "Default venue",
-      "labelLocationDescription": "Description of the venue",
-      "labelHasClothingStorage": "Clothing storage",
-      "labelHasSnackEatingPlace": "Snack eating place",
       "placeholderLocation": "Search place...",
-      "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ...",
       "title": "Location"
     },
     "title": "Event details"
@@ -376,5 +371,14 @@
     "textNoComingOccurrences": "No coming event times",
     "titleComingOccurrences": "Coming event times",
     "titlePastOccurrences": "Past event times"
+  },
+  "venue": {
+    "venueDataFields": {
+      "helperLocationDescription": "Additional information to facilitate the visit",
+      "labelHasClothingStorage": "Clothing storage",
+      "labelHasSnackEatingPlace": "Snack eating place",
+      "labelLocationDescription": "Description of the venue",
+      "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ..."
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { setHours, setMinutes } from 'date-fns';
 
 import { Language } from '../../generated/graphql';
-import { OccurrenceFormFields } from './eventOccurrenceForm/EventOccurrenceForm';
+import { OccurrenceFormFields } from './types';
 /**
  * Get payload to create/edit occurrence
  * @param {object} values
@@ -32,7 +32,7 @@ export const getOccurrencePayload = ({
       : new Date(),
     languages: values.languages.map((lang) => ({ id: lang as Language })),
     pEventId,
-    placeId: values.location,
+    placeId: values.placeId,
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || 0,
     maxGroupSize: Number(values.maxGroupSize) || 0,

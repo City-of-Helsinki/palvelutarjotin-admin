@@ -8,7 +8,7 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import { VenueDocument, VenueQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import apolloClient from '../../app/apollo/apolloClient';
-import styles from './eventForm.module.scss';
+import styles from './venueDataFields.module.scss';
 
 const VenueDataFields: React.FC<{
   locationId: string;
@@ -29,9 +29,11 @@ const VenueDataFields: React.FC<{
             query: VenueDocument,
             variables: { id: locationId },
           });
+
           const description = data.venue?.translations.find(
             (t) => (t.languageCode as string).toLowerCase() === selectedLanguage
           );
+
           setFieldValue('locationDescription', description?.description || '');
           setFieldValue(
             'hasSnackEatingPlace',
@@ -51,30 +53,28 @@ const VenueDataFields: React.FC<{
   }, [locationId, setFieldValue, selectedLanguage]);
 
   return (
-    <>
-      <FormGroup>
+    <FormGroup>
+      <Field
+        helperText={t('venue.venueDataFields.helperLocationDescription')}
+        labelText={t('venue.venueDataFields.labelLocationDescription')}
+        name="locationDescription"
+        placeholder={t('venue.venueDataFields.placeholderLocationDescription')}
+        component={TextAreaInputField}
+        rows={5}
+      />
+      <div className={styles.venueCheckboxFields}>
         <Field
-          helperText={t('eventForm.location.helperLocationDescription')}
-          labelText={t('eventForm.location.labelLocationDescription')}
-          name="locationDescription"
-          placeholder={t('eventForm.location.placeholderLocationDescription')}
-          component={TextAreaInputField}
-          rows={5}
+          component={CheckboxField}
+          name="hasClothingStorage"
+          labelText={t('venue.venueDataFields.labelHasClothingStorage')}
         />
-        <div className={styles.venueCheckboxFields}>
-          <Field
-            component={CheckboxField}
-            name="hasClothingStorage"
-            labelText={t('eventForm.location.labelHasClothingStorage')}
-          />
-          <Field
-            component={CheckboxField}
-            name="hasSnackEatingPlace"
-            labelText={t('eventForm.location.labelHasSnackEatingPlace')}
-          />
-        </div>
-      </FormGroup>
-    </>
+        <Field
+          component={CheckboxField}
+          name="hasSnackEatingPlace"
+          labelText={t('venue.venueDataFields.labelHasSnackEatingPlace')}
+        />
+      </div>
+    </FormGroup>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   useEditOccurrenceMutation,
   useEventQuery,
   useOccurrenceQuery,
+  useVenueQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import formatDate from '../../utils/formatDate';
@@ -20,10 +21,10 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import EventOccurrenceForm, {
-  OccurrenceFormFields,
-} from './eventOccurrenceForm/EventOccurrenceForm';
+import { createOrUpdateVenue, getVenueDescription } from '../venue/utils';
+import EventOccurrenceForm from './eventOccurrenceForm/EventOccurrenceForm';
 import styles from './occurrencePage.module.scss';
+import { OccurrenceFormFields } from './types';
 import { getOccurrencePayload } from './utils';
 
 interface Params {
@@ -45,6 +46,7 @@ const EditOccurrencePage: React.FC = () => {
   } = useEventQuery({
     variables: { id: eventId, include: ['location'] },
   });
+
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
   const [editOccurrence] = useEditOccurrenceMutation();
@@ -54,6 +56,12 @@ const EditOccurrencePage: React.FC = () => {
     loading: loadingOccurrence,
   } = useOccurrenceQuery({
     variables: { id: occurrenceId },
+  });
+
+  const { data: venueData, loading: loadingVenue } = useVenueQuery({
+    fetchPolicy: 'network-only',
+    skip: !occurrenceData?.occurrence?.placeId,
+    variables: { id: occurrenceData?.occurrence?.placeId as string },
   });
 
   const goToEventDetailsPage = () => {
@@ -83,13 +91,37 @@ const EditOccurrencePage: React.FC = () => {
     };
   };
 
+  const runSubmitRequests = async (values: OccurrenceFormFields) => {
+    try {
+      const requests: Promise<any>[] = [];
+
+      requests.push(
+        editOccurrence({
+          variables: {
+            input: getPayload(values),
+          },
+        })
+      );
+
+      const createOrUpdateVenueRequest = createOrUpdateVenue({
+        formValues: values,
+        locationId: values.placeId,
+        language: locale,
+      });
+
+      if (createOrUpdateVenueRequest) {
+        requests.push(createOrUpdateVenueRequest);
+      }
+
+      await Promise.all(requests);
+    } catch (e) {
+      throw e;
+    }
+  };
+
   const submit = async (values: OccurrenceFormFields) => {
     try {
-      await editOccurrence({
-        variables: {
-          input: getPayload(values),
-        },
-      });
+      await runSubmitRequests(values);
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
@@ -104,11 +136,7 @@ const EditOccurrencePage: React.FC = () => {
     resetForm: () => void
   ) => {
     try {
-      await editOccurrence({
-        variables: {
-          input: getPayload(values),
-        },
-      });
+      await runSubmitRequests(values);
       history.push(
         `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
       );
@@ -122,7 +150,7 @@ const EditOccurrencePage: React.FC = () => {
     }
   };
 
-  const initialValues = React.useMemo(
+  const initialValues: OccurrenceFormFields = React.useMemo(
     () => ({
       date: occurrenceData?.occurrence?.startTime
         ? new Date(occurrenceData?.occurrence?.startTime)
@@ -137,18 +165,23 @@ const EditOccurrencePage: React.FC = () => {
         occurrenceData?.occurrence?.languages.map((language) =>
           language.id.toUpperCase()
         ) || [],
-      location: occurrenceData?.occurrence?.placeId || '',
+      placeId: occurrenceData?.occurrence?.placeId || '',
       amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize.toString() || '',
       minGroupSize: occurrenceData?.occurrence?.minGroupSize.toString() || '',
       autoAcceptance: Boolean(occurrenceData?.occurrence?.autoAcceptance),
+      locationDescription: getVenueDescription(venueData, locale),
+      hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
+      hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
     }),
-    [occurrenceData]
+    [locale, occurrenceData, venueData]
   );
 
   return (
     <PageWrapper title="editOccurrence.pageTitle">
-      <LoadingSpinner isLoading={loadingEvent || loadingOccurrence}>
+      <LoadingSpinner
+        isLoading={loadingEvent || loadingOccurrence || loadingVenue}
+      >
         {eventData && occurrenceData ? (
           <Container>
             <div className={styles.eventOccurrencePage}>
