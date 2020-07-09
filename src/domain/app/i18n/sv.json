@@ -344,7 +344,9 @@
       "columnPersonName": "Namn",
       "columnStatus": "Status",
       "columnStudyGroupGroupName": "Grupp",
-      "columnStudyGroupName": "Förskola / skola / högskola"
+      "columnStudyGroupName": "Förskola / skola / högskola",
+      "count": "{{seatsTaken}} st, {{approvedCount}} bekräftade, {{pendingCount}} i rad",
+      "titleEnrolled": "Registreringar"
     },
     "pageTitle": "Evenemangtid",
     "textDateAndTime": "{{date}} kl. {{time}}",

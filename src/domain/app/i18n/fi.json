@@ -343,7 +343,9 @@
       "columnPersonName": "Nimi",
       "columnStatus": "Tila",
       "columnStudyGroupGroupName": "Ryhmä",
-      "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos"
+      "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos",
+      "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} jonossa",
+      "titleEnrolled": "Ilmoittautuneet"
     },
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",

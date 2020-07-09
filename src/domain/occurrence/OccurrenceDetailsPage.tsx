@@ -70,6 +70,7 @@ const OccurrenceDetailsPage = () => {
                     (e) => e?.node as EnrolmentFieldsFragment
                   )}
                   id="enrolments-table"
+                  seatsTaken={occurrence.seatsTaken || 0}
                 />
               </div>
             </Container>

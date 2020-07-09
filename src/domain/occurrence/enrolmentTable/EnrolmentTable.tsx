@@ -3,16 +3,25 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Table from '../../../common/components/table/Table';
-import { EnrolmentFieldsFragment } from '../../../generated/graphql';
+import {
+  EnrolmentFieldsFragment,
+  EnrolmentStatus,
+} from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
+import styles from './enrolmentTable.module.scss';
 
 interface Props {
   enrolments: EnrolmentFieldsFragment[];
   id: string;
+  seatsTaken?: number;
 }
 
-const EnrolmentTable: React.FC<Props> = ({ enrolments, id }) => {
+const EnrolmentTable: React.FC<Props> = ({
+  enrolments,
+  id,
+  seatsTaken = 0,
+}) => {
   const { t } = useTranslation();
 
   const [selectedEnrolments, setSelectedEnrolments] = React.useState<string[]>(
@@ -39,6 +48,14 @@ const EnrolmentTable: React.FC<Props> = ({ enrolments, id }) => {
         : [...selectedEnrolments, row.id]
     );
   };
+
+  const approvedCount = enrolments
+    .filter((e) => e.status === EnrolmentStatus.Approved)
+    .reduce((acc, cur) => acc + cur.studyGroup.groupSize, 0);
+
+  const pendingCount = enrolments
+    .filter((e) => e.status === EnrolmentStatus.Pending)
+    .reduce((acc, cur) => acc + cur.studyGroup.groupSize, 0);
 
   const columns = [
     {
@@ -96,7 +113,19 @@ const EnrolmentTable: React.FC<Props> = ({ enrolments, id }) => {
       id: 'status',
     },
   ];
-  return <Table columns={columns} data={enrolments} />;
+  return (
+    <div className={styles.enrolmentTable}>
+      <div className={styles.count}>
+        <strong>{t('occurrenceDetails.enrolmentTable.titleEnrolled')} </strong>{' '}
+        {t('occurrenceDetails.enrolmentTable.count', {
+          approvedCount,
+          pendingCount,
+          seatsTaken,
+        })}
+      </div>
+      {!!enrolments.length && <Table columns={columns} data={enrolments} />}
+    </div>
+  );
 };
 
 export default EnrolmentTable;

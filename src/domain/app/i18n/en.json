@@ -343,7 +343,9 @@
       "columnPersonName": "Name",
       "columnStatus": "Status",
       "columnStudyGroupGroupName": "Group",
-      "columnStudyGroupName": "Kindergarten / School / College"
+      "columnStudyGroupName": "Kindergarten / School / College",
+      "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} in line",
+      "titleEnrolled": "Registrations"
     },
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
