@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const QUERY_OCCURRENCE = gql`
+export const QUERY_ENROLMENT = gql`
   fragment studyGroupFields on StudyGroupNode {
     id
     groupSize
