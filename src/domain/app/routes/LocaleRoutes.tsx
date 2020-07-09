@@ -7,7 +7,6 @@ import { SUPPORT_LANGUAGES } from '../../../constants';
 import { tokenFetched } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { apiTokenSelector, userSelector } from '../../auth/selectors';
-import EnrolmentsPage from '../../enrolments/EnrolmentsPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
@@ -87,11 +86,6 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
           exact
           path={`/${locale}${ROUTES.EDIT_OCCURRENCE}`}
           component={EditOccurrencePage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.ENROLMENTS}`}
-          component={EnrolmentsPage}
         />
         <Route
           exact

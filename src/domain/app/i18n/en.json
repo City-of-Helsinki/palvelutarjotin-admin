@@ -328,6 +328,7 @@
   "occurrenceDetails": {
     "buttonBack": "Event times",
     "buttonEditOccurrence": "Edit event time",
+    "buttonEventDetails": "View event details",
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",

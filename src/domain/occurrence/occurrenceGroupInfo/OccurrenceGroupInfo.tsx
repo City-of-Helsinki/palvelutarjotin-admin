@@ -1,21 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OccurrenceQuery } from '../../../generated/graphql';
+import { OccurrenceFieldsFragment } from '../../../generated/graphql';
 
 interface Props {
-  occurrenceData: OccurrenceQuery;
+  occurrence: OccurrenceFieldsFragment;
 }
 
-const OccurrenceGroupInfo: React.FC<Props> = ({ occurrenceData }) => {
+const OccurrenceGroupInfo: React.FC<Props> = ({ occurrence }) => {
   const { t } = useTranslation();
 
-  const languages = occurrenceData?.occurrence?.languages.map(
-    (language) => language.id
-  );
-  const amountOfSeats = occurrenceData?.occurrence?.amountOfSeats;
-  const maxGroupSize = occurrenceData?.occurrence?.maxGroupSize;
-  const minGroupSize = occurrenceData?.occurrence?.minGroupSize;
+  const languages = occurrence.languages.map((language) => language.id);
+  const amountOfSeats = occurrence.amountOfSeats;
+  const maxGroupSize = occurrence.maxGroupSize;
+  const minGroupSize = occurrence.minGroupSize;
   const groupInfo = [
     t('occurrenceDetails.textAmountOfSeats', {
       count: amountOfSeats,

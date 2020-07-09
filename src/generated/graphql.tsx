@@ -407,6 +407,7 @@ export type PersonNode = Node & {
   pEvent: PalvelutarjotinEventNodeConnection;
   occurrences: OccurrenceNodeConnection;
   studygroupSet: StudyGroupNodeConnection;
+  enrolmentSet: EnrolmentNodeConnection;
 };
 
 
@@ -438,6 +439,14 @@ export type PersonNodeOccurrencesArgs = {
 
 
 export type PersonNodeStudygroupSetArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodeEnrolmentSetArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -513,6 +522,10 @@ export type StudyGroupNode = Node & {
   person: PersonNode;
   name: Scalars['String'];
   groupSize: Scalars['Int'];
+  amountOfAdult: Scalars['Int'];
+  groupName: Scalars['String'];
+  studyLevel?: Maybe<StudyLevel>;
+  extraNeeds: Scalars['String'];
   occurrences: OccurrenceNodeConnection;
   enrolments: EnrolmentNodeConnection;
 };
@@ -535,6 +548,22 @@ export type StudyGroupNodeEnrolmentsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
+
+/** An enumeration. */
+export enum StudyLevel {
+  Preschool = 'PRESCHOOL',
+  Grade_1 = 'GRADE_1',
+  Grade_2 = 'GRADE_2',
+  Grade_3 = 'GRADE_3',
+  Grade_4 = 'GRADE_4',
+  Grade_5 = 'GRADE_5',
+  Grade_6 = 'GRADE_6',
+  Grade_7 = 'GRADE_7',
+  Grade_8 = 'GRADE_8',
+  Grade_9 = 'GRADE_9',
+  Grade_10 = 'GRADE_10',
+  Secondary = 'SECONDARY'
+}
 
 export type EnrolmentNodeConnection = {
    __typename?: 'EnrolmentNodeConnection';
@@ -560,7 +589,29 @@ export type EnrolmentNode = Node & {
   studyGroup: StudyGroupNode;
   occurrence: OccurrenceNode;
   enrolmentTime: Scalars['DateTime'];
+  person?: Maybe<PersonNode>;
+  notificationType?: Maybe<NotificationType>;
+  status: EnrolmentStatus;
 };
+
+/** An enumeration. */
+export enum NotificationType {
+  EmailSms = 'EMAIL_SMS',
+  Email = 'EMAIL',
+  Sms = 'SMS'
+}
+
+/** An enumeration. */
+export enum EnrolmentStatus {
+  /** approved */
+  Approved = 'APPROVED',
+  /** pending */
+  Pending = 'PENDING',
+  /** cancelled */
+  Cancelled = 'CANCELLED',
+  /** declined */
+  Declined = 'DECLINED'
+}
 
 export type LanguageType = {
    __typename?: 'LanguageType';
@@ -852,6 +903,8 @@ export type Mutation = {
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
   /** Only staff can unenrol study group */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
+  approveEnrolment?: Maybe<ApproveEnrolmentMutationPayload>;
+  declineEnrolment?: Maybe<DeclineEnrolmentMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
@@ -918,6 +971,16 @@ export type MutationEnrolOccurrenceArgs = {
 
 export type MutationUnenrolOccurrenceArgs = {
   input: UnenrolOccurrenceMutationInput;
+};
+
+
+export type MutationApproveEnrolmentArgs = {
+  input: ApproveEnrolmentMutationInput;
+};
+
+
+export type MutationDeclineEnrolmentArgs = {
+  input: DeclineEnrolmentMutationInput;
 };
 
 
@@ -1098,6 +1161,10 @@ export type AddStudyGroupMutationInput = {
   person: PersonNodeInput;
   name?: Maybe<Scalars['String']>;
   groupSize: Scalars['Int'];
+  groupName?: Maybe<Scalars['String']>;
+  extraNeeds?: Maybe<Scalars['String']>;
+  amountOfAdult?: Maybe<Scalars['Int']>;
+  studyLevel?: Maybe<StudyLevel>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1112,6 +1179,10 @@ export type UpdateStudyGroupMutationInput = {
   person?: Maybe<PersonNodeInput>;
   name?: Maybe<Scalars['String']>;
   groupSize?: Maybe<Scalars['Int']>;
+  groupName?: Maybe<Scalars['String']>;
+  extraNeeds?: Maybe<Scalars['String']>;
+  amountOfAdult?: Maybe<Scalars['Int']>;
+  studyLevel?: Maybe<StudyLevel>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1127,16 +1198,30 @@ export type DeleteStudyGroupMutationInput = {
 
 export type EnrolOccurrenceMutationPayload = {
    __typename?: 'EnrolOccurrenceMutationPayload';
-  enrolment?: Maybe<EnrolmentNode>;
+  enrolments?: Maybe<Array<Maybe<EnrolmentNode>>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type EnrolOccurrenceMutationInput = {
-  /** Occurrence id of event */
-  occurrenceId: Scalars['ID'];
-  /** Study group id */
-  studyGroupId: Scalars['ID'];
+  /** Occurrence ids of event */
+  occurrenceIds: Array<Maybe<Scalars['ID']>>;
+  /** Study group data */
+  studyGroup: StudyGroupInput;
+  notificationType?: Maybe<NotificationType>;
+  /** Leave blank if the contact person is the same with group contact person */
+  person?: Maybe<PersonNodeInput>;
   clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type StudyGroupInput = {
+  /** If person input doesn't include person id, a new person object will be created */
+  person: PersonNodeInput;
+  name?: Maybe<Scalars['String']>;
+  groupSize: Scalars['Int'];
+  groupName?: Maybe<Scalars['String']>;
+  extraNeeds?: Maybe<Scalars['String']>;
+  amountOfAdult?: Maybe<Scalars['Int']>;
+  studyLevel?: Maybe<StudyLevel>;
 };
 
 export type UnenrolOccurrenceMutationPayload = {
@@ -1151,6 +1236,28 @@ export type UnenrolOccurrenceMutationInput = {
   occurrenceId: Scalars['ID'];
   /** Study group id */
   studyGroupId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type ApproveEnrolmentMutationPayload = {
+   __typename?: 'ApproveEnrolmentMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type ApproveEnrolmentMutationInput = {
+  enrolmentId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeclineEnrolmentMutationPayload = {
+   __typename?: 'DeclineEnrolmentMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type DeclineEnrolmentMutationInput = {
+  enrolmentId: Scalars['ID'];
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1810,7 +1917,7 @@ export type EditOccurrenceMutation = (
 
 export type OccurrenceFieldsFragment = (
   { __typename?: 'OccurrenceNode' }
-  & Pick<OccurrenceNode, 'id' | 'amountOfSeats' | 'minGroupSize' | 'maxGroupSize' | 'autoAcceptance' | 'startTime' | 'endTime' | 'placeId'>
+  & Pick<OccurrenceNode, 'id' | 'amountOfSeats' | 'minGroupSize' | 'maxGroupSize' | 'autoAcceptance' | 'startTime' | 'endTime' | 'placeId' | 'seatsTaken'>
   & { pEvent?: Maybe<(
     { __typename?: 'PalvelutarjotinEventNode' }
     & Pick<PalvelutarjotinEventNode, 'id'>
@@ -2118,6 +2225,7 @@ export const OccurrenceFieldsFragmentDoc = gql`
   startTime
   endTime
   placeId
+  seatsTaken
 }
     `;
 export const PEventFieldsFragmentDoc = gql`
