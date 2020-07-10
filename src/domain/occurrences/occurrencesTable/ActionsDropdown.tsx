@@ -1,4 +1,4 @@
-import { IconPenLine, IconUser } from 'hds-react';
+import { IconCrossCircle, IconPenLine, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -9,7 +9,6 @@ import TableDropdown, {
 } from '../../../common/components/tableDropdown/TableDropdown';
 import { OccurrenceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import IconDelete from '../../../icons/IconDelete';
 import { ROUTES } from '../../app/routes/constants';
 import styles from './actionsDropdown.module.scss';
 
@@ -78,7 +77,7 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
       onClick: openDeleteModal,
       children: (
         <>
-          <IconDelete className={styles.iconDelete} />
+          <IconCrossCircle className={styles.iconDelete} />
           {t('occurrences.actionsDropdown.menuItemDelete')}
         </>
       ),

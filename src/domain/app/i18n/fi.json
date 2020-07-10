@@ -341,6 +341,13 @@
     "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
     "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Vahvista ilmoittautuminen",
+        "menuItemDecline": "Jätä ilman paikkaa",
+        "menuItemDelete": "Muokkaa",
+        "menuItemEdit": "Poista"
+      },
+      "columnActions": "Toiminnot",
       "columnAdditionalInfo": "Lisätiedot",
       "columnEnrolmentTime": "Ilmoittautunut",
       "columnGroupSize": "Lapsia / aik.",

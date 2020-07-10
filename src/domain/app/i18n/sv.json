@@ -342,6 +342,13 @@
     "buttonEditOccurrence": "Redigera evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
     "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Bekräfta registrering",
+        "menuItemDecline": "Lämna utan plats",
+        "menuItemDelete": "Redigera",
+        "menuItemEdit": "Radera"
+      },
+      "columnActions": "Funktioner",
       "columnAdditionalInfo": "Ytterligare info",
       "columnEnrolmentTime": "Anmäld kl",
       "columnGroupSize": "Barn / vuxna",

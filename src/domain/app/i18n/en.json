@@ -341,6 +341,13 @@
     "buttonEditOccurrence": "Edit event time",
     "buttonEventDetails": "View event details",
     "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Approve enrolment",
+        "menuItemDecline": "Leave without seats",
+        "menuItemDelete": "Edit",
+        "menuItemEdit": "Delete"
+      },
+      "columnActions": "Actions",
       "columnAdditionalInfo": "Additional info",
       "columnEnrolmentTime": "Enrolled at",
       "columnGroupSize": "Children / Adults",
