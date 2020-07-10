@@ -1,4 +1,4 @@
-import { Button } from 'hds-react';
+import { Button, IconCrossCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
@@ -10,7 +10,6 @@ import {
   useEventQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import IconDelete from '../../icons/IconDelete';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
 import { clearApolloCache } from '../app/apollo/utils';
@@ -136,7 +135,7 @@ const EventDetailsPage = () => {
               </div>
               <Button
                 className={styles.deleteButton}
-                iconLeft={<IconDelete />}
+                iconLeft={<IconCrossCircle />}
                 onClick={openDeleteModal}
                 variant="secondary"
               >
