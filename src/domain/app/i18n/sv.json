@@ -48,6 +48,9 @@
       "ru": "Ryska",
       "sv": "Svenska",
       "zh_hans": "Kinesisk"
+    },
+    "tableDropdown": {
+      "toggleButton": "Välj"
     }
   },
   "errorPage": {
@@ -366,8 +369,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Radera",
       "menuItemEdit": "Redigera",
-      "menuItemEnrolments": "Registreringar",
-      "toggleButton": "Välj"
+      "menuItemEnrolments": "Registreringar"
     },
     "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
