@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Table from '../../../common/components/table/Table';
+import { UseExpandedColumnCell } from '../../../common/components/table/types';
 import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
@@ -117,15 +118,7 @@ const EnrolmentTable: React.FC<Props> = ({
     {
       Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
       accessor: (row: EnrolmentFieldsFragment) => row,
-      Cell: ({
-        row,
-      }: {
-        value: EnrolmentFieldsFragment;
-        row: {
-          getToggleRowExpandedProps: () => void;
-          isExpanded: boolean;
-        };
-      }) => {
+      Cell: ({ row }: UseExpandedColumnCell<EnrolmentFieldsFragment>) => {
         return (
           <button
             aria-label={t(

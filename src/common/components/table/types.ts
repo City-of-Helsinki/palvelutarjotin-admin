@@ -1,4 +1,10 @@
-import { Cell, ColumnInstance, HeaderGroup, Row } from 'react-table';
+import {
+  Cell,
+  ColumnInstance,
+  HeaderGroup,
+  Row,
+  UseExpandedRowProps,
+} from 'react-table';
 
 type StyleProps = {
   className?: string;
@@ -20,4 +26,9 @@ export type ExtendedHeaderGroup<
 
 export type ExtendedRow<D extends Record<string, unknown>> = Row<D> & {
   isExpanded?: boolean;
+};
+
+export type UseExpandedColumnCell<D extends Record<string, unknown>> = {
+  value: D;
+  row: UseExpandedRowProps<D>;
 };
