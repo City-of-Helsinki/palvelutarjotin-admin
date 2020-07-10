@@ -11,6 +11,7 @@ import {
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
+import ActionsDropdown from './actionsDropdown/ActionsDropdown';
 import AdditionalInfo from './additionalInfo/AdditionalInfo';
 import styles from './enrolmentTable.module.scss';
 
@@ -114,6 +115,12 @@ const EnrolmentTable: React.FC<Props> = ({
         <EnrolmentStatusBadge status={row.status} />
       ),
       id: 'status',
+    },
+    {
+      Header: t('occurrenceDetails.enrolmentTable.columnActions'),
+      accessor: (row: EnrolmentFieldsFragment) => <ActionsDropdown row={row} />,
+      id: 'actions',
+      rowClickDisabled: true,
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),

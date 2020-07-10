@@ -1,10 +1,5 @@
 .actionsDropdown {
-  --icon-size: var(--spacing-layout-xs);
-}
-.actionsDropdown {
   .iconDelete {
-    width: var(--icon-size);
-    width: var(--icon-size);
-    fill: var(--color-error);
+    color: var(--color-error);
   }
 }

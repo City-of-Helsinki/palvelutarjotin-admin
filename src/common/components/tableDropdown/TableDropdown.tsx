@@ -14,6 +14,7 @@ export type MenuItemProps = {
 type InternalMenuItemProps = MenuItemProps & {
   isFocused: boolean;
   row: Record<string, unknown>;
+  toggleMenu: () => void;
 };
 
 const MenuItem: React.FC<InternalMenuItemProps> = ({
@@ -21,11 +22,13 @@ const MenuItem: React.FC<InternalMenuItemProps> = ({
   isFocused,
   onClick,
   row,
+  toggleMenu,
 }) => {
   const component = React.useRef<HTMLLIElement>(null);
 
   const handleClick = () => {
     onClick(row);
+    toggleMenu();
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLLIElement>) => {
@@ -176,6 +179,7 @@ const ActionsDropdown: React.FC<Props> = ({ row, items }) => {
             isFocused={focusedIndex === index}
             onClick={item.onClick}
             row={row}
+            toggleMenu={toggleMenu}
           >
             {item.children}
           </MenuItem>
