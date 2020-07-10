@@ -1,23 +1,23 @@
-@import "layout";
-@import "variables";
+@import 'layout';
+@import 'variables';
 
 .eventDetailsPage {
   --color-delete-icon: var(--color-error);
   --color-text: var(--color-black-90);
 
   --fontsize-text: var(--fontsize-body-medium);
-  
+
   --fontweight-text: normal;
-  
+
   --grid-gap: var(--spacing-l);
-  
+
   --lineheight-text: var(--lineheight-l);
   --margin-text: 0 0 var(--spacing-l);
 }
 
 .eventDetailsPage {
   padding-bottom: $paddingBottomPage;
-  
+
   h1 {
     font-size: var(--fontsize-h-2);
   }
@@ -37,7 +37,7 @@
   .contentWrapper {
     display: grid;
     grid-gap: var(--grid-gap);
-  
+
     @include respond_above(sm) {
       grid-template-columns: 2fr 1fr;
     }
@@ -46,6 +46,6 @@
 
 .deleteButton {
   svg {
-    fill: var(--color-delete-icon);
+    color: var(--color-delete-icon);
   }
 }

@@ -4,14 +4,11 @@
   --color-icon: var(--color-error);
   --color-text: var(--color-bus);
   --fontweight-text: 500;
-  --width-icon: 1.5rem;
 }
 
 .deleteIconWrapper {
-  height: var(--width-icon);
-  width: var(--width-icon);
   margin-right: var(--spacing-s);
-  fill: var(--color-icon);
+  color: var(--color-icon);
 
   svg {
     display: block;
