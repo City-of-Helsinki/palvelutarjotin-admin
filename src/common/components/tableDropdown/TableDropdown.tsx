@@ -64,7 +64,7 @@ interface Props {
   row: Record<string, unknown>;
 }
 
-const ActionsDropdown: React.FC<Props> = ({ row, items }) => {
+const TableDropdown: React.FC<Props> = ({ row, items }) => {
   const container = React.useRef<HTMLDivElement>(null);
   const toggleButton = React.useRef<HTMLButtonElement>(null);
 
@@ -189,4 +189,4 @@ const ActionsDropdown: React.FC<Props> = ({ row, items }) => {
   );
 };
 
-export default ActionsDropdown;
+export default TableDropdown;
