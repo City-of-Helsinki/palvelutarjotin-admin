@@ -49,6 +49,9 @@
       "ru": "Russian",
       "sv": "Swedish",
       "zh_hans": "Chinese"
+    },
+    "tableDropdown": {
+      "toggleButton": "Select"
     }
   },
   "errorPage": {
@@ -103,6 +106,14 @@
     "error": "Failed to save event",
     "errorEventIsInThePast": "Event is in the past",
     "errorEventIsInThePastDescription": "Event that is in the past can't be edited."
+  },
+  "enrolment": {
+    "status": {
+      "approved": "Approved",
+      "cancelled": "Cancelled",
+      "declined": "Declined",
+      "pending": "New"
+    }
   },
   "eventDetails": {
     "basicInfo": {
@@ -329,6 +340,26 @@
     "buttonBack": "Event times",
     "buttonEditOccurrence": "Edit event time",
     "buttonEventDetails": "View event details",
+    "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Approve enrolment",
+        "menuItemDecline": "Leave without seats",
+        "menuItemDelete": "Edit",
+        "menuItemEdit": "Delete"
+      },
+      "columnActions": "Actions",
+      "columnAdditionalInfo": "Additional info",
+      "columnEnrolmentTime": "Enrolled at",
+      "columnGroupSize": "Children / Adults",
+      "columnPersonName": "Name",
+      "columnStatus": "Status",
+      "columnStudyGroupGroupName": "Group",
+      "columnStudyGroupName": "Kindergarten / School / College",
+      "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} in line",
+      "messages": "Messages: {{language}}",
+      "showEnrolmentDetails": "Show enrolment details",
+      "titleEnrolled": "Registrations"
+    },
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",
@@ -344,8 +375,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Delete",
       "menuItemEdit": "Edit",
-      "menuItemEnrolments": "Registrations",
-      "toggleButton": "Select"
+      "menuItemEnrolments": "Registrations"
     },
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",

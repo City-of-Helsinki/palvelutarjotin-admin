@@ -1,16 +1,16 @@
 .venueInfo {
   --icon-size: 1.5rem;
   --icon-spacing: var(--spacing-xs);
-  --section-spacing: var(--spacing-l) 0;
+  --section-spacing: var(--spacing-l);
 }
 
 .venueDescription {
-  margin: var(--section-spacing);
+  margin-top: var(--section-spacing);
 }
 
 .venueAmenities {
   display: flex;
-  margin: var(--section-spacing);
+  margin-top: var(--section-spacing);
 
   & > div {
     align-items: center;

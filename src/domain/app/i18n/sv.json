@@ -48,6 +48,9 @@
       "ru": "Ryska",
       "sv": "Svenska",
       "zh_hans": "Kinesisk"
+    },
+    "tableDropdown": {
+      "toggleButton": "Välj"
     }
   },
   "errorPage": {
@@ -85,6 +88,14 @@
     "validation": {
       "isPrivacyPolicyAccepted": "Integritetspolicy måste accepteras",
       "isTermsOfUsageServiceRead": "Användarvillkoren måste accepteras"
+    }
+  },
+  "enrolment": {
+    "status": {
+      "approved": "Godkänd",
+      "cancelled": "Inställt",
+      "declined": "Avböja",
+      "pending": "Ny"
     }
   },
   "createEvent": {
@@ -330,6 +341,26 @@
     "buttonBack": "Evenemangtider",
     "buttonEditOccurrence": "Redigera evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
+    "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Bekräfta registrering",
+        "menuItemDecline": "Lämna utan plats",
+        "menuItemDelete": "Redigera",
+        "menuItemEdit": "Radera"
+      },
+      "columnActions": "Funktioner",
+      "columnAdditionalInfo": "Ytterligare info",
+      "columnEnrolmentTime": "Anmäld kl",
+      "columnGroupSize": "Barn / vuxna",
+      "columnPersonName": "Namn",
+      "columnStatus": "Status",
+      "columnStudyGroupGroupName": "Grupp",
+      "columnStudyGroupName": "Förskola / skola / högskola",
+      "count": "{{seatsTaken}} st, {{approvedCount}} bekräftade, {{pendingCount}} i rad",
+      "messages": "Inlägg: {{language}}",
+      "showEnrolmentDetails": "Visa mer registreringsinformation",
+      "titleEnrolled": "Registreringar"
+    },
     "pageTitle": "Evenemangtid",
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",
@@ -345,8 +376,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Radera",
       "menuItemEdit": "Redigera",
-      "menuItemEnrolments": "Registreringar",
-      "toggleButton": "Välj"
+      "menuItemEnrolments": "Registreringar"
     },
     "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",

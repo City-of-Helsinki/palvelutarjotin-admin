@@ -1499,6 +1499,27 @@ export type DeleteImageMutation = {
   response?: Maybe<ImageMutationResponse>;
 };
 
+export type StudyGroupFieldsFragment = (
+  { __typename?: 'StudyGroupNode' }
+  & Pick<StudyGroupNode, 'id' | 'groupSize' | 'amountOfAdult' | 'name' | 'groupName' | 'studyLevel' | 'extraNeeds'>
+  & { person: (
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  ) }
+);
+
+export type EnrolmentFieldsFragment = (
+  { __typename?: 'EnrolmentNode' }
+  & Pick<EnrolmentNode, 'id' | 'enrolmentTime' | 'status'>
+  & { person?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  )>, studyGroup: (
+    { __typename?: 'StudyGroupNode' }
+    & StudyGroupFieldsFragment
+  ) }
+);
+
 export type CreateEventMutationVariables = {
   event: AddEventMutationInput;
 };
@@ -1936,6 +1957,16 @@ export type OccurrenceQuery = (
   { __typename?: 'Query' }
   & { occurrence?: Maybe<(
     { __typename?: 'OccurrenceNode' }
+    & { enrolments: (
+      { __typename?: 'EnrolmentNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'EnrolmentNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'EnrolmentNode' }
+          & EnrolmentFieldsFragment
+        )> }
+      )>> }
+    ) }
     & OccurrenceFieldsFragment
   )> }
 );
@@ -2039,7 +2070,7 @@ export type OrganisationsQuery = (
 
 export type PersonFieldsFragment = (
   { __typename?: 'PersonNode' }
-  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber'>
+  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber' | 'language'>
 );
 
 export type PersonQueryVariables = {
@@ -2165,6 +2196,43 @@ export type VenueQuery = (
   )> }
 );
 
+export const PersonFieldsFragmentDoc = gql`
+    fragment personFields on PersonNode {
+  id
+  emailAddress
+  name
+  phoneNumber
+  language
+}
+    `;
+export const StudyGroupFieldsFragmentDoc = gql`
+    fragment studyGroupFields on StudyGroupNode {
+  id
+  groupSize
+  amountOfAdult
+  name
+  groupName
+  studyLevel
+  extraNeeds
+  person {
+    ...personFields
+  }
+}
+    ${PersonFieldsFragmentDoc}`;
+export const EnrolmentFieldsFragmentDoc = gql`
+    fragment enrolmentFields on EnrolmentNode {
+  id
+  enrolmentTime
+  person {
+    ...personFields
+  }
+  status
+  studyGroup {
+    ...studyGroupFields
+  }
+}
+    ${PersonFieldsFragmentDoc}
+${StudyGroupFieldsFragmentDoc}`;
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
   en
@@ -2182,14 +2250,6 @@ export const ImageFieldsFragmentDoc = gql`
   cropping
   photographerName
   altText
-}
-    `;
-export const PersonFieldsFragmentDoc = gql`
-    fragment personFields on PersonNode {
-  id
-  emailAddress
-  name
-  phoneNumber
 }
     `;
 export const OrganisationNodeFieldsFragmentDoc = gql`
@@ -3195,9 +3255,17 @@ export const OccurrenceDocument = gql`
     query Occurrence($id: ID!) {
   occurrence(id: $id) {
     ...occurrenceFields
+    enrolments {
+      edges {
+        node {
+          ...enrolmentFields
+        }
+      }
+    }
   }
 }
-    ${OccurrenceFieldsFragmentDoc}`;
+    ${OccurrenceFieldsFragmentDoc}
+${EnrolmentFieldsFragmentDoc}`;
 export type OccurrenceProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<OccurrenceQuery, OccurrenceQueryVariables>
     } & TChildProps;

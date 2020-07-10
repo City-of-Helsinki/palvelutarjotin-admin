@@ -49,6 +49,9 @@
       "ru": "Venäjä",
       "sv": "Ruotsi",
       "zh_hans": "Kiina"
+    },
+    "tableDropdown": {
+      "toggleButton": "Valitse"
     }
   },
   "errorPage": {
@@ -86,6 +89,14 @@
     "validation": {
       "isPrivacyPolicyAccepted": "Tietosuojakäytäntö on hyväksyttävä",
       "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"
+    }
+  },
+  "enrolment": {
+    "status": {
+      "approved": "Hyväksytty",
+      "cancelled": "Peruttu",
+      "declined": "Hylätty",
+      "pending": "Uusi"
     }
   },
   "createEvent": {
@@ -329,6 +340,26 @@
     "buttonBack": "Tapahtuma-ajat",
     "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Vahvista ilmoittautuminen",
+        "menuItemDecline": "Jätä ilman paikkaa",
+        "menuItemDelete": "Muokkaa",
+        "menuItemEdit": "Poista"
+      },
+      "columnActions": "Toiminnot",
+      "columnAdditionalInfo": "Lisätiedot",
+      "columnEnrolmentTime": "Ilmoittautunut",
+      "columnGroupSize": "Lapsia / aik.",
+      "columnPersonName": "Nimi",
+      "columnStatus": "Tila",
+      "columnStudyGroupGroupName": "Ryhmä",
+      "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos",
+      "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} jonossa",
+      "messages": "Viestit: {{language}}",
+      "showEnrolmentDetails": "Näytä ilmoittautumisen lisätiedot",
+      "titleEnrolled": "Ilmoittautuneet"
+    },
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",
     "textAmountOfSeats": "{{count}} paikka",
@@ -344,8 +375,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Poista",
       "menuItemEdit": "Muokkaa",
-      "menuItemEnrolments": "Ilmoittautuneet",
-      "toggleButton": "Valitse"
+      "menuItemEnrolments": "Ilmoittautuneet"
     },
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",

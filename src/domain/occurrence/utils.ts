@@ -1,6 +1,6 @@
 import { setHours, setMinutes } from 'date-fns';
 
-import { Language } from '../../generated/graphql';
+import { Language, OccurrenceFieldsFragment } from '../../generated/graphql';
 import { OccurrenceFormFields } from './types';
 /**
  * Get payload to create/edit occurrence

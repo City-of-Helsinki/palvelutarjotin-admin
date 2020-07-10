@@ -4,13 +4,18 @@ import { useHistory, useParams } from 'react-router';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { useEventQuery, useOccurrenceQuery } from '../../generated/graphql';
+import {
+  EnrolmentFieldsFragment,
+  useEventQuery,
+  useOccurrenceQuery,
+} from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import EnrolmentTable from './enrolmentTable/EnrolmentTable';
 import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
 import styles from './occurrencePage.module.scss';
 
@@ -57,6 +62,16 @@ const OccurrenceDetailsPage = () => {
                 </BackButton>
 
                 <OccurrenceInfo event={event} occurrence={occurrence} />
+
+                <div className={styles.divider} />
+
+                <EnrolmentTable
+                  enrolments={occurrence.enrolments.edges.map(
+                    (e) => e?.node as EnrolmentFieldsFragment
+                  )}
+                  id="enrolments-table"
+                  seatsTaken={occurrence.seatsTaken || 0}
+                />
               </div>
             </Container>
           </div>

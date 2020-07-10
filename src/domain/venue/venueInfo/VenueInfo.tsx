@@ -33,20 +33,22 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
           <p>{venueDescription}</p>
         </div>
       )}
-      <div className={styles.venueAmenities}>
-        {hasSnackEatingPlace && (
-          <div>
-            <IconFood />
-            {t('eventDetails.location.snackEatingPlace')}
-          </div>
-        )}
-        {hasClothingStorage && (
-          <div>
-            <IconGarderobe />
-            {t('eventDetails.location.clothingStorage')}
-          </div>
-        )}
-      </div>
+      {(hasSnackEatingPlace || hasClothingStorage) && (
+        <div className={styles.venueAmenities}>
+          {hasSnackEatingPlace && (
+            <div>
+              <IconFood />
+              {t('eventDetails.location.snackEatingPlace')}
+            </div>
+          )}
+          {hasClothingStorage && (
+            <div>
+              <IconGarderobe />
+              {t('eventDetails.location.clothingStorage')}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
