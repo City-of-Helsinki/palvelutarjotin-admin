@@ -49,6 +49,9 @@
       "ru": "Venäjä",
       "sv": "Ruotsi",
       "zh_hans": "Kiina"
+    },
+    "tableDropdown": {
+      "toggleButton": "Valitse"
     }
   },
   "errorPage": {
@@ -365,8 +368,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Poista",
       "menuItemEdit": "Muokkaa",
-      "menuItemEnrolments": "Ilmoittautuneet",
-      "toggleButton": "Valitse"
+      "menuItemEnrolments": "Ilmoittautuneet"
     },
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",

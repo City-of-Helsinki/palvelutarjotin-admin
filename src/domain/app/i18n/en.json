@@ -49,6 +49,9 @@
       "ru": "Russian",
       "sv": "Swedish",
       "zh_hans": "Chinese"
+    },
+    "tableDropdown": {
+      "toggleButton": "Select"
     }
   },
   "errorPage": {
@@ -365,8 +368,7 @@
     "actionsDropdown": {
       "menuItemDelete": "Delete",
       "menuItemEdit": "Edit",
-      "menuItemEnrolments": "Registrations",
-      "toggleButton": "Select"
+      "menuItemEnrolments": "Registrations"
     },
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
