@@ -57,6 +57,7 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
           {t('enrolment.enrolmentModal.cancelEnrolment')}
         </Button>
         <div className={styles.buttonsRight}>
+          {/* TODO: preview functionality */}
           <Button variant="supplementary">
             {t('enrolment.enrolmentModal.preview')}
           </Button>
