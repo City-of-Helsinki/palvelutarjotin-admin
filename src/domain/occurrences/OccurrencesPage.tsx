@@ -49,12 +49,15 @@ const OccurrencesPage: React.FC = () => {
     (eventData?.event?.pEvent?.occurrences.edges.map(
       (edge) => edge?.node
     ) as OccurrenceFieldsFragment[]) || [];
+
   const comingOccurrences = occurrences.filter(
     (item) => !isPast(new Date(item.startTime))
   );
+
   const pastOccurrences = occurrences.filter((item) =>
     isPast(new Date(item.startTime))
   );
+
   const goToEventList = () => {
     history.push(`/${locale}${ROUTES.HOME}`);
   };
