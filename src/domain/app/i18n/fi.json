@@ -106,10 +106,12 @@
       "approveEnrolment": "Hyväksy ilmoittautuminen",
       "selectedEnrollees": "Valitut osallistujat",
       "approveEnrolmentNote": "Valittujien ilmoittautujien osallistuminen vahvistetaan ja heille lähetetään vahvistusviesti tapahtuman tiedoilla.",
-      "addMessage": "Add message",
+      "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
+      "addMessage": "Lisää viesti",
       "cancelEnrolment": "Peruuta",
       "messageToParticipants": "Viesti osallistujille",
       "sendConfirmationMessage": "Lähetä vahvistusviesti",
+      "sendCancelMessage": "Lähetä",
       "preview": "Esikatselu"
     }
   },

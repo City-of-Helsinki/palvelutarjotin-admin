@@ -122,10 +122,12 @@
       "approveEnrolment": "Approve enrolment",
       "selectedEnrollees": "Selected enrollees",
       "approveEnrolmentNote": "Selected enrollees' enrolments will be approved and messages will be sent to them.",
+      "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
       "addMessage": "Add message",
       "cancelEnrolment": "Cancel",
       "messageToParticipants": "Message to participants",
       "sendConfirmationMessage": "Send confirmation message",
+      "sendCancelMessage": "Send",
       "preview": "Preview"
     }
   },

@@ -9,4 +9,13 @@ export const MUTATION_ENROLMENT = gql`
       clientMutationId
     }
   }
+
+  mutation declineEnrolment($input: DeclineEnrolmentMutationInput!) {
+    declineEnrolment(input: $input) {
+      enrolment {
+        id
+      }
+      clientMutationId
+    }
+  }
 `;

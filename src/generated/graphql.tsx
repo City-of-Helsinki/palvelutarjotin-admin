@@ -715,6 +715,7 @@ export type Event = {
   description?: Maybe<LocalisedObject>;
   pEvent?: Maybe<PalvelutarjotinEventNode>;
   venue?: Maybe<VenueNode>;
+  publicationStatus?: Maybe<Scalars['String']>;
 };
 
 export type Place = {
@@ -1509,6 +1510,23 @@ export type ApproveEnrolmentMutation = (
   & { approveEnrolment?: Maybe<(
     { __typename?: 'ApproveEnrolmentMutationPayload' }
     & Pick<ApproveEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & Pick<EnrolmentNode, 'id'>
+    )> }
+  )> }
+);
+
+export type DeclineEnrolmentMutationVariables = {
+  input: DeclineEnrolmentMutationInput;
+};
+
+
+export type DeclineEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { declineEnrolment?: Maybe<(
+    { __typename?: 'DeclineEnrolmentMutationPayload' }
+    & Pick<DeclineEnrolmentMutationPayload, 'clientMutationId'>
     & { enrolment?: Maybe<(
       { __typename?: 'EnrolmentNode' }
       & Pick<EnrolmentNode, 'id'>
@@ -2494,6 +2512,54 @@ export function useApproveEnrolmentMutation(baseOptions?: ApolloReactHooks.Mutat
 export type ApproveEnrolmentMutationHookResult = ReturnType<typeof useApproveEnrolmentMutation>;
 export type ApproveEnrolmentMutationResult = ApolloReactCommon.MutationResult<ApproveEnrolmentMutation>;
 export type ApproveEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>;
+export const DeclineEnrolmentDocument = gql`
+    mutation declineEnrolment($input: DeclineEnrolmentMutationInput!) {
+  declineEnrolment(input: $input) {
+    enrolment {
+      id
+    }
+    clientMutationId
+  }
+}
+    `;
+export type DeclineEnrolmentMutationFn = ApolloReactCommon.MutationFunction<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>;
+export type DeclineEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>
+    } & TChildProps;
+export function withDeclineEnrolment<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeclineEnrolmentMutation,
+  DeclineEnrolmentMutationVariables,
+  DeclineEnrolmentProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables, DeclineEnrolmentProps<TChildProps, TDataName>>(DeclineEnrolmentDocument, {
+      alias: 'declineEnrolment',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeclineEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useDeclineEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeclineEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [declineEnrolmentMutation, { data, loading, error }] = useDeclineEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeclineEnrolmentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>(DeclineEnrolmentDocument, baseOptions);
+      }
+export type DeclineEnrolmentMutationHookResult = ReturnType<typeof useDeclineEnrolmentMutation>;
+export type DeclineEnrolmentMutationResult = ApolloReactCommon.MutationResult<DeclineEnrolmentMutation>;
+export type DeclineEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {

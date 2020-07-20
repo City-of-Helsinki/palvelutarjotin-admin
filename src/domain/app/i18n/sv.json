@@ -105,10 +105,12 @@
       "approveEnrolment": "Godkänn registrering",
       "selectedEnrollees": "Valda inskrivna",
       "approveEnrolmentNote": "Valda anmälningar kommer att godkännas och meddelanden skickas till dem.",
+      "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
       "addMessage": "Lägg till meddelande",
       "cancelEnrolment": "Annullera",
       "messageToParticipants": "Meddelande till deltagarna",
       "sendConfirmationMessage": "Skicka bekräftelse",
+      "sendCancelMessage": "Skicka",
       "preview": "Förhandsvisning"
     }
   },

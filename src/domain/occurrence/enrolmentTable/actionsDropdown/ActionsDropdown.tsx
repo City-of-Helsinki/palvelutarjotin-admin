@@ -9,8 +9,10 @@ import TableDropdown, {
 import {
   EnrolmentFieldsFragment,
   useApproveEnrolmentMutation,
+  useDeclineEnrolmentMutation,
 } from '../../../../generated/graphql';
 import ApproveEnrolmentModal from '../enrolmentModals/ApproveEnrolmentModal';
+import DeclineEnrolmentModal from '../enrolmentModals/DeclineEnrolmentModal';
 import styles from './actionsDropdown.module.scss';
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 const ActionsDropdown: React.FC<Props> = ({ row }) => {
   const { t } = useTranslation();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
+  const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
 
   const [approveEnrolment] = useApproveEnrolmentMutation({
     onError: (error) => {
@@ -28,6 +31,17 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
         type: toast.TYPE.ERROR,
       });
     },
+    onCompleted: () => setApproveModalOpen(false),
+  });
+
+  const [declineEnrolment] = useDeclineEnrolmentMutation({
+    onError: (error) => {
+      console.log(error.message);
+      toast(t('createOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    },
+    onCompleted: () => setDeclineModalOpen(false),
   });
 
   const handleOpenApproveModal = () => {
@@ -38,8 +52,12 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
     approveEnrolment({ variables: { input: { enrolmentId: row.id } } });
   };
 
-  const handleDecline = () => {
-    alert('TODO: Open declined enrolment modal');
+  const handleDeclineEnrolment = () => {
+    declineEnrolment({ variables: { input: { enrolmentId: row.id } } });
+  };
+
+  const handleOpenDeclineModal = () => {
+    setDeclineModalOpen(true);
   };
 
   const handleEdit = () => {
@@ -71,7 +89,7 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
           )}
         </>
       ),
-      onClick: handleDecline,
+      onClick: handleOpenDeclineModal,
     },
     {
       children: (
@@ -101,8 +119,16 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
       <ApproveEnrolmentModal
         isOpen={approveModalOpen}
         onClose={() => setApproveModalOpen(false)}
+        // TODO: Will there be a way to approve many at the same time?
         enrollees={row.person ? [row.person] : undefined}
         approveEnrolment={handleApproveEnrolment}
+      />
+      <DeclineEnrolmentModal
+        isOpen={declineModalOpen}
+        onClose={() => setDeclineModalOpen(false)}
+        // TODO: Will there be a way to decline many at the same time?
+        enrollees={row.person ? [row.person] : undefined}
+        declineEnrolment={handleDeclineEnrolment}
       />
     </div>
   );
