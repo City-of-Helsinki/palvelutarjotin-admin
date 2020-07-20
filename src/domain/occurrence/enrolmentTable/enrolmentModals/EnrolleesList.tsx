@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PersonFieldsFragment } from '../../../../generated/graphql';
-import styles from './modal.module.scss';
+import styles from './enrolmentModals.module.scss';
 
 interface EnrolleesListProps {
   enrollees?: PersonFieldsFragment[];

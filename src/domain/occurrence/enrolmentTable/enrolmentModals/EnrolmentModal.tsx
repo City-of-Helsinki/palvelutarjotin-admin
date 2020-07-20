@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 
-import styles from './modal.module.scss';
+import styles from './enrolmentModals.module.scss';
 
 interface ApproveModalProps {
   isOpen: boolean;

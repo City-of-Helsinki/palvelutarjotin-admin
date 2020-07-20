@@ -5,7 +5,7 @@ import React from 'react';
 import { PersonFieldsFragment } from '../../../../generated/graphql';
 import EnrolleesList from './EnrolleesList';
 import EnrolmentModal from './EnrolmentModal';
-import styles from './modal.module.scss';
+import styles from './enrolmentModals.module.scss';
 
 interface ApproveModalProps {
   isOpen: boolean;
