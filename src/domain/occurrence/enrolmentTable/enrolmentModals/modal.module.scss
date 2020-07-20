@@ -26,6 +26,7 @@
   --spacing-modal: var(--spacing-l);
   --width-modal: 660px;
   --modal-top-padding: 100px;
+  --section-spacing: var(--spacing-m);
 }
 
 .modal {
@@ -106,7 +107,7 @@
 }
 
 .enrolleesTitle {
-  margin: var(--spacing-m) 0;
+  margin: var(--section-spacing) 0;
 }
 
 .addNoteSection {
@@ -114,9 +115,9 @@
 }
 
 .noteTextArea {
-  margin: var(--spacing-m) 0;
+  margin: var(--section-spacing) 0;
 }
 
 .noteCheckbox {
-  margin: var(--spacing-m) 0;
+  margin: var(--section-spacing) 0;
 }
