@@ -176,6 +176,7 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
       <ul role="menu" className={styles.dropdownMenu}>
         {items.map((item, index) => (
           <MenuItem
+            key={index}
             isFocused={focusedIndex === index}
             onClick={item.onClick}
             row={row}

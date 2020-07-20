@@ -52,7 +52,8 @@
     },
     "tableDropdown": {
       "toggleButton": "Valitse"
-    }
+    },
+    "buttonClose": "Sulje"
   },
   "errorPage": {
     "title": "Palvelussa ilmeni virhe",
@@ -92,11 +93,24 @@
     }
   },
   "enrolment": {
+    "approveEnrolmentError": "Approving enrolment failed",
+    "declineEnrolmentError": "Declining enrolment failed",
     "status": {
       "approved": "Hyväksytty",
       "cancelled": "Peruttu",
       "declined": "Hylätty",
       "pending": "Uusi"
+    },
+    "enrolmentModal": {
+      "declineEnrolment": "Jätä ilman paikkaa",
+      "approveEnrolment": "Hyväksy ilmoittautuminen",
+      "selectedEnrollees": "Valitut osallistujat",
+      "approveEnrolmentNote": "Valittujien ilmoittautujien osallistuminen vahvistetaan ja heille lähetetään vahvistusviesti tapahtuman tiedoilla.",
+      "addMessage": "Add message",
+      "cancelEnrolment": "Peruuta",
+      "messageToParticipants": "Viesti osallistujille",
+      "sendConfirmationMessage": "Lähetä vahvistusviesti",
+      "preview": "Esikatselu"
     }
   },
   "createEvent": {

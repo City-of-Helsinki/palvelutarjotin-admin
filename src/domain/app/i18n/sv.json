@@ -51,7 +51,8 @@
     },
     "tableDropdown": {
       "toggleButton": "Välj"
-    }
+    },
+    "buttonClose": "Stäng"
   },
   "errorPage": {
     "title": "Tjänsten stötte på ett fel",
@@ -91,11 +92,24 @@
     }
   },
   "enrolment": {
+    "approveEnrolmentError": "Approving enrolment failed",
+    "declineEnrolmentError": "Declining enrolment failed",
     "status": {
       "approved": "Godkänd",
       "cancelled": "Inställt",
       "declined": "Avböja",
       "pending": "Ny"
+    },
+    "enrolmentModal": {
+      "declineEnrolment": "Avsluta registreringen",
+      "approveEnrolment": "Godkänn registrering",
+      "selectedEnrollees": "Valda inskrivna",
+      "approveEnrolmentNote": "Valda anmälningar kommer att godkännas och meddelanden skickas till dem.",
+      "addMessage": "Lägg till meddelande",
+      "cancelEnrolment": "Annullera",
+      "messageToParticipants": "Meddelande till deltagarna",
+      "sendConfirmationMessage": "Skicka bekräftelse",
+      "preview": "Förhandsvisning"
     }
   },
   "createEvent": {

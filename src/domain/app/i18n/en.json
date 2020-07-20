@@ -52,7 +52,8 @@
     },
     "tableDropdown": {
       "toggleButton": "Select"
-    }
+    },
+    "buttonClose": "Close"
   },
   "errorPage": {
     "title": "The service encountered an error",
@@ -108,11 +109,24 @@
     "errorEventIsInThePastDescription": "Event that is in the past can't be edited."
   },
   "enrolment": {
+    "approveEnrolmentError": "Approving enrolment failed",
+    "declineEnrolmentError": "Declining enrolment failed",
     "status": {
       "approved": "Approved",
       "cancelled": "Cancelled",
       "declined": "Declined",
       "pending": "New"
+    },
+    "enrolmentModal": {
+      "declineEnrolment": "Decline enrolment",
+      "approveEnrolment": "Approve enrolment",
+      "selectedEnrollees": "Selected enrollees",
+      "approveEnrolmentNote": "Selected enrollees' enrolments will be approved and messages will be sent to them.",
+      "addMessage": "Add message",
+      "cancelEnrolment": "Cancel",
+      "messageToParticipants": "Message to participants",
+      "sendConfirmationMessage": "Send confirmation message",
+      "preview": "Preview"
     }
   },
   "eventDetails": {

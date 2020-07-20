@@ -1,11 +1,16 @@
 import { IconCheck, IconCross, IconCrossCircle, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
-import { EnrolmentFieldsFragment } from '../../../../generated/graphql';
+import {
+  EnrolmentFieldsFragment,
+  useApproveEnrolmentMutation,
+} from '../../../../generated/graphql';
+import ApproveEnrolmentModal from '../enrolmentModals/ApproveEnrolmentModal';
 import styles from './actionsDropdown.module.scss';
 
 interface Props {
@@ -14,9 +19,23 @@ interface Props {
 
 const ActionsDropdown: React.FC<Props> = ({ row }) => {
   const { t } = useTranslation();
+  const [approveModalOpen, setApproveModalOpen] = React.useState(false);
 
-  const handleApprove = () => {
-    alert('TODO: Open approve enrolment modal');
+  const [approveEnrolment] = useApproveEnrolmentMutation({
+    onError: (error) => {
+      console.log(error.message);
+      toast(t('createOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    },
+  });
+
+  const handleOpenApproveModal = () => {
+    setApproveModalOpen(true);
+  };
+
+  const handleApproveEnrolment = async () => {
+    approveEnrolment({ variables: { input: { enrolmentId: row.id } } });
   };
 
   const handleDecline = () => {
@@ -41,7 +60,7 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
           )}
         </>
       ),
-      onClick: handleApprove,
+      onClick: handleOpenApproveModal,
     },
     {
       children: (
@@ -74,9 +93,17 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
     },
   ];
 
+  console.log(row);
+
   return (
     <div className={styles.actionsDropdown}>
       <TableDropdown items={items} row={row} />
+      <ApproveEnrolmentModal
+        isOpen={approveModalOpen}
+        onClose={() => setApproveModalOpen(false)}
+        enrollees={row.person ? [row.person] : undefined}
+        approveEnrolment={handleApproveEnrolment}
+      />
     </div>
   );
 };

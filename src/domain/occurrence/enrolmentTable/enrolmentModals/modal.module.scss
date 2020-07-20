@@ -1,0 +1,122 @@
+@import 'layout';
+
+.bodyOpen {
+  overflow: hidden;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#000, 0.75);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 10;
+  overflow: auto;
+}
+
+.modal {
+  --background-color-modal: var(--color-white);
+
+  --lineheight-title: 2.5rem;
+
+  --spacing-modal: var(--spacing-l);
+  --width-modal: 660px;
+  --modal-top-padding: 100px;
+}
+
+.modal {
+  background-color: var(--background-color-modal);
+  border: 1px solid var(--border-color-modal);
+  position: relative;
+  padding: var(--spacing-modal);
+  outline: none;
+  top: var(--modal-top-padding);
+  margin-bottom: var(--modal-top-padding);
+
+  @include respond-below(md) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  @include respond-above(md) {
+    width: var(--width-modal);
+  }
+}
+
+.titleRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-bottom: var(--spacing-m);
+
+  p {
+    margin: 0;
+    font-weight: bold;
+  }
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: var(--spacing-xs);
+  }
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-xl);
+
+  .buttonsRight {
+    display: flex;
+    justify-content: space-between;
+
+    button:first-child {
+      margin-right: var(--spacing-s);
+    }
+  }
+}
+
+.infoNoteSuccess {
+  padding: var(--spacing-s);
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.enrollees {
+  margin: var(--spacing-m) 0;
+}
+
+.enrolleesList {
+  padding: var(--spacing-m) 0;
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+
+  li {
+    list-style: none;
+  }
+}
+
+.enrolleesTitle {
+  margin: var(--spacing-m) 0;
+}
+
+.addNoteSection {
+  margin-top: var(--spacing-l);
+}
+
+.noteTextArea {
+  margin: var(--spacing-m) 0;
+}
+
+.noteCheckbox {
+  margin: var(--spacing-m) 0;
+}

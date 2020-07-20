@@ -1499,6 +1499,23 @@ export type DeleteImageMutation = {
   response?: Maybe<ImageMutationResponse>;
 };
 
+export type ApproveEnrolmentMutationVariables = {
+  input: ApproveEnrolmentMutationInput;
+};
+
+
+export type ApproveEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { approveEnrolment?: Maybe<(
+    { __typename?: 'ApproveEnrolmentMutationPayload' }
+    & Pick<ApproveEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & Pick<EnrolmentNode, 'id'>
+    )> }
+  )> }
+);
+
 export type StudyGroupFieldsFragment = (
   { __typename?: 'StudyGroupNode' }
   & Pick<StudyGroupNode, 'id' | 'groupSize' | 'amountOfAdult' | 'name' | 'groupName' | 'studyLevel' | 'extraNeeds'>
@@ -2429,6 +2446,54 @@ export const PageInfoFieldsFragmentDoc = gql`
   endCursor
 }
     `;
+export const ApproveEnrolmentDocument = gql`
+    mutation approveEnrolment($input: ApproveEnrolmentMutationInput!) {
+  approveEnrolment(input: $input) {
+    enrolment {
+      id
+    }
+    clientMutationId
+  }
+}
+    `;
+export type ApproveEnrolmentMutationFn = ApolloReactCommon.MutationFunction<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>;
+export type ApproveEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>
+    } & TChildProps;
+export function withApproveEnrolment<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ApproveEnrolmentMutation,
+  ApproveEnrolmentMutationVariables,
+  ApproveEnrolmentProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables, ApproveEnrolmentProps<TChildProps, TDataName>>(ApproveEnrolmentDocument, {
+      alias: 'approveEnrolment',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useApproveEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useApproveEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApproveEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [approveEnrolmentMutation, { data, loading, error }] = useApproveEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useApproveEnrolmentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>) {
+        return ApolloReactHooks.useMutation<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>(ApproveEnrolmentDocument, baseOptions);
+      }
+export type ApproveEnrolmentMutationHookResult = ReturnType<typeof useApproveEnrolmentMutation>;
+export type ApproveEnrolmentMutationResult = ApolloReactCommon.MutationResult<ApproveEnrolmentMutation>;
+export type ApproveEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {
