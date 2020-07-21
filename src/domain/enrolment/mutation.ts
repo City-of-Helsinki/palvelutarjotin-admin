@@ -4,7 +4,7 @@ export const MUTATION_ENROLMENT = gql`
   mutation approveEnrolment($input: ApproveEnrolmentMutationInput!) {
     approveEnrolment(input: $input) {
       enrolment {
-        id
+        ...enrolmentFields
       }
       clientMutationId
     }
@@ -13,7 +13,7 @@ export const MUTATION_ENROLMENT = gql`
   mutation declineEnrolment($input: DeclineEnrolmentMutationInput!) {
     declineEnrolment(input: $input) {
       enrolment {
-        id
+        ...enrolmentFields
       }
       clientMutationId
     }

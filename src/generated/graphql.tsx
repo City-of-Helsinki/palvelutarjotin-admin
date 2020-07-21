@@ -904,6 +904,7 @@ export type Mutation = {
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
   /** Only staff can unenrol study group */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
+  updateEnrolment?: Maybe<UpdateEnrolmentMutationPayload>;
   approveEnrolment?: Maybe<ApproveEnrolmentMutationPayload>;
   declineEnrolment?: Maybe<DeclineEnrolmentMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
@@ -972,6 +973,11 @@ export type MutationEnrolOccurrenceArgs = {
 
 export type MutationUnenrolOccurrenceArgs = {
   input: UnenrolOccurrenceMutationInput;
+};
+
+
+export type MutationUpdateEnrolmentArgs = {
+  input: UpdateEnrolmentMutationInput;
 };
 
 
@@ -1237,6 +1243,22 @@ export type UnenrolOccurrenceMutationInput = {
   occurrenceId: Scalars['ID'];
   /** Study group id */
   studyGroupId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateEnrolmentMutationPayload = {
+   __typename?: 'UpdateEnrolmentMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateEnrolmentMutationInput = {
+  enrolmentId: Scalars['ID'];
+  notificationType?: Maybe<NotificationType>;
+  /** Study group input */
+  studyGroup?: Maybe<StudyGroupInput>;
+  /** Leave blank if the contact person is the same with group contact person */
+  person?: Maybe<PersonNodeInput>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1512,7 +1534,7 @@ export type ApproveEnrolmentMutation = (
     & Pick<ApproveEnrolmentMutationPayload, 'clientMutationId'>
     & { enrolment?: Maybe<(
       { __typename?: 'EnrolmentNode' }
-      & Pick<EnrolmentNode, 'id'>
+      & EnrolmentFieldsFragment
     )> }
   )> }
 );
@@ -1529,7 +1551,7 @@ export type DeclineEnrolmentMutation = (
     & Pick<DeclineEnrolmentMutationPayload, 'clientMutationId'>
     & { enrolment?: Maybe<(
       { __typename?: 'EnrolmentNode' }
-      & Pick<EnrolmentNode, 'id'>
+      & EnrolmentFieldsFragment
     )> }
   )> }
 );
@@ -2468,12 +2490,12 @@ export const ApproveEnrolmentDocument = gql`
     mutation approveEnrolment($input: ApproveEnrolmentMutationInput!) {
   approveEnrolment(input: $input) {
     enrolment {
-      id
+      ...enrolmentFields
     }
     clientMutationId
   }
 }
-    `;
+    ${EnrolmentFieldsFragmentDoc}`;
 export type ApproveEnrolmentMutationFn = ApolloReactCommon.MutationFunction<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>;
 export type ApproveEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: ApolloReactCommon.MutationFunction<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>
@@ -2516,12 +2538,12 @@ export const DeclineEnrolmentDocument = gql`
     mutation declineEnrolment($input: DeclineEnrolmentMutationInput!) {
   declineEnrolment(input: $input) {
     enrolment {
-      id
+      ...enrolmentFields
     }
     clientMutationId
   }
 }
-    `;
+    ${EnrolmentFieldsFragmentDoc}`;
 export type DeclineEnrolmentMutationFn = ApolloReactCommon.MutationFunction<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>;
 export type DeclineEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: ApolloReactCommon.MutationFunction<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>
