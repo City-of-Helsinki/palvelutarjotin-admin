@@ -3,11 +3,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import { MenuItem } from '../../../../common/components/menuDropdown/MenuDropdown';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
 import {
   EnrolmentFieldsFragment,
+  EnrolmentStatus,
   useApproveEnrolmentMutation,
   useDeclineEnrolmentMutation,
 } from '../../../../generated/graphql';
@@ -23,6 +25,8 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
   const { t } = useTranslation();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
   const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
+  const enrolmentIsNotApproved = row.status !== EnrolmentStatus.Approved;
+  const enrolmentIsNotDeclined = row.status !== EnrolmentStatus.Declined;
 
   const [approveEnrolment] = useApproveEnrolmentMutation({
     onError: (error) => {
@@ -68,8 +72,8 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
     alert('TODO: Open delete enrolment modal');
   };
 
-  const items: MenuItemProps[] = [
-    {
+  const items = [
+    enrolmentIsNotApproved && {
       children: (
         <>
           <IconCheck className={styles.iconApprove} />
@@ -80,7 +84,7 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
       ),
       onClick: handleOpenApproveModal,
     },
-    {
+    enrolmentIsNotDeclined && {
       children: (
         <>
           <IconCross className={styles.iconDecline} />
@@ -109,9 +113,7 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
       ),
       onClick: handleDelete,
     },
-  ];
-
-  console.log(row);
+  ].filter((o) => o) as MenuItemProps[];
 
   return (
     <div className={styles.actionsDropdown}>
