@@ -715,6 +715,7 @@ export type Event = {
   description?: Maybe<LocalisedObject>;
   pEvent?: Maybe<PalvelutarjotinEventNode>;
   venue?: Maybe<VenueNode>;
+  publicationStatus?: Maybe<Scalars['String']>;
 };
 
 export type Place = {
@@ -903,6 +904,7 @@ export type Mutation = {
   enrolOccurrence?: Maybe<EnrolOccurrenceMutationPayload>;
   /** Only staff can unenrol study group */
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
+  updateEnrolment?: Maybe<UpdateEnrolmentMutationPayload>;
   approveEnrolment?: Maybe<ApproveEnrolmentMutationPayload>;
   declineEnrolment?: Maybe<DeclineEnrolmentMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
@@ -971,6 +973,11 @@ export type MutationEnrolOccurrenceArgs = {
 
 export type MutationUnenrolOccurrenceArgs = {
   input: UnenrolOccurrenceMutationInput;
+};
+
+
+export type MutationUpdateEnrolmentArgs = {
+  input: UpdateEnrolmentMutationInput;
 };
 
 
@@ -1236,6 +1243,22 @@ export type UnenrolOccurrenceMutationInput = {
   occurrenceId: Scalars['ID'];
   /** Study group id */
   studyGroupId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateEnrolmentMutationPayload = {
+   __typename?: 'UpdateEnrolmentMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateEnrolmentMutationInput = {
+  enrolmentId: Scalars['ID'];
+  notificationType?: Maybe<NotificationType>;
+  /** Study group input */
+  studyGroup?: Maybe<StudyGroupInput>;
+  /** Leave blank if the contact person is the same with group contact person */
+  person?: Maybe<PersonNodeInput>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1511,7 +1534,24 @@ export type ApproveEnrolmentMutation = (
     & Pick<ApproveEnrolmentMutationPayload, 'clientMutationId'>
     & { enrolment?: Maybe<(
       { __typename?: 'EnrolmentNode' }
-      & Pick<EnrolmentNode, 'id'>
+      & EnrolmentFieldsFragment
+    )> }
+  )> }
+);
+
+export type DeclineEnrolmentMutationVariables = {
+  input: DeclineEnrolmentMutationInput;
+};
+
+
+export type DeclineEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { declineEnrolment?: Maybe<(
+    { __typename?: 'DeclineEnrolmentMutationPayload' }
+    & Pick<DeclineEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & EnrolmentFieldsFragment
     )> }
   )> }
 );
@@ -2450,12 +2490,12 @@ export const ApproveEnrolmentDocument = gql`
     mutation approveEnrolment($input: ApproveEnrolmentMutationInput!) {
   approveEnrolment(input: $input) {
     enrolment {
-      id
+      ...enrolmentFields
     }
     clientMutationId
   }
 }
-    `;
+    ${EnrolmentFieldsFragmentDoc}`;
 export type ApproveEnrolmentMutationFn = ApolloReactCommon.MutationFunction<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>;
 export type ApproveEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: ApolloReactCommon.MutationFunction<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>
@@ -2494,6 +2534,54 @@ export function useApproveEnrolmentMutation(baseOptions?: ApolloReactHooks.Mutat
 export type ApproveEnrolmentMutationHookResult = ReturnType<typeof useApproveEnrolmentMutation>;
 export type ApproveEnrolmentMutationResult = ApolloReactCommon.MutationResult<ApproveEnrolmentMutation>;
 export type ApproveEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<ApproveEnrolmentMutation, ApproveEnrolmentMutationVariables>;
+export const DeclineEnrolmentDocument = gql`
+    mutation declineEnrolment($input: DeclineEnrolmentMutationInput!) {
+  declineEnrolment(input: $input) {
+    enrolment {
+      ...enrolmentFields
+    }
+    clientMutationId
+  }
+}
+    ${EnrolmentFieldsFragmentDoc}`;
+export type DeclineEnrolmentMutationFn = ApolloReactCommon.MutationFunction<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>;
+export type DeclineEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>
+    } & TChildProps;
+export function withDeclineEnrolment<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeclineEnrolmentMutation,
+  DeclineEnrolmentMutationVariables,
+  DeclineEnrolmentProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables, DeclineEnrolmentProps<TChildProps, TDataName>>(DeclineEnrolmentDocument, {
+      alias: 'declineEnrolment',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeclineEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useDeclineEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeclineEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [declineEnrolmentMutation, { data, loading, error }] = useDeclineEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeclineEnrolmentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>(DeclineEnrolmentDocument, baseOptions);
+      }
+export type DeclineEnrolmentMutationHookResult = ReturnType<typeof useDeclineEnrolmentMutation>;
+export type DeclineEnrolmentMutationResult = ApolloReactCommon.MutationResult<DeclineEnrolmentMutation>;
+export type DeclineEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {

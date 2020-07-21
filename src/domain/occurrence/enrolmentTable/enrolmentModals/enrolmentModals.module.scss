@@ -92,6 +92,12 @@
   color: var(--color-white);
 }
 
+.infoNoteDecline {
+  padding: var(--spacing-s);
+  background-color: var(--color-error);
+  color: var(--color-white);
+}
+
 .enrollees {
   margin: var(--spacing-m) 0;
 }
