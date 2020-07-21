@@ -82,12 +82,14 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
     if (occurrenceId) {
       await deleteEnrolment({
         variables: { input: { occurrenceId, studyGroupId: row.studyGroup.id } },
+        // remove deleted enrolment from cache
         update: (cache, { data }) => {
           const occurrenceData = cache.readQuery<OccurrenceQuery>({
             query: OccurrenceDocument,
             variables: { id: occurrenceId },
           });
           const occurrence = occurrenceData?.occurrence;
+          // overwrite occurrence from cache (delete enrolment)
           cache.writeQuery({
             query: OccurrenceDocument,
             data: {
