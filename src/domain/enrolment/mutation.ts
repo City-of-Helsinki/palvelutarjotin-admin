@@ -18,4 +18,16 @@ export const MUTATION_ENROLMENT = gql`
       clientMutationId
     }
   }
+
+  mutation deleteEnrolment($input: UnenrolOccurrenceMutationInput!) {
+    unenrolOccurrence(input: $input) {
+      occurrence {
+        id
+      }
+      studyGroup {
+        id
+      }
+      clientMutationId
+    }
+  }
 `;

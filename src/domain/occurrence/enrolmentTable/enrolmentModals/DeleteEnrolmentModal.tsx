@@ -7,46 +7,34 @@ import EnrolleesList from './EnrolleesList';
 import EnrolmentModal from './EnrolmentModal';
 import styles from './enrolmentModals.module.scss';
 
-interface ApproveModalProps {
+interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  declineEnrolment: () => void;
+  deleteEnrolment: () => void;
   enrollees?: PersonFieldsFragment[];
 }
 
-const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
+const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
   isOpen,
   onClose,
-  declineEnrolment,
+  deleteEnrolment,
   enrollees,
 }) => {
   const { t } = useTranslation();
-
-  const handlePreview = () => {
-    alert('TODO: handle preview');
-  };
-
   return (
     <EnrolmentModal
       isOpen={isOpen}
       onClose={onClose}
-      title={t('enrolment.enrolmentModal.declineEnrolment')}
+      title={t('enrolment.enrolmentModal.deleteEnrolment')}
     >
-      <div className={styles.infoNoteDecline}>
-        {t('enrolment.enrolmentModal.declineEnrolmentNote')}
-      </div>
       <EnrolleesList enrollees={enrollees} />
       <div className={styles.buttonsContainer}>
         <Button variant="secondary" onClick={onClose}>
           {t('enrolment.enrolmentModal.cancelEnrolment')}
         </Button>
         <div className={styles.buttonsRight}>
-          {/* TODO: preview functionality */}
-          <Button variant="supplementary" onClick={handlePreview}>
-            {t('enrolment.enrolmentModal.preview')}
-          </Button>
-          <Button variant="primary" onClick={declineEnrolment}>
-            {t('enrolment.enrolmentModal.sendCancelMessage')}
+          <Button variant="danger" onClick={deleteEnrolment}>
+            {t('enrolment.enrolmentModal.deleteEnrolment')}
           </Button>
         </div>
       </div>
@@ -54,4 +42,4 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
   );
 };
 
-export default DeclineEnrolmentModal;
+export default DeleteEnrolmentModal;

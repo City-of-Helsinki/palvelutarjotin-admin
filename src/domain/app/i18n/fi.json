@@ -104,6 +104,7 @@
     "enrolmentModal": {
       "declineEnrolment": "Jätä ilman paikkaa",
       "approveEnrolment": "Hyväksy ilmoittautuminen",
+      "deleteEnrolment": "Poista ilmoittautuminen",
       "selectedEnrollees": "Valitut osallistujat",
       "approveEnrolmentNote": "Valittujien ilmoittautujien osallistuminen vahvistetaan ja heille lähetetään vahvistusviesti tapahtuman tiedoilla.",
       "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
@@ -360,8 +361,8 @@
       "actionsDropdown": {
         "menuItemApprove": "Vahvista ilmoittautuminen",
         "menuItemDecline": "Jätä ilman paikkaa",
-        "menuItemDelete": "Muokkaa",
-        "menuItemEdit": "Poista"
+        "menuItemDelete": "Poista",
+        "menuItemEdit": "Muokkaa"
       },
       "columnActions": "Toiminnot",
       "columnAdditionalInfo": "Lisätiedot",

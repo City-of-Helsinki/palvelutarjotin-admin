@@ -120,6 +120,7 @@
     "enrolmentModal": {
       "declineEnrolment": "Decline enrolment",
       "approveEnrolment": "Approve enrolment",
+      "deleteEnrolment": "Delete enrolment",
       "selectedEnrollees": "Selected enrollees",
       "approveEnrolmentNote": "Selected enrollees' enrolments will be approved and messages will be sent to them.",
       "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
@@ -360,8 +361,8 @@
       "actionsDropdown": {
         "menuItemApprove": "Approve enrolment",
         "menuItemDecline": "Leave without seats",
-        "menuItemDelete": "Edit",
-        "menuItemEdit": "Delete"
+        "menuItemDelete": "Delete",
+        "menuItemEdit": "Edit"
       },
       "columnActions": "Actions",
       "columnAdditionalInfo": "Additional info",

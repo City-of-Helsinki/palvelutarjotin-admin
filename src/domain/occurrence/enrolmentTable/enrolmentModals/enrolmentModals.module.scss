@@ -80,7 +80,7 @@
     display: flex;
     justify-content: space-between;
 
-    button:first-child {
+    button:not(:last-child) {
       margin-right: var(--spacing-s);
     }
   }

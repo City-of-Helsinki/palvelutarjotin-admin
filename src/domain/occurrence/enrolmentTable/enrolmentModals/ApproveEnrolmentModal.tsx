@@ -24,6 +24,10 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
   const [messageText, setMessageText] = React.useState('');
   const [showMessageTextArea, setShowMessageTextArea] = React.useState(false);
 
+  const handlePreview = () => {
+    alert('TODO: handle preview');
+  };
+
   return (
     <EnrolmentModal
       isOpen={isOpen}
@@ -58,7 +62,7 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
         </Button>
         <div className={styles.buttonsRight}>
           {/* TODO: preview functionality */}
-          <Button variant="supplementary">
+          <Button variant="supplementary" onClick={handlePreview}>
             {t('enrolment.enrolmentModal.preview')}
           </Button>
           <Button variant="primary" onClick={approveEnrolment}>
