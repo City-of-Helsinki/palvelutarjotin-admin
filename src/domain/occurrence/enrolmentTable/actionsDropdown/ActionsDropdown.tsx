@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
-import { MenuItem } from '../../../../common/components/menuDropdown/MenuDropdown';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
