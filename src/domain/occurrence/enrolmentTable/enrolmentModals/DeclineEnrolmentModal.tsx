@@ -12,6 +12,7 @@ interface ApproveModalProps {
   onClose: () => void;
   declineEnrolment: () => void;
   enrollees?: PersonFieldsFragment[];
+  appElement?: HTMLElement;
 }
 
 const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -19,6 +20,7 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
   onClose,
   declineEnrolment,
   enrollees,
+  appElement,
 }) => {
   const { t } = useTranslation();
 
@@ -31,6 +33,7 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title={t('enrolment.enrolmentModal.declineEnrolment')}
+      appElement={appElement}
     >
       <div className={styles.infoNoteDecline}>
         {t('enrolment.enrolmentModal.declineEnrolmentNote')}

@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<body
+  aria-hidden="true"
+  class="bodyOpen"
+>
+  <div
+    data-react-modal-body-trap=""
+    style="position: absolute; opacity: 0;"
+    tabindex="0"
+  />
+  <div />
+  <div
+    data-react-modal-body-trap=""
+    style="position: absolute; opacity: 0;"
+    tabindex="0"
+  />
+  <div
+    class="ReactModalPortal"
+  >
+    <div
+      class="ReactModal__Overlay ReactModal__Overlay--after-open overlay"
+    >
+      <div
+        class="ReactModal__Content ReactModal__Content--after-open modal"
+        role="dialog"
+        tabindex="-1"
+      >
+        <div
+          class="titleRow"
+        >
+          <p>
+            Jätä ilman paikkaa
+          </p>
+          <button
+            class="closeButton"
+          >
+            <svg
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g
+                fill="none"
+                fill-rule="evenodd"
+              >
+                <path
+                  d="M0 0h24v24H0z"
+                />
+                <path
+                  d="M17.657 7.757L13.414 12l4.243 4.243-1.414 1.414L12 13.414l-4.243 4.243-1.414-1.414L10.586 12 6.343 7.757l1.414-1.414L12 10.586l4.243-4.243z"
+                  fill="currentColor"
+                />
+              </g>
+            </svg>
+            Sulje
+          </button>
+        </div>
+        <div
+          class="infoNoteDecline"
+        >
+          Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.
+        </div>
+        <div
+          class="buttonsContainer"
+        >
+          <button
+            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS"
+            type="button"
+          >
+            <span
+              class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+            >
+              Peruuta
+            </span>
+          </button>
+          <div
+            class="buttonsRight"
+          >
+            <button
+              class="Button-module_button__3wgee button_hds-button__2A0je Button-module_supplementary__3Epn- button_hds-button--supplementary__GcHcV"
+              type="button"
+            >
+              <span
+                class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+              >
+                Esikatselu
+              </span>
+            </button>
+            <button
+              class="Button-module_button__3wgee button_hds-button__2A0je Button-module_primary__3bo_T button_hds-button--primary__2NVvO"
+              type="button"
+            >
+              <span
+                class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+              >
+                Lähetä
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

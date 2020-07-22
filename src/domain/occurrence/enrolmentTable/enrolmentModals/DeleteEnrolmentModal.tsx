@@ -12,6 +12,7 @@ interface DeleteModalProps {
   onClose: () => void;
   deleteEnrolment: () => void;
   enrollees?: PersonFieldsFragment[];
+  appElement?: HTMLElement;
 }
 
 const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
@@ -19,6 +20,7 @@ const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
   onClose,
   deleteEnrolment,
   enrollees,
+  appElement,
 }) => {
   const { t } = useTranslation();
   return (
@@ -26,6 +28,7 @@ const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title={t('enrolment.enrolmentModal.deleteEnrolment')}
+      appElement={appElement}
     >
       <EnrolleesList enrollees={enrollees} />
       <div className={styles.buttonsContainer}>
