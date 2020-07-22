@@ -93,8 +93,9 @@
     }
   },
   "enrolment": {
-    "approveEnrolmentError": "Approving enrolment failed",
-    "declineEnrolmentError": "Declining enrolment failed",
+    "approveEnrolmentError": "Ilmoittautumisen hyväksyminen epäonnistui",
+    "declineEnrolmentError": "Ilmoittautumisen hylkääminen epäonnistui",
+    "deleteEnrolmentError": "Ilmoittautumisen poistaminen epäonnistui",
     "status": {
       "approved": "Hyväksytty",
       "cancelled": "Peruttu",

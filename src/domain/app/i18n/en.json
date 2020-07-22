@@ -111,6 +111,7 @@
   "enrolment": {
     "approveEnrolmentError": "Approving enrolment failed",
     "declineEnrolmentError": "Declining enrolment failed",
+    "deleteEnrolmentError": "Deleting enrolment failed",
     "status": {
       "approved": "Approved",
       "cancelled": "Cancelled",

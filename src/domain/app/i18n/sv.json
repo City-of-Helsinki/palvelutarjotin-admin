@@ -92,8 +92,9 @@
     }
   },
   "enrolment": {
-    "approveEnrolmentError": "Approving enrolment failed",
-    "declineEnrolmentError": "Declining enrolment failed",
+    "approveEnrolmentError": "Godkännande av registreringen misslyckades",
+    "declineEnrolmentError": "Avslag på registrering misslyckades",
+    "deleteEnrolmentError": "Radering av registreringen misslyckades",
     "status": {
       "approved": "Godkänd",
       "cancelled": "Inställt",

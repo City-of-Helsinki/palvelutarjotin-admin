@@ -36,8 +36,9 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
 
   const [approveEnrolment] = useApproveEnrolmentMutation({
     onError: (error) => {
+      // TODO: Better error message
       console.log(error.message);
-      toast(t('createOccurrence.error'), {
+      toast(t('enrolment.approveEnrolmentError'), {
         type: toast.TYPE.ERROR,
       });
     },
@@ -46,8 +47,9 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
 
   const [declineEnrolment] = useDeclineEnrolmentMutation({
     onError: (error) => {
+      // TODO: Better error message
       console.log(error.message);
-      toast(t('createOccurrence.error'), {
+      toast(t('enrolment.declineEnrolmentError'), {
         type: toast.TYPE.ERROR,
       });
     },
@@ -56,8 +58,9 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
 
   const [deleteEnrolment] = useDeleteEnrolmentMutation({
     onError: (error) => {
+      // TODO: Better error message
       console.log(error.message);
-      toast(t('createOccurrence.error'), {
+      toast(t('enrolment.deleteEnrolmentError'), {
         type: toast.TYPE.ERROR,
       });
     },
