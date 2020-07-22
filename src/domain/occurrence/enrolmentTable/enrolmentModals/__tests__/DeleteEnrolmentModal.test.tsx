@@ -46,5 +46,3 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
 
   expect(deleteEnrolmentHandler).toHaveBeenCalledTimes(1);
 });
-
-it('calls close handle when close button is clicked', () => {});
