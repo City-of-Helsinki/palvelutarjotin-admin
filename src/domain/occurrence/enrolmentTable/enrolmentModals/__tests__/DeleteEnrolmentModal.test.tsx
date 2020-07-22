@@ -36,13 +36,13 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
     })
   ).toBeInTheDocument();
 
-  const declineEnrolmentButton = screen.getByRole('button', {
+  const deleteEnrolmentButton = screen.getByRole('button', {
     name: messages.enrolment.enrolmentModal.deleteEnrolment,
     // for some reason react-modal sets aria-hidden attribute true in the tests.
     hidden: true,
   });
 
-  userEvent.click(declineEnrolmentButton);
+  userEvent.click(deleteEnrolmentButton);
 
   expect(deleteEnrolmentHandler).toHaveBeenCalledTimes(1);
 });
