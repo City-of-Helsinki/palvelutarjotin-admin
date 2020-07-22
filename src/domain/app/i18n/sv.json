@@ -103,6 +103,7 @@
     "enrolmentModal": {
       "declineEnrolment": "Avsluta registreringen",
       "approveEnrolment": "Godkänn registrering",
+      "deleteEnrolment": "Radera registrering",
       "selectedEnrollees": "Valda inskrivna",
       "approveEnrolmentNote": "Valda anmälningar kommer att godkännas och meddelanden skickas till dem.",
       "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",

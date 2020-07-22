@@ -10,6 +10,7 @@ interface ApproveModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  appElement?: HTMLElement;
 }
 
 const EnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -17,6 +18,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
   children,
   onClose,
   title,
+  appElement,
 }) => {
   const { t } = useTranslation();
 
@@ -26,6 +28,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
       bodyOpenClassName={styles.bodyOpen}
       className={classNames(styles.modal)}
       overlayClassName={styles.overlay}
+      appElement={appElement}
     >
       <div className={styles.titleRow}>
         <p>{title}</p>

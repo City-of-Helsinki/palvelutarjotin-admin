@@ -1556,6 +1556,26 @@ export type DeclineEnrolmentMutation = (
   )> }
 );
 
+export type DeleteEnrolmentMutationVariables = {
+  input: UnenrolOccurrenceMutationInput;
+};
+
+
+export type DeleteEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { unenrolOccurrence?: Maybe<(
+    { __typename?: 'UnenrolOccurrenceMutationPayload' }
+    & Pick<UnenrolOccurrenceMutationPayload, 'clientMutationId'>
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id'>
+    )>, studyGroup?: Maybe<(
+      { __typename?: 'StudyGroupNode' }
+      & Pick<StudyGroupNode, 'id'>
+    )> }
+  )> }
+);
+
 export type StudyGroupFieldsFragment = (
   { __typename?: 'StudyGroupNode' }
   & Pick<StudyGroupNode, 'id' | 'groupSize' | 'amountOfAdult' | 'name' | 'groupName' | 'studyLevel' | 'extraNeeds'>
@@ -2582,6 +2602,57 @@ export function useDeclineEnrolmentMutation(baseOptions?: ApolloReactHooks.Mutat
 export type DeclineEnrolmentMutationHookResult = ReturnType<typeof useDeclineEnrolmentMutation>;
 export type DeclineEnrolmentMutationResult = ApolloReactCommon.MutationResult<DeclineEnrolmentMutation>;
 export type DeclineEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<DeclineEnrolmentMutation, DeclineEnrolmentMutationVariables>;
+export const DeleteEnrolmentDocument = gql`
+    mutation deleteEnrolment($input: UnenrolOccurrenceMutationInput!) {
+  unenrolOccurrence(input: $input) {
+    occurrence {
+      id
+    }
+    studyGroup {
+      id
+    }
+    clientMutationId
+  }
+}
+    `;
+export type DeleteEnrolmentMutationFn = ApolloReactCommon.MutationFunction<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
+export type DeleteEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>
+    } & TChildProps;
+export function withDeleteEnrolment<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteEnrolmentMutation,
+  DeleteEnrolmentMutationVariables,
+  DeleteEnrolmentProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables, DeleteEnrolmentProps<TChildProps, TDataName>>(DeleteEnrolmentDocument, {
+      alias: 'deleteEnrolment',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useDeleteEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEnrolmentMutation, { data, loading, error }] = useDeleteEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteEnrolmentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>(DeleteEnrolmentDocument, baseOptions);
+      }
+export type DeleteEnrolmentMutationHookResult = ReturnType<typeof useDeleteEnrolmentMutation>;
+export type DeleteEnrolmentMutationResult = ApolloReactCommon.MutationResult<DeleteEnrolmentMutation>;
+export type DeleteEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {

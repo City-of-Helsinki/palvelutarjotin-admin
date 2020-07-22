@@ -12,6 +12,8 @@ interface ApproveModalProps {
   onClose: () => void;
   approveEnrolment: () => void;
   enrollees?: PersonFieldsFragment[];
+  // for testing purposes
+  appElement?: HTMLElement;
 }
 
 const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -19,16 +21,22 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
   onClose,
   approveEnrolment,
   enrollees,
+  appElement,
 }) => {
   const { t } = useTranslation();
   const [messageText, setMessageText] = React.useState('');
   const [showMessageTextArea, setShowMessageTextArea] = React.useState(false);
+
+  const handlePreview = () => {
+    alert('TODO: handle preview');
+  };
 
   return (
     <EnrolmentModal
       isOpen={isOpen}
       onClose={onClose}
       title={t('enrolment.enrolmentModal.approveEnrolment')}
+      appElement={appElement}
     >
       <div className={styles.infoNoteSuccess}>
         {t('enrolment.enrolmentModal.approveEnrolmentNote')}
@@ -58,7 +66,7 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
         </Button>
         <div className={styles.buttonsRight}>
           {/* TODO: preview functionality */}
-          <Button variant="supplementary">
+          <Button variant="supplementary" onClick={handlePreview}>
             {t('enrolment.enrolmentModal.preview')}
           </Button>
           <Button variant="primary" onClick={approveEnrolment}>
