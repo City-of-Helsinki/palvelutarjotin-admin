@@ -1,6 +1,5 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { render } from '@testing-library/react';
-import pretty from 'pretty';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';

@@ -32,6 +32,15 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
     selectedDate,
   } = useContext(DatepickerContext);
 
+  // after version 2.4.1 days won't focus automatically!!!!
+  // https://github.com/tresko/react-datepicker/commit/eae4f52 <-- here is the change
+
+  // might need to add something like this here:
+  //   useEffect(() => {
+  //  if (dayRef && dayRef.current && isDateFocused(date)) {
+  //   dayRef.current.focus()
+  // }
+  //}, [dayRef, date, isDateFocused])
   const { disabledDate, onClick, onKeyDown, onMouseEnter, tabIndex } = useDay({
     date,
     focusedDate,
