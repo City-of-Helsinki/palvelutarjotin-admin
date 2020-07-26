@@ -239,7 +239,8 @@
       "textEnrolments": "{{count}} ilmoittautunut",
       "textEnrolments_plural": "{{count}} ilmoittautunutta",
       "textOccurrences": "{{count}} tapahtuma-aika",
-      "textOccurrences_plural": "{{count}} tapahtuma-aikaa"
+      "textOccurrences_plural": "{{count}} tapahtuma-aikaa",
+      "statusPublished": "Julkaistu"
     },
     "placeholderSearch": "Haku",
     "textEventCount": "{{count}} kpl",

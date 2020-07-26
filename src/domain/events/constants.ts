@@ -10,3 +10,7 @@ export enum EVENT_SORT_KEYS {
   START_TIME = 'start_time',
   START_TIME_DESC = '-start_time',
 }
+
+export enum PUBLICATION_STATUS {
+  PUBLIC = 'public',
+}

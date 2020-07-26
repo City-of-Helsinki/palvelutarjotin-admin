@@ -1,8 +1,9 @@
-import { IconUser } from 'hds-react';
+import { IconEye, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconClock from '../../../icons/IconClock';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import { getEventPlaceholderImage } from '../utils';
 import styles from './eventCard.module.scss';
 
@@ -14,6 +15,7 @@ interface Props {
   name: string;
   occurrencesCount: number;
   onClick?: (id: string) => void;
+  publicationStatus?: string | null;
 }
 
 const EventCard: React.FC<Props> = ({
@@ -23,6 +25,7 @@ const EventCard: React.FC<Props> = ({
   image,
   name,
   occurrencesCount,
+  publicationStatus,
   onClick,
 }) => {
   const { t } = useTranslation();
@@ -67,6 +70,13 @@ const EventCard: React.FC<Props> = ({
               count: enrolmentsCount || 0,
             })}
           </div>
+          {/* TODO: Handle rest of the cases when there API support */}
+          {publicationStatus === PUBLICATION_STATUS.PUBLIC && (
+            <div className={styles.textWithIcon}>
+              <IconEye />
+              {t('events.eventCard.statusPublished')}
+            </div>
+          )}
         </div>
       </div>
     </div>
