@@ -71,6 +71,7 @@ export const QUERY_EVENT = gql`
       ...venueFields
     }
     startTime
+    publicationStatus
   }
 
   query Event($id: ID!, $include: [String]) {

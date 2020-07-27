@@ -29,58 +29,7 @@ import { activeOrganisationSelector } from '../organisation/selector';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from './constants';
 import styles from './eventsPage.module.scss';
 
-const EventsTitle: React.FC<{ count: number; title: string }> = ({
-  count,
-  title,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <h2>
-      {title}{' '}
-      <span className={styles.eventCount}>
-        {t('events.textEventCount', {
-          count: count,
-        })}
-      </span>
-    </h2>
-  );
-};
-
-const Events: React.FC<{
-  events: EventFieldsFragment[];
-  goToEventOccurrencesPage: (id: string) => void;
-}> = ({ events, goToEventOccurrencesPage }) => {
-  const locale = useLocale();
-
-  return (
-    <div className={styles.eventsContainer}>
-      {events?.map((event) => {
-        const {
-          description,
-          eventName = '',
-          id,
-          imageUrl,
-          occurrences,
-          totalSeatsTakes = 0,
-        } = getEventFields(event, locale);
-        return (
-          <EventCard
-            key={id || ''}
-            description={description}
-            enrolmentsCount={totalSeatsTakes}
-            id={id || ''}
-            image={imageUrl}
-            name={eventName}
-            occurrencesCount={occurrences?.length || 0}
-            onClick={goToEventOccurrencesPage}
-          />
-        );
-      })}
-    </div>
-  );
-};
-
-const EventsPage = () => {
+const EventsPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
   const { t } = useTranslation();
@@ -103,6 +52,10 @@ const EventsPage = () => {
       sort: EVENT_SORT_KEYS.START_TIME,
       text: searchValue,
     },
+  });
+
+  data?.events?.data.forEach((l) => {
+    console.log(l.publicationStatus);
   });
 
   const goToCreateEventPage = () => {
@@ -237,6 +190,59 @@ const EventsPage = () => {
         </div>
       </Container>
     </PageWrapper>
+  );
+};
+
+const EventsTitle: React.FC<{ count: number; title: string }> = ({
+  count,
+  title,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <h2>
+      {title}{' '}
+      <span className={styles.eventCount}>
+        {t('events.textEventCount', {
+          count: count,
+        })}
+      </span>
+    </h2>
+  );
+};
+
+const Events: React.FC<{
+  events: EventFieldsFragment[];
+  goToEventOccurrencesPage: (id: string) => void;
+}> = ({ events, goToEventOccurrencesPage }) => {
+  const locale = useLocale();
+
+  return (
+    <div className={styles.eventsContainer}>
+      {events?.map((event) => {
+        const {
+          description,
+          eventName = '',
+          id,
+          imageUrl,
+          occurrences,
+          totalSeatsTakes = 0,
+          publicationStatus,
+        } = getEventFields(event, locale);
+        return (
+          <EventCard
+            key={id || ''}
+            description={description}
+            enrolmentsCount={totalSeatsTakes}
+            id={id || ''}
+            image={imageUrl}
+            name={eventName}
+            occurrencesCount={occurrences?.length || 0}
+            publicationStatus={publicationStatus}
+            onClick={goToEventOccurrencesPage}
+          />
+        );
+      })}
+    </div>
   );
 };
 

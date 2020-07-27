@@ -321,5 +321,6 @@ export const getEventFields = (
           (acc, cur) => acc + (cur?.node?.seatsTaken || 0),
           0
         ),
+        publicationStatus: event.publicationStatus,
       }
     : {};
