@@ -1576,6 +1576,23 @@ export type DeleteEnrolmentMutation = (
   )> }
 );
 
+export type UpdateEnrolmentMutationVariables = {
+  input: UpdateEnrolmentMutationInput;
+};
+
+
+export type UpdateEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEnrolment?: Maybe<(
+    { __typename?: 'UpdateEnrolmentMutationPayload' }
+    & Pick<UpdateEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & EnrolmentFieldsFragment
+    )> }
+  )> }
+);
+
 export type StudyGroupFieldsFragment = (
   { __typename?: 'StudyGroupNode' }
   & Pick<StudyGroupNode, 'id' | 'groupSize' | 'amountOfAdult' | 'name' | 'groupName' | 'studyLevel' | 'extraNeeds'>
@@ -1595,6 +1612,24 @@ export type EnrolmentFieldsFragment = (
     { __typename?: 'StudyGroupNode' }
     & StudyGroupFieldsFragment
   ) }
+);
+
+export type EnrolmentQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type EnrolmentQuery = (
+  { __typename?: 'Query' }
+  & { enrolment?: Maybe<(
+    { __typename?: 'EnrolmentNode' }
+    & Pick<EnrolmentNode, 'notificationType'>
+    & { occurrence: (
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize'>
+    ) }
+    & EnrolmentFieldsFragment
+  )> }
 );
 
 export type CreateEventMutationVariables = {
@@ -2654,6 +2689,106 @@ export function useDeleteEnrolmentMutation(baseOptions?: ApolloReactHooks.Mutati
 export type DeleteEnrolmentMutationHookResult = ReturnType<typeof useDeleteEnrolmentMutation>;
 export type DeleteEnrolmentMutationResult = ApolloReactCommon.MutationResult<DeleteEnrolmentMutation>;
 export type DeleteEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
+export const UpdateEnrolmentDocument = gql`
+    mutation updateEnrolment($input: UpdateEnrolmentMutationInput!) {
+  updateEnrolment(input: $input) {
+    enrolment {
+      ...enrolmentFields
+    }
+    clientMutationId
+  }
+}
+    ${EnrolmentFieldsFragmentDoc}`;
+export type UpdateEnrolmentMutationFn = ApolloReactCommon.MutationFunction<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>;
+export type UpdateEnrolmentProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>
+    } & TChildProps;
+export function withUpdateEnrolment<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateEnrolmentMutation,
+  UpdateEnrolmentMutationVariables,
+  UpdateEnrolmentProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables, UpdateEnrolmentProps<TChildProps, TDataName>>(UpdateEnrolmentDocument, {
+      alias: 'updateEnrolment',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useUpdateEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEnrolmentMutation, { data, loading, error }] = useUpdateEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEnrolmentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>(UpdateEnrolmentDocument, baseOptions);
+      }
+export type UpdateEnrolmentMutationHookResult = ReturnType<typeof useUpdateEnrolmentMutation>;
+export type UpdateEnrolmentMutationResult = ApolloReactCommon.MutationResult<UpdateEnrolmentMutation>;
+export type UpdateEnrolmentMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>;
+export const EnrolmentDocument = gql`
+    query Enrolment($id: ID!) {
+  enrolment(id: $id) {
+    ...enrolmentFields
+    notificationType
+    occurrence {
+      id
+      maxGroupSize
+      minGroupSize
+    }
+  }
+}
+    ${EnrolmentFieldsFragmentDoc}`;
+export type EnrolmentProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<EnrolmentQuery, EnrolmentQueryVariables>
+    } & TChildProps;
+export function withEnrolment<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EnrolmentQuery,
+  EnrolmentQueryVariables,
+  EnrolmentProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, EnrolmentQuery, EnrolmentQueryVariables, EnrolmentProps<TChildProps, TDataName>>(EnrolmentDocument, {
+      alias: 'enrolment',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEnrolmentQuery__
+ *
+ * To run a query within a React component, call `useEnrolmentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEnrolmentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEnrolmentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEnrolmentQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EnrolmentQuery, EnrolmentQueryVariables>) {
+        return ApolloReactHooks.useQuery<EnrolmentQuery, EnrolmentQueryVariables>(EnrolmentDocument, baseOptions);
+      }
+export function useEnrolmentLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EnrolmentQuery, EnrolmentQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EnrolmentQuery, EnrolmentQueryVariables>(EnrolmentDocument, baseOptions);
+        }
+export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
+export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
+export type EnrolmentQueryResult = ApolloReactCommon.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {

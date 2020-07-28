@@ -1,7 +1,7 @@
 import { IconCheck, IconCross, IconCrossCircle, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import TableDropdown, {
@@ -16,6 +16,8 @@ import {
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
 } from '../../../../generated/graphql';
+import useLocale from '../../../../hooks/useLocale';
+import { ROUTES } from '../../../app/routes/constants';
 import ApproveEnrolmentModal from '../enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentModals/DeleteEnrolmentModal';
@@ -23,11 +25,14 @@ import styles from './actionsDropdown.module.scss';
 
 interface Props {
   row: EnrolmentFieldsFragment;
+  eventId?: string | null;
 }
 
-const ActionsDropdown: React.FC<Props> = ({ row }) => {
+const ActionsDropdown: React.FC<Props> = ({ row, eventId }) => {
   const { t } = useTranslation();
   const { occurrenceId } = useParams();
+  const history = useHistory();
+  const locale = useLocale();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
   const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
@@ -120,7 +125,13 @@ const ActionsDropdown: React.FC<Props> = ({ row }) => {
   };
 
   const handleEdit = () => {
-    alert('TODO: Go to edit enrolment page');
+    if (eventId) {
+      history.push(
+        `/${locale}${ROUTES.EDIT_ENROLMENT}`
+          .replace(':enrolmentId', row.id)
+          .replace(':eventId', eventId)
+      );
+    }
   };
 
   const items = [

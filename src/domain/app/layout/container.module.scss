@@ -21,9 +21,15 @@
     grid-column: 2;
   }
 
-  &.narrow {
+  &.xsmall {
     @include respond-above(sm) {
-      grid-template-columns: 1fr minmax(auto, $containerNarrowMaxWidth) 1fr;
+      grid-template-columns: 1fr minmax(auto, $containerXSmallMaxWidth) 1fr;
+    }
+  }
+
+  &.small {
+    @include respond-above(sm) {
+      grid-template-columns: 1fr minmax(auto, $containerSmallMaxWidth) 1fr;
     }
   }
 }

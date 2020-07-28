@@ -8473,6 +8473,11 @@ i18next-browser-languagedetector@^4.1.1:
   dependencies:
     "@babel/runtime" "^7.5.5"
 
+i18next-intervalplural-postprocessor@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/i18next-intervalplural-postprocessor/-/i18next-intervalplural-postprocessor-2.0.1.tgz#4937c188360072315b89c4a2d3b2a3b1aa32232c"
+  integrity sha512-eR9raQrnGOOohT1fIgmmrVHaaLMAtH8fCuVDly127ZDa7vJvWWC62b9p8wA0fpbc/e4yz9zFb7TbCQmPjdgQ1Q==
+
 i18next@^19.4.3:
   version "19.4.3"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-19.4.3.tgz#8eac368daa424e649d9b6d1dd9ab2d2695670738"

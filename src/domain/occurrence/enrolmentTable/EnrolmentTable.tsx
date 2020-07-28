@@ -19,12 +19,14 @@ interface Props {
   enrolments: EnrolmentFieldsFragment[];
   id: string;
   seatsTaken?: number;
+  eventId?: string | null;
 }
 
 const EnrolmentTable: React.FC<Props> = ({
   enrolments,
   id,
   seatsTaken = 0,
+  eventId,
 }) => {
   const { t } = useTranslation();
 
@@ -118,7 +120,9 @@ const EnrolmentTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnActions'),
-      accessor: (row: EnrolmentFieldsFragment) => <ActionsDropdown row={row} />,
+      accessor: (row: EnrolmentFieldsFragment) => (
+        <ActionsDropdown row={row} eventId={eventId} />
+      ),
       id: 'actions',
       rowClickDisabled: true,
     },

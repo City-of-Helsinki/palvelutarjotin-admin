@@ -54,10 +54,6 @@ const EventsPage: React.FC = () => {
     },
   });
 
-  data?.events?.data.forEach((l) => {
-    console.log(l.publicationStatus);
-  });
-
   const goToCreateEventPage = () => {
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };

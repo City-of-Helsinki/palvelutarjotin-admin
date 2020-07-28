@@ -54,6 +54,50 @@
     },
     "buttonClose": "Stäng"
   },
+  "enrolmentForm": {
+    "buttonSubmit": "Skicka in registrering",
+    "buttonUpdateEnrolment": "Uppdatera registreringen",
+    "infoText1": "Vi använder inte den information du tillhandahåller för marknadsföringsändamål.",
+    "infoText2": "Vi skickar ett separat bekräftelsemeddelande när organisatören har behandlat och bekräftat din registrering.",
+    "labelHasEmailNotification": "Via e-post",
+    "labelHasSmsNotification": "Via SMS",
+    "labelIsSameResponsiblePerson": "Samma som anmälare",
+    "labelIsSharingDataAccepted": "Jag accepterar att dela min information med arrangören",
+    "labelLanguage": "Språk",
+    "language": {
+      "en": "Engelska",
+      "fi": "Finska",
+      "sv": "Svenska"
+    },
+    "person": {
+      "labelEmailAddress": "E-postadress",
+      "labelName": "Name",
+      "labelPhoneNumber": "Telefonnummer"
+    },
+    "privacyPolicy": "Integritetspolicy",
+    "studyGroup": {
+      "person": {
+        "labelEmailAddress": "E-postadress",
+        "labelName": "Name",
+        "labelPhoneNumber": "Telefonnummer"
+      },
+      "helperExtraNeeds": "Lägg till här om du vill berätta arrangören om något annat som är relevant för din grupp",
+      "helperGroupName": "Unikt namn på gruppen, till exempel: 4a",
+      "labelAmountOfAdult": "Vuxna",
+      "labelExtraNeeds": "Ytterligare information (valfritt)",
+      "labelGroupName": "Gruppens namn",
+      "labelGroupSize": "Barn",
+      "labelName": "Förskola / skola / högskola",
+      "labelStudyLevel": "Betygsnivå",
+      "titleGroup": "Gruppinformation",
+      "titleNotifier": "Anmälaren informations"
+    },
+    "titleNotifications": "Meddelanden om händelse",
+    "titleResponsiblePerson": "An adult in charge of the group during the event",
+    "validation": {
+      "isSharingDataAccepted": "Dela information med arrangören måste godkännas"
+    }
+  },
   "errorPage": {
     "title": "Tjänsten stötte på ett fel",
     "description": "Vi är ledsna, men det var ett fel med tjänsten. Du kan försöka igen, men om situationen kvarstår, vänligen meddela oss via feedbacklänken längst ner.",
@@ -95,6 +139,7 @@
     "approveEnrolmentError": "Godkännande av registreringen misslyckades",
     "declineEnrolmentError": "Avslag på registrering misslyckades",
     "deleteEnrolmentError": "Radering av registreringen misslyckades",
+    "editEnrolmentTitle": "Redigera registreringsinformation",
     "status": {
       "approved": "Godkänd",
       "cancelled": "Inställt",
@@ -114,6 +159,9 @@
       "sendConfirmationMessage": "Skicka bekräftelse",
       "sendCancelMessage": "Skicka",
       "preview": "Förhandsvisning"
+    },
+    "errors": {
+      "updateFailed": "Det gick inte att uppdatera registreringen"
     }
   },
   "createEvent": {
@@ -422,6 +470,12 @@
     "textNoComingOccurrences": "Inga framtida evenemangtider",
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider"
+  },
+  "studyLevel": {
+    "grade": "{{count}}: a klass",
+    "grade_plural": "{{count}}: a klass",
+    "preschool": "Förskola",
+    "secondary": "Gymnasieskola"
   },
   "venue": {
     "venueDataFields": {

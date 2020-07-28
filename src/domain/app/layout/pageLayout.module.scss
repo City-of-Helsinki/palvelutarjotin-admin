@@ -1,4 +1,4 @@
-@import "layout";
+@import 'layout';
 
 .pageLayout {
   --background-color-body: #f7f6f6;
@@ -25,8 +25,16 @@
   &.mobileMenuOpen {
     @include respond-below(sm) {
       visibility: hidden;
-      opacity: 0;     
+      opacity: 0;
       transition: visibility 0.5s, opacity 0.5s;
     }
-}
+  }
+
+  h1 {
+    font-size: var(--fontsize-h-2);
+  }
+
+  h2 {
+    font-size: var(--fontsize-h-3);
+  }
 }
