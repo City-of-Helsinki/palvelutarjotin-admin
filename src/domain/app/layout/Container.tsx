@@ -5,16 +5,10 @@ import styles from './container.module.scss';
 
 const Container: FunctionComponent<{
   className?: string;
-  isNarrow?: boolean;
-}> = ({ children, className, isNarrow = false }) => {
+  size?: 'default' | 'xsmall' | 'small';
+}> = ({ children, className, size = 'default' }) => {
   return (
-    <div
-      className={classnames(
-        styles.container,
-        { [styles.narrow]: isNarrow },
-        className
-      )}
-    >
+    <div className={classnames(styles.container, styles[size], className)}>
       {children}
     </div>
   );

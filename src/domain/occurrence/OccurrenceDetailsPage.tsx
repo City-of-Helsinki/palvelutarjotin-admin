@@ -69,6 +69,7 @@ const OccurrenceDetailsPage = () => {
                   enrolments={occurrence.enrolments.edges.map(
                     (e) => e?.node as EnrolmentFieldsFragment
                   )}
+                  eventId={event.id}
                   id="enrolments-table"
                   seatsTaken={occurrence.seatsTaken || 0}
                 />

@@ -63,7 +63,7 @@ const MyProfilePage: React.FC = () => {
     <PageWrapper className={styles.myProfile} title="editMyProfile.pageTitle">
       <LoadingSpinner isLoading={loading}>
         {myProfileData?.myProfile ? (
-          <Container isNarrow={true}>
+          <Container size="xsmall">
             {isSaved && (
               <Notification
                 labelText={t('editMyProfile.success')}

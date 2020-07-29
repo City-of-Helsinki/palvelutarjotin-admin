@@ -55,6 +55,50 @@
     },
     "buttonClose": "Sulje"
   },
+  "enrolmentForm": {
+    "buttonSubmit": "Lähetä ilmoittautuminen",
+    "buttonUpdateEnrolment": "Päivitä ilmoittautuminen",
+    "infoText1": "Emme käytä antamiasi tietoja markkinointiin.",
+    "infoText2": "Lähetämme sinulle erillisen vahvistusviestin, kun järjestäjä on käsitellyt ja vahvistanut ilmoittautumisesi.",
+    "labelHasEmailNotification": "Sähköpostilla",
+    "labelHasSmsNotification": "Tekstiviestillä",
+    "labelIsSameResponsiblePerson": "Sama kuin ilmoittaja",
+    "labelIsSharingDataAccepted": "Hyväksyn tietojeni jakamisen tapahtuman järjestäjän kanssa",
+    "labelLanguage": "Kieli",
+    "language": {
+      "en": "Englanti",
+      "fi": "Suomi",
+      "sv": "Ruotsi"
+    },
+    "person": {
+      "labelEmailAddress": "Sähköpostiosoite",
+      "labelName": "Nimi",
+      "labelPhoneNumber": "Puhelinnumero"
+    },
+    "privacyPolicy": "Rekisteriseloste",
+    "studyGroup": {
+      "person": {
+        "labelEmailAddress": "Sähköpostiosoite",
+        "labelName": "Nimi",
+        "labelPhoneNumber": "Puhelinnumero"
+      },
+      "helperExtraNeeds": "Lisää tähän, jos haluat kertoa järjestäjälle jotain muuta olennaista ryhmästänne",
+      "helperGroupName": "Ryhmän yksilöivä nimi, esimerkiksi: 4a",
+      "labelAmountOfAdult": "Aikuisia",
+      "labelExtraNeeds": "Lisätiedot (valinnainen)",
+      "labelGroupName": "Ryhmä",
+      "labelGroupSize": "Lapsia",
+      "labelName": "Päiväkoti / koulu / oppilaitos",
+      "labelStudyLevel": "Luokka-aste",
+      "titleGroup": "Ryhmän tiedot",
+      "titleNotifier": "Ilmoittajan tiedot"
+    },
+    "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
+    "titleResponsiblePerson": "Tapahtuman aikana ryhmästä vastuussa oleva aikuinen",
+    "validation": {
+      "isSharingDataAccepted": "Tietojen jakaminen tapahtuman järjestäjän kanssa tulee olla hyväksytty"
+    }
+  },
   "errorPage": {
     "title": "Palvelussa ilmeni virhe",
     "description": "Pahoittelemme, mutta palvelussa ilmeni virhe. Voit yrittää uudestaan, mutta jos tilanne toistuu, kerro siitä meille alalaidan palautelinkin kautta.",
@@ -96,6 +140,7 @@
     "approveEnrolmentError": "Ilmoittautumisen hyväksyminen epäonnistui",
     "declineEnrolmentError": "Ilmoittautumisen hylkääminen epäonnistui",
     "deleteEnrolmentError": "Ilmoittautumisen poistaminen epäonnistui",
+    "editEnrolmentTitle": "Muokkaa osallistumistietoja",
     "status": {
       "approved": "Hyväksytty",
       "cancelled": "Peruttu",
@@ -115,6 +160,9 @@
       "sendConfirmationMessage": "Lähetä vahvistusviesti",
       "sendCancelMessage": "Lähetä",
       "preview": "Esikatselu"
+    },
+    "errors": {
+      "updateFailed": "Ilmoittautumisen päivitys epäonnistui"
     }
   },
   "createEvent": {
@@ -421,6 +469,12 @@
     "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",
     "titleComingOccurrences": "Tulevat tapahtuma-ajat",
     "titlePastOccurrences": "Menneet tapahtuma-ajat"
+  },
+  "studyLevel": {
+    "grade": "{{count}}. luokka",
+    "grade_plural": "{{count}}. luokka",
+    "preschool": "Esikoulu",
+    "secondary": "Lukio"
   },
   "venue": {
     "venueDataFields": {

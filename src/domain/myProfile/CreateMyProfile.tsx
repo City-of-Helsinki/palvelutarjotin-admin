@@ -38,7 +38,7 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
 
   return (
     <PageWrapper className={styles.myProfile} title="createMyProfile.pageTitle">
-      <Container isNarrow={true}>
+      <Container size="xsmall">
         <div>
           <h1>{t('createMyProfile.title')}</h1>
           <p>{t('createMyProfile.infoText1')}</p>

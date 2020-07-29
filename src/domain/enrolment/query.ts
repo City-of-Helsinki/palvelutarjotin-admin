@@ -25,4 +25,16 @@ export const QUERY_ENROLMENT = gql`
       ...studyGroupFields
     }
   }
+
+  query Enrolment($id: ID!) {
+    enrolment(id: $id) {
+      ...enrolmentFields
+      notificationType
+      occurrence {
+        id
+        maxGroupSize
+        minGroupSize
+      }
+    }
+  }
 `;

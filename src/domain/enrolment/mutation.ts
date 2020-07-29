@@ -30,4 +30,13 @@ export const MUTATION_ENROLMENT = gql`
       clientMutationId
     }
   }
+
+  mutation updateEnrolment($input: UpdateEnrolmentMutationInput!) {
+    updateEnrolment(input: $input) {
+      enrolment {
+        ...enrolmentFields
+      }
+      clientMutationId
+    }
+  }
 `;

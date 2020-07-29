@@ -55,6 +55,50 @@
     },
     "buttonClose": "Close"
   },
+  "enrolmentForm": {
+    "buttonSubmit": "Submit registration",
+    "buttonUpdateEnrolment": "Update enrolment",
+    "infoText1": "We do not use the information you provide for marketing purposes.",
+    "infoText2": "We will send you a separate confirmation message once the organizer has processed and confirmed your registration.",
+    "labelHasEmailNotification": "By e-mail",
+    "labelHasSmsNotification": "By SMS",
+    "labelIsSameResponsiblePerson": "Same as notifier",
+    "labelIsSharingDataAccepted": "I agree to share my information with the event organizer",
+    "labelLanguage": "Language",
+    "language": {
+      "en": "English",
+      "fi": "Finnish",
+      "sv": "Swedish"
+    },
+    "person": {
+      "labelEmailAddress": "Email address",
+      "labelName": "Name",
+      "labelPhoneNumber": "Phone number"
+    },
+    "privacyPolicy": "Privacy policy",
+    "studyGroup": {
+      "person": {
+        "labelEmailAddress": "Email address",
+        "labelName": "Name",
+        "labelPhoneNumber": "Phone number"
+      },
+      "helperExtraNeeds": "Add here if you want to tell the organizer something else relevant to your group",
+      "helperGroupName": "Unique name of the group, for example: 4a",
+      "labelAmountOfAdult": "Adults",
+      "labelExtraNeeds": "Additional information (optional)",
+      "labelGroupName": "Group name",
+      "labelGroupSize": "Children",
+      "labelName": "Kindergarten / school / college",
+      "labelStudyLevel": "Grade level",
+      "titleGroup": "Group information",
+      "titleNotifier": "Notifier information"
+    },
+    "titleNotifications": "Event notifications",
+    "titleResponsiblePerson": "An adult in charge of the group during the event",
+    "validation": {
+      "isSharingDataAccepted": "Sharing information with the event organizer must be accepted"
+    }
+  },
   "errorPage": {
     "title": "The service encountered an error",
     "description": "We're sorry, but there was an error with the service. You can try again, but if the situation persists, please let us know via the feedback link at the bottom.",
@@ -112,6 +156,7 @@
     "approveEnrolmentError": "Approving enrolment failed",
     "declineEnrolmentError": "Declining enrolment failed",
     "deleteEnrolmentError": "Deleting enrolment failed",
+    "editEnrolmentTitle": "Edit enrolment information",
     "status": {
       "approved": "Approved",
       "cancelled": "Cancelled",
@@ -131,6 +176,9 @@
       "sendConfirmationMessage": "Send confirmation message",
       "sendCancelMessage": "Send",
       "preview": "Preview"
+    },
+    "errors": {
+      "updateFailed": "Failed to update enrolment"
     }
   },
   "eventDetails": {
@@ -421,6 +469,12 @@
     "textNoComingOccurrences": "No coming event times",
     "titleComingOccurrences": "Coming event times",
     "titlePastOccurrences": "Past event times"
+  },
+  "studyLevel": {
+    "grade_interval": "(1){1st grade};(2){2nd grade};",
+    "grade_plural": "{{count}}th grade",
+    "preschool": "Preschool",
+    "secondary": "Upper secondary school"
   },
   "venue": {
     "venueDataFields": {
