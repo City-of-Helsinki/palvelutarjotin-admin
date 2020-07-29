@@ -165,7 +165,7 @@ const EnrolmentForm: React.FC<Props> = ({
                 </div>
               </FormGroup>
               {!isSameResponsiblePerson && (
-                <>
+                <div data-testid="person-info">
                   <FormGroup>
                     <Field
                       labelText={t('enrolmentForm.person.labelName')}
@@ -187,7 +187,7 @@ const EnrolmentForm: React.FC<Props> = ({
                       name="person.phoneNumber"
                     />
                   </FormGroup>
-                </>
+                </div>
               )}
 
               <div className={styles.divider} />

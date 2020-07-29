@@ -1,0 +1,43 @@
+{
+  "data": {
+    "enrolment": {
+      "id": "RW5yb2xtZW50Tm9kZToyNw==",
+      "enrolmentTime": "2020-07-27T07:11:04.671557+00:00",
+      "person": {
+        "id": "UGVyc29uTm9kZTpjNzRmY2M4ZC0zNGE4LTQ4MjItOGUwNy02YWMxMjRiYTNmMDE=",
+        "emailAddress": "santtu_1993@hotmail.com",
+        "name": "Santeri Rusila",
+        "phoneNumber": "+358405542959",
+        "language": "FI",
+        "__typename": "PersonNode"
+      },
+      "status": "APPROVED",
+      "studyGroup": {
+        "id": "U3R1ZHlHcm91cE5vZGU6NDc=",
+        "groupSize": 10,
+        "amountOfAdult": 1,
+        "name": "ASD",
+        "groupName": "4a",
+        "studyLevel": "GRADE_4",
+        "extraNeeds": "Moi",
+        "person": {
+          "id": "UGVyc29uTm9kZTpjNzRmY2M4ZC0zNGE4LTQ4MjItOGUwNy02YWMxMjRiYTNmMDE=",
+          "emailAddress": "santtu_1993@hotmail.com",
+          "name": "Santeri Rusila",
+          "phoneNumber": "+358405542959",
+          "language": "FI",
+          "__typename": "PersonNode"
+        },
+        "__typename": "StudyGroupNode"
+      },
+      "__typename": "EnrolmentNode",
+      "notificationType": "EMAIL",
+      "occurrence": {
+        "id": "T2NjdXJyZW5jZU5vZGU6OTI=",
+        "maxGroupSize": 10,
+        "minGroupSize": 5,
+        "__typename": "OccurrenceNode"
+      }
+    }
+  }
+}
