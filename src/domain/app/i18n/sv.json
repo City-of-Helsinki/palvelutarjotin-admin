@@ -467,9 +467,16 @@
       "columnLocation": "Evenemang plats",
       "columnTime": "Tid"
     },
+    "publishSection": {
+      "optionNow": "Nu",
+      "buttonSetPublished": "Plats",
+      "buttonCancelPublishment": "Avbryt publiceringen",
+      "textPublishedTime": "Händelse publicerad"
+    },
     "textNoComingOccurrences": "Inga framtida evenemangtider",
     "titleComingOccurrences": "Framtida evenemangtider",
-    "titlePastOccurrences": "Tidigare evenemangtider"
+    "titlePastOccurrences": "Tidigare evenemangtider",
+    "titleEventPublishment": "Händelsepublikation"
   },
   "studyLevel": {
     "grade": "{{count}}: a klass",

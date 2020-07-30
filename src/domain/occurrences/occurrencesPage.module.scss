@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 .occurrencesPage {
   --color-link: var(--color-bus);
@@ -8,6 +8,8 @@
   --fontweight-link: 500;
 
   --grid-gap: var(--spacing-m);
+
+  --publish-section-border-color: #979797;
 }
 
 .occurrencesPage {
@@ -37,7 +39,23 @@
   .titleRow {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-gap: (var(--grid-gap))
+    grid-gap: (var(--grid-gap));
+  }
+
+  .publishSection {
+    display: flex;
+    padding: var(--spacing-s) var(--spacing-m);
+    border: 1px solid var(--publish-section-border-color);
+    align-items: center;
+
+    .publishButton {
+      margin-left: auto;
+    }
+
+    > *:not(:last-child) {
+      margin-right: var(--spacing-l);
+      margin-top: 0 !important;
+    }
   }
 
   .buttonWrapper {

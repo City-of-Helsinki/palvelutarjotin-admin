@@ -14,6 +14,7 @@ import {
   EventQuery,
   Language as TranslationLanguage,
   OccurrenceFieldsFragment,
+  PublishEventMutationInput,
   VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
@@ -324,3 +325,40 @@ export const getEventFields = (
         publicationStatus: event.publicationStatus,
       }
     : {};
+
+export const getPublishEventPayload = ({
+  event: e,
+  organisationId,
+}: {
+  event: EventFieldsFragment;
+  organisationId: string;
+}): PublishEventMutationInput => {
+  const omitTypename = (key: string, value: string) =>
+    key === '__typename' ? undefined : value;
+  // this could be typed correctly with deep omit
+  // https://stackoverflow.com/questions/55539387/deep-omit-with-typescript
+  const event: EventFieldsFragment = JSON.parse(
+    JSON.stringify(e),
+    omitTypename
+  );
+
+  return {
+    id: event.id!,
+    location: {},
+    keywords: event.keywords.map((k) => ({ internalId: k.internalId })),
+    offers: [
+      {
+        isFree: true,
+      },
+    ],
+    name: event.name,
+    description: event.description,
+    pEvent: {
+      duration: event.pEvent.duration,
+      neededOccurrences: event.pEvent.neededOccurrences,
+    },
+    // pEvent: event.pEvent!,
+    shortDescription: event.shortDescription,
+    organisationId,
+  };
+};

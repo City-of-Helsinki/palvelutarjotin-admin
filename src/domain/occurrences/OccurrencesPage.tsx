@@ -1,5 +1,5 @@
-import { isPast } from 'date-fns';
-import { Button } from 'hds-react';
+import { format, isPast } from 'date-fns';
+import { Button, RadioButton } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -12,6 +12,7 @@ import {
   OccurrenceFieldsFragment,
   useDeleteOccurrenceMutation,
   useEventQuery,
+  usePublishSingleEventMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
@@ -19,9 +20,12 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import { getPublishEventPayload } from '../event/utils';
+import { PUBLICATION_STATUS } from '../events/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import styles from './occurrencesPage.module.scss';
 import OccurrencesTable from './occurrencesTable/OccurrencesTable';
+import { getEventPublishedTime } from './utils';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
 
@@ -42,8 +46,14 @@ const OccurrencesPage: React.FC = () => {
       variables: { id: eventId, include: ['location'] },
     }
   );
+  const [publishEvent] = usePublishSingleEventMutation();
+
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
+  const isEventPublished =
+    eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
+
+  console.log(eventData);
 
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
@@ -79,10 +89,25 @@ const OccurrencesPage: React.FC = () => {
     }
   };
 
+  const handlePublishEventClick = async () => {
+    try {
+      if (eventData?.event) {
+        await publishEvent({
+          variables: {
+            event: getPublishEventPayload({
+              event: eventData?.event,
+              organisationId,
+            }),
+          },
+        });
+      }
+    } catch (error) {}
+  };
+
   return (
     <PageWrapper title="occurrences.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        {eventData ? (
+        {eventData?.event ? (
           <div className={styles.occurrencesPage}>
             <Container>
               <div>
@@ -100,6 +125,42 @@ const OccurrencesPage: React.FC = () => {
                       {t('occurrences.buttonEventDetails')}
                     </Button>
                   </div>
+                </div>
+                <div className={styles.titleRow}>
+                  <h2>{t('occurrences.titleEventPublishment')}</h2>
+                </div>
+                <div className={styles.publishSection}>
+                  {isEventPublished ? (
+                    <>
+                      <div>
+                        {t('occurrences.publishSection.textPublishedTime')}{' '}
+                        {getEventPublishedTime(eventData.event)}
+                      </div>
+                      <Button
+                        className={styles.publishButton}
+                        onClick={() => alert('TODO: implement unpublish')}
+                      >
+                        {t(
+                          'occurrences.publishSection.buttonCancelPublishment'
+                        )}
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <div>{t('occurrences.titleEventPublishment')}: </div>
+                      <RadioButton
+                        label={t('occurrences.publishSection.optionNow')}
+                        id="publish-now"
+                        checked
+                      />
+                      <Button
+                        className={styles.publishButton}
+                        onClick={handlePublishEventClick}
+                      >
+                        {t('occurrences.publishSection.buttonSetPublished')}
+                      </Button>
+                    </>
+                  )}
                 </div>
                 <div className={styles.titleRow}>
                   <h2>

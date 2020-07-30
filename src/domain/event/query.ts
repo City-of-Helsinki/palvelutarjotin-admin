@@ -72,6 +72,7 @@ export const QUERY_EVENT = gql`
     }
     startTime
     publicationStatus
+    datePublished
   }
 
   query Event($id: ID!, $include: [String]) {

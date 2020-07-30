@@ -708,12 +708,12 @@ export type Event = {
   extensionCourse?: Maybe<ExtensionCourse>;
   name: LocalisedObject;
   localizationExtraInfo?: Maybe<LocalisedObject>;
-  shortDescription?: Maybe<LocalisedObject>;
+  shortDescription: LocalisedObject;
   provider?: Maybe<LocalisedObject>;
   infoUrl?: Maybe<LocalisedObject>;
   providerContactInfo?: Maybe<Scalars['String']>;
-  description?: Maybe<LocalisedObject>;
-  pEvent?: Maybe<PalvelutarjotinEventNode>;
+  description: LocalisedObject;
+  pEvent: PalvelutarjotinEventNode;
   venue?: Maybe<VenueNode>;
   publicationStatus?: Maybe<Scalars['String']>;
 };
@@ -914,6 +914,8 @@ export type Mutation = {
   updatePerson?: Maybe<UpdatePersonMutationPayload>;
   addEventMutation?: Maybe<AddEventMutation>;
   updateEventMutation?: Maybe<UpdateEventMutation>;
+  /** Using this mutation will update event publication status and also set the `start_time`, `end_time` of linkedEvent */
+  publishEventMutation?: Maybe<PublishEventMutation>;
   deleteEventMutation?: Maybe<DeleteEventMutation>;
   uploadImageMutation?: Maybe<UploadImageMutation>;
   updateImageMutation?: Maybe<UpdateImageMutation>;
@@ -1023,6 +1025,11 @@ export type MutationAddEventMutationArgs = {
 
 export type MutationUpdateEventMutationArgs = {
   event?: Maybe<UpdateEventMutationInput>;
+};
+
+
+export type MutationPublishEventMutationArgs = {
+  event?: Maybe<PublishEventMutationInput>;
 };
 
 
@@ -1407,6 +1414,8 @@ export type AddEventMutationInput = {
   pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
+  /** Set to `true` to save event as draft version, when draft is true, event data validation will be skipped */
+  draft?: Maybe<Scalars['Boolean']>;
 };
 
 export type IdObjectInput = {
@@ -1454,6 +1463,44 @@ export type UpdateEventMutationInput = {
   audience?: Maybe<Array<IdObjectInput>>;
   datePublished?: Maybe<Scalars['String']>;
   startTime: Scalars['String'];
+  endTime?: Maybe<Scalars['String']>;
+  customData?: Maybe<Scalars['String']>;
+  audienceMinAge?: Maybe<Scalars['String']>;
+  audienceMaxAge?: Maybe<Scalars['String']>;
+  superEventType?: Maybe<Scalars['String']>;
+  extensionCourse?: Maybe<IdObjectInput>;
+  name: LocalisedObjectInput;
+  localizationExtraInfo?: Maybe<LocalisedObjectInput>;
+  shortDescription: LocalisedObjectInput;
+  provider?: Maybe<LocalisedObjectInput>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  providerContactInfo?: Maybe<Scalars['String']>;
+  description: LocalisedObjectInput;
+  /** Palvelutarjotin event data */
+  pEvent: PalvelutarjotinEventInput;
+  /** Organisation global id which the created event belongs to */
+  organisationId: Scalars['String'];
+  id: Scalars['String'];
+};
+
+export type PublishEventMutation = {
+   __typename?: 'PublishEventMutation';
+  response?: Maybe<EventMutationResponse>;
+};
+
+export type PublishEventMutationInput = {
+  location: IdObjectInput;
+  keywords: Array<IdObjectInput>;
+  superEvent?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<Scalars['String']>;
+  externalLinks?: Maybe<Array<Scalars['String']>>;
+  offers: Array<OfferInput>;
+  subEvents?: Maybe<Array<Scalars['String']>>;
+  images?: Maybe<Array<IdObjectInput>>;
+  inLanguage?: Maybe<Array<IdObjectInput>>;
+  audience?: Maybe<Array<IdObjectInput>>;
+  datePublished?: Maybe<Scalars['String']>;
+  startTime?: Maybe<Scalars['String']>;
   endTime?: Maybe<Scalars['String']>;
   customData?: Maybe<Scalars['String']>;
   audienceMinAge?: Maybe<Scalars['String']>;
@@ -1650,19 +1697,19 @@ export type CreateEventMutation = (
         & { name: (
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-        ), shortDescription?: Maybe<(
+        ), shortDescription: (
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-        )>, description?: Maybe<(
+        ), description: (
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-        )>, images: Array<(
+        ), images: Array<(
           { __typename?: 'Image' }
           & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
-        )>, pEvent?: Maybe<(
+        )>, pEvent: (
           { __typename?: 'PalvelutarjotinEventNode' }
           & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'neededOccurrences'>
-        )>, infoUrl?: Maybe<(
+        ), infoUrl?: Maybe<(
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
         )> }
@@ -1680,6 +1727,26 @@ export type DeleteSingleEventMutation = (
   { __typename?: 'Mutation' }
   & { deleteEventMutation?: Maybe<(
     { __typename?: 'DeleteEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId'>
+      )> }
+    )> }
+  )> }
+);
+
+export type PublishSingleEventMutationVariables = {
+  event: PublishEventMutationInput;
+};
+
+
+export type PublishSingleEventMutation = (
+  { __typename?: 'Mutation' }
+  & { publishEventMutation?: Maybe<(
+    { __typename?: 'PublishEventMutation' }
     & { response?: Maybe<(
       { __typename?: 'EventMutationResponse' }
       & Pick<EventMutationResponse, 'statusCode'>
@@ -1709,19 +1776,19 @@ export type EditEventMutation = (
         & { name: (
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-        ), shortDescription?: Maybe<(
+        ), shortDescription: (
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-        )>, description?: Maybe<(
+        ), description: (
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
-        )>, images: Array<(
+        ), images: Array<(
           { __typename?: 'Image' }
           & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
-        )>, pEvent?: Maybe<(
+        )>, pEvent: (
           { __typename?: 'PalvelutarjotinEventNode' }
           & Pick<PalvelutarjotinEventNode, 'id' | 'duration' | 'neededOccurrences'>
-        )>, infoUrl?: Maybe<(
+        ), infoUrl?: Maybe<(
           { __typename?: 'LocalisedObject' }
           & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
         )> }
@@ -1758,26 +1825,26 @@ export type LocalisedFieldsFragment = (
 
 export type EventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus'>
+  & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus' | 'datePublished'>
   & { name: (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  ), shortDescription?: Maybe<(
+  ), shortDescription: (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  )>, description?: Maybe<(
+  ), description: (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  )>, images: Array<(
+  ), images: Array<(
     { __typename?: 'Image' }
     & ImageFieldsFragment
   )>, infoUrl?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  )>, pEvent?: Maybe<(
+  )>, pEvent: (
     { __typename?: 'PalvelutarjotinEventNode' }
     & PEventFieldsFragment
-  )>, inLanguage: Array<(
+  ), inLanguage: Array<(
     { __typename?: 'InLanguage' }
     & Pick<InLanguage, 'id' | 'internalId'>
     & { name?: Maybe<(
@@ -2507,6 +2574,7 @@ export const EventFieldsFragmentDoc = gql`
   }
   startTime
   publicationStatus
+  datePublished
 }
     ${LocalisedFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
@@ -2926,6 +2994,57 @@ export function useDeleteSingleEventMutation(baseOptions?: ApolloReactHooks.Muta
 export type DeleteSingleEventMutationHookResult = ReturnType<typeof useDeleteSingleEventMutation>;
 export type DeleteSingleEventMutationResult = ApolloReactCommon.MutationResult<DeleteSingleEventMutation>;
 export type DeleteSingleEventMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteSingleEventMutation, DeleteSingleEventMutationVariables>;
+export const PublishSingleEventDocument = gql`
+    mutation publishSingleEvent($event: PublishEventMutationInput!) {
+  publishEventMutation(event: $event) {
+    response {
+      statusCode
+      body {
+        id
+        internalId
+      }
+    }
+  }
+}
+    `;
+export type PublishSingleEventMutationFn = ApolloReactCommon.MutationFunction<PublishSingleEventMutation, PublishSingleEventMutationVariables>;
+export type PublishSingleEventProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<PublishSingleEventMutation, PublishSingleEventMutationVariables>
+    } & TChildProps;
+export function withPublishSingleEvent<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  PublishSingleEventMutation,
+  PublishSingleEventMutationVariables,
+  PublishSingleEventProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, PublishSingleEventMutation, PublishSingleEventMutationVariables, PublishSingleEventProps<TChildProps, TDataName>>(PublishSingleEventDocument, {
+      alias: 'publishSingleEvent',
+      ...operationOptions
+    });
+};
+
+/**
+ * __usePublishSingleEventMutation__
+ *
+ * To run a mutation, you first call `usePublishSingleEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishSingleEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishSingleEventMutation, { data, loading, error }] = usePublishSingleEventMutation({
+ *   variables: {
+ *      event: // value for 'event'
+ *   },
+ * });
+ */
+export function usePublishSingleEventMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PublishSingleEventMutation, PublishSingleEventMutationVariables>) {
+        return ApolloReactHooks.useMutation<PublishSingleEventMutation, PublishSingleEventMutationVariables>(PublishSingleEventDocument, baseOptions);
+      }
+export type PublishSingleEventMutationHookResult = ReturnType<typeof usePublishSingleEventMutation>;
+export type PublishSingleEventMutationResult = ApolloReactCommon.MutationResult<PublishSingleEventMutation>;
+export type PublishSingleEventMutationOptions = ApolloReactCommon.BaseMutationOptions<PublishSingleEventMutation, PublishSingleEventMutationVariables>;
 export const EditEventDocument = gql`
     mutation EditEvent($event: UpdateEventMutationInput!) {
   updateEventMutation(event: $event) {

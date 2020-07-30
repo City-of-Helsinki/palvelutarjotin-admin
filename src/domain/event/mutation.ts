@@ -60,6 +60,18 @@ export const MUTATION_EVENT = gql`
     }
   }
 
+  mutation publishSingleEvent($event: PublishEventMutationInput!) {
+    publishEventMutation(event: $event) {
+      response {
+        statusCode
+        body {
+          id
+          internalId
+        }
+      }
+    }
+  }
+
   mutation EditEvent($event: UpdateEventMutationInput!) {
     updateEventMutation(event: $event) {
       response {
