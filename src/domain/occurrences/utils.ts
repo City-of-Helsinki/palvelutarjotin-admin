@@ -4,6 +4,8 @@ import { EventFieldsFragment } from '../../generated/graphql';
 
 export const getEventPublishedTime = (event: EventFieldsFragment) => {
   const dateFormat = 'dd.MM.yyyy HH:mm';
+
+  // TODO: use only this when it is available
   if (event.datePublished) {
     return format(new Date(event.datePublished), dateFormat);
   }
