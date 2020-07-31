@@ -343,8 +343,10 @@ export const getPublishEventPayload = ({
   );
 
   return {
-    id: event.id!,
-    location: {},
+    id: event.id,
+    location: {
+      internalId: event.location?.internalId!,
+    },
     keywords: event.keywords.map((k) => ({ internalId: k.internalId })),
     offers: [
       {
@@ -357,7 +359,6 @@ export const getPublishEventPayload = ({
       duration: event.pEvent.duration,
       neededOccurrences: event.pEvent.neededOccurrences,
     },
-    // pEvent: event.pEvent!,
     shortDescription: event.shortDescription,
     organisationId,
   };
