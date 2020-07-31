@@ -1,4 +1,4 @@
-import { format, isPast } from 'date-fns';
+import { isPast } from 'date-fns';
 import { Button, RadioButton } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -52,8 +52,6 @@ const OccurrencesPage: React.FC = () => {
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
   const isEventPublished =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
-
-  console.log(eventData);
 
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(

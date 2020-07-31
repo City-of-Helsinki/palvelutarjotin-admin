@@ -680,7 +680,7 @@ export type Meta = {
 
 export type Event = {
    __typename?: 'Event';
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   internalId: Scalars['ID'];
   internalContext?: Maybe<Scalars['String']>;
   internalType?: Maybe<Scalars['String']>;
@@ -1410,12 +1410,12 @@ export type AddEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
-  /** Palvelutarjotin event data */
-  pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
   /** Set to `true` to save event as draft version, when draft is true, event data validation will be skipped */
   draft?: Maybe<Scalars['Boolean']>;
+  /** Palvelutarjotin event data */
+  pEvent: PalvelutarjotinEventInput;
 };
 
 export type IdObjectInput = {
@@ -1476,11 +1476,11 @@ export type UpdateEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
-  /** Palvelutarjotin event data */
-  pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
   id: Scalars['String'];
+  /** Palvelutarjotin event data */
+  pEvent?: Maybe<PalvelutarjotinEventInput>;
 };
 
 export type PublishEventMutation = {
@@ -1514,11 +1514,11 @@ export type PublishEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
-  /** Palvelutarjotin event data */
-  pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
   id: Scalars['String'];
+  /** Palvelutarjotin event data */
+  pEvent?: Maybe<PalvelutarjotinEventInput>;
 };
 
 export type DeleteEventMutation = {
