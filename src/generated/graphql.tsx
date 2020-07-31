@@ -688,7 +688,7 @@ export type Event = {
   lastModifiedTime?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
-  location?: Maybe<Place>;
+  location: Place;
   keywords: Array<Keyword>;
   superEvent?: Maybe<IdObject>;
   eventStatus?: Maybe<Scalars['String']>;
@@ -1752,7 +1752,7 @@ export type PublishSingleEventMutation = (
       & Pick<EventMutationResponse, 'statusCode'>
       & { body?: Maybe<(
         { __typename?: 'Event' }
-        & Pick<Event, 'id' | 'internalId'>
+        & Pick<Event, 'id' | 'internalId' | 'publicationStatus'>
       )> }
     )> }
   )> }
@@ -1857,10 +1857,10 @@ export type EventFieldsFragment = (
   )>, keywords: Array<(
     { __typename?: 'Keyword' }
     & KeywordFieldsFragment
-  )>, location?: Maybe<(
+  )>, location: (
     { __typename?: 'Place' }
     & PlaceFieldsFragment
-  )>, venue?: Maybe<(
+  ), venue?: Maybe<(
     { __typename?: 'VenueNode' }
     & VenueFieldsFragment
   )> }
@@ -3003,6 +3003,7 @@ export const PublishSingleEventDocument = gql`
       body {
         id
         internalId
+        publicationStatus
       }
     }
   }

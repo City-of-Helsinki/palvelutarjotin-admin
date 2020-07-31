@@ -67,6 +67,7 @@ export const MUTATION_EVENT = gql`
         body {
           id
           internalId
+          publicationStatus
         }
       }
     }
