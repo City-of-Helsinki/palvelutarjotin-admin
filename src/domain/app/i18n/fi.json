@@ -466,9 +466,16 @@
       "columnLocation": "Tapahtumapaikka",
       "columnTime": "Kellonaika"
     },
+    "publishSection": {
+      "optionNow": "Heti",
+      "buttonSetPublished": "Aseta",
+      "buttonCancelPublishment": "Peru julkaisu",
+      "textPublishedTime": "Tapahtuma julkaistu"
+    },
     "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",
     "titleComingOccurrences": "Tulevat tapahtuma-ajat",
-    "titlePastOccurrences": "Menneet tapahtuma-ajat"
+    "titlePastOccurrences": "Menneet tapahtuma-ajat",
+    "titleEventPublishment": "Tapahtuman julkaisu"
   },
   "studyLevel": {
     "grade": "{{count}}. luokka",
