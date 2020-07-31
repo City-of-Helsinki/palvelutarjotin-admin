@@ -50,13 +50,14 @@ export const defaultInitialValues: EventFormFields = {
   locationDescription: '',
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
+  isDraft: false,
 };
 
 interface Props {
   eventData?: EventQuery;
   initialValues?: EventFormFields;
   onCancel: () => void;
-  onSubmit: (values: EventFormFields) => void;
+  onSubmit: (values: EventFormFields, draft?: boolean) => void;
   persons: PersonFieldsFragment[];
   selectedLanguage: Language;
   setSelectedLanguage: (language: Language) => void;
@@ -107,18 +108,21 @@ const EventForm: React.FC<Props> = ({
       initialValues={initialValues}
       validateOnChange
       onSubmit={(values, e) => {
-        onSubmit(values);
+        // Do draft submit by setting isDraft value to true before calling handleSubmit
+        // https://github.com/formium/formik/issues/214
+        onSubmit(values, values.isDraft);
       }}
       validationSchema={ValidationSchema}
     >
       {({
         dirty,
         handleSubmit,
-        values: { contactPersonId, image, location },
+        values,
         setFieldValue,
         setFieldTouched,
         touched,
       }) => {
+        const { contactPersonId, image, location } = values;
         const imageSelected = Boolean(image);
         return (
           <>
@@ -345,6 +349,15 @@ const EventForm: React.FC<Props> = ({
               <div className={styles.buttonsWrapper}>
                 <Button type="button" onClick={onCancel} variant="secondary">
                   {t('eventForm.buttonCancel')}
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Do draft submit by setting isDraft value to true before calling handleSubmit
+                    setFieldValue('isDraft', true);
+                    handleSubmit();
+                  }}
+                >
+                  {t('eventForm.buttonSaveDraft')}
                 </Button>
                 <Button type="submit">{t('eventForm.buttonSave')}</Button>
               </div>

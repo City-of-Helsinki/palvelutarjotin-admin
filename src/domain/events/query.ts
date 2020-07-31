@@ -25,6 +25,7 @@ export const QUERY_EVENT = gql`
     $superEventType: [String]
     $text: String
     $translation: String
+    $showAll: Boolean
   ) {
     events(
       divisions: $divisions
@@ -45,6 +46,7 @@ export const QUERY_EVENT = gql`
       superEventType: $superEventType
       text: $text
       translation: $translation
+      showAll: $showAll
     ) {
       meta {
         ...metaFields

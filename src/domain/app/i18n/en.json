@@ -248,6 +248,7 @@
     },
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
+    "buttonSaveDraft": "Save draft",
     "categorisation": {
       "helperKeywords": "Enter a keyword and select from the suggested options",
       "labelAudience": "Target groups",

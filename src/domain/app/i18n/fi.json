@@ -249,6 +249,7 @@
     },
     "buttonCancel": "Peruuta",
     "buttonSave": "Tallenna",
+    "buttonSaveDraft": "Tallenna luonnos",
     "categorisation": {
       "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
       "labelAudience": "Kohderyhmät",
