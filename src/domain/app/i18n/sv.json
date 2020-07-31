@@ -250,6 +250,7 @@
     },
     "buttonCancel": "Avbryt",
     "buttonSave": "Spara",
+    "buttonSaveDraft": "Spara utkast",
     "categorisation": {
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "labelAudience": "Målgrupper",

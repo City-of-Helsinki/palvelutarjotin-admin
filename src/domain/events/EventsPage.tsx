@@ -51,6 +51,7 @@ const EventsPage: React.FC = () => {
       publisher: selectedOrganisation?.publisherId,
       sort: EVENT_SORT_KEYS.START_TIME,
       text: searchValue,
+      showAll: true,
     },
   });
 

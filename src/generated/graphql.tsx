@@ -680,7 +680,7 @@ export type Meta = {
 
 export type Event = {
    __typename?: 'Event';
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   internalId: Scalars['ID'];
   internalContext?: Maybe<Scalars['String']>;
   internalType?: Maybe<Scalars['String']>;
@@ -1410,12 +1410,12 @@ export type AddEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
-  /** Palvelutarjotin event data */
-  pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
   /** Set to `true` to save event as draft version, when draft is true, event data validation will be skipped */
   draft?: Maybe<Scalars['Boolean']>;
+  /** Palvelutarjotin event data */
+  pEvent: PalvelutarjotinEventInput;
 };
 
 export type IdObjectInput = {
@@ -1476,11 +1476,11 @@ export type UpdateEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
-  /** Palvelutarjotin event data */
-  pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
   id: Scalars['String'];
+  /** Palvelutarjotin event data */
+  pEvent?: Maybe<PalvelutarjotinEventInput>;
 };
 
 export type PublishEventMutation = {
@@ -1514,11 +1514,11 @@ export type PublishEventMutationInput = {
   infoUrl?: Maybe<LocalisedObjectInput>;
   providerContactInfo?: Maybe<Scalars['String']>;
   description: LocalisedObjectInput;
-  /** Palvelutarjotin event data */
-  pEvent: PalvelutarjotinEventInput;
   /** Organisation global id which the created event belongs to */
   organisationId: Scalars['String'];
   id: Scalars['String'];
+  /** Palvelutarjotin event data */
+  pEvent?: Maybe<PalvelutarjotinEventInput>;
 };
 
 export type DeleteEventMutation = {
@@ -1904,6 +1904,7 @@ export type EventsQueryVariables = {
   superEventType?: Maybe<Array<Maybe<Scalars['String']>>>;
   text?: Maybe<Scalars['String']>;
   translation?: Maybe<Scalars['String']>;
+  showAll?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -3179,8 +3180,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $locations: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String) {
-  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, locations: $locations, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) {
+    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $locations: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean) {
+  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, locations: $locations, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation, showAll: $showAll) {
     meta {
       ...metaFields
     }
@@ -3235,6 +3236,7 @@ export function withEvents<TProps, TChildProps = {}, TDataName extends string = 
  *      superEventType: // value for 'superEventType'
  *      text: // value for 'text'
  *      translation: // value for 'translation'
+ *      showAll: // value for 'showAll'
  *   },
  * });
  */
