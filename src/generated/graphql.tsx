@@ -1651,7 +1651,7 @@ export type StudyGroupFieldsFragment = (
 
 export type EnrolmentFieldsFragment = (
   { __typename?: 'EnrolmentNode' }
-  & Pick<EnrolmentNode, 'id' | 'enrolmentTime' | 'status'>
+  & Pick<EnrolmentNode, 'id' | 'notificationType' | 'enrolmentTime' | 'status'>
   & { person?: Maybe<(
     { __typename?: 'PersonNode' }
     & PersonFieldsFragment
@@ -1670,7 +1670,6 @@ export type EnrolmentQuery = (
   { __typename?: 'Query' }
   & { enrolment?: Maybe<(
     { __typename?: 'EnrolmentNode' }
-    & Pick<EnrolmentNode, 'notificationType'>
     & { occurrence: (
       { __typename?: 'OccurrenceNode' }
       & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize'>
@@ -2402,6 +2401,7 @@ export const StudyGroupFieldsFragmentDoc = gql`
 export const EnrolmentFieldsFragmentDoc = gql`
     fragment enrolmentFields on EnrolmentNode {
   id
+  notificationType
   enrolmentTime
   person {
     ...personFields
@@ -2810,7 +2810,6 @@ export const EnrolmentDocument = gql`
     query Enrolment($id: ID!) {
   enrolment(id: $id) {
     ...enrolmentFields
-    notificationType
     occurrence {
       id
       maxGroupSize

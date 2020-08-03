@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import { Checkbox, IconAngleDown } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
 import { UseExpandedColumnCell } from '../../../common/components/table/types';
@@ -9,7 +11,9 @@ import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
+import { ROUTES } from '../../app/routes/constants';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
 import ActionsDropdown from './actionsDropdown/ActionsDropdown';
 import AdditionalInfo from './additionalInfo/AdditionalInfo';
@@ -29,6 +33,8 @@ const EnrolmentTable: React.FC<Props> = ({
   eventId,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const locale = useLocale();
 
   const [selectedEnrolments, setSelectedEnrolments] = React.useState<string[]>(
     []
@@ -45,6 +51,12 @@ const EnrolmentTable: React.FC<Props> = ({
 
   const unselectAll = () => {
     setSelectedEnrolments([]);
+  };
+
+  const goToEnrolmentDetailsPage = (row: Row<EnrolmentFieldsFragment>) => {
+    history.push(
+      `/${locale}${ROUTES.ENROLMENT_DETAILS.replace(':id', row.original.id)}`
+    );
   };
 
   const handleCheckboxChange = (row: EnrolmentFieldsFragment) => {
@@ -172,6 +184,7 @@ const EnrolmentTable: React.FC<Props> = ({
           columns={columns}
           data={enrolments}
           renderExpandedArea={renderEnrolmentInfo}
+          onRowClick={goToEnrolmentDetailsPage}
           expandedAreaOffset={1}
         />
       )}
