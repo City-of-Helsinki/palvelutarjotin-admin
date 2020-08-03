@@ -34,11 +34,11 @@ const AdditionalInfo: React.FC<Props> = ({ enrolment }) => {
             })}
           </span>
         )}
-        {studyGroupPersonInfo?.map((item) => (
-          <span>{item}</span>
+        {studyGroupPersonInfo?.map((item, i) => (
+          <span key={i}>{item}</span>
         ))}
-        {personInfo?.map((item) => (
-          <span>{item}</span>
+        {personInfo?.map((item, i) => (
+          <span key={i}>{item}</span>
         ))}
       </div>
       {extraNeeds && <div>{extraNeeds}</div>}

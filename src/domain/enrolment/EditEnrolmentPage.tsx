@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -13,6 +13,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
+import { ROUTES } from '../app/routes/constants';
 import styles from './editEnrolmentPage.module.scss';
 import EnrolmentForm, {
   defaultInitialValues,
@@ -26,6 +27,7 @@ const EditorEnrolmentPage: React.FC = () => {
     eventId: string;
   }>();
   const { t } = useTranslation();
+  const history = useHistory();
   const locale = useLocale();
   const [selectedLanguage] = React.useState(locale);
   const [initialValues, setInitialValues] = React.useState<EnrolmentFormFields>(
@@ -51,7 +53,13 @@ const EditorEnrolmentPage: React.FC = () => {
             }),
           },
         });
-        // TODO: reidrect to enrolment details page when implemented??
+
+        history.push(
+          `/${locale}${ROUTES.ENROLMENT_DETAILS.replace(
+            ':id',
+            enrolmentData.enrolment.id
+          )}`
+        );
       }
     } catch (error) {
       toast(t('enrolment.errors.updateFailed'), {
