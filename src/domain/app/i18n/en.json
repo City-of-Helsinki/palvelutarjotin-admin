@@ -289,7 +289,8 @@
       "textEnrolments_plural": "{{count}} enrolments",
       "textOccurrences": "{{count}} occurrence",
       "textOccurrences_plural": "{{count}} occurrences",
-      "statusPublished": "Published"
+      "statusPublished": "Published",
+      "statusNotPublished": "Not published"
     },
     "placeholderSearch": "Search",
     "textEventCount": "{{count}} pcs",

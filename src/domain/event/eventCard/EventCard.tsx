@@ -36,6 +36,16 @@ const EventCard: React.FC<Props> = ({
     }
   };
 
+  const getPublicationText = () => {
+    if (publicationStatus === PUBLICATION_STATUS.PUBLIC) {
+      return t('events.eventCard.statusPublished');
+    }
+
+    if (publicationStatus === PUBLICATION_STATUS.DRAFT) {
+      return t('events.eventCard.statusNotPublished');
+    }
+  };
+
   return (
     <div
       role="button"
@@ -71,12 +81,10 @@ const EventCard: React.FC<Props> = ({
             })}
           </div>
           {/* TODO: Handle rest of the cases when there API support */}
-          {publicationStatus === PUBLICATION_STATUS.PUBLIC && (
-            <div className={styles.textWithIcon}>
-              <IconEye />
-              {t('events.eventCard.statusPublished')}
-            </div>
-          )}
+          <div className={styles.textWithIcon}>
+            <IconEye />
+            {getPublicationText()}
+          </div>
         </div>
       </div>
     </div>

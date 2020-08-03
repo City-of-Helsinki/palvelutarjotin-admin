@@ -13,4 +13,5 @@ export enum EVENT_SORT_KEYS {
 
 export enum PUBLICATION_STATUS {
   PUBLIC = 'public',
+  DRAFT = 'draft',
 }

@@ -16,6 +16,7 @@ export const QUERY_ENROLMENT = gql`
 
   fragment enrolmentFields on EnrolmentNode {
     id
+    notificationType
     enrolmentTime
     person {
       ...personFields
@@ -29,7 +30,6 @@ export const QUERY_ENROLMENT = gql`
   query Enrolment($id: ID!) {
     enrolment(id: $id) {
       ...enrolmentFields
-      notificationType
       occurrence {
         id
         maxGroupSize

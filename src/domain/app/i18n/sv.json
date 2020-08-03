@@ -290,7 +290,8 @@
       "textEnrolments_plural": "{{count}} registrerade",
       "textOccurrences": "{{count}} händelsetid",
       "textOccurrences_plural": "{{count}} evenemangtider",
-      "statusPublished": "Publicerad"
+      "statusPublished": "Publicerad",
+      "statusNotPublished": "Ej publicerad"
     },
     "placeholderSearch": "Sök",
     "textEventCount": "{{count}} st",
