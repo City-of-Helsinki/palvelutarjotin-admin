@@ -157,6 +157,7 @@
     "declineEnrolmentError": "Declining enrolment failed",
     "deleteEnrolmentError": "Deleting enrolment failed",
     "editEnrolmentTitle": "Edit enrolment information",
+    "editEnrolmentBackButton": "Enrollees",
     "status": {
       "approved": "Approved",
       "cancelled": "Cancelled",
@@ -429,6 +430,7 @@
       "showEnrolmentDetails": "Show enrolment details",
       "titleEnrolled": "Registrations"
     },
+    "enrolmentDetailsUpdated": "Enrolment details updated",
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",

@@ -2,7 +2,7 @@
 
 exports[`Container matches snapshot 1`] = `
 <div
-  className="container"
+  className="container default"
 >
   TEST CONTENT
 </div>

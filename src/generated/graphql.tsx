@@ -1673,6 +1673,14 @@ export type EnrolmentQuery = (
     & { occurrence: (
       { __typename?: 'OccurrenceNode' }
       & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize'>
+      & { pEvent?: Maybe<(
+        { __typename?: 'PalvelutarjotinEventNode' }
+        & Pick<PalvelutarjotinEventNode, 'id'>
+        & { organisation?: Maybe<(
+          { __typename?: 'OrganisationNode' }
+          & Pick<OrganisationNode, 'id'>
+        )> }
+      )> }
     ) }
     & EnrolmentFieldsFragment
   )> }
@@ -2814,6 +2822,12 @@ export const EnrolmentDocument = gql`
       id
       maxGroupSize
       minGroupSize
+      pEvent {
+        id
+        organisation {
+          id
+        }
+      }
     }
   }
 }

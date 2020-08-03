@@ -2,7 +2,7 @@
 
 exports[`MobileNavbar matches snapshot 1`] = `
 <div
-  class="container"
+  class="container default"
 >
   <div
     class="mobileNavbar"

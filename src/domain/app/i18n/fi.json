@@ -141,6 +141,7 @@
     "declineEnrolmentError": "Ilmoittautumisen hylkääminen epäonnistui",
     "deleteEnrolmentError": "Ilmoittautumisen poistaminen epäonnistui",
     "editEnrolmentTitle": "Muokkaa osallistumistietoja",
+    "editEnrolmentBackButton": "Ilmoittautuneet",
     "status": {
       "approved": "Hyväksytty",
       "cancelled": "Peruttu",
@@ -429,6 +430,7 @@
       "showEnrolmentDetails": "Näytä ilmoittautumisen lisätiedot",
       "titleEnrolled": "Ilmoittautuneet"
     },
+    "enrolmentDetailsUpdated": "Osallistumistiedot päivitetty",
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",
     "textAmountOfSeats": "{{count}} paikka",

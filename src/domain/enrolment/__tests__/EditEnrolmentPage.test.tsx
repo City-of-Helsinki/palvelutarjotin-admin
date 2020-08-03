@@ -1,16 +1,16 @@
 import { MockedProvider } from '@apollo/react-testing';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
 import Router from 'react-router';
 
 import enrolmentData from '../__mocks__/enrolment.json';
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';
 import messages from '../../app/i18n/fi.json';
-import EnrolleesList from '../../occurrence/enrolmentTable/enrolmentModals/EnrolleesList';
+import { store } from '../../app/store';
 import EditEnrolmentPage from '../EditEnrolmentPage';
 
 const enrolment = enrolmentData.data.enrolment;
@@ -34,25 +34,34 @@ const apolloMocks = [
 ];
 
 beforeEach(() => {
-  jest
-    .spyOn(Router, 'useParams')
-    .mockReturnValue({ enrolmentId: 'RW5yb2xtZW50Tm9kZToyNw==' });
+  jest.spyOn(Router, 'useParams').mockReturnValue({
+    enrolmentId: 'RW5yb2xtZW50Tm9kZToyNw==',
+    eventId: 'palvelutarjotin:afzunowba4',
+  });
   jest
     .spyOn(Router, 'useLocation')
     .mockReturnValue({ pathname: '/', search: '', state: '', hash: '' });
+  jest.spyOn(Router, 'useHistory').mockReturnValue({});
 });
 
 afterEach(() => {
   // copy the original back so we can modify it in the tests
   (graphqlFns.useUpdateEnrolmentMutation as any) = originalUseUpdateEnrolmentMutation;
+  jest.clearAllMocks();
 });
 
-it('initializes edit form correctly', async () => {
+const renderPage = ({ mocks }: { mocks?: any } = {}) => {
   render(
-    <MockedProvider mocks={apolloMocks}>
-      <EditEnrolmentPage />
-    </MockedProvider>
+    <Provider store={store}>
+      <MockedProvider mocks={mocks || apolloMocks}>
+        <EditEnrolmentPage />
+      </MockedProvider>
+    </Provider>
   );
+};
+
+it('initializes edit form correctly', async () => {
+  renderPage();
 
   await screen.findByRole('heading', {
     name: messages.enrolment.editEnrolmentTitle,
@@ -133,11 +142,7 @@ it('shows notification type checkbox correctly', async () => {
 
   enrolmentMockData.data.enrolment.notificationType = 'SMS';
 
-  render(
-    <MockedProvider mocks={apolloMocks}>
-      <EditEnrolmentPage />
-    </MockedProvider>
-  );
+  renderPage({ mocks: apolloMocks });
 
   await screen.findByRole('heading', {
     name: messages.enrolment.editEnrolmentTitle,
@@ -148,17 +153,17 @@ it('shows notification type checkbox correctly', async () => {
   ).toBeChecked();
 });
 
-it('calls update nerolment function with correct parameters when form is submitted', async () => {
+it('calls update enrolment function with correct parameters when form is submitted', async () => {
+  const pushMock = jest.fn();
+  jest.spyOn(Router, 'useHistory').mockReturnValue({
+    push: pushMock as any,
+  } as any);
   const updateEnrolmentMock = jest.fn();
   (graphqlFns.useUpdateEnrolmentMutation as any) = jest.fn(() => [
     updateEnrolmentMock,
   ]);
 
-  render(
-    <MockedProvider mocks={apolloMocks}>
-      <EditEnrolmentPage />
-    </MockedProvider>
-  );
+  renderPage();
 
   await screen.findByRole('heading', {
     name: messages.enrolment.editEnrolmentTitle,
@@ -172,34 +177,40 @@ it('calls update nerolment function with correct parameters when form is submitt
 
   await waitFor(() => {
     expect(updateEnrolmentMock).toHaveBeenCalled();
+    expect(pushMock).toHaveBeenCalled();
   });
 
   expect(updateEnrolmentMock).toHaveBeenCalledTimes(1);
-  expect(updateEnrolmentMock.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "variables": Object {
-          "input": Object {
-            "enrolmentId": "RW5yb2xtZW50Tm9kZToyNw==",
-            "notificationType": "EMAIL",
-            "person": undefined,
-            "studyGroup": Object {
-              "amountOfAdult": 1,
-              "extraNeeds": "Moi",
-              "groupName": "4a",
-              "groupSize": 10,
-              "name": "ASD",
-              "person": Object {
-                "emailAddress": "santtu_1993@hotmail.com",
-                "language": "FI",
-                "name": "Santeri Rusila",
-                "phoneNumber": "+358405542959",
-              },
-              "studyLevel": "GRADE_4",
+  expect(updateEnrolmentMock.mock.calls[0]).toEqual([
+    {
+      variables: {
+        input: {
+          enrolmentId: 'RW5yb2xtZW50Tm9kZToyOQ==',
+          notificationType: 'EMAIL',
+          studyGroup: {
+            amountOfAdult: 3,
+            groupSize: 6,
+            groupName: '4a',
+            name: 'AS',
+            studyLevel: 'GRADE_4',
+            person: {
+              name: 'Testi Testinen',
+              emailAddress: 'testi@hotmail.com',
+              phoneNumber: '+358205542759',
+              language: 'FI',
             },
+            extraNeeds: 'Moikkaaa lol',
           },
         },
       },
-    ]
-  `);
+    },
+  ]);
+  expect(pushMock).toHaveBeenCalledTimes(1);
+  expect(pushMock.mock.calls[0]).toEqual([
+    {
+      pathname:
+        '/fi/events/palvelutarjotin:afzunowba4/occurrences/T2NjdXJyZW5jZU5vZGU6OTQ=',
+      search: 'enrolmentUpdated=true',
+    },
+  ]);
 });
