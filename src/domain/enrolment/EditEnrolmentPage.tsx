@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
+import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   Language,
@@ -14,6 +15,8 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
+import { OCCURRENCE_URL_PARAMS } from '../occurrence/constants';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import styles from './editEnrolmentPage.module.scss';
 import EnrolmentForm, {
   defaultInitialValues,
@@ -22,7 +25,7 @@ import { EnrolmentFormFields } from './types';
 import { getUpdateEnrolmentPayload } from './utils';
 
 const EditorEnrolmentPage: React.FC = () => {
-  const { enrolmentId } = useParams<{
+  const { enrolmentId, eventId } = useParams<{
     enrolmentId: string;
     eventId: string;
   }>();
@@ -41,6 +44,9 @@ const EditorEnrolmentPage: React.FC = () => {
       id: enrolmentId,
     },
   });
+  const organisationId =
+    enrolmentData?.enrolment?.occurrence.pEvent?.organisation?.id;
+  const occurrenceId = enrolmentData?.enrolment?.occurrence.id;
 
   const handleSubmit = async (values: EnrolmentFormFields) => {
     try {
@@ -54,16 +60,31 @@ const EditorEnrolmentPage: React.FC = () => {
           },
         });
 
-        history.push(
-          `/${locale}${ROUTES.ENROLMENT_DETAILS.replace(
-            ':id',
-            enrolmentData.enrolment.id
-          )}`
-        );
+        goToOccurrenceDetailsPage({ enrolmentUpdated: true });
       }
     } catch (error) {
       toast(t('enrolment.errors.updateFailed'), {
         type: toast.TYPE.ERROR,
+      });
+    }
+  };
+
+  const goToOccurrenceDetailsPage = ({
+    enrolmentUpdated,
+  }: {
+    enrolmentUpdated?: boolean;
+  } = {}) => {
+    if (eventId && occurrenceId) {
+      const search = new URLSearchParams();
+      if (enrolmentUpdated) {
+        search.append(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED, 'true');
+      }
+      history.push({
+        pathname: `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(
+          ':id',
+          eventId
+        ).replace(':occurrenceId', occurrenceId)}`,
+        search: search.toString(),
       });
     }
   };
@@ -114,8 +135,11 @@ const EditorEnrolmentPage: React.FC = () => {
         {enrolmentData && (
           <div className={styles.editEnrolmentPage}>
             <Container>
+              <ActiveOrganisationInfo organisationId={organisationId} />
+              <BackButton onClick={() => goToOccurrenceDetailsPage()}>
+                {t('enrolment.editEnrolmentBackButton')}
+              </BackButton>
               <h1>{t('enrolment.editEnrolmentTitle')}</h1>
-              {/* TODO: add information about occurrence or something atfer we have design */}
               <EnrolmentForm
                 onSubmit={handleSubmit}
                 initialValues={initialValues}

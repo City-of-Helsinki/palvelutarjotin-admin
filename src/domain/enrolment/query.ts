@@ -34,6 +34,12 @@ export const QUERY_ENROLMENT = gql`
         id
         maxGroupSize
         minGroupSize
+        pEvent {
+          id
+          organisation {
+            id
+          }
+        }
       }
     }
   }

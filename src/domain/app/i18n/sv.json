@@ -140,6 +140,7 @@
     "declineEnrolmentError": "Avslag på registrering misslyckades",
     "deleteEnrolmentError": "Radering av registreringen misslyckades",
     "editEnrolmentTitle": "Redigera registreringsinformation",
+    "editEnrolmentBackButton": "Inskrivna",
     "status": {
       "approved": "Godkänd",
       "cancelled": "Inställt",
@@ -430,6 +431,7 @@
       "showEnrolmentDetails": "Visa mer registreringsinformation",
       "titleEnrolled": "Registreringar"
     },
+    "enrolmentDetailsUpdated": "Registreringsinformation uppdaterad",
     "pageTitle": "Evenemangtid",
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",

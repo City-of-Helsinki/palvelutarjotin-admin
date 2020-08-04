@@ -8,7 +8,7 @@ exports[`PageLayout matches snapshot 1`] = `
     class="headerWrapper"
   >
     <div
-      class="container"
+      class="container default"
     >
       <div
         class="navbarTop"
@@ -130,7 +130,7 @@ exports[`PageLayout matches snapshot 1`] = `
         class="loginPage"
       >
         <div
-          class="container"
+          class="container default"
         >
           <div
             class="contentWrapper"
@@ -187,7 +187,7 @@ exports[`PageLayout matches snapshot 1`] = `
       </svg>
     </div>
     <div
-      class="container"
+      class="container default"
     >
       <div
         class="footer"

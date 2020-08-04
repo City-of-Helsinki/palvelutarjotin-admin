@@ -1,3 +1,4 @@
+import { Notification } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -10,11 +11,13 @@ import {
   useOccurrenceQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { useQuery } from '../../hooks/useQuery';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { OCCURRENCE_URL_PARAMS } from './constants';
 import EnrolmentTable from './enrolmentTable/EnrolmentTable';
 import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
 import styles from './occurrencePage.module.scss';
@@ -29,6 +32,10 @@ const OccurrenceDetailsPage = () => {
   const history = useHistory();
   const locale = useLocale();
   const { id, occurrenceId } = useParams<Params>();
+  const query = useQuery();
+  const enrolmentUpdated = Boolean(
+    query.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
+  );
 
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     variables: { id, include: ['location'] },
@@ -55,6 +62,12 @@ const OccurrenceDetailsPage = () => {
           <div className={styles.eventOccurrencePage}>
             <Container>
               <div>
+                {enrolmentUpdated && (
+                  <Notification
+                    labelText={t('occurrenceDetails.enrolmentDetailsUpdated')}
+                    type="success"
+                  />
+                )}
                 <ActiveOrganisationInfo organisationId={organisationId} />
 
                 <BackButton onClick={goToOccurrencesPage}>

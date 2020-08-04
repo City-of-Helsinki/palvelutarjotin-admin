@@ -5,7 +5,7 @@ exports[`Header matches snapshot 1`] = `
   class="headerWrapper"
 >
   <div
-    class="container"
+    class="container default"
   >
     <div
       class="navbarTop"
