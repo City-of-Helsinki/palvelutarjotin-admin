@@ -36,6 +36,12 @@ const EventCard: React.FC<Props> = ({
     }
   };
 
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' && onClick) {
+      onClick(id);
+    }
+  };
+
   const getPublicationText = () => {
     if (publicationStatus === PUBLICATION_STATUS.PUBLIC) {
       return t('events.eventCard.statusPublished');
@@ -52,12 +58,14 @@ const EventCard: React.FC<Props> = ({
       className={styles.eventCard}
       tabIndex={0}
       onClick={handleClick}
+      onKeyDown={onKeyDown}
       aria-label={t('events.eventCard.ariaLabelOpenOccurrences', {
         eventName: name,
       })}
     >
       <div
         className={styles.imageWrapper}
+        data-testid={`event-image-${id}`}
         style={{
           backgroundImage: `url(${image || getEventPlaceholderImage(id)})`,
         }}
