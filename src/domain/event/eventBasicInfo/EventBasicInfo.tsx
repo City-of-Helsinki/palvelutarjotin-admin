@@ -66,7 +66,10 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       {description && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelDescription')}</TextTitle>
-          <p>{<TextWithLineBreaks text={description} />}</p>
+          <TextWithLineBreaks
+            text={description}
+            className={styles.description}
+          />
         </>
       )}
 
