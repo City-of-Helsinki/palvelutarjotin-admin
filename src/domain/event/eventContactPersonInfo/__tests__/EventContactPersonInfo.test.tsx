@@ -4,7 +4,7 @@ import React from 'react';
 
 import eventData from '../__mocks__/eventData.json';
 import personData from '../__mocks__/personData.json';
-import { EventQuery, PersonDocument } from '../../../../generated/graphql';
+import { PersonDocument } from '../../../../generated/graphql';
 import EventContactPersonInfo from '../EventContactPersonInfo';
 
 const mocks = [
@@ -22,7 +22,7 @@ const mocks = [
 test('matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks}>
-      <EventContactPersonInfo eventData={eventData as EventQuery} />
+      <EventContactPersonInfo eventData={eventData as any} />
     </MockedProvider>
   );
 
@@ -34,7 +34,7 @@ test('matches snapshot', async () => {
 test('renders correct contact information and titles', async () => {
   render(
     <MockedProvider mocks={mocks}>
-      <EventContactPersonInfo eventData={eventData as EventQuery} />
+      <EventContactPersonInfo eventData={eventData as any} />
     </MockedProvider>
   );
 
