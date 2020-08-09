@@ -87,7 +87,7 @@
                 "id": "UGVyc29uTm9kZTo2MmYyOTY1ZC05NWEyLTRmODYtODJlOS02OWFhODdhZGVjNDY=",
                 "emailAddress": "lucquocquyen@gmail.com",
                 "name": "Khin Loc",
-                "phoneNumber": "0465934991",
+                "phoneNumber": "123123123",
                 "language": "FI",
                 "__typename": "PersonNode"
               },
@@ -96,9 +96,9 @@
             {
               "node": {
                 "id": "UGVyc29uTm9kZTowM2Y4YTRiNS1kOTIzLTQ3NWQtOTBmYS1kYzIxY2MwMGM2MDY=",
-                "emailAddress": "matti.saarto@gmail.com",
-                "name": "Matti Saarto",
-                "phoneNumber": "0401985188",
+                "emailAddress": "testaaja@gmail.com",
+                "name": "Testii",
+                "phoneNumber": "123123123",
                 "language": "FI",
                 "__typename": "PersonNode"
               },

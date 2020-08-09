@@ -1,24 +1,24 @@
 {
   "data": {
-    "myProfile": { 
+    "myProfile": {
       "id": "UGVyc29uTm9kZTowMjFiODVhYi02ZTAzLTQ4MzItOTM0MS0zMmE4NmYxZmUwNmQ=",
-      "emailAddress": "jori.lindell@email.com",
-      "name": "Jori Lindell", 
-      "phoneNumber": "0441234567",
-      "organisations": { 
+      "emailAddress": "testaaja@email.fi",
+      "name": "Testaaja",
+      "phoneNumber": "123123123",
+      "organisations": {
         "edges": [
-          { 
+          {
             "node": {
               "id": "T3JnYW5pc2F0aW9uTm9kZToy",
               "name": "Organisation 1",
-              "phoneNumber": "0441234567",
+              "phoneNumber": "123123123",
               "type": "PROVIDER",
               "__typename": "OrganisationNode"
             },
             "__typename": "OrganisationNodeEdge"
           }
         ],
-        "__typename":"OrganisationNodeConnection"
+        "__typename": "OrganisationNodeConnection"
       },
       "__typename": "PersonNode"
     }

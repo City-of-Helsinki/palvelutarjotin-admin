@@ -87,7 +87,7 @@
                 "id": "UGVyc29uTm9kZTo2MmYyOTY1ZC05NWEyLTRmODYtODJlOS02OWFhODdhZGVjNDY=",
                 "emailAddress": "lucquocquyen@gmail.com",
                 "name": "Khin Loc",
-                "phoneNumber": "0465934991",
+                "phoneNumber": "123123213",
                 "language": "FI",
                 "__typename": "PersonNode"
               },
@@ -97,8 +97,8 @@
               "node": {
                 "id": "UGVyc29uTm9kZTowM2Y4YTRiNS1kOTIzLTQ3NWQtOTBmYS1kYzIxY2MwMGM2MDY=",
                 "emailAddress": "matti.saarto@gmail.com",
-                "name": "Matti Saarto",
-                "phoneNumber": "0401985188",
+                "name": "Testaaja",
+                "phoneNumber": "123123123",
                 "language": "FI",
                 "__typename": "PersonNode"
               },
@@ -109,7 +109,7 @@
                 "id": "UGVyc29uTm9kZTo0NjYwOTU4Ny1mOTExLTQ1ZjEtYjEyYy1lNWMzZTJiNWJiMjc=",
                 "emailAddress": "pirjo.mattila@hel.fi",
                 "name": "Pipe",
-                "phoneNumber": "041-5121767",
+                "phoneNumber": "123123123",
                 "language": "FI",
                 "__typename": "PersonNode"
               },
