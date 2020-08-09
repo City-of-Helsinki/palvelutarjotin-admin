@@ -196,7 +196,7 @@ it('calls update enrolment function with correct parameters when form is submitt
             person: {
               name: 'Testi Testinen',
               emailAddress: 'testi@hotmail.com',
-              phoneNumber: '+358205542759',
+              phoneNumber: '123123123',
               language: 'FI',
             },
             extraNeeds: 'Moikkaaa lol',
