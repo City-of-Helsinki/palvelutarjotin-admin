@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    class="eventCategorisation"
+  >
+    <h2>
+      Tapahtuman luokittelut
+    </h2>
+    <div
+      class="languageRow"
+    >
+      <div>
+        <div
+          class="textTitle"
+        >
+          Tapahtuman kielet
+        </div>
+        <p>
+          englanti, suomi
+        </p>
+      </div>
+      <div>
+        <div
+          class="textTitle"
+        >
+          Kohderyhmät
+        </div>
+        <p>
+          -
+        </p>
+      </div>
+    </div>
+    <div
+      class="textTitle"
+    >
+      Tapahtuman avainsanat
+    </div>
+    <p>
+      maahanmuuttajat, perheet
+    </p>
+    <div
+      class="priceRow"
+    >
+      <div>
+        <div
+          class="textTitle"
+        >
+          Hinta, €
+        </div>
+        <p>
+          Tapahtuma on ilmainen
+        </p>
+      </div>
+      <div>
+        <div
+          class="textTitle"
+        >
+          Tarvittavat käyntikerrat
+        </div>
+        <p>
+          3
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

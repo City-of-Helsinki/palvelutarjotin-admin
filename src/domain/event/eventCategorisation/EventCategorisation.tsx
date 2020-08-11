@@ -2,7 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import { EventQuery } from '../../../generated/graphql';
+import {
+  EventQuery,
+  LocalisedFieldsFragment,
+} from '../../../generated/graphql';
 import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import styles from './eventCategorisation.module.scss';
@@ -14,13 +17,22 @@ type Props = {
 
 const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   const { t } = useTranslation();
-
   const neededOccurrences = eventData.event?.pEvent?.neededOccurrences;
-
   const inLanguage = eventData.event?.inLanguage;
   const audience = eventData.event?.audience;
-
   const keywords = eventData.event?.keywords;
+
+  const arrayToText = (
+    items: { name?: LocalisedFieldsFragment | null }[] | undefined
+  ) => {
+    return (
+      items
+        ?.map((item) => getLocalizedString(item.name || {}, language))
+        .filter((item) => item)
+        .sort()
+        .join(', ') || '-'
+    );
+  };
 
   return (
     <div className={styles.eventCategorisation}>
@@ -30,38 +42,18 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
           <TextTitle>
             {t('eventDetails.categorisation.labelInLanguage')}
           </TextTitle>
-          <p>
-            {inLanguage
-              ?.map((item) => getLocalizedString(item.name || {}, language))
-              .filter((item) => item)
-              .sort()
-              .join(', ') || '-'}
-          </p>
+          {<p>{arrayToText(inLanguage)}</p>}
         </div>
         <div>
           <TextTitle>
             {t('eventDetails.categorisation.labelAudience')}
           </TextTitle>
-          <p>
-            {audience
-              ?.map((keyword) =>
-                getLocalizedString(keyword.name || {}, language)
-              )
-              .filter((item) => item)
-              .sort()
-              .join(', ') || '-'}
-          </p>
+          <p>{arrayToText(audience)}</p>
         </div>
       </div>
 
       <TextTitle>{t('eventDetails.categorisation.labelKeywords')}</TextTitle>
-      <p>
-        {keywords
-          ?.map((keyword) => getLocalizedString(keyword.name || {}, language))
-          .filter((item) => item)
-          .sort()
-          .join(', ') || '-'}
-      </p>
+      <p>{arrayToText(keywords)}</p>
 
       <div className={styles.priceRow}>
         <div>

@@ -1,0 +1,17 @@
+{
+  "data": {
+    "venue": {
+      "id": "tprek:15376",
+      "hasClothingStorage": true,
+      "hasSnackEatingPlace": true,
+      "translations": [
+        {
+          "languageCode": "FI",
+          "description": "asdasdasd",
+          "__typename": "VenueTranslationType"
+        }
+      ],
+      "__typename": "VenueNode"
+    }
+  }
+}

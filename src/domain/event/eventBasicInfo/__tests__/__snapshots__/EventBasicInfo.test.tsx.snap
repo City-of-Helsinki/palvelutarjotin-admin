@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    class="eventBasicInfo"
+  >
+    <h2>
+      Tapahtuman perustiedot
+    </h2>
+    <div
+      class="textTitle"
+    >
+      Tapahtuman nimi
+    </div>
+    <p>
+      Tapahtuma 13.7.2020
+    </p>
+    <div
+      class="textTitle"
+    >
+      Lyhyt kuvaus (korkeintaan 160 merkkiä)
+    </div>
+    <p>
+      Testitapahtuma 13.7.2020
+    </p>
+    <div
+      class="textTitle"
+    >
+      Kuvaus
+    </div>
+    <div
+      class="description"
+    >
+      Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020
+    </div>
+    <div>
+      <div
+        class="imagePreview"
+      >
+        <div
+          class="textTitle"
+        >
+          Tapahtuman kuva
+        </div>
+        <img
+          alt="asd"
+          class="image"
+          src="https://api.hel.fi/linkedevents-test/media/images/Screenshot_2020-07-07_at_10.48.19.png"
+        />
+      </div>
+      <div
+        class="textTitle"
+      >
+        Kuvan alt-teksti
+      </div>
+      <p>
+        asd
+      </p>
+      <div
+        class="textTitle"
+      >
+        Valokuvaaja
+      </div>
+      <p>
+        asd
+      </p>
+    </div>
+    
+    <div
+      class="durationRow"
+    >
+      <div>
+        <div
+          class="textTitle"
+        >
+          Tapahtuman kesto, min
+        </div>
+        <p>
+          11
+        </p>
+      </div>
+      <div>
+        <div
+          class="textTitle"
+        >
+          Ilmoittautuminen alkaa
+        </div>
+        <p>
+          13.07.2020 klo 09:00
+        </p>
+      </div>
+      <div>
+        <div
+          class="textTitle"
+        >
+          Ilmoittautuminen sulkeutuu, päivää
+        </div>
+        <p>
+          3
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
