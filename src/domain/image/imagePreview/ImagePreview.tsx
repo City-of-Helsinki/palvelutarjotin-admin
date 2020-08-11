@@ -18,7 +18,7 @@ const ImagePreview: React.FC<Props> = ({ id }) => {
       <img
         className={styles.image}
         src={data.image?.url}
-        alt={data.image?.altText || ''}
+        alt={data.image?.altText || 'Preview'}
       />
     </div>
   ) : null;

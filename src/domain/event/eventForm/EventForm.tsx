@@ -148,7 +148,7 @@ const EventForm: React.FC<Props> = ({
               selectedLanguage={selectedLanguage}
             />
             <h1>{title}</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} data-testid="event-form">
               <div className={styles.eventForm}>
                 <div className={styles.basicInfoWrapper}>
                   <h2>{t('eventForm.basicInfo.title')}</h2>
@@ -337,7 +337,10 @@ const EventForm: React.FC<Props> = ({
                     </>
                   )}
                 </div>
-                <div className={styles.contactInfoWrapper}>
+                <div
+                  className={styles.contactInfoWrapper}
+                  data-testid="contact-info"
+                >
                   <ContactPersonInfoPart
                     contactPersonId={contactPersonId}
                     personOptions={personOptions}

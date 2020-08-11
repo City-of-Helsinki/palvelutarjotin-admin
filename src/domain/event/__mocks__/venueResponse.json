@@ -1,0 +1,17 @@
+{
+  "data": {
+    "venue": {
+      "id": "tprek:15417",
+      "hasClothingStorage": true,
+      "hasSnackEatingPlace": true,
+      "translations": [
+        {
+          "languageCode": "FI",
+          "description": "Testitapahtuman kuvaus",
+          "__typename": "VenueTranslationType"
+        }
+      ],
+      "__typename": "VenueNode"
+    }
+  }
+}

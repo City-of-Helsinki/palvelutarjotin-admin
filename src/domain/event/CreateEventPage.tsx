@@ -117,6 +117,7 @@ const CreateEventPage: React.FC = () => {
       });
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
+      console.log(e);
       toast(t('createEvent.error'), {
         type: toast.TYPE.ERROR,
       });
