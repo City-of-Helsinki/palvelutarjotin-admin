@@ -101,9 +101,7 @@ const mocks = [
     request: {
       query: MyProfileDocument,
     },
-    result: {
-      ...profileResponse,
-    },
+    result: profileResponse,
   },
   {
     request: {
@@ -187,12 +185,8 @@ test('is accessible', async () => {
   expect(result).toHaveNoViolations();
 });
 
-test('form works correctly when edited', async () => {
+test('modal opens when trying to change language', async () => {
   advanceTo(new Date(2020, 7, 8));
-  const pushMock = jest.fn();
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
   const { container } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks}>
@@ -228,6 +222,41 @@ test('form works correctly when edited', async () => {
   userEvent.click(cancelButton);
 
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
+  });
+});
+
+test('form works correctly when edited', async () => {
+  advanceTo(new Date(2020, 7, 8));
+  const pushMock = jest.fn();
+  jest.spyOn(Router, 'useHistory').mockReturnValue({
+    push: pushMock,
+  } as any);
+  const { container } = render(
+    <Provider store={store}>
+      <MockedProvider mocks={mocks}>
+        <CreateEventPage />
+      </MockedProvider>
+    </Provider>
+  );
+
+  Modal.setAppElement(container);
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto')
+    ).toBeInTheDocument();
+  });
+
+  userEvent.type(screen.getByLabelText('Tapahtuman nimi'), eventFormData.name);
+
+  expect(screen.getByTestId('event-form')).toHaveFormValues({
+    name: eventFormData.name,
+  });
 
   userEvent.type(
     screen.getByLabelText(/lyhyt kuvaus/i),
