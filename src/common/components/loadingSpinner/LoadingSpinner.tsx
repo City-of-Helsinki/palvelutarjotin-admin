@@ -21,6 +21,7 @@ const LoadingSpinner: React.FC<Props> = ({
           className={classNames(styles.spinnerWrapper, {
             [styles.hasPadding]: hasPadding,
           })}
+          data-testid="loading-spinner"
         >
           <div className={styles.spinner}>
             <IconLoadingSpinner />

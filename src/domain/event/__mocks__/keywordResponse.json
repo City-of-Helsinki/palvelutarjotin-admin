@@ -1,13 +1,15 @@
 {
-  "keyword": {
-    "id": "yso:p4363",
-    "name": {
-      "en": "families",
-      "fi": "perheet",
-      "sv": "familjer",
-      "__typename": "LocalisedObject"
-    },
-    "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/",
-    "__typename": "Keyword"
+  "data": {
+    "keyword": {
+      "id": "yso:p4363",
+      "name": {
+        "en": "families",
+        "fi": "perheet",
+        "sv": "familjer",
+        "__typename": "LocalisedObject"
+      },
+      "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/",
+      "__typename": "Keyword"
+    }
   }
 }

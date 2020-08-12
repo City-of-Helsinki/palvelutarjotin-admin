@@ -187,7 +187,7 @@ test('is accessible', async () => {
   expect(result).toHaveNoViolations();
 });
 
-test.only('form works correctly when edited', async () => {
+test('form works correctly when edited', async () => {
   advanceTo(new Date(2020, 7, 8));
   const pushMock = jest.fn();
   jest.spyOn(Router, 'useHistory').mockReturnValue({
