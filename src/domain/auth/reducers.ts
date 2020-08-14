@@ -30,7 +30,7 @@ const tokenReducer = createReducer(defaultApiTokenData, {
       errors: action.payload,
     }),
   [API_TOKEN_ACTIONS.RESET_API_TOKEN_DATA]: (state, action) =>
-    (state = defaultApiTokenData),
+    defaultApiTokenData,
   [API_TOKEN_ACTIONS.TOKEN_FETCHED]: (state, action) =>
     Object.assign({}, state, { isFetchingToken: false }),
 });

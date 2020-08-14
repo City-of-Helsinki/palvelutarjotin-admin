@@ -1,7 +1,7 @@
-import userManager from '../userManager';
+import { processSilentRenew } from 'redux-oidc';
 
 export default () => {
-  userManager.signinSilentCallback();
+  processSilentRenew();
 
   return null;
 };

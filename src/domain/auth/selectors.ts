@@ -14,4 +14,5 @@ export const isLoadingUserSelector = (state: StoreState) =>
   state.authentication.token.isFetchingToken;
 
 export const isAuthenticatedSelector = (state: StoreState) =>
+  !!state.authentication.tunnistamo.user &&
   !!state.authentication.token.apiToken;

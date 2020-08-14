@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 
 import { SUPPORT_LANGUAGES } from '../../../constants';
-import { tokenFetched } from '../../auth/actions';
+import { resetApiTokenData } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
-import { apiTokenSelector, userSelector } from '../../auth/selectors';
+import { userSelector } from '../../auth/selectors';
 import EditEnrolmentPage from '../../enrolment/EditEnrolmentPage';
 import EnrolmentDetailsPage from '../../enrolment/EnrolmentDetailsPage';
 import CreateEventPage from '../../event/CreateEventPage';
@@ -30,21 +30,17 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
   },
 }) => {
   const { i18n } = useTranslation();
-  const apiToken = useSelector(apiTokenSelector);
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
 
   React.useEffect(() => {
-    if (apiToken) {
-      // Skip token fetch if token already existed
-      dispatch(tokenFetched());
-
-      // If no token but access token is ready for exchange
-      // start to fetch apiToken
-    } else if (user?.access_token) {
+    // Get new api token after new access token
+    if (user?.access_token) {
       dispatch(getApiToken(user.access_token));
+    } else {
+      resetApiTokenData();
     }
-  }, [apiToken, dispatch, user]);
+  }, [dispatch, user]);
 
   React.useEffect(() => {
     i18n.changeLanguage(locale);

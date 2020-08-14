@@ -39,7 +39,9 @@ const PageLayout: React.FC = ({ children }) => {
         {/* Make sure that loading spinner is not restarted on callback page */}
         <LoadingSpinner
           isLoading={
-            isLoadingUser || loadingMyProfile || pathname === ROUTES.CALLBACK
+            (isLoadingUser && !isAuthenticated) ||
+            loadingMyProfile ||
+            pathname === ROUTES.CALLBACK
           }
         >
           {isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
