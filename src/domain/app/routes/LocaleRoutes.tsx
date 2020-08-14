@@ -38,7 +38,7 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
     if (user?.access_token) {
       dispatch(getApiToken(user.access_token));
     } else {
-      resetApiTokenData();
+      dispatch(resetApiTokenData());
     }
   }, [dispatch, user]);
 
