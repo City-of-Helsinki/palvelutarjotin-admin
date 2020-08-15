@@ -8,7 +8,6 @@ import { tokenFetched } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { apiTokenSelector, userSelector } from '../../auth/selectors';
 import EditEnrolmentPage from '../../enrolment/EditEnrolmentPage';
-import EnrolmentDetailsPage from '../../enrolment/EnrolmentDetailsPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
@@ -96,13 +95,11 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         />
         <Route
           exact
-          path={`/${locale}${ROUTES.OCCURRENCE_DETAILS}`}
+          path={[
+            `/${locale}${ROUTES.OCCURRENCE_DETAILS}`,
+            `/${locale}${ROUTES.ENROLMENT_DETAILS}`,
+          ]}
           component={OccurrenceDetailsPage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.ENROLMENT_DETAILS}`}
-          component={EnrolmentDetailsPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

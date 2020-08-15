@@ -24,6 +24,7 @@ interface Props {
   id: string;
   seatsTaken?: number;
   eventId?: string | null;
+  occurrenceId?: string | null;
 }
 
 const EnrolmentTable: React.FC<Props> = ({
@@ -31,6 +32,7 @@ const EnrolmentTable: React.FC<Props> = ({
   id,
   seatsTaken = 0,
   eventId,
+  occurrenceId,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -54,9 +56,16 @@ const EnrolmentTable: React.FC<Props> = ({
   };
 
   const goToEnrolmentDetailsPage = (row: Row<EnrolmentFieldsFragment>) => {
-    history.push(
-      `/${locale}${ROUTES.ENROLMENT_DETAILS.replace(':id', row.original.id)}`
-    );
+    if (eventId && occurrenceId) {
+      history.push(
+        `/${locale}${ROUTES.ENROLMENT_DETAILS.replace(
+          ':enrolmentId',
+          row.original.id
+        )
+          .replace(':id', eventId)
+          .replace(':occurrenceId', occurrenceId)}`
+      );
+    }
   };
 
   const handleCheckboxChange = (row: EnrolmentFieldsFragment) => {

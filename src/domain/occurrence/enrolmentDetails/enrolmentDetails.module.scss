@@ -1,0 +1,78 @@
+@import 'layout';
+@import 'variables';
+@import 'colours';
+
+.enrolmentDetails {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.backButtonContainer {
+  padding-right: var(--spacing-m);
+  margin-top: 1rem;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actionButtons {
+  button:not(:last-child) {
+    margin-right: var(--spacing-s);
+  }
+}
+
+.enrolleesTitle {
+  font-weight: bold;
+  font-size: var(--fontsize-h-4);
+  margin-right: var(--spacing-s);
+}
+
+.approveButton {
+  svg {
+    color: var(--color-success);
+  }
+}
+
+.declineButton {
+  svg {
+    color: var(--color-error);
+  }
+}
+
+.editButton {
+  svg {
+    color: var(--color-black);
+  }
+}
+
+.deleteButton {
+  svg {
+    color: var(--color-error);
+  }
+}
+
+.detailsTable {
+  margin-top: var(--spacing-xl);
+}
+
+.infoRow {
+  display: table-row;
+}
+
+.infoLabel {
+  display: table-cell;
+  padding-right: var(--spacing-2-xl);
+}
+
+.detailsArea {
+  display: table;
+}
+
+.spacingRow {
+  td {
+    padding-top: var(--spacing-xl);
+  }
+}

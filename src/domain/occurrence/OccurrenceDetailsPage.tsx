@@ -18,6 +18,7 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { OCCURRENCE_URL_PARAMS } from './constants';
+import EnrolmentDetails from './enrolmentDetails/EnrolmentDetails';
 import EnrolmentTable from './enrolmentTable/EnrolmentTable';
 import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
 import styles from './occurrencePage.module.scss';
@@ -25,13 +26,14 @@ import styles from './occurrencePage.module.scss';
 interface Params {
   id: string;
   occurrenceId: string;
+  enrolmentId?: string;
 }
 
 const OccurrenceDetailsPage = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const { id, occurrenceId } = useParams<Params>();
+  const { id, occurrenceId, enrolmentId } = useParams<Params>();
   const query = useQuery();
   const enrolmentUpdated = Boolean(
     query.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
@@ -53,6 +55,15 @@ const OccurrenceDetailsPage = () => {
 
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', id)}`);
+  };
+
+  const goToOccurrenceDetails = () => {
+    history.push({
+      pathname: `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(
+        ':id',
+        id
+      ).replace(':occurrenceId', occurrenceId)}`,
+    });
   };
 
   return (
@@ -78,14 +89,24 @@ const OccurrenceDetailsPage = () => {
 
                 <div className={styles.divider} />
 
-                <EnrolmentTable
-                  enrolments={occurrence.enrolments.edges.map(
-                    (e) => e?.node as EnrolmentFieldsFragment
-                  )}
-                  eventId={event.id}
-                  id="enrolments-table"
-                  seatsTaken={occurrence.seatsTaken || 0}
-                />
+                {enrolmentId ? (
+                  <EnrolmentDetails
+                    enrolmentId={enrolmentId}
+                    occurrenceId={occurrenceId}
+                    eventId={id}
+                    onGoBackClick={goToOccurrenceDetails}
+                  />
+                ) : (
+                  <EnrolmentTable
+                    enrolments={occurrence.enrolments.edges.map(
+                      (e) => e?.node as EnrolmentFieldsFragment
+                    )}
+                    occurrenceId={occurrenceId}
+                    eventId={event.id}
+                    id="enrolments-table"
+                    seatsTaken={occurrence.seatsTaken || 0}
+                  />
+                )}
               </div>
             </Container>
           </div>

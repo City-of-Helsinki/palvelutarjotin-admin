@@ -13,6 +13,7 @@ import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import { MobileMenuProvider } from './mobileMenu/MobileMenu';
 import AppRoutes from './routes/AppRoutes';
+import { IGNORE_SCROLL_TO_TOP } from './routes/constants';
 import ScrollToTop from './ScrollToTop';
 import { persistor, store } from './store';
 
@@ -27,7 +28,7 @@ const App = () => {
         <ApolloProvider client={apolloClient}>
           <BrowserRouter>
             <MobileMenuProvider>
-              <ScrollToTop />
+              <ScrollToTop ignoredPaths={IGNORE_SCROLL_TO_TOP} />
               <AppRoutes />
             </MobileMenuProvider>
           </BrowserRouter>
