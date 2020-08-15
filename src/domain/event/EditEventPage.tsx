@@ -128,6 +128,9 @@ const EditEventPage: React.FC = () => {
 
       goToEventDetailsPage();
     } catch (e) {
+      if (process.env.NODE_ENV === 'test') {
+        console.log(e);
+      }
       // TODO: Improve error handling when API returns more informative errors
       toast(t('editEvent.error'), {
         type: toast.TYPE.ERROR,

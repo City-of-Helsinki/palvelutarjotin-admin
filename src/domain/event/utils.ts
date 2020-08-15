@@ -224,7 +224,7 @@ export const createOrUpdateVenue = ({
   formValues: EventFormFields;
   selectedLanguage: Language;
 }) => {
-  // get venueData from cache. It is fetched in the form when evnet location changes
+  // get venueData from cache. It is fetched in the form when event location changes
   const venueData = apolloClient.readQuery<VenueQuery>({
     query: VenueDocument,
     variables: { id: formValues.location },

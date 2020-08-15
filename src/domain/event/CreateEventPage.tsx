@@ -117,6 +117,9 @@ const CreateEventPage: React.FC = () => {
       });
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
+      if (process.env.NODE_ENV === 'test') {
+        console.log(e);
+      }
       toast(t('createEvent.error'), {
         type: toast.TYPE.ERROR,
       });

@@ -11,9 +11,14 @@ type ImageInputProps = {
     value: string,
     shouldValidate?: boolean | undefined
   ) => void;
+  name?: string;
 } & InputWrapperProps;
 
-const ImageInput: React.FC<ImageInputProps> = ({ setFieldValue, ...props }) => {
+const ImageInput: React.FC<ImageInputProps> = ({
+  setFieldValue,
+  name,
+  ...props
+}) => {
   const { t } = useTranslation();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [uploadImage] = useUploadSingleImageMutation();
@@ -48,6 +53,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ setFieldValue, ...props }) => {
     <InputWrapper {...props}>
       <input
         ref={inputRef}
+        name={name}
         type="file"
         id={props.id}
         accept="image/*"

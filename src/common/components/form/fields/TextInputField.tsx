@@ -25,6 +25,7 @@ const InputField: React.FC<Props> = (props) => {
       {...field}
       {...rest}
       id={name}
+      name={name}
       helperText={errorText || helperText}
       invalid={!!errorText}
       className={classNames(className, { [invalidFieldClass]: errorText })}

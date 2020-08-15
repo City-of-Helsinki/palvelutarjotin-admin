@@ -85,10 +85,13 @@
       "query.ts",
       "mutation.ts",
       "types.ts",
+      "testUtils.ts",
       "/icons/",
       "serviceWorker.ts",
       "./src/index.tsx",
-      ".*stories.tsx"
+      "datepickerContext.tsx",
+      ".*stories.tsx",
+      "graphql.tsx"
     ]
   },
   "browserslist": {

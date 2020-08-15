@@ -1,0 +1,33 @@
+{
+  "data": {
+    "place": {
+      "id": "tprek:15417",
+      "internalId": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15417/",
+      "name": {
+        "en": "Sellon kirjasto",
+        "fi": "Sellon kirjasto",
+        "sv": "Sellobiblioteket",
+        "__typename": "LocalisedObject"
+      },
+      "streetAddress": {
+        "en": "Leppävaarankatu 9",
+        "fi": "Leppävaarankatu 9",
+        "sv": "Albergagatan 9",
+        "__typename": "LocalisedObject"
+      },
+      "addressLocality": {
+        "en": "Espoo",
+        "fi": "Espoo",
+        "sv": "Esbo",
+        "__typename": "LocalisedObject"
+      },
+      "telephone": {
+        "en": null,
+        "fi": "+358 9 8165 7603",
+        "sv": null,
+        "__typename": "LocalisedObject"
+      },
+      "__typename": "Place"
+    }
+  }
+}
