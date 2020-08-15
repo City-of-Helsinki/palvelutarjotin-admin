@@ -4,14 +4,9 @@ import React from 'react';
 import Router, { MemoryRouter } from 'react-router';
 
 import { SUPPORT_LANGUAGES } from '../../../../constants';
-import { useEventQuery } from '../../../../generated/graphql';
 import messages from '../../../app/i18n/fi.json';
 import { ROUTES } from '../../../app/routes/constants';
 import EditEventButtons from '../EditEventButtons';
-
-// beforeEach(() => {
-//   jest.spyOn(Router, 'useHistory').mockReturnValue({});
-// });
 
 it('matches snapshot', () => {
   const { container } = render(
