@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import Router from 'react-router';
+import Router, { MemoryRouter } from 'react-router';
 
 import { SUPPORT_LANGUAGES } from '../../../../constants';
 import { useEventQuery } from '../../../../generated/graphql';
@@ -9,13 +9,19 @@ import messages from '../../../app/i18n/fi.json';
 import { ROUTES } from '../../../app/routes/constants';
 import EditEventButtons from '../EditEventButtons';
 
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
-});
+// beforeEach(() => {
+//   jest.spyOn(Router, 'useHistory').mockReturnValue({});
+// });
 
 it('matches snapshot', () => {
   const { container } = render(
-    <EditEventButtons dirty onClickLanguage={jest.fn()} selectedLanguage="fi" />
+    <MemoryRouter>
+      <EditEventButtons
+        dirty
+        onClickLanguage={jest.fn()}
+        selectedLanguage="fi"
+      />
+    </MemoryRouter>
   );
 
   expect(container).toMatchSnapshot();
@@ -23,7 +29,13 @@ it('matches snapshot', () => {
 
 it('renders texts correctly', () => {
   const { rerender } = render(
-    <EditEventButtons dirty onClickLanguage={jest.fn()} selectedLanguage="fi" />
+    <MemoryRouter>
+      <EditEventButtons
+        dirty
+        onClickLanguage={jest.fn()}
+        selectedLanguage="fi"
+      />
+    </MemoryRouter>
   );
 
   expect(
@@ -37,11 +49,13 @@ it('renders texts correctly', () => {
   ).toBeVisible();
 
   rerender(
-    <EditEventButtons
-      dirty={false}
-      onClickLanguage={jest.fn()}
-      selectedLanguage="fi"
-    />
+    <MemoryRouter>
+      <EditEventButtons
+        dirty={false}
+        onClickLanguage={jest.fn()}
+        selectedLanguage="fi"
+      />
+    </MemoryRouter>
   );
 
   expect(
