@@ -178,6 +178,27 @@
       "sendCancelMessage": "Send",
       "preview": "Preview"
     },
+    "enrolmentDetails": {
+      "buttonApproveEnrolment": "Approve enrolment",
+      "buttonDeclineEnrolment": "Decline enrolment",
+      "buttonDeleteEnrolment": "Delete",
+      "buttonEditEnrolment": "Edit",
+      "buttonEnrolleesTitle": "Enrollees",
+      "buttonGoToEnrolleesList": "Back to enrollees list",
+      "labelEnrolled": "Enrolled",
+      "labelStatus": "Status",
+      "labelName": "Name",
+      "labelEmail": "Email",
+      "labelPhoneNumber": "Phone number",
+      "labelStudyGroupName": "Kindergarten / School / College",
+      "labelGroupName": "Group name",
+      "labelStudyLevel": "Grade level",
+      "labelGroupSize": "Children / adults",
+      "labelResponsiblePerson": "Resposible person",
+      "labelNotifications": "Event notifications",
+      "labelAdditionalInfo": "Additional information",
+      "error": "Fetching enrolment data failed"
+    },
     "errors": {
       "updateFailed": "Failed to update enrolment"
     }
