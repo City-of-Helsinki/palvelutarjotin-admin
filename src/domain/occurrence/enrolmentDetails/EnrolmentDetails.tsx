@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from 'apollo-client';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import {
@@ -18,6 +19,7 @@ import {
   EnrolmentStatus,
   OccurrenceDocument,
   OccurrenceQuery,
+  OccurrenceQueryVariables,
   useApproveEnrolmentMutation,
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
@@ -33,12 +35,23 @@ import styles from './enrolmentDetails.module.scss';
 import EnrolmentInfoRow from './EnrolmentInfoRow';
 import { getNotificationInfoText } from './utils';
 
-const EnrolmentDetails: React.FC<{
+interface EnrolmentDetailsProps {
   enrolmentId: string;
   occurrenceId: string;
   eventId: string;
   onGoBackClick: () => void;
-}> = ({ enrolmentId, occurrenceId, eventId, onGoBackClick }) => {
+  refetchOccurrence: (
+    variables?: OccurrenceQueryVariables | undefined
+  ) => Promise<ApolloQueryResult<OccurrenceQuery>>;
+}
+
+const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
+  enrolmentId,
+  occurrenceId,
+  eventId,
+  onGoBackClick,
+  refetchOccurrence,
+}) => {
   const history = useHistory();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -78,7 +91,10 @@ const EnrolmentDetails: React.FC<{
     onCompleted: () => setDeclineModalOpen(false),
   });
 
-  const [deleteEnrolment] = useDeleteEnrolmentMutation({
+  const [
+    deleteEnrolment,
+    { loading: loadingDeleteEnrolment },
+  ] = useDeleteEnrolmentMutation({
     onError: (error) => {
       toast(t('enrolment.deleteEnrolmentError'), {
         type: toast.TYPE.ERROR,
@@ -86,6 +102,8 @@ const EnrolmentDetails: React.FC<{
     },
     onCompleted: () => {
       setDeleteModalOpen(false);
+      // refetch occurrence to easily update seatsTaken info
+      refetchOccurrence();
       onGoBackClick();
     },
   });
@@ -192,6 +210,7 @@ const EnrolmentDetails: React.FC<{
                 isOpen={deleteModalOpen}
                 onClose={() => setDeleteModalOpen(false)}
                 deleteEnrolment={handleDeleteEnrolment}
+                loading={loadingDeleteEnrolment}
               />
               <div className={styles.actionButtons}>
                 {enrolmentIsNotApproved && (
