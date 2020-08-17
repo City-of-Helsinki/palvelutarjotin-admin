@@ -89,7 +89,7 @@ const mocks = [
       variables: {
         event: {
           id: 'palvelutarjotin:afz56bfiaq',
-          name: { fi: 'Testitapahtuma' },
+          name: { fi: 'TestitapahtumaTestinimi' },
           startTime: '2020-08-04T21:00:00.000Z',
           offers: [{ isFree: true }],
           shortDescription: { fi: 'Testitapahtuman kuvaus' },
@@ -232,6 +232,8 @@ test('edit event form initializes and submits correctly', async () => {
   expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
   expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
 
+  userEvent.type(screen.getByLabelText('Tapahtuman nimi'), 'Testinimi');
+
   jest
     .spyOn(apolloClient, 'readQuery')
     .mockReturnValue(venueQueryResponse as any);
@@ -245,5 +247,11 @@ test('edit event form initializes and submits correctly', async () => {
 
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith('/fi/events/123');
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
   });
 });
