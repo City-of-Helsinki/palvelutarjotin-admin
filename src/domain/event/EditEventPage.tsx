@@ -16,6 +16,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import { PUBLICATION_STATUS } from '../events/constants';
 import { getImageName } from '../image/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import EventForm, { defaultInitialValues } from './eventForm/EventForm';
@@ -52,6 +53,7 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
+  console.log(eventData);
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const persons =
     eventData?.event?.pEvent?.organisation?.persons.edges.map(
@@ -92,6 +94,9 @@ const EditEventPage: React.FC = () => {
                 selectedLanguage,
                 organisationId,
               }),
+              draft:
+                eventData?.event?.publicationStatus ===
+                PUBLICATION_STATUS.DRAFT,
             },
           },
         })
