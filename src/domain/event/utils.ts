@@ -234,6 +234,8 @@ export const createOrUpdateVenue = ({
   const hasClothingStorage = venueData?.venue?.hasClothingStorage;
   const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
 
+  debugger;
+
   const venueShouldBeUpdated = Boolean(
     venueData?.venue &&
       (formValues.locationDescription !== venueDescription ||
@@ -241,10 +243,12 @@ export const createOrUpdateVenue = ({
         formValues.hasSnackEatingPlace !== hasSnackEatingPlace)
   );
   const newVenueShouldBeCreated = Boolean(
-    !venueData?.venue && formValues.locationDescription
+    !venueData?.venue &&
+      (formValues.locationDescription ||
+        formValues.hasClothingStorage ||
+        formValues.hasSnackEatingPlace)
   );
 
-  debugger;
   if (venueShouldBeUpdated) {
     return apolloClient.mutate<EditVenueMutation>({
       variables: getExistingVenuePayload({
