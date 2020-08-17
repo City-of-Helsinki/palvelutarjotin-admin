@@ -48,7 +48,7 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
-  const submit = async (values: EventFormFields, draft?: boolean) => {
+  const submit = async (values: EventFormFields) => {
     try {
       const requests: Promise<any>[] = [];
 
@@ -62,7 +62,8 @@ const CreateEventPage: React.FC = () => {
                 selectedLanguage,
                 organisationId: selectedOrganisation?.id || '',
               }),
-              draft,
+              // save event always as a draft first
+              draft: true,
             },
           },
         })
