@@ -99,7 +99,11 @@ const OccurrencesPage: React.FC = () => {
           },
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      toast(t('occurrences.errorEventPublicationFailed'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
   };
 
   return (
