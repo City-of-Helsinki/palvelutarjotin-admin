@@ -294,6 +294,10 @@ const EnrolmentDetails: React.FC<{
                     value={getStudyLevel()}
                   />
                 )}
+                <EnrolmentInfoRow
+                  label={t('enrolment.enrolmentDetails.labelAdditionalInfo')}
+                  value={enrolment.studyGroup.extraNeeds}
+                />
 
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelResponsiblePerson')}
@@ -312,11 +316,6 @@ const EnrolmentDetails: React.FC<{
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelNotifications')}
                   value={getNotificationInfoText(enrolment, t)}
-                  space
-                />
-                <EnrolmentInfoRow
-                  label={t('enrolment.enrolmentDetails.labelAdditionalInfo')}
-                  value={enrolment.studyGroup.extraNeeds}
                   space
                 />
               </tbody>
