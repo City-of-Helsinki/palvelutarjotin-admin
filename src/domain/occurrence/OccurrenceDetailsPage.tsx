@@ -48,6 +48,7 @@ const OccurrenceDetailsPage = () => {
   const {
     data: occurrenceData,
     loading: loadingOccurrence,
+    refetch: refetchOccurrence,
   } = useOccurrenceQuery({
     variables: { id: occurrenceId },
   });
@@ -95,6 +96,7 @@ const OccurrenceDetailsPage = () => {
                     occurrenceId={occurrenceId}
                     eventId={id}
                     onGoBackClick={goToOccurrenceDetails}
+                    refetchOccurrence={refetchOccurrence}
                   />
                 ) : (
                   <EnrolmentTable
