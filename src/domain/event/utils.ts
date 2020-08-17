@@ -234,8 +234,6 @@ export const createOrUpdateVenue = ({
   const hasClothingStorage = venueData?.venue?.hasClothingStorage;
   const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
 
-  debugger;
-
   const venueShouldBeUpdated = Boolean(
     venueData?.venue &&
       (formValues.locationDescription !== venueDescription ||
