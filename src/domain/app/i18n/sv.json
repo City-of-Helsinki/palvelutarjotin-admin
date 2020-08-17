@@ -161,6 +161,27 @@
       "sendCancelMessage": "Skicka",
       "preview": "Förhandsvisning"
     },
+    "enrolmentDetails": {
+      "buttonApproveEnrolment": "Godkänn registrering",
+      "buttonDeclineEnrolment": "Avsluta registreringen",
+      "buttonDeleteEnrolment": "Radera",
+      "buttonEditEnrolment": "Redigera",
+      "buttonEnrolleesTitle": "Inskrivna",
+      "buttonGoToEnrolleesList": "Tillbaka till listan över anmälningar",
+      "labelEnrolled": "Inskrivna",
+      "labelStatus": "Status",
+      "labelName": "Namn",
+      "labelEmail": "E-post",
+      "labelPhoneNumber": "Telefonnummer",
+      "labelStudyGroupName": "Förskola / skola / högskola",
+      "labelGroupName": "Grupp namn",
+      "labelStudyLevel": "Betygsnivå",
+      "labelGroupSize": "Barn / vuxna",
+      "labelResponsiblePerson": "Ansvarig person",
+      "labelNotifications": "Händelseaviseringar",
+      "labelAdditionalInfo": "Ytterligare information",
+      "error": "Hämtning av registreringsdata misslyckades"
+    },
     "errors": {
       "updateFailed": "Det gick inte att uppdatera registreringen"
     }

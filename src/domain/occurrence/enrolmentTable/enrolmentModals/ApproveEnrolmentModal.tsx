@@ -14,6 +14,7 @@ interface ApproveModalProps {
   enrollees?: PersonFieldsFragment[];
   // for testing purposes
   appElement?: HTMLElement;
+  loading?: boolean;
 }
 
 const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -21,6 +22,7 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
   onClose,
   approveEnrolment,
   enrollees,
+  loading = false,
   appElement,
 }) => {
   const { t } = useTranslation();
@@ -69,7 +71,11 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
           <Button variant="supplementary" onClick={handlePreview}>
             {t('enrolment.enrolmentModal.preview')}
           </Button>
-          <Button variant="primary" onClick={approveEnrolment}>
+          <Button
+            variant="primary"
+            onClick={approveEnrolment}
+            disabled={loading}
+          >
             {t('enrolment.enrolmentModal.sendConfirmationMessage')}
           </Button>
         </div>

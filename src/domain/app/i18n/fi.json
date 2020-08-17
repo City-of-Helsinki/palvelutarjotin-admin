@@ -162,6 +162,27 @@
       "sendCancelMessage": "Lähetä",
       "preview": "Esikatselu"
     },
+    "enrolmentDetails": {
+      "buttonApproveEnrolment": "Hyväksy ilmoittautuminen",
+      "buttonDeclineEnrolment": "Jätä ilman paikkaa",
+      "buttonDeleteEnrolment": "Poista",
+      "buttonEditEnrolment": "Muokkaa",
+      "buttonEnrolleesTitle": "Ilmoittautuneet",
+      "buttonGoToEnrolleesList": "Palaa ilmoittautuneisiin",
+      "labelEnrolled": "Ilmoittautunut",
+      "labelStatus": "Tila",
+      "labelName": "Nimi",
+      "labelEmail": "Sähköpostiosoite",
+      "labelPhoneNumber": "Puhelinnumero",
+      "labelStudyGroupName": "Päiväkoti / koulu / oppilaitos",
+      "labelGroupName": "Ryhmän nimi",
+      "labelStudyLevel": "Luokka-aste",
+      "labelGroupSize": "Lapsia / aikuisia",
+      "labelResponsiblePerson": "Vastuussa oleva aikuinen",
+      "labelNotifications": "Tapahtumien ilmoitukset",
+      "labelAdditionalInfo": "Lisätiedot",
+      "error": "Ilmoittautumisen tietojen haku epäonnistui"
+    },
     "errors": {
       "updateFailed": "Ilmoittautumisen päivitys epäonnistui"
     }
