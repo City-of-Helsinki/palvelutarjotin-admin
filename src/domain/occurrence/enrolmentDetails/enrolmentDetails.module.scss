@@ -30,6 +30,14 @@
   margin-right: var(--spacing-s);
 }
 
+.actionButton {
+  &:disabled {
+    svg {
+      color: grey;
+    }
+  }
+}
+
 .approveButton {
   svg {
     color: var(--color-success);

@@ -13,6 +13,7 @@ interface ApproveModalProps {
   declineEnrolment: () => void;
   enrollees?: PersonFieldsFragment[];
   appElement?: HTMLElement;
+  loading?: boolean;
 }
 
 const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -21,6 +22,7 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
   declineEnrolment,
   enrollees,
   appElement,
+  loading = false,
 }) => {
   const { t } = useTranslation();
 
@@ -48,7 +50,11 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
           <Button variant="supplementary" onClick={handlePreview}>
             {t('enrolment.enrolmentModal.preview')}
           </Button>
-          <Button variant="primary" onClick={declineEnrolment}>
+          <Button
+            variant="primary"
+            onClick={declineEnrolment}
+            disabled={loading}
+          >
             {t('enrolment.enrolmentModal.sendCancelMessage')}
           </Button>
         </div>

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { format } from 'date-fns';
 import {
   Button,
@@ -25,6 +26,9 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
+import ApproveEnrolmentModal from '../enrolmentTable/enrolmentModals/ApproveEnrolmentModal';
+import DeclineEnrolmentModal from '../enrolmentTable/enrolmentModals/DeclineEnrolmentModal';
+import DeleteEnrolmentModal from '../enrolmentTable/enrolmentModals/DeleteEnrolmentModal';
 import styles from './enrolmentDetails.module.scss';
 import EnrolmentInfoRow from './EnrolmentInfoRow';
 import { getNotificationInfoText } from './utils';
@@ -38,6 +42,9 @@ const EnrolmentDetails: React.FC<{
   const history = useHistory();
   const locale = useLocale();
   const { t } = useTranslation();
+  const [approveModalOpen, setApproveModalOpen] = React.useState(false);
+  const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const { data: enrolmentData, loading: loadingEnrolment } = useEnrolmentQuery({
     variables: {
       id: enrolmentId,
@@ -47,20 +54,28 @@ const EnrolmentDetails: React.FC<{
   const enrolmentIsNotApproved = enrolment?.status !== EnrolmentStatus.Approved;
   const enrolmentIsNotDeclined = enrolment?.status !== EnrolmentStatus.Declined;
 
-  const [approveEnrolment] = useApproveEnrolmentMutation({
+  const [
+    approveEnrolment,
+    { loading: loadingApproveEnrolment },
+  ] = useApproveEnrolmentMutation({
     onError: (error) => {
       toast(t('enrolment.approveEnrolmentError'), {
         type: toast.TYPE.ERROR,
       });
     },
+    onCompleted: () => setApproveModalOpen(false),
   });
 
-  const [declineEnrolment] = useDeclineEnrolmentMutation({
+  const [
+    declineEnrolment,
+    { loading: loadingDeclineEnrolment },
+  ] = useDeclineEnrolmentMutation({
     onError: (error) => {
       toast(t('enrolment.declineEnrolmentError'), {
         type: toast.TYPE.ERROR,
       });
     },
+    onCompleted: () => setDeclineModalOpen(false),
   });
 
   const [deleteEnrolment] = useDeleteEnrolmentMutation({
@@ -68,6 +83,10 @@ const EnrolmentDetails: React.FC<{
       toast(t('enrolment.deleteEnrolmentError'), {
         type: toast.TYPE.ERROR,
       });
+    },
+    onCompleted: () => {
+      setDeleteModalOpen(false);
+      onGoBackClick();
     },
   });
 
@@ -108,7 +127,6 @@ const EnrolmentDetails: React.FC<{
           });
         },
       });
-      onGoBackClick();
     }
   };
 
@@ -154,23 +172,52 @@ const EnrolmentDetails: React.FC<{
                   {t('enrolment.enrolmentDetails.buttonEnrolleesTitle')}
                 </span>
               </div>
+              <ApproveEnrolmentModal
+                isOpen={approveModalOpen}
+                onClose={() => setApproveModalOpen(false)}
+                // TODO: Will there be a way to approve many at the same time?
+                enrollees={enrolment.person ? [enrolment?.person] : undefined}
+                approveEnrolment={handleApproveEnrolment}
+                loading={loadingApproveEnrolment}
+              />
+              <DeclineEnrolmentModal
+                isOpen={declineModalOpen}
+                onClose={() => setDeclineModalOpen(false)}
+                // TODO: Will there be a way to decline many at the same time?
+                enrollees={enrolment.person ? [enrolment?.person] : undefined}
+                declineEnrolment={handleDeclineEnrolment}
+                loading={loadingDeclineEnrolment}
+              />
+              <DeleteEnrolmentModal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                deleteEnrolment={handleDeleteEnrolment}
+              />
               <div className={styles.actionButtons}>
                 {enrolmentIsNotApproved && (
                   <Button
-                    className={styles.approveButton}
-                    onClick={handleApproveEnrolment}
+                    className={classNames(
+                      styles.approveButton,
+                      styles.actionButton
+                    )}
+                    onClick={() => setApproveModalOpen(true)}
                     variant="secondary"
                     iconLeft={<IconCheck />}
+                    disabled={loadingApproveEnrolment}
                   >
                     {t('enrolment.enrolmentDetails.buttonApproveEnrolment')}
                   </Button>
                 )}
                 {enrolmentIsNotDeclined && (
                   <Button
-                    className={styles.declineButton}
-                    onClick={handleDeclineEnrolment}
+                    className={classNames(
+                      styles.declineButton,
+                      styles.actionButton
+                    )}
+                    onClick={() => setDeclineModalOpen(true)}
                     variant="secondary"
                     iconLeft={<IconCross />}
+                    disabled={loadingDeclineEnrolment}
                   >
                     {t('enrolment.enrolmentDetails.buttonDeclineEnrolment')}
                   </Button>
@@ -184,8 +231,11 @@ const EnrolmentDetails: React.FC<{
                   {t('enrolment.enrolmentDetails.buttonEditEnrolment')}
                 </Button>
                 <Button
-                  className={styles.deleteButton}
-                  onClick={handleDeleteEnrolment}
+                  className={classNames(
+                    styles.deleteButton,
+                    styles.actionButton
+                  )}
+                  onClick={() => setDeleteModalOpen(true)}
                   variant="secondary"
                   iconLeft={<IconCrossCircle />}
                 >
