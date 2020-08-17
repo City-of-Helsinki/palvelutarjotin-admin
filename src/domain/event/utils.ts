@@ -244,6 +244,7 @@ export const createOrUpdateVenue = ({
     !venueData?.venue && formValues.locationDescription
   );
 
+  debugger;
   if (venueShouldBeUpdated) {
     return apolloClient.mutate<EditVenueMutation>({
       variables: getExistingVenuePayload({
@@ -255,10 +256,9 @@ export const createOrUpdateVenue = ({
     });
   } else if (newVenueShouldBeCreated) {
     return apolloClient.mutate<CreateVenueMutation>({
-      variables: getExistingVenuePayload({
+      variables: getNewVenuePayload({
         formValues: formValues,
         selectedLanguage,
-        venueData: venueData as VenueQuery,
       }),
       mutation: CreateVenueDocument,
     });
