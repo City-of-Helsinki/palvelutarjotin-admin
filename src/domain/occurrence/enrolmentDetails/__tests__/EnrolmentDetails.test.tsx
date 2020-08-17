@@ -56,6 +56,8 @@ test('renders correct information', async () => {
     </MemoryRouter>
   );
 
+  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });

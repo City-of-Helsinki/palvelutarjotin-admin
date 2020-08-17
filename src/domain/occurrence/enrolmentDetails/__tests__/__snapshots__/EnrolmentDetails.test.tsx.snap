@@ -48,7 +48,7 @@ exports[`matches snapshot 1`] = `
           class="actionButtons"
         >
           <button
-            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS declineButton"
+            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS declineButton actionButton"
             type="button"
           >
             <div
@@ -114,7 +114,7 @@ exports[`matches snapshot 1`] = `
             </span>
           </button>
           <button
-            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS deleteButton"
+            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS deleteButton actionButton"
             type="button"
           >
             <div
