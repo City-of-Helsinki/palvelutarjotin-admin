@@ -66,6 +66,7 @@ export type Query = {
   keyword?: Maybe<Keyword>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
+  notificationTemplates?: Maybe<NotificationTemplateNodeConnection>;
 };
 
 
@@ -226,6 +227,14 @@ export type QueryEventsSearchArgs = {
 export type QueryPlacesSearchArgs = {
   input: Scalars['String'];
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type QueryNotificationTemplatesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type OccurrenceNodeConnection = {
@@ -888,6 +897,48 @@ export type PlaceSearchListResponse = {
   data: Array<Place>;
 };
 
+export type NotificationTemplateNodeConnection = {
+   __typename?: 'NotificationTemplateNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<NotificationTemplateNodeEdge>>;
+};
+
+/** A Relay edge containing a `NotificationTemplateNode` and its cursor. */
+export type NotificationTemplateNodeEdge = {
+   __typename?: 'NotificationTemplateNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<NotificationTemplateNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type NotificationTemplateNode = Node & {
+   __typename?: 'NotificationTemplateNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  type: Scalars['String'];
+  translations: Array<Maybe<NotificationTranslationType>>;
+  preview?: Maybe<Scalars['String']>;
+};
+
+export type NotificationTranslationType = {
+   __typename?: 'NotificationTranslationType';
+  languageCode: NotificationTemplateLanguage;
+  subject?: Maybe<Scalars['String']>;
+  bodyHtml?: Maybe<Scalars['String']>;
+  bodyText?: Maybe<Scalars['String']>;
+  preview?: Maybe<Scalars['String']>;
+};
+
+/** An enumeration. */
+export enum NotificationTemplateLanguage {
+  Fi = 'FI',
+  En = 'EN',
+  Sv = 'SV'
+}
+
 export type Mutation = {
    __typename?: 'Mutation';
   addOccurrence?: Maybe<AddOccurrenceMutationPayload>;
@@ -1277,6 +1328,7 @@ export type ApproveEnrolmentMutationPayload = {
 
 export type ApproveEnrolmentMutationInput = {
   enrolmentId: Scalars['ID'];
+  customMessage?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1288,6 +1340,7 @@ export type DeclineEnrolmentMutationPayload = {
 
 export type DeclineEnrolmentMutationInput = {
   enrolmentId: Scalars['ID'];
+  customMessage?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1481,6 +1534,8 @@ export type UpdateEventMutationInput = {
   id: Scalars['String'];
   /** Palvelutarjotin event data */
   pEvent?: Maybe<PalvelutarjotinEventInput>;
+  /** Set to `true` to save event as draft version, when draft is true, event data validation will be skipped */
+  draft?: Maybe<Scalars['Boolean']>;
 };
 
 export type PublishEventMutation = {

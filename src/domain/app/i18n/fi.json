@@ -500,7 +500,8 @@
     "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",
     "titleComingOccurrences": "Tulevat tapahtuma-ajat",
     "titlePastOccurrences": "Menneet tapahtuma-ajat",
-    "titleEventPublishment": "Tapahtuman julkaisu"
+    "titleEventPublishment": "Tapahtuman julkaisu",
+    "errorEventPublicationFailed": "Tapahtuman julkaisu epäonnistui"
   },
   "studyLevel": {
     "grade": "{{count}}. luokka",

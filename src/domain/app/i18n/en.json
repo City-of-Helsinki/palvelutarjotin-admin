@@ -500,7 +500,8 @@
     "textNoComingOccurrences": "No coming event times",
     "titleComingOccurrences": "Coming event times",
     "titlePastOccurrences": "Past event times",
-    "titleEventPublishment": "Event publishment"
+    "titleEventPublishment": "Event publishment",
+    "errorEventPublicationFailed": "Event publication failed"
   },
   "studyLevel": {
     "grade_interval": "(1){1st grade};(2){2nd grade};",
