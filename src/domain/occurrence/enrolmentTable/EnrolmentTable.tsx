@@ -25,6 +25,7 @@ interface Props {
   seatsTaken?: number;
   eventId?: string | null;
   occurrenceId?: string | null;
+  onEnrolmentsModified: () => void;
 }
 
 const EnrolmentTable: React.FC<Props> = ({
@@ -33,6 +34,7 @@ const EnrolmentTable: React.FC<Props> = ({
   seatsTaken = 0,
   eventId,
   occurrenceId,
+  onEnrolmentsModified,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -142,7 +144,11 @@ const EnrolmentTable: React.FC<Props> = ({
     {
       Header: t('occurrenceDetails.enrolmentTable.columnActions'),
       accessor: (row: EnrolmentFieldsFragment) => (
-        <ActionsDropdown row={row} eventId={eventId} />
+        <ActionsDropdown
+          row={row}
+          eventId={eventId}
+          onEnrolmentsModified={onEnrolmentsModified}
+        />
       ),
       id: 'actions',
       rowClickDisabled: true,

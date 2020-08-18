@@ -38,7 +38,6 @@ const OccurrenceDetailsPage = () => {
   const enrolmentUpdated = Boolean(
     query.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
   );
-
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     variables: { id, include: ['location'] },
   });
@@ -65,6 +64,10 @@ const OccurrenceDetailsPage = () => {
         id
       ).replace(':occurrenceId', occurrenceId)}`,
     });
+  };
+
+  const handleEnrolmentsModified = () => {
+    refetchOccurrence();
   };
 
   return (
@@ -107,6 +110,7 @@ const OccurrenceDetailsPage = () => {
                     eventId={event.id}
                     id="enrolments-table"
                     seatsTaken={occurrence.seatsTaken || 0}
+                    onEnrolmentsModified={handleEnrolmentsModified}
                   />
                 )}
               </div>
