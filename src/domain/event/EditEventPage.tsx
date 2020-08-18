@@ -53,7 +53,6 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
-  console.log(eventData);
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const persons =
     eventData?.event?.pEvent?.organisation?.persons.edges.map(
