@@ -2,7 +2,10 @@ import { MockedProvider, MockedResponse } from '@apollo/react-testing';
 import { fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import React from 'react';
-import { Router } from 'react-router';
+import { Provider } from 'react-redux';
+import { Route, Router } from 'react-router-dom';
+
+import { store } from '../domain/app/store';
 
 export const arrowUpKeyPressHelper = () =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
@@ -25,9 +28,36 @@ const customRender: CustomRender = (
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
-    <MockedProvider mocks={mocks}>
-      <Router history={history}>{children}</Router>
-    </MockedProvider>
+    <Provider store={store}>
+      <MockedProvider mocks={mocks}>
+        <Router history={history}>{children}</Router>
+      </MockedProvider>
+    </Provider>
+  );
+
+  const renderResult = render(ui, { wrapper: Wrapper });
+  return { ...renderResult, history };
+};
+
+const renderWithRoute: CustomRender = (
+  ui,
+  {
+    routes = ['/'],
+    path = '/',
+    history = createMemoryHistory({ initialEntries: routes }),
+    mocks = [],
+  } = {}
+) => {
+  const Wrapper: React.FC = ({ children }) => (
+    <Provider store={store}>
+      <MockedProvider mocks={mocks}>
+        <Router history={history}>
+          <Route exact path={path}>
+            {children}
+          </Route>
+        </Router>
+      </MockedProvider>
+    </Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -39,6 +69,7 @@ type CustomRender = {
     ui: React.ReactElement,
     options?: {
       routes?: string[];
+      path?: string;
       history?: History;
       mocks?: MockedResponse[];
     }
@@ -47,7 +78,7 @@ type CustomRender = {
 
 type CustomRenderResult = RenderResult & { history: History };
 
-export { customRender as render };
+export { customRender as render, renderWithRoute };
 
 // re-export everything
 export * from '@testing-library/react';
