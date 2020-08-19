@@ -1,11 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import React from 'react';
 
 import { PUBLICATION_STATUS } from '../../../events/constants';
 import EventCard from '../EventCard';
-
-expect.extend(toHaveNoViolations);
 
 const defaultEventCardProps = {
   id: 'id',

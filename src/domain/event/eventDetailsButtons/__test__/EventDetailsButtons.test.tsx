@@ -1,14 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 import Router from 'react-router';
 
 import eventData from '../__mocks__/eventData.json';
 import EventDetailsButtons from '../EventDetailsButtons';
-
-expect.extend(toHaveNoViolations);
 
 beforeEach(() => {
   jest.spyOn(Router, 'useHistory').mockReturnValue({});

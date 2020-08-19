@@ -26,9 +26,14 @@ import styles from './actionsDropdown.module.scss';
 interface Props {
   row: EnrolmentFieldsFragment;
   eventId?: string | null;
+  onEnrolmentsModified: () => void;
 }
 
-const ActionsDropdown: React.FC<Props> = ({ row, eventId }) => {
+const ActionsDropdown: React.FC<Props> = ({
+  row,
+  eventId,
+  onEnrolmentsModified,
+}) => {
   const { t } = useTranslation();
   const { occurrenceId } = useParams();
   const history = useHistory();
@@ -47,7 +52,10 @@ const ActionsDropdown: React.FC<Props> = ({ row, eventId }) => {
         type: toast.TYPE.ERROR,
       });
     },
-    onCompleted: () => setApproveModalOpen(false),
+    onCompleted: () => {
+      setApproveModalOpen(false);
+      onEnrolmentsModified();
+    },
   });
 
   const [declineEnrolment] = useDeclineEnrolmentMutation({
@@ -58,7 +66,10 @@ const ActionsDropdown: React.FC<Props> = ({ row, eventId }) => {
         type: toast.TYPE.ERROR,
       });
     },
-    onCompleted: () => setDeclineModalOpen(false),
+    onCompleted: () => {
+      setDeclineModalOpen(false);
+      onEnrolmentsModified();
+    },
   });
 
   const [deleteEnrolment] = useDeleteEnrolmentMutation({
@@ -70,7 +81,10 @@ const ActionsDropdown: React.FC<Props> = ({ row, eventId }) => {
       });
     },
     // TODO: might need a check if component is mounted
-    onCompleted: () => setDeleteModalOpen(false),
+    onCompleted: () => {
+      setDeleteModalOpen(false);
+      onEnrolmentsModified();
+    },
   });
 
   const handleOpenApproveModal = () => {

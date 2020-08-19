@@ -1,6 +1,6 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { render } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import React from 'react';
 import Router from 'react-router';
 
@@ -9,8 +9,6 @@ import EventForm from '../EventForm';
 beforeEach(() => {
   jest.spyOn(Router, 'useHistory').mockReturnValue({});
 });
-
-expect.extend(toHaveNoViolations);
 
 test('test for accessibility violations', async () => {
   const { container } = render(
