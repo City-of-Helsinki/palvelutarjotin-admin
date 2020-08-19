@@ -22,8 +22,6 @@ import {
   venueResult,
 } from './mocks';
 
-// expect.extend(toHaveNoViolations);
-
 const eventId = 'palvelutarjotin:afzunowba4';
 const occurrenceId = 'T2NjdXJyZW5jZU5vZGU6MTIz';
 const testPath = ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
@@ -71,7 +69,7 @@ const mocks = [
   },
 ];
 
-// uncomment this when enrolment table is accessible (labels for checkboxes)
+// TODO: uncomment this when enrolment table is accessible (labels for checkboxes)
 // test('is accessible', async () => {
 //   const { container } = renderWithRoute(<OccurrenceDetailsPage />, {
 //     routes: [testPath],

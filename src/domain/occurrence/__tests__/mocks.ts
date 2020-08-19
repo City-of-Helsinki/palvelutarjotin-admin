@@ -1,3 +1,10 @@
+import {
+  EventFieldsFragment,
+  OccurrenceFieldsFragment,
+  PlaceFieldsFragment,
+  VenueFieldsFragment,
+} from '../../../generated/graphql';
+
 export const eventResult = {
   data: {
     event: {
@@ -606,7 +613,7 @@ export const eventResult = {
       publicationStatus: 'public',
       datePublished: null,
       __typename: 'Event',
-    },
+    } as EventFieldsFragment,
   },
 };
 
@@ -712,7 +719,7 @@ export const occurrenceResult = {
         ],
         __typename: 'EnrolmentNodeConnection',
       },
-    },
+    } as OccurrenceFieldsFragment,
   },
 };
 
@@ -746,7 +753,7 @@ export const placeResult = {
         __typename: 'LocalisedObject',
       },
       __typename: 'Place',
-    },
+    } as PlaceFieldsFragment,
   },
 };
 
@@ -764,6 +771,6 @@ export const venueResult = {
         },
       ],
       __typename: 'VenueNode',
-    },
+    } as VenueFieldsFragment,
   },
 };
