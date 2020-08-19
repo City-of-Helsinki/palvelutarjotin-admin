@@ -15,6 +15,7 @@
     }
   },
   "common": {
+    "back": "Tillbacka",
     "alertModal": {
       "buttonCancel": "Avbryt"
     },

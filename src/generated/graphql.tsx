@@ -1435,6 +1435,7 @@ export type EventMutationResponse = {
    __typename?: 'EventMutationResponse';
   statusCode: Scalars['Int'];
   body?: Maybe<Event>;
+  resultText?: Maybe<Scalars['String']>;
 };
 
 export type AddEventMutationInput = {
@@ -1590,6 +1591,7 @@ export type ImageMutationResponse = {
    __typename?: 'ImageMutationResponse';
   statusCode: Scalars['Int'];
   body?: Maybe<Image>;
+  resultText?: Maybe<Scalars['String']>;
 };
 
 export type UploadImageMutationInput = {
@@ -1738,6 +1740,27 @@ export type EnrolmentQuery = (
       )> }
     ) }
     & EnrolmentFieldsFragment
+  )> }
+);
+
+export type EmailTemplatesQueryVariables = {};
+
+
+export type EmailTemplatesQuery = (
+  { __typename?: 'Query' }
+  & { notificationTemplates?: Maybe<(
+    { __typename?: 'NotificationTemplateNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'NotificationTemplateNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'NotificationTemplateNode' }
+        & Pick<NotificationTemplateNode, 'id' | 'type' | 'preview'>
+        & { translations: Array<Maybe<(
+          { __typename?: 'NotificationTranslationType' }
+          & Pick<NotificationTranslationType, 'languageCode' | 'subject' | 'bodyHtml' | 'bodyText' | 'preview'>
+        )>> }
+      )> }
+    )>> }
   )> }
 );
 
@@ -2926,6 +2949,64 @@ export function useEnrolmentLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
 export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
 export type EnrolmentQueryResult = ApolloReactCommon.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
+export const EmailTemplatesDocument = gql`
+    query EmailTemplates {
+  notificationTemplates {
+    edges {
+      node {
+        id
+        type
+        translations {
+          languageCode
+          subject
+          bodyHtml
+          bodyText
+          preview
+        }
+        preview
+      }
+    }
+  }
+}
+    `;
+export type EmailTemplatesProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<EmailTemplatesQuery, EmailTemplatesQueryVariables>
+    } & TChildProps;
+export function withEmailTemplates<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EmailTemplatesQuery,
+  EmailTemplatesQueryVariables,
+  EmailTemplatesProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, EmailTemplatesQuery, EmailTemplatesQueryVariables, EmailTemplatesProps<TChildProps, TDataName>>(EmailTemplatesDocument, {
+      alias: 'emailTemplates',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEmailTemplatesQuery__
+ *
+ * To run a query within a React component, call `useEmailTemplatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEmailTemplatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEmailTemplatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEmailTemplatesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EmailTemplatesQuery, EmailTemplatesQueryVariables>) {
+        return ApolloReactHooks.useQuery<EmailTemplatesQuery, EmailTemplatesQueryVariables>(EmailTemplatesDocument, baseOptions);
+      }
+export function useEmailTemplatesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EmailTemplatesQuery, EmailTemplatesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EmailTemplatesQuery, EmailTemplatesQueryVariables>(EmailTemplatesDocument, baseOptions);
+        }
+export type EmailTemplatesQueryHookResult = ReturnType<typeof useEmailTemplatesQuery>;
+export type EmailTemplatesLazyQueryHookResult = ReturnType<typeof useEmailTemplatesLazyQuery>;
+export type EmailTemplatesQueryResult = ApolloReactCommon.QueryResult<EmailTemplatesQuery, EmailTemplatesQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {

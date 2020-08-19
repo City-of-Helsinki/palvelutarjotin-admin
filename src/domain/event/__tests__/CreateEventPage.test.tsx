@@ -7,7 +7,7 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Modal from 'react-modal';
@@ -36,8 +36,6 @@ import {
 import apolloClient from '../../app/apollo/apolloClient';
 import { store } from '../../app/store';
 import CreateEventPage from '../CreateEventPage';
-
-expect.extend(toHaveNoViolations);
 
 beforeEach(() => {
   jest.spyOn(Router, 'useHistory').mockReturnValue({});

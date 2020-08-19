@@ -1,13 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import React from 'react';
 import Router from 'react-router';
 
 import messages from '../../app/i18n/fi.json';
 import NotFoundPage from '../NotFoundPage';
-
-expect.extend(toHaveNoViolations);
 
 beforeEach(() => {
   jest.spyOn(Router, 'useHistory').mockReturnValue({});

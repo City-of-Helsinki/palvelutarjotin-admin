@@ -43,4 +43,23 @@ export const QUERY_ENROLMENT = gql`
       }
     }
   }
+
+  query EmailTemplates {
+    notificationTemplates {
+      edges {
+        node {
+          id
+          type
+          translations {
+            languageCode
+            subject
+            bodyHtml
+            bodyText
+            preview
+          }
+          preview
+        }
+      }
+    }
+  }
 `;

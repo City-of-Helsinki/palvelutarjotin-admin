@@ -91,8 +91,12 @@ const ActionsDropdown: React.FC<Props> = ({
     setApproveModalOpen(true);
   };
 
-  const handleApproveEnrolment = async () => {
-    approveEnrolment({ variables: { input: { enrolmentId: row.id } } });
+  const handleApproveEnrolment = async (message: string) => {
+    approveEnrolment({
+      variables: {
+        input: { enrolmentId: row.id, customMessage: message },
+      },
+    });
   };
 
   const handleDeclineEnrolment = () => {
