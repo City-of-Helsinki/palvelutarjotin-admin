@@ -5,9 +5,9 @@ import React from 'react';
 import Modal from 'react-modal';
 import { MemoryRouter } from 'react-router';
 
+import { enrolmentResult } from '../__mocks__/responses';
 import { EnrolmentDocument } from '../../../../generated/graphql';
 import EnrolmentDetails from '../EnrolmentDetails';
-import { enrolmentResult } from './mocks';
 
 const mocks = [
   {

@@ -2,6 +2,12 @@
 import React from 'react';
 
 import {
+  eventResult,
+  occurrenceResult,
+  placeResult,
+  venueResult,
+} from '../__mocks__/responses';
+import {
   EventDocument,
   OccurrenceDocument,
   PlaceDocument,
@@ -15,12 +21,6 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
-import {
-  eventResult,
-  occurrenceResult,
-  placeResult,
-  venueResult,
-} from './mocks';
 
 const eventId = 'palvelutarjotin:afzunowba4';
 const occurrenceId = 'T2NjdXJyZW5jZU5vZGU6MTIz';

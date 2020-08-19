@@ -249,6 +249,18 @@ exports[`matches snapshot 1`] = `
             </td>
           </tr>
           <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Lisätiedot:
+            </td>
+            <td>
+              Lisätietoja tässä
+            </td>
+          </tr>
+          <tr
             class="infoRow spacingRow"
           >
             <td
@@ -294,18 +306,6 @@ exports[`matches snapshot 1`] = `
             </td>
             <td>
               Tekstiviestillä, sähköpostilla, kieli: suomi
-            </td>
-          </tr>
-          <tr
-            class="infoRow spacingRow"
-          >
-            <td
-              class="infoLabel"
-            >
-              Lisätiedot:
-            </td>
-            <td>
-              Lisätietoja tässä
             </td>
           </tr>
         </tbody>
