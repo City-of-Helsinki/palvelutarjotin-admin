@@ -114,6 +114,7 @@ const mocks = [
             neededOccurrences: 3,
           },
           organisationId: 'T3JnYW5pc2F0aW9uTm9kZTox',
+          draft: false,
         },
       },
     },
