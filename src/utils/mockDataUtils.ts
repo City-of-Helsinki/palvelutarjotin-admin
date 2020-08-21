@@ -13,6 +13,8 @@ import {
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
   OrganisationNode,
+  OrganisationNodeConnection,
+  OrganisationNodeEdge,
   OrganisationType,
   PageInfo,
   PalvelutarjotinEventNode,
@@ -27,6 +29,11 @@ const organizationNames = [
   'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto',
   'Kulttuurin ja vapaa-ajan toimiala',
 ];
+
+const PageInfoMock: PageInfo = {
+  hasNextPage: false,
+  hasPreviousPage: false,
+};
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
   return {
@@ -68,7 +75,7 @@ export const fakeInLanguage = (overrides?: InLanguage): InLanguage => ({
 });
 
 export const fakeLocation = (overrides?: Partial<Place>): Place => ({
-  id: 'tprek:15376',
+  id: faker.random.uuid(),
   internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
   name: fakeLocalizedObject(),
   streetAddress: fakeLocalizedObject(),
@@ -139,20 +146,6 @@ export const fakePEvent = (
   ...overrides,
 });
 
-export const fakeOrganisation = (
-  overrides?: Partial<OrganisationNode>
-): OrganisationNode => ({
-  id: faker.random.uuid(),
-  name: faker.random.arrayElement(organizationNames) as string,
-  persons: fakePersons(5),
-  phoneNumber: faker.phone.phoneNumber(),
-  publisherId: faker.random.uuid(),
-  type: 'USER' as OrganisationType,
-  pEvent: null as any,
-  __typename: 'OrganisationNode',
-  ...overrides,
-});
-
 export const fakeOccurrences = (
   count = 1,
   occurrences?: Partial<OccurrenceNode>[]
@@ -171,35 +164,6 @@ export const fakeOccurrenceNodeEdge = (
   cursor: '',
   node: fakeOccurrence(overrides),
   __typename: 'OccurrenceNodeEdge',
-});
-
-export const fakePersons = (count = 1): PersonNodeConnection => ({
-  edges: generateNodeArray(fakePersonNodeEdge, count),
-  pageInfo: PageInfoMock,
-  __typename: 'PersonNodeConnection',
-});
-
-export const fakePersonNodeEdge = (): PersonNodeEdge => ({
-  cursor: '',
-  __typename: 'PersonNodeEdge',
-  node: fakePerson(),
-});
-
-export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
-  __typename: 'PersonNode',
-  id: faker.random.uuid(),
-  emailAddress: faker.internet.email(),
-  language: 'FI' as Language,
-  name: faker.name.firstName(),
-  phoneNumber: faker.phone.phoneNumber(),
-  createdAt: '' as any,
-  enrolmentSet: '' as any,
-  occurrences: [] as any,
-  organisations: [] as any,
-  pEvent: '' as any,
-  studygroupSet: '' as any,
-  updatedAt: '' as any,
-  ...overrides,
 });
 
 export const fakeOccurrence = (
@@ -232,17 +196,80 @@ export const fakeOccurrence = (
   ...overrides,
 });
 
+export const fakeOrganisations = (
+  count = 1,
+  organisations?: Partial<OrganisationNode>[]
+): OrganisationNodeConnection => ({
+  edges: generateNodeArray(
+    (i) => fakeOrganisationNodeEdge(organisations?.[i]),
+    count
+  ),
+  pageInfo: PageInfoMock,
+  __typename: 'OrganisationNodeConnection',
+});
+
+export const fakeOrganisationNodeEdge = (
+  overrides?: Partial<OrganisationNode>
+): OrganisationNodeEdge => ({
+  cursor: '',
+  __typename: 'OrganisationNodeEdge',
+  node: fakeOrganisation(overrides),
+});
+
+export const fakeOrganisation = (
+  overrides?: Partial<OrganisationNode>
+): OrganisationNode => ({
+  id: faker.random.uuid(),
+  name: faker.random.arrayElement(organizationNames) as string,
+  persons: fakePersons(5),
+  phoneNumber: faker.phone.phoneNumber(),
+  publisherId: faker.random.uuid(),
+  type: 'USER' as OrganisationType,
+  pEvent: null as any,
+  __typename: 'OrganisationNode',
+  ...overrides,
+});
+
+export const fakePersons = (
+  count = 1,
+  persons?: Partial<PersonNode>[]
+): PersonNodeConnection => ({
+  edges: generateNodeArray((i) => fakePersonNodeEdge(persons?.[i]), count),
+  pageInfo: PageInfoMock,
+  __typename: 'PersonNodeConnection',
+});
+
+export const fakePersonNodeEdge = (
+  overrides?: Partial<PersonNode>
+): PersonNodeEdge => ({
+  cursor: '',
+  __typename: 'PersonNodeEdge',
+  node: fakePerson(overrides),
+});
+
+export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
+  __typename: 'PersonNode',
+  id: faker.random.uuid(),
+  emailAddress: faker.internet.email(),
+  language: 'FI' as Language,
+  name: faker.name.firstName(),
+  phoneNumber: faker.phone.phoneNumber(),
+  createdAt: '' as any,
+  enrolmentSet: '' as any,
+  occurrences: [] as any,
+  organisations: [] as any,
+  pEvent: '' as any,
+  studygroupSet: '' as any,
+  updatedAt: '' as any,
+  ...overrides,
+});
+
 export const fakeLocalizedObject = (text?: string): LocalisedObject => ({
   __typename: 'LocalisedObject',
   en: null,
   sv: null,
   fi: text || faker.random.words(),
 });
-
-const PageInfoMock: PageInfo = {
-  hasNextPage: false,
-  hasPreviousPage: false,
-};
 
 const generateNodeArray = <T extends (...args: any) => any>(
   fakeFunc: T,
