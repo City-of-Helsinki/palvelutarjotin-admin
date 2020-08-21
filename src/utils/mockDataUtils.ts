@@ -119,7 +119,9 @@ export const fakeImage = (overrides?: Partial<Image>): Image => ({
   ...overrides,
 });
 
-export const fakePEvent = (): PalvelutarjotinEventNode => ({
+export const fakePEvent = (
+  overrides?: Partial<PalvelutarjotinEventNode>
+): PalvelutarjotinEventNode => ({
   id: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
   contactPerson: fakePerson(),
   contactEmail: 'santtu_1993@hotmail.com',
@@ -134,9 +136,12 @@ export const fakePEvent = (): PalvelutarjotinEventNode => ({
   linkedEventId: '' as any,
   updatedAt: '' as any,
   __typename: 'PalvelutarjotinEventNode',
+  ...overrides,
 });
 
-export const fakeOrganisation = (): OrganisationNode => ({
+export const fakeOrganisation = (
+  overrides?: Partial<OrganisationNode>
+): OrganisationNode => ({
   id: faker.random.uuid(),
   name: faker.random.arrayElement(organizationNames) as string,
   persons: fakePersons(5),
@@ -145,17 +150,26 @@ export const fakeOrganisation = (): OrganisationNode => ({
   type: 'USER' as OrganisationType,
   pEvent: null as any,
   __typename: 'OrganisationNode',
+  ...overrides,
 });
 
-export const fakeOccurrences = (count = 1): OccurrenceNodeConnection => ({
-  edges: generateNodeArray(fakeOccurrenceNodeEdge, count),
+export const fakeOccurrences = (
+  count = 1,
+  occurrences?: Partial<OccurrenceNode>[]
+): OccurrenceNodeConnection => ({
+  edges: generateNodeArray(
+    (i) => fakeOccurrenceNodeEdge(occurrences?.[i]),
+    count
+  ),
   pageInfo: PageInfoMock,
   __typename: 'OccurrenceNodeConnection',
 });
 
-export const fakeOccurrenceNodeEdge = (): OccurrenceNodeEdge => ({
+export const fakeOccurrenceNodeEdge = (
+  overrides?: Partial<OccurrenceNode>
+): OccurrenceNodeEdge => ({
   cursor: '',
-  node: fakeOccurrence(),
+  node: fakeOccurrence(overrides),
   __typename: 'OccurrenceNodeEdge',
 });
 
@@ -234,5 +248,5 @@ const generateNodeArray = <T extends (...args: any) => any>(
   fakeFunc: T,
   length: number
 ): ReturnType<T>[] => {
-  return Array.from({ length }).map(() => fakeFunc());
+  return Array.from({ length }).map((_, i) => fakeFunc(i));
 };
