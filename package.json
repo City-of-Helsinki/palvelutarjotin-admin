@@ -90,6 +90,10 @@
       "serviceWorker.ts",
       "./src/index.tsx",
       "datepickerContext.tsx",
+      "mockDataUtils.ts",
+      "ScrollToTop.tsx",
+      "App.tsx",
+      "apolloClient.ts",
       ".*stories.tsx",
       "graphql.tsx"
     ]
