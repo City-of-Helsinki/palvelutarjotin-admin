@@ -317,11 +317,11 @@ test('form works correctly when edited', async () => {
     screen.getByLabelText(/tapahtuman kesto/i),
     eventFormData.duration
   );
-  userEvent.type(
-    screen.getByLabelText(/ilmoittautuminen alkaa/i),
-    eventFormData.enrolmentStart,
-    { allAtOnce: true }
+  const enrolmentStartsAtInput = screen.getByLabelText(
+    /ilmoittautuminen alkaa/i
   );
+  userEvent.click(enrolmentStartsAtInput);
+  userEvent.type(enrolmentStartsAtInput, eventFormData.enrolmentStart);
   userEvent.type(
     screen.getByLabelText(/ilmoittautuminen sulkeutuu/i),
     eventFormData.enrolmentEndDays

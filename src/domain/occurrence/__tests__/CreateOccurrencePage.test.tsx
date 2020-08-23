@@ -185,9 +185,13 @@ test('can create new occurrence with form', async () => {
   expect(screen.queryByText('Testikatu')).toBeInTheDocument();
 
   const dateInput = screen.getByLabelText('Päivämäärä');
+  // click first so focus is kept
+  userEvent.click(dateInput);
   userEvent.type(dateInput, '13.08.2020');
 
-  const startsAtInput = screen.getByLabelText('Alkaa klo');
+  const startsAtInput = screen.getByLabelText('Alkaa klo', {
+    selector: 'input',
+  });
   userEvent.type(startsAtInput, occurrenceFormData.startsAt);
   userEvent.click(
     screen.getByRole('option', {
@@ -196,7 +200,9 @@ test('can create new occurrence with form', async () => {
     })
   );
 
-  const endsAtInput = screen.getByLabelText('Loppuu klo');
+  const endsAtInput = screen.getByLabelText('Loppuu klo', {
+    selector: 'input',
+  });
   userEvent.type(endsAtInput, occurrenceFormData.endsAt);
   userEvent.click(
     screen.getByRole('option', {

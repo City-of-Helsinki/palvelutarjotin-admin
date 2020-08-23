@@ -67,10 +67,10 @@ describe('<AutoSuggest />', () => {
 
     expect(setInputValue.mock.calls).toEqual([
       ['t'],
-      ['te'],
-      ['tes'],
-      ['test'],
-      ['testi'],
+      ['e'],
+      ['s'],
+      ['t'],
+      ['i'],
     ]);
   });
 
