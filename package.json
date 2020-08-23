@@ -92,6 +92,7 @@
       "datepickerContext.tsx",
       "mockDataUtils.ts",
       "ScrollToTop.tsx",
+      "scrollToTop.ts",
       "App.tsx",
       "apolloClient.ts",
       ".*stories.tsx",
