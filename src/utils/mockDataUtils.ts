@@ -33,6 +33,9 @@ const organizationNames = [
 const PageInfoMock: PageInfo = {
   hasNextPage: false,
   hasPreviousPage: false,
+  __typename: 'PageInfo',
+  startCursor: '',
+  endCursor: '',
 };
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
