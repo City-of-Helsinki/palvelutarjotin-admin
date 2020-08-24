@@ -131,8 +131,8 @@ export const fakePEvent = (
 ): PalvelutarjotinEventNode => ({
   id: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
   contactPerson: fakePerson(),
-  contactEmail: 'santtu_1993@hotmail.com',
-  contactPhoneNumber: '0405542959',
+  contactEmail: 'test@email.com',
+  contactPhoneNumber: '1233211234',
   duration: 11,
   enrolmentEndDays: 3,
   enrolmentStart: '2020-07-13T06:00:00+00:00',

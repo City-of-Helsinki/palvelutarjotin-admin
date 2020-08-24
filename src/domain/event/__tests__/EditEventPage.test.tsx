@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedProvider } from '@apollo/react-testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -26,7 +27,7 @@ beforeEach(() => {
   jest.spyOn(Router, 'useParams').mockReturnValue({
     id: '123',
   });
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
+  jest.spyOn(Router, 'useHistory').mockReturnValue({} as any);
   jest
     .spyOn(Router, 'useLocation')
     .mockReturnValue({ pathname: '/', search: '', state: '', hash: '' });
