@@ -1,7 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ApolloProvider } from '@apollo/react-hooks';
-import faker from 'faker';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -39,7 +38,5 @@ const App = () => {
     </Provider>
   );
 };
-
-(window as any).faker = faker;
 
 export default App;
