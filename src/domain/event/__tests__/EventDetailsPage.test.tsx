@@ -1,11 +1,7 @@
-import { MockedProvider, MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/react-testing';
 import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Modal from 'react-modal';
-import { Provider } from 'react-redux';
-import Router from 'react-router';
 
 import {
   EventDocument,
@@ -27,7 +23,6 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
-  prettyDOM,
   renderWithRoute,
   screen,
   waitFor,
