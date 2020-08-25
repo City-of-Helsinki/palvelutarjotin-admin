@@ -1,5 +1,4 @@
 import { MockedProvider } from '@apollo/react-testing';
-import { render, screen } from '@testing-library/react';
 import React from 'react';
 import Router from 'react-router';
 
@@ -11,11 +10,8 @@ import {
   PlaceDocument,
   VenueDocument,
 } from '../../../../generated/graphql';
+import { render, screen } from '../../../../utils/testUtils';
 import EventLocation from '../EventLocation';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({} as any);
-});
 
 const mocks = [
   {
@@ -40,12 +36,11 @@ const mocks = [
 
 test('matches snapshot', async () => {
   render(
-    <MockedProvider mocks={mocks}>
-      <EventLocation
-        eventData={eventData as EventQuery}
-        language={'fi' as any}
-      />
-    </MockedProvider>
+    <EventLocation
+      eventData={eventData as EventQuery}
+      language={'fi' as any}
+    />,
+    { mocks }
   );
 
   await screen.findByText('Tapahtumapaikan kuvaus');
