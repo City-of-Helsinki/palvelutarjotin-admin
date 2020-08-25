@@ -3,6 +3,7 @@ import faker from 'faker';
 
 import {
   Event,
+  EventListResponse,
   Image,
   InLanguage,
   Keyword,
@@ -37,6 +38,20 @@ const PageInfoMock: PageInfo = {
   startCursor: '',
   endCursor: '',
 };
+
+export const fakeEvents = (
+  count = 1,
+  events?: Partial<Event>[]
+): EventListResponse => ({
+  data: generateNodeArray((i) => fakeEvent(events?.[i]), count),
+  meta: {
+    __typename: 'Meta',
+    count: count,
+    next: '',
+    previous: '',
+  },
+  __typename: 'EventListResponse',
+});
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
   return {
