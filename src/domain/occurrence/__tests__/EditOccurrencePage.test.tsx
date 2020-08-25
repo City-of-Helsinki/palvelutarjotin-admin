@@ -41,6 +41,7 @@ const placeMock = fakeLocation({
   streetAddress: fakeLocalizedObject('Testikatu'),
 });
 const venueMock = fakeVenue({ hasClothingStorage: true });
+const occurrenceId = 'T2NjdXJyZW5jZU5vZGU6MTE5';
 
 advanceTo(new Date(2020, 7, 2));
 
@@ -108,7 +109,7 @@ const apolloMocks: MockedResponse[] = [
     request: {
       query: OccurrenceDocument,
       variables: {
-        id: 'T2NjdXJyZW5jZU5vZGU6MTE5',
+        id: occurrenceId,
       },
     },
     result: {
@@ -154,9 +155,7 @@ afterAll(() => {
 test('renders coming occurrences correctly', async () => {
   renderWithRoute(<EditOccurrencePage />, {
     mocks: apolloMocks,
-    routes: [
-      `/events/${eventMock.id}/occurrences/T2NjdXJyZW5jZU5vZGU6MTE5/edit`,
-    ],
+    routes: [`/events/${eventMock.id}/occurrences/${occurrenceId}/edit`],
     path: ROUTES.EDIT_OCCURRENCE,
   });
 
@@ -188,9 +187,7 @@ test('initializes edit occurrence form correctly', async () => {
     .mockReturnValue([editOccurrenceSpy] as any);
   renderWithRoute(<EditOccurrencePage />, {
     mocks: apolloMocks,
-    routes: [
-      `/events/${eventMock.id}/occurrences/T2NjdXJyZW5jZU5vZGU6MTE5/edit`,
-    ],
+    routes: [`/events/${eventMock.id}/occurrences/${occurrenceId}/edit`],
     path: ROUTES.EDIT_OCCURRENCE,
   });
 
@@ -243,7 +240,7 @@ test('initializes edit occurrence form correctly', async () => {
           autoAcceptance: true,
           startTime: new Date('2020-08-03T09:00:00.000Z'),
           endTime: new Date('2020-08-03T09:30:00.000Z'),
-          id: 'T2NjdXJyZW5jZU5vZGU6MTE5',
+          id: occurrenceId,
           languages: [{ id: 'EN' }, { id: 'FI' }],
           maxGroupSize: 2030,
           minGroupSize: 10,
