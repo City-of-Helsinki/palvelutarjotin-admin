@@ -35,8 +35,13 @@ describe('Selecting time', () => {
   it('autocompletes and selects time when user clicks an option', async () => {
     const { onChange, rerender } = renderTimepicker({ minuteInterval: 15 });
 
-    const input = screen.getByLabelText(defaultLabel);
-    userEvent.type(input, '12');
+    const input = screen.getByLabelText(defaultLabel, { selector: 'input' });
+    userEvent.type(input, '1');
+    rerender({ value: '1' });
+    userEvent.type(input, '2');
+    rerender({ value: '12' });
+
+    expect(input).toHaveValue('12');
 
     expect(onChange.mock.calls).toEqual([['1'], ['12']]);
 
@@ -54,9 +59,9 @@ describe('Selecting time', () => {
   });
 
   it('autocompletes and selects time when user navigates with keyboard', async () => {
-    const { onChange } = renderTimepicker({ minuteInterval: 15 });
+    const { onChange, rerender } = renderTimepicker({ minuteInterval: 15 });
 
-    const input = screen.getByLabelText(defaultLabel);
+    const input = screen.getByLabelText(defaultLabel, { selector: 'input' });
 
     expect(screen.getByRole('listbox').children).toHaveLength(0);
 
@@ -64,7 +69,10 @@ describe('Selecting time', () => {
 
     expect(screen.getByRole('listbox').children).toHaveLength(96);
 
-    userEvent.type(input, '14');
+    userEvent.type(input, '1');
+    rerender({ value: '1' });
+    userEvent.type(input, '4');
+    rerender({ value: '14' });
 
     fireEvent.keyDown(input, { key: 'ArrowDown' });
     fireEvent.keyDown(input, { key: 'ArrowDown' });

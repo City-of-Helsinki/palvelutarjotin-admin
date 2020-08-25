@@ -1,15 +1,11 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import React from 'react';
 import Router from 'react-router';
 
 import { Language } from '../../../../types';
+import { render, screen } from '../../../../utils/testUtils';
 import EventLanguageSelector from '../EventLanguageSelector';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({} as any);
-});
 
 const languagesProp = [
   {

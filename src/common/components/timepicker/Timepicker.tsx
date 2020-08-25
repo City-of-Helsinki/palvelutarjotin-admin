@@ -93,19 +93,21 @@ const Timepicker: React.FC<Props> = ({
     onBlur: handleInputOnBlur,
     value: value,
   });
+  const { htmlFor, ...labelProps } = getLabelProps();
   const showDropdown = isOpen && inputItems.length > 0;
 
   return (
     <InputWrapper
-      {...getLabelProps()}
-      id={inputId}
       className={classNames(styles.wrapper, className)}
       helperText={invalidText || helperText}
       invalid={!!invalidText}
       labelText={labelText}
+      {...labelProps}
+      id={htmlFor}
+      labelId={labelProps.id}
     >
       <div {...getComboboxProps()}>
-        <input {...inputProps} id={inputId} />
+        <input id={inputId} {...inputProps} />
       </div>
       <ul
         {...getMenuProps({
