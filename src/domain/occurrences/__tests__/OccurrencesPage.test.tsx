@@ -57,7 +57,10 @@ const apolloMocks: MockedResponse[] = [
         event: {
           ...eventMock,
           pEvent: fakePEvent({
-            occurrences: fakeOccurrences(5, fakeOccurrenceOverrides),
+            occurrences: fakeOccurrences(
+              fakeOccurrenceOverrides.length,
+              fakeOccurrenceOverrides
+            ),
           }),
         },
       },
