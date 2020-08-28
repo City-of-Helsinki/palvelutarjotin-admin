@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedProvider } from '@apollo/react-testing';
-import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
@@ -18,18 +18,14 @@ import {
   MyProfileDocument,
   PlaceDocument,
 } from '../../../generated/graphql';
+import { render, screen, waitFor, within } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
-import { store } from '../../app/store';
 import EditEventPage from '../EditEventPage';
 
 beforeEach(() => {
   jest.spyOn(Router, 'useParams').mockReturnValue({
     id: '123',
   });
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
-  jest
-    .spyOn(Router, 'useLocation')
-    .mockReturnValue({ pathname: '/', search: '', state: '', hash: '' });
 });
 
 const keywordMockResponse = {
@@ -114,6 +110,7 @@ const mocks = [
             neededOccurrences: 3,
           },
           organisationId: 'T3JnYW5pc2F0aW9uTm9kZTox',
+          draft: false,
         },
       },
     },
@@ -174,13 +171,7 @@ test('edit event form initializes and submits correctly', async () => {
   jest
     .spyOn(apolloClient, 'query')
     .mockResolvedValueOnce(venueQueryResponseMock as any);
-  render(
-    <Provider store={store}>
-      <MockedProvider mocks={mocks}>
-        <EditEventPage />
-      </MockedProvider>
-    </Provider>
-  );
+  render(<EditEventPage />, { mocks });
 
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
 

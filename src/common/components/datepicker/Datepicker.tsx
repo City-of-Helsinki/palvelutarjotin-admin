@@ -44,6 +44,7 @@ export type DatepickerProps = {
   value: Date | null;
   timeSelector?: boolean;
   minuteInterval?: number;
+  hideLabel?: boolean;
 };
 
 const Datepicker: React.FC<DatepickerProps> = ({
@@ -57,6 +58,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   onBlur,
   timeSelector,
   minuteInterval,
+  hideLabel,
 }) => {
   const [times] = useState(() =>
     getTimeObjects(minuteInterval || MINUTE_INTERVAL)
@@ -176,7 +178,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const ensureCalendarIsClosed = React.useCallback(() => {
     if (isCalendarOpen) {
       setIsCalendarOpen(false);
-      onBlur();
+      onBlur && onBlur();
     }
   }, [isCalendarOpen, onBlur]);
 
@@ -227,7 +229,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     handleChange(dateValue);
 
     if (!isCalendarOpen) {
-      setTimeout(() => onBlur());
+      setTimeout(() => onBlur && onBlur());
     }
   };
 
@@ -311,6 +313,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
           helperText={invalidText || helperText}
           invalid={!!invalidText}
           labelText={labelText}
+          hideLabel={hideLabel}
           hasIcon
         >
           <input

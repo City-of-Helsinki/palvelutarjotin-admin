@@ -35,12 +35,10 @@ const EventLocation: React.FC<Props> = ({ eventData, language }) => {
           <p>{[name, streetAddress].filter((item) => item).join(', ')}</p>
         </>
       )}
-      {!!id && (
-        <>
-          <div className={styles.placeInfoWrapper}>
-            <PlaceInfo id={id || ''} language={language} showVenueInfo={true} />
-          </div>
-        </>
+      {id && (
+        <div className={styles.placeInfoWrapper}>
+          <PlaceInfo id={id} language={language} showVenueInfo={true} />
+        </div>
       )}
     </div>
   );

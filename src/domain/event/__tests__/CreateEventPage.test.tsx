@@ -1,17 +1,9 @@
-import { MockedProvider } from '@apollo/react-testing';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from '@testing-library/react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Modal from 'react-modal';
-import { Provider } from 'react-redux';
 import Router from 'react-router';
 
 import addEventResponse from '../__mocks__/addEventResponse.json';
@@ -33,16 +25,15 @@ import {
   PlacesDocument,
   UploadSingleImageDocument,
 } from '../../../generated/graphql';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
-import { store } from '../../app/store';
 import CreateEventPage from '../CreateEventPage';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
-  jest
-    .spyOn(Router, 'useLocation')
-    .mockReturnValue({ pathname: '/', search: '', state: '', hash: '' });
-});
 
 const eventFormData = {
   name: 'Testitapahtuma',
@@ -165,13 +156,7 @@ const mocks = [
 ];
 
 test('is accessible', async () => {
-  const { container } = render(
-    <Provider store={store}>
-      <MockedProvider mocks={mocks}>
-        <CreateEventPage />
-      </MockedProvider>
-    </Provider>
-  );
+  const { container } = render(<CreateEventPage />, { mocks });
 
   await waitFor(() => {
     expect(
@@ -185,13 +170,7 @@ test('is accessible', async () => {
 
 test('modal opens when trying to change language', async () => {
   advanceTo(new Date(2020, 7, 8));
-  const { container } = render(
-    <Provider store={store}>
-      <MockedProvider mocks={mocks}>
-        <CreateEventPage />
-      </MockedProvider>
-    </Provider>
-  );
+  const { container } = render(<CreateEventPage />, { mocks });
 
   Modal.setAppElement(container);
 
@@ -234,13 +213,7 @@ test('form works correctly when edited', async () => {
   jest.spyOn(Router, 'useHistory').mockReturnValue({
     push: pushMock,
   } as any);
-  const { container } = render(
-    <Provider store={store}>
-      <MockedProvider mocks={mocks}>
-        <CreateEventPage />
-      </MockedProvider>
-    </Provider>
-  );
+  const { container } = render(<CreateEventPage />, { mocks });
 
   Modal.setAppElement(container);
 
@@ -315,11 +288,11 @@ test('form works correctly when edited', async () => {
     screen.getByLabelText(/tapahtuman kesto/i),
     eventFormData.duration
   );
-  userEvent.type(
-    screen.getByLabelText(/ilmoittautuminen alkaa/i),
-    eventFormData.enrolmentStart,
-    { allAtOnce: true }
+  const enrolmentStartsAtInput = screen.getByLabelText(
+    /ilmoittautuminen alkaa/i
   );
+  userEvent.click(enrolmentStartsAtInput);
+  userEvent.type(enrolmentStartsAtInput, eventFormData.enrolmentStart);
   userEvent.type(
     screen.getByLabelText(/ilmoittautuminen sulkeutuu/i),
     eventFormData.enrolmentEndDays

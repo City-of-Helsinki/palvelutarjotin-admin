@@ -1,4 +1,3 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { advanceTo, clear } from 'jest-date-mock';
@@ -6,11 +5,8 @@ import React from 'react';
 import Router from 'react-router';
 
 import eventData from '../__mocks__/eventData.json';
+import { render, screen } from '../../../../utils/testUtils';
 import EventDetailsButtons from '../EventDetailsButtons';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
-});
 
 afterAll(() => {
   clear();
@@ -37,12 +33,9 @@ test('is accessible and matches snapshot', async () => {
 
 test('it renders correct texts and click events work', () => {
   advanceTo(new Date(2020, 6, 10));
-  const pushMock = jest.fn();
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
+
   const clickLanguageMock = jest.fn();
-  render(
+  const { history } = render(
     <EventDetailsButtons
       eventData={eventData as any}
       onClickLanguage={clickLanguageMock}
@@ -50,17 +43,19 @@ test('it renders correct texts and click events work', () => {
     />
   );
 
+  const pushSpy = jest.spyOn(history, 'push');
+
   const backButton = screen.getByRole('button', { name: 'Tapahtumat' });
   userEvent.click(backButton);
 
-  expect(pushMock).toHaveBeenCalledTimes(1);
-  expect(pushMock).toHaveBeenCalledWith('/');
+  expect(pushSpy).toHaveBeenCalledTimes(1);
+  expect(pushSpy).toHaveBeenCalledWith('/');
 
   const editButton = screen.getByRole('button', { name: 'Muokkaa tapahtumaa' });
   userEvent.click(editButton);
 
-  expect(pushMock).toHaveBeenCalledTimes(2);
-  expect(pushMock).toHaveBeenCalledWith({
+  expect(pushSpy).toHaveBeenCalledTimes(2);
+  expect(pushSpy).toHaveBeenCalledWith({
     pathname: '/fi/events/palvelutarjotin:afzunowba4/edit',
     search: '?language=fi',
   });

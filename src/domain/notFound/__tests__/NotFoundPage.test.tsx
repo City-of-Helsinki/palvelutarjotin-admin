@@ -1,15 +1,10 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import React from 'react';
-import Router from 'react-router';
 
+import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import NotFoundPage from '../NotFoundPage';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
-});
 
 test('it matches snapshot', async () => {
   const { container } = render(<NotFoundPage />);
@@ -20,11 +15,8 @@ test('it matches snapshot', async () => {
 });
 
 test('it renders correct texts and handle back button click', () => {
-  const pushMock = jest.fn();
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
-  render(<NotFoundPage />);
+  const { history } = render(<NotFoundPage />);
+  const pushSpy = jest.spyOn(history, 'push');
 
   expect(
     screen.queryByRole('heading', { name: 'Etsimääsi sivua ei löytynyt' })
@@ -38,6 +30,6 @@ test('it renders correct texts and handle back button click', () => {
 
   userEvent.click(returnHomeButton);
 
-  expect(pushMock).toHaveBeenCalledTimes(1);
-  expect(pushMock).toHaveBeenCalledWith('/fi');
+  expect(pushSpy).toHaveBeenCalledTimes(1);
+  expect(pushSpy).toHaveBeenCalledWith('/fi');
 });

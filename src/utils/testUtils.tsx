@@ -1,11 +1,12 @@
 import { MockedProvider, MockedResponse } from '@apollo/react-testing';
+import { AnyAction, Store } from '@reduxjs/toolkit';
 import { fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 
-import { store } from '../domain/app/store';
+import { store as reduxStore } from '../domain/app/store';
 
 export const arrowUpKeyPressHelper = () =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
@@ -25,6 +26,7 @@ const customRender: CustomRender = (
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
     mocks = [],
+    store = reduxStore,
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
@@ -45,6 +47,7 @@ const renderWithRoute: CustomRender = (
     routes = ['/'],
     path = '/',
     history = createMemoryHistory({ initialEntries: routes }),
+    store = reduxStore,
     mocks = [],
   } = {}
 ) => {
@@ -72,13 +75,14 @@ type CustomRender = {
       path?: string;
       history?: History;
       mocks?: MockedResponse[];
+      store?: Store<any, AnyAction>;
     }
   ): CustomRenderResult;
 };
 
 type CustomRenderResult = RenderResult & { history: History };
 
-export { customRender as render, renderWithRoute };
+export { customRender as render, renderWithRoute, reduxStore };
 
 // re-export everything
 export * from '@testing-library/react';
