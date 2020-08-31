@@ -44,22 +44,30 @@ export const QUERY_ENROLMENT = gql`
     }
   }
 
-  query EmailTemplates {
-    notificationTemplates {
-      edges {
-        node {
-          id
-          type
-          translations {
-            languageCode
-            subject
-            bodyHtml
-            bodyText
-            preview
-          }
+  query notificationTemplate(
+    $templateType: NotificationTemplateType
+    $context: JSONString!
+    $language: Language!
+  ) {
+    notificationTemplate(
+      templateType: $templateType
+      context: $context
+      language: $language
+    ) {
+      template {
+        id
+        type
+        translations {
+          languageCode
+          subject
+          bodyHtml
+          bodyText
           preview
         }
+        preview
       }
+      customContextPreviewHtml
+      customContextPreviewText
     }
   }
 `;

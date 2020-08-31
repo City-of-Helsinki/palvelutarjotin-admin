@@ -63,6 +63,27 @@ exports[`matches snapshot 1`] = `
           Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.
         </div>
         <div
+          class="addNoteSection"
+        >
+          <div
+            class="Checkbox-module_checkbox__3L0GR checkbox_hds-checkbox__9HMCz noteCheckbox"
+          >
+            <input
+              aria-checked="false"
+              class="Checkbox-module_input__3VZvy checkbox_hds-checkbox__input__1w0pu"
+              id="add-note"
+              type="checkbox"
+              value=""
+            />
+            <label
+              class="Checkbox-module_label__L5AN1 checkbox_hds-checkbox__label__3HoD3"
+              for="add-note"
+            >
+              Lisää viesti
+            </label>
+          </div>
+        </div>
+        <div
           class="buttonsContainer"
         >
           <button

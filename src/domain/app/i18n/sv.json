@@ -160,7 +160,8 @@
       "messageToParticipants": "Meddelande till deltagarna",
       "sendConfirmationMessage": "Skicka bekräftelse",
       "sendCancelMessage": "Skicka",
-      "preview": "Förhandsvisning"
+      "preview": "Förhandsvisning",
+      "previewError": "Fel vid inläsning av förhandsgranskning"
     },
     "enrolmentDetails": {
       "buttonApproveEnrolment": "Godkänn registrering",

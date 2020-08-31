@@ -161,7 +161,8 @@
       "messageToParticipants": "Viesti osallistujille",
       "sendConfirmationMessage": "Lähetä vahvistusviesti",
       "sendCancelMessage": "Lähetä",
-      "preview": "Esikatselu"
+      "preview": "Esikatselu",
+      "previewError": "Esikatselun lataus epäonnistui"
     },
     "enrolmentDetails": {
       "buttonApproveEnrolment": "Hyväksy ilmoittautuminen",

@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
+import { render, screen } from '../../../../../utils/testUtils';
 import DeleteEnrolmentModal from '../DeleteEnrolmentModal';
 
 it('matches snapshot', () => {

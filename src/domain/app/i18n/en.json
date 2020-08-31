@@ -177,7 +177,8 @@
       "messageToParticipants": "Message to participants",
       "sendConfirmationMessage": "Send confirmation message",
       "sendCancelMessage": "Send",
-      "preview": "Preview"
+      "preview": "Preview",
+      "previewError": "Error loading preview"
     },
     "enrolmentDetails": {
       "buttonApproveEnrolment": "Approve enrolment",
