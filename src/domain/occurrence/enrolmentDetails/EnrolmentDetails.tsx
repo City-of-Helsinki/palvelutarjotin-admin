@@ -172,6 +172,10 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
     );
   };
 
+  const enrollees = enrolment?.person
+    ? [{ personName: enrolment.person.name }]
+    : [];
+
   return (
     <LoadingSpinner isLoading={loadingEnrolment}>
       {enrolment ? (
@@ -199,7 +203,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                 isOpen={approveModalOpen}
                 onClose={() => setApproveModalOpen(false)}
                 // TODO: Will there be a way to approve many at the same time?
-                enrollees={enrolment.person ? [enrolment?.person] : undefined}
+                enrollees={enrollees}
                 approveEnrolment={handleApproveEnrolment}
                 loading={loadingApproveEnrolment}
               />
@@ -208,7 +212,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                 isOpen={declineModalOpen}
                 onClose={() => setDeclineModalOpen(false)}
                 // TODO: Will there be a way to decline many at the same time?
-                enrollees={enrolment.person ? [enrolment?.person] : undefined}
+                enrollees={enrollees}
                 declineEnrolment={handleDeclineEnrolment}
                 loading={loadingDeclineEnrolment}
               />

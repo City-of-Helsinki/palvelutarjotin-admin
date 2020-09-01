@@ -469,7 +469,8 @@
     "actionsDropdown": {
       "menuItemDelete": "Poista",
       "menuItemEdit": "Muokkaa",
-      "menuItemEnrolments": "Ilmoittautuneet"
+      "menuItemEnrolments": "Ilmoittautuneet",
+      "menuItemCancel": "Peruuta"
     },
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
@@ -483,6 +484,12 @@
       "text2": "Poistettua tapahtuma-aikaa ei voi palauttaa.",
       "title": "Poista tapahtuma-aika"
     },
+    "cancelModal": {
+      "title": "Cancel occurrence",
+      "note1": "Oletko varma, että haluat poistaa valitun tapahtuma-ajan?",
+      "note2": "Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti"
+    },
+    "cancelError": "Tapahtuma-ajan peruminen epäonnistui",
     "pageTitle": "Tapahtuma-ajat",
     "table": {
       "columnActions": "Toiminnot",

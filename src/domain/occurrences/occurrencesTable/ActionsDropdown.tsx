@@ -1,4 +1,4 @@
-import { IconCrossCircle, IconPenLine, IconUser } from 'hds-react';
+import { IconCross, IconCrossCircle, IconPenLine, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -11,18 +11,26 @@ import { OccurrenceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { ROUTES } from '../../app/routes/constants';
 import styles from './actionsDropdown.module.scss';
+import CancelOccurrenceModal from './CancelOccurrenceModal';
 
 interface Props {
   eventId: string;
   onDelete: (row: OccurrenceFieldsFragment) => void;
+  onCancel: (row: OccurrenceFieldsFragment, message?: string) => void;
   row: OccurrenceFieldsFragment;
 }
 
-const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
+const ActionsDropdown: React.FC<Props> = ({
+  eventId,
+  onDelete,
+  onCancel,
+  row,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = React.useState(false);
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -49,9 +57,18 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
     setIsModalOpen(true);
   };
 
+  const openCancelModal = () => {
+    setIsCancelModalOpen(true);
+  };
+
   const handleDelete = () => {
     onDelete(row);
     toggleModal();
+  };
+
+  const handleCancel = (row: OccurrenceFieldsFragment, message?: string) => {
+    onCancel(row, message);
+    setIsCancelModalOpen(false);
   };
 
   const items: MenuItemProps[] = [
@@ -72,6 +89,15 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
         </>
       ),
       onClick: goToEditOccurrencePage,
+    },
+    {
+      onClick: openCancelModal,
+      children: (
+        <>
+          <IconCross className={styles.iconDelete} />
+          {t('occurrences.actionsDropdown.menuItemCancel')}
+        </>
+      ),
     },
     {
       onClick: openDeleteModal,
@@ -96,6 +122,12 @@ const ActionsDropdown: React.FC<Props> = ({ eventId, onDelete, row }) => {
         <p>{t('occurrences.deleteModal.text1')}</p>
         <p>{t('occurrences.deleteModal.text2')}</p>
       </AlertModal>
+      <CancelOccurrenceModal
+        occurrenceId={row.id}
+        isOpen={isCancelModalOpen}
+        onClose={() => setIsCancelModalOpen(false)}
+        cancelOccurrence={(message) => handleCancel(row, message)}
+      />
       <TableDropdown items={items} row={row} />
     </div>
   );

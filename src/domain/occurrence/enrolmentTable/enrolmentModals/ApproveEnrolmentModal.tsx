@@ -4,19 +4,18 @@ import { useTranslation } from 'react-i18next';
 import EmailPreview from '../../../../common/components/emailPreview/EmailPreview';
 import {
   NotificationTemplateType,
-  PersonFieldsFragment,
   useEnrolmentTemplateContextQuery,
   useEventNameQuery,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
-import EnrolmentModal from './EnrolmentModal';
+import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
 import { getEnrolmentTemplateContextJSON } from './utils';
 
 interface ApproveModalProps {
   isOpen: boolean;
   onClose: () => void;
   approveEnrolment: (message: string) => void;
-  enrollees?: PersonFieldsFragment[];
+  enrollees?: EnrolleeProps[];
   // appElement for testing purposes
   appElement?: HTMLElement;
   loading?: boolean;

@@ -2328,6 +2328,19 @@ export type DeleteOccurrenceMutation = (
   )> }
 );
 
+export type CancelOccurrenceMutationVariables = {
+  input: CancelOccurrenceMutationInput;
+};
+
+
+export type CancelOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { cancelOccurrence?: Maybe<(
+    { __typename?: 'CancelOccurrenceMutationPayload' }
+    & Pick<CancelOccurrenceMutationPayload, 'clientMutationId'>
+  )> }
+);
+
 export type OccurrencesQueryVariables = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -4174,6 +4187,51 @@ export function useDeleteOccurrenceMutation(baseOptions?: ApolloReactHooks.Mutat
 export type DeleteOccurrenceMutationHookResult = ReturnType<typeof useDeleteOccurrenceMutation>;
 export type DeleteOccurrenceMutationResult = ApolloReactCommon.MutationResult<DeleteOccurrenceMutation>;
 export type DeleteOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteOccurrenceMutation, DeleteOccurrenceMutationVariables>;
+export const CancelOccurrenceDocument = gql`
+    mutation CancelOccurrence($input: CancelOccurrenceMutationInput!) {
+  cancelOccurrence(input: $input) {
+    clientMutationId
+  }
+}
+    `;
+export type CancelOccurrenceMutationFn = ApolloReactCommon.MutationFunction<CancelOccurrenceMutation, CancelOccurrenceMutationVariables>;
+export type CancelOccurrenceProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<CancelOccurrenceMutation, CancelOccurrenceMutationVariables>
+    } & TChildProps;
+export function withCancelOccurrence<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CancelOccurrenceMutation,
+  CancelOccurrenceMutationVariables,
+  CancelOccurrenceProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, CancelOccurrenceMutation, CancelOccurrenceMutationVariables, CancelOccurrenceProps<TChildProps, TDataName>>(CancelOccurrenceDocument, {
+      alias: 'cancelOccurrence',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCancelOccurrenceMutation__
+ *
+ * To run a mutation, you first call `useCancelOccurrenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelOccurrenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelOccurrenceMutation, { data, loading, error }] = useCancelOccurrenceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCancelOccurrenceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CancelOccurrenceMutation, CancelOccurrenceMutationVariables>) {
+        return ApolloReactHooks.useMutation<CancelOccurrenceMutation, CancelOccurrenceMutationVariables>(CancelOccurrenceDocument, baseOptions);
+      }
+export type CancelOccurrenceMutationHookResult = ReturnType<typeof useCancelOccurrenceMutation>;
+export type CancelOccurrenceMutationResult = ApolloReactCommon.MutationResult<CancelOccurrenceMutation>;
+export type CancelOccurrenceMutationOptions = ApolloReactCommon.BaseMutationOptions<CancelOccurrenceMutation, CancelOccurrenceMutationVariables>;
 export const OccurrencesDocument = gql`
     query Occurrences($after: String, $before: String, $first: Int, $last: Int) {
   occurrences(after: $after, before: $before, first: $first, last: $last) {

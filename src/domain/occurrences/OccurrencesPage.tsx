@@ -10,6 +10,7 @@ import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   OccurrenceFieldsFragment,
+  useCancelOccurrenceMutation,
   useDeleteOccurrenceMutation,
   useEventQuery,
   usePublishSingleEventMutation,
@@ -47,6 +48,7 @@ const OccurrencesPage: React.FC = () => {
     }
   );
   const [publishEvent] = usePublishSingleEventMutation();
+  const [cancelOccurrence] = useCancelOccurrenceMutation();
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
@@ -82,6 +84,22 @@ const OccurrencesPage: React.FC = () => {
       refetchEventData();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
+  };
+
+  const handleCancelOccurrence = async (
+    occurrence: OccurrenceFieldsFragment,
+    message?: string
+  ) => {
+    try {
+      await cancelOccurrence({
+        variables: { input: { id: occurrence.id, reason: message } },
+      });
+      refetchEventData();
+    } catch (e) {
+      toast(t('occurrences.cancelError'), {
         type: toast.TYPE.ERROR,
       });
     }
@@ -191,6 +209,7 @@ const OccurrencesPage: React.FC = () => {
                     id="coming-occurrences"
                     occurrences={comingOccurrences}
                     onDelete={handleDeleteOccurrence}
+                    onCancel={handleCancelOccurrence}
                   />
                 ) : (
                   <div>{t('occurrences.textNoComingOccurrences')}</div>
@@ -215,6 +234,7 @@ const OccurrencesPage: React.FC = () => {
                           : pastOccurrences.slice(0, PAST_OCCURRENCE_AMOUNT)
                       }
                       onDelete={handleDeleteOccurrence}
+                      onCancel={handleCancelOccurrence}
                     />
                     {!showAllPastEvents &&
                       pastOccurrences.length > PAST_OCCURRENCE_AMOUNT && (
