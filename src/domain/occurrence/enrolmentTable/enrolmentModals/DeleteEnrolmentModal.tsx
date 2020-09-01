@@ -1,11 +1,8 @@
-import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PersonFieldsFragment } from '../../../../generated/graphql';
-import EnrolleesList from './EnrolleesList';
 import EnrolmentModal from './EnrolmentModal';
-import styles from './enrolmentModals.module.scss';
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -31,19 +28,11 @@ const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
       onClose={onClose}
       title={t('enrolment.enrolmentModal.deleteEnrolment')}
       appElement={appElement}
-    >
-      <EnrolleesList enrollees={enrollees} />
-      <div className={styles.buttonsContainer}>
-        <Button variant="secondary" onClick={onClose}>
-          {t('enrolment.enrolmentModal.cancelEnrolment')}
-        </Button>
-        <div className={styles.buttonsRight}>
-          <Button variant="danger" onClick={deleteEnrolment} disabled={loading}>
-            {t('enrolment.enrolmentModal.deleteEnrolment')}
-          </Button>
-        </div>
-      </div>
-    </EnrolmentModal>
+      submitButtonText={t('enrolment.enrolmentModal.deleteEnrolment')}
+      handleSubmit={deleteEnrolment}
+      enrollees={enrollees}
+      submitting={loading}
+    />
   );
 };
 

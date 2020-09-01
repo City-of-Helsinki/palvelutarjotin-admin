@@ -108,12 +108,16 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
     },
   });
 
-  const handleApproveEnrolment = async () => {
-    approveEnrolment({ variables: { input: { enrolmentId } } });
+  const handleApproveEnrolment = async (message?: string) => {
+    approveEnrolment({
+      variables: { input: { enrolmentId, customMessage: message } },
+    });
   };
 
-  const handleDeclineEnrolment = () => {
-    declineEnrolment({ variables: { input: { enrolmentId } } });
+  const handleDeclineEnrolment = (message?: string) => {
+    declineEnrolment({
+      variables: { input: { enrolmentId, customMessage: message } },
+    });
   };
 
   const handleDeleteEnrolment = async () => {
@@ -191,6 +195,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                 </span>
               </div>
               <ApproveEnrolmentModal
+                enrolmentId={enrolmentId}
                 isOpen={approveModalOpen}
                 onClose={() => setApproveModalOpen(false)}
                 // TODO: Will there be a way to approve many at the same time?
@@ -199,6 +204,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                 loading={loadingApproveEnrolment}
               />
               <DeclineEnrolmentModal
+                enrolmentId={enrolmentId}
                 isOpen={declineModalOpen}
                 onClose={() => setDeclineModalOpen(false)}
                 // TODO: Will there be a way to decline many at the same time?

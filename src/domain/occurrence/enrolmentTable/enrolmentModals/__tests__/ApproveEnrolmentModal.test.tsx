@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import persons from '../__mocks__/persons';
 import messages from '../../../../../domain/app/i18n/fi.json';
 import { PersonFieldsFragment } from '../../../../../generated/graphql';
+import { render, screen } from '../../../../../utils/testUtils';
 import ApproveEnrolmentModal from '../ApproveEnrolmentModal';
 
 it('matches snapshot', () => {

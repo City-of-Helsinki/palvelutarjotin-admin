@@ -1,20 +1,26 @@
-import { Button, Checkbox, TextArea } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { PersonFieldsFragment } from '../../../../generated/graphql';
-import EnrolleesList from './EnrolleesList';
+import EmailPreview from '../../../../common/components/emailPreview/EmailPreview';
+import {
+  NotificationTemplateType,
+  PersonFieldsFragment,
+  useEnrolmentTemplateContextQuery,
+  useEventNameQuery,
+} from '../../../../generated/graphql';
+import useLocale from '../../../../hooks/useLocale';
 import EnrolmentModal from './EnrolmentModal';
-import styles from './enrolmentModals.module.scss';
+import { getEnrolmentTemplateContextJSON } from './utils';
 
 interface ApproveModalProps {
   isOpen: boolean;
   onClose: () => void;
-  approveEnrolment: () => void;
+  approveEnrolment: (message: string) => void;
   enrollees?: PersonFieldsFragment[];
-  // for testing purposes
+  // appElement for testing purposes
   appElement?: HTMLElement;
   loading?: boolean;
+  enrolmentId: string;
 }
 
 const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -22,16 +28,33 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
   onClose,
   approveEnrolment,
   enrollees,
-  loading = false,
   appElement,
+  enrolmentId,
+  loading = false,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const [messageText, setMessageText] = React.useState('');
-  const [showMessageTextArea, setShowMessageTextArea] = React.useState(false);
+  const [showPreview, setShowPreview] = React.useState(false);
 
-  const handlePreview = () => {
-    alert('TODO: handle preview');
-  };
+  const { data: templateContextData } = useEnrolmentTemplateContextQuery({
+    variables: { enrolmentId },
+  });
+  const linkedEventId =
+    templateContextData?.enrolment?.occurrence?.pEvent?.linkedEventId || '';
+  const { data: eventData } = useEventNameQuery({
+    variables: {
+      id: linkedEventId,
+    },
+    skip: !linkedEventId,
+  });
+
+  const emailTemplateContextJSON = getEnrolmentTemplateContextJSON(
+    templateContextData,
+    eventData,
+    messageText,
+    locale
+  );
 
   return (
     <EnrolmentModal
@@ -39,48 +62,27 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
       onClose={onClose}
       title={t('enrolment.enrolmentModal.approveEnrolment')}
       appElement={appElement}
-    >
-      <div className={styles.infoNoteSuccess}>
-        {t('enrolment.enrolmentModal.approveEnrolmentNote')}
-      </div>
-      <EnrolleesList enrollees={enrollees} />
-      <div className={styles.addNoteSection}>
-        <Checkbox
-          className={styles.noteCheckbox}
-          onChange={() => setShowMessageTextArea(!showMessageTextArea)}
-          checked={showMessageTextArea}
-          id="add-note"
-          label={t('enrolment.enrolmentModal.addMessage')}
-        />
-        {showMessageTextArea && (
-          <TextArea
-            className={styles.noteTextArea}
-            value={messageText}
-            id="note-text-area"
-            label={t('enrolment.enrolmentModal.messageToParticipants')}
-            onChange={(e) => setMessageText(e.target.value)}
+      enrollees={enrollees}
+      noteType="success"
+      submitting={loading}
+      noteSection
+      noteText={t('enrolment.enrolmentModal.approveEnrolmentNote')}
+      submitButtonText={t('enrolment.enrolmentModal.sendConfirmationMessage')}
+      handleSubmit={() => approveEnrolment(messageText)}
+      handlePreviewClick={() => setShowPreview((p) => !p)}
+      onMessageTextChange={(message) => setMessageText(message)}
+      messageText={messageText}
+      showPreviewButton
+      preview={
+        showPreview ? (
+          <EmailPreview
+            context={emailTemplateContextJSON}
+            templateType={NotificationTemplateType.EnrolmentApproved}
+            onClose={() => setShowPreview(false)}
           />
-        )}
-      </div>
-      <div className={styles.buttonsContainer}>
-        <Button variant="secondary" onClick={onClose}>
-          {t('enrolment.enrolmentModal.cancelEnrolment')}
-        </Button>
-        <div className={styles.buttonsRight}>
-          {/* TODO: preview functionality */}
-          <Button variant="supplementary" onClick={handlePreview}>
-            {t('enrolment.enrolmentModal.preview')}
-          </Button>
-          <Button
-            variant="primary"
-            onClick={approveEnrolment}
-            disabled={loading}
-          >
-            {t('enrolment.enrolmentModal.sendConfirmationMessage')}
-          </Button>
-        </div>
-      </div>
-    </EnrolmentModal>
+        ) : null
+      }
+    />
   );
 };
 

@@ -29,6 +29,13 @@ export type Scalars = {
    */
   Time: any;
   /**
+   * Allows use of a JSON String for input / output from the GraphQL schema.
+   * 
+   * Use of this type is *not recommended* as you lose the benefits of having a defined, static
+   * schema (one of the key benefits of GraphQL).
+   */
+  JSONString: any;
+  /**
    * Create scalar that ignores normal serialization/deserialization, since
    * that will be handled by the multipart request spec
    */
@@ -66,7 +73,7 @@ export type Query = {
   keyword?: Maybe<Keyword>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
-  notificationTemplates?: Maybe<NotificationTemplateNodeConnection>;
+  notificationTemplate?: Maybe<NotificationTemplateWithContext>;
 };
 
 
@@ -230,11 +237,10 @@ export type QueryPlacesSearchArgs = {
 };
 
 
-export type QueryNotificationTemplatesArgs = {
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
+export type QueryNotificationTemplateArgs = {
+  templateType?: Maybe<NotificationTemplateType>;
+  context: Scalars['JSONString'];
+  language: Language;
 };
 
 export type OccurrenceNodeConnection = {
@@ -284,6 +290,7 @@ export type OccurrenceNode = Node & {
   autoAcceptance: Scalars['Boolean'];
   amountOfSeats: Scalars['Int'];
   languages: Array<LanguageType>;
+  cancelled: Scalars['Boolean'];
   enrolments: EnrolmentNodeConnection;
   remainingSeats?: Maybe<Scalars['Int']>;
   seatsTaken?: Maybe<Scalars['Int']>;
@@ -336,6 +343,8 @@ export type PalvelutarjotinEventNode = Node & {
   contactPhoneNumber: Scalars['String'];
   contactEmail: Scalars['String'];
   occurrences: OccurrenceNodeConnection;
+  nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
+  lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
 };
 
 
@@ -897,21 +906,11 @@ export type PlaceSearchListResponse = {
   data: Array<Place>;
 };
 
-export type NotificationTemplateNodeConnection = {
-   __typename?: 'NotificationTemplateNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<NotificationTemplateNodeEdge>>;
-};
-
-/** A Relay edge containing a `NotificationTemplateNode` and its cursor. */
-export type NotificationTemplateNodeEdge = {
-   __typename?: 'NotificationTemplateNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<NotificationTemplateNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
+export type NotificationTemplateWithContext = {
+   __typename?: 'NotificationTemplateWithContext';
+  template?: Maybe<NotificationTemplateNode>;
+  customContextPreviewHtml?: Maybe<Scalars['String']>;
+  customContextPreviewText?: Maybe<Scalars['String']>;
 };
 
 export type NotificationTemplateNode = Node & {
@@ -939,11 +938,27 @@ export enum NotificationTemplateLanguage {
   Sv = 'SV'
 }
 
+/** An enumeration. */
+export enum NotificationTemplateType {
+  OccurrenceEnrolment = 'OCCURRENCE_ENROLMENT',
+  OccurrenceUnenrolment = 'OCCURRENCE_UNENROLMENT',
+  EnrolmentApproved = 'ENROLMENT_APPROVED',
+  EnrolmentDeclined = 'ENROLMENT_DECLINED',
+  OccurrenceEnrolmentSms = 'OCCURRENCE_ENROLMENT_SMS',
+  OccurrenceUnenrolmentSms = 'OCCURRENCE_UNENROLMENT_SMS',
+  EnrolmentApprovedSms = 'ENROLMENT_APPROVED_SMS',
+  EnrolmentDeclinedSms = 'ENROLMENT_DECLINED_SMS',
+  OccurrenceCancelled = 'OCCURRENCE_CANCELLED',
+  OccurrenceCancelledSms = 'OCCURRENCE_CANCELLED_SMS'
+}
+
+
 export type Mutation = {
    __typename?: 'Mutation';
   addOccurrence?: Maybe<AddOccurrenceMutationPayload>;
   updateOccurrence?: Maybe<UpdateOccurrenceMutationPayload>;
   deleteOccurrence?: Maybe<DeleteOccurrenceMutationPayload>;
+  cancelOccurrence?: Maybe<CancelOccurrenceMutationPayload>;
   addVenue?: Maybe<AddVenueMutationPayload>;
   updateVenue?: Maybe<UpdateVenueMutationPayload>;
   deleteVenue?: Maybe<DeleteVenueMutationPayload>;
@@ -986,6 +1001,11 @@ export type MutationUpdateOccurrenceArgs = {
 
 export type MutationDeleteOccurrenceArgs = {
   input: DeleteOccurrenceMutationInput;
+};
+
+
+export type MutationCancelOccurrenceArgs = {
+  input: CancelOccurrenceMutationInput;
 };
 
 
@@ -1166,6 +1186,18 @@ export type DeleteOccurrenceMutationPayload = {
 
 export type DeleteOccurrenceMutationInput = {
   id: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CancelOccurrenceMutationPayload = {
+   __typename?: 'CancelOccurrenceMutationPayload';
+  occurrence?: Maybe<OccurrenceNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CancelOccurrenceMutationInput = {
+  id: Scalars['ID'];
+  reason?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1435,6 +1467,7 @@ export type EventMutationResponse = {
    __typename?: 'EventMutationResponse';
   statusCode: Scalars['Int'];
   body?: Maybe<Event>;
+  resultText?: Maybe<Scalars['String']>;
 };
 
 export type AddEventMutationInput = {
@@ -1590,6 +1623,7 @@ export type ImageMutationResponse = {
    __typename?: 'ImageMutationResponse';
   statusCode: Scalars['Int'];
   body?: Maybe<Image>;
+  resultText?: Maybe<Scalars['String']>;
 };
 
 export type UploadImageMutationInput = {
@@ -1623,6 +1657,51 @@ export type DeleteImageMutation = {
    __typename?: 'DeleteImageMutation';
   response?: Maybe<ImageMutationResponse>;
 };
+
+export type EnrolmentTemplateContextQueryVariables = {
+  enrolmentId: Scalars['ID'];
+};
+
+
+export type EnrolmentTemplateContextQuery = (
+  { __typename?: 'Query' }
+  & { enrolment?: Maybe<(
+    { __typename?: 'EnrolmentNode' }
+    & Pick<EnrolmentNode, 'id'>
+    & { studyGroup: (
+      { __typename?: 'StudyGroupNode' }
+      & Pick<StudyGroupNode, 'id' | 'name'>
+      & { person: (
+        { __typename?: 'PersonNode' }
+        & Pick<PersonNode, 'id' | 'emailAddress'>
+      ) }
+    ), occurrence: (
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id' | 'startTime'>
+      & { pEvent?: Maybe<(
+        { __typename?: 'PalvelutarjotinEventNode' }
+        & Pick<PalvelutarjotinEventNode, 'id' | 'linkedEventId'>
+      )> }
+    ) }
+  )> }
+);
+
+export type EventNameQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type EventNameQuery = (
+  { __typename?: 'Query' }
+  & { event?: Maybe<(
+    { __typename?: 'Event' }
+    & Pick<Event, 'id'>
+    & { name: (
+      { __typename?: 'LocalisedObject' }
+      & LocalisedFieldsFragment
+    ) }
+  )> }
+);
 
 export type ApproveEnrolmentMutationVariables = {
   input: ApproveEnrolmentMutationInput;
@@ -1738,6 +1817,29 @@ export type EnrolmentQuery = (
       )> }
     ) }
     & EnrolmentFieldsFragment
+  )> }
+);
+
+export type NotificationTemplateQueryVariables = {
+  templateType?: Maybe<NotificationTemplateType>;
+  context: Scalars['JSONString'];
+  language: Language;
+};
+
+
+export type NotificationTemplateQuery = (
+  { __typename?: 'Query' }
+  & { notificationTemplate?: Maybe<(
+    { __typename?: 'NotificationTemplateWithContext' }
+    & Pick<NotificationTemplateWithContext, 'customContextPreviewHtml' | 'customContextPreviewText'>
+    & { template?: Maybe<(
+      { __typename?: 'NotificationTemplateNode' }
+      & Pick<NotificationTemplateNode, 'id' | 'type' | 'preview'>
+      & { translations: Array<Maybe<(
+        { __typename?: 'NotificationTranslationType' }
+        & Pick<NotificationTranslationType, 'languageCode' | 'subject' | 'bodyHtml' | 'bodyText' | 'preview'>
+      )>> }
+    )> }
   )> }
 );
 
@@ -2674,6 +2776,117 @@ export const PageInfoFieldsFragmentDoc = gql`
   endCursor
 }
     `;
+export const EnrolmentTemplateContextDocument = gql`
+    query enrolmentTemplateContext($enrolmentId: ID!) {
+  enrolment(id: $enrolmentId) {
+    id
+    studyGroup {
+      id
+      name
+      person {
+        id
+        emailAddress
+      }
+    }
+    occurrence {
+      id
+      startTime
+      pEvent {
+        id
+        linkedEventId
+      }
+    }
+  }
+}
+    `;
+export type EnrolmentTemplateContextProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>
+    } & TChildProps;
+export function withEnrolmentTemplateContext<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EnrolmentTemplateContextQuery,
+  EnrolmentTemplateContextQueryVariables,
+  EnrolmentTemplateContextProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables, EnrolmentTemplateContextProps<TChildProps, TDataName>>(EnrolmentTemplateContextDocument, {
+      alias: 'enrolmentTemplateContext',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEnrolmentTemplateContextQuery__
+ *
+ * To run a query within a React component, call `useEnrolmentTemplateContextQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEnrolmentTemplateContextQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEnrolmentTemplateContextQuery({
+ *   variables: {
+ *      enrolmentId: // value for 'enrolmentId'
+ *   },
+ * });
+ */
+export function useEnrolmentTemplateContextQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>) {
+        return ApolloReactHooks.useQuery<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>(EnrolmentTemplateContextDocument, baseOptions);
+      }
+export function useEnrolmentTemplateContextLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>(EnrolmentTemplateContextDocument, baseOptions);
+        }
+export type EnrolmentTemplateContextQueryHookResult = ReturnType<typeof useEnrolmentTemplateContextQuery>;
+export type EnrolmentTemplateContextLazyQueryHookResult = ReturnType<typeof useEnrolmentTemplateContextLazyQuery>;
+export type EnrolmentTemplateContextQueryResult = ApolloReactCommon.QueryResult<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>;
+export const EventNameDocument = gql`
+    query eventName($id: ID!) {
+  event(id: $id) {
+    id
+    name {
+      ...localisedFields
+    }
+  }
+}
+    ${LocalisedFieldsFragmentDoc}`;
+export type EventNameProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<EventNameQuery, EventNameQueryVariables>
+    } & TChildProps;
+export function withEventName<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EventNameQuery,
+  EventNameQueryVariables,
+  EventNameProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, EventNameQuery, EventNameQueryVariables, EventNameProps<TChildProps, TDataName>>(EventNameDocument, {
+      alias: 'eventName',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEventNameQuery__
+ *
+ * To run a query within a React component, call `useEventNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventNameQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEventNameQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EventNameQuery, EventNameQueryVariables>) {
+        return ApolloReactHooks.useQuery<EventNameQuery, EventNameQueryVariables>(EventNameDocument, baseOptions);
+      }
+export function useEventNameLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EventNameQuery, EventNameQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EventNameQuery, EventNameQueryVariables>(EventNameDocument, baseOptions);
+        }
+export type EventNameQueryHookResult = ReturnType<typeof useEventNameQuery>;
+export type EventNameLazyQueryHookResult = ReturnType<typeof useEventNameLazyQuery>;
+export type EventNameQueryResult = ApolloReactCommon.QueryResult<EventNameQuery, EventNameQueryVariables>;
 export const ApproveEnrolmentDocument = gql`
     mutation approveEnrolment($input: ApproveEnrolmentMutationInput!) {
   approveEnrolment(input: $input) {
@@ -2926,6 +3139,67 @@ export function useEnrolmentLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
 export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
 export type EnrolmentQueryResult = ApolloReactCommon.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
+export const NotificationTemplateDocument = gql`
+    query notificationTemplate($templateType: NotificationTemplateType, $context: JSONString!, $language: Language!) {
+  notificationTemplate(templateType: $templateType, context: $context, language: $language) {
+    template {
+      id
+      type
+      translations {
+        languageCode
+        subject
+        bodyHtml
+        bodyText
+        preview
+      }
+      preview
+    }
+    customContextPreviewHtml
+    customContextPreviewText
+  }
+}
+    `;
+export type NotificationTemplateProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<NotificationTemplateQuery, NotificationTemplateQueryVariables>
+    } & TChildProps;
+export function withNotificationTemplate<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  NotificationTemplateQuery,
+  NotificationTemplateQueryVariables,
+  NotificationTemplateProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withQuery<TProps, NotificationTemplateQuery, NotificationTemplateQueryVariables, NotificationTemplateProps<TChildProps, TDataName>>(NotificationTemplateDocument, {
+      alias: 'notificationTemplate',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useNotificationTemplateQuery__
+ *
+ * To run a query within a React component, call `useNotificationTemplateQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNotificationTemplateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNotificationTemplateQuery({
+ *   variables: {
+ *      templateType: // value for 'templateType'
+ *      context: // value for 'context'
+ *      language: // value for 'language'
+ *   },
+ * });
+ */
+export function useNotificationTemplateQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<NotificationTemplateQuery, NotificationTemplateQueryVariables>) {
+        return ApolloReactHooks.useQuery<NotificationTemplateQuery, NotificationTemplateQueryVariables>(NotificationTemplateDocument, baseOptions);
+      }
+export function useNotificationTemplateLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<NotificationTemplateQuery, NotificationTemplateQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<NotificationTemplateQuery, NotificationTemplateQueryVariables>(NotificationTemplateDocument, baseOptions);
+        }
+export type NotificationTemplateQueryHookResult = ReturnType<typeof useNotificationTemplateQuery>;
+export type NotificationTemplateLazyQueryHookResult = ReturnType<typeof useNotificationTemplateLazyQuery>;
+export type NotificationTemplateQueryResult = ApolloReactCommon.QueryResult<NotificationTemplateQuery, NotificationTemplateQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: AddEventMutationInput!) {
   addEventMutation(event: $event) {

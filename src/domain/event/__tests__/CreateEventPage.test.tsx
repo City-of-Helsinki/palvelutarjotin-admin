@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MockedProvider } from '@apollo/react-testing';
 import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Modal from 'react-modal';
-import { Provider } from 'react-redux';
 import Router from 'react-router';
 
 import addEventResponse from '../__mocks__/addEventResponse.json';
@@ -35,10 +33,7 @@ import {
   within,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
-import { store } from '../../app/store';
 import CreateEventPage from '../CreateEventPage';
-
-expect.extend(toHaveNoViolations);
 
 const eventFormData = {
   name: 'Testitapahtuma',

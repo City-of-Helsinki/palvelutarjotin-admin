@@ -74,7 +74,7 @@ exports[`matches snapshot 1`] = `
             class="buttonsRight"
           >
             <button
-              class="Button-module_button__3wgee button_hds-button__2A0je Button-module_danger__aFUe2 button_hds-button--danger__dEREN"
+              class="Button-module_button__3wgee button_hds-button__2A0je Button-module_primary__3bo_T button_hds-button--primary__2NVvO"
               type="button"
             >
               <span

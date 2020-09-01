@@ -1,19 +1,25 @@
-import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { PersonFieldsFragment } from '../../../../generated/graphql';
-import EnrolleesList from './EnrolleesList';
+import EmailPreview from '../../../../common/components/emailPreview/EmailPreview';
+import {
+  NotificationTemplateType,
+  PersonFieldsFragment,
+  useEnrolmentTemplateContextQuery,
+  useEventNameQuery,
+} from '../../../../generated/graphql';
+import useLocale from '../../../../hooks/useLocale';
 import EnrolmentModal from './EnrolmentModal';
-import styles from './enrolmentModals.module.scss';
+import { getEnrolmentTemplateContextJSON } from './utils';
 
 interface ApproveModalProps {
   isOpen: boolean;
   onClose: () => void;
-  declineEnrolment: () => void;
+  declineEnrolment: (message?: string) => void;
   enrollees?: PersonFieldsFragment[];
   appElement?: HTMLElement;
   loading?: boolean;
+  enrolmentId: string;
 }
 
 const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
@@ -23,12 +29,31 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
   enrollees,
   appElement,
   loading = false,
+  enrolmentId,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
+  const [messageText, setMessageText] = React.useState('');
+  const [showPreview, setShowPreview] = React.useState(false);
 
-  const handlePreview = () => {
-    alert('TODO: handle preview');
-  };
+  const { data: templateContextData } = useEnrolmentTemplateContextQuery({
+    variables: { enrolmentId },
+  });
+  const linkedEventId =
+    templateContextData?.enrolment?.occurrence?.pEvent?.linkedEventId || '';
+  const { data: eventData } = useEventNameQuery({
+    variables: {
+      id: linkedEventId,
+    },
+    skip: !linkedEventId,
+  });
+
+  const emailTemplateContextJSON = getEnrolmentTemplateContextJSON(
+    templateContextData,
+    eventData,
+    messageText,
+    locale
+  );
 
   return (
     <EnrolmentModal
@@ -36,30 +61,27 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
       onClose={onClose}
       title={t('enrolment.enrolmentModal.declineEnrolment')}
       appElement={appElement}
-    >
-      <div className={styles.infoNoteDecline}>
-        {t('enrolment.enrolmentModal.declineEnrolmentNote')}
-      </div>
-      <EnrolleesList enrollees={enrollees} />
-      <div className={styles.buttonsContainer}>
-        <Button variant="secondary" onClick={onClose}>
-          {t('enrolment.enrolmentModal.cancelEnrolment')}
-        </Button>
-        <div className={styles.buttonsRight}>
-          {/* TODO: preview functionality */}
-          <Button variant="supplementary" onClick={handlePreview}>
-            {t('enrolment.enrolmentModal.preview')}
-          </Button>
-          <Button
-            variant="primary"
-            onClick={declineEnrolment}
-            disabled={loading}
-          >
-            {t('enrolment.enrolmentModal.sendCancelMessage')}
-          </Button>
-        </div>
-      </div>
-    </EnrolmentModal>
+      enrollees={enrollees}
+      noteType="decline"
+      noteSection
+      showPreviewButton
+      noteText={t('enrolment.enrolmentModal.declineEnrolmentNote')}
+      submitButtonText={t('enrolment.enrolmentModal.sendCancelMessage')}
+      handlePreviewClick={() => setShowPreview((p) => !p)}
+      handleSubmit={() => declineEnrolment(messageText)}
+      submitting={loading}
+      onMessageTextChange={(message) => setMessageText(message)}
+      messageText={messageText}
+      preview={
+        showPreview ? (
+          <EmailPreview
+            context={emailTemplateContextJSON}
+            templateType={NotificationTemplateType.EnrolmentDeclined}
+            onClose={() => setShowPreview(false)}
+          />
+        ) : null
+      }
+    />
   );
 };
 

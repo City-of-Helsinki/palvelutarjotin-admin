@@ -1,13 +1,10 @@
 import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import React from 'react';
-import Router from 'react-router';
 
 import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import NotFoundPage from '../NotFoundPage';
-
-expect.extend(toHaveNoViolations);
 
 test('it matches snapshot', async () => {
   const { container } = render(<NotFoundPage />);

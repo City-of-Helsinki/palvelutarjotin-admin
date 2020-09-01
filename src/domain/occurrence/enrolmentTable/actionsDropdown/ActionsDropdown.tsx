@@ -91,8 +91,12 @@ const ActionsDropdown: React.FC<Props> = ({
     setApproveModalOpen(true);
   };
 
-  const handleApproveEnrolment = async () => {
-    approveEnrolment({ variables: { input: { enrolmentId: row.id } } });
+  const handleApproveEnrolment = async (message: string) => {
+    approveEnrolment({
+      variables: {
+        input: { enrolmentId: row.id, customMessage: message },
+      },
+    });
   };
 
   const handleDeclineEnrolment = () => {
@@ -195,6 +199,7 @@ const ActionsDropdown: React.FC<Props> = ({
     <div className={styles.actionsDropdown}>
       <TableDropdown items={items} row={row} />
       <ApproveEnrolmentModal
+        enrolmentId={row.id}
         isOpen={approveModalOpen}
         onClose={() => setApproveModalOpen(false)}
         // TODO: Will there be a way to approve many at the same time?
@@ -202,6 +207,7 @@ const ActionsDropdown: React.FC<Props> = ({
         approveEnrolment={handleApproveEnrolment}
       />
       <DeclineEnrolmentModal
+        enrolmentId={row.id}
         isOpen={declineModalOpen}
         onClose={() => setDeclineModalOpen(false)}
         // TODO: Will there be a way to decline many at the same time?
