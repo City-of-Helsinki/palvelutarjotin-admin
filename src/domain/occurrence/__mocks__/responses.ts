@@ -204,6 +204,7 @@ export const eventResult = {
                 endTime: '2020-08-03T09:30:00+00:00',
                 placeId: '',
                 seatsTaken: 0,
+                cancelled: false,
                 __typename: 'OccurrenceNode',
               },
               __typename: 'OccurrenceNodeEdge',
@@ -719,6 +720,7 @@ export const occurrenceResult = {
         ],
         __typename: 'EnrolmentNodeConnection',
       },
+      cancelled: false,
     } as OccurrenceFieldsFragment,
   },
 };

@@ -71,7 +71,7 @@ const ActionsDropdown: React.FC<Props> = ({
     setIsCancelModalOpen(false);
   };
 
-  const items: MenuItemProps[] = [
+  const items = [
     {
       children: (
         <>
@@ -90,7 +90,7 @@ const ActionsDropdown: React.FC<Props> = ({
       ),
       onClick: goToEditOccurrencePage,
     },
-    {
+    !row.cancelled && {
       onClick: openCancelModal,
       children: (
         <>
@@ -99,6 +99,7 @@ const ActionsDropdown: React.FC<Props> = ({
         </>
       ),
     },
+
     {
       onClick: openDeleteModal,
       children: (
@@ -108,7 +109,7 @@ const ActionsDropdown: React.FC<Props> = ({
         </>
       ),
     },
-  ];
+  ].filter((i) => i) as MenuItemProps[];
 
   return (
     <div className={styles.actionsDropdown}>

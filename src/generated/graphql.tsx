@@ -2282,7 +2282,7 @@ export type EditOccurrenceMutation = (
 
 export type OccurrenceFieldsFragment = (
   { __typename?: 'OccurrenceNode' }
-  & Pick<OccurrenceNode, 'id' | 'amountOfSeats' | 'minGroupSize' | 'maxGroupSize' | 'autoAcceptance' | 'startTime' | 'endTime' | 'placeId' | 'seatsTaken'>
+  & Pick<OccurrenceNode, 'id' | 'amountOfSeats' | 'minGroupSize' | 'maxGroupSize' | 'autoAcceptance' | 'startTime' | 'endTime' | 'placeId' | 'seatsTaken' | 'cancelled'>
   & { pEvent?: Maybe<(
     { __typename?: 'PalvelutarjotinEventNode' }
     & Pick<PalvelutarjotinEventNode, 'id'>
@@ -2644,6 +2644,7 @@ export const OccurrenceFieldsFragmentDoc = gql`
   endTime
   placeId
   seatsTaken
+  cancelled
 }
     `;
 export const PEventFieldsFragmentDoc = gql`

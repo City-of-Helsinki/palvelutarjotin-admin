@@ -55,6 +55,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const [showMessageTextArea, setShowMessageTextArea] = React.useState(false);
+  const hasEnrollees = enrollees && enrollees.length > 0;
 
   const renderModalContent = () => {
     return (
@@ -69,7 +70,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
             {noteText}
           </div>
         )}
-        {enrollees && <EnrolleesList enrollees={enrollees} />}
+        {hasEnrollees && <EnrolleesList enrollees={enrollees} />}
         {noteSection && (
           <div className={styles.addNoteSection}>
             <Checkbox
