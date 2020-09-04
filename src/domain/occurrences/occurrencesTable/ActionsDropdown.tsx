@@ -123,12 +123,14 @@ const ActionsDropdown: React.FC<Props> = ({
         <p>{t('occurrences.deleteModal.text1')}</p>
         <p>{t('occurrences.deleteModal.text2')}</p>
       </AlertModal>
-      <CancelOccurrenceModal
-        occurrenceId={row.id}
-        isOpen={isCancelModalOpen}
-        onClose={() => setIsCancelModalOpen(false)}
-        cancelOccurrence={(message) => handleCancel(row, message)}
-      />
+      {isCancelModalOpen && (
+        <CancelOccurrenceModal
+          occurrenceId={row.id}
+          onClose={() => setIsCancelModalOpen(false)}
+          cancelOccurrence={(message) => handleCancel(row, message)}
+        />
+      )}
+
       <TableDropdown items={items} row={row} />
     </div>
   );

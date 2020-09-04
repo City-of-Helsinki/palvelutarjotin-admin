@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
 
 interface DeleteModalProps {
-  isOpen: boolean;
   onClose: () => void;
   deleteEnrolment: () => void;
   enrollees?: EnrolleeProps[];
@@ -13,7 +12,6 @@ interface DeleteModalProps {
 }
 
 const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
-  isOpen,
   onClose,
   deleteEnrolment,
   enrollees,
@@ -23,7 +21,6 @@ const DeleteEnrolmentModal: React.FC<DeleteModalProps> = ({
   const { t } = useTranslation();
   return (
     <EnrolmentModal
-      isOpen={isOpen}
       onClose={onClose}
       title={t('enrolment.enrolmentModal.deleteEnrolment')}
       appElement={appElement}

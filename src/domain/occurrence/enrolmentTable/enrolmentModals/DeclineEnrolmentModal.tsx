@@ -12,7 +12,6 @@ import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
 import { getEnrolmentTemplateContextJSON } from './utils';
 
 interface ApproveModalProps {
-  isOpen: boolean;
   onClose: () => void;
   declineEnrolment: (message?: string) => void;
   enrollees?: EnrolleeProps[];
@@ -22,7 +21,6 @@ interface ApproveModalProps {
 }
 
 const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
-  isOpen,
   onClose,
   declineEnrolment,
   enrollees,
@@ -56,7 +54,6 @@ const DeclineEnrolmentModal: React.FC<ApproveModalProps> = ({
 
   return (
     <EnrolmentModal
-      isOpen={isOpen}
       onClose={onClose}
       title={t('enrolment.enrolmentModal.declineEnrolment')}
       appElement={appElement}
