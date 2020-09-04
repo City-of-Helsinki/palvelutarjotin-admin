@@ -195,6 +195,8 @@ const ActionsDropdown: React.FC<Props> = ({
     },
   ].filter((o) => o) as MenuItemProps[];
 
+  const enrollees = row.person ? [{ personName: row.person.name }] : [];
+
   return (
     <div className={styles.actionsDropdown}>
       <TableDropdown items={items} row={row} />
@@ -203,7 +205,7 @@ const ActionsDropdown: React.FC<Props> = ({
         isOpen={approveModalOpen}
         onClose={() => setApproveModalOpen(false)}
         // TODO: Will there be a way to approve many at the same time?
-        enrollees={row.person ? [row.person] : undefined}
+        enrollees={enrollees}
         approveEnrolment={handleApproveEnrolment}
       />
       <DeclineEnrolmentModal
@@ -211,7 +213,7 @@ const ActionsDropdown: React.FC<Props> = ({
         isOpen={declineModalOpen}
         onClose={() => setDeclineModalOpen(false)}
         // TODO: Will there be a way to decline many at the same time?
-        enrollees={row.person ? [row.person] : undefined}
+        enrollees={enrollees}
         declineEnrolment={handleDeclineEnrolment}
       />
       <DeleteEnrolmentModal

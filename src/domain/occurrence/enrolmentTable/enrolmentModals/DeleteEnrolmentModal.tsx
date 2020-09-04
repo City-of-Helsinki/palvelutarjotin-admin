@@ -1,14 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { PersonFieldsFragment } from '../../../../generated/graphql';
-import EnrolmentModal from './EnrolmentModal';
+import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
 
 interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   deleteEnrolment: () => void;
-  enrollees?: PersonFieldsFragment[];
+  enrollees?: EnrolleeProps[];
   appElement?: HTMLElement;
   loading?: boolean;
 }

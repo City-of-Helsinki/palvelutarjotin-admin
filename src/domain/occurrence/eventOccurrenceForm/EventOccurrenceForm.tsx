@@ -101,6 +101,8 @@ const EventOccurrenceForm: React.FC<Props> = ({
     }
   };
 
+  const handleCancelOccurrence = async () => {};
+
   return (
     <Formik
       enableReinitialize={true}
@@ -302,6 +304,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   id="coming-occurrences"
                   occurrences={filteredComingOccurrences}
                   onDelete={handleDeleteOccurrence}
+                  onCancel={handleCancelOccurrence}
                 />
               ) : (
                 <div>{t('occurrences.textNoComingOccurrences')}</div>

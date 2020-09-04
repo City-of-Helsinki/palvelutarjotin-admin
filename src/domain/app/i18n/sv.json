@@ -470,7 +470,8 @@
     "actionsDropdown": {
       "menuItemDelete": "Radera",
       "menuItemEdit": "Redigera",
-      "menuItemEnrolments": "Registreringar"
+      "menuItemEnrolments": "Registreringar",
+      "menuItemCancel": "Annullera"
     },
     "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
@@ -484,6 +485,12 @@
       "text2": "En borttagen evenemangtid kan inte ångras.",
       "title": "Bort evenemangtid"
     },
+    "cancelModal": {
+      "title": "Cancel occurrence",
+      "note1": "Är du säker på att du vill ta bort den valda förekomsten?",
+      "note2": "Anmälningar till denna händelse avbryts och ett meddelande skickas till anmälda."
+    },
+    "cancelError": "Det gick inte att avbryta förekomsten",
     "pageTitle": "Evenemangtider",
     "table": {
       "columnActions": "Funktioner",

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { PersonFieldsFragment } from '../../../../generated/graphql';
+import { EnrolleeProps } from './EnrolmentModal';
 import styles from './enrolmentModals.module.scss';
 
 interface EnrolleesListProps {
-  enrollees?: PersonFieldsFragment[];
+  enrollees?: EnrolleeProps[];
 }
 
 const EnrolleesList: React.FC<EnrolleesListProps> = ({ enrollees }) => {
@@ -17,8 +17,8 @@ const EnrolleesList: React.FC<EnrolleesListProps> = ({ enrollees }) => {
         {t('enrolment.enrolmentModal.selectedEnrollees')}:
       </p>
       <ul className={styles.enrolleesList}>
-        {enrollees.map((enrollee) => (
-          <li key={enrollee.id}>{enrollee.name}</li>
+        {enrollees.map((enrollee, i) => (
+          <li key={i}>{enrollee.personName}</li>
         ))}
       </ul>
     </div>

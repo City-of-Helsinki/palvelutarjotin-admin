@@ -21,6 +21,7 @@ interface Props {
   id: string;
   occurrences: OccurrenceFieldsFragment[];
   onDelete: (occurrence: OccurrenceFieldsFragment) => void;
+  onCancel: (occurrence: OccurrenceFieldsFragment, message?: string) => void;
 }
 
 const OccurrencesTable: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const OccurrencesTable: React.FC<Props> = ({
   id,
   occurrences,
   onDelete,
+  onCancel,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -126,7 +128,12 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnActions'),
       accessor: (row: OccurrenceFieldsFragment) => (
-        <ActionsDropdown eventId={eventId} onDelete={onDelete} row={row} />
+        <ActionsDropdown
+          eventId={eventId}
+          onDelete={onDelete}
+          onCancel={onCancel}
+          row={row}
+        />
       ),
       id: 'actions',
       rowClickDisabled: true,

@@ -6,4 +6,10 @@ export const MUTATION_EVENT = gql`
       clientMutationId
     }
   }
+
+  mutation CancelOccurrence($input: CancelOccurrenceMutationInput!) {
+    cancelOccurrence(input: $input) {
+      clientMutationId
+    }
+  }
 `;

@@ -4,17 +4,24 @@ import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 
-import { PersonFieldsFragment } from '../../../../generated/graphql';
 import EnrolleesList from './EnrolleesList';
 import styles from './enrolmentModals.module.scss';
+
+export type EnrolleeProps = {
+  personName?: string;
+  studyGroupName?: string | null;
+  studyLevel?: string | null;
+  groupSize?: number | null;
+  amountOfAdult?: number | null;
+};
 
 interface ApproveModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   appElement?: HTMLElement;
-  enrollees?: PersonFieldsFragment[];
-  noteText?: string;
+  enrollees?: EnrolleeProps[];
+  noteText?: string | ReactNode;
   noteType?: 'success' | 'decline';
   noteSection?: boolean;
   submitButtonText: string;
@@ -48,6 +55,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const [showMessageTextArea, setShowMessageTextArea] = React.useState(false);
+  const hasEnrollees = enrollees && enrollees.length > 0;
 
   const renderModalContent = () => {
     return (
@@ -62,7 +70,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
             {noteText}
           </div>
         )}
-        {enrollees && <EnrolleesList enrollees={enrollees} />}
+        {hasEnrollees && <EnrolleesList enrollees={enrollees} />}
         {noteSection && (
           <div className={styles.addNoteSection}>
             <Checkbox

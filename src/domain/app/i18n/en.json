@@ -469,7 +469,8 @@
     "actionsDropdown": {
       "menuItemDelete": "Delete",
       "menuItemEdit": "Edit",
-      "menuItemEnrolments": "Registrations"
+      "menuItemEnrolments": "Registrations",
+      "menuItemCancel": "Cancel"
     },
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
@@ -483,6 +484,12 @@
       "text2": "Once deleted, event times can not be restored.",
       "title": "Delete event time"
     },
+    "cancelModal": {
+      "title": "Cancel occurrence",
+      "note1": "Are you sure that you want to delete se selected occurrence?",
+      "note2": "Enrolments to this occurrence will be canceled and a message will be sent to enrollees."
+    },
+    "cancelError": "Canceling occurrence failed",
     "pageTitle": "Event times",
     "table": {
       "columnActions": "Actions",
