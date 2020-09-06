@@ -210,6 +210,7 @@ export const fakeOccurrence = (
   studyGroups: [] as any,
   updatedAt: '' as any,
   remainingSeats: null as any,
+  cancelled: false,
   __typename: 'OccurrenceNode',
   ...overrides,
 });
