@@ -1,17 +1,13 @@
-import {
-  EnrolmentTemplateContextQuery,
-  EventNameQuery,
-} from '../../../../generated/graphql';
+import { EnrolmentTemplateContextQuery } from '../../../../generated/graphql';
 import { Language } from '../../../../types';
 
 export const getEnrolmentTemplateContextJSON = (
   templateContextData: EnrolmentTemplateContextQuery | undefined,
-  eventData: EventNameQuery | undefined,
   message: string,
   locale: Language
 ) => {
   const enrolment = templateContextData?.enrolment;
-  const event = eventData?.event;
+  const event = templateContextData?.enrolment?.occurrence.linkedEvent;
   if (enrolment && event) {
     const { studyGroup, occurrence } = enrolment;
     return JSON.stringify({
@@ -34,7 +30,7 @@ export const getEnrolmentTemplateContextJSON = (
         // eslint-disable-next-line @typescript-eslint/camelcase
         p_event: {
           // eslint-disable-next-line @typescript-eslint/camelcase
-          linked_event_id: occurrence.pEvent?.linkedEventId,
+          linked_event_id: occurrence.linkedEvent?.id,
         },
       },
       // eslint-disable-next-line @typescript-eslint/camelcase

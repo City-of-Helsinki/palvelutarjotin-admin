@@ -294,6 +294,7 @@ export type OccurrenceNode = Node & {
   enrolments: EnrolmentNodeConnection;
   remainingSeats?: Maybe<Scalars['Int']>;
   seatsTaken?: Maybe<Scalars['Int']>;
+  linkedEvent?: Maybe<Event>;
 };
 
 
@@ -649,53 +650,6 @@ export type LanguageTypeOccurrencesArgs = {
   time?: Maybe<Scalars['Time']>;
 };
 
-export type VenueNodeConnection = {
-   __typename?: 'VenueNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<VenueNodeEdge>>;
-};
-
-/** A Relay edge containing a `VenueNode` and its cursor. */
-export type VenueNodeEdge = {
-   __typename?: 'VenueNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<VenueNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type VenueNode = Node & {
-   __typename?: 'VenueNode';
-  hasClothingStorage: Scalars['Boolean'];
-  hasSnackEatingPlace: Scalars['Boolean'];
-  translations: Array<VenueTranslationType>;
-  /** place_id from linkedEvent */
-  id: Scalars['ID'];
-  /** Translated field in the language defined in request ACCEPT-LANGUAGE header  */
-  description?: Maybe<Scalars['String']>;
-};
-
-export type VenueTranslationType = {
-   __typename?: 'VenueTranslationType';
-  languageCode: Language;
-  description: Scalars['String'];
-};
-
-export type EventListResponse = {
-   __typename?: 'EventListResponse';
-  meta: Meta;
-  data: Array<Event>;
-};
-
-export type Meta = {
-   __typename?: 'Meta';
-  count?: Maybe<Scalars['Int']>;
-  next?: Maybe<Scalars['String']>;
-  previous?: Maybe<Scalars['String']>;
-};
-
 export type Event = {
    __typename?: 'Event';
   id: Scalars['String'];
@@ -874,6 +828,53 @@ export type ExtensionCourse = {
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
+};
+
+export type VenueNode = Node & {
+   __typename?: 'VenueNode';
+  hasClothingStorage: Scalars['Boolean'];
+  hasSnackEatingPlace: Scalars['Boolean'];
+  translations: Array<VenueTranslationType>;
+  /** place_id from linkedEvent */
+  id: Scalars['ID'];
+  /** Translated field in the language defined in request ACCEPT-LANGUAGE header  */
+  description?: Maybe<Scalars['String']>;
+};
+
+export type VenueTranslationType = {
+   __typename?: 'VenueTranslationType';
+  languageCode: Language;
+  description: Scalars['String'];
+};
+
+export type VenueNodeConnection = {
+   __typename?: 'VenueNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<VenueNodeEdge>>;
+};
+
+/** A Relay edge containing a `VenueNode` and its cursor. */
+export type VenueNodeEdge = {
+   __typename?: 'VenueNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<VenueNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type EventListResponse = {
+   __typename?: 'EventListResponse';
+  meta: Meta;
+  data: Array<Event>;
+};
+
+export type Meta = {
+   __typename?: 'Meta';
+  count?: Maybe<Scalars['Int']>;
+  next?: Maybe<Scalars['String']>;
+  previous?: Maybe<Scalars['String']>;
 };
 
 export type PlaceListResponse = {
@@ -1678,9 +1679,13 @@ export type EnrolmentTemplateContextQuery = (
     ), occurrence: (
       { __typename?: 'OccurrenceNode' }
       & Pick<OccurrenceNode, 'id' | 'startTime'>
-      & { pEvent?: Maybe<(
-        { __typename?: 'PalvelutarjotinEventNode' }
-        & Pick<PalvelutarjotinEventNode, 'id' | 'linkedEventId'>
+      & { linkedEvent?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id'>
+        & { name: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ) }
       )> }
     ) }
   )> }
@@ -2805,14 +2810,16 @@ export const EnrolmentTemplateContextDocument = gql`
     occurrence {
       id
       startTime
-      pEvent {
+      linkedEvent {
         id
-        linkedEventId
+        name {
+          ...localisedFields
+        }
       }
     }
   }
 }
-    `;
+    ${LocalisedFieldsFragmentDoc}`;
 export type EnrolmentTemplateContextProps<TChildProps = {}, TDataName extends string = 'data'> = {
       [key in TDataName]: ApolloReactHoc.DataValue<EnrolmentTemplateContextQuery, EnrolmentTemplateContextQueryVariables>
     } & TChildProps;

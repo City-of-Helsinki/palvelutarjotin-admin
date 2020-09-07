@@ -5,7 +5,6 @@ import EmailPreview from '../../../../common/components/emailPreview/EmailPrevie
 import {
   NotificationTemplateType,
   useEnrolmentTemplateContextQuery,
-  useEventNameQuery,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
@@ -37,18 +36,9 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
   const { data: templateContextData } = useEnrolmentTemplateContextQuery({
     variables: { enrolmentId },
   });
-  const linkedEventId =
-    templateContextData?.enrolment?.occurrence?.pEvent?.linkedEventId || '';
-  const { data: eventData } = useEventNameQuery({
-    variables: {
-      id: linkedEventId,
-    },
-    skip: !linkedEventId,
-  });
 
   const emailTemplateContextJSON = getEnrolmentTemplateContextJSON(
     templateContextData,
-    eventData,
     messageText,
     locale
   );
