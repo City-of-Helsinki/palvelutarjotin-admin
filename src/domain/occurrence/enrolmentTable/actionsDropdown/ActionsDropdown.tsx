@@ -200,27 +200,30 @@ const ActionsDropdown: React.FC<Props> = ({
   return (
     <div className={styles.actionsDropdown}>
       <TableDropdown items={items} row={row} />
-      <ApproveEnrolmentModal
-        enrolmentId={row.id}
-        isOpen={approveModalOpen}
-        onClose={() => setApproveModalOpen(false)}
-        // TODO: Will there be a way to approve many at the same time?
-        enrollees={enrollees}
-        approveEnrolment={handleApproveEnrolment}
-      />
-      <DeclineEnrolmentModal
-        enrolmentId={row.id}
-        isOpen={declineModalOpen}
-        onClose={() => setDeclineModalOpen(false)}
-        // TODO: Will there be a way to decline many at the same time?
-        enrollees={enrollees}
-        declineEnrolment={handleDeclineEnrolment}
-      />
-      <DeleteEnrolmentModal
-        isOpen={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        deleteEnrolment={handleDeleteEnrolment}
-      />
+      {approveModalOpen && (
+        <ApproveEnrolmentModal
+          enrolmentId={row.id}
+          onClose={() => setApproveModalOpen(false)}
+          // TODO: Will there be a way to approve many at the same time?
+          enrollees={enrollees}
+          approveEnrolment={handleApproveEnrolment}
+        />
+      )}
+      {declineModalOpen && (
+        <DeclineEnrolmentModal
+          enrolmentId={row.id}
+          onClose={() => setDeclineModalOpen(false)}
+          // TODO: Will there be a way to decline many at the same time?
+          enrollees={enrollees}
+          declineEnrolment={handleDeclineEnrolment}
+        />
+      )}
+      {deleteModalOpen && (
+        <DeleteEnrolmentModal
+          onClose={() => setDeleteModalOpen(false)}
+          deleteEnrolment={handleDeleteEnrolment}
+        />
+      )}
     </div>
   );
 };

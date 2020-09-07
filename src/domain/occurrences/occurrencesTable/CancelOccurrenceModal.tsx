@@ -5,7 +5,6 @@ import { useOccurrenceQuery } from '../../../generated/graphql';
 import EnrolmentModal from '../../occurrence/enrolmentTable/enrolmentModals/EnrolmentModal';
 
 interface CancelOccurrenceModalProps {
-  isOpen: boolean;
   onClose: () => void;
   cancelOccurrence: (message?: string) => void;
   appElement?: HTMLElement;
@@ -14,7 +13,6 @@ interface CancelOccurrenceModalProps {
 }
 
 const CancelOccurrenceModal: React.FC<CancelOccurrenceModalProps> = ({
-  isOpen,
   onClose,
   cancelOccurrence,
   appElement,
@@ -38,7 +36,6 @@ const CancelOccurrenceModal: React.FC<CancelOccurrenceModalProps> = ({
 
   return (
     <EnrolmentModal
-      isOpen={isOpen}
       onClose={onClose}
       title={t('occurrences.cancelModal.title')}
       appElement={appElement}

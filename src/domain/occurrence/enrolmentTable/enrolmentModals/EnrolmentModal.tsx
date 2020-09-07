@@ -15,8 +15,7 @@ export type EnrolleeProps = {
   amountOfAdult?: number | null;
 };
 
-interface ApproveModalProps {
-  isOpen: boolean;
+interface EnrolmentModalProps {
   onClose: () => void;
   title: string;
   appElement?: HTMLElement;
@@ -34,8 +33,7 @@ interface ApproveModalProps {
   submitting?: boolean;
 }
 
-const EnrolmentModal: React.FC<ApproveModalProps> = ({
-  isOpen,
+const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
   children,
   title,
   appElement,
@@ -117,7 +115,7 @@ const EnrolmentModal: React.FC<ApproveModalProps> = ({
 
   return (
     <ReactModal
-      isOpen={isOpen}
+      isOpen
       bodyOpenClassName={styles.bodyOpen}
       className={classNames(styles.modal)}
       overlayClassName={styles.overlay}

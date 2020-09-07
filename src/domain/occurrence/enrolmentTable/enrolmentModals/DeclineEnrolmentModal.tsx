@@ -10,8 +10,8 @@ import useLocale from '../../../../hooks/useLocale';
 import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
 import { getEnrolmentTemplateContextJSON } from './utils';
 
+
 interface DeclineEnrolmentModalProps {
-  isOpen: boolean;
   onClose: () => void;
   declineEnrolment: (message?: string) => void;
   enrollees?: EnrolleeProps[];
@@ -21,7 +21,6 @@ interface DeclineEnrolmentModalProps {
 }
 
 const DeclineEnrolmentModal: React.FC<DeclineEnrolmentModalProps> = ({
-  isOpen,
   onClose,
   declineEnrolment,
   enrollees,
@@ -46,7 +45,6 @@ const DeclineEnrolmentModal: React.FC<DeclineEnrolmentModalProps> = ({
 
   return (
     <EnrolmentModal
-      isOpen={isOpen}
       onClose={onClose}
       title={t('enrolment.enrolmentModal.declineEnrolment')}
       appElement={appElement}

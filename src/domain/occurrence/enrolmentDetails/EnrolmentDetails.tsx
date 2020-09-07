@@ -198,30 +198,36 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   {t('enrolment.enrolmentDetails.buttonEnrolleesTitle')}
                 </span>
               </div>
-              <ApproveEnrolmentModal
-                enrolmentId={enrolmentId}
-                isOpen={approveModalOpen}
-                onClose={() => setApproveModalOpen(false)}
-                // TODO: Will there be a way to approve many at the same time?
-                enrollees={enrollees}
-                approveEnrolment={handleApproveEnrolment}
-                loading={loadingApproveEnrolment}
-              />
-              <DeclineEnrolmentModal
-                enrolmentId={enrolmentId}
-                isOpen={declineModalOpen}
-                onClose={() => setDeclineModalOpen(false)}
-                // TODO: Will there be a way to decline many at the same time?
-                enrollees={enrollees}
-                declineEnrolment={handleDeclineEnrolment}
-                loading={loadingDeclineEnrolment}
-              />
-              <DeleteEnrolmentModal
-                isOpen={deleteModalOpen}
-                onClose={() => setDeleteModalOpen(false)}
-                deleteEnrolment={handleDeleteEnrolment}
-                loading={loadingDeleteEnrolment}
-              />
+              {approveModalOpen && (
+                <ApproveEnrolmentModal
+                  enrolmentId={enrolmentId}
+                  onClose={() => setApproveModalOpen(false)}
+                  // TODO: Will there be a way to approve many at the same time?
+                  enrollees={enrollees}
+                  approveEnrolment={handleApproveEnrolment}
+                  loading={loadingApproveEnrolment}
+                />
+              )}
+
+              {declineModalOpen && (
+                <DeclineEnrolmentModal
+                  enrolmentId={enrolmentId}
+                  onClose={() => setDeclineModalOpen(false)}
+                  // TODO: Will there be a way to decline many at the same time?
+                  enrollees={enrollees}
+                  declineEnrolment={handleDeclineEnrolment}
+                  loading={loadingDeclineEnrolment}
+                />
+              )}
+
+              {deleteModalOpen && (
+                <DeleteEnrolmentModal
+                  onClose={() => setDeleteModalOpen(false)}
+                  deleteEnrolment={handleDeleteEnrolment}
+                  loading={loadingDeleteEnrolment}
+                />
+              )}
+
               <div className={styles.actionButtons}>
                 {enrolmentIsNotApproved && (
                   <Button
