@@ -15,9 +15,11 @@ export const QUERY_TEMPLATE_CONTEXT = gql`
       occurrence {
         id
         startTime
-        pEvent {
+        linkedEvent {
           id
-          linkedEventId
+          name {
+            ...localisedFields
+          }
         }
       }
     }
