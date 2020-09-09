@@ -9,6 +9,7 @@ export const eventResult = {
   data: {
     event: {
       id: 'palvelutarjotin:afzunowba4',
+      endTime: '',
       internalId:
         'https://api.hel.fi/linkedevents-test/v1/event/palvelutarjotin:afzunowba4/',
       name: {
@@ -735,7 +736,6 @@ export const occurrenceResult = {
         ],
         __typename: 'EnrolmentNodeConnection',
       },
-      cancelled: false,
     } as OccurrenceFieldsFragment,
   },
 };

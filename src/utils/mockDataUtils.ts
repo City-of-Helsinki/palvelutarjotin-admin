@@ -74,6 +74,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     externalLinks: [] as any,
     offers: [] as any,
     subEvents: [] as any,
+    endTime: '2020-07-13T05:51:05.761000Z',
     __typename: 'Event',
     ...overrides,
   };
