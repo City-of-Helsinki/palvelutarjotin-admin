@@ -735,7 +735,6 @@ export const occurrenceResult = {
         ],
         __typename: 'EnrolmentNodeConnection',
       },
-      cancelled: false,
     } as OccurrenceFieldsFragment,
   },
 };
