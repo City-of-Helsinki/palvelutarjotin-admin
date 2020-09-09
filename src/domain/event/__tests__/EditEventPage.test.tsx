@@ -87,6 +87,7 @@ const mocks = [
           id: 'palvelutarjotin:afz56bfiaq',
           name: { fi: 'TestitapahtumaTestinimi' },
           startTime: '2020-08-04T21:00:00.000Z',
+          endTime: '',
           offers: [{ isFree: true }],
           shortDescription: { fi: 'Testitapahtuman kuvaus' },
           description: { fi: 'Pidempi kuvaus' },

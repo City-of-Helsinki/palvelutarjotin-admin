@@ -82,7 +82,6 @@ const EditEventPage: React.FC = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
-
       requests.push(
         editEvent({
           variables: {
@@ -93,6 +92,9 @@ const EditEventPage: React.FC = () => {
                 selectedLanguage,
                 organisationId,
               }),
+              // endTime needed
+              // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
+              endTime: eventData?.event?.endTime,
               draft:
                 eventData?.event?.publicationStatus ===
                 PUBLICATION_STATUS.DRAFT,

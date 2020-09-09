@@ -1994,7 +1994,7 @@ export type LocalisedFieldsFragment = (
 
 export type EventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus' | 'datePublished'>
+  & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus' | 'datePublished' | 'endTime'>
   & { name: (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -2760,6 +2760,7 @@ export const EventFieldsFragmentDoc = gql`
   startTime
   publicationStatus
   datePublished
+  endTime
 }
     ${LocalisedFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
