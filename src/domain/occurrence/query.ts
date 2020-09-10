@@ -10,6 +10,7 @@ export const QUERY_OCCURRENCE = gql`
     minGroupSize
     maxGroupSize
     autoAcceptance
+    seatsTaken
     languages {
       id
       name

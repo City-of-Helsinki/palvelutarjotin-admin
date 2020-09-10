@@ -29,7 +29,7 @@ interface Params {
   enrolmentId?: string;
 }
 
-const OccurrenceDetailsPage = () => {
+const OccurrenceDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
