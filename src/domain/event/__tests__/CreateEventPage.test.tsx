@@ -297,10 +297,13 @@ test('form works correctly when edited', async () => {
     screen.getByLabelText(/ilmoittautuminen sulkeutuu/i),
     eventFormData.enrolmentEndDays
   );
-  userEvent.type(
-    screen.getByLabelText(/tarvittavat käyntikerrat/i),
-    eventFormData.neededOccurrences
+
+  const neededOccurrencesInput = screen.getByLabelText(
+    /tarvittavat käyntikerrat/i
   );
+
+  userEvent.clear(neededOccurrencesInput);
+  userEvent.type(neededOccurrencesInput, eventFormData.neededOccurrences);
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
     duration: Number(eventFormData.duration),
