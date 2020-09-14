@@ -44,7 +44,7 @@ export const defaultInitialValues: EventFormFields = {
   keywords: [],
   location: '',
   name: '',
-  neededOccurrences: '',
+  neededOccurrences: '1',
   price: '',
   shortDescription: '',
   locationDescription: '',
