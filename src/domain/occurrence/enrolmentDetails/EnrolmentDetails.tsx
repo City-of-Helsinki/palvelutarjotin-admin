@@ -1,6 +1,5 @@
 import { ApolloQueryResult } from 'apollo-client';
 import classNames from 'classnames';
-import { debug } from 'console';
 import { format } from 'date-fns';
 import {
   Button,
@@ -116,7 +115,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   };
 
   const handleDeclineEnrolment = (message?: string) => {
-    debugger;
     declineEnrolment({
       variables: { input: { enrolmentId, customMessage: message } },
     });
