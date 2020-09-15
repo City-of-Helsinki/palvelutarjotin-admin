@@ -99,11 +99,13 @@ const ActionsDropdown: React.FC<Props> = ({
     });
   };
 
-  const handleDeclineEnrolment = () => {
-    declineEnrolment({ variables: { input: { enrolmentId: row.id } } });
+  const handleDeclineEnrolment = (message?: string) => {
+    declineEnrolment({
+      variables: { input: { enrolmentId: row.id, customMessage: message } },
+    });
   };
 
-  const handleDeleteEnrolment = async () => {
+  const handleDeleteEnrolment = async (message?: string) => {
     if (occurrenceId) {
       await deleteEnrolment({
         variables: { input: { occurrenceId, studyGroupId: row.studyGroup.id } },
