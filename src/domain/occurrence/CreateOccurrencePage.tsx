@@ -1,3 +1,4 @@
+import { FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -111,15 +112,19 @@ const CreateOccurrencePage: React.FC = () => {
 
   const submitAndAdd = async (
     values: OccurrenceFormFields,
-    resetForm: () => void
+    action: FormikHelpers<OccurrenceFormFields>
   ) => {
     try {
       await runSubmitRequests(values);
-      history.push(
-        `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
-      );
       refetchEvent();
-      resetForm();
+      action.resetForm();
+      action.setValues({
+        ...defaultInitialValues,
+        languages: values.languages,
+        amountOfSeats: values.amountOfSeats,
+        minGroupSize: values.minGroupSize,
+        maxGroupSize: values.maxGroupSize,
+      });
       scrollToTop();
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
