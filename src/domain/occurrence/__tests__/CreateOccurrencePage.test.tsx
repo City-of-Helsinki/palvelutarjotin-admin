@@ -27,6 +27,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 
@@ -68,6 +69,29 @@ const occurrenceFormData = {
   maxGroupSize: '20',
 };
 
+const eventMockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: {
+      id: eventMock.id,
+      include: ['location'],
+    },
+  },
+  result: {
+    data: {
+      event: {
+        ...eventMock,
+        pEvent: fakePEvent({
+          occurrences: fakeOccurrences(
+            fakeOccurrenceOverrides.length,
+            fakeOccurrenceOverrides
+          ),
+        }),
+      },
+    },
+  },
+};
+
 const apolloMocks: MockedResponse[] = [
   {
     request: {
@@ -78,28 +102,8 @@ const apolloMocks: MockedResponse[] = [
       data: { myProfile: fakePerson({ organisations: fakeOrganisations() }) },
     },
   },
-  {
-    request: {
-      query: EventDocument,
-      variables: {
-        id: eventMock.id,
-        include: ['location'],
-      },
-    },
-    result: {
-      data: {
-        event: {
-          ...eventMock,
-          pEvent: fakePEvent({
-            occurrences: fakeOccurrences(
-              fakeOccurrenceOverrides.length,
-              fakeOccurrenceOverrides
-            ),
-          }),
-        },
-      },
-    },
-  },
+  eventMockedResponse,
+  eventMockedResponse,
   {
     request: {
       query: PlaceDocument,
@@ -134,6 +138,10 @@ afterAll(() => {
   clear();
 });
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 test('renders coming occurrences table correctly', async () => {
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
@@ -163,10 +171,24 @@ test('renders coming occurrences table correctly', async () => {
 });
 
 test('can create new occurrence with form', async () => {
+  // query is used for venue
+  jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
+    if (query === VenueDocument) {
+      return {
+        data: {
+          venue: fakeVenue(),
+        },
+      };
+    }
+  });
+  /// mutate is used for creating new venue (errors without mock)
+  jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
+
   const createOccurrenceSpy = jest.fn();
   jest
     .spyOn(graphqlFns, 'useAddOccurrenceMutation')
     .mockReturnValue([createOccurrenceSpy] as any);
+
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
@@ -255,7 +277,7 @@ test('can create new occurrence with form', async () => {
   });
 
   userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna', hidden: true })
+    screen.getByRole('button', { name: 'Tallenna ja lisää uusi', hidden: true })
   );
 
   await waitFor(() => {
@@ -275,4 +297,17 @@ test('can create new occurrence with form', async () => {
       },
     });
   });
+
+  await waitFor(() => {
+    expect(
+      screen.getByLabelText('Alkaa klo', {
+        selector: 'input',
+      })
+    ).toHaveValue('');
+  });
+
+  // amount of seats should not reset after saving and creating new occurrence
+  expect(screen.getByLabelText('Paikkoja yhteensä')).toHaveValue(
+    Number(occurrenceFormData.amountOfSeats)
+  );
 });
