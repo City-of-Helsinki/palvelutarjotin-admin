@@ -102,6 +102,7 @@ const apolloMocks: MockedResponse[] = [
       data: { myProfile: fakePerson({ organisations: fakeOrganisations() }) },
     },
   },
+  // refetch() event data requires second mock
   eventMockedResponse,
   eventMockedResponse,
   {
