@@ -1,5 +1,5 @@
 import { isPast } from 'date-fns';
-import { Field, Formik } from 'formik';
+import { Field, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -51,7 +51,10 @@ interface Props {
   occurrenceId?: string;
   onCancel: () => void;
   onSubmit: (values: OccurrenceFormFields) => void;
-  onSubmitAndAdd: (values: OccurrenceFormFields, resetForm: () => void) => void;
+  onSubmitAndAdd: (
+    values: OccurrenceFormFields,
+    action: FormikHelpers<OccurrenceFormFields>
+  ) => void;
   refetchEvent: () => void;
 }
 
@@ -110,7 +113,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
       validateOnChange
       onSubmit={(values, action) => {
         if (addNew.current) {
-          onSubmitAndAdd(values, action.resetForm);
+          onSubmitAndAdd(values, action);
         } else {
           onSubmit(values);
         }
