@@ -504,7 +504,11 @@
       "optionNow": "Now",
       "buttonSetPublished": "Set publication date",
       "buttonCancelPublishment": "Cancel publishment",
-      "textPublishedTime": "Event published"
+      "confirmModalTitle": "Set publication date",
+      "textPublishedTime": "Event published",
+      "confirmPublicationButton": "Confirm",
+      "confirmText1": "Are you sure you want to set publication time?",
+      "confirmText2": "Occurrences cannot be added or modified after the event has been published."
     },
     "textNoComingOccurrences": "No coming event times",
     "titleComingOccurrences": "Coming event times",

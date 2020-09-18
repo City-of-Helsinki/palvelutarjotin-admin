@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import ConfirmationModal from '../../common/components/modal/ConfirmationModal';
 import {
   OccurrenceFieldsFragment,
   useCancelOccurrenceMutation,
@@ -40,6 +41,7 @@ const OccurrencesPage: React.FC = () => {
   const { id: eventId } = useParams<Params>();
   const locale = useLocale();
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
+  const [showPublishModal, setShowPublishModal] = React.useState(false);
 
   const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
     {
@@ -105,7 +107,7 @@ const OccurrencesPage: React.FC = () => {
     }
   };
 
-  const handlePublishEventClick = async () => {
+  const handlePublishEvent = async () => {
     try {
       if (eventData?.event) {
         await publishEvent({
@@ -122,6 +124,10 @@ const OccurrencesPage: React.FC = () => {
         type: toast.TYPE.ERROR,
       });
     }
+  };
+
+  const handlePublishEventClick = async () => {
+    setShowPublishModal(true);
   };
 
   return (
@@ -256,6 +262,18 @@ const OccurrencesPage: React.FC = () => {
           <ErrorPage />
         )}
       </LoadingSpinner>
+      <ConfirmationModal
+        isOpen={showPublishModal}
+        onConfirm={handlePublishEvent}
+        confirmButtonText={t(
+          'occurrences.publishSection.confirmPublicationButton'
+        )}
+        title={t('occurrences.publishSection.confirmModalTitle')}
+        toggleModal={() => setShowPublishModal(false)}
+      >
+        <p>{t('occurrences.publishSection.confirmText1')}</p>
+        <p>{t('occurrences.publishSection.confirmText2')}</p>
+      </ConfirmationModal>
     </PageWrapper>
   );
 };
