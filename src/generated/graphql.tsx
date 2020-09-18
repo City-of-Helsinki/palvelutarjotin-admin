@@ -55,6 +55,7 @@ export type Query = {
   enrolments?: Maybe<EnrolmentNodeConnection>;
   /** The ID of the object */
   enrolment?: Maybe<EnrolmentNode>;
+  enrolmentSummary?: Maybe<EnrolmentNodeConnection>;
   /** Query personal data of logged user */
   myProfile?: Maybe<PersonNode>;
   /** The ID of the object */
@@ -132,6 +133,16 @@ export type QueryEnrolmentArgs = {
 };
 
 
+export type QueryEnrolmentSummaryArgs = {
+  organisationId: Scalars['ID'];
+  status?: Maybe<EnrolmentStatus>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryPersonArgs = {
   id: Scalars['ID'];
 };
@@ -167,7 +178,7 @@ export type QueryEventsArgs = {
   keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
-  locations?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['ID']>;
@@ -294,6 +305,7 @@ export type OccurrenceNode = Node & {
   enrolments: EnrolmentNodeConnection;
   remainingSeats?: Maybe<Scalars['Int']>;
   seatsTaken?: Maybe<Scalars['Int']>;
+  seatsApproved?: Maybe<Scalars['Int']>;
   linkedEvent?: Maybe<Event>;
 };
 
@@ -319,6 +331,7 @@ export type OccurrenceNodeEnrolmentsArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
 };
 
 /** An object with an ID */
@@ -470,6 +483,7 @@ export type PersonNodeEnrolmentSetArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
 };
 
 /** An enumeration. */
@@ -566,6 +580,7 @@ export type StudyGroupNodeEnrolmentsArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
 };
 
 /** An enumeration. */
@@ -590,6 +605,7 @@ export type EnrolmentNodeConnection = {
   pageInfo: PageInfo;
   /** Contains the nodes in this connection. */
   edges: Array<Maybe<EnrolmentNodeEdge>>;
+  count?: Maybe<Scalars['Int']>;
 };
 
 /** A Relay edge containing a `EnrolmentNode` and its cursor. */
@@ -610,7 +626,7 @@ export type EnrolmentNode = Node & {
   enrolmentTime: Scalars['DateTime'];
   person?: Maybe<PersonNode>;
   notificationType?: Maybe<NotificationType>;
-  status: EnrolmentStatus;
+  status?: Maybe<EnrolmentStatus>;
 };
 
 /** An enumeration. */
@@ -622,13 +638,9 @@ export enum NotificationType {
 
 /** An enumeration. */
 export enum EnrolmentStatus {
-  /** approved */
   Approved = 'APPROVED',
-  /** pending */
   Pending = 'PENDING',
-  /** cancelled */
   Cancelled = 'CANCELLED',
-  /** declined */
   Declined = 'DECLINED'
 }
 
@@ -1308,6 +1320,8 @@ export type EnrolOccurrenceMutationInput = {
   notificationType?: Maybe<NotificationType>;
   /** Leave blank if the contact person is the same with group contact person */
   person?: Maybe<PersonNodeInput>;
+  /** The user response token provided by the reCAPTCHA client-side integration */
+  captchaKey?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -2063,7 +2077,7 @@ export type EventsQueryVariables = {
   keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
-  locations?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['ID']>;
@@ -3546,8 +3560,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $locations: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean) {
-  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, locations: $locations, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation, showAll: $showAll) {
+    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $location: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean) {
+  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation, showAll: $showAll) {
     meta {
       ...metaFields
     }
@@ -3592,7 +3606,7 @@ export function withEvents<TProps, TChildProps = {}, TDataName extends string = 
  *      keywords: // value for 'keywords'
  *      keywordNot: // value for 'keywordNot'
  *      language: // value for 'language'
- *      locations: // value for 'locations'
+ *      location: // value for 'location'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
  *      publisher: // value for 'publisher'

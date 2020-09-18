@@ -291,7 +291,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   label={t('enrolment.enrolmentDetails.labelStatus')}
                   value={translateValue(
                     'enrolment.status.',
-                    enrolment.status,
+                    enrolment.status as string,
                     t
                   )}
                 />

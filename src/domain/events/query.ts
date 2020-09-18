@@ -15,7 +15,7 @@ export const QUERY_EVENT = gql`
     $keywords: [String]
     $keywordNot: [String]
     $language: String
-    $locations: String
+    $location: String
     $page: Int
     $pageSize: Int
     $publisher: ID
@@ -36,7 +36,7 @@ export const QUERY_EVENT = gql`
       keywords: $keywords
       keywordNot: $keywordNot
       language: $language
-      locations: $locations
+      location: $location
       page: $page
       pageSize: $pageSize
       publisher: $publisher

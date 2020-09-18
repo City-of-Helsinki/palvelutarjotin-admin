@@ -136,9 +136,8 @@ const EnrolmentTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStatus'),
-      accessor: (row: EnrolmentFieldsFragment) => (
-        <EnrolmentStatusBadge status={row.status} />
-      ),
+      accessor: (row: EnrolmentFieldsFragment) =>
+        row.status ? <EnrolmentStatusBadge status={row.status} /> : null,
       id: 'status',
     },
     {
