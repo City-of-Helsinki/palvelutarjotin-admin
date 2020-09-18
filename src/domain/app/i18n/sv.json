@@ -503,7 +503,7 @@
     },
     "publishSection": {
       "optionNow": "Nu",
-      "buttonSetPublished": "Plats",
+      "buttonSetPublished": "Ställ in publiceringsdatum",
       "buttonCancelPublishment": "Avbryt publiceringen",
       "textPublishedTime": "Händelse publicerad"
     },

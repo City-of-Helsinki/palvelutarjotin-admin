@@ -502,7 +502,7 @@
     },
     "publishSection": {
       "optionNow": "Now",
-      "buttonSetPublished": "Set",
+      "buttonSetPublished": "Set publication date",
       "buttonCancelPublishment": "Cancel publishment",
       "textPublishedTime": "Event published"
     },

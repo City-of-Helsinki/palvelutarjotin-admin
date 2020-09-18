@@ -502,7 +502,7 @@
     },
     "publishSection": {
       "optionNow": "Heti",
-      "buttonSetPublished": "Aseta",
+      "buttonSetPublished": "Aseta julkaisuajankohta",
       "buttonCancelPublishment": "Peru julkaisu",
       "textPublishedTime": "Tapahtuma julkaistu"
     },
