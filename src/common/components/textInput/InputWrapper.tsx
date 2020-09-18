@@ -19,6 +19,7 @@ export type InputWrapperProps = {
   tooltipText?: string;
   tooltipOpenButtonLabelText?: string;
   tooltipCloseButtonLabelText?: string;
+  required?: boolean;
 };
 
 const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
@@ -41,6 +42,7 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
       tooltipText,
       tooltipOpenButtonLabelText,
       tooltipCloseButtonLabelText,
+      required,
     },
     ref
   ) => (
@@ -61,6 +63,7 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
           className={`${styles.label} ${hideLabel ? styles.hiddenLabel : ''}`}
         >
           {labelText}
+          {required && <span className={styles.requiredIndicator}>*</span>}
         </label>
       )}
       {tooltipText && (

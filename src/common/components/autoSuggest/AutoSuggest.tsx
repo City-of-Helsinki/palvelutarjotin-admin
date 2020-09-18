@@ -84,6 +84,7 @@ export interface AutoSuggestProps {
   optionLabelToString?: (option: AutoSuggestOption, locale: Language) => string;
   placeholder?: string;
   readOnly?: boolean;
+  required?: boolean;
   setInputValue: (value: string) => void;
   value: AutoSuggestOption | AutoSuggestOption[] | null;
 }
@@ -106,6 +107,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
   readOnly,
   setInputValue,
   value,
+  required,
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -416,6 +418,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
         invalid={!!invalidText}
         labelText={labelText}
         className={className}
+        required={required}
       >
         <input
           ref={input}

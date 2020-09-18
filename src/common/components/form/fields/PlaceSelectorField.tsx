@@ -12,6 +12,7 @@ interface Props extends FieldProps {
   helperText: string;
   labelText: string;
   placeholder?: string;
+  required?: boolean;
 }
 
 const PlaceSelectorField: React.FC<Props> = (props) => {
@@ -20,6 +21,7 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
     className,
     field: { name, onBlur, onChange, ...field },
     form: { errors, touched },
+    required,
     helperText,
     labelText,
     placeholder,
@@ -52,6 +54,7 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
       helperText={helperText}
       labelText={labelText}
       onBlur={handleBlur}
+      required={required}
       onChange={handleChange}
       placeholder={placeholder}
       className={classNames(className, { [invalidFieldClass]: invalidText })}

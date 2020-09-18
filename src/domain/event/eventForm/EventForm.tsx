@@ -151,6 +151,7 @@ const EventForm: React.FC<Props> = ({
                     <Field
                       labelText={t('eventForm.basicInfo.labelName')}
                       name="name"
+                      required
                       component={TextInputField}
                     />
                   </FormGroup>
@@ -158,6 +159,7 @@ const EventForm: React.FC<Props> = ({
                     <Field
                       labelText={t('eventForm.basicInfo.labelShortDescription')}
                       name="shortDescription"
+                      required
                       component={TextInputField}
                     />
                   </FormGroup>
@@ -165,6 +167,7 @@ const EventForm: React.FC<Props> = ({
                     <Field
                       labelText={t('eventForm.basicInfo.labelDescription')}
                       name="description"
+                      required
                       component={TextAreaInputField}
                       rows={20}
                     />
@@ -195,6 +198,7 @@ const EventForm: React.FC<Props> = ({
                           labelText={t('eventForm.basicInfo.labelDuration')}
                           name="duration"
                           component={TextInputField}
+                          required
                           min={0}
                           type="number"
                         />
@@ -207,6 +211,7 @@ const EventForm: React.FC<Props> = ({
                             'eventForm.basicInfo.labelEnrolmentStart'
                           )}
                           name="enrolmentStart"
+                          required
                           component={DateInputField}
                           timeSelector={true}
                         />
@@ -218,6 +223,7 @@ const EventForm: React.FC<Props> = ({
                           labelText={t(
                             'eventForm.basicInfo.labelEnrolmentEndDays'
                           )}
+                          required
                           name="enrolmentEndDays"
                           component={TextInputField}
                           min={0}
@@ -265,6 +271,7 @@ const EventForm: React.FC<Props> = ({
                       helperText={t('eventForm.categorisation.helperKeywords')}
                       labelText={t('eventForm.categorisation.labelKeywords')}
                       name="keywords"
+                      required
                       placeholder={t(
                         'eventForm.categorisation.placeholderKeywords'
                       )}
@@ -300,6 +307,7 @@ const EventForm: React.FC<Props> = ({
                             'eventForm.categorisation.labelNeededOccurrences'
                           )}
                           name="neededOccurrences"
+                          required
                           component={TextInputField}
                           min={1}
                           type="number"
@@ -315,6 +323,7 @@ const EventForm: React.FC<Props> = ({
                       helperText={t('eventForm.location.helperLocation')}
                       labelText={t('eventForm.location.labelLocation')}
                       name="location"
+                      required
                       placeholder={t('eventForm.location.placeholderLocation')}
                       component={PlaceSelectorField}
                     />

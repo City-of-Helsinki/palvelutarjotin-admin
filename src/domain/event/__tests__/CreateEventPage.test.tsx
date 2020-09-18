@@ -180,7 +180,7 @@ test('modal opens when trying to change language', async () => {
     ).toBeInTheDocument();
   });
 
-  userEvent.type(screen.getByLabelText('Tapahtuman nimi'), eventFormData.name);
+  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), eventFormData.name);
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
     name: eventFormData.name,
@@ -223,7 +223,7 @@ test('form works correctly when edited', async () => {
     ).toBeInTheDocument();
   });
 
-  userEvent.type(screen.getByLabelText('Tapahtuman nimi'), eventFormData.name);
+  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), eventFormData.name);
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
     name: eventFormData.name,
@@ -239,7 +239,7 @@ test('form works correctly when edited', async () => {
     shortDescription: eventFormData.shortDescription,
   });
 
-  userEvent.type(screen.getByLabelText('Kuvaus'), eventFormData.description);
+  userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description);
   userEvent.type(
     screen.getByLabelText('WWW-osoite, josta saa lisätietoja tapahtumasta'),
     eventFormData.infoUrl
@@ -262,20 +262,20 @@ test('form works correctly when edited', async () => {
   ).not.toBeInTheDocument();
 
   userEvent.type(
-    screen.getByLabelText('Valokuvaaja'),
+    screen.getByLabelText(/Valokuvaaja/),
     eventFormData.imagePhotographerName
   );
   userEvent.type(
-    screen.getByLabelText('Kuvan alt-teksti'),
+    screen.getByLabelText(/Kuvan alt-teksti/),
     eventFormData.imageAltText
   );
 
   userEvent.type(
-    screen.getByLabelText('Sähköpostiosoite'),
+    screen.getByLabelText(/Sähköpostiosoite/),
     eventFormData.contactEmail
   );
   userEvent.type(
-    screen.getByLabelText('Puhelinnumero'),
+    screen.getByLabelText(/Puhelinnumero/),
     eventFormData.contactPhoneNumber
   );
 
@@ -315,7 +315,7 @@ test('form works correctly when edited', async () => {
   const contactInfoPart = within(screen.getByTestId('contact-info'));
 
   userEvent.click(
-    contactInfoPart.getByLabelText(/^nimi$/i, {
+    contactInfoPart.getByLabelText(/Nimi/, {
       selector: 'button',
     })
   );
@@ -342,7 +342,7 @@ test('form works correctly when edited', async () => {
   });
 
   userEvent.click(
-    screen.getByLabelText('Tapahtuman kielet', { selector: 'button' })
+    screen.getByLabelText(/Tapahtuman kielet/, { selector: 'button' })
   );
   userEvent.click(
     screen.getByRole('option', { name: 'Englanti', hidden: true })
@@ -362,14 +362,14 @@ test('form works correctly when edited', async () => {
 
   jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
 
-  const keywordsInput = screen.getByLabelText('Tapahtuman avainsanat');
+  const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
   userEvent.click(keywordsInput);
   userEvent.type(keywordsInput, 'perheet');
 
   const familyCategory = await screen.findByText(/perheet/i);
   userEvent.click(familyCategory);
 
-  const placeInput = screen.getByLabelText('Oletustapahtumapaikka');
+  const placeInput = screen.getByLabelText(/Oletustapahtumapaikka/);
   userEvent.click(placeInput);
   userEvent.type(placeInput, 'Sellon');
 
