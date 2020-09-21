@@ -504,9 +504,13 @@
     },
     "publishSection": {
       "optionNow": "Heti",
-      "buttonSetPublished": "Aseta",
+      "buttonSetPublished": "Aseta julkaisuajankohta",
       "buttonCancelPublishment": "Peru julkaisu",
-      "textPublishedTime": "Tapahtuma julkaistu"
+      "textPublishedTime": "Tapahtuma julkaistu",
+      "confirmModalTitle": "Aseta julkaisuajankohta",
+      "confirmPublicationButton": "Vahvista",
+      "confirmText1": "Oletko varma, että haluat asettaa julkaisuajankohdan?",
+      "confirmText2": "Tapahtuma-aikoja ei voi lisätä eikä muokata julkaisun jälkeen."
     },
     "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",
     "titleComingOccurrences": "Tulevat tapahtuma-ajat",

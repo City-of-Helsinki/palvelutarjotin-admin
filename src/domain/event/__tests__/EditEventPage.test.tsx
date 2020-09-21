@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MockedProvider } from '@apollo/react-testing';
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
-import { Provider } from 'react-redux';
 import Router from 'react-router';
 
 import eventResponse from '../__mocks__/eventResponse.json';
@@ -183,7 +181,7 @@ test('edit event form initializes and submits correctly', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.getByLabelText('Tapahtuman nimi')).toHaveValue(
+    expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(
       'Testitapahtuma'
     );
     expect(screen.queryByText('perheet')).toBeInTheDocument();
@@ -206,11 +204,11 @@ test('edit event form initializes and submits correctly', async () => {
     imageAltText: 'Vaihtoehtoinen kuvateksti',
   });
 
-  expect(screen.getByLabelText('Kuvaus')).toHaveTextContent('Pidempi kuvaus');
+  expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent('Pidempi kuvaus');
 
   const contactInfo = within(screen.getByTestId('contact-info'));
   expect(
-    contactInfo.getByLabelText('Nimi', { selector: 'button' })
+    contactInfo.getByLabelText(/Nimi/, { selector: 'button' })
   ).toHaveTextContent('Testaaja2');
 
   expect(
@@ -224,7 +222,7 @@ test('edit event form initializes and submits correctly', async () => {
   expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
   expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
 
-  userEvent.type(screen.getByLabelText('Tapahtuman nimi'), 'Testinimi');
+  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
   jest
     .spyOn(apolloClient, 'readQuery')

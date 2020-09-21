@@ -505,9 +505,13 @@
     },
     "publishSection": {
       "optionNow": "Nu",
-      "buttonSetPublished": "Plats",
+      "buttonSetPublished": "Ställ in publiceringsdatum",
       "buttonCancelPublishment": "Avbryt publiceringen",
-      "textPublishedTime": "Händelse publicerad"
+      "confirmModalTitle": "Ställ in publiceringsdatum",
+      "textPublishedTime": "Händelse publicerad",
+      "confirmPublicationButton": "Bekräfta",
+      "confirmText1": "Är du säker på att du vill ställa in tid för publicering?",
+      "confirmText2": "Förekomster kan inte läggas till eller ändras efter att evenemanget har publicerats."
     },
     "textNoComingOccurrences": "Inga framtida evenemangtider",
     "titleComingOccurrences": "Framtida evenemangtider",

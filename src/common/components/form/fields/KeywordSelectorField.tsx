@@ -12,6 +12,7 @@ interface Props extends FieldProps {
   helperText: string;
   labelText: string;
   placeholder?: string;
+  required?: boolean;
 }
 
 const KeywordSelectorField: React.FC<Props> = (props) => {
@@ -23,6 +24,7 @@ const KeywordSelectorField: React.FC<Props> = (props) => {
     helperText,
     labelText,
     placeholder,
+    required,
   } = props;
   const invalidText = getErrorText(errors, touched, name, t);
 
@@ -54,6 +56,7 @@ const KeywordSelectorField: React.FC<Props> = (props) => {
       onBlur={handleBlur}
       onChange={handleChange}
       placeholder={placeholder}
+      required={required}
       className={classNames(className, { [invalidFieldClass]: invalidText })}
     />
   );

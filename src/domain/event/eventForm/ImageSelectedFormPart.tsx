@@ -59,6 +59,7 @@ const ImageSelectedFormPart: React.FC<Props> = ({
             <Field
               labelText={t('eventForm.basicInfo.labelImagePhotographer')}
               name="imagePhotographerName"
+              required
               component={TextInputField}
             />
           </FormGroup>
@@ -67,6 +68,7 @@ const ImageSelectedFormPart: React.FC<Props> = ({
             <Field
               labelText={t('eventForm.basicInfo.labelImageAltText')}
               name="imageAltText"
+              required
               helperText={t('eventForm.basicInfo.imageAltTextHelp')}
               component={TextInputField}
             />

@@ -45,6 +45,7 @@ export type DatepickerProps = {
   timeSelector?: boolean;
   minuteInterval?: number;
   hideLabel?: boolean;
+  required?: boolean;
 };
 
 const Datepicker: React.FC<DatepickerProps> = ({
@@ -59,6 +60,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   timeSelector,
   minuteInterval,
   hideLabel,
+  required,
 }) => {
   const [times] = useState(() =>
     getTimeObjects(minuteInterval || MINUTE_INTERVAL)
@@ -315,6 +317,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
           labelText={labelText}
           hideLabel={hideLabel}
           hasIcon
+          required={required}
         >
           <input
             name={id}
