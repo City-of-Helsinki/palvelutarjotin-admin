@@ -294,6 +294,16 @@ export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
   );
 };
 
+export const getUpcomingOccurrences = (event?: EventFieldsFragment | null) => {
+  if (event?.pEvent.occurrences) {
+    return event.pEvent.occurrences.edges.filter((o) =>
+      isFutureDate(new Date(o?.node?.startTime))
+    );
+  }
+
+  return [];
+};
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getEventFields = (
   event: EventFieldsFragment | undefined | null,

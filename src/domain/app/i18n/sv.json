@@ -241,7 +241,9 @@
       "buttonDelete": "Bort evenemang",
       "text1": "Är du säker på att du vill ta bort evenemang?",
       "text2": "En borttagen evenemang kan inte ångras.",
-      "title": "Bort evenemang"
+      "title": "Bort evenemang",
+      "upcomingOccurrences": "Kommande händelser",
+      "occurrenceTime": "{{date}} kl. {{time}}"
     },
     "location": {
       "labelLocation": "Standard venue",

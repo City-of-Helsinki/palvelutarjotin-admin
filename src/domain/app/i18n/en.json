@@ -241,7 +241,9 @@
       "buttonDelete": "Delete event",
       "text1": "Are you sure you want to delete the event?",
       "text2": "Once deleted, events can not be restored.",
-      "title": "Delete event"
+      "title": "Delete event",
+      "upcomingOccurrences": "Upcoming occurrences",
+      "occurrenceTime": "{{date}} at {{time}}"
     },
     "location": {
       "labelLocation": "Default venue",
