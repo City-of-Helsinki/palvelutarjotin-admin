@@ -258,7 +258,7 @@
     "basicInfo": {
       "addImage": "Lisää kuva",
       "deleteImage": "Poista kuva",
-      "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin",
+      "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin. Maksimi koko 2 megatavua. Suositeltu kuvakoko on 1200px X 800px.",
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
       "labelDescription": "Kuvaus",
       "labelDuration": "Tapahtuman kesto, min",
@@ -396,6 +396,9 @@
       "buttonEdit": "Vaihda",
       "labelReittiopas": "Reittiopas:",
       "labelServicemap": "Palvelukartta:"
+    },
+    "error": {
+      "imageTooBig": "Kuva on liian iso. Kuvan maksimikoko on 2 megatavua."
     }
   },
   "footer": {

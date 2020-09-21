@@ -1,9 +1,13 @@
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import { useUploadSingleImageMutation } from '../../../generated/graphql';
 import InputWrapper, { InputWrapperProps } from '../textInput/InputWrapper';
+
+// 2 megabytes
+const IMAGE_MAX_SIZE = 2097152;
 
 type ImageInputProps = {
   setFieldValue: (
@@ -27,14 +31,29 @@ const ImageInput: React.FC<ImageInputProps> = ({
     inputRef.current?.click();
   };
 
+  const resetImageInput = () => {
+    if (inputRef.current?.value) {
+      inputRef.current.value = '';
+    }
+  };
+
   const handleImageFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.files?.[0]) {
+    const file = e.currentTarget.files?.[0];
+    const fileSize = file?.size;
+
+    if (fileSize && fileSize > IMAGE_MAX_SIZE) {
+      toast(t('form.error.imageTooBig'), { type: toast.TYPE.ERROR });
+      resetImageInput();
+      return;
+    }
+
+    if (file) {
       try {
         const data = await uploadImage({
           variables: {
             image: {
               name: '',
-              image: e.currentTarget.files[0],
+              image: file,
             },
           },
         });

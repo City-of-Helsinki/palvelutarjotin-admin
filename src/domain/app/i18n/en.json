@@ -257,7 +257,7 @@
     "basicInfo": {
       "addImage": "Add image",
       "deleteImage": "Delete image",
-      "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license",
+      "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license. Max size of the image is 2 megabytes. Recommended dimensios are 1200px X 800px.",
       "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelDescription": "Description",
       "labelDuration": "Event duration, min",
@@ -303,8 +303,7 @@
       "labelLocation": "Default venue",
       "placeholderLocation": "Search place...",
       "title": "Location"
-    },
-    "title": "Event details"
+    }
   },
   "events": {
     "buttonLoadMore": "Show more",
@@ -396,6 +395,9 @@
       "buttonEdit": "Change",
       "labelReittiopas": "Reittiopas:",
       "labelServicemap": "Servicemap:"
+    },
+    "error": {
+      "imageTooBig": "Image is too big. Maximum size of the image is 2 megabytes."
     }
   },
   "footer": {
