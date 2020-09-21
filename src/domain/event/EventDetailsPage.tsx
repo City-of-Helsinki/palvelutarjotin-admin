@@ -1,3 +1,4 @@
+import { format as formatDate } from 'date-fns';
 import { Button, IconCrossCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +25,11 @@ import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonI
 import EventDetailsButtons from './eventDetailsButtons/EventDetailsButtons';
 import styles from './eventDetailsPage.module.scss';
 import EventLocation from './eventLocation/EventLocation';
-import { getEventLanguageFromUrl, getFirstAvailableLanguage } from './utils';
+import {
+  getEventLanguageFromUrl,
+  getFirstAvailableLanguage,
+  getUpcomingOccurrences,
+} from './utils';
 
 const EventDetailsPage = () => {
   const { t } = useTranslation();
@@ -46,7 +51,10 @@ const EventDetailsPage = () => {
     fetchPolicy: 'network-only',
     variables,
   });
+
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
+  const upcomingOccurrences = getUpcomingOccurrences(eventData?.event);
+  const eventHasUpcomingOccurrences = upcomingOccurrences.length > 0;
 
   const [deleteEventRequest] = useDeleteSingleEventMutation();
 
@@ -88,6 +96,31 @@ const EventDetailsPage = () => {
     }
   };
 
+  const renderFutureOccurrencesList = () => {
+    if (eventHasUpcomingOccurrences) {
+      return (
+        <div className={styles.futureOccurrencesList}>
+          <p>{t('eventDetails.deleteModal.upcomingOccurrences')}:</p>
+          <ul>
+            {upcomingOccurrences.map((o) => {
+              const startTime = o?.node?.startTime;
+              return (
+                <li>
+                  {t('eventDetails.deleteModal.occurrenceTime', {
+                    date: formatDate(new Date(startTime), 'dd.MM.yyyy'),
+                    time: formatDate(new Date(startTime), 'HH:mm'),
+                  })}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <PageWrapper title="eventDetails.title">
       <LoadingSpinner isLoading={loading}>
@@ -103,6 +136,7 @@ const EventDetailsPage = () => {
               >
                 <p>{t('eventDetails.deleteModal.text1')}</p>
                 <p>{t('eventDetails.deleteModal.text2')}</p>
+                {renderFutureOccurrencesList()}
               </AlertModal>
 
               <ActiveOrganisationInfo organisationId={organisationId} />
