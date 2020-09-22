@@ -2088,6 +2088,7 @@ export type EventsQueryVariables = {
   text?: Maybe<Scalars['String']>;
   translation?: Maybe<Scalars['String']>;
   showAll?: Maybe<Scalars['Boolean']>;
+  publicationStatus?: Maybe<Scalars['String']>;
 };
 
 
@@ -3560,8 +3561,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $location: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean) {
-  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation, showAll: $showAll) {
+    query Events($divisions: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keywords: [String], $keywordNot: [String], $language: String, $location: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean, $publicationStatus: String) {
+  events(divisions: $divisions, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keywords: $keywords, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation, showAll: $showAll, publicationStatus: $publicationStatus) {
     meta {
       ...metaFields
     }
@@ -3617,6 +3618,7 @@ export function withEvents<TProps, TChildProps = {}, TDataName extends string = 
  *      text: // value for 'text'
  *      translation: // value for 'translation'
  *      showAll: // value for 'showAll'
+ *      publicationStatus: // value for 'publicationStatus'
  *   },
  * });
  */

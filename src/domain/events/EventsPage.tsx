@@ -7,27 +7,21 @@ import { useHistory } from 'react-router';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EventFieldsFragment,
-  EventsQuery,
-  useEventsQuery,
   useMyProfileQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
-import getPageNumberFromUrl from '../../utils/getPageNumberFromUrl';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
-import {
-  getEventFields,
-  hasComingOccurrences,
-  hasOccurrences,
-} from '../event/utils';
+import { getEventFields } from '../event/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
-import { EVENT_SORT_KEYS, PAGE_SIZE } from './constants';
+import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from './constants';
 import styles from './eventsPage.module.scss';
+import { useEventsQueryHelper } from './utils';
 
 const EventsPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState('');
@@ -35,7 +29,6 @@ const EventsPage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
 
   const { data: myProfileData } = useMyProfileQuery();
 
@@ -44,14 +37,54 @@ const EventsPage: React.FC = () => {
     myProfileData?.myProfile &&
     getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
 
-  const { data, loading, fetchMore } = useEventsQuery({
+  const baseVariables = {
+    pageSize: PAGE_SIZE,
+    published: selectedOrganisation?.publisherId,
+    sort: EVENT_SORT_KEYS.START_TIME,
+    text: searchValue,
+    showAll: true,
+  };
+
+  const {
+    data: eventsData,
+    loading: loadingEvents,
+    isLoadingMore: isLoadingMoreEvents,
+    hasNextPage: eventsHasNextPage,
+    fetchMore: fetchMoreEvents,
+  } = useEventsQueryHelper({
     errorPolicy: 'ignore',
     variables: {
-      pageSize: PAGE_SIZE,
-      publisher: selectedOrganisation?.publisherId,
-      sort: EVENT_SORT_KEYS.START_TIME,
-      text: searchValue,
-      showAll: true,
+      ...baseVariables,
+      // with start:now we can get events that have upcoming occurrences
+      start: 'now',
+    },
+  });
+
+  const {
+    data: eventsWithoutOccurrencesData,
+    isLoadingMore: loadingMoreEventsWithoutOccurrences,
+    fetchMore: fetchMoreEventsWithoutOccurrences,
+    hasNextPage: eventsWithoutOccurrencesHasNextPage,
+  } = useEventsQueryHelper({
+    errorPolicy: 'ignore',
+    variables: {
+      ...baseVariables,
+      // when querying for events that are in draft should have no occurrences
+      publicationStatus: PUBLICATION_STATUS.DRAFT,
+    },
+  });
+
+  const {
+    data: pastEventsData,
+    isLoadingMore: loadingMorePastEvents,
+    fetchMore: fetchMorePastEvents,
+    hasNextPage: pastEventsHasNextPage,
+  } = useEventsQueryHelper({
+    errorPolicy: 'ignore',
+    variables: {
+      ...baseVariables,
+      // we will egt past events with end:now
+      end: 'now',
     },
   });
 
@@ -63,53 +96,19 @@ const EventsPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', id)}`);
   };
 
-  const events = data?.events?.data.filter((event) => event.pEvent?.id) || [];
-  const eventsWithComingOccurrences = events.filter((event) =>
-    hasComingOccurrences(event)
-  );
-  const eventsWithoutOccurrences = events.filter(
-    (event) => !hasOccurrences(event)
-  );
-  const eventsWithPastOccurrences = events.filter(
-    (event) => hasOccurrences(event) && !hasComingOccurrences(event)
-  );
+  const eventsWithComingOccurrences = eventsData?.events?.data || [];
+  const eventsWithComingOccurrencesCount = eventsData?.events?.meta.count;
 
-  const nextPage = React.useMemo(() => {
-    const nextUrl = data?.events?.meta.next;
-    return nextUrl ? getPageNumberFromUrl(nextUrl) : null;
-  }, [data]);
+  const eventsWithoutOccurrences =
+    eventsWithoutOccurrencesData?.events?.data || [];
+  const eventsWithoutOccurrencesCount =
+    eventsWithoutOccurrencesData?.events?.meta.count;
 
-  const shouldShowLoadMore = Boolean(nextPage);
+  const eventsWithPastOccurrences = pastEventsData?.events?.data || [];
+  const eventsWithPastOccurrencesCount = pastEventsData?.events?.meta.count;
 
   const handleSearchFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-  };
-
-  const fetchMoreEvents = async () => {
-    if (nextPage) {
-      try {
-        setIsLoadingMore(true);
-        await fetchMore({
-          updateQuery: (prev: EventsQuery, { fetchMoreResult }) => {
-            if (!fetchMoreResult?.events) {
-              return prev;
-            }
-
-            const prevEvents = prev.events?.data || [];
-            const newEvents = fetchMoreResult.events?.data || [];
-            fetchMoreResult.events.data = [...prevEvents, ...newEvents];
-
-            return fetchMoreResult;
-          },
-          variables: {
-            page: nextPage,
-          },
-        });
-        setIsLoadingMore(false);
-      } catch (e) {
-        setIsLoadingMore(false);
-      }
-    }
   };
 
   return (
@@ -120,7 +119,10 @@ const EventsPage: React.FC = () => {
 
           <div className={styles.comingEventsTitleWrapper}>
             <EventsTitle
-              count={eventsWithComingOccurrences.length}
+              count={
+                eventsWithComingOccurrencesCount ||
+                eventsWithComingOccurrences.length
+              }
               title={t('events.titleComingEvents')}
             />
             <div className={styles.searchWrapper}>
@@ -139,12 +141,20 @@ const EventsPage: React.FC = () => {
               </div>
             </div>
           </div>
-          <LoadingSpinner isLoading={loading}>
+          <LoadingSpinner isLoading={loadingEvents}>
             {!!eventsWithComingOccurrences.length ? (
-              <Events
-                events={eventsWithComingOccurrences}
-                goToEventOccurrencesPage={goToEventOccurrencesPage}
-              />
+              <>
+                <Events
+                  events={eventsWithComingOccurrences}
+                  goToEventOccurrencesPage={goToEventOccurrencesPage}
+                />
+                {eventsHasNextPage && (
+                  <ShowMoreButton
+                    loading={isLoadingMoreEvents}
+                    onClick={fetchMoreEvents}
+                  />
+                )}
+              </>
             ) : (
               <p>{t('events.textNoComingEvents')}</p>
             )}
@@ -152,36 +162,45 @@ const EventsPage: React.FC = () => {
             {!!eventsWithoutOccurrences.length && (
               <>
                 <EventsTitle
-                  count={eventsWithoutOccurrences.length}
+                  count={
+                    eventsWithoutOccurrencesCount ||
+                    eventsWithoutOccurrences.length
+                  }
                   title={t('events.titleEventsWithoutOccurrences')}
                 />
                 <Events
                   events={eventsWithoutOccurrences}
                   goToEventOccurrencesPage={goToEventOccurrencesPage}
                 />
+                {eventsWithoutOccurrencesHasNextPage && (
+                  <ShowMoreButton
+                    loading={loadingMoreEventsWithoutOccurrences}
+                    onClick={fetchMoreEventsWithoutOccurrences}
+                  />
+                )}
               </>
             )}
+
             {!!eventsWithPastOccurrences.length && (
               <>
                 <EventsTitle
-                  count={eventsWithPastOccurrences.length}
+                  count={
+                    eventsWithPastOccurrencesCount ||
+                    eventsWithPastOccurrences.length
+                  }
                   title={t('events.titleEventsWithPastOccurrences')}
                 />
                 <Events
                   events={eventsWithPastOccurrences}
                   goToEventOccurrencesPage={goToEventOccurrencesPage}
                 />
+                {pastEventsHasNextPage && (
+                  <ShowMoreButton
+                    loading={loadingMorePastEvents}
+                    onClick={fetchMorePastEvents}
+                  />
+                )}
               </>
-            )}
-            {shouldShowLoadMore && (
-              <LoadingSpinner hasPadding={false} isLoading={isLoadingMore}>
-                <button
-                  onClick={fetchMoreEvents}
-                  className={styles.showMoreButton}
-                >
-                  {t('events.buttonLoadMore')}
-                </button>
-              </LoadingSpinner>
             )}
           </LoadingSpinner>
         </div>
@@ -240,6 +259,21 @@ const Events: React.FC<{
         );
       })}
     </div>
+  );
+};
+
+const ShowMoreButton: React.FC<{
+  loading: boolean;
+  onClick: () => Promise<void>;
+}> = ({ loading, onClick }) => {
+  const { t } = useTranslation();
+
+  return (
+    <LoadingSpinner hasPadding={false} isLoading={loading}>
+      <button onClick={onClick} className={styles.showMoreButton}>
+        {t('events.buttonLoadMore')}
+      </button>
+    </LoadingSpinner>
   );
 };
 

@@ -1,4 +1,4 @@
-export const PAGE_SIZE = 10;
+export const PAGE_SIZE = 5;
 
 export enum EVENT_SORT_KEYS {
   DURATION = 'duration',
