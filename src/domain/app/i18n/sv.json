@@ -258,7 +258,7 @@
     "basicInfo": {
       "addImage": "Lägg till bild",
       "deleteImage": "Ta bort bild",
-      "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen",
+      "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
       "labelDuration": "Evenemang varaktighet, min",
@@ -397,6 +397,9 @@
       "buttonEdit": "Förändra",
       "labelReittiopas": "Reittiopas:",
       "labelServicemap": "Servicekartan:"
+    },
+    "error": {
+      "imageTooBig": "Bilden är för stor. Bildens maximala storlek är 2 megabyte."
     }
   },
   "footer": {
