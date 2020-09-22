@@ -49,6 +49,7 @@ const OccurrencesPage: React.FC = () => {
       variables: { id: eventId, include: ['location'] },
     }
   );
+  console.log(eventData);
   const [publishEvent] = usePublishSingleEventMutation();
   const [cancelOccurrence] = useCancelOccurrenceMutation();
 
@@ -56,6 +57,8 @@ const OccurrencesPage: React.FC = () => {
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
   const isEventPublished =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
+  const isEventDraft =
+    eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
@@ -198,17 +201,7 @@ const OccurrencesPage: React.FC = () => {
                       })}
                     </span>
                   </h2>
-                  <div className={styles.buttonWrapper}>
-                    <Link
-                      className={styles.link}
-                      to={`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(
-                        ':id',
-                        eventId
-                      )}`}
-                    >
-                      {t('occurrences.buttonCreateOccurrence')}
-                    </Link>
-                  </div>
+                  {isEventDraft && <CreateOccurrenceButton eventId={eventId} />}
                 </div>
                 {!!comingOccurrences.length ? (
                   <OccurrencesTable
@@ -276,6 +269,22 @@ const OccurrencesPage: React.FC = () => {
         <p>{t('occurrences.publishSection.confirmText2')}</p>
       </ConfirmationModal>
     </PageWrapper>
+  );
+};
+
+const CreateOccurrenceButton: React.FC<{ eventId: string }> = ({ eventId }) => {
+  const locale = useLocale();
+  const { t } = useTranslation();
+
+  return (
+    <div className={styles.buttonWrapper}>
+      <Link
+        className={styles.link}
+        to={`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`}
+      >
+        {t('occurrences.buttonCreateOccurrence')}
+      </Link>
+    </div>
   );
 };
 
