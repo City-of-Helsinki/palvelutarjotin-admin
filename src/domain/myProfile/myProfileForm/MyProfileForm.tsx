@@ -12,7 +12,9 @@ import FocusToFirstError from '../../../common/components/form/FocusToFirstError
 import FormGroup from '../../../common/components/form/FormGroup';
 import HelperText from '../../../common/components/form/HelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
+import { PRIVACY_POLICY_LINKS } from '../../../constants';
 import { useOrganisationsQuery } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import { userSelector } from '../../auth/selectors';
 import styles from './myProfileForm.module.scss';
 import ValidationSchema from './ValidationSchema';
@@ -49,6 +51,7 @@ const MyProfileForm: React.FC<Props> = ({
   showCheckboxes = false,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const { data: organisationsData } = useOrganisationsQuery();
   const user = useSelector(userSelector);
 
@@ -129,7 +132,9 @@ const MyProfileForm: React.FC<Props> = ({
                     labelText={
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: t('myProfileForm.checkboxPrivacyPolicy'),
+                          __html: t('myProfileForm.checkboxPrivacyPolicy', {
+                            url: PRIVACY_POLICY_LINKS[locale],
+                          }),
                         }}
                       />
                     }

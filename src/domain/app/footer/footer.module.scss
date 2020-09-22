@@ -43,6 +43,8 @@ $logoWidth: 5rem;
 .copyright {
   border-top: 1px solid $hel-black-60;
   padding-top: $basePadding;
+  display: flex;
+  justify-content: space-between;
 
   p {
     margin: 0;

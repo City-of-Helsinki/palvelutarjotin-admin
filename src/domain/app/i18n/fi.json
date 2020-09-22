@@ -121,7 +121,7 @@
     "title": "Omat tiedot"
   },
   "myProfileForm": {
-    "checkboxPrivacyPolicy": "Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. <a href='TODO: Add url'>Tietosuojaseloste</a>",
+    "checkboxPrivacyPolicy": "Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. <a href='{{url}}' target='_blank' rel='noreferrer'>Tietosuojaseloste</a>",
     "checkboxTermsOfService": "Olen hyväksynyt palvelut <a href='TODO: Add url'>käyttöehdot</a>",
     "helperEmail": "Tämä on käyttäjätunnuksesi",
     "helperName": "Voidaan käyttää tapahtumien yhteystiedoissa",
@@ -402,7 +402,8 @@
     }
   },
   "footer": {
-    "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään"
+    "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään",
+    "privacyPolicy": "Rekisteriseloste"
   },
   "header": {
     "ariaButtonCloseMenu": "Sulje valikko",

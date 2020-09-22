@@ -121,7 +121,7 @@
     "title": "My profile"
   },
   "myProfileForm": {
-    "checkboxPrivacyPolicy": "I authorize the use of the information I provide in the transaction information. <a href='TODO: Add url'>Privacy Policy</a>",
+    "checkboxPrivacyPolicy": "I authorize the use of the information I provide in the transaction information. <a href='{{url}}' target='_blank' rel='noreferrer'>Privacy Policy</a>",
     "checkboxTermsOfService": "I have accepted the <a href='TODO: Add url'>terms of service</a>",
     "helperEmail": "This is your username",
     "helperName": "Can be used for event contacts",
@@ -401,7 +401,8 @@
     }
   },
   "footer": {
-    "copyrightText": "© Copyright 2020 • All rights reserved"
+    "copyrightText": "© Copyright 2020 • All rights reserved",
+    "privacyPolicy": "Privacy policy"
   },
   "header": {
     "ariaButtonCloseMenu": "Close menu",

@@ -120,7 +120,7 @@
     "title": "Min profil"
   },
   "myProfileForm": {
-    "checkboxPrivacyPolicy": "Jag godkänner användningen av den information som jag tillhandahåller i transaktionsinformationen. <a href='TODO: Add url'>Integritetspolicy</a>",
+    "checkboxPrivacyPolicy": "Jag godkänner användningen av den information som jag tillhandahåller i transaktionsinformationen.<a href='{{url}}' target='_blank' rel='noreferrer'>Integritetspolicy</a>",
     "checkboxTermsOfService": "Jag har accepterat <a href='TODO: Add url'>användarvillkoren</a>",
     "helperEmail": "Detta är ditt användarnamn",
     "helperName": "Kan användas för evenemangkontakter",
@@ -403,7 +403,8 @@
     }
   },
   "footer": {
-    "copyrightText": "© Copyright 2020 • Alla rättigheter förbehållna"
+    "copyrightText": "© Copyright 2020 • Alla rättigheter förbehållna",
+    "privacyPolicy": "Integritetspolicy"
   },
   "header": {
     "ariaButtonCloseMenu": "Stäng menyn",

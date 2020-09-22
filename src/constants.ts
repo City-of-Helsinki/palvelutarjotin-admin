@@ -30,3 +30,12 @@ export enum EVENT_LANGUAGES {
   SV = 'sv',
   ZH_HANS = 'zh_hans',
 }
+
+export const PRIVACY_POLICY_LINKS = {
+  fi:
+    'https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Kuva/Kuva-EU-Palvelutarjotin.pdf',
+  en:
+    'https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Kuva/Kuva-EU-Palvelutarjotin.pdf',
+  sv:
+    'https://www.hel.fi/static/liitteet/kanslia/rekisteriselosteet/Kuva/Kuva-EU-Palvelutarjotin-SV.pdf',
+};
