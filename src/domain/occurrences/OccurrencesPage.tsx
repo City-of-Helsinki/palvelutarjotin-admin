@@ -124,6 +124,7 @@ const OccurrencesPage: React.FC = () => {
         type: toast.TYPE.ERROR,
       });
     }
+    setShowPublishModal(false);
   };
 
   const handlePublishEventClick = async () => {
