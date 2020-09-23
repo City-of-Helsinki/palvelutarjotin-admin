@@ -15,6 +15,7 @@ import CancelOccurrenceModal from './CancelOccurrenceModal';
 
 interface Props {
   eventId: string;
+  isEventDraft: boolean;
   onDelete: (row: OccurrenceFieldsFragment) => void;
   onCancel: (row: OccurrenceFieldsFragment, message?: string) => void;
   row: OccurrenceFieldsFragment;
@@ -24,6 +25,7 @@ const ActionsDropdown: React.FC<Props> = ({
   eventId,
   onDelete,
   onCancel,
+  isEventDraft,
   row,
 }) => {
   const { t } = useTranslation();
@@ -81,7 +83,7 @@ const ActionsDropdown: React.FC<Props> = ({
       ),
       onClick: goToOccurrenceDetailsPage,
     },
-    {
+    isEventDraft && {
       children: (
         <>
           <IconPenLine />
@@ -99,8 +101,7 @@ const ActionsDropdown: React.FC<Props> = ({
         </>
       ),
     },
-
-    {
+    isEventDraft && {
       onClick: openDeleteModal,
       children: (
         <>

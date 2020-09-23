@@ -13,6 +13,7 @@ import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import { getEventFields } from '../../event/utils';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import OccurrenceGroupInfo from '../occurrenceGroupInfo/OccurrenceGroupInfo';
 import styles from './occurrenceInfo.module.scss';
@@ -26,26 +27,20 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const { eventName = '', id } = getEventFields(event, locale);
+  const { eventName = '', id: eventId } = getEventFields(event, locale);
 
   const startTime = new Date(occurrence.startTime);
   const endTime = new Date(occurrence.endTime);
   const date = formatDate(startTime);
   const time = formatTimeRange(startTime, endTime, locale);
+  const isEventDraft = event.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
   const occurrenceId = occurrence.id;
   const placeId = occurrence.placeId || event.location?.id;
 
   const goToEventDetailsPage = () => {
-    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id || '')}`);
-  };
-
-  const goToEditOccurrencePage = () => {
     history.push(
-      `/${locale}${ROUTES.EDIT_OCCURRENCE.replace(':id', id || '').replace(
-        ':occurrenceId',
-        occurrenceId
-      )}`
+      `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId || '')}`
     );
   };
 
@@ -67,11 +62,9 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
           </div>
           <p>{t('occurrenceDetails.textDateAndTime', { date, time })}</p>
         </div>
-        <div className={styles.buttonWrapper}>
-          <Button onClick={goToEditOccurrencePage} variant="supplementary">
-            {t('occurrenceDetails.buttonEditOccurrence')}
-          </Button>
-        </div>
+        {!isEventDraft && (
+          <EditOccurrenceButton eventId={eventId} occurrenceId={occurrenceId} />
+        )}
       </div>
 
       <div className={styles.infoRow}>
@@ -92,6 +85,32 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
           )}
         </div>
       </div>
+    </div>
+  );
+};
+
+const EditOccurrenceButton: React.FC<{
+  eventId?: string;
+  occurrenceId: string;
+}> = ({ occurrenceId, eventId }) => {
+  const locale = useLocale();
+  const history = useHistory();
+  const { t } = useTranslation();
+
+  const goToEditOccurrencePage = () => {
+    history.push(
+      `/${locale}${ROUTES.EDIT_OCCURRENCE.replace(':id', eventId || '').replace(
+        ':occurrenceId',
+        occurrenceId
+      )}`
+    );
+  };
+
+  return (
+    <div className={styles.buttonWrapper}>
+      <Button onClick={goToEditOccurrencePage} variant="supplementary">
+        {t('occurrenceDetails.buttonEditOccurrence')}
+      </Button>
     </div>
   );
 };

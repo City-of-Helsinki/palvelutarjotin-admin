@@ -13,6 +13,7 @@ import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import PlaceText from '../../place/PlaceText';
 import ActionsDropdown from './ActionsDropdown';
 
@@ -39,6 +40,8 @@ const OccurrencesTable: React.FC<Props> = ({
   >([]);
   const eventId = eventData?.event?.id || '';
   const eventLocationId = eventData?.event?.location?.id || '';
+  const isEventDraft =
+    eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
   const isAllSelected = React.useMemo(
     () => occurrences.every((o) => selectedOccurrences.includes(o.id)),
     [occurrences, selectedOccurrences]
@@ -130,6 +133,7 @@ const OccurrencesTable: React.FC<Props> = ({
       accessor: (row: OccurrenceFieldsFragment) => (
         <ActionsDropdown
           eventId={eventId}
+          isEventDraft={isEventDraft}
           onDelete={onDelete}
           onCancel={onCancel}
           row={row}
