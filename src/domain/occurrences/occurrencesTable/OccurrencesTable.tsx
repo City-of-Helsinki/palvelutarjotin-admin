@@ -133,7 +133,7 @@ const OccurrencesTable: React.FC<Props> = ({
       accessor: (row: OccurrenceFieldsFragment) => (
         <ActionsDropdown
           eventId={eventId}
-          isEditable={isEventDraft}
+          isEventDraft={isEventDraft}
           onDelete={onDelete}
           onCancel={onCancel}
           row={row}
