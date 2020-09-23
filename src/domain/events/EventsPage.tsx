@@ -46,11 +46,11 @@ const EventsPage: React.FC = () => {
   };
 
   const {
-    data: eventsData,
-    loading: loadingEvents,
-    isLoadingMore: isLoadingMoreEvents,
-    hasNextPage: eventsHasNextPage,
-    fetchMore: fetchMoreEvents,
+    data: upcomingEventsData,
+    loading: loadingUpcomingEvents,
+    isLoadingMore: isLoadingMoreUpcomingEvents,
+    hasNextPage: upcomingEventsHasNextPage,
+    fetchMore: fetchMoreUpcomingEvents,
   } = useEventsQueryHelper({
     errorPolicy: 'ignore',
     variables: {
@@ -62,6 +62,7 @@ const EventsPage: React.FC = () => {
 
   const {
     data: eventsWithoutOccurrencesData,
+    loading: loadingEventsWithoutOccurrences,
     isLoadingMore: loadingMoreEventsWithoutOccurrences,
     fetchMore: fetchMoreEventsWithoutOccurrences,
     hasNextPage: eventsWithoutOccurrencesHasNextPage,
@@ -76,6 +77,7 @@ const EventsPage: React.FC = () => {
 
   const {
     data: pastEventsData,
+    loading: loadingPastEvents,
     isLoadingMore: loadingMorePastEvents,
     fetchMore: fetchMorePastEvents,
     hasNextPage: pastEventsHasNextPage,
@@ -96,8 +98,9 @@ const EventsPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', id)}`);
   };
 
-  const eventsWithComingOccurrences = eventsData?.events?.data || [];
-  const eventsWithComingOccurrencesCount = eventsData?.events?.meta.count;
+  const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];
+  const eventsWithComingOccurrencesCount =
+    upcomingEventsData?.events?.meta.count;
 
   const eventsWithoutOccurrences =
     eventsWithoutOccurrencesData?.events?.data || [];
@@ -111,6 +114,11 @@ const EventsPage: React.FC = () => {
     setInputValue(e.target.value);
   };
 
+  const loadingEvents =
+    loadingUpcomingEvents ||
+    loadingEventsWithoutOccurrences ||
+    loadingPastEvents;
+
   return (
     <PageWrapper>
       <Container>
@@ -118,13 +126,7 @@ const EventsPage: React.FC = () => {
           <ActiveOrganisationInfo as="h1" />
 
           <div className={styles.comingEventsTitleWrapper}>
-            <EventsTitle
-              count={
-                eventsWithComingOccurrencesCount ||
-                eventsWithComingOccurrences.length
-              }
-              title={t('events.titleComingEvents')}
-            />
+            <div />
             <div className={styles.searchWrapper}>
               <div>
                 <Button fullWidth={true} onClick={goToCreateEventPage}>
@@ -142,71 +144,98 @@ const EventsPage: React.FC = () => {
             </div>
           </div>
           <LoadingSpinner isLoading={loadingEvents}>
-            {!!eventsWithComingOccurrences.length ? (
-              <>
-                <Events
-                  events={eventsWithComingOccurrences}
-                  goToEventOccurrencesPage={goToEventOccurrencesPage}
-                />
-                {eventsHasNextPage && (
-                  <ShowMoreButton
-                    loading={isLoadingMoreEvents}
-                    onClick={fetchMoreEvents}
-                  />
-                )}
-              </>
-            ) : (
-              <p>{t('events.textNoComingEvents')}</p>
-            )}
-
-            {!!eventsWithoutOccurrences.length && (
-              <>
-                <EventsTitle
-                  count={
-                    eventsWithoutOccurrencesCount ||
-                    eventsWithoutOccurrences.length
-                  }
-                  title={t('events.titleEventsWithoutOccurrences')}
-                />
-                <Events
-                  events={eventsWithoutOccurrences}
-                  goToEventOccurrencesPage={goToEventOccurrencesPage}
-                />
-                {eventsWithoutOccurrencesHasNextPage && (
-                  <ShowMoreButton
-                    loading={loadingMoreEventsWithoutOccurrences}
-                    onClick={fetchMoreEventsWithoutOccurrences}
-                  />
-                )}
-              </>
-            )}
-
-            {!!eventsWithPastOccurrences.length && (
-              <>
-                <EventsTitle
-                  count={
-                    eventsWithPastOccurrencesCount ||
-                    eventsWithPastOccurrences.length
-                  }
-                  title={t('events.titleEventsWithPastOccurrences')}
-                />
-                <Events
-                  events={eventsWithPastOccurrences}
-                  goToEventOccurrencesPage={goToEventOccurrencesPage}
-                />
-                {pastEventsHasNextPage && (
-                  <ShowMoreButton
-                    loading={loadingMorePastEvents}
-                    onClick={fetchMorePastEvents}
-                  />
-                )}
-              </>
-            )}
+            <EventsCategoryList
+              eventsCount={
+                eventsWithComingOccurrencesCount ||
+                eventsWithComingOccurrences.length
+              }
+              title={t('events.titleComingEvents')}
+              events={eventsWithComingOccurrences}
+              onGoToEventOccurrencesPage={goToEventOccurrencesPage}
+              isLoadingMoreEvents={isLoadingMoreUpcomingEvents}
+              onFetchMoreEvents={fetchMoreUpcomingEvents}
+              hasNextPage={upcomingEventsHasNextPage}
+              notFoundText={t('events.textNoComingEvents')}
+            />
+            <EventsCategoryList
+              eventsCount={
+                eventsWithoutOccurrencesCount || eventsWithoutOccurrences.length
+              }
+              title={t('events.titleEventsWithoutOccurrences')}
+              events={eventsWithoutOccurrences}
+              onGoToEventOccurrencesPage={goToEventOccurrencesPage}
+              isLoadingMoreEvents={loadingMoreEventsWithoutOccurrences}
+              onFetchMoreEvents={fetchMoreEventsWithoutOccurrences}
+              hasNextPage={eventsWithoutOccurrencesHasNextPage}
+            />
+            <EventsCategoryList
+              eventsCount={
+                eventsWithPastOccurrencesCount ||
+                eventsWithPastOccurrences.length
+              }
+              title={t('events.titleEventsWithPastOccurrences')}
+              events={eventsWithPastOccurrences}
+              onGoToEventOccurrencesPage={goToEventOccurrencesPage}
+              isLoadingMoreEvents={loadingMorePastEvents}
+              onFetchMoreEvents={fetchMorePastEvents}
+              hasNextPage={pastEventsHasNextPage}
+            />
           </LoadingSpinner>
         </div>
       </Container>
     </PageWrapper>
   );
+};
+
+interface EventsCategoryListProps {
+  eventsCount: number;
+  title: string;
+  events: EventFieldsFragment[];
+  onGoToEventOccurrencesPage: (id: string) => void;
+  isLoadingMoreEvents: boolean;
+  onFetchMoreEvents: () => Promise<void>;
+  hasNextPage: boolean;
+  notFoundText?: string;
+}
+
+const EventsCategoryList: React.FC<EventsCategoryListProps> = ({
+  eventsCount,
+  title,
+  events,
+  onGoToEventOccurrencesPage,
+  isLoadingMoreEvents,
+  onFetchMoreEvents,
+  hasNextPage,
+  notFoundText,
+}) => {
+  if (!!events.length) {
+    return (
+      <>
+        <EventsTitle count={eventsCount} title={title} />
+        <Events
+          events={events}
+          goToEventOccurrencesPage={onGoToEventOccurrencesPage}
+        />
+        {hasNextPage && (
+          <ShowMoreButton
+            loading={isLoadingMoreEvents}
+            onClick={onFetchMoreEvents}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (notFoundText) {
+    return (
+      <>
+        <EventsTitle count={eventsCount} title={title} />
+        <p>{notFoundText}</p>
+      </>
+    );
+  }
+
+  return null;
 };
 
 const EventsTitle: React.FC<{ count: number; title: string }> = ({
