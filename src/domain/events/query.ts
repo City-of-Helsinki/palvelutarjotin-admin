@@ -26,6 +26,7 @@ export const QUERY_EVENT = gql`
     $text: String
     $translation: String
     $showAll: Boolean
+    $publicationStatus: String
   ) {
     events(
       divisions: $divisions
@@ -47,6 +48,7 @@ export const QUERY_EVENT = gql`
       text: $text
       translation: $translation
       showAll: $showAll
+      publicationStatus: $publicationStatus
     ) {
       meta {
         ...metaFields
