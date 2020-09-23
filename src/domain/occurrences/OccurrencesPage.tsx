@@ -49,7 +49,6 @@ const OccurrencesPage: React.FC = () => {
       variables: { id: eventId, include: ['location'] },
     }
   );
-  console.log(eventData);
   const [publishEvent] = usePublishSingleEventMutation();
   const [cancelOccurrence] = useCancelOccurrenceMutation();
 
