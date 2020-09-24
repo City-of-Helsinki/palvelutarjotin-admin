@@ -39,7 +39,7 @@ const EventsPage: React.FC = () => {
 
   const baseVariables = {
     pageSize: PAGE_SIZE,
-    published: selectedOrganisation?.publisherId,
+    publisher: selectedOrganisation?.publisherId,
     sort: EVENT_SORT_KEYS.START_TIME,
     text: searchValue,
     showAll: true,

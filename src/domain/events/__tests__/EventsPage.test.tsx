@@ -56,6 +56,7 @@ const apolloMocks: MockedResponse[] = [
         sort: EVENT_SORT_KEYS.START_TIME,
         text: '',
         showAll: true,
+        start: 'now',
       },
     },
     result: {
