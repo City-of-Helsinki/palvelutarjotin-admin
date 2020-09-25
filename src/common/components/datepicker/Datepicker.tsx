@@ -190,6 +190,14 @@ const Datepicker: React.FC<DatepickerProps> = ({
     }
   }, [isCalendarOpen]);
 
+  const toggleCalendar = () => {
+    if (isCalendarOpen) {
+      ensureCalendarIsClosed();
+    } else {
+      ensureCalendarIsOpen();
+    }
+  };
+
   const handleInputFocus = () => {
     if (!isCalendarOpen) {
       setIsCalendarOpen(true);
@@ -332,7 +340,9 @@ const Datepicker: React.FC<DatepickerProps> = ({
             value={dateValue}
             onKeyDown={handleInputKeyDown}
           />
-          <IconCalendar className={styles.iconCalendar} />
+          <button type="button" onClick={toggleCalendar}>
+            <IconCalendar className={styles.iconCalendar} />
+          </button>
           {isCalendarOpen && (
             <div
               className={styles.datepickerContainer}
