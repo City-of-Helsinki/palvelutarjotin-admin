@@ -2,7 +2,7 @@
 
 Staff interface for Palvelutarjotin
 
-## Deployments
+## Environments
 
 Production environment:
 [TODO: Add url when deployed]
@@ -12,6 +12,11 @@ Testing environment: [https://palvelutarjotin-admin.test.kuva.hel.ninja](https:/
 Project is automatically deployed to testing environment when pushing to develop brach
 
 ## Requirements
+
+- Node 12.x
+- Yarn
+- Git
+- Docker
 
 ## Available Scripts
 
