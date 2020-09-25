@@ -11,6 +11,8 @@ Project is automatically deployed to production when adding new relase tag, e.g.
 Testing environment: [https://palvelutarjotin-admin.test.kuva.hel.ninja](https://palvelutarjotin-admin.test.kuva.hel.ninja)
 Project is automatically deployed to testing environment when pushing to develop brach
 
+## Requirements
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -28,6 +30,22 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+"test:changed": "npm run test -- -o --watchAll=false",
+"test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
+"test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+
+#### `yarn test:changed`
+
+Run relevant test based on changes sinces last commit, used in husky git commit hook
+
+#### `yarn test:coverage`
+
+Run tests and generate coverage report
+
+#### `yarn test:debug`
+
+Debug tests
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
@@ -40,7 +58,10 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `yarn codegen`
 
-Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_ADD_API_URL in .env.development.local
+Codegen settings in <b>codegen.yml</b>
+
+- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_ADD_API_URL in .env.development.local
+- Generate react hooks for GraphQL queries from <b>query.ts</b> and <b>mutation.ts</b> files.
 
 ### `yarn storybook`
 
