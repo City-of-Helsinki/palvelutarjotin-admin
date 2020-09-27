@@ -39,17 +39,29 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 "test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
 "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
 
-#### `yarn test:changed`
+### `yarn test:changed`
 
 Run relevant test based on changes sinces last commit, used in husky git commit hook
 
-#### `yarn test:coverage`
+### `yarn test:coverage`
 
 Run tests and generate coverage report
 
-#### `yarn test:debug`
+### `yarn test:debug`
 
 Debug tests
+
+### `yarn browser-test`
+
+Running browser tests against test environment
+
+Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+
+### `yarn browser-test:local`
+
+Running browser tests against local environment
+
+Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
 
 ### `yarn build`
 
@@ -82,6 +94,10 @@ Exports storybook as a static app
 Deploys a new version of Storybook. Storybook is used for development and there's no CI/CD pipeline set up.
 
 To verify deployment, open [https://city-of-helsinki.github.io/palvelutarjotin-admin/](https://city-of-helsinki.github.io/palvelutarjotin-admin/) and check that everything is looking ok.
+
+## Browser tests
+
+Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
 
 ## Setting up development environment locally with docker
 
