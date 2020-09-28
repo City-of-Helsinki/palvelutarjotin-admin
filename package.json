@@ -154,6 +154,7 @@
     "eslint-plugin-simple-import-sort": "^5.0.2",
     "eslint-plugin-testcafe": "^0.2.1",
     "faker": "^4.1.0",
+    "husky": "^4.3.0",
     "jest-axe": "^3.5.0",
     "jest-date-mock": "^1.0.8",
     "jest-environment-jsdom-sixteen": "^1.0.3",
