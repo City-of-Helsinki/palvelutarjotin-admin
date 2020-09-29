@@ -35,10 +35,6 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-"test:changed": "npm run test -- -o --watchAll=false",
-"test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
-"test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
-
 ### `yarn test:changed`
 
 Run relevant test based on changes sinces last commit, used in husky git commit hook
