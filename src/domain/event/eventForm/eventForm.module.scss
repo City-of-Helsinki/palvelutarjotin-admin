@@ -24,10 +24,11 @@
 
   .durationRow {
     display: grid;
+    grid-gap: 20px;
 
-    // @include respond_above(sm) {
-    //   grid-template-columns: 1fr 1.5fr 1.5fr;
-    // }
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1.5fr 1.5fr;
+    }
   }
 
   .languageRow {
