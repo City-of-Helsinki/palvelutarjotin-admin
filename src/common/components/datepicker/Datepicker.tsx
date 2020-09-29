@@ -340,7 +340,11 @@ const Datepicker: React.FC<DatepickerProps> = ({
             value={dateValue}
             onKeyDown={handleInputKeyDown}
           />
-          <button type="button" onClick={toggleCalendar}>
+          <button
+            type="button"
+            onClick={toggleCalendar}
+            aria-label={t('common.datepicker.accessibility.buttonCalendar')}
+          >
             <IconCalendar className={styles.iconCalendar} />
           </button>
           {isCalendarOpen && (

@@ -39,7 +39,8 @@
         "buttonNextMonth": "Seuraava kuukausi",
         "buttonPreviousMonth": "Edellinen kuukausi",
         "selectTime": "Valitse kellonajaksi {{value}}",
-        "timeInstructions": "Valitse kellonaika nuolinäppäimillä"
+        "timeInstructions": "Valitse kellonaika nuolinäppäimillä",
+        "buttonCalendar": "Kalenteri"
       },
       "buttonClose": "Sulje"
     },

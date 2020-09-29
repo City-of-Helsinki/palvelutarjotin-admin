@@ -39,7 +39,8 @@
         "buttonNextMonth": "Next month",
         "buttonPreviousMonth": "Previous month",
         "selectTime": "Choose {{value}}",
-        "timeInstructions": "Choose time with arrow keys"
+        "timeInstructions": "Choose time with arrow keys",
+        "buttonCalendar": "Calendar"
       },
       "buttonClose": "Close"
     },
