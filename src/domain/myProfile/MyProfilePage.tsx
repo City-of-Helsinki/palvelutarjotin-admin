@@ -65,10 +65,7 @@ const MyProfilePage: React.FC = () => {
         {myProfileData?.myProfile ? (
           <Container size="xsmall">
             {isSaved && (
-              <Notification
-                labelText={t('editMyProfile.success')}
-                type="success"
-              />
+              <Notification label={t('editMyProfile.success')} type="success" />
             )}
 
             <div>

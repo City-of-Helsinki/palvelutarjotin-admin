@@ -79,7 +79,7 @@ const OccurrenceDetailsPage: React.FC = () => {
               <div>
                 {enrolmentUpdated && (
                   <Notification
-                    labelText={t('occurrenceDetails.enrolmentDetailsUpdated')}
+                    label={t('occurrenceDetails.enrolmentDetailsUpdated')}
                     type="success"
                   />
                 )}
