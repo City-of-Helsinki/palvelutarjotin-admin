@@ -104,6 +104,9 @@
       "graphql.tsx",
       "OidcCallback.tsx",
       "SilentRenew.tsx"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!hds-react)/"
     ]
   },
   "browserslist": {
