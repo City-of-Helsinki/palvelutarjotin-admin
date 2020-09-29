@@ -170,9 +170,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
   };
 
   const setFocusToButton = () => {
-    if (toggleButton.current) {
-      toggleButton.current.focus();
-    }
+    toggleButton.current?.focus();
   };
 
   React.useEffect(() => {

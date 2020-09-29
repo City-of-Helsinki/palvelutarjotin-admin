@@ -106,8 +106,18 @@ it('Pagelayout renders Profile page', async () => {
   userEvent.click(
     screen.getByLabelText('Organisaatio', { selector: 'button' })
   );
+
   userEvent.click(screen.getByLabelText('Organisaatio 1'));
   userEvent.click(screen.getByLabelText('Organisaatio 2'));
+
+  // close the dropdown
+  userEvent.click(
+    screen.getByLabelText('Organisaatio', { selector: 'button' })
+  );
+
+  await waitFor(() => {
+    expect(screen.queryByLabelText('Organisaatio 1')).not.toBeInTheDocument();
+  });
 
   userEvent.click(
     screen.getByLabelText('Olen hyväksynyt palvelut käyttöehdot')

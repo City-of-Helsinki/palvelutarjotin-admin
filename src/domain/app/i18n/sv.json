@@ -38,7 +38,8 @@
         "selectDate": "Välj {{value}}",
         "buttonNextMonth": "Nästa månad",
         "buttonPreviousMonth": "Förra månaden",
-        "selectTime": "Välj {{value}}"
+        "selectTime": "Välj {{value}}",
+        "buttonCalendar": "Calendar"
       },
       "buttonClose": "Stäng"
     },
