@@ -69,7 +69,7 @@
     "build": "react-scripts build",
     "lint": "eslint --ext js,ts,tsx src",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "test:changed": "npm run test -- -o --watchAll=false",
+    "test:changed": "npm test -- -o --watchAll=false",
     "test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
@@ -161,13 +161,17 @@
     "jest-axe": "^3.5.0",
     "jest-date-mock": "^1.0.8",
     "jest-environment-jsdom-sixteen": "^1.0.3",
+    "lint-staged": "^10.4.0",
     "prettier": "^2.0.5",
     "pretty": "^2.0.0",
     "waait": "^1.0.5"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:changed"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{tsx}": "react-scripts test --findRelatedTests"
   }
 }
