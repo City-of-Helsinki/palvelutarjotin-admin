@@ -72,6 +72,8 @@
     "test:changed": "npm test -- -o --watchAll=false",
     "test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "test:nowatch": "react-scripts test --watchAll=false --env=jest-environment-jsdom-sixteen",
+    "test:staged": "npm run test:nowatch -- --findRelatedTests",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
     "browser-test:local": "BROWSER_TEST_ENV=local yarn browser-test",
     "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" testcafe/e2e/",
@@ -172,6 +174,10 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{tsx}": "react-scripts test --findRelatedTests"
+    "src/**/*.{tsx,ts}": [
+      "npm run test:staged",
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
