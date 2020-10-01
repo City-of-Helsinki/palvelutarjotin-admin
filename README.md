@@ -2,7 +2,7 @@
 
 Staff interface for Palvelutarjotin
 
-## Environments
+## Environmentss
 
 Production environment:
 [TODO: Add url when deployed]
