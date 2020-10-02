@@ -231,9 +231,7 @@ test('edit event form initializes and submits correctly', async () => {
   // Venue mutation mock
   jest.spyOn(apolloClient, 'mutate').mockResolvedValueOnce({});
 
-  userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna', hidden: true })
-  );
+  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
 
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith('/fi/events/123');
