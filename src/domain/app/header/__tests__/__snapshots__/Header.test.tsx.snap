@@ -23,7 +23,7 @@ exports[`Header matches snapshot 1`] = `
           <div
             class="appName"
           >
-            Palvelutarjotin Admin
+            Kultus Admin beta
           </div>
         </a>
       </div>
