@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    aria-label="Siirry tapahtuman TestiTapahtuma tapahtuma-aikoihin"
+    class="eventCard"
+    role="button"
+    tabindex="0"
+  >
+    <div
+      class="imageWrapper"
+      data-testid="event-image-id"
+      style="background-image: url(test.url);"
+    />
+    <div
+      class="contentWrapper"
+    >
+      <div
+        class="titleWrapper"
+      >
+        <div
+          class="title"
+        >
+          TestiTapahtuma
+        </div>
+        <div
+          class="description"
+        />
+      </div>
+      <div
+        class="occurrenceInfoWrapper"
+      >
+        <div
+          class="textWithIcon"
+        >
+          <svg
+            class=""
+            height="100%"
+            viewBox="0 0 24 24"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill-rule="evenodd"
+              stroke-width="1"
+            >
+              <path
+                d="M11.80416,-2.30926389e-13 C18.32352,-2.30926389e-13 23.60928,5.2848 23.60928,11.80416 C23.60928,18.32352 18.32352,23.60928 11.80416,23.60928 C5.2848,23.60928 -3.37507799e-14,18.32352 -3.37507799e-14,11.80416 C-3.37507799e-14,5.2848 5.2848,-2.30926389e-13 11.80416,-2.30926389e-13 Z M11.80416,2.5296 C6.6912,2.5296 2.53056,6.69024 2.53056,11.80416 C2.53056,16.91904 6.6912,21.07968 11.80416,21.07968 C16.91808,21.07968 21.07968,16.91904 21.07968,11.80416 C21.07968,6.69024 16.91808,2.5296 11.80416,2.5296 Z M13.068768,5.842464 L13.068768,11.280864 L16.665888,14.877024 L14.878368,16.665504 L10.539168,12.328224 L10.539168,5.842464 L13.068768,5.842464 Z"
+              />
+            </g>
+          </svg>
+          8 tapahtuma-aikaa
+        </div>
+        <div
+          class="textWithIcon"
+        >
+          <svg
+            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <path
+                d="M0 0h24v24H0z"
+              />
+              <path
+                d="M16.267 13a4.733 4.733 0 014.728 4.517l.005.216V22H3v-4.267a4.733 4.733 0 014.517-4.728L7.733 13h8.534zm-8.534 2a2.733 2.733 0 00-2.728 2.567L5 17.733V20h14v-2.267c0-1.416-1.107-2.636-2.46-2.726l-.163-.005L7.733 15zM12 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+          2 ilmoittautunutta
+        </div>
+        <div
+          class="textWithIcon"
+        >
+          <svg
+            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <path
+                d="M0 0h24v24H0z"
+              />
+              <path
+                d="M12 4.5c4.05 0 7.717 2.5 11 7.5-3.283 5-6.95 7.5-11 7.5S4.283 17 1 12c3.283-5 6.95-7.5 11-7.5zm0 2c-2.951 0-5.75 1.704-8.425 5.302L3.43 12l.145.198c2.624 3.53 5.368 5.237 8.258 5.3L12 17.5c2.951 0 5.75-1.704 8.425-5.302L20.57 12l-.145-.198c-2.624-3.53-5.368-5.237-8.258-5.3L12 6.5zM12 8a4 4 0 110 8 4 4 0 010-8zm0 2a2 2 0 100 4 2 2 0 000-4z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+          Julkaistu
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

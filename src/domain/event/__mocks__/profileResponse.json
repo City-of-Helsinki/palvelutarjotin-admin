@@ -1,0 +1,214 @@
+{
+  "data": {
+    "myProfile": {
+      "id": "UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2QGQ4ZDk=",
+      "emailAddress": "",
+      "name": "Käyttäjä",
+      "phoneNumber": "",
+      "language": "FI",
+      "__typename": "PersonNode",
+      "organisations": {
+        "edges": [
+          {
+            "node": {
+              "id": "T3JnYW5pc2F0aW9uTm9kZToy",
+              "name": "Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto",
+              "persons": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTpjZjNkN2NlYS0xNGQxLTQzNmQtOTNmZS0zOTI4Mzc2ZTQ2YTE=",
+                      "emailAddress": "admin@example.com",
+                      "name": "Admin",
+                      "phoneNumber": "",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTpiNTk5MThiNi1iOGRlLTRmOGItYjM3Yy0xYWRhYThmOTRkNWM=",
+                      "emailAddress": "testaajal@gmail.com",
+                      "name": "Testaaja",
+                      "phoneNumber": "123123123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTo2MmYyOTYC05NWEyLTRmODYtODJlOS02OWFhODdhZGVjNDY=",
+                      "emailAddress": "lucquocquyen@gmail.com",
+                      "name": "Testaaja 2",
+                      "phoneNumber": "123123123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9ko0NjYwOTU4Ny1mOTExLTQ1ZjEtYjEyYy1lNWMzZTJiNWJiMjc=",
+                      "emailAddress": "testia@hel.fi",
+                      "name": "Testaaja",
+                      "phoneNumber": "123-123-123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=",
+                      "emailAddress": "testi123@testi123.fi",
+                      "name": "Testaaja2",
+                      "phoneNumber": "123321123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTpmNDg5YWFiZC1kZTE4LTQ1M2YtODIxZC1hNjgzNGMxNzZhZTg=",
+                      "emailAddress": "tomppa.makinen@gmail.com",
+                      "name": "Testaaja3",
+                      "phoneNumber": "123123123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTowMDVjOGIyNS0zN2YwLTRjNmEtYjZjMi1kYTBkYzI2YTQzY2I=",
+                      "emailAddress": "",
+                      "name": "Testaaja4",
+                      "phoneNumber": "",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  }
+                ],
+                "__typename": "PersonNodeConnection"
+              },
+              "phoneNumber": "",
+              "publisherId": "ahjo:u480300",
+              "type": "PROVIDER",
+              "__typename": "OrganisationNode"
+            },
+            "__typename": "OrganisationNodeEdge"
+          },
+          {
+            "node": {
+              "id": "T3JnYW5pc2F0aW9uTm9kZTox",
+              "name": "Kulttuurin ja vapaa-ajan toimiala",
+              "persons": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTpjZjNkN2NlYS0xNGQxLTQzNmQtOTNmZS0zOTI4Mzc2ZTQ2YTE=",
+                      "emailAddress": "admin@example.com",
+                      "name": "Admin",
+                      "phoneNumber": "",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTpiNTk5MThiNi1iOGRlLTRmOGItYjM3Yy0xYWRhYThmOTRkNWM=",
+                      "emailAddress": "jori.lindell@gmail.com",
+                      "name": "Testaaja",
+                      "phoneNumber": "123123123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTo2MmYyOTY1ZC05NWEyLTRmODYtODJlOS02OWFhODdhZGVjNDY=",
+                      "emailAddress": "lucquocquyen@gmail.com",
+                      "name": "Testaaja",
+                      "phoneNumber": "0465934991",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTowM2Y4YTRiNS1kOTIzLTQ3NWQtOTBmYS1kYzIxY2MwMGM2MDY=",
+                      "emailAddress": "matti.saarto@gmail.com",
+                      "name": "Testaaja",
+                      "phoneNumber": "0401985188",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTo0NjYwOTU4Ny1mOTExLTQ1ZjEtYjEyYy1lNWMzZTJiNWJiMjc=",
+                      "emailAddress": "testaaja@hel.fi",
+                      "name": "Testaaja",
+                      "phoneNumber": "123123123",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=",
+                      "emailAddress": "",
+                      "name": "Testaaja",
+                      "phoneNumber": "",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTpmNDg5YWFiZC1kZTE4LTQ1M2YtODIxZC1hNjgzNGMxNzZhZTg=",
+                      "emailAddress": "tomppa.makinen@gmail.com",
+                      "name": "Testaaja",
+                      "phoneNumber": "+358401231234",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  },
+                  {
+                    "node": {
+                      "id": "UGVyc29uTm9kZTowMDVjOGIyNS0zN2YwLTRjNmEtYjZjMi1kYTBkYzI2YTQzY2I=",
+                      "emailAddress": "",
+                      "name": "Ville",
+                      "phoneNumber": "",
+                      "language": "FI",
+                      "__typename": "PersonNode"
+                    },
+                    "__typename": "PersonNodeEdge"
+                  }
+                ],
+                "__typename": "PersonNodeConnection"
+              },
+              "phoneNumber": "123123",
+              "publisherId": "ahjo:u480400",
+              "type": "PROVIDER",
+              "__typename": "OrganisationNode"
+            },
+            "__typename": "OrganisationNodeEdge"
+          }
+        ],
+        "__typename": "OrganisationNodeConnection"
+      }
+    }
+  }
+}

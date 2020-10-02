@@ -1,7 +1,11 @@
 *
+!.env
+!.env.development
+!.env.development.local
 !.prod
 !public
 !src
 !package.json
 !tsconfig.json
 !yarn.lock
+*/*/testUtils.ts

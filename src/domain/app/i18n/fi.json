@@ -1,5 +1,411 @@
 {
-  "appName": "Palvelutarjotin Admin",
+  "apollo": {
+    "graphQLErrors": {
+      "permissionDeniedError": "Sinulla ei ole lupaa suorittaa tätä toimintoa"
+    }
+  },
+  "appName": "Kultus Admin beta",
+  "authentication": {
+    "errorMessage": "Tapahtui virhe. Yritä uudestaan",
+    "networkError": {
+      "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
+    },
+    "redirect": {
+      "text": "Ohjataan tunnistautumiseen..."
+    }
+  },
+  "common": {
+    "back": "Takaisin",
+    "alertModal": {
+      "buttonCancel": "Peruuta"
+    },
+    "autoSuggest": {
+      "accessibility": {
+        "clearValueButtonAriaMessage": "Poista arvo",
+        "deselectOptionAriaMessage": "Vaihtoehto {{value}}, poistettu.",
+        "deselectOptionButtonAriaMessage": "Poista vaihtoehto: {{value}}",
+        "focusAriaMessage": "{{value}}, {{index}}/{{n}}.",
+        "selectOptionAriaMessage": "Vaihtoehto {{value}}, valittu."
+      },
+      "loading": "Ladataan ...",
+      "noResults": "Ei tuloksia"
+    },
+    "dropdown": {
+      "placeholder": "Valitse..."
+    },
+    "datepicker": {
+      "accessibility": {
+        "selectDate": "Valitse {{value}}",
+        "buttonNextMonth": "Seuraava kuukausi",
+        "buttonPreviousMonth": "Edellinen kuukausi",
+        "selectTime": "Valitse kellonajaksi {{value}}",
+        "timeInstructions": "Valitse kellonaika nuolinäppäimillä",
+        "buttonCalendar": "Kalenteri"
+      },
+      "buttonClose": "Sulje"
+    },
+    "languages": {
+      "ar": "Arabia",
+      "en": "Englanti",
+      "fi": "Suomi",
+      "ru": "Venäjä",
+      "sv": "Ruotsi",
+      "zh_hans": "Kiina"
+    },
+    "tableDropdown": {
+      "toggleButton": "Valitse"
+    },
+    "buttonClose": "Sulje"
+  },
+  "enrolmentForm": {
+    "buttonSubmit": "Lähetä ilmoittautuminen",
+    "buttonUpdateEnrolment": "Päivitä ilmoittautuminen",
+    "infoText1": "Emme käytä antamiasi tietoja markkinointiin.",
+    "infoText2": "Lähetämme sinulle erillisen vahvistusviestin, kun järjestäjä on käsitellyt ja vahvistanut ilmoittautumisesi.",
+    "labelHasEmailNotification": "Sähköpostilla",
+    "labelHasSmsNotification": "Tekstiviestillä",
+    "labelIsSameResponsiblePerson": "Sama kuin ilmoittaja",
+    "labelIsSharingDataAccepted": "Hyväksyn tietojeni jakamisen tapahtuman järjestäjän kanssa",
+    "labelLanguage": "Kieli",
+    "language": {
+      "en": "Englanti",
+      "fi": "Suomi",
+      "sv": "Ruotsi"
+    },
+    "person": {
+      "labelEmailAddress": "Sähköpostiosoite",
+      "labelName": "Nimi",
+      "labelPhoneNumber": "Puhelinnumero"
+    },
+    "privacyPolicy": "Rekisteriseloste",
+    "studyGroup": {
+      "person": {
+        "labelEmailAddress": "Sähköpostiosoite",
+        "labelName": "Nimi",
+        "labelPhoneNumber": "Puhelinnumero"
+      },
+      "helperExtraNeeds": "Lisää tähän, jos haluat kertoa järjestäjälle jotain muuta olennaista ryhmästänne",
+      "helperGroupName": "Ryhmän yksilöivä nimi, esimerkiksi: 4a",
+      "labelAmountOfAdult": "Aikuisia",
+      "labelExtraNeeds": "Lisätiedot (valinnainen)",
+      "labelGroupName": "Ryhmä",
+      "labelGroupSize": "Lapsia",
+      "labelName": "Päiväkoti / koulu / oppilaitos",
+      "labelStudyLevel": "Luokka-aste",
+      "titleGroup": "Ryhmän tiedot",
+      "titleNotifier": "Ilmoittajan tiedot"
+    },
+    "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
+    "titleResponsiblePerson": "Tapahtuman aikana ryhmästä vastuussa oleva aikuinen",
+    "validation": {
+      "isSharingDataAccepted": "Tietojen jakaminen tapahtuman järjestäjän kanssa tulee olla hyväksytty"
+    }
+  },
+  "errorPage": {
+    "title": "Palvelussa ilmeni virhe",
+    "description": "Pahoittelemme, mutta palvelussa ilmeni virhe. Voit yrittää uudestaan, mutta jos tilanne toistuu, kerro siitä meille alalaidan palautelinkin kautta.",
+    "returnToHome": "Palaa etusivulle"
+  },
+  "createMyProfile": {
+    "buttonSubmit": "Tallenna ja jatka",
+    "error": "Omien tietojen tallentaminen epäonnistui",
+    "infoText1": "Hei, tervetuloa Palvelutarjottimeen!",
+    "infoText2": "Jotta voisit syöttää järjestelmään tapahtumia, pyydämme sinua tarkistamaan seuraavat tietosi:",
+    "pageTitle": "Täydennä tietosi",
+    "title": "Täydennä tietosi"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Tallenna päivitetyt tiedot",
+    "error": "Omien tietojen tallentaminen epäonnistui",
+    "pageTitle": "Omat tiedot",
+    "success": "Omat tiedot tallennettu onnistuneesti",
+    "title": "Omat tiedot"
+  },
+  "myProfileForm": {
+    "checkboxPrivacyPolicy": "Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. <a href='{{url}}' target='_blank' rel='noreferrer'>Tietosuojaseloste</a>",
+    "checkboxTermsOfService": "Olen hyväksynyt palvelut <a href='TODO: Add url'>käyttöehdot</a>",
+    "helperEmail": "Tämä on käyttäjätunnuksesi",
+    "helperName": "Voidaan käyttää tapahtumien yhteystiedoissa",
+    "helperOrganisations": "Organisaatio, jonka tapahtumia hallinnoit",
+    "helperPhoneNumber": "Voidaan käyttää tapahtumien yhteystiedoissa",
+    "labelEmail": "Sähköpostiosoite",
+    "labelName": "Nimi",
+    "labelOrganisations": "Organisaatio",
+    "labelPhoneNumber": "Puhelinnumero",
+    "placeholderOrganisations": "Valitse organisaatio",
+    "validation": {
+      "isPrivacyPolicyAccepted": "Tietosuojakäytäntö on hyväksyttävä",
+      "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"
+    }
+  },
+  "enrolment": {
+    "approveEnrolmentError": "Ilmoittautumisen hyväksyminen epäonnistui",
+    "declineEnrolmentError": "Ilmoittautumisen hylkääminen epäonnistui",
+    "deleteEnrolmentError": "Ilmoittautumisen poistaminen epäonnistui",
+    "editEnrolmentTitle": "Muokkaa osallistumistietoja",
+    "editEnrolmentBackButton": "Ilmoittautuneet",
+    "status": {
+      "approved": "Hyväksytty",
+      "cancelled": "Peruttu",
+      "declined": "Hylätty",
+      "pending": "Uusi"
+    },
+    "enrolmentModal": {
+      "declineEnrolment": "Jätä ilman paikkaa",
+      "approveEnrolment": "Hyväksy ilmoittautuminen",
+      "deleteEnrolment": "Poista ilmoittautuminen",
+      "selectedEnrollees": "Valitut osallistujat",
+      "approveEnrolmentNote": "Valittujien ilmoittautujien osallistuminen vahvistetaan ja heille lähetetään vahvistusviesti tapahtuman tiedoilla.",
+      "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
+      "addMessage": "Lisää viesti",
+      "cancelEnrolment": "Peruuta",
+      "messageToParticipants": "Viesti osallistujille",
+      "sendConfirmationMessage": "Lähetä vahvistusviesti",
+      "sendCancelMessage": "Lähetä",
+      "preview": "Esikatselu",
+      "previewError": "Esikatselun lataus epäonnistui"
+    },
+    "enrolmentDetails": {
+      "buttonApproveEnrolment": "Hyväksy ilmoittautuminen",
+      "buttonDeclineEnrolment": "Jätä ilman paikkaa",
+      "buttonDeleteEnrolment": "Poista",
+      "buttonEditEnrolment": "Muokkaa",
+      "buttonEnrolleesTitle": "Ilmoittautuneet",
+      "buttonGoToEnrolleesList": "Palaa ilmoittautuneisiin",
+      "labelEnrolled": "Ilmoittautunut",
+      "labelStatus": "Tila",
+      "labelName": "Nimi",
+      "labelEmail": "Sähköpostiosoite",
+      "labelPhoneNumber": "Puhelinnumero",
+      "labelStudyGroupName": "Päiväkoti / koulu / oppilaitos",
+      "labelGroupName": "Ryhmän nimi",
+      "labelStudyLevel": "Luokka-aste",
+      "labelGroupSize": "Lapsia / aikuisia",
+      "labelResponsiblePerson": "Vastuussa oleva aikuinen",
+      "labelNotifications": "Tapahtumien ilmoitukset",
+      "labelAdditionalInfo": "Lisätiedot",
+      "error": "Ilmoittautumisen tietojen haku epäonnistui"
+    },
+    "errors": {
+      "updateFailed": "Ilmoittautumisen päivitys epäonnistui"
+    }
+  },
+  "createEvent": {
+    "pageTitle": "Uusi tapahtuma",
+    "title": "Uusi tapahtuma",
+    "error": "Tapahtuman tallentaminen epäonnistui"
+  },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Tapahtumat",
+      "textDirty": "Sivulla on tallentamattomia muutoksia"
+    },
+    "pageTitle": "Muokkaa tapahtumaa",
+    "title": "Muokkaa tapahtumaa",
+    "error": "Tapahtuman tallentaminen epäonnistui",
+    "errorEventIsInThePast": "Tapahtuma on menneisyydessä",
+    "errorEventIsInThePastDescription": "Menneisyydessä olevaa tapahtumaa ei voi enää muokata."
+  },
+  "eventDetails": {
+    "basicInfo": {
+      "enrolmentStart": "{{date}} klo {{time}}",
+      "labelDescription": "Kuvaus",
+      "labelDuration": "Tapahtuman kesto, min",
+      "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
+      "labelEnrolmentStart": "Ilmoittautuminen alkaa",
+      "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelName": "Tapahtuman nimi",
+      "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "title": "Tapahtuman perustiedot"
+    },
+    "buttons": {
+      "buttonBack": "Tapahtumat",
+      "buttonDelete": "Poista tapahtuma",
+      "buttonEdit": "Muokkaa tapahtumaa"
+    },
+    "categorisation": {
+      "eventIsFree": "Tapahtuma on ilmainen",
+      "labelAudience": "Kohderyhmät",
+      "labelInLanguage": "Tapahtuman kielet",
+      "labelKeywords": "Tapahtuman avainsanat",
+      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
+      "labelPrice": "Hinta, €",
+      "title": "Tapahtuman luokittelut"
+    },
+    "contactPerson": {
+      "labelEmail": "Sähköpostiosoite",
+      "labelName": "Nimi",
+      "labelPhone": "Puhelinnumero",
+      "title": "Yhteyshenkilö"
+    },
+    "deleteModal": {
+      "buttonDelete": "Poista tapahtuma",
+      "text1": "Oletko varma että haluat poistaa tapahtuman?",
+      "text2": "Poistettua tapahtumaa ei voi palauttaa.",
+      "title": "Poista tapahtuma",
+      "upcomingOccurrences": "Tulevat tapahtuma-ajat",
+      "occurrenceTime": "{{date}} klo {{time}}"
+    },
+    "location": {
+      "labelLocation": "Oletustapahtumapaikka",
+      "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "snackEatingPlace": "Eväidensyöntipaikka",
+      "clothingStorage": "Vaatesäilytys",
+      "title": "Tapahtumapaikka"
+    },
+    "title": "Tapahtuman tiedot"
+  },
+  "eventForm": {
+    "basicInfo": {
+      "addImage": "Lisää kuva",
+      "deleteImage": "Poista kuva",
+      "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin. Maksimi koko 2 megatavua. Suositeltu kuvakoko on 1200px X 800px.",
+      "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
+      "labelDescription": "Kuvaus",
+      "labelDuration": "Tapahtuman kesto, min",
+      "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
+      "labelEnrolmentStart": "Ilmoittautuminen alkaa",
+      "labelImage": "Tapahtuman kuva",
+      "labelImageAltText": "Kuvan alt-teksti",
+      "labelImagePhotographer": "Valokuvaaja",
+      "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelName": "Tapahtuman nimi",
+      "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "photographer": "Valokuvaaja",
+      "title": "Tapahtuman perustiedot"
+    },
+    "buttonCancel": "Peruuta",
+    "buttonSave": "Tallenna",
+    "buttonSaveDraft": "Tallenna luonnos",
+    "categorisation": {
+      "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "labelAudience": "Kohderyhmät",
+      "labelInLanguage": "Tapahtuman kielet",
+      "labelIsFree": "Tapahtuma on ilmainen",
+      "labelKeywords": "Tapahtuman avainsanat",
+      "labelNeededOccurrences": "Tarvittavat käyntikerrat",
+      "labelPrice": "Hinta, €",
+      "placeholderKeywords": "Lisää avainsana...",
+      "title": "Tapahtuman luokittelut"
+    },
+    "changeLanguageModal": {
+      "buttonChangeLanguage": "Vaihda kieli",
+      "text1": "Haluatko varmasti vaihtaa kielen?",
+      "text2": "Tallentamattomia muutoksia ei voi palauttaa.",
+      "title": "Vaihda kieli"
+    },
+    "contactPerson": {
+      "labelEmail": "Sähköpostiosoite",
+      "labelName": "Nimi",
+      "labelPhone": "Puhelinnumero",
+      "title": "Yhteyshenkilö"
+    },
+    "location": {
+      "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
+      "labelLocation": "Oletustapahtumapaikka",
+      "placeholderLocation": "Etsi paikkaa...",
+      "title": "Tapahtumapaikka"
+    }
+  },
+  "events": {
+    "buttonLoadMore": "Näytä lisää",
+    "buttonNewEvent": "Lisää uusi tapahtuma",
+    "eventCard": {
+      "ariaLabelOpenOccurrences": "Siirry tapahtuman {{eventName}} tapahtuma-aikoihin",
+      "textEnrolments": "{{count}} ilmoittautunut",
+      "textEnrolments_plural": "{{count}} ilmoittautunutta",
+      "textOccurrences": "{{count}} tapahtuma-aika",
+      "textOccurrences_plural": "{{count}} tapahtuma-aikaa",
+      "statusPublished": "Julkaistu",
+      "statusNotPublished": "Ei julkaistu"
+    },
+    "placeholderSearch": "Haku",
+    "textEventCount": "{{count}} kpl",
+    "textNoComingEvents": "Ei tapahtumia joissa on tulevia tapahtumia-aikoja",
+    "title": "Tapahtumat",
+    "titleComingEvents": "Tapahtumat",
+    "titleEventsWithPastOccurrences": "Menneet tapahtumat",
+    "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja"
+  },
+  "createOccurrence": {
+    "buttonBack": "Tapahtuma-ajat",
+    "buttonShowEventInfo": "Näytä tapahtuman tiedot",
+    "error": "Tapahtuma-ajan tallentaminen epäonnistui",
+    "formTitle": "Lisää uusi tapahtuma-aika",
+    "pageTitle": "Uusi tapahtuma-aika"
+  },
+  "editOccurrence": {
+    "buttonBack": "Tapahtuma-ajat",
+    "buttonShowEventInfo": "Näytä tapahtuman tiedot",
+    "error": "Tapahtuma-ajan tallentaminen epäonnistui",
+    "formTitle": "Muokkaa tapahtuma-aikaa",
+    "pageTitle": "Muokkaa tapahtuma-aikaa"
+  },
+  "eventOccurrenceForm": {
+    "infoText1": "Lisää tapahtumalle tapahtuma-aika, johon asiakkaat voivat ilmoittautua. Huomaathan, että voit luoda kerralla suuremman määrän aikoja kopioimalla jo luomiasi tapahtuma-aikoja.",
+    "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
+    "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
+    "labelDate": "Päivämäärä",
+    "labelStartsAt": "Alkaa klo",
+    "labelEndsAt": "Loppuu klo",
+    "labelEnrolmentStarts": "Ilmoittautuminen alkaa",
+    "labelLanguages": "Tapahtuman kieli",
+    "labelAmountOfSeats": "Paikkoja yhteensä",
+    "labelGroupSizeMin": "Ryhmäkoko min",
+    "labelGroupSizeMax": "Ryhmäkoko max",
+    "labelAutoAcceptance": "Vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa",
+    "labelEventLocation": "Tapahtumapaikka",
+    "labelLocationDescription": "Tapahtumapaikan kuvaus",
+    "labelPackedLunchEatingPlace": "Eväidensyöntipaikka",
+    "labelOuterwearStorage": "Ulkovaatesäilytys",
+    "titleParticipantRow": "Osallistujamäärä"
+  },
+  "form": {
+    "validation": {
+      "number": {
+        "max": "Arvon tulee olla enintään {{max}}",
+        "min": "Arvon tulee olla vähintään {{min}}",
+        "required": "Tämä kenttä on pakollinen"
+      },
+      "string": {
+        "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
+        "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
+        "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
+        "required": "Tämä kenttä on pakollinen",
+        "url": "Tämän kentän on oltava kelvollinen URL-osoite",
+        "date": "Tämän kentän on oltava kelvollinen päivämäärä",
+        "time": "Ajan tulee olla muotoa hh:mm"
+      },
+      "date": {
+        "required": "Tämä kenttä on pakollinen",
+        "future": "Tämän kentän on oltava tulevaisuudessa",
+        "min": "Tämän kentän on oltava {{min}} jälkeen",
+        "max": "Tämän kentän on oltava ennen {{max}}"
+      },
+      "time": {
+        "required": "Tämä kenttä on pakollinen",
+        "min": "Arvon tulee olla vähintään {{min}}",
+        "max": "Arvon tulee olla enintään {{max}}"
+      }
+    },
+    "actions": {
+      "cancel": "Peruuta",
+      "save": "Tallenna",
+      "saveAndAddNew": "Tallenna ja lisää uusi"
+    },
+    "placeInfo": {
+      "buttonEdit": "Vaihda",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Palvelukartta:"
+    },
+    "error": {
+      "imageTooBig": "Kuva on liian iso. Kuvan maksimikoko on 2 megatavua."
+    }
+  },
+  "footer": {
+    "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään",
+    "privacyPolicy": "Rekisteriseloste"
+  },
   "header": {
     "ariaButtonCloseMenu": "Sulje valikko",
     "ariaButtonOpenMenu": "Avaa valikko",
@@ -9,9 +415,127 @@
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
+    },
+    "logout": "Kirjaudu ulos",
+    "userMenu": {
+      "ariaLabelButton": "Avaa käyttäjän valikko",
+      "logout": "Kirjaudu ulos",
+      "openMyProfile": "Omat tiedot"
     }
   },
+  "image": {
+    "labelAltText": "Kuvan alt-teksti",
+    "labelImage": "Tapahtuman kuva",
+    "labelPhotographerName": "Valokuvaaja"
+  },
+  "login": {
+    "buttonLogin": "Kirjaudu sisään",
+    "pageTitle": "Kirjaudu sisään",
+    "title": "Tapahtumien hallinta"
+  },
   "notFound": {
-    "textNotFound": "Etsimääsi sivua ei löytynyt" 
+    "textNotFound": "Etsimääsi sivua ei löytynyt"
+  },
+  "occurrenceDetails": {
+    "buttonBack": "Tapahtuma-ajat",
+    "buttonEditOccurrence": "Muokkaa tapahtuma-aikaa",
+    "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Vahvista ilmoittautuminen",
+        "menuItemDecline": "Jätä ilman paikkaa",
+        "menuItemDelete": "Poista",
+        "menuItemEdit": "Muokkaa"
+      },
+      "columnActions": "Toiminnot",
+      "columnAdditionalInfo": "Lisätiedot",
+      "columnEnrolmentTime": "Ilmoittautunut",
+      "columnGroupSize": "Lapsia / aik.",
+      "columnPersonName": "Nimi",
+      "columnStatus": "Tila",
+      "columnStudyGroupGroupName": "Ryhmä",
+      "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos",
+      "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} jonossa",
+      "messages": "Viestit: {{language}}",
+      "showEnrolmentDetails": "Näytä ilmoittautumisen lisätiedot",
+      "titleEnrolled": "Ilmoittautuneet"
+    },
+    "enrolmentDetailsUpdated": "Osallistumistiedot päivitetty",
+    "pageTitle": "Tapahtuma-aika",
+    "textDateAndTime": "{{date}} klo {{time}}",
+    "textAmountOfSeats": "{{count}} paikka",
+    "textAmountOfSeats_plural": "{{count}} paikkaa",
+    "textGroupInfo": "ryhmän koko {{minGroupSize}}–{{maxGroupSize}}",
+    "languages": {
+      "en": "englanninkielinen",
+      "fi": "suomenkielinen",
+      "sv": "ruotsinkielinen"
+    }
+  },
+  "occurrences": {
+    "actionsDropdown": {
+      "menuItemDelete": "Poista",
+      "menuItemEdit": "Muokkaa",
+      "menuItemEnrolments": "Ilmoittautuneet",
+      "menuItemCancel": "Peruuta"
+    },
+    "buttonBack": "Tapahtumiin",
+    "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
+    "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "buttonShowMore": "Näytä lisää",
+    "count": "{{count}} kpl",
+    "deleteError": "Tapahtuma-ajan poistaminen epäonnistui",
+    "deleteModal": {
+      "buttonDelete": "Poista tapahtuma-aika",
+      "text1": "Oletko varma että haluat poistaa tapahtuma-ajan?",
+      "text2": "Poistettua tapahtuma-aikaa ei voi palauttaa.",
+      "title": "Poista tapahtuma-aika"
+    },
+    "cancelModal": {
+      "title": "Cancel occurrence",
+      "note1": "Oletko varma, että haluat poistaa valitun tapahtuma-ajan?",
+      "note2": "Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti"
+    },
+    "cancelError": "Tapahtuma-ajan peruminen epäonnistui",
+    "pageTitle": "Tapahtuma-ajat",
+    "table": {
+      "columnActions": "Toiminnot",
+      "columnAmountOfSeats": "Paikkoja",
+      "columnDate": "Pvm",
+      "columnEnrolmentStarts": "Ilm. alkaa",
+      "columnEnrolments": "Ilmoittautuneita",
+      "columnLocation": "Tapahtumapaikka",
+      "columnTime": "Kellonaika"
+    },
+    "publishSection": {
+      "optionNow": "Heti",
+      "buttonSetPublished": "Aseta julkaisuajankohta",
+      "buttonCancelPublishment": "Peru julkaisu",
+      "textPublishedTime": "Tapahtuma julkaistu",
+      "confirmModalTitle": "Aseta julkaisuajankohta",
+      "confirmPublicationButton": "Vahvista",
+      "confirmText1": "Oletko varma, että haluat asettaa julkaisuajankohdan?",
+      "confirmText2": "Tapahtuma-aikoja ei voi lisätä eikä muokata julkaisun jälkeen."
+    },
+    "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",
+    "titleComingOccurrences": "Tulevat tapahtuma-ajat",
+    "titlePastOccurrences": "Menneet tapahtuma-ajat",
+    "titleEventPublishment": "Tapahtuman julkaisu",
+    "errorEventPublicationFailed": "Tapahtuman julkaisu epäonnistui"
+  },
+  "studyLevel": {
+    "grade": "{{count}}. luokka",
+    "grade_plural": "{{count}}. luokka",
+    "preschool": "Esikoulu",
+    "secondary": "Lukio"
+  },
+  "venue": {
+    "venueDataFields": {
+      "helperLocationDescription": "Vierailua helpottavaa lisätietoa",
+      "labelHasClothingStorage": "Ulkovaatesäilytys",
+      "labelHasSnackEatingPlace": "Eväidensyöntipaikka",
+      "labelLocationDescription": "Tapahtumapaikan kuvaus",
+      "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
+    }
   }
 }

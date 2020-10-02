@@ -1,0 +1,15 @@
+{
+  "data": {
+    "image": {
+      "id": "48566",
+      "internalId": "https://api.hel.fi/linkedevents-test/v1/image/48566/",
+      "license": "cc_by",
+      "name": "Screenshot 2020-07-07 at 10.48.19.png",
+      "url": "https://api.hel.fi/linkedevents-test/media/images/Screenshot_2020-07-07_at_10.48.19.png",
+      "cropping": "59,0,503,444",
+      "photographerName": "asd",
+      "altText": "asd",
+      "__typename": "Image"
+    }
+  }
+}

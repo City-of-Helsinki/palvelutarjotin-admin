@@ -1,0 +1,235 @@
+{
+  "data": {
+    "keywords": {
+      "meta": {
+        "count": 999,
+        "next": "https://api.hel.fi/linkedevents-test/v1/keyword/?page=2&page_size=20&text=a",
+        "previous": null,
+        "__typename": "Meta"
+      },
+      "data": [
+        {
+          "id": "yso:p4354",
+          "name": {
+            "en": "children (age groups)",
+            "fi": "lapset (ikäryhmät)",
+            "sv": "barn (åldersgrupper)",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4354/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p4363",
+          "name": {
+            "en": "families",
+            "fi": "perheet",
+            "sv": "familjer",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p11617",
+          "name": {
+            "en": "young people",
+            "fi": "nuoret",
+            "sv": "ungdomar",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p360",
+          "name": {
+            "en": "cultural events",
+            "fi": "kulttuuritapahtumat",
+            "sv": "kulturevenemang",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p360/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p6165",
+          "name": {
+            "en": "migrants",
+            "fi": "maahanmuuttajat",
+            "sv": "invandrare",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6165/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p2625",
+          "name": {
+            "en": "theatre",
+            "fi": "teatteritaide",
+            "sv": "teaterkonst",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2625/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p2149",
+          "name": {
+            "en": "guidance",
+            "fi": "opastus",
+            "sv": "guidning",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2149/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p1808",
+          "name": {
+            "en": "music",
+            "fi": "musiikki",
+            "sv": "musik",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1808/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p9270",
+          "name": {
+            "en": "courses (societal objects)",
+            "fi": "kurssit",
+            "sv": "kurser",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p9270/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p2434",
+          "name": {
+            "en": "elderly",
+            "fi": "vanhukset",
+            "sv": "åldringar",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2434/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p14710",
+          "name": {
+            "en": "story hours",
+            "fi": "satutunnit",
+            "sv": "sagotimmar",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p14710/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p16485",
+          "name": {
+            "en": "pupils",
+            "fi": "koululaiset",
+            "sv": "skolelever",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p16485/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p8113",
+          "name": {
+            "en": "literature",
+            "fi": "kirjallisuus",
+            "sv": "litteratur",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p8113/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p2108",
+          "name": {
+            "en": "events",
+            "fi": "tapahtumat",
+            "sv": "händelser och evenemang",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2108/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p556",
+          "name": {
+            "en": "languages",
+            "fi": "kieli ja kielet",
+            "sv": "språk",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p556/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p11185",
+          "name": {
+            "en": "concerts",
+            "fi": "konsertit",
+            "sv": "konserter (framträdanden)",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11185/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p6062",
+          "name": {
+            "en": "games",
+            "fi": "pelit",
+            "sv": "spel",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6062/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p1278",
+          "name": {
+            "en": "dance (performing arts)",
+            "fi": "tanssi",
+            "sv": "dans",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1278/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p11406",
+          "name": {
+            "en": "reading",
+            "fi": "lukeminen",
+            "sv": "läsning",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11406/",
+          "__typename": "Keyword"
+        },
+        {
+          "id": "yso:p7643",
+          "name": {
+            "en": "Russian language",
+            "fi": "venäjän kieli",
+            "sv": "ryska",
+            "__typename": "LocalisedObject"
+          },
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p7643/",
+          "__typename": "Keyword"
+        }
+      ],
+      "__typename": "KeywordListResponse"
+    }
+  }
+}

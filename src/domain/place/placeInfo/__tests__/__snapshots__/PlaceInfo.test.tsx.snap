@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlaceInfo should match snapshot 1`] = `
+"<div class=\\"placeInfo\\">
+  <div>Sellon kirjasto </div>
+  <p>Leppävaarankatu 9</p>
+  <p>+358 9 8165 7603</p>
+  <div class=\\"linkRow\\">
+    <div class=\\"linkTitle\\">Palvelukartta:</div><a href=\\"https://palvelukartta.hel.fi/fi/unit/15417\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">https://palvelukartta.hel.fi/fi/unit/15417</a>
+  </div>
+  <div class=\\"linkRow\\">
+    <div class=\\"linkTitle\\">Reittiopas:</div><a href=\\"https://www.reittiopas.fi/fi/?to=Leppävaarankatu+9,Espoo\\" rel=\\"noopener noreferrer\\" target=\\"_blank\\">https://www.reittiopas.fi/fi/?to=Leppävaarankatu+9,Espoo</a>
+  </div>
+</div>"
+`;

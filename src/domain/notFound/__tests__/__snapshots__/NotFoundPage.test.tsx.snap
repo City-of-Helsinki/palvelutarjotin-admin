@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it matches snapshot 1`] = `
+<div>
+  <div
+    class="container default container"
+  >
+    <div
+      class="content"
+    >
+      <div
+        class="iconWrapper"
+      >
+        <svg
+          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g
+            fill="none"
+            fill-rule="evenodd"
+          >
+            <path
+              d="M0 0h24v24H0z"
+            />
+            <path
+              d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm1 6v6.5h2V18H9v-1.5h2v-5H9V10h4zm-1.187-4a1.312 1.312 0 110 2.625 1.312 1.312 0 010-2.625z"
+              fill="currentColor"
+            />
+          </g>
+        </svg>
+      </div>
+      <h1>
+        Etsimääsi sivua ei löytynyt
+      </h1>
+      <p
+        class="description"
+      >
+        Pahoittelemme, mutta palvelussa ilmeni virhe. Voit yrittää uudestaan, mutta jos tilanne toistuu, kerro siitä meille alalaidan palautelinkin kautta.
+      </p>
+      <button
+        class="Button-module_button__3wgee button_hds-button__2A0je Button-module_primary__3bo_T button_hds-button--primary__2NVvO"
+        style="max-width: 300px;"
+        type="button"
+      >
+        <span
+          class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+        >
+          Palaa etusivulle
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

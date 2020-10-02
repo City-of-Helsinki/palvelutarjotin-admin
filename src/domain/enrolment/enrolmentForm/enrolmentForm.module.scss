@@ -1,0 +1,51 @@
+@import 'layout';
+
+.enrolmentForm {
+  background-color: var(--color-black-10);
+  padding: var(--spacing-layout-s) var(--spacing-layout-xs);
+  margin-top: var(--spacing-layout-m);
+
+  .rowWith2Columns {
+    display: grid;
+    grid-gap: var(--spacing-layout-s);
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .rowWith3Columns {
+    display: grid;
+    grid-gap: var(--spacing-layout-s);
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  .checkboxWrapper {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    margin-top: 18px;
+  }
+
+  .divider {
+    margin: var(--spacing-layout-s) 0 var(--spacing-layout-xs);
+    width: 100%;
+    border-top: 2px solid var(--color-black-20);
+  }
+
+  p {
+    font-size: var(--fontsize-body-medium);
+  }
+
+  .privacyPolicyLink {
+    text-decoration: none;
+    color: var(--color-bus);
+  }
+
+  .submitButtonWrapper {
+    text-align: right;
+  }
+}

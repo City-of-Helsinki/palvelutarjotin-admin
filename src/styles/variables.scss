@@ -1,2 +1,12 @@
+// Margin and padding
+$basePadding: 1.25rem;
+$largePadding: 2.5rem;
+$baseMargin: $basePadding;
+$largeMargin: $largePadding;
+
 // Layout
-$containerMaxWidth: 1470px;
+$containerMaxWidth: 1240px;
+$containerSmallMaxWidth: 600px;
+$containerXSmallMaxWidth: 500px;
+
+$paddingBottomPage: 10rem;

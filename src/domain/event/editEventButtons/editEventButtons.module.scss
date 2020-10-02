@@ -1,0 +1,29 @@
+@import "layout";
+
+.editEventButtons {
+  --color-dirty-text: var(--color-error);
+  --fontsize-dirty-text: var(--fontsize-body-default);
+  --grid-gap: var(--spacing-l);
+}
+.editEventButtons {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  align-items: center;
+
+  @include respond_above(sm) {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.backButtonWrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: var(--grid-gap);
+  align-items: center;
+}
+
+.dirtyText {
+  align-items: center;
+  color: var(--color-dirty-text);
+  font-size: var(--fontsize-dirty-text);
+}

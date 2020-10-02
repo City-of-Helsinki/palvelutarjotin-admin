@@ -1,0 +1,63 @@
+@import 'colours';
+@import 'layout';
+@import 'mixins';
+@import 'variables';
+
+$logoHeight: 3rem;
+$logoWidth: 5rem;
+
+.footer {
+  display: grid;
+  color: $hel-black;
+
+  .links {
+    margin: $baseMargin 0;
+
+    a {
+      color: $hel-black;
+    }
+  }
+}
+
+.footerWrapper {
+  background-color: $hel-black-5;
+  position: relative;
+  display: grid;
+  align-items: center;
+  padding: $basePadding 0;
+
+  > div {
+    padding: 0;
+  }
+}
+
+.helsinkiLogo {
+  @include helsinki-logo($hel-black);
+
+  background-position: center;
+  height: $logoHeight;
+  width: $logoWidth;
+  margin-bottom: $baseMargin;
+}
+
+.copyright {
+  border-top: 1px solid $hel-black-60;
+  padding-top: $basePadding;
+  display: flex;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+    color: $hel-black-60;
+  }
+}
+
+.koros {
+  position: absolute;
+  top: -1.25rem;
+
+  svg {
+    height: 1.25rem;
+    fill: $hel-black-5;
+  }
+}

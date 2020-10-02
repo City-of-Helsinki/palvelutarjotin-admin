@@ -1,0 +1,22 @@
+@import 'layout';
+
+.eventBasicInfo {
+  --grid-gap: var(--spacing-xl);
+
+  --margin-text: 0 0 var(--spacing-l);
+}
+
+.eventBasicInfo {
+  .durationRow {
+    display: grid;
+    grid-gap: var(--grid-gap);
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1.5fr 1.5fr;
+    }
+  }
+
+  .description {
+    margin: var(--margin-text);
+  }
+}

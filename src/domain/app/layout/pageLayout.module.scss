@@ -1,4 +1,8 @@
-@import "layout";
+@import 'layout';
+
+.pageLayout {
+  --background-color-body: #f7f6f6;
+}
 
 .pageLayout {
   height: 100%;
@@ -11,5 +15,26 @@
 
 .pageBody {
   display: grid;
-  align-content: flex-start;
+  background-color: var(--background-color-body);
+
+  @include respond-below(sm) {
+    opacity: 1;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+
+  &.mobileMenuOpen {
+    @include respond-below(sm) {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.5s, opacity 0.5s;
+    }
+  }
+
+  h1 {
+    font-size: var(--fontsize-h-2);
+  }
+
+  h2 {
+    font-size: var(--fontsize-h-3);
+  }
 }

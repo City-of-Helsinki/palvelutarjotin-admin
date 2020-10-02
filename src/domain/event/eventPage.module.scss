@@ -1,0 +1,10 @@
+@import "variables";
+
+.eventPage {
+  padding-bottom: $paddingBottomPage;
+  
+  h1 {
+    font-size: var(--fontsize-h-2);
+    margin: 1rem 0 2rem;
+  }
+}

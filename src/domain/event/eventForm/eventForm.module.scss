@@ -1,0 +1,86 @@
+@import 'colours';
+@import 'layout';
+
+.eventForm {
+  --fontsize-header: var(--fontsize-h-3);
+  --fontsize-label: 0.875em;
+  --grid-gap: var(--spacing-xl);
+
+  --lineheight-label: var(--label-height);
+}
+
+.eventForm {
+  display: grid;
+  grid-gap: var(--grid-gap);
+
+  @include respond_above(sm) {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  h2 {
+    font-size: var(--fontsize-header);
+    margin: 2rem 0;
+  }
+
+  .durationRow {
+    display: grid;
+    grid-gap: 20px;
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1.5fr 1.5fr;
+    }
+  }
+
+  .languageRow {
+    display: grid;
+    grid-gap: var(--grid-gap);
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .priceRow {
+    display: grid;
+    grid-gap: var(--grid-gap);
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 2fr 1fr;
+    }
+
+    .isFreeWrapper {
+      @include respond_above(sm) {
+        margin-top: 26px;
+        display: flex;
+
+        div {
+          align-self: center;
+        }
+      }
+    }
+  }
+
+  .imageSelectRow {
+    display: grid;
+    grid-gap: var(--grid-gap);
+
+    @include respond_above(sm) {
+      grid-template-columns: 180px 1fr;
+    }
+
+    .imageSelect {
+      min-width: 180px;
+    }
+
+    .imageInstructionsText {
+      align-self: center;
+      padding-top: 10px;
+    }
+  }
+}
+
+.buttonsWrapper {
+  button {
+    margin-right: var(--spacing-m);
+  }
+}

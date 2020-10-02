@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div>
+    <h2>
+      Yhteyshenkilö
+    </h2>
+    <div
+      class="textTitle"
+    >
+      Nimi
+    </div>
+    <p>
+      Testi Testinen
+    </p>
+    <div
+      class="textTitle"
+    >
+      Sähköpostiosoite
+    </div>
+    <p>
+      testi@testinen.fi
+    </p>
+    <div
+      class="textTitle"
+    >
+      Puhelinnumero
+    </div>
+    <p>
+      12345678
+    </p>
+  </div>
+</div>
+`;

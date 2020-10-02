@@ -1,0 +1,12 @@
+{
+  "data": {
+    "person": {
+      "id": "UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=",
+      "emailAddress": "testi@testi.fi",
+      "name": "Testi Testinen",
+      "phoneNumber": "123123123",
+      "language": "FI",
+      "__typename": "PersonNode"
+    }
+  }
+}

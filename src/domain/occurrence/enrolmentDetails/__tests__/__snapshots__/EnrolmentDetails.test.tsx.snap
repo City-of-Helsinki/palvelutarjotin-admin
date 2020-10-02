@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    class="enrolmentDetails"
+  >
+    <div
+      class="backButtonContainer"
+    >
+      <button
+        aria-label="Palaa ilmoittautuneisiin"
+      >
+        <svg
+          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g
+            fill="none"
+            fill-rule="evenodd"
+          >
+            <path
+              d="M0 0h24v24H0z"
+            />
+            <path
+              d="M10 5.636l1.414 1.414L7.465 11H20v2H7.464l3.95 3.95L10 18.364 3.636 12z"
+              fill="currentColor"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="detailsSection"
+    >
+      <div
+        class="topRow"
+      >
+        <div>
+          <span
+            class="enrolleesTitle"
+          >
+            Ilmoittautuneet
+          </span>
+        </div>
+        <div
+          class="actionButtons"
+        >
+          <button
+            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS declineButton actionButton"
+            type="button"
+          >
+            <div
+              aria-hidden="true"
+              class="Button-module_icon__3Wlc6 button_hds-icon__17j8Z"
+            >
+              <svg
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                  />
+                  <path
+                    d="M17.657 7.757L13.414 12l4.243 4.243-1.414 1.414L12 13.414l-4.243 4.243-1.414-1.414L10.586 12 6.343 7.757l1.414-1.414L12 10.586l4.243-4.243z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </div>
+            <span
+              class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+            >
+              Jätä ilman paikkaa
+            </span>
+          </button>
+          <button
+            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS editButton"
+            type="button"
+          >
+            <div
+              aria-hidden="true"
+              class="Button-module_icon__3Wlc6 button_hds-icon__17j8Z"
+            >
+              <svg
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                  />
+                  <path
+                    d="M16.75 3L4.5 15.25l.014 4.736L9.25 20 21.5 7.75 16.75 3zM6.5 16L16.75 5.75l2 2L8.5 18l-1.993-.006L6.5 16z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </div>
+            <span
+              class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+            >
+              Muokkaa
+            </span>
+          </button>
+          <button
+            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS deleteButton actionButton"
+            type="button"
+          >
+            <div
+              aria-hidden="true"
+              class="Button-module_icon__3Wlc6 button_hds-icon__17j8Z"
+            >
+              <svg
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                  />
+                  <path
+                    d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm2.828 3.757l1.415 1.415L13.413 12l2.83 2.828-1.415 1.415L12 13.413l-2.828 2.83-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586l2.828-2.829z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </div>
+            <span
+              class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+            >
+              Poista
+            </span>
+          </button>
+        </div>
+      </div>
+      <table
+        class="detailsTable"
+      >
+        <tbody>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Ilmoittautunut:
+            </td>
+            <td>
+              14.08.2020 10:15
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Tila:
+            </td>
+            <td>
+              Hyväksytty
+            </td>
+          </tr>
+          <tr
+            class="infoRow spacingRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Nimi:
+            </td>
+            <td>
+              Ilmoittautuja
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Sähköpostiosoite:
+            </td>
+            <td>
+              ilmo@ilmoittautuja.com
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Puhelinnumero:
+            </td>
+            <td>
+              123321123
+            </td>
+          </tr>
+          <tr
+            class="infoRow spacingRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Päiväkoti / koulu / oppilaitos:
+            </td>
+            <td>
+              Yläaste
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Ryhmän nimi:
+            </td>
+            <td>
+              Ryhmän nimi
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Luokka-aste:
+            </td>
+            <td>
+              studyLevel.grade_interval
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Lisätiedot:
+            </td>
+            <td>
+              Lisätietoja tässä
+            </td>
+          </tr>
+          <tr
+            class="infoRow spacingRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Vastuussa oleva aikuinen:
+            </td>
+            <td>
+              Ilmoittautuja
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Sähköpostiosoite:
+            </td>
+            <td>
+              ilmo@ilmoittautuja.com
+            </td>
+          </tr>
+          <tr
+            class="infoRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Puhelinnumero:
+            </td>
+            <td>
+              123321123
+            </td>
+          </tr>
+          <tr
+            class="infoRow spacingRow"
+          >
+            <td
+              class="infoLabel"
+            >
+              Tapahtumien ilmoitukset:
+            </td>
+            <td>
+              Tekstiviestillä, sähköpostilla, kieli: suomi
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

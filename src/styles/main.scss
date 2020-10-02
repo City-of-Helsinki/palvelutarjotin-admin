@@ -1,7 +1,7 @@
-@import "./vendor/normalize";
-@import "colors";
-@import "fonts";
-@import "layout";
+@import './vendor/normalize';
+@import 'colours';
+@import 'fonts';
+@import 'layout';
 
 html {
   height: 100%;
@@ -15,8 +15,37 @@ body {
   flex-direction: column;
 }
 
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* added line */
+  border: 0;
+}
+
 #root {
   flex: 1;
+}
+
+:root {
+  --fontsize-h-1: 3.25rem; /* 52px */
+  --fontsize-h-2: 2.25rem; /* 36px */
+  --fontsize-h-3: 1.5rem; /* 24px */
+  --fontsize-h-4: 1.25rem; /* 20px */
+  --fontsize-h-5: 1.125rem; /* 18px */
 }
 
 // Override globally all text to use Helsinki font.

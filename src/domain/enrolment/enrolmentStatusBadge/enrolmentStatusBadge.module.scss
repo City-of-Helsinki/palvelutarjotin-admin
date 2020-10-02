@@ -1,0 +1,27 @@
+.enrolmentStatusBadge {
+  background: var(--color-tram-dark-50);
+  color: var(--color-white);
+  padding: var(--spacing-3-xs) var(--spacing-xs);
+  font-size: var(--fontsize-body-small);
+  text-align: center;
+}
+
+.approved {
+  background: var(--color-tram-dark-50);
+  color: var(--color-white);
+}
+
+.cancelled {
+  background: var(--color-black-20);
+  color: var(--color-black);
+}
+
+.declined {
+  background: var(--color-brick);
+  color: var(--color-white);
+}
+
+.pending {
+  background: var(--color-summer);
+  color: var(--color-black);
+}

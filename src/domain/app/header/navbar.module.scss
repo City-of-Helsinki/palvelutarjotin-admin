@@ -1,6 +1,6 @@
-@import "mixins";
-@import "colors";
-@import "variables";
+@import 'mixins';
+@import 'colours';
+@import 'variables';
 
 $logoHeight: 2.5rem;
 $logoWidth: 5.5rem;
@@ -35,4 +35,16 @@ $logoWidth: 5.5rem;
   background-position: center;
   height: $logoHeight;
   width: $logoWidth;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+
+  svg {
+    margin-left: 0.5rem;
+    height: 1.25rem;
+    width: 1.25rem;
+  }
 }

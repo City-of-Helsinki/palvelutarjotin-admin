@@ -21,6 +21,19 @@ RUN yarn policies set-version $YARN_VERSION
 ARG SASS_PATH=./src/styles
 ENV SASS_PATH $SASS_PATH
 
+# Oidc authority
+ARG REACT_APP_OIDC_AUTHORITY
+
+# Sentry variables
+ARG REACT_APP_SENTRY_DSN
+ARG REACT_APP_ENVIRONMENT
+
+# Api url
+ARG REACT_APP_API_URI
+
+# Linkedevents api url
+ARG REACT_APP_LINKEDEVENTS_API_URI
+
 USER root
 RUN apt-install.sh build-essential
 

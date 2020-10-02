@@ -1,5 +1,410 @@
 {
-  "appName": "Palvelutarjotin Admin",
+  "apollo": {
+    "graphQLErrors": {
+      "permissionDeniedError": "You do not have permission to perform this action"
+    }
+  },
+  "appName": "Kultus beta Admin",
+  "authentication": {
+    "errorMessage": "An error occured while logging in. Please try again",
+    "networkError": {
+      "message": "Login error: Check your network connection or try again later"
+    },
+    "redirect": {
+      "text": "Redirecting..."
+    }
+  },
+  "common": {
+    "back": "Back",
+    "alertModal": {
+      "buttonCancel": "Cancel"
+    },
+    "autoSuggest": {
+      "accessibility": {
+        "clearValueButtonAriaMessage": "Clear value",
+        "deselectOptionAriaMessage": "Option {{value}}, deselected.",
+        "deselectOptionButtonAriaMessage": "Deselect option: {{value}}",
+        "focusAriaMessage": "{{value}}, {{index}} of {{n}}.",
+        "selectOptionAriaMessage": "Option {{value}}, selected."
+      },
+      "loading": "Loading ...",
+      "noResults": "No results"
+    },
+    "dropdown": {
+      "placeholder": "Select..."
+    },
+    "datepicker": {
+      "accessibility": {
+        "selectDate": "Choose {{value}}",
+        "buttonNextMonth": "Next month",
+        "buttonPreviousMonth": "Previous month",
+        "selectTime": "Choose {{value}}",
+        "timeInstructions": "Choose time with arrow keys",
+        "buttonCalendar": "Calendar"
+      },
+      "buttonClose": "Close"
+    },
+    "languages": {
+      "ar": "Arabic",
+      "en": "English",
+      "fi": "Finnish",
+      "ru": "Russian",
+      "sv": "Swedish",
+      "zh_hans": "Chinese"
+    },
+    "tableDropdown": {
+      "toggleButton": "Select"
+    },
+    "buttonClose": "Close"
+  },
+  "enrolmentForm": {
+    "buttonSubmit": "Submit registration",
+    "buttonUpdateEnrolment": "Update enrolment",
+    "infoText1": "We do not use the information you provide for marketing purposes.",
+    "infoText2": "We will send you a separate confirmation message once the organizer has processed and confirmed your registration.",
+    "labelHasEmailNotification": "By e-mail",
+    "labelHasSmsNotification": "By SMS",
+    "labelIsSameResponsiblePerson": "Same as notifier",
+    "labelIsSharingDataAccepted": "I agree to share my information with the event organizer",
+    "labelLanguage": "Language",
+    "language": {
+      "en": "English",
+      "fi": "Finnish",
+      "sv": "Swedish"
+    },
+    "person": {
+      "labelEmailAddress": "Email address",
+      "labelName": "Name",
+      "labelPhoneNumber": "Phone number"
+    },
+    "privacyPolicy": "Privacy policy",
+    "studyGroup": {
+      "person": {
+        "labelEmailAddress": "Email address",
+        "labelName": "Name",
+        "labelPhoneNumber": "Phone number"
+      },
+      "helperExtraNeeds": "Add here if you want to tell the organizer something else relevant to your group",
+      "helperGroupName": "Unique name of the group, for example: 4a",
+      "labelAmountOfAdult": "Adults",
+      "labelExtraNeeds": "Additional information (optional)",
+      "labelGroupName": "Group name",
+      "labelGroupSize": "Children",
+      "labelName": "Kindergarten / school / college",
+      "labelStudyLevel": "Grade level",
+      "titleGroup": "Group information",
+      "titleNotifier": "Notifier information"
+    },
+    "titleNotifications": "Event notifications",
+    "titleResponsiblePerson": "An adult in charge of the group during the event",
+    "validation": {
+      "isSharingDataAccepted": "Sharing information with the event organizer must be accepted"
+    }
+  },
+  "errorPage": {
+    "title": "The service encountered an error",
+    "description": "We're sorry, but there was an error with the service. You can try again, but if the situation persists, please let us know via the feedback link at the bottom.",
+    "returnToHome": "Return to homepage"
+  },
+  "createMyProfile": {
+    "buttonSubmit": "Save and continue",
+    "error": "Failed to save my profile",
+    "infoText1": "Hello, welcome to the Service Tray!",
+    "infoText2": "In order to enter transactions into the system, we ask that you verify the following information:",
+    "pageTitle": "Complete your information",
+    "title": "Complete your information"
+  },
+  "editMyProfile": {
+    "buttonSubmit": "Save updated information",
+    "error": "Failed to save my profile",
+    "pageTitle": "My profile",
+    "success": "My profile saved successfully",
+    "title": "My profile"
+  },
+  "myProfileForm": {
+    "checkboxPrivacyPolicy": "I authorize the use of the information I provide in the transaction information. <a href='{{url}}' target='_blank' rel='noreferrer'>Privacy Policy</a>",
+    "checkboxTermsOfService": "I have accepted the <a href='TODO: Add url'>terms of service</a>",
+    "helperEmail": "This is your username",
+    "helperName": "Can be used for event contacts",
+    "helperOrganisations": "The organization whose events you manage",
+    "helperPhoneNumber": "Can be used for event contacts",
+    "labelEmail": "Email",
+    "labelName": "Name",
+    "labelOrganisations": "Organisation",
+    "labelPhoneNumber": "Phone number",
+    "placeholderOrganisations": "Select organisation",
+    "validation": {
+      "isPrivacyPolicyAccepted": "Privacy policy must be accepted",
+      "isTermsOfServiceRead": "The terms of use must be accepted"
+    }
+  },
+  "createEvent": {
+    "pageTitle": "New event",
+    "title": "New event",
+    "error": "Failed to save event"
+  },
+  "editEvent": {
+    "buttons": {
+      "buttonBack": "Events",
+      "textDirty": "There are unsaved changes on this page"
+    },
+    "pageTitle": "Edit event",
+    "title": "Edit event",
+    "error": "Failed to save event",
+    "errorEventIsInThePast": "Event is in the past",
+    "errorEventIsInThePastDescription": "Event that is in the past can't be edited."
+  },
+  "enrolment": {
+    "approveEnrolmentError": "Approving enrolment failed",
+    "declineEnrolmentError": "Declining enrolment failed",
+    "deleteEnrolmentError": "Deleting enrolment failed",
+    "editEnrolmentTitle": "Edit enrolment information",
+    "editEnrolmentBackButton": "Enrollees",
+    "status": {
+      "approved": "Approved",
+      "cancelled": "Cancelled",
+      "declined": "Declined",
+      "pending": "New"
+    },
+    "enrolmentModal": {
+      "declineEnrolment": "Decline enrolment",
+      "approveEnrolment": "Approve enrolment",
+      "deleteEnrolment": "Delete enrolment",
+      "selectedEnrollees": "Selected enrollees",
+      "approveEnrolmentNote": "Selected enrollees' enrolments will be approved and messages will be sent to them.",
+      "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
+      "addMessage": "Add message",
+      "cancelEnrolment": "Cancel",
+      "messageToParticipants": "Message to participants",
+      "sendConfirmationMessage": "Send confirmation message",
+      "sendCancelMessage": "Send",
+      "preview": "Preview",
+      "previewError": "Error loading preview"
+    },
+    "enrolmentDetails": {
+      "buttonApproveEnrolment": "Approve enrolment",
+      "buttonDeclineEnrolment": "Decline enrolment",
+      "buttonDeleteEnrolment": "Delete",
+      "buttonEditEnrolment": "Edit",
+      "buttonEnrolleesTitle": "Enrollees",
+      "buttonGoToEnrolleesList": "Back to enrollees list",
+      "labelEnrolled": "Enrolled",
+      "labelStatus": "Status",
+      "labelName": "Name",
+      "labelEmail": "Email",
+      "labelPhoneNumber": "Phone number",
+      "labelStudyGroupName": "Kindergarten / School / College",
+      "labelGroupName": "Group name",
+      "labelStudyLevel": "Grade level",
+      "labelGroupSize": "Children / adults",
+      "labelResponsiblePerson": "Resposible person",
+      "labelNotifications": "Event notifications",
+      "labelAdditionalInfo": "Additional information",
+      "error": "Fetching enrolment data failed"
+    },
+    "errors": {
+      "updateFailed": "Failed to update enrolment"
+    }
+  },
+  "eventDetails": {
+    "basicInfo": {
+      "enrolmentStart": "{{date}} at {{time}}",
+      "labelDescription": "Description",
+      "labelDuration": "Event duration, min",
+      "labelEnrolmentEndDays": "Enrolment closes, days",
+      "labelEnrolmentStart": "Enrolment begins",
+      "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelName": "Event name",
+      "labelShortDescription": "Short description (up to 160 characters)",
+      "title": "Basic information"
+    },
+    "buttons": {
+      "buttonBack": "Events",
+      "buttonDelete": "Delete event",
+      "buttonEdit": "Edit events"
+    },
+    "categorisation": {
+      "eventIsFree": "Event is free",
+      "labelAudience": "Target groups",
+      "labelInLanguage": "Event languages",
+      "labelKeywords": "Event keywords",
+      "labelNeededOccurrences": "Necessary visits",
+      "labelPrice": "Price, €",
+      "title": "Event classifications"
+    },
+    "contactPerson": {
+      "labelEmail": "Email",
+      "labelName": "Name",
+      "labelPhone": "Phone",
+      "title": "Contact person"
+    },
+    "deleteModal": {
+      "buttonDelete": "Delete event",
+      "text1": "Are you sure you want to delete the event?",
+      "text2": "Once deleted, events can not be restored.",
+      "title": "Delete event",
+      "upcomingOccurrences": "Upcoming occurrences",
+      "occurrenceTime": "{{date}} at {{time}}"
+    },
+    "location": {
+      "labelLocation": "Default venue",
+      "labelLocationDescription": "Description of the venue",
+      "snackEatingPlace": "Snack eating place",
+      "clothingStorage": "Clothing storage",
+      "title": "Location"
+    }
+  },
+  "eventForm": {
+    "basicInfo": {
+      "addImage": "Add image",
+      "deleteImage": "Delete image",
+      "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license. Max size of the image is 2 megabytes. Recommended dimensios are 1200px X 800px.",
+      "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
+      "labelDescription": "Description",
+      "labelDuration": "Event duration, min",
+      "labelEnrolmentEndDays": "Enrolment closes, days",
+      "labelEnrolmentStart": "Enrolment begins",
+      "labelImage": "Event picture",
+      "labelImageAltText": "Picture alt-text",
+      "labelImagePhotographer": "Photographer",
+      "labelInfoUrl": "A web address where you can find more information about the event",
+      "labelName": "Event name",
+      "labelShortDescription": "Short description (up to 160 characters)",
+      "photographer": "Photographer",
+      "title": "Basic information"
+    },
+    "buttonCancel": "Cancel",
+    "buttonSave": "Save",
+    "buttonSaveDraft": "Save draft",
+    "categorisation": {
+      "helperKeywords": "Enter a keyword and select from the suggested options",
+      "labelAudience": "Target groups",
+      "labelInLanguage": "Event languages",
+      "labelIsFree": "Event is free",
+      "labelKeywords": "Event keywords",
+      "labelNeededOccurrences": "Necessary visits",
+      "labelPrice": "Price, €",
+      "placeholderKeywords": "Add keyword...",
+      "title": "Event classifications"
+    },
+    "changeLanguageModal": {
+      "buttonChangeLanguage": "Change language",
+      "text1": "Are you sure you want to change language?",
+      "text2": "Unsaved changes can not be restored.",
+      "title": "Change language"
+    },
+    "contactPerson": {
+      "labelEmail": "Email",
+      "labelName": "Name",
+      "labelPhone": "Phone",
+      "title": "Contact person"
+    },
+    "location": {
+      "helperLocation": "The default venue for event times",
+      "labelLocation": "Default venue",
+      "placeholderLocation": "Search place...",
+      "title": "Location"
+    }
+  },
+  "events": {
+    "buttonLoadMore": "Show more",
+    "buttonNewEvent": "Add new event",
+    "eventCard": {
+      "ariaLabelOpenOccurrences": "Go to event times of {{eventName}}",
+      "textEnrolments": "{{count}} enrolments",
+      "textEnrolments_plural": "{{count}} enrolments",
+      "textOccurrences": "{{count}} occurrence",
+      "textOccurrences_plural": "{{count}} occurrences",
+      "statusPublished": "Published",
+      "statusNotPublished": "Not published"
+    },
+    "placeholderSearch": "Search",
+    "textEventCount": "{{count}} pcs",
+    "textNoComingEvents": "No events with coming event times",
+    "title": "Events",
+    "titleComingEvents": "Events",
+    "titleEventsWithPastOccurrences": "Past events",
+    "titleEventsWithoutOccurrences": "Events without event times"
+  },
+  "createOccurrence": {
+    "buttonBack": "Event times",
+    "buttonShowEventInfo": "Show event details",
+    "error": "Failed to save event time",
+    "formTitle": "Add new occurrence",
+    "pageTitle": "New occurrence"
+  },
+  "editOccurrence": {
+    "buttonBack": "Event times",
+    "buttonShowEventInfo": "Show event details",
+    "error": "Failed to save event time",
+    "formTitle": "Edit occurrence",
+    "pageTitle": "Edit occurrence"
+  },
+  "eventOccurrenceForm": {
+    "infoText1": "Add an event time for the event that customers can sign up for. Please note that you can create more times at once by copying the event times you have already created.",
+    "infoText2": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> day before the start of the event time. You can change these settings in the event information.",
+    "infoText2_plural": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> days before the start of the event time. You can change these settings in the event information.",
+    "labelDate": "Date",
+    "labelStartsAt": "Starts at",
+    "labelEndsAt": "Ends at",
+    "labelEnrolmentStarts": "Enrolment starts on",
+    "labelLanguages": "Event language",
+    "labelAmountOfSeats": "Total spots",
+    "labelGroupSizeMin": "Group size min",
+    "labelGroupSizeMax": "Group size max",
+    "labelAutoAcceptance": "Automatically confirm registrations within the number of participants",
+    "labelEventLocation": "Event location",
+    "labelLocationDescription": "Event location description",
+    "labelPackedLunchEatingPlace": "Packed lunch eating place",
+    "labelOuterwearStorage": "Outerwear storage",
+    "titleParticipantRow": "Participant count"
+  },
+  "form": {
+    "validation": {
+      "number": {
+        "max": "Maximum value is {{max}}",
+        "min": "Value must be at least {{min}}",
+        "required": "This field is required"
+      },
+      "string": {
+        "email": "This field must be a valid email",
+        "max": "This field can be up to {{max}} characters long",
+        "min": "This field must be at least {{min}} characters long",
+        "required": "This field is required",
+        "url": "This field must be a valid URL",
+        "date": "This field must be a valid date",
+        "time": "Time must be given in the following format hh:mm"
+      },
+      "date": {
+        "required": "This field is required",
+        "future": "This date must be in the future",
+        "min": "This date must be after {{min}}",
+        "max": "This date must be before {{max}}"
+      },
+      "time": {
+        "required": "This field is required",
+        "min": "This time must be after {{min}}",
+        "max": "This time must be before {{max}}"
+      }
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "saveAndAddNew": "Save and add new"
+    },
+    "placeInfo": {
+      "buttonEdit": "Change",
+      "labelReittiopas": "Reittiopas:",
+      "labelServicemap": "Servicemap:"
+    },
+    "error": {
+      "imageTooBig": "Image is too big. Maximum size of the image is 2 megabytes."
+    }
+  },
+  "footer": {
+    "copyrightText": "© Copyright 2020 • All rights reserved",
+    "privacyPolicy": "Privacy policy"
+  },
   "header": {
     "ariaButtonCloseMenu": "Close menu",
     "ariaButtonOpenMenu": "Open menu",
@@ -9,9 +414,127 @@
       "en": "In English",
       "fi": "Suomeksi",
       "sv": "På svenska"
+    },
+    "logout": "Log out",
+    "userMenu": {
+      "ariaLabelButton": "Open user menu",
+      "logout": "Log out",
+      "openMyProfile": "My profile"
     }
   },
+  "image": {
+    "labelAltText": "Picture alt-text",
+    "labelImage": "Event picture",
+    "labelPhotographerName": "Photographer"
+  },
+  "login": {
+    "buttonLogin": "Log in",
+    "pageTitle": "Log in",
+    "title": "Event management"
+  },
   "notFound": {
-    "textNotFound": "The page you were looking for was not found" 
+    "textNotFound": "The page you were looking for was not found"
+  },
+  "occurrenceDetails": {
+    "buttonBack": "Event times",
+    "buttonEditOccurrence": "Edit event time",
+    "buttonEventDetails": "View event details",
+    "enrolmentTable": {
+      "actionsDropdown": {
+        "menuItemApprove": "Approve enrolment",
+        "menuItemDecline": "Leave without seats",
+        "menuItemDelete": "Delete",
+        "menuItemEdit": "Edit"
+      },
+      "columnActions": "Actions",
+      "columnAdditionalInfo": "Additional info",
+      "columnEnrolmentTime": "Enrolled at",
+      "columnGroupSize": "Children / Adults",
+      "columnPersonName": "Name",
+      "columnStatus": "Status",
+      "columnStudyGroupGroupName": "Group",
+      "columnStudyGroupName": "Kindergarten / School / College",
+      "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} in line",
+      "messages": "Messages: {{language}}",
+      "showEnrolmentDetails": "Show enrolment details",
+      "titleEnrolled": "Registrations"
+    },
+    "enrolmentDetailsUpdated": "Enrolment details updated",
+    "pageTitle": "Event time",
+    "textDateAndTime": "{{date}} at {{time}}",
+    "textAmountOfSeats": "{{count}} seat",
+    "textAmountOfSeats_plural": "{{count}} seats",
+    "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
+    "languages": {
+      "en": "in English",
+      "fi": "in Finnish",
+      "sv": "in Swedish"
+    }
+  },
+  "occurrences": {
+    "actionsDropdown": {
+      "menuItemDelete": "Delete",
+      "menuItemEdit": "Edit",
+      "menuItemEnrolments": "Registrations",
+      "menuItemCancel": "Cancel"
+    },
+    "buttonBack": "Events",
+    "buttonCreateOccurrence": "Add new event time",
+    "buttonEventDetails": "View event details",
+    "buttonShowMore": "Show more",
+    "count": "{{count}} pcs",
+    "deleteError": "Failed to delete event time",
+    "deleteModal": {
+      "buttonDelete": "Delete event time",
+      "text1": "Are you sure you want to delete the event time?",
+      "text2": "Once deleted, event times can not be restored.",
+      "title": "Delete event time"
+    },
+    "cancelModal": {
+      "title": "Cancel occurrence",
+      "note1": "Are you sure that you want to delete se selected occurrence?",
+      "note2": "Enrolments to this occurrence will be canceled and a message will be sent to enrollees."
+    },
+    "cancelError": "Canceling occurrence failed",
+    "pageTitle": "Event times",
+    "table": {
+      "columnActions": "Actions",
+      "columnAmountOfSeats": "Seats",
+      "columnDate": "Date",
+      "columnEnrolmentStarts": "Registration begins",
+      "columnEnrolments": "Registrations",
+      "columnLocation": "Location",
+      "columnTime": "Time"
+    },
+    "publishSection": {
+      "optionNow": "Now",
+      "buttonSetPublished": "Set publication date",
+      "buttonCancelPublishment": "Cancel publishment",
+      "confirmModalTitle": "Set publication date",
+      "textPublishedTime": "Event published",
+      "confirmPublicationButton": "Confirm",
+      "confirmText1": "Are you sure you want to set publication time?",
+      "confirmText2": "Occurrences cannot be added or modified after the event has been published."
+    },
+    "textNoComingOccurrences": "No coming event times",
+    "titleComingOccurrences": "Coming event times",
+    "titlePastOccurrences": "Past event times",
+    "titleEventPublishment": "Event publishment",
+    "errorEventPublicationFailed": "Event publication failed"
+  },
+  "studyLevel": {
+    "grade_interval": "(1){1st grade};(2){2nd grade};",
+    "grade_plural": "{{count}}th grade",
+    "preschool": "Preschool",
+    "secondary": "Upper secondary school"
+  },
+  "venue": {
+    "venueDataFields": {
+      "helperLocationDescription": "Additional information to facilitate the visit",
+      "labelHasClothingStorage": "Clothing storage",
+      "labelHasSnackEatingPlace": "Snack eating place",
+      "labelLocationDescription": "Description of the venue",
+      "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ..."
+    }
   }
 }

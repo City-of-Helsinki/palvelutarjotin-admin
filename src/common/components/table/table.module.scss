@@ -1,0 +1,94 @@
+.table {
+  --background-color-cell: var(--color-white);
+  --background-color-cell-header: var(--color-black-10);
+
+  --border-color-cell: var(--color-black-10);
+
+  --color-cell: var(--color-black-90);
+  --color-cell-header: var(--color-black-90);
+
+  --fontsize-cell: var(--fontsize-body-medium);
+  --fontsize-cell-header: var(--fontsize-body-medium);
+
+  --margin-bottom-table: var(--spacing-m);
+  --spacing-cell: var(--spacing-s);
+
+  --expanded-row-border-color: var(--color-black-30);
+}
+.tableWrapper {
+  max-width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--margin-bottom-table);
+
+  thead {
+    tr {
+      th {
+        background-color: var(--background-color-cell-header);
+        color: var(--color-cell-header);
+        font-size: var(--fontsize-cell-header);
+        font-weight: normal;
+        text-align: left;
+        padding: var(--spacing-cell);
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border: 1px solid transparent;
+        border-bottom: none;
+        background-color: var(--background-color-cell);
+        color: var(--color-cell);
+        font-size: var(--fontsize-cell);
+        font-weight: normal;
+        text-align: left;
+        padding: var(--spacing-cell);
+      }
+
+      &:not(:first-child) {
+        td {
+          border-top: 1px solid var(--border-color-cell);
+        }
+      }
+    }
+
+    tr.clickableRow {
+      cursor: pointer;
+    }
+
+    tr.expandedRow {
+      td {
+        border-bottom: none;
+        border-top: 1px solid var(--expanded-row-border-color);
+
+        &:last-child {
+          border-right: 1px solid var(--expanded-row-border-color);
+        }
+
+        &:first-child {
+          border-left: 1px solid var(--expanded-row-border-color);
+        }
+      }
+    }
+
+    tr.expandedArea {
+      td {
+        border: 1px solid var(--expanded-row-border-color);
+        border-top: none;
+
+        &:not(:last-child) {
+          border-right: none;
+        }
+
+        &:not(:first-child) {
+          border-left: none;
+        }
+      }
+    }
+  }
+}

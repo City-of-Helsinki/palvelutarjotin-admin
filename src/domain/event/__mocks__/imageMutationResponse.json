@@ -1,0 +1,22 @@
+{
+  "data": {
+    "uploadImageMutation": {
+      "response": {
+        "statusCode": 201,
+        "body": {
+          "id": "48584",
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/image/48584/",
+          "license": "cc_by",
+          "name": "Screenshot 2020-08-03 at 12.18.57.png",
+          "url": "https://api.hel.fi/linkedevents-test/media/images/Screenshot_2020-08-03_at_12.18.57_UPWAHHS.png",
+          "cropping": "369,0,1139,770",
+          "photographerName": null,
+          "altText": null,
+          "__typename": "Image"
+        },
+        "__typename": "ImageMutationResponse"
+      },
+      "__typename": "UploadImageMutation"
+    }
+  }
+}

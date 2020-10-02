@@ -1,0 +1,59 @@
+{
+  "data": {
+    "updateEventMutation": {
+      "response": {
+        "statusCode": 200,
+        "body": {
+          "id": "palvelutarjotin:afz6d7wm7i",
+          "internalId": "https://api.hel.fi/linkedevents-test/v1/event/palvelutarjotin:afz6d7wm7i/",
+          "name": {
+            "en": null,
+            "fi": "Testitapahtuma tälle paivalle",
+            "sv": null,
+            "__typename": "LocalisedObject"
+          },
+          "shortDescription": {
+            "en": null,
+            "fi": "sdfsfas",
+            "sv": null,
+            "__typename": "LocalisedObject"
+          },
+          "description": {
+            "en": null,
+            "fi": "adsfadsfvadsfads",
+            "sv": null,
+            "__typename": "LocalisedObject"
+          },
+          "images": [
+            {
+              "id": "48599",
+              "internalId": "https://api.hel.fi/linkedevents-test/v1/image/48599/",
+              "license": "cc_by",
+              "name": "Screenshot 2020-08-03 at 12.18.57.png",
+              "url": "https://api.hel.fi/linkedevents-test/media/images/Screenshot_2020-08-03_at_12.18.57_dKud2yW.png",
+              "cropping": "369,0,1139,770",
+              "photographerName": "asdasd",
+              "altText": "asdadad",
+              "__typename": "Image"
+            }
+          ],
+          "pEvent": {
+            "id": "UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjky",
+            "duration": 10,
+            "neededOccurrences": 3,
+            "__typename": "PalvelutarjotinEventNode"
+          },
+          "infoUrl": {
+            "en": null,
+            "fi": "",
+            "sv": null,
+            "__typename": "LocalisedObject"
+          },
+          "__typename": "Event"
+        },
+        "__typename": "EventMutationResponse"
+      },
+      "__typename": "UpdateEventMutation"
+    }
+  }
+}

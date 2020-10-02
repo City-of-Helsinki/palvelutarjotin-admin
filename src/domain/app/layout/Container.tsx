@@ -5,9 +5,12 @@ import styles from './container.module.scss';
 
 const Container: FunctionComponent<{
   className?: string;
-}> = ({ children, className }) => {
+  size?: 'default' | 'xsmall' | 'small';
+}> = ({ children, className, size = 'default' }) => {
   return (
-    <div className={classnames(styles.container, className)}>{children}</div>
+    <div className={classnames(styles.container, styles[size], className)}>
+      {children}
+    </div>
   );
 };
 
