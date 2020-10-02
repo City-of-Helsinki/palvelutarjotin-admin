@@ -26,6 +26,7 @@ import {
   UploadSingleImageDocument,
 } from '../../../generated/graphql';
 import {
+  configure,
   fireEvent,
   render,
   screen,
@@ -34,6 +35,8 @@ import {
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import CreateEventPage from '../CreateEventPage';
+
+configure({ defaultHidden: true });
 
 const eventFormData = {
   name: 'Testitapahtuma',
@@ -187,14 +190,13 @@ test('modal opens when trying to change language', async () => {
   });
 
   // should open modal when trying to change event language
-  userEvent.click(screen.getByRole('button', { name: 'Ruotsi', hidden: true }));
+  userEvent.click(screen.getByRole('button', { name: 'Ruotsi' }));
   expect(screen.getByRole('dialog')).toHaveTextContent(/vaihda kieli/i);
 
-  const modal = within(screen.getByRole('dialog', { hidden: true }));
+  const modal = within(screen.getByRole('dialog', {}));
 
   const cancelButton = modal.getByRole('button', {
     name: 'Peruuta',
-    hidden: true,
   });
   userEvent.click(cancelButton);
 
@@ -329,9 +331,7 @@ test('form works correctly when edited', async () => {
     },
   } as any);
 
-  userEvent.click(
-    contactInfoPart.getByRole('option', { name: 'Testaaja2', hidden: true })
-  );
+  userEvent.click(contactInfoPart.getByRole('option', { name: 'Testaaja2' }));
 
   // email and name should automatically populate after choosing name from dropdown
   await waitFor(() => {
@@ -344,10 +344,8 @@ test('form works correctly when edited', async () => {
   userEvent.click(
     screen.getByLabelText(/Tapahtuman kielet/, { selector: 'button' })
   );
-  userEvent.click(
-    screen.getByRole('option', { name: 'Englanti', hidden: true })
-  );
-  userEvent.click(screen.getByRole('option', { name: 'Suomi', hidden: true }));
+  userEvent.click(screen.getByRole('option', { name: 'Englanti' }));
+  userEvent.click(screen.getByRole('option', { name: 'Suomi' }));
   userEvent.click(
     screen.getByLabelText('Tapahtuman kielet', { selector: 'button' })
   );
@@ -390,9 +388,7 @@ test('form works correctly when edited', async () => {
   // Venue mutation mock
   jest.spyOn(apolloClient, 'mutate').mockResolvedValueOnce({});
 
-  userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna', hidden: true })
-  );
+  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
 
   await waitFor(() => {
     expect(

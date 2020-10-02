@@ -222,7 +222,6 @@ test('can create new occurrence with form', async () => {
   userEvent.click(
     screen.getByRole('option', {
       name: occurrenceFormData.startsAt,
-      hidden: true,
     })
   );
 
@@ -233,7 +232,6 @@ test('can create new occurrence with form', async () => {
   userEvent.click(
     screen.getByRole('option', {
       name: occurrenceFormData.endsAt,
-      hidden: true,
     })
   );
 
@@ -242,10 +240,8 @@ test('can create new occurrence with form', async () => {
     selector: 'button',
   });
   userEvent.click(languageSelectorButton);
-  userEvent.click(
-    screen.getByRole('option', { name: 'Englanti', hidden: true })
-  );
-  userEvent.click(screen.getByRole('option', { name: 'Suomi', hidden: true }));
+  userEvent.click(screen.getByRole('option', { name: 'Englanti' }));
+  userEvent.click(screen.getByRole('option', { name: 'Suomi' }));
   userEvent.click(
     screen.getByLabelText('Tapahtuman kieli', { selector: 'button' })
   );
@@ -260,9 +256,7 @@ test('can create new occurrence with form', async () => {
     screen.queryByText('Tämä kenttä on pakollinen')
   ).not.toBeInTheDocument();
 
-  userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna', hidden: true })
-  );
+  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
 
   await waitFor(() => {
     expect(screen.queryByText('Tämä kenttä on pakollinen')).toBeInTheDocument();
@@ -278,7 +272,7 @@ test('can create new occurrence with form', async () => {
   });
 
   userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna ja lisää uusi', hidden: true })
+    screen.getByRole('button', { name: 'Tallenna ja lisää uusi' })
   );
 
   await waitFor(() => {
