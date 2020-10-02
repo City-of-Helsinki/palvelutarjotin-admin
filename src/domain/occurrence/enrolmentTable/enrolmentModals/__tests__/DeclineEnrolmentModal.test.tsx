@@ -4,15 +4,16 @@ import wait from 'waait';
 
 import persons from '../__mocks__/persons';
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { act, render, screen } from '../../../../../utils/testUtils';
+import { act, configure, render, screen } from '../../../../../utils/testUtils';
 import DeclineEnrolmentModal from '../DeclineEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
+
+configure({ defaultHidden: true });
 
 it('matches snapshot', async () => {
   const { baseElement } = render(
     <DeclineEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={jest.fn()}
       declineEnrolment={jest.fn()}
       appElement={document.body}
@@ -72,7 +73,6 @@ it('calls close handle when close button is clicked', async () => {
 
   const cancelButton = screen.getByRole('button', {
     name: messages.enrolment.enrolmentModal.cancelEnrolment,
-    hidden: true,
   });
 
   userEvent.click(cancelButton);

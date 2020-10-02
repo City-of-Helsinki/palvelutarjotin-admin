@@ -4,7 +4,7 @@
       "permissionDeniedError": "Sinulla ei ole lupaa suorittaa tätä toimintoa"
     }
   },
-  "appName": "Palvelutarjotin Admin",
+  "appName": "Kultus Admin beta",
   "authentication": {
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
     "networkError": {
