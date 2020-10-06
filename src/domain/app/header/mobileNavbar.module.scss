@@ -1,5 +1,5 @@
 @import 'mixins';
-@import 'colours';
+
 @import 'variables';
 
 $logoHeight: 2.5rem;
@@ -20,14 +20,14 @@ $logoWidth: 5.5rem;
 .appName {
   margin: 0.67em 1.875rem;
   font-size: 1.25rem;
-  color: $hel-black;
+  color: var(--color-black);
   font-weight: 600;
   white-space: nowrap;
-  color: $hel-black;
+  color: var(--color-black);
 }
 
 .logo {
-  @include helsinki-logo($hel-black);
+  @include helsinki-logo(var(--color-black));
   background-position: center;
   height: $logoHeight;
   width: $logoWidth;

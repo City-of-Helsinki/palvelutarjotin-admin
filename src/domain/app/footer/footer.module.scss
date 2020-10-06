@@ -1,4 +1,3 @@
-@import 'colours';
 @import 'layout';
 @import 'mixins';
 @import 'variables';
@@ -8,19 +7,19 @@ $logoWidth: 5rem;
 
 .footer {
   display: grid;
-  color: $hel-black;
+  color: var(--color-black);
 
   .links {
     margin: $baseMargin 0;
 
     a {
-      color: $hel-black;
+      color: var(--color-black);
     }
   }
 }
 
 .footerWrapper {
-  background-color: $hel-black-5;
+  background-color: var(--color-black-5);
   position: relative;
   display: grid;
   align-items: center;
@@ -32,7 +31,7 @@ $logoWidth: 5rem;
 }
 
 .helsinkiLogo {
-  @include helsinki-logo($hel-black);
+  @include helsinki-logo(var(--color-black));
 
   background-position: center;
   height: $logoHeight;
@@ -41,14 +40,14 @@ $logoWidth: 5rem;
 }
 
 .copyright {
-  border-top: 1px solid $hel-black-60;
+  border-top: 1px solid var(--color-black-60);
   padding-top: $basePadding;
   display: flex;
   justify-content: space-between;
 
   p {
     margin: 0;
-    color: $hel-black-60;
+    color: var(--color-black-60);
   }
 }
 
@@ -58,6 +57,6 @@ $logoWidth: 5rem;
 
   svg {
     height: 1.25rem;
-    fill: $hel-black-5;
+    fill: var(--color-black-5);
   }
 }

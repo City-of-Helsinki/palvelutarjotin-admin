@@ -1,8 +1,8 @@
-@import "layout";
+@import 'layout';
 
 .editEventButtons {
   --color-dirty-text: var(--color-error);
-  --fontsize-dirty-text: var(--fontsize-body-default);
+  --fontsize-dirty-text: var(--fontsize-body-m);
   --grid-gap: var(--spacing-l);
 }
 .editEventButtons {
