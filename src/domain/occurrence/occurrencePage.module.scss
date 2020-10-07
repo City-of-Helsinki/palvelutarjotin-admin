@@ -4,8 +4,8 @@
   --color-link: var(--color-bus);
   --color-plain-text: var(--color-black-90);
 
-  --fontsize-link: var(--fontsize-body-default);
-  --fontsize-plain-text: var(--fontsize-body-medium);
+  --fontsize-link: var(--fontsize-body-m);
+  --fontsize-plain-text: var(--fontsize-body-m);
 
   --fontweight-link: 500;
 
@@ -22,11 +22,11 @@
   padding-bottom: $paddingBottomPage;
 
   h1 {
-    font-size: var(--fontsize-h-2);
+    font-size: var(--fontsize-heading-l);
   }
 
   h2 {
-    font-size: var(--fontsize-h-4);
+    font-size: var(--fontsize-heading-s);
   }
 
   p {

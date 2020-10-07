@@ -1,11 +1,10 @@
 @import 'layout';
 @import 'variables';
-@import 'colours';
 
 .eventOccurrenceForm {
   --color-title: var(--color-black-90);
 
-  --fontsize-title: var(--fontsize-h-4);
+  --fontsize-title: var(--fontsize-heading-s);
 
   --margin-bottom-action-buttons: var(--spacing-2-xl);
   --margin-bottom-title: var(--spacing-s);

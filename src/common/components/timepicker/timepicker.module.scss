@@ -1,11 +1,9 @@
-@import 'colours';
-
 .wrapper {
   --background-color-menu: var(--color-white);
   --background-color-menu-item-highlighted: var(--color-black-10);
 
   --border-color-menu: var(--input-border-color-default);
-  --fontsize-menu-item: var(--fontsize-body-medium);
+  --fontsize-menu-item: var(--fontsize-body-m);
   --spacing-menu-item: var(--spacing-s);
 }
 

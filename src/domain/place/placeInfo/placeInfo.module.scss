@@ -1,8 +1,7 @@
-@import 'colours';
 @import 'fonts';
 
 .placeInfo {
-  color: $hel-black-90;
+  color: var(--color-black-90);
   font-size: $body-medium-font-size;
   line-height: 2rem;
 
@@ -11,7 +10,7 @@
   }
 
   a {
-    color: $hel-bus;
+    color: var(--color-bus);
   }
 
   .linkRow {
@@ -25,7 +24,7 @@
 
   .buttonChange {
     color: var(--color-bus);
-    font-size: var(--fontsize-body-default);
+    font-size: var(--fontsize-body-m);
     font-weight: 500;
     margin-left: var(--spacing-s);
   }

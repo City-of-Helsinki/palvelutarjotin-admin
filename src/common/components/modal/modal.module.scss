@@ -1,4 +1,4 @@
-@import "layout";
+@import 'layout';
 
 .bodyOpen {
   overflow: hidden;
@@ -26,7 +26,7 @@
   --color-icon: var(--color-black);
   --color-title: var(--color-black);
 
-  --fontsize-title: var(--fontsize-h-4);
+  --fontsize-title: var(--fontsize-heading-s);
 
   --fontweight-title: bold;
 
@@ -81,7 +81,7 @@
 
 .title {
   color: var(--color-title);
-  font-size: var(--fontsize-title);;
+  font-size: var(--fontsize-title);
   font-weight: var(--fontweight-title);
   line-height: var(--lineheight-title);
   text-transform: uppercase;

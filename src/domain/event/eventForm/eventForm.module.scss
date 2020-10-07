@@ -1,8 +1,7 @@
-@import 'colours';
 @import 'layout';
 
 .eventForm {
-  --fontsize-header: var(--fontsize-h-3);
+  --fontsize-header: var(--fontsize-heading-m);
   --fontsize-label: 0.875em;
   --grid-gap: var(--spacing-xl);
 
