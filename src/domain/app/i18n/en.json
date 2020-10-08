@@ -457,7 +457,9 @@
       "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} in line",
       "messages": "Messages: {{language}}",
       "showEnrolmentDetails": "Show enrolment details",
-      "titleEnrolled": "Registrations"
+      "titleEnrolled": "Registrations",
+      "labelSelectEnrolment": "Select enrolment {{info}}",
+      "labelSelectAllEnrolments": "Select all enrolments"
     },
     "enrolmentDetailsUpdated": "Enrolment details updated",
     "pageTitle": "Event time",
@@ -481,7 +483,7 @@
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
     "buttonEventDetails": "View event details",
-    "buttonShowMore": "Show more",
+    "buttonShowMore": "Show more occurrences",
     "count": "{{count}} pcs",
     "deleteError": "Failed to delete event time",
     "deleteModal": {
@@ -504,7 +506,9 @@
       "columnEnrolmentStarts": "Registration begins",
       "columnEnrolments": "Registrations",
       "columnLocation": "Location",
-      "columnTime": "Time"
+      "columnTime": "Time",
+      "labelChooseAllOccurrences": "Select all occurrences",
+      "labelChooseOccurrence": "Select occurrence {{info}}"
     },
     "publishSection": {
       "optionNow": "Now",
