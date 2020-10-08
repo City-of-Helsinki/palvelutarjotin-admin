@@ -173,6 +173,7 @@ const EnrolmentTable: React.FC<Props> = ({
               'occurrenceDetails.enrolmentTable.showEnrolmentDetails'
             )}
             {...row.getToggleRowExpandedProps()}
+            // row.isExpanded is undefined when is not expanded for some reason
             aria-expanded={row.isExpanded ? true : false}
           >
             <IconAngleDown
