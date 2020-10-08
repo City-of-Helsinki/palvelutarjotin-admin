@@ -460,8 +460,8 @@
       "messages": "Inlägg: {{language}}",
       "showEnrolmentDetails": "Visa mer registreringsinformation",
       "titleEnrolled": "Registreringar",
-      "labelSelectEnrolment": "Select enrolment {{info}}",
-      "labelSelectAllEnrolments": "Select all enrolments"
+      "labelSelectEnrolment": "Välj registrering {{info}}",
+      "labelSelectAllEnrolments": "Välj alla anmälningar"
     },
     "enrolmentDetailsUpdated": "Registreringsinformation uppdaterad",
     "pageTitle": "Evenemangtid",
