@@ -93,6 +93,9 @@ const EnrolmentTable: React.FC<Props> = ({
           id={`${id}_select-all_checkbox`}
           checked={isAllSelected}
           onChange={isAllSelected ? unselectAll : selectAll}
+          aria-label={t(
+            'occurrenceDetails.enrolmentTable.labelSelectAllEnrolments'
+          )}
         />
       ),
       accessor: (row: EnrolmentFieldsFragment) => (
@@ -100,6 +103,14 @@ const EnrolmentTable: React.FC<Props> = ({
           id={`${id}_${row.id}_checkbox`}
           checked={selectedEnrolments.includes(row.id)}
           onChange={() => handleCheckboxChange(row)}
+          aria-label={t(
+            'occurrenceDetails.enrolmentTable.labelSelectEnrolment',
+            {
+              info: `${formatDate(new Date(row.enrolmentTime))} ${
+                row.person?.name
+              }`,
+            }
+          )}
         />
       ),
       id: 'selectRow',
@@ -162,6 +173,8 @@ const EnrolmentTable: React.FC<Props> = ({
               'occurrenceDetails.enrolmentTable.showEnrolmentDetails'
             )}
             {...row.getToggleRowExpandedProps()}
+            // row.isExpanded is undefined when is not expanded for some reason
+            aria-expanded={row.isExpanded ? true : false}
           >
             <IconAngleDown
               className={classNames(styles.iconAngle, {

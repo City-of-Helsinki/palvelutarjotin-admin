@@ -5,7 +5,7 @@
   --color-delete-icon: var(--color-error);
   --color-text: var(--color-black-90);
 
-  --fontsize-text: var(--fontsize-body-medium);
+  --fontsize-text: var(--fontsize-body-l);
 
   --fontweight-text: normal;
 
@@ -19,11 +19,11 @@
   padding-bottom: $paddingBottomPage;
 
   h1 {
-    font-size: var(--fontsize-h-2);
+    font-size: var(--fontsize-heading-l);
   }
 
   h2 {
-    font-size: var(--fontsize-h-4);
+    font-size: var(--fontsize-heading-s);
   }
 
   p {

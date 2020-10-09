@@ -3,7 +3,7 @@
 .occurrencesPage {
   --color-link: var(--color-bus);
 
-  --fontsize-link: var(--fontsize-body-default);
+  --fontsize-link: var(--fontsize-body-m);
 
   --fontweight-link: 500;
 
@@ -16,12 +16,12 @@
   padding-bottom: $paddingBottomPage;
 
   h1 {
-    font-size: var(--fontsize-h-2);
+    font-size: var(--fontsize-heading-l);
     margin: 1rem 0 1rem;
   }
 
   h2 {
-    font-size: var(--fontsize-h-4);
+    font-size: var(--fontsize-heading-s);
   }
 
   .link {

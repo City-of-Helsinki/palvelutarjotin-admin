@@ -8,8 +8,8 @@
   --color-button-text: var(--color-black-90);
   --color-button-text-disabled: var(--color-black-40);
   --color-button-text-selected: var(--color-bus);
-  
-  --fontsize-button-text: var(--fontsize-body-default);
+
+  --fontsize-button-text: var(--fontsize-body-m);
 
   --fontweight-button-text: 500;
 
@@ -38,7 +38,7 @@
 
   .buttonIconWrapper {
     margin-right: var(--spacing-xs);
-    
+
     svg {
       color: var(--color-button-icon);
       display: block;

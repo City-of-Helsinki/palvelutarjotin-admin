@@ -1,14 +1,14 @@
-@import "variables";
+@import 'variables';
 
 .myProfile {
   padding-bottom: $paddingBottomPage;
-  
+
   h1 {
-    font-size: var(--fontsize-h-2);
+    font-size: var(--fontsize-heading-l);
   }
 
   p {
-    font-size: var(--fontsize-body-medium);
+    font-size: var(--fontsize-body-l);
     line-height: var(--lineheight-l);
   }
 }
