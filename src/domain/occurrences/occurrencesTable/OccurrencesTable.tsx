@@ -79,6 +79,7 @@ const OccurrencesTable: React.FC<Props> = ({
           id={`${id}_select-all_checkbox`}
           checked={isAllSelected}
           onChange={isAllSelected ? unselectAll : selectAll}
+          aria-label={t('occurrences.table.labelChooseAllOccurrences')}
         />
       ),
       accessor: (row: OccurrenceFieldsFragment) => (
@@ -86,6 +87,13 @@ const OccurrencesTable: React.FC<Props> = ({
           id={`${id}_${row.id}_checkbox`}
           checked={selectedOccurrences.includes(row.id)}
           onChange={() => handleCheckboxChange(row)}
+          aria-label={t('occurrences.table.labelChooseOccurrence', {
+            info: `${formatDate(new Date(row.startTime))}  ${formatTimeRange(
+              new Date(row.startTime),
+              new Date(row.endTime),
+              locale
+            )}`,
+          })}
         />
       ),
       id: 'selectRow',

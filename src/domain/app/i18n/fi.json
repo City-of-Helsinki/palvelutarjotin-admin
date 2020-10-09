@@ -458,7 +458,9 @@
       "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} jonossa",
       "messages": "Viestit: {{language}}",
       "showEnrolmentDetails": "Näytä ilmoittautumisen lisätiedot",
-      "titleEnrolled": "Ilmoittautuneet"
+      "titleEnrolled": "Ilmoittautuneet",
+      "labelSelectEnrolment": "Valitse ilmoittautuminen {{info}}",
+      "labelSelectAllEnrolments": "Valitse kaikki ilmoittautumiset"
     },
     "enrolmentDetailsUpdated": "Osallistumistiedot päivitetty",
     "pageTitle": "Tapahtuma-aika",
@@ -482,7 +484,7 @@
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
-    "buttonShowMore": "Näytä lisää",
+    "buttonShowMore": "Näytä lisää tapahtuma-aikoja",
     "count": "{{count}} kpl",
     "deleteError": "Tapahtuma-ajan poistaminen epäonnistui",
     "deleteModal": {
@@ -505,7 +507,9 @@
       "columnEnrolmentStarts": "Ilm. alkaa",
       "columnEnrolments": "Ilmoittautuneita",
       "columnLocation": "Tapahtumapaikka",
-      "columnTime": "Kellonaika"
+      "columnTime": "Kellonaika",
+      "labelChooseAllOccurrences": "Valitse kaikki tapahtuma-ajat",
+      "labelChooseOccurrence": "Valitse tapahtuma-aika {{info}}"
     },
     "publishSection": {
       "optionNow": "Heti",
