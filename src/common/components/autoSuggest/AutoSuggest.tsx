@@ -423,6 +423,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
         <input
           ref={input}
           aria-autocomplete="list"
+          autoComplete="off"
           type="text"
           className={inputStyles.input}
           aria-labelledby={labelledBy}

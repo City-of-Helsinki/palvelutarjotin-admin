@@ -139,6 +139,8 @@ const EventsPage: React.FC = () => {
                   placeholder={t('events.placeholderSearch')}
                   onChange={handleSearchFieldChange}
                   value={inputValue}
+                  labelText={t('events.placeholderSearch')}
+                  hideLabel
                 />
               </div>
             </div>
