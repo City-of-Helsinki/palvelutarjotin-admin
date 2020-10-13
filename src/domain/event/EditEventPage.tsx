@@ -205,8 +205,8 @@ const EditEventPage: React.FC = () => {
               <Container>
                 <div className={styles.eventPage}>
                   <ActiveOrganisationInfo organisationId={organisationId} />
-
                   <EventForm
+                    edit
                     eventData={eventData}
                     initialValues={initialValues}
                     onCancel={goToEventDetailsPage}

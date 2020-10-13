@@ -2,6 +2,7 @@ import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
@@ -16,6 +17,7 @@ import ConfirmationModal from '../../../common/components/modal/ConfirmationModa
 import { EVENT_LANGUAGES } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
+import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
@@ -24,7 +26,7 @@ import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
-import ValidationSchema from './ValidationSchema';
+import createValidationSchema from './ValidationSchema';
 
 export const defaultInitialValues: EventFormFields = {
   audience: [],
@@ -61,6 +63,7 @@ interface Props {
   selectedLanguage: Language;
   setSelectedLanguage: (language: Language) => void;
   title: string;
+  edit?: boolean;
 }
 
 const EventForm: React.FC<Props> = ({
@@ -72,10 +75,23 @@ const EventForm: React.FC<Props> = ({
   selectedLanguage,
   setSelectedLanguage,
   title,
+  edit,
 }) => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [newLanguage, setNewLanguage] = React.useState(selectedLanguage);
   const { t } = useTranslation();
+
+  const validationSchema = React.useMemo(() => {
+    if (edit) {
+      // different validation when event is edited
+      return createValidationSchema({
+        enrolmentStart: Yup.date()
+          .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+          .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED),
+      });
+    }
+    return createValidationSchema();
+  }, [edit]);
 
   const personOptions = React.useMemo(
     () => [
@@ -107,7 +123,7 @@ const EventForm: React.FC<Props> = ({
       initialValues={initialValues}
       validateOnChange
       onSubmit={onSubmit}
-      validationSchema={ValidationSchema}
+      validationSchema={validationSchema}
     >
       {({
         dirty,
