@@ -13,6 +13,10 @@ export const isLoadingUserSelector = (state: StoreState) =>
   state.authentication.tunnistamo.isLoadingUser ||
   state.authentication.token.isFetchingToken;
 
-export const isAuthenticatedSelector = (state: StoreState) =>
-  !!state.authentication.tunnistamo.user &&
-  !!state.authentication.token.apiToken;
+export const isAuthenticatedSelector = (state: StoreState) => {
+  console.log(state);
+  return (
+    !!state.authentication.tunnistamo.user &&
+    !!state.authentication.token.apiToken
+  );
+};
