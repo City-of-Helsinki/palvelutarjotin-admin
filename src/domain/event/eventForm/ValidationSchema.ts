@@ -21,7 +21,7 @@ const createValidationSchemaYup = (
         max: param.max,
         key: VALIDATION_MESSAGE_KEYS.STRING_MAX,
       })),
-    infoUrl: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
+    infoUrl: Yup.string(),
     duration: Yup.number()
       .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
       .min(0, (param) => ({
