@@ -87,6 +87,7 @@ const EventsPage: React.FC = () => {
       ...baseVariables,
       // we will egt past events with end:now
       end: 'now',
+      publicationStatus: PUBLICATION_STATUS.PUBLIC,
     },
   });
 
