@@ -9,8 +9,8 @@ import { EventQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
-import { isEditableEvent } from '../utils';
 import styles from './eventDetailsButtons.module.scss';
 
 interface Props {
@@ -28,6 +28,8 @@ const EventDetailsButtons: React.FC<Props> = ({
   const locale = useLocale();
   const history = useHistory();
   const eventId = eventData.event?.id || '';
+  const isEditable =
+    eventData.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
   const goToEventList = () => {
     history.push(ROUTES.HOME);
@@ -57,7 +59,7 @@ const EventDetailsButtons: React.FC<Props> = ({
         onClick={onClickLanguage}
         selectedLanguage={selectedLanguage}
       />
-      {isEditableEvent(eventData) && (
+      {isEditable && (
         <div>
           <Button onClick={goToEditPage}>
             {t('eventDetails.buttons.buttonEdit')}

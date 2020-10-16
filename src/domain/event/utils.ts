@@ -278,9 +278,6 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
     ? isFutureDate(new Date(eventData?.event?.startTime))
     : false;
 
-export const isEditableEvent = (eventData: EventQuery | undefined) =>
-  !isPastEvent(eventData);
-
 export const hasOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(event.pEvent?.occurrences.edges.length);
 };

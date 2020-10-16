@@ -2,7 +2,6 @@ import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
-import Router from 'react-router';
 
 import eventData from '../__mocks__/eventData.json';
 import { render, screen } from '../../../../utils/testUtils';
