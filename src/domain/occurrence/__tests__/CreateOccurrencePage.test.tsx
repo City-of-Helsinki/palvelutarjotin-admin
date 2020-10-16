@@ -256,12 +256,6 @@ test('can create new occurrence with form', async () => {
     screen.queryByText('Tämä kenttä on pakollinen')
   ).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
-
-  await waitFor(() => {
-    expect(screen.queryByText('Tämä kenttä on pakollinen')).toBeInTheDocument();
-  });
-
   const maxGroupSizeInput = screen.getByLabelText('Ryhmäkoko max');
   userEvent.type(maxGroupSizeInput, occurrenceFormData.maxGroupSize);
 

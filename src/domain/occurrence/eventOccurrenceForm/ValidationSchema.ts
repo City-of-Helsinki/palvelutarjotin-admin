@@ -68,13 +68,11 @@ export default Yup.object().shape({
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage),
   minGroupSize: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
     .when(['maxGroupSize'], (maxGroupSize: number, schema: Yup.NumberSchema) =>
       maxGroupSize ? schema.max(maxGroupSize, addMaxValidationMessage) : schema
     ),
   maxGroupSize: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
     .when(
       ['amountOfSeats'],
