@@ -22,6 +22,7 @@ import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
 import apolloClient from '../app/apollo/apolloClient';
+import { PUBLICATION_STATUS } from '../events/constants';
 import { getVenueDescription } from '../venue/utils';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './types';
@@ -277,6 +278,9 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
     ? isFutureDate(new Date(eventData?.event?.startTime))
     : false;
+
+export const isEditableEvent = (eventData: EventQuery | undefined) =>
+  eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
 export const hasOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(event.pEvent?.occurrences.edges.length);

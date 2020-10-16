@@ -28,6 +28,7 @@ import {
   getEventPayload,
   getEventVenueDescription,
   getFirstAvailableLanguage,
+  isEditableEvent,
 } from './utils';
 
 const EditEventPage: React.FC = () => {
@@ -57,8 +58,6 @@ const EditEventPage: React.FC = () => {
     eventData?.event?.pEvent?.organisation?.persons.edges.map(
       (edge) => edge?.node as PersonFieldsFragment
     ) || [];
-  const isEditableEvent =
-    eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
   const [editEvent] = useEditEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
@@ -202,7 +201,7 @@ const EditEventPage: React.FC = () => {
       <LoadingSpinner isLoading={loading}>
         {!!eventData ? (
           <>
-            {isEditableEvent ? (
+            {isEditableEvent(eventData) ? (
               <Container>
                 <div className={styles.eventPage}>
                   <ActiveOrganisationInfo organisationId={organisationId} />
