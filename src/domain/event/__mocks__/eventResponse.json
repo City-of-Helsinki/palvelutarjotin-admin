@@ -256,7 +256,7 @@
         "__typename": "VenueNode"
       },
       "startTime": "2020-08-11T19:34:00.382000Z",
-      "publicationStatus": "public",
+      "publicationStatus": "draft",
       "datePublished": null,
       "__typename": "Event"
     }

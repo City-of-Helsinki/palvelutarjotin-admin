@@ -204,7 +204,9 @@
     "title": "Muokkaa tapahtumaa",
     "error": "Tapahtuman tallentaminen epäonnistui",
     "errorEventIsInThePast": "Tapahtuma on menneisyydessä",
-    "errorEventIsInThePastDescription": "Menneisyydessä olevaa tapahtumaa ei voi enää muokata."
+    "errorEventIsInThePastDescription": "Menneisyydessä olevaa tapahtumaa ei voi enää muokata.",
+    "errorEventIsPublished": "Tapahtuma on jo julkaistu",
+    "errorEventIsPublishedDescription": "Julkaistuja tapahtumia ei voi muokata."
   },
   "eventDetails": {
     "basicInfo": {

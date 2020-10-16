@@ -462,7 +462,7 @@
       "__typename": "VenueNode"
     },
     "startTime": "2020-07-13T05:51:05.761000Z",
-    "publicationStatus": "public",
+    "publicationStatus": "draft",
     "datePublished": null,
     "__typename": "Event"
   }

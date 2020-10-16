@@ -132,6 +132,18 @@ exports[`is accessible and matches snapshot 1`] = `
         </span>
       </button>
     </div>
+    <div>
+      <button
+        class="Button-module_button__3wgee button_hds-button__2A0je Button-module_primary__3bo_T button_hds-button--primary__2NVvO"
+        type="button"
+      >
+        <span
+          class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+        >
+          Muokkaa tapahtumaa
+        </span>
+      </button>
+    </div>
   </div>
 </div>
 `;

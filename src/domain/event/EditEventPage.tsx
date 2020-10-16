@@ -220,8 +220,8 @@ const EditEventPage: React.FC = () => {
               </Container>
             ) : (
               <ErrorPage
-                title={t('editEvent.errorEventIsInThePast')}
-                description={t('editEvent.errorEventIsInThePastDescription')}
+                title={t('editEvent.errorEventIsPublished')}
+                description={t('editEvent.errorEventIsPublishedDescription')}
               />
             )}
           </>
