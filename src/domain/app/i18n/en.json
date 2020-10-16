@@ -152,7 +152,9 @@
     "title": "Edit event",
     "error": "Failed to save event",
     "errorEventIsInThePast": "Event is in the past",
-    "errorEventIsInThePastDescription": "Event that is in the past can't be edited."
+    "errorEventIsInThePastDescription": "Event that is in the past can't be edited.",
+    "errorEventIsPublished": "Event has already been published",
+    "errorEventIsPublishedDescription": "Published events can't be edited."
   },
   "enrolment": {
     "approveEnrolmentError": "Approving enrolment failed",

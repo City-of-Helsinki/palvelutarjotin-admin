@@ -203,7 +203,9 @@
     "title": "Redigera evenemang",
     "error": "Det gick inte att spara händelsen",
     "errorEventIsInThePast": "Händelsen är i det förflutna",
-    "errorEventIsInThePastDescription": "Händelse som är tidigare kan inte redigeras."
+    "errorEventIsInThePastDescription": "Händelse som är tidigare kan inte redigeras.",
+    "errorEventIsPublished": "Händelsen har redan publicerats",
+    "errorEventIsPublishedDescription": "Publicerade händelser kan inte redigeras."
   },
   "eventDetails": {
     "basicInfo": {
