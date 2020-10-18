@@ -43,6 +43,10 @@ const VenueDataFields: React.FC<{
             'hasClothingStorage',
             data.venue?.hasClothingStorage || false
           );
+          setFieldValue(
+            'outdoorActivity',
+            data.venue?.outdoorActivity || false
+          );
         } catch (err) {
           // clear description when error happens
           setFieldValue('locationDescription', '');
@@ -72,6 +76,11 @@ const VenueDataFields: React.FC<{
           component={CheckboxField}
           name="hasSnackEatingPlace"
           labelText={t('venue.venueDataFields.labelHasSnackEatingPlace')}
+        />
+        <Field
+          component={CheckboxField}
+          name="outdoorActivity"
+          labelText={t('venue.venueDataFields.outdoorActivity')}
         />
       </div>
     </FormGroup>

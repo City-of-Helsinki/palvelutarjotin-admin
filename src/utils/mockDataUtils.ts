@@ -121,6 +121,7 @@ export const fakeVenue = (overrides?: Partial<VenueNode>): VenueNode => ({
   id: faker.random.uuid(),
   hasClothingStorage: faker.random.boolean(),
   hasSnackEatingPlace: faker.random.boolean(),
+  outdoorActivity: faker.random.boolean(),
   translations: [
     {
       languageCode: 'FI' as Language,

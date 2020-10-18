@@ -253,6 +253,7 @@
       "labelLocationDescription": "Description of the venue",
       "snackEatingPlace": "Snack eating place",
       "clothingStorage": "Clothing storage",
+      "outdoorActivity": "Outdoor activity",
       "title": "Location"
     }
   },
@@ -539,6 +540,7 @@
       "helperLocationDescription": "Additional information to facilitate the visit",
       "labelHasClothingStorage": "Clothing storage",
       "labelHasSnackEatingPlace": "Snack eating place",
+      "outdoorActivity": "Outdoor activity",
       "labelLocationDescription": "Description of the venue",
       "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ..."
     }

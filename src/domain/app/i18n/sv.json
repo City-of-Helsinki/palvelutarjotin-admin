@@ -253,6 +253,7 @@
       "labelLocationDescription": "Beskrivning av arenan",
       "snackEatingPlace": "Snack äta plats",
       "clothingStorage": "Klädförvaring",
+      "outdoorActivity": "Utomhusaktivitet",
       "title": "Plats"
     },
     "title": "Evenemangsdetaljer"
@@ -541,6 +542,7 @@
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelHasClothingStorage": "Klädförvaring",
       "labelHasSnackEatingPlace": "Snack äta plats",
+      "outdoorActivity": "Utomhusaktivitet",
       "labelLocationDescription": "Beskrivning av arenan",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
     }

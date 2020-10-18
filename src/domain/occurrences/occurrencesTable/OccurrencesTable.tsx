@@ -22,7 +22,7 @@ interface Props {
   id: string;
   occurrences: OccurrenceFieldsFragment[];
   onDelete: (occurrence: OccurrenceFieldsFragment) => void;
-  onCancel: (occurrence: OccurrenceFieldsFragment, message?: string) => void;
+  onCancel?: (occurrence: OccurrenceFieldsFragment, message?: string) => void;
 }
 
 const OccurrencesTable: React.FC<Props> = ({

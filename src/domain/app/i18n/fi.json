@@ -253,6 +253,7 @@
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
       "snackEatingPlace": "Eväidensyöntipaikka",
       "clothingStorage": "Vaatesäilytys",
+      "outdoorActivity": "Toiminta tapahtuu ulkona",
       "title": "Tapahtumapaikka"
     },
     "title": "Tapahtuman tiedot"
@@ -540,6 +541,7 @@
       "helperLocationDescription": "Vierailua helpottavaa lisätietoa",
       "labelHasClothingStorage": "Ulkovaatesäilytys",
       "labelHasSnackEatingPlace": "Eväidensyöntipaikka",
+      "outdoorActivity": "Toiminta tapahtuu ulkona",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
       "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
     }

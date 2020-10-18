@@ -17,7 +17,7 @@ interface Props {
   eventId: string;
   isEventDraft: boolean;
   onDelete: (row: OccurrenceFieldsFragment) => void;
-  onCancel: (row: OccurrenceFieldsFragment, message?: string) => void;
+  onCancel?: (row: OccurrenceFieldsFragment, message?: string) => void;
   row: OccurrenceFieldsFragment;
 }
 
@@ -69,9 +69,11 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const handleCancel = (row: OccurrenceFieldsFragment, message?: string) => {
-    onCancel(row, message);
+    onCancel?.(row, message);
     setIsCancelModalOpen(false);
   };
+
+  const showCancelAction = !row.cancelled && onCancel;
 
   const items = [
     {
@@ -92,7 +94,7 @@ const ActionsDropdown: React.FC<Props> = ({
       ),
       onClick: goToEditOccurrencePage,
     },
-    !row.cancelled && {
+    showCancelAction && {
       onClick: openCancelModal,
       children: (
         <>

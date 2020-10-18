@@ -1,6 +1,4 @@
-import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
-import Router from 'react-router';
 
 import eventData from '../__mocks__/eventData.json';
 import placeResponse from '../__mocks__/placeResponse.json';
@@ -34,7 +32,7 @@ const mocks = [
   },
 ];
 
-test('matches snapshot', async () => {
+test('renders correctly', async () => {
   render(
     <EventLocation
       eventData={eventData as EventQuery}

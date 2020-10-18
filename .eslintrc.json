@@ -9,6 +9,7 @@
     "plugin:testcafe/recommended"
   ],
   "plugins": ["simple-import-sort", "testcafe"],
+
   "rules": {
     "@typescript-eslint/brace-style": [
       "error",
@@ -30,5 +31,14 @@
     "import/order": "off",
     "simple-import-sort/sort": "error",
     "import/named": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["responses.ts", "*.test.tsx"],
+      "rules": {
+        "max-len": 0,
+        "@typescript-eslint/no-explicit-any": 0
+      }
+    }
+  ]
 }

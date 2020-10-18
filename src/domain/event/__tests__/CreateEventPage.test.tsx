@@ -371,7 +371,7 @@ test('form works correctly when edited', async () => {
   userEvent.click(placeInput);
   userEvent.type(placeInput, 'Sellon');
 
-  jest.spyOn(apolloClient, 'query').mockResolvedValueOnce(venueResponse as any);
+  jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
 
   const place = await screen.findByText(/Sellon kirjasto/i);
   userEvent.click(place);
@@ -386,7 +386,7 @@ test('form works correctly when edited', async () => {
   expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
 
   // Venue mutation mock
-  jest.spyOn(apolloClient, 'mutate').mockResolvedValueOnce({});
+  jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
 
   userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
 

@@ -19,10 +19,11 @@ import { getImageName } from '../image/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
+import { createOrUpdateVenue } from '../venue/utils';
 import EventForm from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { EventFormFields } from './types';
-import { createOrUpdateVenue, getEventPayload } from './utils';
+import { getEventPayload } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ const CreateEventPage: React.FC = () => {
 
   const submit = async (values: EventFormFields) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
 
       // Request to create new event
@@ -70,8 +72,9 @@ const CreateEventPage: React.FC = () => {
       );
 
       const createOrUpdateVenueRequest = createOrUpdateVenue({
-        formValues: values,
-        selectedLanguage,
+        venueFormData: values,
+        language: selectedLanguage,
+        locationId: values.location,
       });
 
       if (createOrUpdateVenueRequest) {
@@ -119,6 +122,7 @@ const CreateEventPage: React.FC = () => {
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
       if (process.env.NODE_ENV === 'test') {
+        // eslint-disable-next-line no-console
         console.log(e);
       }
       toast(t('createEvent.error'), {

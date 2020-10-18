@@ -229,7 +229,7 @@ test('edit event form initializes and submits correctly', async () => {
     .mockReturnValue(venueQueryResponse as any);
 
   // Venue mutation mock
-  jest.spyOn(apolloClient, 'mutate').mockResolvedValueOnce({});
+  jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
 
   userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
 
