@@ -1,3 +1,4 @@
+import { IconSignout } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -23,6 +24,8 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
   const venueDescription = getVenueDescription(venueData, language);
   const hasClothingStorage = venueData?.venue?.hasClothingStorage;
   const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
+  const outdoorActivity = venueData?.venue?.outdoorActivity;
+
   return (
     <div className={styles.venueInfo}>
       {venueDescription && (
@@ -33,7 +36,7 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
           <p>{venueDescription}</p>
         </div>
       )}
-      {(hasSnackEatingPlace || hasClothingStorage) && (
+      {(hasSnackEatingPlace || hasClothingStorage || outdoorActivity) && (
         <div className={styles.venueAmenities}>
           {hasSnackEatingPlace && (
             <div>
@@ -45,6 +48,12 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
             <div>
               <IconGarderobe />
               {t('eventDetails.location.clothingStorage')}
+            </div>
+          )}
+          {outdoorActivity && (
+            <div>
+              <IconSignout />
+              {t('eventDetails.location.outdoorActivity')}
             </div>
           )}
         </div>

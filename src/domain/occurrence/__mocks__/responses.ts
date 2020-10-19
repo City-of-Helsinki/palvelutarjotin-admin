@@ -616,6 +616,7 @@ export const eventResult = {
         id: 'tprek:15376',
         hasClothingStorage: true,
         hasSnackEatingPlace: false,
+        outdoorActivity: false,
         translations: [
           {
             languageCode: 'FI',
@@ -780,6 +781,7 @@ export const venueResult = {
       id: 'tprek:15376',
       hasClothingStorage: true,
       hasSnackEatingPlace: false,
+      outdoorActivity: false,
       translations: [
         {
           languageCode: 'FI',

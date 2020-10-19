@@ -52,6 +52,7 @@ export const defaultInitialValues: EventFormFields = {
   locationDescription: '',
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
+  outdoorActivity: false,
 };
 
 interface Props {

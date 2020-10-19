@@ -9,7 +9,6 @@ import { EventQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
-import { PUBLICATION_STATUS } from '../../events/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
 import { isEditableEvent } from '../utils';
 import styles from './eventDetailsButtons.module.scss';

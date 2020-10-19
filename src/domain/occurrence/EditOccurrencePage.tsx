@@ -94,6 +94,7 @@ const EditOccurrencePage: React.FC = () => {
 
   const runSubmitRequests = async (values: OccurrenceFormFields) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
 
       requests.push(
@@ -105,7 +106,7 @@ const EditOccurrencePage: React.FC = () => {
       );
 
       const createOrUpdateVenueRequest = createOrUpdateVenue({
-        formValues: values,
+        venueFormData: values,
         locationId: values.placeId,
         language: locale,
       });
@@ -174,6 +175,7 @@ const EditOccurrencePage: React.FC = () => {
       locationDescription: getVenueDescription(venueData, locale),
       hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
       hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
+      outdoorActivity: venueData?.venue?.outdoorActivity || false,
     }),
     [locale, occurrenceData, venueData]
   );

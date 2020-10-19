@@ -72,6 +72,7 @@ const CreateOccurrencePage: React.FC = () => {
 
   const runSubmitRequests = async (values: OccurrenceFormFields) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
 
       requests.push(
@@ -83,7 +84,7 @@ const CreateOccurrencePage: React.FC = () => {
       );
 
       const createOrUpdateVenueRequest = createOrUpdateVenue({
-        formValues: values,
+        venueFormData: values,
         locationId: values.placeId,
         language: locale,
       });

@@ -42,6 +42,7 @@ export const defaultInitialValues: OccurrenceFormFields = {
   locationDescription: '',
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
+  outdoorActivity: false,
 };
 
 interface Props {
@@ -103,8 +104,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
       });
     }
   };
-
-  const handleCancelOccurrence = async () => {};
 
   return (
     <Formik
@@ -255,7 +254,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     </TextTitle>
                   )}
 
-                  {(!!placeId || !!eventPlaceId) && (
+                  {(placeId || eventPlaceId) && (
                     <FormGroup>
                       <PlaceInfo
                         id={placeId || eventPlaceId}
@@ -307,7 +306,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   id="coming-occurrences"
                   occurrences={filteredComingOccurrences}
                   onDelete={handleDeleteOccurrence}
-                  onCancel={handleCancelOccurrence}
                 />
               ) : (
                 <div>{t('occurrences.textNoComingOccurrences')}</div>

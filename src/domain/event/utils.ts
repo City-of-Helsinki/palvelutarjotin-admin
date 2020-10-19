@@ -6,24 +6,18 @@ import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
-  CreateVenueDocument,
-  CreateVenueMutation,
-  EditVenueDocument,
-  EditVenueMutation,
   EventFieldsFragment,
   EventQuery,
   Language as TranslationLanguage,
   OccurrenceFieldsFragment,
   PublishEventMutationInput,
-  VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
-import apolloClient from '../app/apollo/apolloClient';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { getVenueDescription } from '../venue/utils';
+import { VenueDataFields } from '../venue/types';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { EventFormFields } from './types';
 
@@ -150,59 +144,34 @@ export const getEventPayload = ({
   };
 };
 
-export const getExistingVenuePayload = ({
+export const getVenuePayload = ({
   venueData,
-  selectedLanguage,
+  language,
+  locationId,
   formValues: {
     locationDescription,
-    location: locationId,
     hasClothingStorage,
     hasSnackEatingPlace,
+    outdoorActivity,
   },
 }: {
   venueData: VenueQuery;
-  selectedLanguage: Language;
-  formValues: EventFormFields;
+  language: Language;
+  locationId: string;
+  formValues: VenueDataFields;
 }) => {
   return {
     venue: {
       id: locationId,
       hasClothingStorage,
       hasSnackEatingPlace,
+      outdoorActivity,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
-          .filter((t) => t.languageCode !== selectedLanguage.toUpperCase()) ||
-          []),
+          .filter((t) => t.languageCode !== language.toUpperCase()) || []),
         {
-          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
-          description: locationDescription,
-        },
-      ],
-    },
-  };
-};
-
-export const getNewVenuePayload = ({
-  formValues: {
-    location: locationId,
-    hasSnackEatingPlace,
-    hasClothingStorage,
-    locationDescription,
-  },
-  selectedLanguage,
-}: {
-  formValues: EventFormFields;
-  selectedLanguage: Language;
-}) => {
-  return {
-    venue: {
-      id: locationId,
-      hasClothingStorage,
-      hasSnackEatingPlace,
-      translations: [
-        {
-          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
+          languageCode: language.toUpperCase() as TranslationLanguage,
           description: locationDescription,
         },
       ],
@@ -217,56 +186,6 @@ export const getEventVenueDescription = (
   eventData?.event?.venue?.translations.find(
     (t) => t.languageCode === selectedLanguage.toUpperCase()
   )?.description || '';
-
-export const createOrUpdateVenue = ({
-  formValues,
-  selectedLanguage,
-}: {
-  formValues: EventFormFields;
-  selectedLanguage: Language;
-}) => {
-  // get venueData from cache. It is fetched in the form when event location changes
-  const venueData = apolloClient.readQuery<VenueQuery>({
-    query: VenueDocument,
-    variables: { id: formValues.location },
-  });
-
-  const venueDescription = getVenueDescription(venueData, selectedLanguage);
-  const hasClothingStorage = venueData?.venue?.hasClothingStorage;
-  const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
-
-  const venueShouldBeUpdated = Boolean(
-    venueData?.venue &&
-      (formValues.locationDescription !== venueDescription ||
-        formValues.hasClothingStorage !== hasClothingStorage ||
-        formValues.hasSnackEatingPlace !== hasSnackEatingPlace)
-  );
-  const newVenueShouldBeCreated = Boolean(
-    !venueData?.venue &&
-      (formValues.locationDescription ||
-        formValues.hasClothingStorage ||
-        formValues.hasSnackEatingPlace)
-  );
-
-  if (venueShouldBeUpdated) {
-    return apolloClient.mutate<EditVenueMutation>({
-      variables: getExistingVenuePayload({
-        formValues: formValues,
-        selectedLanguage,
-        venueData: venueData as VenueQuery,
-      }),
-      mutation: EditVenueDocument,
-    });
-  } else if (newVenueShouldBeCreated) {
-    return apolloClient.mutate<CreateVenueMutation>({
-      variables: getNewVenuePayload({
-        formValues: formValues,
-        selectedLanguage,
-      }),
-      mutation: CreateVenueDocument,
-    });
-  }
-};
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime

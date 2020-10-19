@@ -12,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
+import { isTestEnv } from '../../utils/envUtils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -19,11 +20,11 @@ import ErrorPage from '../errorPage/ErrorPage';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { getImageName } from '../image/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { createOrUpdateVenue } from '../venue/utils';
 import EventForm, { defaultInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { EventFormFields } from './types';
 import {
-  createOrUpdateVenue,
   getEventLanguageFromUrl,
   getEventPayload,
   getEventVenueDescription,
@@ -93,6 +94,7 @@ const EditEventPage: React.FC = () => {
                 organisationId,
               }),
               // endTime needed
+              // eslint-disable-next-line max-len
               // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
               endTime: eventData?.event?.endTime,
               draft:
@@ -102,9 +104,11 @@ const EditEventPage: React.FC = () => {
           },
         })
       );
+
       const createOrUpdateVenueRequest = createOrUpdateVenue({
-        formValues: values,
-        selectedLanguage,
+        venueFormData: values,
+        language: selectedLanguage,
+        locationId: values.location,
       });
 
       if (createOrUpdateVenueRequest) {
@@ -134,7 +138,8 @@ const EditEventPage: React.FC = () => {
 
       goToEventDetailsPage();
     } catch (e) {
-      if (process.env.NODE_ENV === 'test') {
+      if (isTestEnv()) {
+        // eslint-disable-next-line no-console
         console.log(e);
       }
       // TODO: Improve error handling when API returns more informative errors
@@ -192,6 +197,7 @@ const EditEventPage: React.FC = () => {
           eventData?.event?.venue?.hasClothingStorage || false,
         hasSnackEatingPlace:
           eventData?.event?.venue?.hasSnackEatingPlace || false,
+        outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
       });
     }
   }, [eventData, selectedLanguage]);

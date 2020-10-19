@@ -5,6 +5,7 @@ export const QUERY_VENUE = gql`
     id
     hasClothingStorage
     hasSnackEatingPlace
+    outdoorActivity
     translations {
       languageCode
       description

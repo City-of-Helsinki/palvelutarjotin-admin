@@ -406,6 +406,7 @@
       "id": "tprek:15376",
       "hasClothingStorage": true,
       "hasSnackEatingPlace": true,
+      "outdoorActivity": true,
       "translations": [
         {
           "languageCode": "FI",
