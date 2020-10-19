@@ -12,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
+import { isTestEnv } from '../../utils/envUtils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -137,7 +138,7 @@ const EditEventPage: React.FC = () => {
 
       goToEventDetailsPage();
     } catch (e) {
-      if (process.env.NODE_ENV === 'test') {
+      if (isTestEnv()) {
         // eslint-disable-next-line no-console
         console.log(e);
       }

@@ -11,6 +11,7 @@ import {
   useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { isTestEnv } from '../../utils/envUtils';
 import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -121,7 +122,7 @@ const CreateEventPage: React.FC = () => {
       });
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
-      if (process.env.NODE_ENV === 'test') {
+      if (isTestEnv()) {
         // eslint-disable-next-line no-console
         console.log(e);
       }
