@@ -42,6 +42,7 @@
       },
       "pEvent": {
         "id": "UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjkx",
+        "autoAcceptance": true,
         "contactPerson": {
           "id": "UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=",
           "emailAddress": "",
@@ -52,7 +53,6 @@
         },
         "contactEmail": "testi@testi.fi",
         "contactPhoneNumber": "123123123",
-        "duration": 10,
         "enrolmentEndDays": 3,
         "enrolmentStart": "2020-08-13T00:45:00+00:00",
         "neededOccurrences": 3,

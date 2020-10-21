@@ -14,9 +14,11 @@ export interface EventFormFields extends VenueDataFields {
   contactPersonId: string;
   contactPhoneNumber: string;
   description: string;
-  duration: string;
   enrolmentEndDays: string;
   enrolmentStart: Date | null;
+  occurrenceDate?: Date | null;
+  occurrenceStartsAt?: string;
+  occurrenceEndsAt?: string;
   image: string;
   imageAltText: string;
   imagePhotographerName: string;
@@ -30,4 +32,5 @@ export interface EventFormFields extends VenueDataFields {
   price: string;
   shortDescription: string;
   isDraft?: boolean;
+  autoAcceptance?: boolean;
 }

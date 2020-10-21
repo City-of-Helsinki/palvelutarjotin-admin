@@ -74,16 +74,6 @@ exports[`matches snapshot 1`] = `
         <div
           class="textTitle"
         >
-          Tapahtuman kesto, min
-        </div>
-        <p>
-          11
-        </p>
-      </div>
-      <div>
-        <div
-          class="textTitle"
-        >
           Ilmoittautuminen alkaa
         </div>
         <p>

@@ -3,12 +3,12 @@ import gql from 'graphql-tag';
 export const QUERY_EVENT = gql`
   fragment pEventFields on PalvelutarjotinEventNode {
     id
+    autoAcceptance
     contactPerson {
       ...personFields
     }
     contactEmail
     contactPhoneNumber
-    duration
     enrolmentEndDays
     enrolmentStart
     neededOccurrences

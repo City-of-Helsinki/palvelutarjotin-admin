@@ -268,14 +268,13 @@ export type OccurrenceNode = Node & {
   /** The ID of the object. */
   id: Scalars['ID'];
   pEvent?: Maybe<PalvelutarjotinEventNode>;
-  minGroupSize: Scalars['Int'];
-  maxGroupSize: Scalars['Int'];
+  minGroupSize?: Maybe<Scalars['Int']>;
+  maxGroupSize?: Maybe<Scalars['Int']>;
   startTime: Scalars['DateTime'];
   endTime: Scalars['DateTime'];
   contactPersons: PersonNodeConnection;
   studyGroups: StudyGroupNodeConnection;
   placeId: Scalars['String'];
-  autoAcceptance: Scalars['Boolean'];
   amountOfSeats: Scalars['Int'];
   languages: Array<LanguageType>;
   cancelled: Scalars['Boolean'];
@@ -323,12 +322,12 @@ export type PalvelutarjotinEventNode = Node & {
   linkedEventId: Scalars['String'];
   enrolmentStart?: Maybe<Scalars['DateTime']>;
   enrolmentEndDays?: Maybe<Scalars['Int']>;
-  duration: Scalars['Int'];
   neededOccurrences: Scalars['Int'];
   organisation?: Maybe<OrganisationNode>;
   contactPerson?: Maybe<PersonNode>;
   contactPhoneNumber: Scalars['String'];
   contactEmail: Scalars['String'];
+  autoAcceptance: Scalars['Boolean'];
   occurrences: OccurrenceNodeConnection;
   nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
   lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
@@ -1077,13 +1076,12 @@ export type AddOccurrenceMutationPayload = {
 
 export type AddOccurrenceMutationInput = {
   placeId?: Maybe<Scalars['String']>;
-  minGroupSize: Scalars['Int'];
-  maxGroupSize: Scalars['Int'];
+  minGroupSize?: Maybe<Scalars['Int']>;
+  maxGroupSize?: Maybe<Scalars['Int']>;
   startTime: Scalars['DateTime'];
   endTime: Scalars['DateTime'];
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId: Scalars['ID'];
-  autoAcceptance: Scalars['Boolean'];
   amountOfSeats: Scalars['Int'];
   languages: Array<Maybe<OccurrenceLanguageInput>>;
   clientMutationId?: Maybe<Scalars['String']>;
@@ -1118,7 +1116,6 @@ export type UpdateOccurrenceMutationInput = {
   /** Should include all contact persons of the occurrence, missing contact persons will be removed during mutation */
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId?: Maybe<Scalars['ID']>;
-  autoAcceptance?: Maybe<Scalars['Boolean']>;
   amountOfSeats?: Maybe<Scalars['Int']>;
   /** If present, should include all languages of the occurrence */
   languages: Array<Maybe<OccurrenceLanguageInput>>;
@@ -1474,11 +1471,11 @@ export type LocalisedObjectInput = {
 export type PalvelutarjotinEventInput = {
   enrolmentStart?: Maybe<Scalars['DateTime']>;
   enrolmentEndDays?: Maybe<Scalars['Int']>;
-  duration: Scalars['Int'];
   neededOccurrences: Scalars['Int'];
   contactPersonId?: Maybe<Scalars['ID']>;
   contactPhoneNumber?: Maybe<Scalars['String']>;
   contactEmail?: Maybe<Scalars['String']>;
+  autoAcceptance?: Maybe<Scalars['Boolean']>;
 };
 
 export type UpdateEventMutation = {
@@ -1846,7 +1843,7 @@ export type CreateEventMutation = { __typename?: 'Mutation' } & {
                   >;
                   pEvent: { __typename?: 'PalvelutarjotinEventNode' } & Pick<
                     PalvelutarjotinEventNode,
-                    'id' | 'duration' | 'neededOccurrences'
+                    'id' | 'neededOccurrences' | 'autoAcceptance'
                   >;
                   infoUrl?: Maybe<
                     { __typename?: 'LocalisedObject' } & Pick<
@@ -1948,7 +1945,7 @@ export type EditEventMutation = { __typename?: 'Mutation' } & {
                   >;
                   pEvent: { __typename?: 'PalvelutarjotinEventNode' } & Pick<
                     PalvelutarjotinEventNode,
-                    'id' | 'duration' | 'neededOccurrences'
+                    'id' | 'neededOccurrences'
                   >;
                   infoUrl?: Maybe<
                     { __typename?: 'LocalisedObject' } & Pick<
@@ -1969,9 +1966,9 @@ export type PEventFieldsFragment = {
 } & Pick<
   PalvelutarjotinEventNode,
   | 'id'
+  | 'autoAcceptance'
   | 'contactEmail'
   | 'contactPhoneNumber'
-  | 'duration'
   | 'enrolmentEndDays'
   | 'enrolmentStart'
   | 'neededOccurrences'
@@ -2241,7 +2238,6 @@ export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode' } & Pick<
   | 'amountOfSeats'
   | 'minGroupSize'
   | 'maxGroupSize'
-  | 'autoAcceptance'
   | 'seatsTaken'
   | 'startTime'
   | 'endTime'
@@ -2580,7 +2576,6 @@ export const OccurrenceFieldsFragmentDoc = gql`
     amountOfSeats
     minGroupSize
     maxGroupSize
-    autoAcceptance
     seatsTaken
     languages {
       id
@@ -2596,12 +2591,12 @@ export const OccurrenceFieldsFragmentDoc = gql`
 export const PEventFieldsFragmentDoc = gql`
   fragment pEventFields on PalvelutarjotinEventNode {
     id
+    autoAcceptance
     contactPerson {
       ...personFields
     }
     contactEmail
     contactPhoneNumber
-    duration
     enrolmentEndDays
     enrolmentStart
     neededOccurrences
@@ -3530,8 +3525,8 @@ export const CreateEventDocument = gql`
           }
           pEvent {
             id
-            duration
             neededOccurrences
+            autoAcceptance
           }
           infoUrl {
             en
@@ -3830,7 +3825,6 @@ export const EditEventDocument = gql`
           }
           pEvent {
             id
-            duration
             neededOccurrences
           }
           infoUrl {

@@ -37,6 +37,7 @@ import apolloClient from '../../app/apollo/apolloClient';
 import CreateEventPage from '../CreateEventPage';
 
 configure({ defaultHidden: true });
+advanceTo(new Date(2020, 7, 8));
 
 const eventFormData = {
   name: 'Testitapahtuma',
@@ -45,7 +46,6 @@ const eventFormData = {
   infoUrl: 'https://www.palvelutarjotin.fi',
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
-  duration: '10',
   enrolmentStart: '13.08.2020 03:45',
   enrolmentEndDays: '3',
   neededOccurrences: '3',
@@ -74,10 +74,10 @@ const createEventVariables = {
       contactPersonId:
         'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
       contactPhoneNumber: '123321123',
-      duration: 10,
       enrolmentEndDays: 3,
       enrolmentStart: '2020-08-13T00:45:00.000Z',
       neededOccurrences: 3,
+      autoAcceptance: true,
     },
     organisationId: 'T3JnYW5pc2F0aW9uTm9kZToy',
     draft: true,
@@ -158,7 +158,7 @@ const mocks = [
   },
 ];
 
-test('is accessible', async () => {
+test('page is accessible', async () => {
   const { container } = render(<CreateEventPage />, { mocks });
 
   await waitFor(() => {
@@ -172,7 +172,6 @@ test('is accessible', async () => {
 });
 
 test('modal opens when trying to change language', async () => {
-  advanceTo(new Date(2020, 7, 8));
   const { container } = render(<CreateEventPage />, { mocks });
 
   Modal.setAppElement(container);
@@ -209,7 +208,7 @@ test('modal opens when trying to change language', async () => {
   });
 });
 
-test('form works correctly when edited', async () => {
+test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
   const pushMock = jest.fn();
   jest.spyOn(Router, 'useHistory').mockReturnValue({
@@ -286,10 +285,31 @@ test('form works correctly when edited', async () => {
     contactEmail: eventFormData.contactEmail,
   });
 
-  userEvent.type(
-    screen.getByLabelText(/tapahtuman kesto/i),
-    eventFormData.duration
+  const dateInput = screen.getByLabelText(/Päivämäärä/i);
+  // click first so focus is kept
+  userEvent.click(dateInput);
+  userEvent.type(dateInput, '20.11.2020');
+
+  const startsAtInput = screen.getByLabelText(/Alkaa klo/i, {
+    selector: 'input',
+  });
+  userEvent.type(startsAtInput, '12:00');
+  userEvent.click(
+    screen.getByRole('option', {
+      name: '12:00',
+    })
   );
+
+  const endsAtInput = screen.getByLabelText(/Loppuu klo/i, {
+    selector: 'input',
+  });
+  userEvent.type(endsAtInput, '13:00');
+  userEvent.click(
+    screen.getByRole('option', {
+      name: '13:00',
+    })
+  );
+
   const enrolmentStartsAtInput = screen.getByLabelText(
     /ilmoittautuminen alkaa/i
   );
@@ -308,7 +328,6 @@ test('form works correctly when edited', async () => {
   userEvent.type(neededOccurrencesInput, eventFormData.neededOccurrences);
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    duration: Number(eventFormData.duration),
     enrolmentStart: eventFormData.enrolmentStart,
     enrolmentEndDays: Number(eventFormData.enrolmentEndDays),
     neededOccurrences: Number(eventFormData.neededOccurrences),
@@ -388,7 +407,11 @@ test('form works correctly when edited', async () => {
   // Venue mutation mock
   jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
 
-  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
+  );
 
   await waitFor(() => {
     expect(
@@ -398,8 +421,7 @@ test('form works correctly when edited', async () => {
 
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/fi/events/palvelutarjotin:afz52lpyta',
-      search: '?language=fi',
+      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/create',
     });
   });
 });

@@ -43,7 +43,6 @@ it('renders and shows all the event details', async () => {
   const displayedTexts: string[] = [
     event.description.fi,
     event.shortDescription.fi,
-    event.pEvent.duration.toString(),
     event.pEvent.enrolmentEndDays.toString(),
   ];
 
@@ -52,17 +51,16 @@ it('renders and shows all the event details', async () => {
     'Tapahtuman perustiedot',
     'Tapahtuman nimi',
     'Kuvaus',
-    'Tapahtuman kesto, min',
     'Ilmoittautuminen sulkeutuu, päivää',
     'Ilmoittautuminen alkaa',
   ];
 
   localizedTexts.forEach((text) =>
-    expect(screen.queryByText(text)).toBeVisible()
+    expect(screen.queryByText(text)).toBeInTheDocument()
   );
 
   displayedTexts.forEach((text) =>
-    expect(screen.queryByText(text)).toBeVisible()
+    expect(screen.queryByText(text)).toBeInTheDocument()
   );
 
   const eventImage = await screen.findByAltText(event.images[0].altText);

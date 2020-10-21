@@ -192,7 +192,16 @@
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang",
-    "error": "Det gick inte att spara händelsen"
+    "error": "Det gick inte att spara händelsen",
+    "threeStepNotification": {
+      "title": "Händelsen skapas i tre stegHändelsen skapas i tre steg.",
+      "description": "Nödvändig information måste anges innan du går vidare till nästa steg"
+    },
+    "stepTitles": {
+      "titleBasicInfo": "Grundläggande information",
+      "titleOccurrences": "Förekomster",
+      "titlePublish": "Publicera"
+    }
   },
   "editEvent": {
     "buttons": {
@@ -211,7 +220,6 @@
     "basicInfo": {
       "enrolmentStart": "{{date}} på {{time}}",
       "labelDescription": "Beskrivning",
-      "labelDuration": "Evenemang varaktighet, min",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
@@ -265,7 +273,6 @@
       "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
-      "labelDuration": "Evenemang varaktighet, min",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",
@@ -279,8 +286,12 @@
       "title": "Grundläggande information"
     },
     "buttonCancel": "Avbryt",
-    "buttonSave": "Spara",
+    "buttonSave": "Spara och gå till förekomster",
     "buttonSaveDraft": "Spara utkast",
+    "occurrenceTime": {
+      "titleOccurrenceTime": "Förekomsttid",
+      "occurrenceTimeHelperText": "Första förekomstdatum. Resten av händelserna och ytterligare information anges i steg 2."
+    },
     "categorisation": {
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "labelAudience": "Målgrupper",

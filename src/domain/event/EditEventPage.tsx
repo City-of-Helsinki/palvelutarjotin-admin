@@ -165,7 +165,6 @@ const EditEventPage: React.FC = () => {
         contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
         contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
         description: eventData.event?.description?.[selectedLanguage] || '',
-        duration: eventData.event?.pEvent?.duration.toString() || '',
         enrolmentEndDays:
           eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
         enrolmentStart: eventData.event?.pEvent?.enrolmentStart
@@ -198,6 +197,7 @@ const EditEventPage: React.FC = () => {
         hasSnackEatingPlace:
           eventData?.event?.venue?.hasSnackEatingPlace || false,
         outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
+        autoAcceptance: eventData.event?.pEvent.autoAcceptance,
       });
     }
   }, [eventData, selectedLanguage]);
