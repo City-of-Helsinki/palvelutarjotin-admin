@@ -103,10 +103,10 @@ const mocks = [
             contactPersonId:
               'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
             contactPhoneNumber: '123123123',
-            duration: 10,
             enrolmentEndDays: 3,
             enrolmentStart: '2020-08-13T00:45:00.000Z',
             neededOccurrences: 3,
+            autoAcceptance: true,
           },
           organisationId: 'T3JnYW5pc2F0aW9uTm9kZTox',
           draft: true,
@@ -169,7 +169,7 @@ test('edit event form initializes and submits correctly', async () => {
     });
   jest
     .spyOn(apolloClient, 'query')
-    .mockResolvedValueOnce(venueQueryResponseMock as any);
+    .mockResolvedValue(venueQueryResponseMock as any);
   render(<EditEventPage />, { mocks });
 
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
@@ -196,7 +196,6 @@ test('edit event form initializes and submits correctly', async () => {
     infoUrl: 'https://www.palvelutarjotin.fi',
     contactEmail: 'testi@testi.fi',
     contactPhoneNumber: '123123123',
-    duration: 10,
     enrolmentStart: '13.08.2020 03:45',
     enrolmentEndDays: 3,
     neededOccurrences: 3,
@@ -231,7 +230,11 @@ test('edit event form initializes and submits correctly', async () => {
   // Venue mutation mock
   jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
 
-  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
+  );
 
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith('/fi/events/123');

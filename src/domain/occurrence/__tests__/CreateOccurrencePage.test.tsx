@@ -274,7 +274,7 @@ test('can create new occurrence with form', async () => {
       variables: {
         input: {
           amountOfSeats: 30,
-          autoAcceptance: true,
+
           endTime: new Date('2020-08-13T10:00:00.000Z'),
           languages: [{ id: 'EN' }, { id: 'FI' }],
           maxGroupSize: 20,

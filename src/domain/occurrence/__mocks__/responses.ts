@@ -57,9 +57,9 @@ export const eventResult = {
           language: 'FI',
           __typename: 'PersonNode',
         },
+        autoAcceptance: true,
         contactEmail: 'santtu_1993@hotmail.com',
         contactPhoneNumber: '0405542959',
-        duration: 11,
         enrolmentEndDays: 3,
         enrolmentStart: '2020-07-13T06:00:00+00:00',
         neededOccurrences: 3,
@@ -196,7 +196,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
@@ -220,7 +220,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -244,7 +244,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -268,7 +268,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -292,7 +292,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -316,7 +316,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -340,7 +340,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
@@ -364,7 +364,7 @@ export const eventResult = {
                 amountOfSeats: 10,
                 minGroupSize: 5,
                 maxGroupSize: 10,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
@@ -388,7 +388,6 @@ export const eventResult = {
                 amountOfSeats: 10,
                 minGroupSize: 3,
                 maxGroupSize: 5,
-                autoAcceptance: false,
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -412,7 +411,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 10,
                 maxGroupSize: 30,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -436,7 +435,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 10,
                 maxGroupSize: 20,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
@@ -460,7 +459,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 10,
                 maxGroupSize: 30,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -484,7 +483,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 10,
                 maxGroupSize: 20,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -508,7 +507,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 10,
                 maxGroupSize: 20,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -532,7 +531,7 @@ export const eventResult = {
                 amountOfSeats: 30,
                 minGroupSize: 10,
                 maxGroupSize: 20,
-                autoAcceptance: true,
+
                 languages: [
                   { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
                   { id: 'en', name: 'English', __typename: 'LanguageType' },
@@ -645,7 +644,6 @@ export const occurrenceResult = {
       amountOfSeats: 30,
       minGroupSize: 10,
       maxGroupSize: 20,
-      autoAcceptance: true,
       languages: [
         { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
         { id: 'en', name: 'English', __typename: 'LanguageType' },

@@ -1,0 +1,17 @@
+.formSteps {
+  --underline-size: 5px;
+
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 3rem;
+  font-size: 18px;
+  font-weight: 700;
+
+  > div {
+    padding-bottom: calc(var(--spacing-xs) * 0.5);
+  }
+
+  .active {
+    border-bottom: var(--underline-size) solid black;
+  }
+}

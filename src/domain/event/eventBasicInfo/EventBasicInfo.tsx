@@ -31,8 +31,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
 
   const imageId = eventData.event?.images[0]?.id;
 
-  const duration = eventData.event?.pEvent?.duration;
-
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
   const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
     ? t('eventDetails.basicInfo.enrolmentStart', {
@@ -83,10 +81,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       )}
 
       <div className={styles.durationRow}>
-        <div>
-          <TextTitle>{t('eventDetails.basicInfo.labelDuration')}</TextTitle>
-          <p>{duration}</p>
-        </div>
         <div>
           <TextTitle>
             {t('eventDetails.basicInfo.labelEnrolmentStart')}

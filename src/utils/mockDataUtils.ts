@@ -153,7 +153,6 @@ export const fakePEvent = (
   contactPerson: fakePerson(),
   contactEmail: 'test@email.com',
   contactPhoneNumber: '1233211234',
-  duration: 11,
   enrolmentEndDays: 3,
   enrolmentStart: '2020-07-13T06:00:00+00:00',
   neededOccurrences: 3,
@@ -162,6 +161,7 @@ export const fakePEvent = (
   createdAt: '' as any,
   linkedEventId: '' as any,
   updatedAt: '' as any,
+  autoAcceptance: false,
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,
 });
@@ -197,7 +197,7 @@ export const fakeOccurrence = (
   amountOfSeats: 30,
   minGroupSize: 10,
   maxGroupSize: 20,
-  autoAcceptance: true,
+
   languages: [
     { id: 'en', name: 'English', __typename: 'LanguageType' },
     { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },

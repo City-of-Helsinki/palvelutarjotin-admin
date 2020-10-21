@@ -39,8 +39,8 @@
           ],
           "pEvent": {
             "id": "UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjg2",
-            "duration": 10,
             "neededOccurrences": 3,
+            "autoAcceptance": true,
             "__typename": "PalvelutarjotinEventNode"
           },
           "infoUrl": {

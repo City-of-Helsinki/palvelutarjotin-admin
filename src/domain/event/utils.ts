@@ -135,10 +135,10 @@ export const getEventPayload = ({
       contactEmail: values.contactEmail,
       contactPersonId: values.contactPersonId,
       contactPhoneNumber: values.contactPhoneNumber,
-      duration: Number(values.duration),
       enrolmentEndDays: Number(values.enrolmentEndDays),
       enrolmentStart: values.enrolmentStart,
       neededOccurrences: Number(values.neededOccurrences),
+      autoAcceptance: values.autoAcceptance,
     },
     organisationId,
   };
@@ -288,7 +288,6 @@ export const getPublishEventPayload = ({
     name: event.name,
     description: event.description,
     pEvent: {
-      duration: event.pEvent.duration,
       neededOccurrences: event.pEvent.neededOccurrences,
     },
     shortDescription: event.shortDescription,

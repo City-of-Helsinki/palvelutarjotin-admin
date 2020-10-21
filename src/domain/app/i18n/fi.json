@@ -193,7 +193,16 @@
   "createEvent": {
     "pageTitle": "Uusi tapahtuma",
     "title": "Uusi tapahtuma",
-    "error": "Tapahtuman tallentaminen epäonnistui"
+    "error": "Tapahtuman tallentaminen epäonnistui",
+    "threeStepNotification": {
+      "title": "Tapahtuma luodaan kolmessa vaiheessa.",
+      "description": "Pakolliset tiedot syötettävä ennen seuraavaan vaiheeseen siirtymistä"
+    },
+    "stepTitles": {
+      "titleBasicInfo": "Perustiedot",
+      "titleOccurrences": "Tapahtuma-ajat",
+      "titlePublish": "Julkaise"
+    }
   },
   "editEvent": {
     "buttons": {
@@ -212,7 +221,6 @@
     "basicInfo": {
       "enrolmentStart": "{{date}} klo {{time}}",
       "labelDescription": "Kuvaus",
-      "labelDuration": "Tapahtuman kesto, min",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
@@ -265,7 +273,6 @@
       "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin. Maksimi koko 2 megatavua. Suositeltu kuvakoko on 1200px X 800px.",
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
       "labelDescription": "Kuvaus",
-      "labelDuration": "Tapahtuman kesto, min",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelImage": "Tapahtuman kuva",
@@ -278,8 +285,12 @@
       "title": "Tapahtuman perustiedot"
     },
     "buttonCancel": "Peruuta",
-    "buttonSave": "Tallenna",
+    "buttonSave": "Tallenna ja siirry tapahtuma-aikoihin",
     "buttonSaveDraft": "Tallenna luonnos",
+    "occurrenceTime": {
+      "titleOccurrenceTime": "Tapahtuman ajankohta",
+      "occurrenceTimeHelperText": "Ensimmäinen tapahtuma-aika. Loput tapahtuma-ajat ja niiden lisätiedot syötetään vaiheessa 2."
+    },
     "categorisation": {
       "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
       "labelAudience": "Kohderyhmät",

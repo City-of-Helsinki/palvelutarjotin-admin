@@ -5,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -30,7 +29,6 @@ import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
 export const defaultInitialValues: OccurrenceFormFields = {
-  autoAcceptance: true,
   date: null,
   languages: [],
   startsAt: '',
@@ -229,15 +227,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   />
                 </FormGroup>
               </div>
-
-              <FormGroup>
-                <Field
-                  labelText={t('eventOccurrenceForm.labelAutoAcceptance')}
-                  name="autoAcceptance"
-                  component={CheckboxField}
-                />
-              </FormGroup>
-
               <div className={styles.occurrenceFormRow}>
                 <div className={styles.fullRow}>
                   {editPlaceMode ? (

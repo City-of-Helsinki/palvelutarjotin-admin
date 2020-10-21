@@ -141,7 +141,16 @@
   "createEvent": {
     "pageTitle": "New event",
     "title": "New event",
-    "error": "Failed to save event"
+    "error": "Failed to save event",
+    "threeStepNotification": {
+      "title": "Event is created in three steps.",
+      "description": "Required information has to ge given before proceeding to next step"
+    },
+    "stepTitles": {
+      "titleBasicInfo": "Basic information",
+      "titleOccurrences": "Occurrences",
+      "titlePublish": "Publish"
+    }
   },
   "editEvent": {
     "buttons": {
@@ -212,7 +221,6 @@
     "basicInfo": {
       "enrolmentStart": "{{date}} at {{time}}",
       "labelDescription": "Description",
-      "labelDuration": "Event duration, min",
       "labelEnrolmentEndDays": "Enrolment closes, days",
       "labelEnrolmentStart": "Enrolment begins",
       "labelInfoUrl": "A web address where you can find more information about the event",
@@ -264,7 +272,6 @@
       "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license. Max size of the image is 2 megabytes. Recommended dimensios are 1200px X 800px.",
       "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelDescription": "Description",
-      "labelDuration": "Event duration, min",
       "labelEnrolmentEndDays": "Enrolment closes, days",
       "labelEnrolmentStart": "Enrolment begins",
       "labelImage": "Event picture",
@@ -277,8 +284,12 @@
       "title": "Basic information"
     },
     "buttonCancel": "Cancel",
-    "buttonSave": "Save",
+    "buttonSave": "Save and go to occurrences",
     "buttonSaveDraft": "Save draft",
+    "occurrenceTime": {
+      "titleOccurrenceTime": "Occurrence time",
+      "occurrenceTimeHelperText": "First occurrence date. Rest of the occurrences and additional information are entererd in step 2."
+    },
     "categorisation": {
       "helperKeywords": "Enter a keyword and select from the suggested options",
       "labelAudience": "Target groups",

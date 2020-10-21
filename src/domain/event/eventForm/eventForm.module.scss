@@ -1,7 +1,8 @@
 @import 'layout';
+@import 'variables';
 
 .eventForm {
-  --fontsize-header: var(--fontsize-heading-m);
+  --fontsize-header: var(--fontsize-heading-s);
   --fontsize-label: 0.875em;
   --grid-gap: var(--spacing-xl);
 
@@ -13,11 +14,11 @@
   grid-gap: var(--grid-gap);
 
   @include respond_above(sm) {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 5fr 2fr;
   }
 
   h2 {
-    font-size: var(--fontsize-header);
+    font-size: var(--fontsize-header) !important;
     margin: 2rem 0;
   }
 
@@ -26,7 +27,7 @@
     grid-gap: 20px;
 
     @include respond_above(sm) {
-      grid-template-columns: 1fr 1.5fr 1.5fr;
+      grid-template-columns: 1fr 1fr;
     }
   }
 
@@ -49,8 +50,9 @@
 
     .isFreeWrapper {
       @include respond_above(sm) {
-        margin-top: 26px;
         display: flex;
+        align-self: end;
+        margin-bottom: 1px;
 
         div {
           align-self: center;
@@ -78,8 +80,38 @@
   }
 }
 
+.occurrenceFormRow {
+  display: grid;
+
+  @include respond_above(md) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: $baseMargin;
+  }
+}
+
 .buttonsWrapper {
   button {
     margin-right: var(--spacing-m);
   }
+}
+
+.formSection {
+  margin: var(--spacing-xl) 0 calc(var(--spacing-xl) * 2) 0;
+}
+
+.placeInfoContainer {
+  margin: var(--spacing-s) 0;
+}
+
+.helperText {
+  composes: hds-text-input from '~hds-core/lib/components/text-input/text-input.css';
+  composes: hds-text-input__helper-text from '~hds-core/lib/components/text-input/text-input.css';
+}
+
+.headerWithInfo {
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  margin: 2rem 0;
 }

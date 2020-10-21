@@ -1,3 +1,4 @@
+import { Notification } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -117,8 +118,7 @@ const CreateEventPage: React.FC = () => {
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
       history.push({
-        pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
-        search: `?language=${selectedLanguage}`,
+        pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
       });
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
@@ -135,6 +135,9 @@ const CreateEventPage: React.FC = () => {
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
+          <Notification label={t('createEvent.threeStepNotification.title')}>
+            {t('createEvent.threeStepNotification.description')}
+          </Notification>
           <ActiveOrganisationInfo />
           <EventForm
             onCancel={goToEventList}
