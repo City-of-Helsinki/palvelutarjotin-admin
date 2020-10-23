@@ -1,3 +1,6 @@
+import { NetworkStatus } from 'apollo-client';
+import { isPast } from 'date-fns';
+import isValidDate from 'date-fns/isValid';
 import { FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
@@ -6,24 +9,30 @@ import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
+import EventSteps from '../../common/components/EventSteps/EventSteps';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  OccurrenceFieldsFragment,
   useAddOccurrenceMutation,
+  useDeleteOccurrenceMutation,
   useEventQuery,
   useMyProfileQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { useQuery } from '../../hooks/useQuery';
 import getLocalizedString from '../../utils/getLocalizedString';
 import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { createOrUpdateVenue } from '../venue/utils';
 import EventOccurrenceForm, {
   defaultInitialValues,
 } from './eventOccurrenceForm/EventOccurrenceForm';
+import { isValidTime } from './eventOccurrenceForm/ValidationSchema';
 import styles from './occurrencePage.module.scss';
 import { OccurrenceFormFields } from './types';
 import { getOccurrencePayload } from './utils';
@@ -36,6 +45,7 @@ const CreateOccurrencePage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
+  const initialFormValues = useInitialFormValues();
 
   const { id: eventId } = useParams<Params>();
 
@@ -43,10 +53,22 @@ const CreateOccurrencePage: React.FC = () => {
     data: eventData,
     loading: loadingEvent,
     refetch: refetchEvent,
+    networkStatus: eventNetworkStatus,
   } = useEventQuery({
     variables: { id: eventId, include: ['location'] },
+    notifyOnNetworkStatusChange: true,
   });
+  const eventIsRefetching = eventNetworkStatus === NetworkStatus.refetch;
+  const eventIsInitialLoading = !eventIsRefetching && loadingEvent;
+
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
+  const occurrences =
+    (eventData?.event?.pEvent?.occurrences.edges.map(
+      (edge) => edge?.node
+    ) as OccurrenceFieldsFragment[]) || [];
+  const comingOccurrences = occurrences.filter(
+    (item) => !isPast(new Date(item.startTime))
+  );
 
   const {
     data: myProfileData,
@@ -54,6 +76,7 @@ const CreateOccurrencePage: React.FC = () => {
   } = useMyProfileQuery();
 
   const [createOccurrence] = useAddOccurrenceMutation();
+  const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
@@ -135,16 +158,31 @@ const CreateOccurrencePage: React.FC = () => {
     }
   };
 
+  const handleDeleteOccurrence = async (
+    occurrence: OccurrenceFieldsFragment
+  ) => {
+    try {
+      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
+      refetchEvent();
+    } catch (e) {
+      toast(t('occurrences.deleteError'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
+  };
+
   return (
     <PageWrapper title="createOccurrence.pageTitle">
-      <LoadingSpinner isLoading={loadingEvent || loadingMyProfile}>
+      <LoadingSpinner
+        isLoading={eventIsInitialLoading || loadingMyProfile}
+        hasPadding={false}
+      >
         {myProfileData ? (
           <>
             {eventData ? (
               <Container>
                 <div className={styles.eventOccurrencePage}>
                   <ActiveOrganisationInfo organisationId={organisationId} />
-
                   <BackButton onClick={goToOccurrencesPage}>
                     {t('createOccurrence.buttonBack')}
                   </BackButton>
@@ -156,14 +194,26 @@ const CreateOccurrencePage: React.FC = () => {
                       {t('createOccurrence.buttonShowEventInfo')}
                     </Button>
                   </div>
+                  <div className={styles.stepsContainer}>
+                    <EventSteps step={2} />
+                  </div>
+                  {!!comingOccurrences.length && (
+                    <OccurrencesTable
+                      eventData={eventData}
+                      id="coming-occurrences"
+                      occurrences={comingOccurrences}
+                      onDelete={handleDeleteOccurrence}
+                    />
+                  )}
                   <EventOccurrenceForm
                     eventData={eventData}
                     formTitle={t('createOccurrence.formTitle')}
-                    initialValues={defaultInitialValues}
+                    initialValues={initialFormValues}
                     onCancel={goToOccurrencesPage}
                     onSubmit={submit}
                     onSubmitAndAdd={submitAndAdd}
                     refetchEvent={refetchEvent}
+                    showFirstOccurrenceHelperText={occurrences.length === 0}
                   />
                 </div>
               </Container>
@@ -177,6 +227,35 @@ const CreateOccurrencePage: React.FC = () => {
       </LoadingSpinner>
     </PageWrapper>
   );
+};
+
+const useInitialFormValues = () => {
+  const query = useQuery();
+
+  // initial pre-filled values from event wizard step 1
+  const initialDate = query.get('date');
+  const initialStartsAt = query.get('startsAt');
+  const initialEndsAt = query.get('endsAt');
+
+  const initialFormValues = React.useMemo(() => {
+    if (initialDate && initialEndsAt && initialStartsAt) {
+      const valuesAreValid =
+        isValidDate(new Date(initialDate)) &&
+        isValidTime(initialStartsAt) &&
+        isValidTime(initialEndsAt);
+      return valuesAreValid
+        ? {
+            ...defaultInitialValues,
+            date: new Date(initialDate),
+            startsAt: initialStartsAt,
+            endsAt: initialEndsAt,
+          }
+        : defaultInitialValues;
+    }
+    return defaultInitialValues;
+  }, [initialDate, initialEndsAt, initialStartsAt]);
+
+  return initialFormValues;
 };
 
 export default CreateOccurrencePage;

@@ -300,3 +300,49 @@ test('can create new occurrence with form', async () => {
     Number(occurrenceFormData.amountOfSeats)
   );
 });
+
+test('initializes pre-filled occurrence values from URL', async () => {
+  const queryString =
+    '?date=2020-10-25T22%3A00%3A00.000Z&startsAt=12%3A00&endsAt=13%3A00';
+  renderWithRoute(<CreateOccurrencePage />, {
+    mocks: apolloMocks,
+    routes: [
+      ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id) + queryString,
+    ],
+    path: ROUTES.CREATE_OCCURRENCE,
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  expect(screen.getByRole('textbox', { name: /päivämäärä/i })).toHaveValue(
+    '26.10.2020'
+  );
+  expect(screen.getByRole('textbox', { name: /alkaa klo/i })).toHaveValue(
+    '12:00'
+  );
+  expect(screen.getByRole('textbox', { name: /loppuu klo/i })).toHaveValue(
+    '13:00'
+  );
+});
+
+test('does not initializes values from URL if they are invalid', async () => {
+  const queryString =
+    '?date=2020-101-25T22%3A00%3A00.000Z&startsAt=12%3A000&endsAt=13%3A00';
+  renderWithRoute(<CreateOccurrencePage />, {
+    mocks: apolloMocks,
+    routes: [
+      ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id) + queryString,
+    ],
+    path: ROUTES.CREATE_OCCURRENCE,
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  expect(screen.getByRole('textbox', { name: /päivämäärä/i })).toHaveValue('');
+  expect(screen.getByRole('textbox', { name: /alkaa klo/i })).toHaveValue('');
+  expect(screen.getByRole('textbox', { name: /loppuu klo/i })).toHaveValue('');
+});

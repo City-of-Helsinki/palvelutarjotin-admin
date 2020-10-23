@@ -23,7 +23,7 @@ import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
-import { EventFormFields } from '../types';
+import { CreateEventFormFields, EventFormFields } from '../types';
 import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
@@ -38,9 +38,6 @@ export const defaultInitialValues: EventFormFields = {
   description: '',
   enrolmentEndDays: '',
   enrolmentStart: null,
-  occurrenceDate: null,
-  occurrenceStartsAt: '',
-  occurrenceEndsAt: '',
   image: '',
   imageAltText: '',
   imagePhotographerName: '',
@@ -60,29 +57,38 @@ export const defaultInitialValues: EventFormFields = {
   autoAcceptance: true,
 };
 
-interface Props {
+export const createEventInitialValues: CreateEventFormFields = {
+  occurrenceDate: null,
+  occurrenceStartsAt: '',
+  occurrenceEndsAt: '',
+  ...defaultInitialValues,
+};
+
+type FormFields = CreateEventFormFields | EventFormFields;
+
+type Props<T extends FormFields> = {
   eventData?: EventQuery;
-  initialValues?: EventFormFields;
+  initialValues: T;
   onCancel: () => void;
-  onSubmit: (values: EventFormFields) => void;
+  onSubmit: (values: T) => void;
   persons: PersonFieldsFragment[];
   selectedLanguage: Language;
   setSelectedLanguage: (language: Language) => void;
   title: string;
   edit?: boolean;
-}
+};
 
-const EventForm: React.FC<Props> = ({
+const EventForm = <T extends FormFields>({
+  edit,
   eventData,
-  initialValues = defaultInitialValues,
+  initialValues,
   onCancel,
   onSubmit,
   persons,
   selectedLanguage,
   setSelectedLanguage,
   title,
-  edit,
-}) => {
+}: Props<T>): React.ReactElement => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [newLanguage, setNewLanguage] = React.useState(selectedLanguage);
   const { t } = useTranslation();
@@ -138,7 +144,6 @@ const EventForm: React.FC<Props> = ({
         setFieldValue,
         setFieldTouched,
         touched,
-        errors,
       }) => {
         const { contactPersonId, image, location } = values;
         const imageSelected = Boolean(image);

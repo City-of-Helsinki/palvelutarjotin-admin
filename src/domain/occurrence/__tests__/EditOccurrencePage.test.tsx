@@ -225,7 +225,9 @@ test('initializes edit occurrence form correctly', async () => {
   userEvent.type(screen.getByLabelText('Paikkoja yhteensä'), '40');
   userEvent.type(screen.getByLabelText('Ryhmäkoko max'), '30');
 
-  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
+  userEvent.click(
+    screen.getByRole('button', { name: 'Tallenna ja siirry julkaisuun' })
+  );
 
   await waitFor(() => {
     expect(editOccurrenceSpy).toHaveBeenCalledWith({

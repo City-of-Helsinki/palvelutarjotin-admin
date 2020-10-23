@@ -22,10 +22,13 @@ import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
 import { createOrUpdateVenue } from '../venue/utils';
-import EventForm from './eventForm/EventForm';
+import EventForm, { createEventInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
-import { EventFormFields } from './types';
-import { getEventPayload } from './utils';
+import { CreateEventFormFields } from './types';
+import {
+  firstOccurrencePrefilledValuesToQuery,
+  getEventPayload,
+} from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
@@ -51,7 +54,7 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
-  const submit = async (values: EventFormFields) => {
+  const submit = async (values: CreateEventFormFields) => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
@@ -119,7 +122,14 @@ const CreateEventPage: React.FC = () => {
       await clearApolloCache();
       history.push({
         pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
+        search: firstOccurrencePrefilledValuesToQuery(values),
       });
+
+      // TODO: think if there is better way to handle this scrollTop.
+      // at the moment <ScrollToTop /> component ignores
+      // '/events/:id/occurrences/create' because it matches one of the ignored paths:
+      // '/events/:id/occurrences/:occurrenceId'
+      window.scrollTo(0, 0);
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
       if (isTestEnv()) {
@@ -143,6 +153,7 @@ const CreateEventPage: React.FC = () => {
             onCancel={goToEventList}
             onSubmit={submit}
             persons={persons}
+            initialValues={createEventInitialValues}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
             title={t('createEvent.title')}

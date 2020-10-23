@@ -346,7 +346,8 @@
     "buttonShowEventInfo": "Näytä tapahtuman tiedot",
     "error": "Tapahtuma-ajan tallentaminen epäonnistui",
     "formTitle": "Lisää uusi tapahtuma-aika",
-    "pageTitle": "Uusi tapahtuma-aika"
+    "pageTitle": "Uusi tapahtuma-aika",
+    "buttonSaveAndGoToPublishing": "Tallenna ja siirry julkaisuun"
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",

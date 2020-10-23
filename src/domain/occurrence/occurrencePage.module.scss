@@ -41,6 +41,10 @@
     justify-content: space-between;
     align-items: center;
     margin: 1rem 0 2rem;
+
+    h1 {
+      margin: 0;
+    }
   }
 
   .titleRow {
@@ -48,6 +52,10 @@
     grid-template-columns: 1fr auto;
     grid-gap: (var(--grid-gap));
     align-items: center;
+  }
+
+  .stepsContainer {
+    margin: var(--spacing-l) 0;
   }
 
   .link {

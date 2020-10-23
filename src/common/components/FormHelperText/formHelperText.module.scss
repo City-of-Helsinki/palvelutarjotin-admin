@@ -1,0 +1,5 @@
+.helperText {
+  composes: hds-text-input from '~hds-core/lib/components/text-input/text-input.css';
+  composes: hds-text-input__helper-text from '~hds-core/lib/components/text-input/text-input.css';
+  margin: 0;
+}

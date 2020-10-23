@@ -345,7 +345,8 @@
     "buttonShowEventInfo": "Show event details",
     "error": "Failed to save event time",
     "formTitle": "Add new occurrence",
-    "pageTitle": "New occurrence"
+    "pageTitle": "New occurrence",
+    "buttonSaveAndGoToPublishing": "Save and go to publishing"
   },
   "editOccurrence": {
     "buttonBack": "Event times",

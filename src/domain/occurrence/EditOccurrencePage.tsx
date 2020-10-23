@@ -1,3 +1,4 @@
+import { isPast } from 'date-fns';
 import { FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
@@ -8,6 +9,8 @@ import { toast } from 'react-toastify';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  OccurrenceFieldsFragment,
+  useDeleteOccurrenceMutation,
   useEditOccurrenceMutation,
   useEventQuery,
   useOccurrenceQuery,
@@ -21,6 +24,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { createOrUpdateVenue, getVenueDescription } from '../venue/utils';
 import EventOccurrenceForm from './eventOccurrenceForm/EventOccurrenceForm';
@@ -51,6 +55,7 @@ const EditOccurrencePage: React.FC = () => {
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
   const [editOccurrence] = useEditOccurrenceMutation();
+  const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const {
     data: occurrenceData,
@@ -64,6 +69,16 @@ const EditOccurrencePage: React.FC = () => {
     skip: !occurrenceData?.occurrence?.placeId,
     variables: { id: occurrenceData?.occurrence?.placeId as string },
   });
+  const occurrences =
+    (eventData?.event?.pEvent?.occurrences.edges.map(
+      (edge) => edge?.node
+    ) as OccurrenceFieldsFragment[]) || [];
+  const comingOccurrences = occurrences.filter(
+    (item) => !isPast(new Date(item.startTime))
+  );
+  const filteredComingOccurrences = occurrenceId
+    ? comingOccurrences.filter((item) => item.id !== occurrenceId)
+    : comingOccurrences;
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
@@ -152,6 +167,19 @@ const EditOccurrencePage: React.FC = () => {
     }
   };
 
+  const handleDeleteOccurrence = async (
+    occurrence: OccurrenceFieldsFragment
+  ) => {
+    try {
+      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
+      refetchEvent();
+    } catch (e) {
+      toast(t('occurrences.deleteError'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
+  };
+
   const initialValues: OccurrenceFormFields = React.useMemo(
     () => ({
       date: occurrenceData?.occurrence?.startTime
@@ -210,6 +238,24 @@ const EditOccurrencePage: React.FC = () => {
                 onSubmitAndAdd={submitAndAdd}
                 refetchEvent={refetchEvent}
               />
+              <h2>
+                {t('occurrences.titleComingOccurrences')}{' '}
+                <span className={styles.count}>
+                  {t('occurrences.count', {
+                    count: filteredComingOccurrences.length,
+                  })}
+                </span>
+              </h2>
+              {filteredComingOccurrences.length ? (
+                <OccurrencesTable
+                  eventData={eventData}
+                  id="coming-occurrences"
+                  occurrences={filteredComingOccurrences}
+                  onDelete={handleDeleteOccurrence}
+                />
+              ) : (
+                <div>{t('occurrences.textNoComingOccurrences')}</div>
+              )}
             </div>
           </Container>
         ) : (
