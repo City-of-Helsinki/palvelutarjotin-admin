@@ -124,12 +124,6 @@ const CreateEventPage: React.FC = () => {
         pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
         search: firstOccurrencePrefilledValuesToQuery(values),
       });
-
-      // TODO: think if there is better way to handle this scrollTop.
-      // at the moment <ScrollToTop /> component ignores
-      // '/events/:id/occurrences/create' because it matches one of the ignored paths:
-      // '/events/:id/occurrences/:occurrenceId'
-      window.scrollTo(0, 0);
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
       if (isTestEnv()) {
