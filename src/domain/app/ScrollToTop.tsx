@@ -25,7 +25,6 @@ const ScrollToTop: React.FC<{
 
   React.useEffect(() => {
     if (isMatch(forceScrollToTopPaths)) {
-      debugger;
       scrollToTop();
     } else if (!isMatch(ignoredPaths)) {
       scrollToTop();

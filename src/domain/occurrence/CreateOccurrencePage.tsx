@@ -128,9 +128,7 @@ const CreateOccurrencePage: React.FC = () => {
       history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
-      toast(t('createOccurrence.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('createOccurrence.error'));
     }
   };
 
