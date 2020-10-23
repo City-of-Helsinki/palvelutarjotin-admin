@@ -19,7 +19,7 @@ import {
   useMyProfileQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import { useQuery } from '../../hooks/useQuery';
+import { useSearchParams } from '../../hooks/useQuery';
 import getLocalizedString from '../../utils/getLocalizedString';
 import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
@@ -230,12 +230,12 @@ const CreateOccurrencePage: React.FC = () => {
 };
 
 const useInitialFormValues = () => {
-  const query = useQuery();
+  const searcParams = useSearchParams();
 
   // initial pre-filled values from event wizard step 1
-  const initialDate = query.get('date');
-  const initialStartsAt = query.get('startsAt');
-  const initialEndsAt = query.get('endsAt');
+  const initialDate = searcParams.get('date');
+  const initialStartsAt = searcParams.get('startsAt');
+  const initialEndsAt = searcParams.get('endsAt');
 
   const initialFormValues = React.useMemo(() => {
     if (initialDate && initialEndsAt && initialStartsAt) {

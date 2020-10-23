@@ -174,9 +174,7 @@ const EditOccurrencePage: React.FC = () => {
       await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
       refetchEvent();
     } catch (e) {
-      toast(t('occurrences.deleteError'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('occurrences.deleteError'));
     }
   };
 
