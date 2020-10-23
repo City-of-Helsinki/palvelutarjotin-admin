@@ -19,7 +19,7 @@ import getLocalisedString from '../../utils/getLocalizedString';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { VenueDataFields } from '../venue/types';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
-import { EventFormFields } from './types';
+import { CreateEventFormFields, EventFormFields } from './types';
 
 /**
  * Get event placeholder image url
@@ -293,4 +293,17 @@ export const getPublishEventPayload = ({
     shortDescription: event.shortDescription,
     organisationId,
   };
+};
+
+export const firstOccurrencePrefilledValuesToQuery = (
+  values: CreateEventFormFields
+) => {
+  const params = new URLSearchParams();
+  if (values.occurrenceDate) {
+    params.append('date', values.occurrenceDate.toISOString());
+  }
+  params.append('startsAt', values.occurrenceStartsAt);
+  params.append('endsAt', values.occurrenceEndsAt);
+
+  return params.toString();
 };

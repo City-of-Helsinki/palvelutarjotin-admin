@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import userEvent from '@testing-library/user-event';
+import parseDate from 'date-fns/parse';
 import { axe } from 'jest-axe';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
@@ -288,6 +289,7 @@ test('event can be created with form', async () => {
   const dateInput = screen.getByLabelText(/Päivämäärä/i);
   // click first so focus is kept
   userEvent.click(dateInput);
+  const firstOccurrenceDate = '20.11.2020';
   userEvent.type(dateInput, '20.11.2020');
 
   const startsAtInput = screen.getByLabelText(/Alkaa klo/i, {
@@ -419,9 +421,17 @@ test('event can be created with form', async () => {
     ).toBeInTheDocument();
   });
 
+  const parsedOccurrenceDate = parseDate(
+    firstOccurrenceDate,
+    'dd.MM.yyyy',
+    new Date()
+  );
+
+  const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith({
       pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/create',
+      search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
     });
   });
 });

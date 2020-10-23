@@ -1,9 +1,7 @@
-import { isPast } from 'date-fns';
 import { Field, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
@@ -12,16 +10,11 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
+import FormHelperText from '../../../common/components/FormHelperText/FormHelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import {
-  EventQuery,
-  Language,
-  OccurrenceFieldsFragment,
-  useDeleteOccurrenceMutation,
-} from '../../../generated/graphql';
+import { EventQuery, Language } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
-import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import { OccurrenceFormFields } from '../types';
@@ -48,6 +41,7 @@ interface Props {
   formTitle: string;
   initialValues: OccurrenceFormFields;
   occurrenceId?: string;
+  showFirstOccurrenceHelperText?: boolean;
   onCancel: () => void;
   onSubmit: (values: OccurrenceFormFields) => void;
   onSubmitAndAdd: (
@@ -66,6 +60,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
   onSubmit,
   onSubmitAndAdd,
   refetchEvent,
+  showFirstOccurrenceHelperText,
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
@@ -75,33 +70,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
   const [editPlaceMode, setEditPlaceMode] = React.useState(
     Boolean(initialValues.placeId)
   );
-
-  const [deleteOccurrence] = useDeleteOccurrenceMutation();
-
-  const occurrences =
-    (eventData?.event?.pEvent?.occurrences.edges.map(
-      (edge) => edge?.node
-    ) as OccurrenceFieldsFragment[]) || [];
-
-  const comingOccurrences = occurrences.filter(
-    (item) => !isPast(new Date(item.startTime))
-  );
-  const filteredComingOccurrences = occurrenceId
-    ? comingOccurrences.filter((item) => item.id !== occurrenceId)
-    : comingOccurrences;
-
-  const handleDeleteOccurrence = async (
-    occurrence: OccurrenceFieldsFragment
-  ) => {
-    try {
-      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-      refetchEvent();
-    } catch (e) {
-      toast(t('occurrences.deleteError'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-  };
 
   return (
     <Formik
@@ -127,7 +95,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
             }}
           >
             <FocusToFirstError />
-            <p className={styles.title}>{formTitle}</p>
+            <h2 className={styles.title}>{formTitle}</h2>
             <div className={styles.occurrenceFormRow}>
               <div className={styles.locationRow}>
                 <p>{t('eventOccurrenceForm.infoText1')}</p>
@@ -135,6 +103,13 @@ const EventOccurrenceForm: React.FC<Props> = ({
             </div>
 
             <div className={styles.divider}></div>
+            {showFirstOccurrenceHelperText && (
+              <FormHelperText
+                text="Täydennä ensimmäisen tapahtuma-ajan tiedot"
+                style={{ margin: '2rem 0' }}
+              />
+            )}
+
             <div>
               <div className={styles.occurrenceFormRow}>
                 <FormGroup>
@@ -277,28 +252,11 @@ const EventOccurrenceForm: React.FC<Props> = ({
                 >
                   {t('form.actions.saveAndAddNew')}
                 </Button>
-                <Button type="submit">{t('form.actions.save')}</Button>
+                <Button type="submit">
+                  {t('createOccurrence.buttonSaveAndGoToPublishing')}
+                </Button>
               </div>
-
               <div className={styles.divider} />
-              <h2>
-                {t('occurrences.titleComingOccurrences')}{' '}
-                <span className={styles.count}>
-                  {t('occurrences.count', {
-                    count: filteredComingOccurrences.length,
-                  })}
-                </span>
-              </h2>
-              {filteredComingOccurrences.length ? (
-                <OccurrencesTable
-                  eventData={eventData}
-                  id="coming-occurrences"
-                  occurrences={filteredComingOccurrences}
-                  onDelete={handleDeleteOccurrence}
-                />
-              ) : (
-                <div>{t('occurrences.textNoComingOccurrences')}</div>
-              )}
             </div>
           </form>
         );

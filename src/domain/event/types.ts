@@ -16,9 +16,6 @@ export interface EventFormFields extends VenueDataFields {
   description: string;
   enrolmentEndDays: string;
   enrolmentStart: Date | null;
-  occurrenceDate?: Date | null;
-  occurrenceStartsAt?: string;
-  occurrenceEndsAt?: string;
   image: string;
   imageAltText: string;
   imagePhotographerName: string;
@@ -34,3 +31,11 @@ export interface EventFormFields extends VenueDataFields {
   isDraft?: boolean;
   autoAcceptance?: boolean;
 }
+
+export interface FirstOccurrenceFields {
+  occurrenceDate: Date | null;
+  occurrenceStartsAt: string;
+  occurrenceEndsAt: string;
+}
+
+export type CreateEventFormFields = EventFormFields & FirstOccurrenceFields;

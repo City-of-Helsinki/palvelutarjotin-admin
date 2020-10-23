@@ -347,7 +347,8 @@
     "buttonShowEventInfo": "Visa information om evenemang",
     "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Lägg till ny händelsehändelse",
-    "pageTitle": "Ny händelse"
+    "pageTitle": "Ny händelse",
+    "buttonSaveAndGoToPublishing": "Spara och gå till publicering"
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",

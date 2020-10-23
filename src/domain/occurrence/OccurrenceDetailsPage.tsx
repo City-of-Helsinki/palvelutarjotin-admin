@@ -11,7 +11,7 @@ import {
   useOccurrenceQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import { useQuery } from '../../hooks/useQuery';
+import { useSearchParams } from '../../hooks/useQuery';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -34,9 +34,9 @@ const OccurrenceDetailsPage: React.FC = () => {
   const history = useHistory();
   const locale = useLocale();
   const { id, occurrenceId, enrolmentId } = useParams<Params>();
-  const query = useQuery();
+  const searchParams = useSearchParams();
   const enrolmentUpdated = Boolean(
-    query.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
+    searchParams.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
   );
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     variables: { id, include: ['location'] },
