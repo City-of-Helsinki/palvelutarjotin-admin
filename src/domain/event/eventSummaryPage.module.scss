@@ -1,6 +1,6 @@
 @import 'variables';
 
-.occurrencesPage {
+.eventSummaryPage {
   --color-link: var(--color-bus);
 
   --fontsize-link: var(--fontsize-body-m);
@@ -12,12 +12,12 @@
   --publish-section-border-color: #979797;
 }
 
-.occurrencesPage {
+.eventSummaryPage {
   padding-bottom: $paddingBottomPage;
 
   h1 {
     font-size: var(--fontsize-heading-l);
-    margin: 1rem 0 1rem;
+    margin: 1rem 0 2rem;
   }
 
   h2 {
@@ -29,6 +29,12 @@
     font-size: var(--fontsize-link);
     font-weight: var(--fontweight-link);
     text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+
+    svg {
+      margin-right: 1rem;
+    }
   }
 
   .count {
@@ -36,10 +42,28 @@
     margin-left: 0.5rem;
   }
 
+  .sectionTitleRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: (var(--grid-gap));
+    align-items: flex-end;
+    margin: var(--spacing-s) 0;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
   .titleRow {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-gap: (var(--grid-gap));
+    align-items: center;
+    margin: 1rem 0 2rem;
+
+    h1 {
+      margin: 0;
+    }
   }
 
   .publishSection {
@@ -58,15 +82,19 @@
     }
   }
 
-  .buttonWrapper {
-    align-self: center;
-  }
-
   .showMoreButtonWrapper {
     text-align: center;
     color: var(--color-link);
     font-size: var(--fontsize-link);
     font-weight: var(--fontweight-link);
     text-decoration: none;
+  }
+
+  .stepsContainer {
+    margin: var(--spacing-l) 0;
+  }
+
+  .summarySection {
+    margin: var(--spacing-l) 0;
   }
 }

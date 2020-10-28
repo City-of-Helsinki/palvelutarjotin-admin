@@ -95,8 +95,8 @@ const EventsPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
-  const goToEventOccurrencesPage = (id: string) => {
-    history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', id)}`);
+  const goToEventSummaryPage = (id: string) => {
+    history.push(`/${locale}${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
   };
 
   const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];
@@ -154,7 +154,7 @@ const EventsPage: React.FC = () => {
               }
               title={t('events.titleComingEvents')}
               events={eventsWithComingOccurrences}
-              onGoToEventOccurrencesPage={goToEventOccurrencesPage}
+              onGoToEventSummaryPage={goToEventSummaryPage}
               isLoadingMoreEvents={isLoadingMoreUpcomingEvents}
               onFetchMoreEvents={fetchMoreUpcomingEvents}
               hasNextPage={upcomingEventsHasNextPage}
@@ -166,7 +166,7 @@ const EventsPage: React.FC = () => {
               }
               title={t('events.titleEventsWithoutOccurrences')}
               events={eventsWithoutOccurrences}
-              onGoToEventOccurrencesPage={goToEventOccurrencesPage}
+              onGoToEventSummaryPage={goToEventSummaryPage}
               isLoadingMoreEvents={loadingMoreEventsWithoutOccurrences}
               onFetchMoreEvents={fetchMoreEventsWithoutOccurrences}
               hasNextPage={eventsWithoutOccurrencesHasNextPage}
@@ -178,7 +178,7 @@ const EventsPage: React.FC = () => {
               }
               title={t('events.titleEventsWithPastOccurrences')}
               events={eventsWithPastOccurrences}
-              onGoToEventOccurrencesPage={goToEventOccurrencesPage}
+              onGoToEventSummaryPage={goToEventSummaryPage}
               isLoadingMoreEvents={loadingMorePastEvents}
               onFetchMoreEvents={fetchMorePastEvents}
               hasNextPage={pastEventsHasNextPage}
@@ -194,7 +194,7 @@ interface EventsCategoryListProps {
   eventsCount: number;
   title: string;
   events: EventFieldsFragment[];
-  onGoToEventOccurrencesPage: (id: string) => void;
+  onGoToEventSummaryPage: (id: string) => void;
   isLoadingMoreEvents: boolean;
   onFetchMoreEvents: () => Promise<void>;
   hasNextPage: boolean;
@@ -205,7 +205,7 @@ const EventsCategoryList: React.FC<EventsCategoryListProps> = ({
   eventsCount,
   title,
   events,
-  onGoToEventOccurrencesPage,
+  onGoToEventSummaryPage,
   isLoadingMoreEvents,
   onFetchMoreEvents,
   hasNextPage,
@@ -215,10 +215,7 @@ const EventsCategoryList: React.FC<EventsCategoryListProps> = ({
     return (
       <>
         <EventsTitle count={eventsCount} title={title} />
-        <Events
-          events={events}
-          goToEventOccurrencesPage={onGoToEventOccurrencesPage}
-        />
+        <Events events={events} goToEventSummaryPage={onGoToEventSummaryPage} />
         {hasNextPage && (
           <ShowMoreButton
             loading={isLoadingMoreEvents}
@@ -260,8 +257,8 @@ const EventsTitle: React.FC<{ count: number; title: string }> = ({
 
 const Events: React.FC<{
   events: EventFieldsFragment[];
-  goToEventOccurrencesPage: (id: string) => void;
-}> = ({ events, goToEventOccurrencesPage }) => {
+  goToEventSummaryPage: (id: string) => void;
+}> = ({ events, goToEventSummaryPage }) => {
   const locale = useLocale();
 
   return (
@@ -286,7 +283,7 @@ const Events: React.FC<{
             name={eventName}
             occurrencesCount={occurrences?.length || 0}
             publicationStatus={publicationStatus}
-            onClick={goToEventOccurrencesPage}
+            onClick={goToEventSummaryPage}
           />
         );
       })}

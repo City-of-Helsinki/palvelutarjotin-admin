@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const QUERY_EVENT = gql`
   fragment pEventFields on PalvelutarjotinEventNode {
     id
+    nextOccurrenceDatetime
     autoAcceptance
     contactPerson {
       ...personFields
@@ -28,6 +29,19 @@ export const QUERY_EVENT = gql`
     en
     fi
     sv
+  }
+
+  fragment offerFields on Offer {
+    isFree
+    description {
+      ...localisedFields
+    }
+    price {
+      ...localisedFields
+    }
+    infoUrl {
+      ...localisedFields
+    }
   }
 
   fragment eventFields on Event {
@@ -74,6 +88,9 @@ export const QUERY_EVENT = gql`
     publicationStatus
     datePublished
     endTime
+    offers {
+      ...offerFields
+    }
   }
 
   query Event($id: ID!, $include: [String]) {

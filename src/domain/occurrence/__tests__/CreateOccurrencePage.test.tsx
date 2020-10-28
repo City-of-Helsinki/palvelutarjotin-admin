@@ -307,9 +307,11 @@ test('initializes pre-filled occurrence values from URL', async () => {
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [
-      ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id) + queryString,
+      '/fi' +
+        ROUTES.CREATE_FIRST_OCCURRENCE.replace(':id', eventMock.id) +
+        queryString,
     ],
-    path: ROUTES.CREATE_OCCURRENCE,
+    path: '/fi' + ROUTES.CREATE_FIRST_OCCURRENCE,
   });
 
   await waitFor(() => {

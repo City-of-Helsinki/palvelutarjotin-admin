@@ -18,7 +18,7 @@ import {
 } from '../../../generated/graphql';
 import { render, screen, waitFor, within } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
-import EditEventPage from '../EditEventPage';
+import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
 
 beforeEach(() => {
   jest.spyOn(Router, 'useParams').mockReturnValue({
@@ -154,23 +154,30 @@ const mocks = [
   },
 ];
 
+jest
+  .spyOn(apolloClient, 'readQuery')
+  .mockImplementation(({ variables }: any) => {
+    if (variables.id === 'yso:p4363') {
+      return keywordMockResponse;
+    }
+  });
+jest
+  .spyOn(apolloClient, 'query')
+  .mockResolvedValue(venueQueryResponseMock as any);
+
+jest
+  .spyOn(apolloClient, 'readQuery')
+  .mockReturnValue(venueQueryResponse as any);
+
+// Venue mutation mock
+jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
+
+advanceTo(new Date(2020, 7, 5));
+
 test('edit event form initializes and submits correctly', async () => {
-  const pushMock = jest.fn();
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
-  advanceTo(new Date(2020, 7, 5));
-  jest
-    .spyOn(apolloClient, 'readQuery')
-    .mockImplementation(({ variables }: any) => {
-      if (variables.id === 'yso:p4363') {
-        return keywordMockResponse;
-      }
-    });
-  jest
-    .spyOn(apolloClient, 'query')
-    .mockResolvedValue(venueQueryResponseMock as any);
-  render(<EditEventPage />, { mocks });
+  const { history } = render(<EditEventPage />, { mocks });
+
+  const goBack = jest.spyOn(history, 'goBack');
 
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -223,21 +230,52 @@ test('edit event form initializes and submits correctly', async () => {
 
   userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
-  jest
-    .spyOn(apolloClient, 'readQuery')
-    .mockReturnValue(venueQueryResponse as any);
-
-  // Venue mutation mock
-  jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
-
   userEvent.click(
     screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+      name: 'Tallenna',
     })
   );
 
   await waitFor(() => {
-    expect(pushMock).toHaveBeenCalledWith('/fi/events/123');
+    expect(goBack).toHaveBeenCalled();
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
+  });
+});
+
+test('returns to create occurrences page when it should after saving', async () => {
+  jest
+    .spyOn(apolloClient, 'query')
+    .mockResolvedValue(venueQueryResponseMock as any);
+  const { history } = render(<EditEventPage />, {
+    mocks,
+    routes: [`/moi?navigationFrom=${NAVIGATED_FROM.OCCURRENCES}`],
+  });
+
+  const historyPush = jest.spyOn(history, 'push');
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Kulttuurin ja vapaa-ajan toimiala')
+    ).toBeInTheDocument();
+  });
+
+  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna',
+    })
+  );
+
+  await waitFor(() => {
+    expect(historyPush).toHaveBeenCalledWith(
+      '/fi/events/123/occurrences/create'
+    );
   });
 
   await waitFor(() => {

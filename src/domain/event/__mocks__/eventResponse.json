@@ -2,6 +2,15 @@
   "data": {
     "event": {
       "id": "palvelutarjotin:afz56bfiaq",
+      "offers": [
+        {
+          "isFree": true,
+          "description": null,
+          "price": null,
+          "infoUrl": null,
+          "__typename": "Offer"
+        }
+      ],
       "internalId": "https://api.hel.fi/linkedevents-test/v1/event/palvelutarjotin:afz56bfiaq/",
       "name": {
         "en": null,
@@ -43,6 +52,7 @@
       "pEvent": {
         "id": "UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjkx",
         "autoAcceptance": true,
+        "nextOccurrenceDatetime": "",
         "contactPerson": {
           "id": "UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=",
           "emailAddress": "",

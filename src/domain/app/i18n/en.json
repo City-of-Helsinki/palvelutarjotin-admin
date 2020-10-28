@@ -16,6 +16,7 @@
   },
   "common": {
     "back": "Back",
+    "leave": "Leave",
     "alertModal": {
       "buttonCancel": "Cancel"
     },
@@ -284,7 +285,8 @@
       "title": "Basic information"
     },
     "buttonCancel": "Cancel",
-    "buttonSave": "Save and go to occurrences",
+    "buttonSave": "Save",
+    "buttonSaveAndGoToOccurrences": "Save and go to occurrences",
     "buttonSaveDraft": "Save draft",
     "occurrenceTime": {
       "titleOccurrenceTime": "Occurrence time",
@@ -330,7 +332,13 @@
       "textOccurrences": "{{count}} occurrence",
       "textOccurrences_plural": "{{count}} occurrences",
       "statusPublished": "Published",
-      "statusNotPublished": "Not published"
+      "statusNotPublished": "Not published",
+      "free": "Free",
+      "startTime": {
+        "other": "{{date}} at {{time}}",
+        "today": "Today at {{time}}",
+        "tomorrow": "Tomorrow at {{time}}"
+      }
     },
     "placeholderSearch": "Search",
     "textEventCount": "{{count}} pcs",
@@ -340,13 +348,22 @@
     "titleEventsWithPastOccurrences": "Past events",
     "titleEventsWithoutOccurrences": "Events without event times"
   },
+  "eventSummary": {
+    "buttonBack": "Back to occurrences",
+    "eventHasBeenPublished": "Event has been published",
+    "titleEventSummary": "Event summary",
+    "titleEventSummaryHelper": "Click to go to event preview",
+    "buttonEditBasicInfo": "Edit basic info",
+    "buttonEditOccurrences": "Edit occurrences"
+  },
   "createOccurrence": {
-    "buttonBack": "Event times",
+    "buttonBack": "Back to basic info",
     "buttonShowEventInfo": "Show event details",
     "error": "Failed to save event time",
     "formTitle": "Add new occurrence",
     "pageTitle": "New occurrence",
-    "buttonSaveAndGoToPublishing": "Save and go to publishing"
+    "buttonSaveAndGoToPublishing": "Save and go to publishing",
+    "buttonGoToPublishing": "Go to publishing"
   },
   "editOccurrence": {
     "buttonBack": "Event times",
@@ -536,6 +553,7 @@
       "confirmText2": "Occurrences cannot be added or modified after the event has been published."
     },
     "textNoComingOccurrences": "No coming event times",
+    "titleOccurrences": "Occurrences",
     "titleComingOccurrences": "Coming event times",
     "titlePastOccurrences": "Past event times",
     "titleEventPublishment": "Event publishment",

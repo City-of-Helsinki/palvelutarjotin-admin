@@ -1,5 +1,4 @@
 import {
-  EventFieldsFragment,
   OccurrenceFieldsFragment,
   PlaceFieldsFragment,
   VenueFieldsFragment,
@@ -10,6 +9,7 @@ export const eventResult = {
     event: {
       id: 'palvelutarjotin:afzunowba4',
       endTime: '',
+      offers: [],
       internalId:
         'https://api.hel.fi/linkedevents-test/v1/event/palvelutarjotin:afzunowba4/',
       name: {
@@ -48,6 +48,7 @@ export const eventResult = {
       infoUrl: { en: null, fi: '', sv: null, __typename: 'LocalisedObject' },
       pEvent: {
         id: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
+        nextOccurrenceDatetime: '',
         contactPerson: {
           id:
             'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
@@ -629,7 +630,7 @@ export const eventResult = {
       publicationStatus: 'public',
       datePublished: null,
       __typename: 'Event',
-    } as EventFieldsFragment,
+    },
   },
 };
 

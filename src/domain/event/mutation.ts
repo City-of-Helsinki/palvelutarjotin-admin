@@ -69,6 +69,7 @@ export const MUTATION_EVENT = gql`
           internalId
           publicationStatus
         }
+        resultText
       }
     }
   }

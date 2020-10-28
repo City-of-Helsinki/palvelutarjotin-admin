@@ -2,6 +2,8 @@ import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
 import isToday from 'date-fns/isToday';
+import isTomorrow from 'date-fns/isTomorrow';
+import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
@@ -14,8 +16,10 @@ import {
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
+import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
+import getTimeFormat from '../../utils/getTimeFormat';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { VenueDataFields } from '../venue/types';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
@@ -34,6 +38,34 @@ export const getEventPlaceholderImage = (id: string): string => {
   const index = sum % 4;
 
   return EVENT_PLACEHOLDER_IMAGES[index];
+};
+
+export const getEventStartTimeStr = (
+  event: EventFieldsFragment,
+  locale: Language,
+  t: TFunction
+): string | null => {
+  const nextOccurrenceTime = event.pEvent.nextOccurrenceDatetime;
+  const startTime = nextOccurrenceTime ? new Date(nextOccurrenceTime) : null;
+  const timeFormat = getTimeFormat(locale);
+  const dateFormat = 'iiii dd.MM';
+
+  if (!startTime) return null;
+
+  if (isToday(startTime))
+    return t('events.eventCard.startTime.today', {
+      time: formatDate(startTime, timeFormat, locale),
+    });
+
+  if (isTomorrow(startTime))
+    return t('events.eventCard.startTime.tomorrow', {
+      time: formatDate(startTime, timeFormat, locale),
+    });
+
+  return t('events.eventCard.startTime.other', {
+    date: formatDate(startTime, dateFormat, locale),
+    time: formatDate(startTime, timeFormat, locale),
+  });
 };
 
 /**
@@ -232,6 +264,7 @@ export const getEventFields = (
   event
     ? {
         id: event.id,
+        isEventFree: isEventFree(event),
         eventName: getLocalisedString(event.name, locale),
         shortDescription: getLocalisedString(event.shortDescription, locale),
         description: getLocalisedString(event.description, locale),
@@ -307,3 +340,11 @@ export const firstOccurrencePrefilledValuesToQuery = (
 
   return params.toString();
 };
+
+/**
+ * Check is event free
+ * @param eventData
+ * @return {boolean}
+ */
+export const isEventFree = (event: EventFieldsFragment): boolean =>
+  Boolean(event.offers.find((item) => item.isFree)?.isFree);

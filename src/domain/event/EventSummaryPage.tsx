@@ -1,5 +1,5 @@
 import { isPast } from 'date-fns';
-import { Button, RadioButton } from 'hds-react';
+import { Button, IconPen, RadioButton } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
+import EventSteps from '../../common/components/EventSteps/EventSteps';
+import FormHelperText from '../../common/components/FormHelperText/FormHelperText';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ConfirmationModal from '../../common/components/modal/ConfirmationModal';
 import {
@@ -22,12 +24,14 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
-import { getPublishEventPayload } from '../event/utils';
+import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
+import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
+import { getEventPublishedTime } from '../occurrences/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import styles from './occurrencesPage.module.scss';
-import OccurrencesTable from './occurrencesTable/OccurrencesTable';
-import { getEventPublishedTime } from './utils';
+import { NAVIGATED_FROM } from './EditEventPage';
+import styles from './eventSummaryPage.module.scss';
+import { getPublishEventPayload } from './utils';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
 
@@ -35,7 +39,7 @@ interface Params {
   id: string;
 }
 
-const OccurrencesPage: React.FC = () => {
+const EventSummaryPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { id: eventId } = useParams<Params>();
@@ -67,17 +71,23 @@ const OccurrencesPage: React.FC = () => {
   const comingOccurrences = occurrences.filter(
     (item) => !isPast(new Date(item.startTime))
   );
-
   const pastOccurrences = occurrences.filter((item) =>
     isPast(new Date(item.startTime))
   );
 
-  const goToEventList = () => {
-    history.push(`/${locale}${ROUTES.HOME}`);
-  };
+  const eventPreviewLink = `/${locale}${ROUTES.EVENT_PREVIEW.replace(
+    ':id',
+    eventId
+  )}`;
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
+  };
+
+  const goToCreateOccurrence = () => {
+    history.push(
+      `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
+    );
   };
 
   const handleDeleteOccurrence = async (
@@ -121,6 +131,7 @@ const OccurrencesPage: React.FC = () => {
           },
         });
       }
+      toast.success(t('eventSummary.eventHasBeenPublished'));
     } catch (error) {
       toast(t('occurrences.errorEventPublicationFailed'), {
         type: toast.TYPE.ERROR,
@@ -137,70 +148,75 @@ const OccurrencesPage: React.FC = () => {
     <PageWrapper title="occurrences.pageTitle">
       <LoadingSpinner isLoading={loading}>
         {eventData?.event ? (
-          <div className={styles.occurrencesPage}>
-            <Container>
-              <div>
-                <ActiveOrganisationInfo organisationId={organisationId} />
-
-                <BackButton onClick={goToEventList}>
-                  {t('occurrences.buttonBack')}
+          <Container>
+            <div className={styles.eventSummaryPage}>
+              <ActiveOrganisationInfo organisationId={organisationId} />
+              {isEventDraft ? (
+                <BackButton onClick={goToCreateOccurrence}>
+                  {t('eventSummary.buttonBack')}
                 </BackButton>
-                <div className={styles.titleRow}>
-                  <h1>
-                    {getLocalizedString(eventData.event?.name || {}, locale)}
-                  </h1>
-                  <div className={styles.buttonWrapper}>
-                    <Button onClick={goToEventDetailsPage} variant="secondary">
-                      {t('occurrences.buttonEventDetails')}
-                    </Button>
+              ) : (
+                <BackButton onClick={() => history.push(ROUTES.HOME)}>
+                  {t('common.leave')}
+                </BackButton>
+              )}
+
+              <div className={styles.titleRow}>
+                <h1>
+                  {getLocalizedString(eventData.event?.name || {}, locale)}
+                </h1>
+                <Button onClick={goToEventDetailsPage} variant="secondary">
+                  {t('occurrences.buttonEventDetails')}
+                </Button>
+              </div>
+              {isEventDraft && (
+                <div className={styles.stepsContainer}>
+                  <EventSteps step={3} />
+                </div>
+              )}
+              <div className={styles.summarySection}>
+                <div className={styles.sectionTitleRow}>
+                  <div>
+                    <h2>{t('eventSummary.titleEventSummary')}</h2>
+                    <FormHelperText
+                      text={t('eventSummary.titleEventSummaryHelper')}
+                    />
                   </div>
-                </div>
-                <div className={styles.titleRow}>
-                  <h2>{t('occurrences.titleEventPublishment')}</h2>
-                </div>
-                <div className={styles.publishSection}>
-                  {isEventPublished ? (
-                    <>
-                      <div>
-                        {t('occurrences.publishSection.textPublishedTime')}{' '}
-                        {getEventPublishedTime(eventData.event)}
-                      </div>
-                      <Button
-                        className={styles.publishButton}
-                        onClick={() => alert('TODO: implement unpublish')}
-                      >
-                        {t(
-                          'occurrences.publishSection.buttonCancelPublishment'
-                        )}
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <div>{t('occurrences.titleEventPublishment')}: </div>
-                      <RadioButton
-                        label={t('occurrences.publishSection.optionNow')}
-                        id="publish-now"
-                        checked
-                      />
-                      <Button
-                        className={styles.publishButton}
-                        onClick={handlePublishEventClick}
-                      >
-                        {t('occurrences.publishSection.buttonSetPublished')}
-                      </Button>
-                    </>
+                  {isEventDraft && (
+                    <EditButton
+                      text={t('eventSummary.buttonEditBasicInfo')}
+                      link={`/${locale}${ROUTES.EDIT_EVENT.replace(
+                        ':id',
+                        eventId
+                      )}?navigatedFrom=${NAVIGATED_FROM.EVENT_SUMMARY}`}
+                    />
                   )}
                 </div>
-                <div className={styles.titleRow}>
+                <EventPreviewCard
+                  event={eventData.event}
+                  link={eventPreviewLink}
+                />
+              </div>
+
+              <div className={styles.summarySection}>
+                <div className={styles.sectionTitleRow}>
                   <h2>
-                    {t('occurrences.titleComingOccurrences')}{' '}
+                    {t('occurrences.titleOccurrences')}{' '}
                     <span className={styles.count}>
                       {t('occurrences.count', {
                         count: comingOccurrences.length,
                       })}
                     </span>
                   </h2>
-                  {isEventDraft && <CreateOccurrenceButton eventId={eventId} />}
+                  {isEventDraft && (
+                    <EditButton
+                      text={t('eventSummary.buttonEditOccurrences')}
+                      link={`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(
+                        ':id',
+                        eventId
+                      )}`}
+                    />
+                  )}
                 </div>
                 {!!comingOccurrences.length ? (
                   <OccurrencesTable
@@ -249,8 +265,47 @@ const OccurrencesPage: React.FC = () => {
                   </>
                 )}
               </div>
-            </Container>
-          </div>
+
+              <div>
+                <div className={styles.sectionTitleRow}>
+                  <h2>{t('occurrences.titleEventPublishment')}</h2>
+                </div>
+                <div className={styles.publishSection}>
+                  {isEventPublished ? (
+                    <>
+                      <div>
+                        {t('occurrences.publishSection.textPublishedTime')}{' '}
+                        {getEventPublishedTime(eventData.event)}
+                      </div>
+                      <Button
+                        className={styles.publishButton}
+                        onClick={() => alert('TODO: implement unpublish')}
+                      >
+                        {t(
+                          'occurrences.publishSection.buttonCancelPublishment'
+                        )}
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <div>{t('occurrences.titleEventPublishment')}: </div>
+                      <RadioButton
+                        label={t('occurrences.publishSection.optionNow')}
+                        id="publish-now"
+                        checked
+                      />
+                      <Button
+                        className={styles.publishButton}
+                        onClick={handlePublishEventClick}
+                      >
+                        {t('occurrences.publishSection.buttonSetPublished')}
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Container>
         ) : (
           <ErrorPage />
         )}
@@ -271,20 +326,16 @@ const OccurrencesPage: React.FC = () => {
   );
 };
 
-const CreateOccurrenceButton: React.FC<{ eventId: string }> = ({ eventId }) => {
-  const locale = useLocale();
-  const { t } = useTranslation();
-
+const EditButton: React.FC<{ text: string; link: string }> = ({
+  link,
+  text,
+}) => {
   return (
-    <div className={styles.buttonWrapper}>
-      <Link
-        className={styles.link}
-        to={`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`}
-      >
-        {t('occurrences.buttonCreateOccurrence')}
-      </Link>
-    </div>
+    <Link className={styles.link} to={link}>
+      <IconPen />
+      {text}
+    </Link>
   );
 };
 
-export default OccurrencesPage;
+export default EventSummaryPage;

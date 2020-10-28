@@ -16,6 +16,7 @@
   },
   "common": {
     "back": "Tillbacka",
+    "leave": "Lämna",
     "alertModal": {
       "buttonCancel": "Avbryt"
     },
@@ -286,7 +287,8 @@
       "title": "Grundläggande information"
     },
     "buttonCancel": "Avbryt",
-    "buttonSave": "Spara och gå till förekomster",
+    "buttonSave": "Spara",
+    "buttonSaveAndGoToOccurrences": "Spara och gå till förekomster",
     "buttonSaveDraft": "Spara utkast",
     "occurrenceTime": {
       "titleOccurrenceTime": "Förekomsttid",
@@ -332,8 +334,15 @@
       "textOccurrences": "{{count}} händelsetid",
       "textOccurrences_plural": "{{count}} evenemangtider",
       "statusPublished": "Publicerad",
-      "statusNotPublished": "Ej publicerad"
+      "statusNotPublished": "Ej publicerad",
+      "free": "Fri",
+      "startTime": {
+        "other": "{{date}} kl {{time}}",
+        "today": "Idag kl {{time}}",
+        "tomorrow": "Imorgon kl {{time}}"
+      }
     },
+
     "placeholderSearch": "Sök",
     "textEventCount": "{{count}} st",
     "textNoComingEvents": "Inga evenemang med kommande evenemangtider",
@@ -342,13 +351,22 @@
     "titleEventsWithPastOccurrences": "Tidigare evenemang",
     "titleEventsWithoutOccurrences": "Evenemang utan evenemangtider"
   },
+  "eventSummary": {
+    "buttonBack": "Tillbaka till evenemangstiderna",
+    "eventHasBeenPublished": "Händelsen har publicerats",
+    "titleEventSummary": "Sammanfattning av händelser",
+    "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
+    "buttonEditBasicInfo": "Edit basic info",
+    "buttonEditOccurrences": "Redigera förekomster"
+  },
   "createOccurrence": {
-    "buttonBack": "Evenemangtider",
+    "buttonBack": "Tillbaka till grundläggande information",
     "buttonShowEventInfo": "Visa information om evenemang",
     "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Lägg till ny händelsehändelse",
     "pageTitle": "Ny händelse",
-    "buttonSaveAndGoToPublishing": "Spara och gå till publicering"
+    "buttonSaveAndGoToPublishing": "Spara och gå till publicering",
+    "buttonGoToPublishing": "Gå till publicering"
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",
@@ -538,6 +556,7 @@
       "confirmText2": "Förekomster kan inte läggas till eller ändras efter att evenemanget har publicerats."
     },
     "textNoComingOccurrences": "Inga framtida evenemangtider",
+    "titleOccurrences": "Evenemangtider",
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider",
     "titleEventPublishment": "Händelsepublikation",

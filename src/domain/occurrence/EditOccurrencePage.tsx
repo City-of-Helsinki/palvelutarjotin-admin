@@ -24,6 +24,7 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import { isEditableEvent } from '../event/utils';
 import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { createOrUpdateVenue, getVenueDescription } from '../venue/utils';
@@ -91,10 +92,6 @@ const EditOccurrencePage: React.FC = () => {
         occurrenceId
       )}`
     );
-  };
-
-  const goToOccurrencesPage = () => {
-    history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
   };
 
   const getPayload = (values: OccurrenceFormFields) => {
@@ -211,51 +208,60 @@ const EditOccurrencePage: React.FC = () => {
         isLoading={loadingEvent || loadingOccurrence || loadingVenue}
       >
         {eventData && occurrenceData ? (
-          <Container>
-            <div className={styles.eventOccurrencePage}>
-              <ActiveOrganisationInfo organisationId={organisationId} />
+          <>
+            {isEditableEvent(eventData) ? (
+              <Container>
+                <div className={styles.eventOccurrencePage}>
+                  <ActiveOrganisationInfo organisationId={organisationId} />
 
-              <BackButton onClick={goToOccurrencesPage}>
-                {t('editOccurrence.buttonBack')}
-              </BackButton>
-              <div className={styles.headerContainer}>
-                <h1>
-                  {getLocalizedString(eventData?.event?.name || {}, locale)}
-                </h1>
-                <Button variant="secondary" onClick={goToEventDetailsPage}>
-                  {t('editOccurrence.buttonShowEventInfo')}
-                </Button>
-              </div>
-              <EventOccurrenceForm
-                eventData={eventData}
-                formTitle={t('editOccurrence.formTitle')}
-                initialValues={initialValues}
-                occurrenceId={occurrenceId}
-                onCancel={goToOccurrenceDetailsPage}
-                onSubmit={submit}
-                onSubmitAndAdd={submitAndAdd}
-                refetchEvent={refetchEvent}
+                  <BackButton onClick={history.goBack}>
+                    {t('editOccurrence.buttonBack')}
+                  </BackButton>
+                  <div className={styles.headerContainer}>
+                    <h1>
+                      {getLocalizedString(eventData?.event?.name || {}, locale)}
+                    </h1>
+                    <Button variant="secondary" onClick={goToEventDetailsPage}>
+                      {t('editOccurrence.buttonShowEventInfo')}
+                    </Button>
+                  </div>
+                  <EventOccurrenceForm
+                    eventData={eventData}
+                    formTitle={t('editOccurrence.formTitle')}
+                    initialValues={initialValues}
+                    occurrenceId={occurrenceId}
+                    onCancel={goToOccurrenceDetailsPage}
+                    onSubmit={submit}
+                    onSubmitAndAdd={submitAndAdd}
+                    refetchEvent={refetchEvent}
+                  />
+                  <h2>
+                    {t('occurrences.titleComingOccurrences')}{' '}
+                    <span className={styles.count}>
+                      {t('occurrences.count', {
+                        count: filteredComingOccurrences.length,
+                      })}
+                    </span>
+                  </h2>
+                  {filteredComingOccurrences.length ? (
+                    <OccurrencesTable
+                      eventData={eventData}
+                      id="coming-occurrences"
+                      occurrences={filteredComingOccurrences}
+                      onDelete={handleDeleteOccurrence}
+                    />
+                  ) : (
+                    <div>{t('occurrences.textNoComingOccurrences')}</div>
+                  )}
+                </div>
+              </Container>
+            ) : (
+              <ErrorPage
+                title={t('editEvent.errorEventIsPublished')}
+                description={t('editEvent.errorEventIsPublishedDescription')}
               />
-              <h2>
-                {t('occurrences.titleComingOccurrences')}{' '}
-                <span className={styles.count}>
-                  {t('occurrences.count', {
-                    count: filteredComingOccurrences.length,
-                  })}
-                </span>
-              </h2>
-              {filteredComingOccurrences.length ? (
-                <OccurrencesTable
-                  eventData={eventData}
-                  id="coming-occurrences"
-                  occurrences={filteredComingOccurrences}
-                  onDelete={handleDeleteOccurrence}
-                />
-              ) : (
-                <div>{t('occurrences.textNoComingOccurrences')}</div>
-              )}
-            </div>
-          </Container>
+            )}
+          </>
         ) : (
           <ErrorPage />
         )}
