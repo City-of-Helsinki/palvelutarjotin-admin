@@ -83,7 +83,6 @@ const EditEventPage: React.FC = () => {
   };
 
   const navigateAfterSave = () => {
-    console.log(navigatedFrom);
     if (navigatedFrom === NAVIGATED_FROM.OCCURRENCES) {
       goToOccurrencesPage();
     } else if (navigatedFrom === NAVIGATED_FROM.EVENT_SUMMARY) {
