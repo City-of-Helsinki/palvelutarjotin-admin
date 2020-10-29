@@ -4,11 +4,6 @@ import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Router from 'react-router';
 
-import eventResponse from '../__mocks__/eventResponse.json';
-import keywordResponse from '../__mocks__/keywordResponse.json';
-import placeResponse from '../__mocks__/placeResponse.json';
-import profileResponse from '../__mocks__/profileResponse.json';
-import updateEventResponse from '../__mocks__/updateEventResponse.json';
 import {
   EditEventDocument,
   EventDocument,
@@ -16,6 +11,21 @@ import {
   MyProfileDocument,
   PlaceDocument,
 } from '../../../generated/graphql';
+import {
+  fakeEvent,
+  fakeImage,
+  fakeInLanguage,
+  fakeKeyword,
+  fakeLocalizedObject,
+  fakeOffer,
+  fakeOrganisation,
+  fakeOrganisations,
+  fakePerson,
+  fakePersons,
+  fakePEvent,
+  fakePlace,
+  fakeVenue,
+} from '../../../utils/mockDataUtils';
 import { render, screen, waitFor, within } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
@@ -26,52 +36,121 @@ beforeEach(() => {
   });
 });
 
+const placeId = 'tprek:15417';
+
 const keywordMockResponse = {
-  keyword: {
+  keyword: fakeKeyword({
     id: 'yso:p4363',
-    name: {
-      en: 'families',
-      fi: 'perheet',
-      sv: 'familjer',
-      __typename: 'LocalisedObject',
-    },
-    internalId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
-    __typename: 'Keyword',
-  },
+    name: fakeLocalizedObject('perheet'),
+  }),
 };
 
 const venueQueryResponse = {
   data: {
-    venue: {
-      id: 'tprek:15417',
+    venue: fakeVenue({
+      id: placeId,
       hasClothingStorage: true,
       hasSnackEatingPlace: true,
       translations: [
         {
-          languageCode: 'FI',
+          languageCode: 'FI' as any,
           description: 'Testitapahtuman kuvaus',
           __typename: 'VenueTranslationType',
         },
       ],
-      __typename: 'VenueNode',
-    },
+    }),
   },
 };
 
-const venueQueryResponseMock = {
+const keywordResponse = {
   data: {
-    venue: {
-      id: 'tprek:15417',
-      hasClothingStorage: true,
-      hasSnackEatingPlace: true,
-      translations: [
+    keyword: fakeKeyword({
+      id: 'yso:p4363',
+      name: fakeLocalizedObject('perheet'),
+    }),
+  },
+};
+
+const placeResponse = {
+  data: {
+    place: fakePlace({ name: fakeLocalizedObject('Sellon kirjasto') }),
+  },
+};
+
+const profileResponse = {
+  data: {
+    myProfile: fakePerson({
+      organisations: fakeOrganisations(1, [
         {
-          languageCode: 'FI',
-          description: 'Testitapahtuman kuvaus',
-          __typename: 'VenueTranslationType',
+          id: 'T3JnYW5pc2F0aW9uTm9kZTox',
+          persons: fakePersons(1, [
+            {
+              organisations: [] as any,
+              name: 'Testaaja2',
+              id:
+                'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
+            },
+          ]),
+          name: 'Kulttuurin ja vapaa-ajan toimiala',
         },
+      ]),
+    }),
+  },
+};
+
+const eventResponse = {
+  data: {
+    event: fakeEvent({
+      id: 'palvelutarjotin:afz56bfiaq',
+      shortDescription: fakeLocalizedObject('Testitapahtuman kuvaus'),
+      description: fakeLocalizedObject('Pidempi kuvaus'),
+      name: fakeLocalizedObject('Testitapahtuma'),
+      startTime: '2020-08-04T21:00:00.000Z',
+      endTime: '',
+      offers: [fakeOffer()],
+      images: [
+        fakeImage({
+          id: '48598',
+          altText: 'Vaihtoehtoinen kuvateksti',
+          photographerName: 'Valo Valokuvaaja',
+        }),
       ],
-      __typename: 'VenueNode',
+      location: fakePlace({
+        name: fakeLocalizedObject('Sellon kirjasto'),
+        id: placeId,
+      }),
+      infoUrl: fakeLocalizedObject('https://www.palvelutarjotin.fi'),
+      inLanguage: [
+        fakeInLanguage({ id: 'fi', name: fakeLocalizedObject('suomi') }),
+        fakeInLanguage({ id: 'en', name: fakeLocalizedObject('englanti') }),
+      ],
+      keywords: [fakeKeyword({ id: 'yso:p4363' })],
+      pEvent: fakePEvent({
+        organisation: fakeOrganisation({ id: 'T3JnYW5pc2F0aW9uTm9kZTox' }),
+        contactEmail: 'testi@testi.fi',
+        contactPhoneNumber: '123123123',
+        enrolmentEndDays: 3,
+        enrolmentStart: '2020-08-13T00:45:00.000Z',
+        neededOccurrences: 3,
+        autoAcceptance: true,
+        contactPerson: fakePerson({
+          id:
+            'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
+        }),
+      }),
+    }),
+  },
+};
+
+const updateEventResponse = {
+  data: {
+    updateEventMutation: {
+      response: {
+        statusCode: 200,
+        body: fakeEvent({ id: 'palvelutarjotin:afz52lpyta' }),
+        __typename: 'EventMutationResponse',
+      },
+      __typename: 'UpdateEventMutation',
     },
   },
 };
@@ -97,7 +176,7 @@ const mocks = [
             { internalId: '/language/en/' },
           ],
           keywords: [{ internalId: '/keyword/yso:p4363/' }],
-          location: { internalId: '/place/tprek:15417/' },
+          location: { internalId: `/place/${placeId}/` },
           pEvent: {
             contactEmail: 'testi@testi.fi',
             contactPersonId:
@@ -147,7 +226,7 @@ const mocks = [
       query: PlaceDocument,
       skip: false,
       variables: {
-        id: 'tprek:15417',
+        id: placeId,
       },
     },
     result: placeResponse,
@@ -161,9 +240,7 @@ jest
       return keywordMockResponse;
     }
   });
-jest
-  .spyOn(apolloClient, 'query')
-  .mockResolvedValue(venueQueryResponseMock as any);
+jest.spyOn(apolloClient, 'query').mockResolvedValue(venueQueryResponse as any);
 
 jest
   .spyOn(apolloClient, 'readQuery')
@@ -250,7 +327,7 @@ test('edit event form initializes and submits correctly', async () => {
 test('returns to create occurrences page when it should after saving', async () => {
   jest
     .spyOn(apolloClient, 'query')
-    .mockResolvedValue(venueQueryResponseMock as any);
+    .mockResolvedValue(venueQueryResponse as any);
   const { history } = render(<EditEventPage />, {
     mocks,
     routes: [`/moi?navigationFrom=${NAVIGATED_FROM.OCCURRENCES}`],

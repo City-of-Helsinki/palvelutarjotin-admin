@@ -13,6 +13,7 @@ import {
   OccurrenceNode,
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
+  Offer,
   OrganisationNode,
   OrganisationNodeConnection,
   OrganisationNodeEdge,
@@ -53,6 +54,15 @@ export const fakeEvents = (
   __typename: 'EventListResponse',
 });
 
+export const fakeOffer = (overrides?: Partial<Offer>): Offer => ({
+  isFree: true,
+  description: null,
+  price: null,
+  infoUrl: null,
+  __typename: 'Offer',
+  ...overrides,
+});
+
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
   return {
     id: `palvelutarjotin:${faker.random.uuid()}`,
@@ -65,7 +75,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     inLanguage: [fakeInLanguage()],
     audience: [],
     keywords: [fakeKeyword()],
-    location: fakeLocation(),
+    location: fakePlace(),
     venue: fakeVenue(),
     pEvent: fakePEvent(),
     startTime: '2020-07-13T05:51:05.761000Z',
@@ -80,7 +90,9 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
   };
 };
 
-export const fakeInLanguage = (overrides?: InLanguage): InLanguage => ({
+export const fakeInLanguage = (
+  overrides?: Partial<InLanguage>
+): InLanguage => ({
   id: 'fi',
   internalId: 'https://api.hel.fi/linkedevents-test/v1/language/fi/',
   name: {
@@ -93,7 +105,7 @@ export const fakeInLanguage = (overrides?: InLanguage): InLanguage => ({
   ...overrides,
 });
 
-export const fakeLocation = (overrides?: Partial<Place>): Place => ({
+export const fakePlace = (overrides?: Partial<Place>): Place => ({
   id: faker.random.uuid(),
   internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
   name: fakeLocalizedObject(),
@@ -104,14 +116,31 @@ export const fakeLocation = (overrides?: Partial<Place>): Place => ({
   ...overrides,
 });
 
+export const fakePlaces = (count = 1, places?: Partial<Place>[]) => ({
+  meta: {
+    __typename: 'Meta',
+    count: count,
+    next: '',
+    previous: '',
+  },
+  data: generateNodeArray((i) => fakePlace(places?.[i]), count),
+  __typename: 'PlaceListResponse',
+});
+
+export const fakeKeywords = (count = 1, keywords?: Partial<Keyword>[]) => ({
+  meta: {
+    __typename: 'Meta',
+    count: count,
+    next: '',
+    previous: '',
+  },
+  data: generateNodeArray((i) => fakeKeyword(keywords?.[i]), count),
+  __typename: 'KeywordsListResponse',
+});
+
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => ({
   id: faker.random.uuid(),
-  name: {
-    en: 'families',
-    fi: 'perheet',
-    sv: 'familjer',
-    __typename: 'LocalisedObject',
-  },
+  name: fakeLocalizedObject(),
   internalId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
   __typename: 'Keyword',
   ...overrides,
@@ -239,11 +268,12 @@ export const fakeOrganisationNodeEdge = (
 });
 
 export const fakeOrganisation = (
-  overrides?: Partial<OrganisationNode>
+  overrides: Partial<OrganisationNode> = {}
 ): OrganisationNode => ({
   id: faker.random.uuid(),
   name: faker.random.arrayElement(organizationNames) as string,
-  persons: fakePersons(5),
+  // avoid infinite recursion
+  persons: overrides.persons || fakePersons(5),
   phoneNumber: faker.phone.phoneNumber(),
   publisherId: faker.random.uuid(),
   type: 'USER' as OrganisationType,
@@ -286,11 +316,14 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   ...overrides,
 });
 
-export const fakeLocalizedObject = (text?: string): LocalisedObject => ({
+export const fakeLocalizedObject = (
+  text?: string,
+  localizedObject: { fi?: string; en?: string; sv?: string } = {}
+): LocalisedObject => ({
   __typename: 'LocalisedObject',
-  en: null,
-  sv: null,
-  fi: text || faker.random.words(),
+  en: localizedObject.en ?? null,
+  sv: localizedObject.sv ?? null,
+  fi: localizedObject.fi || text || faker.random.words(),
 });
 
 const generateNodeArray = <T extends (...args: any) => any>(

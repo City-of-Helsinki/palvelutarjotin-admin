@@ -16,10 +16,10 @@ import {
   fakeEvent,
   fakeImage,
   fakeLocalizedObject,
-  fakeLocation,
   fakeOrganisations,
   fakePerson,
   fakePEvent,
+  fakePlace,
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
@@ -102,7 +102,7 @@ const apolloMocks: MockedResponse[] = [
     },
     result: {
       data: {
-        place: fakeLocation(),
+        place: fakePlace(),
       },
     },
   },
