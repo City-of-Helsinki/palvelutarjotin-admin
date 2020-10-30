@@ -6,6 +6,7 @@ import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Modal from 'react-modal';
 import Router from 'react-router';
+import { t } from 'testcafe';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import {
@@ -13,9 +14,11 @@ import {
   ImageDocument,
   KeywordsDocument,
   MyProfileDocument,
+  PersonDocument,
   PlaceDocument,
   PlacesDocument,
   UploadSingleImageDocument,
+  VenueDocument,
 } from '../../../generated/graphql';
 import {
   fakeEvent,
@@ -190,6 +193,7 @@ const venueResponse = {
   data: {
     venue: fakeVenue({
       outdoorActivity: true,
+      hasClothingStorage: true,
       hasSnackEatingPlace: true,
       translations: [
         {
@@ -271,6 +275,23 @@ const mocks = [
     result: addEventResponse,
   },
 ];
+
+jest.spyOn(apolloClient, 'query').mockImplementation(({ query }) => {
+  if (query === PersonDocument) {
+    return {
+      data: {
+        person: {
+          emailAddress: 'testi123@testi123.fi',
+          phoneNumber: '123321123',
+        },
+      },
+    };
+  }
+
+  if (query === VenueDocument) {
+    return venueResponse;
+  }
+});
 
 test('page is accessible', async () => {
   const { container } = render(<CreateEventPage />, { mocks });
@@ -456,15 +477,6 @@ test('event can be created with form', async () => {
     })
   );
 
-  jest.spyOn(apolloClient, 'query').mockResolvedValueOnce({
-    data: {
-      person: {
-        emailAddress: 'testi123@testi123.fi',
-        phoneNumber: '123321123',
-      },
-    },
-  } as any);
-
   userEvent.click(contactInfoPart.getByRole('option', { name: contactName }));
 
   // email and name should automatically populate after choosing name from dropdown
@@ -505,7 +517,7 @@ test('event can be created with form', async () => {
   userEvent.click(placeInput);
   userEvent.type(placeInput, 'Sellon');
 
-  jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
+  // jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
 
   const place = await screen.findByText(/Sellon kirjasto/i);
   userEvent.click(place);
