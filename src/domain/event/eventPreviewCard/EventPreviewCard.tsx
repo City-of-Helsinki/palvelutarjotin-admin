@@ -10,7 +10,11 @@ import IconClock from '../../../icons/IconClock';
 import getLocalisedString from '../../../utils/getLocalizedString';
 import PlaceText from '../../place/placeText/PlaceText';
 import EventKeywords from '../eventKeywords/EventKeywords';
-import { getEventPlaceholderImage, getEventStartTimeStr } from '../utils';
+import {
+  getEventFields,
+  getEventPlaceholderImage,
+  getEventStartTimeStr,
+} from '../utils';
 import styles from './eventPreviewCard.module.scss';
 
 interface Props {
@@ -22,10 +26,10 @@ const EventCard: React.FC<Props> = ({ event, link }) => {
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const id = event.id;
-  const name = getLocalisedString(event.name, locale);
-  const description = getLocalisedString(event.description || {}, locale);
-  const image = event.images[0]?.url;
+  const { id, eventName, description, imageUrl } = getEventFields(
+    event,
+    locale
+  );
   const time = getEventStartTimeStr(event, locale, t);
 
   return (
@@ -34,13 +38,13 @@ const EventCard: React.FC<Props> = ({ event, link }) => {
         className={styles.imageWrapper}
         style={{
           backgroundImage: `url(${
-            image || getEventPlaceholderImage(id || '')
+            imageUrl || getEventPlaceholderImage(id || '')
           })`,
         }}
       ></div>
       <div className={styles.contentWrapper}>
         <div className={styles.titleWrapper}>
-          <div className={styles.title}>{name}</div>
+          <div className={styles.title}>{eventName}</div>
           <div className={styles.description}>{description}</div>
         </div>
         <div className={styles.occurrenceInfoWrapper}>

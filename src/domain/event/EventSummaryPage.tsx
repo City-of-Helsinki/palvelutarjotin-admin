@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
+import EditButton from '../../common/components/editButton/EditButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
 import FormHelperText from '../../common/components/FormHelperText/FormHelperText';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -90,6 +91,8 @@ const EventSummaryPage: React.FC = () => {
     );
   };
 
+  const goToHome = () => history.push(ROUTES.HOME);
+
   const handleDeleteOccurrence = async (
     occurrence: OccurrenceFieldsFragment
   ) => {
@@ -156,9 +159,7 @@ const EventSummaryPage: React.FC = () => {
                   {t('eventSummary.buttonBack')}
                 </BackButton>
               ) : (
-                <BackButton onClick={() => history.push(ROUTES.HOME)}>
-                  {t('common.leave')}
-                </BackButton>
+                <BackButton onClick={goToHome}>{t('common.leave')}</BackButton>
               )}
 
               <div className={styles.titleRow}>
@@ -323,18 +324,6 @@ const EventSummaryPage: React.FC = () => {
         <p>{t('occurrences.publishSection.confirmText2')}</p>
       </ConfirmationModal>
     </PageWrapper>
-  );
-};
-
-const EditButton: React.FC<{ text: string; link: string }> = ({
-  link,
-  text,
-}) => {
-  return (
-    <Link className={styles.link} to={link}>
-      <IconPen />
-      {text}
-    </Link>
   );
 };
 
