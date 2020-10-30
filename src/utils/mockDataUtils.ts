@@ -2,6 +2,10 @@
 import faker from 'faker';
 
 import {
+  EnrolmentNode,
+  EnrolmentNodeConnection,
+  EnrolmentNodeEdge,
+  EnrolmentStatus,
   Event,
   EventListResponse,
   Image,
@@ -10,6 +14,7 @@ import {
   Language,
   LanguageType,
   LocalisedObject,
+  NotificationType,
   OccurrenceNode,
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
@@ -24,6 +29,8 @@ import {
   PersonNodeConnection,
   PersonNodeEdge,
   Place,
+  StudyGroupNode,
+  StudyLevel,
   VenueNode,
 } from '../generated/graphql';
 
@@ -89,6 +96,52 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     ...overrides,
   };
 };
+
+export const fakeEnrolments = (
+  count = 1,
+  enrolments?: Partial<EnrolmentNode>[]
+): EnrolmentNodeConnection => ({
+  edges: generateNodeArray(
+    (i) => fakeEnrolmentNodeEdge(enrolments?.[i]),
+    count
+  ),
+  pageInfo: PageInfoMock,
+  __typename: 'EnrolmentNodeConnection',
+  count,
+});
+
+export const fakeEnrolment = (
+  overrides?: Partial<EnrolmentNode>
+): EnrolmentNode => ({
+  enrolmentTime: '',
+  id: faker.random.uuid(),
+  occurrence: fakeOccurrence(),
+  studyGroup: fakeStudyGroup(),
+  notificationType: NotificationType.EmailSms,
+  __typename: 'EnrolmentNode',
+  person: fakePerson(),
+  status: EnrolmentStatus.Approved,
+  ...overrides,
+});
+
+export const fakeStudyGroup = (
+  overrides?: Partial<StudyGroupNode>
+): StudyGroupNode => ({
+  amountOfAdult: 1,
+  createdAt: '',
+  enrolments: [] as any,
+  extraNeeds: '',
+  groupName: '',
+  groupSize: 20,
+  id: faker.random.uuid(),
+  name: '',
+  occurrences: fakeOccurrences(),
+  person: fakePerson(),
+  updatedAt: '',
+  __typename: 'StudyGroupNode',
+  studyLevel: StudyLevel.Grade_5,
+  ...overrides,
+});
 
 export const fakeInLanguage = (
   overrides?: Partial<InLanguage>
@@ -208,6 +261,14 @@ export const fakeOccurrences = (
   __typename: 'OccurrenceNodeConnection',
 });
 
+export const fakeEnrolmentNodeEdge = (
+  overrides?: Partial<EnrolmentNode>
+): EnrolmentNodeEdge => ({
+  cursor: '',
+  node: fakeEnrolment(overrides),
+  __typename: 'EnrolmentNodeEdge',
+});
+
 export const fakeOccurrenceNodeEdge = (
   overrides?: Partial<OccurrenceNode>
 ): OccurrenceNodeEdge => ({
@@ -227,7 +288,6 @@ export const fakeOccurrence = (
   amountOfSeats: 30,
   minGroupSize: 10,
   maxGroupSize: 20,
-
   languages: [
     { id: 'en', name: 'English', __typename: 'LanguageType' },
     { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
