@@ -113,7 +113,7 @@ export const fakeEnrolments = (
 export const fakeEnrolment = (
   overrides?: Partial<EnrolmentNode>
 ): EnrolmentNode => ({
-  enrolmentTime: '',
+  enrolmentTime: '2020-08-18T06:37:40.755109+00:00',
   id: faker.random.uuid(),
   occurrence: fakeOccurrence(),
   studyGroup: fakeStudyGroup(),

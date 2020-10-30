@@ -62,7 +62,7 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
           </div>
           <p>{t('occurrenceDetails.textDateAndTime', { date, time })}</p>
         </div>
-        {!isEventDraft && (
+        {isEventDraft && (
           <EditOccurrenceButton eventId={eventId} occurrenceId={occurrenceId} />
         )}
       </div>
