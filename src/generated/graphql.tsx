@@ -1890,7 +1890,7 @@ export type PublishSingleEventMutation = { __typename?: 'Mutation' } & {
       response?: Maybe<
         { __typename?: 'EventMutationResponse' } & Pick<
           EventMutationResponse,
-          'statusCode'
+          'statusCode' | 'resultText'
         > & {
             body?: Maybe<
               { __typename?: 'Event' } & Pick<
@@ -1966,6 +1966,7 @@ export type PEventFieldsFragment = {
 } & Pick<
   PalvelutarjotinEventNode,
   | 'id'
+  | 'nextOccurrenceDatetime'
   | 'autoAcceptance'
   | 'contactEmail'
   | 'contactPhoneNumber'
@@ -1994,6 +1995,19 @@ export type LocalisedFieldsFragment = { __typename?: 'LocalisedObject' } & Pick<
   LocalisedObject,
   'en' | 'fi' | 'sv'
 >;
+
+export type OfferFieldsFragment = { __typename?: 'Offer' } & Pick<
+  Offer,
+  'isFree'
+> & {
+    description?: Maybe<
+      { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
+    >;
+    price?: Maybe<{ __typename?: 'LocalisedObject' } & LocalisedFieldsFragment>;
+    infoUrl?: Maybe<
+      { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
+    >;
+  };
 
 export type EventFieldsFragment = { __typename?: 'Event' } & Pick<
   Event,
@@ -2025,6 +2039,7 @@ export type EventFieldsFragment = { __typename?: 'Event' } & Pick<
     keywords: Array<{ __typename?: 'Keyword' } & KeywordFieldsFragment>;
     location: { __typename?: 'Place' } & PlaceFieldsFragment;
     venue?: Maybe<{ __typename?: 'VenueNode' } & VenueFieldsFragment>;
+    offers: Array<{ __typename?: 'Offer' } & OfferFieldsFragment>;
   };
 
 export type EventQueryVariables = {
@@ -2591,6 +2606,7 @@ export const OccurrenceFieldsFragmentDoc = gql`
 export const PEventFieldsFragmentDoc = gql`
   fragment pEventFields on PalvelutarjotinEventNode {
     id
+    nextOccurrenceDatetime
     autoAcceptance
     contactPerson {
       ...personFields
@@ -2656,6 +2672,21 @@ export const VenueFieldsFragmentDoc = gql`
     }
   }
 `;
+export const OfferFieldsFragmentDoc = gql`
+  fragment offerFields on Offer {
+    isFree
+    description {
+      ...localisedFields
+    }
+    price {
+      ...localisedFields
+    }
+    infoUrl {
+      ...localisedFields
+    }
+  }
+  ${LocalisedFieldsFragmentDoc}
+`;
 export const EventFieldsFragmentDoc = gql`
   fragment eventFields on Event {
     id
@@ -2701,6 +2732,9 @@ export const EventFieldsFragmentDoc = gql`
     publicationStatus
     datePublished
     endTime
+    offers {
+      ...offerFields
+    }
   }
   ${LocalisedFieldsFragmentDoc}
   ${ImageFieldsFragmentDoc}
@@ -2708,6 +2742,7 @@ export const EventFieldsFragmentDoc = gql`
   ${KeywordFieldsFragmentDoc}
   ${PlaceFieldsFragmentDoc}
   ${VenueFieldsFragmentDoc}
+  ${OfferFieldsFragmentDoc}
 `;
 export const MetaFieldsFragmentDoc = gql`
   fragment metaFields on Meta {
@@ -3711,6 +3746,7 @@ export const PublishSingleEventDocument = gql`
           internalId
           publicationStatus
         }
+        resultText
       }
     }
   }

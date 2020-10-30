@@ -430,7 +430,7 @@ test('event can be created with form', async () => {
   const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/create',
+      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
       search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
     });
   });

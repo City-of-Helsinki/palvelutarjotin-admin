@@ -69,7 +69,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     venue: fakeVenue(),
     pEvent: fakePEvent(),
     startTime: '2020-07-13T05:51:05.761000Z',
-    publicationStatus: 'public',
+    publicationStatus: 'draft',
     datePublished: null,
     externalLinks: [] as any,
     offers: [] as any,
@@ -162,6 +162,7 @@ export const fakePEvent = (
   linkedEventId: '' as any,
   updatedAt: '' as any,
   autoAcceptance: false,
+  nextOccurrenceDatetime: '',
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,
 });

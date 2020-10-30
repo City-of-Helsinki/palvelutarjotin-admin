@@ -11,6 +11,7 @@ import {
   useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { useSearchParams } from '../../hooks/useQuery';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import Container from '../app/layout/Container';
@@ -32,10 +33,16 @@ import {
   isEditableEvent,
 } from './utils';
 
+export enum NAVIGATED_FROM {
+  OCCURRENCES = 'occurrences',
+  EVENT_SUMMARY = 'eventSummary',
+}
+
 const EditEventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const language = getEventLanguageFromUrl(location.search);
+  const navigatedFrom = useSearchParams().get('navigationFrom');
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
@@ -65,6 +72,24 @@ const EditEventPage: React.FC = () => {
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+  };
+
+  const goToOccurrencesPage = () => {
+    history.push(`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
+  };
+
+  const goToEventSummary = () => {
+    history.push(`/${locale}${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
+  };
+
+  const navigateAfterSave = () => {
+    if (navigatedFrom === NAVIGATED_FROM.OCCURRENCES) {
+      goToOccurrencesPage();
+    } else if (navigatedFrom === NAVIGATED_FROM.EVENT_SUMMARY) {
+      goToEventSummary();
+    } else {
+      history.goBack();
+    }
   };
 
   React.useEffect(() => {
@@ -136,7 +161,7 @@ const EditEventPage: React.FC = () => {
       // Run all requests parallel
       await Promise.all(requests);
 
-      goToEventDetailsPage();
+      navigateAfterSave();
     } catch (e) {
       if (isTestEnv()) {
         // eslint-disable-next-line no-console

@@ -16,6 +16,7 @@
   },
   "common": {
     "back": "Takaisin",
+    "leave": "Poistu",
     "alertModal": {
       "buttonCancel": "Peruuta"
     },
@@ -285,7 +286,8 @@
       "title": "Tapahtuman perustiedot"
     },
     "buttonCancel": "Peruuta",
-    "buttonSave": "Tallenna ja siirry tapahtuma-aikoihin",
+    "buttonSave": "Tallenna",
+    "buttonSaveAndGoToOccurrences": "Tallenna ja siirry tapahtuma-aikoihin",
     "buttonSaveDraft": "Tallenna luonnos",
     "occurrenceTime": {
       "titleOccurrenceTime": "Tapahtuman ajankohta",
@@ -331,7 +333,13 @@
       "textOccurrences": "{{count}} tapahtuma-aika",
       "textOccurrences_plural": "{{count}} tapahtuma-aikaa",
       "statusPublished": "Julkaistu",
-      "statusNotPublished": "Ei julkaistu"
+      "statusNotPublished": "Ei julkaistu",
+      "free": "Maksuton",
+      "startTime": {
+        "other": "{{date}} klo {{time}}",
+        "today": "Tänään klo {{time}}",
+        "tomorrow": "Huomenna klo {{time}}"
+      }
     },
     "placeholderSearch": "Haku",
     "textEventCount": "{{count}} kpl",
@@ -341,13 +349,22 @@
     "titleEventsWithPastOccurrences": "Menneet tapahtumat",
     "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja"
   },
+  "eventSummary": {
+    "buttonBack": "Takaisin tapahtuma-aikoihin",
+    "eventHasBeenPublished": "Tapahtuma on julkaistu",
+    "titleEventSummary": "Tapahtuman esikatselu",
+    "titleEventSummaryHelper": "Klikkaa koko tapahtuman esikatseluun",
+    "buttonEditBasicInfo": "Muokkaa perustietoja",
+    "buttonEditOccurrences": "Muokkaa tapahtuma-aikoja"
+  },
   "createOccurrence": {
-    "buttonBack": "Tapahtuma-ajat",
+    "buttonBack": "Takaisin perustietoihin",
     "buttonShowEventInfo": "Näytä tapahtuman tiedot",
     "error": "Tapahtuma-ajan tallentaminen epäonnistui",
     "formTitle": "Lisää uusi tapahtuma-aika",
     "pageTitle": "Uusi tapahtuma-aika",
-    "buttonSaveAndGoToPublishing": "Tallenna ja siirry julkaisuun"
+    "buttonSaveAndGoToPublishing": "Tallenna ja siirry julkaisuun",
+    "buttonGoToPublishing": "Siirry julkaisuun"
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",
@@ -537,6 +554,7 @@
       "confirmText2": "Tapahtuma-aikoja ei voi lisätä eikä muokata julkaisun jälkeen."
     },
     "textNoComingOccurrences": "Ei tulevia tapahtuma-aikoja",
+    "titleOccurrences": "Tapahtuma-ajat",
     "titleComingOccurrences": "Tulevat tapahtuma-ajat",
     "titlePastOccurrences": "Menneet tapahtuma-ajat",
     "titleEventPublishment": "Tapahtuman julkaisu",

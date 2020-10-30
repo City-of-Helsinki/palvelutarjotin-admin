@@ -54,7 +54,7 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
-  const submit = async (values: CreateEventFormFields) => {
+  const handleSubmit = async (values: CreateEventFormFields) => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
@@ -121,7 +121,10 @@ const CreateEventPage: React.FC = () => {
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
       history.push({
-        pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
+        pathname: `/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE.replace(
+          ':id',
+          id
+        )}`,
         search: firstOccurrencePrefilledValuesToQuery(values),
       });
     } catch (e) {
@@ -145,7 +148,7 @@ const CreateEventPage: React.FC = () => {
           <ActiveOrganisationInfo />
           <EventForm
             onCancel={goToEventList}
-            onSubmit={submit}
+            onSubmit={handleSubmit}
             persons={persons}
             initialValues={createEventInitialValues}
             selectedLanguage={selectedLanguage}

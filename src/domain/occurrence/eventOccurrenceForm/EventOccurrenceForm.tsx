@@ -51,16 +51,26 @@ interface Props {
   refetchEvent: () => void;
 }
 
-const EventOccurrenceForm: React.FC<Props> = ({
+type GoToPublishingProps =
+  | {
+      showGoToPublishingButton?: false;
+      onGoToPublishing?: () => void;
+    }
+  | {
+      showGoToPublishingButton?: boolean;
+      onGoToPublishing: () => void;
+    };
+
+const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
   eventData,
   formTitle,
   initialValues,
-  occurrenceId,
   onCancel,
   onSubmit,
   onSubmitAndAdd,
-  refetchEvent,
+  onGoToPublishing,
   showFirstOccurrenceHelperText,
+  showGoToPublishingButton,
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
@@ -238,8 +248,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   )}
                 </div>
               </div>
-
-              {/* TODO: Add action handler to buttons */}
               <div className={styles.formActions}>
                 <Button onClick={onCancel} variant="secondary">
                   {t('form.actions.cancel')}
@@ -255,6 +263,11 @@ const EventOccurrenceForm: React.FC<Props> = ({
                 <Button type="submit">
                   {t('createOccurrence.buttonSaveAndGoToPublishing')}
                 </Button>
+                {showGoToPublishingButton && (
+                  <Button type="button" onClick={onGoToPublishing}>
+                    {t('createOccurrence.buttonGoToPublishing')}
+                  </Button>
+                )}
               </div>
               <div className={styles.divider} />
             </div>

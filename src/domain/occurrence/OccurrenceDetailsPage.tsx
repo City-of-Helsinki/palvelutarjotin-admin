@@ -53,10 +53,6 @@ const OccurrenceDetailsPage: React.FC = () => {
   });
   const occurrence = occurrenceData?.occurrence;
 
-  const goToOccurrencesPage = () => {
-    history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', id)}`);
-  };
-
   const goToOccurrenceDetails = () => {
     history.push({
       pathname: `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(
@@ -85,7 +81,7 @@ const OccurrenceDetailsPage: React.FC = () => {
                 )}
                 <ActiveOrganisationInfo organisationId={organisationId} />
 
-                <BackButton onClick={goToOccurrencesPage}>
+                <BackButton onClick={history.goBack}>
                   {t('occurrenceDetails.buttonBack')}
                 </BackButton>
 
