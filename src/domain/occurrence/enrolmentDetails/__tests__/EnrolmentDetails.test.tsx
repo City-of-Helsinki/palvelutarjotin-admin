@@ -1,13 +1,51 @@
-import { MockedProvider } from '@apollo/react-testing';
-import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Modal from 'react-modal';
-import { MemoryRouter } from 'react-router';
 
-import { enrolmentResult } from '../__mocks__/responses';
-import { EnrolmentDocument } from '../../../../generated/graphql';
+import {
+  EnrolmentDocument,
+  EnrolmentStatus,
+} from '../../../../generated/graphql';
+import {
+  fakeEnrolment,
+  fakeOccurrence,
+  fakeOrganisation,
+  fakePerson,
+  fakePEvent,
+  fakeStudyGroup,
+} from '../../../../utils/mockDataUtils';
+import { render, screen, waitFor } from '../../../../utils/testUtils';
 import EnrolmentDetails from '../EnrolmentDetails';
+
+const enrolmentResult = {
+  data: {
+    enrolment: fakeEnrolment({
+      id: 'RW5yb2xtZW50Tm9kZTo1Ng==',
+      enrolmentTime: '2020-08-14T07:15:24.589508+00:00',
+      person: fakePerson({
+        name: 'Ilmoittautuja',
+        phoneNumber: '123321123',
+        emailAddress: 'ilmo@ilmoittautuja.com',
+      }),
+      status: EnrolmentStatus.Approved,
+      occurrence: fakeOccurrence({
+        pEvent: fakePEvent({
+          organisation: fakeOrganisation(),
+        }),
+      }),
+      studyGroup: fakeStudyGroup({
+        name: 'Yläaste',
+        groupName: 'Ryhmän nimi',
+        extraNeeds: 'Lisätietoja tässä',
+        person: fakePerson({
+          name: 'Ilmoittautuja',
+          emailAddress: 'ilmo@ilmoittautuja.com',
+          phoneNumber: '123321123',
+        }),
+      }),
+    }),
+  },
+};
 
 const mocks = [
   {
@@ -23,16 +61,14 @@ const mocks = [
 
 test('matches snapshot', async () => {
   const { container } = render(
-    <MemoryRouter>
-      <MockedProvider mocks={mocks}>
-        <EnrolmentDetails
-          enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
-          eventId=""
-          occurrenceId=""
-          onGoBackClick={jest.fn()}
-        />
-      </MockedProvider>
-    </MemoryRouter>
+    <EnrolmentDetails
+      enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
+      eventId=""
+      occurrenceId=""
+      onGoBackClick={jest.fn()}
+      refetchOccurrence={jest.fn()}
+    />,
+    { mocks }
   );
 
   await waitFor(() => {
@@ -44,16 +80,14 @@ test('matches snapshot', async () => {
 
 test('renders correct information', async () => {
   render(
-    <MemoryRouter>
-      <MockedProvider mocks={mocks}>
-        <EnrolmentDetails
-          enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
-          eventId=""
-          occurrenceId=""
-          onGoBackClick={jest.fn()}
-        />
-      </MockedProvider>
-    </MemoryRouter>
+    <EnrolmentDetails
+      enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
+      eventId=""
+      occurrenceId=""
+      onGoBackClick={jest.fn()}
+      refetchOccurrence={jest.fn()}
+    />,
+    { mocks }
   );
 
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
@@ -75,16 +109,14 @@ test('renders correct information', async () => {
 
 test('enrolment action buttons work correctly', async () => {
   const { container } = render(
-    <MemoryRouter>
-      <MockedProvider mocks={mocks}>
-        <EnrolmentDetails
-          enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
-          eventId=""
-          occurrenceId=""
-          onGoBackClick={jest.fn()}
-        />
-      </MockedProvider>
-    </MemoryRouter>
+    <EnrolmentDetails
+      enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
+      eventId=""
+      occurrenceId=""
+      onGoBackClick={jest.fn()}
+      refetchOccurrence={jest.fn()}
+    />,
+    { mocks }
   );
 
   Modal.setAppElement(container);
