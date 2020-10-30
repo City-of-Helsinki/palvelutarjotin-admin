@@ -1,0 +1,19 @@
+import { IconPen } from 'hds-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import styles from './editButton.module.scss';
+
+const EditButton: React.FC<{ text: string; link: string }> = ({
+  link,
+  text,
+}) => {
+  return (
+    <Link className={styles.editButton} to={link}>
+      <IconPen />
+      {text}
+    </Link>
+  );
+};
+
+export default EditButton;

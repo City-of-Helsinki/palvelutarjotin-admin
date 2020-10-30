@@ -424,13 +424,11 @@ const EventForm = <T extends FormFields>({
                 <Button type="button" onClick={onCancel} variant="secondary">
                   {t('eventForm.buttonCancel')}
                 </Button>
-                {edit ? (
-                  <Button type="submit">{t('eventForm.buttonSave')}</Button>
-                ) : (
-                  <Button type="submit">
-                    {t('eventForm.buttonSaveAndGoToOccurrences')}
-                  </Button>
-                )}
+                <Button type="submit">
+                  {edit
+                    ? t('eventForm.buttonSave')
+                    : t('eventForm.buttonSaveAndGoToOccurrences')}
+                </Button>
               </div>
             </form>
           </>
