@@ -245,6 +245,7 @@ export const fakePEvent = (
   updatedAt: '' as any,
   autoAcceptance: false,
   nextOccurrenceDatetime: '',
+  lastOccurrenceDatetime: '',
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,
 });
