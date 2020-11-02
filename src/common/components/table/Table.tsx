@@ -11,6 +11,7 @@ type Props<D extends Record<string, unknown>> = {
   expandedAreaOffset?: number;
   onRowClick?: (row: Row<D>) => void;
   renderExpandedArea?: (row: D) => JSX.Element;
+  tableHeaderRowClassName?: string;
 };
 
 export default function Table<D extends Record<string, unknown>, T>({
@@ -19,6 +20,7 @@ export default function Table<D extends Record<string, unknown>, T>({
   expandedAreaOffset = 0,
   onRowClick,
   renderExpandedArea,
+  tableHeaderRowClassName,
 }: Props<D>): ReactElement {
   const {
     getTableBodyProps,
@@ -40,7 +42,11 @@ export default function Table<D extends Record<string, unknown>, T>({
       <table {...getTableProps({ className: styles.table })}>
         <thead>
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr
+              {...headerGroup.getHeaderGroupProps({
+                className: tableHeaderRowClassName,
+              })}
+            >
               {headerGroup.headers.map((column: ExtendedHeaderGroup<D>) => {
                 const { style, className } = column;
                 return (

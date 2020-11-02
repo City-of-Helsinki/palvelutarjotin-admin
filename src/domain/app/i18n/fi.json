@@ -538,6 +538,7 @@
       "columnDate": "Pvm",
       "columnEnrolmentStarts": "Ilm. alkaa",
       "columnEnrolments": "Ilmoittautuneita",
+      "columnEnrolmentsHelper": "hyväksytty / hyväksymättä",
       "columnLocation": "Tapahtumapaikka",
       "columnTime": "Kellonaika",
       "labelChooseAllOccurrences": "Valitse kaikki tapahtuma-ajat",

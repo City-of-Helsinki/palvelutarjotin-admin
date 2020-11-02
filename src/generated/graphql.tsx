@@ -2254,6 +2254,8 @@ export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode' } & Pick<
   | 'minGroupSize'
   | 'maxGroupSize'
   | 'seatsTaken'
+  | 'seatsApproved'
+  | 'remainingSeats'
   | 'startTime'
   | 'endTime'
   | 'placeId'
@@ -2592,6 +2594,8 @@ export const OccurrenceFieldsFragmentDoc = gql`
     minGroupSize
     maxGroupSize
     seatsTaken
+    seatsApproved
+    remainingSeats
     languages {
       id
       name
@@ -2599,7 +2603,6 @@ export const OccurrenceFieldsFragmentDoc = gql`
     startTime
     endTime
     placeId
-    seatsTaken
     cancelled
   }
 `;

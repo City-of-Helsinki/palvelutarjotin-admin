@@ -1,0 +1,23 @@
+.badgeContainer {
+  --boxHeight: 28px;
+  --boxWidth: 35px;
+
+  display: flex;
+  height: var(--boxHeight);
+  line-height: var(--boxHeight);
+  text-align: center;
+  font-size: var(--fontsize-body-m);
+
+  > div {
+    width: var(--boxWidth);
+  }
+}
+
+.acceptedSeats {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.pendingSeats {
+  background-color: var(--color-black-10);
+}

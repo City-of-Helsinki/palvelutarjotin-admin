@@ -537,6 +537,7 @@
       "columnDate": "Date",
       "columnEnrolmentStarts": "Registration begins",
       "columnEnrolments": "Registrations",
+      "columnEnrolmentsHelper": "accepted / pending",
       "columnLocation": "Location",
       "columnTime": "Time",
       "labelChooseAllOccurrences": "Select all occurrences",

@@ -1,9 +1,8 @@
 import { isPast } from 'date-fns';
-import { Button, IconPen, RadioButton } from 'hds-react';
+import { Button, RadioButton } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
