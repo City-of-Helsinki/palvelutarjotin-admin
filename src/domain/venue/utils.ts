@@ -83,7 +83,10 @@ export const createOrUpdateVenue = async ({
           venueFormData.outdoorActivity !== outdoorActivity)
     );
     const newVenueShouldBeCreated = Boolean(
-      !existingVenueData?.venue && venueFormData.locationDescription
+      (!existingVenueData?.venue && venueFormData.locationDescription) ||
+        venueFormData.hasClothingStorage !== hasClothingStorage ||
+        venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
+        venueFormData.outdoorActivity !== outdoorActivity
     );
 
     const variables = getVenuePayload({
