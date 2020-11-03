@@ -100,7 +100,12 @@ const renderPage = ({ mocks }: { mocks?: any } = {}) => {
   return renderWithRoute(<EditEnrolmentPage />, {
     mocks: mocks || apolloMocks,
     store,
-    routes: [`/events/${eventId}/enrolments/${enrolmentId}/edit`],
+    routes: [
+      ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
+        ':enrolmentId',
+        enrolmentId
+      ),
+    ],
     path: ROUTES.EDIT_ENROLMENT,
   });
 };
