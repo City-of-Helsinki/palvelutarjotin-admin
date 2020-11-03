@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import IconClock from '../../../icons/IconClock';
-import getLocalisedString from '../../../utils/getLocalizedString';
 import PlaceText from '../../place/placeText/PlaceText';
 import EventKeywords from '../eventKeywords/EventKeywords';
 import {

@@ -66,7 +66,7 @@ const EventPreviewBasicInfo: React.FC<EventPreviewBasicInfoProps> = ({
             <p className={styles.organization}>{organization}</p>
             {contactPerson && (
               <div className={styles.contactInfo}>
-                <p>{t('event:contactPerson')}</p>
+                <p>{t('eventDetails.contactPerson.title')}</p>
                 <p>{contactPerson}</p>
                 {contactEmail && <p>{contactEmail}</p>}
                 {contactPhoneNumber && <p>{contactPhoneNumber}</p>}
