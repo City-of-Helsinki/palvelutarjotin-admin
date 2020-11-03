@@ -37,6 +37,22 @@ beforeEach(() => {
 });
 
 const placeId = 'tprek:15417';
+const eventId = 'palvelutarjotin:afz56bfiaq';
+const shortDescription = 'Testitapahtuman kuvaus';
+const description = 'Pidempi kuvaus';
+const eventName = 'Testitapahtuma';
+const photographerName = 'Valo Valokuvaaja';
+const photoAltText = 'Vaihtoehtoinen kuvateksti';
+const placeName = 'Sellon kirjasto';
+const infoUrl = 'https://www.palvelutarjotin.fi';
+const contactEmail = 'testi@testi.fi';
+const contactPhoneNumber = '123123123';
+const contactPersonId =
+  'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=';
+const personId = 'T3JnYW5pc2F0aW9uTm9kZTox';
+const venueDescription = 'Venue description';
+const personName = 'Testaaja2';
+const organizationName = 'Kulttuurin ja vapaa-ajan toimiala';
 
 const keywordMockResponse = {
   keyword: fakeKeyword({
@@ -54,7 +70,7 @@ const venueQueryResponse = {
       translations: [
         {
           languageCode: 'FI' as any,
-          description: 'Testitapahtuman kuvaus',
+          description: venueDescription,
           __typename: 'VenueTranslationType',
         },
       ],
@@ -73,7 +89,7 @@ const keywordResponse = {
 
 const placeResponse = {
   data: {
-    place: fakePlace({ name: fakeLocalizedObject('Sellon kirjasto') }),
+    place: fakePlace({ name: fakeLocalizedObject(placeName) }),
   },
 };
 
@@ -82,16 +98,15 @@ const profileResponse = {
     myProfile: fakePerson({
       organisations: fakeOrganisations(1, [
         {
-          id: 'T3JnYW5pc2F0aW9uTm9kZTox',
+          id: personId,
           persons: fakePersons(1, [
             {
               organisations: [] as any,
-              name: 'Testaaja2',
-              id:
-                'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
+              name: personName,
+              id: contactPersonId,
             },
           ]),
-          name: 'Kulttuurin ja vapaa-ajan toimiala',
+          name: organizationName,
         },
       ]),
     }),
@@ -101,41 +116,40 @@ const profileResponse = {
 const eventResponse = {
   data: {
     event: fakeEvent({
-      id: 'palvelutarjotin:afz56bfiaq',
-      shortDescription: fakeLocalizedObject('Testitapahtuman kuvaus'),
-      description: fakeLocalizedObject('Pidempi kuvaus'),
-      name: fakeLocalizedObject('Testitapahtuma'),
+      id: eventId,
+      shortDescription: fakeLocalizedObject(shortDescription),
+      description: fakeLocalizedObject(description),
+      name: fakeLocalizedObject(eventName),
       startTime: '2020-08-04T21:00:00.000Z',
       endTime: '',
       offers: [fakeOffer()],
       images: [
         fakeImage({
           id: '48598',
-          altText: 'Vaihtoehtoinen kuvateksti',
-          photographerName: 'Valo Valokuvaaja',
+          altText: photoAltText,
+          photographerName: photographerName,
         }),
       ],
       location: fakePlace({
-        name: fakeLocalizedObject('Sellon kirjasto'),
+        name: fakeLocalizedObject(placeName),
         id: placeId,
       }),
-      infoUrl: fakeLocalizedObject('https://www.palvelutarjotin.fi'),
+      infoUrl: fakeLocalizedObject(infoUrl),
       inLanguage: [
         fakeInLanguage({ id: 'fi', name: fakeLocalizedObject('suomi') }),
         fakeInLanguage({ id: 'en', name: fakeLocalizedObject('englanti') }),
       ],
       keywords: [fakeKeyword({ id: 'yso:p4363' })],
       pEvent: fakePEvent({
-        organisation: fakeOrganisation({ id: 'T3JnYW5pc2F0aW9uTm9kZTox' }),
-        contactEmail: 'testi@testi.fi',
-        contactPhoneNumber: '123123123',
+        organisation: fakeOrganisation({ id: personId }),
+        contactEmail: contactEmail,
+        contactPhoneNumber: contactPhoneNumber,
         enrolmentEndDays: 3,
         enrolmentStart: '2020-08-13T00:45:00.000Z',
         neededOccurrences: 3,
         autoAcceptance: true,
         contactPerson: fakePerson({
-          id:
-            'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
+          id: contactPersonId,
         }),
       }),
     }),
@@ -161,15 +175,15 @@ const mocks = [
       query: EditEventDocument,
       variables: {
         event: {
-          id: 'palvelutarjotin:afz56bfiaq',
+          id: eventId,
           name: { fi: 'TestitapahtumaTestinimi' },
           startTime: '2020-08-04T21:00:00.000Z',
           endTime: '',
           offers: [{ isFree: true }],
-          shortDescription: { fi: 'Testitapahtuman kuvaus' },
-          description: { fi: 'Pidempi kuvaus' },
+          shortDescription: { fi: shortDescription },
+          description: { fi: description },
           images: [{ internalId: '/image/48598/' }],
-          infoUrl: { fi: 'https://www.palvelutarjotin.fi' },
+          infoUrl: { fi: infoUrl },
           audience: [],
           inLanguage: [
             { internalId: '/language/fi/' },
@@ -178,16 +192,15 @@ const mocks = [
           keywords: [{ internalId: '/keyword/yso:p4363/' }],
           location: { internalId: `/place/${placeId}/` },
           pEvent: {
-            contactEmail: 'testi@testi.fi',
-            contactPersonId:
-              'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
-            contactPhoneNumber: '123123123',
+            contactEmail: contactEmail,
+            contactPersonId: contactPersonId,
+            contactPhoneNumber: contactPhoneNumber,
             enrolmentEndDays: 3,
             enrolmentStart: '2020-08-13T00:45:00.000Z',
             neededOccurrences: 3,
             autoAcceptance: true,
           },
-          organisationId: 'T3JnYW5pc2F0aW9uTm9kZTox',
+          organisationId: personId,
           draft: true,
         },
       },
@@ -259,40 +272,36 @@ test('edit event form initializes and submits correctly', async () => {
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
 
   await waitFor(() => {
-    expect(
-      screen.queryByText('Kulttuurin ja vapaa-ajan toimiala')
-    ).toBeInTheDocument();
+    expect(screen.queryByText(organizationName)).toBeInTheDocument();
   });
 
   await waitFor(() => {
-    expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(
-      'Testitapahtuma'
-    );
+    expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
     expect(screen.queryByText('perheet')).toBeInTheDocument();
-    expect(screen.getByLabelText('Tapahtumapaikan kuvaus')).toHaveTextContent(
-      'Testitapahtuman kuvaus'
+    expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
+      venueDescription
     );
   });
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: 'Testitapahtuma',
-    shortDescription: 'Testitapahtuman kuvaus',
-    infoUrl: 'https://www.palvelutarjotin.fi',
-    contactEmail: 'testi@testi.fi',
-    contactPhoneNumber: '123123123',
+    name: eventName,
+    shortDescription: shortDescription,
+    infoUrl: infoUrl,
+    contactEmail: contactEmail,
+    contactPhoneNumber: contactPhoneNumber,
     enrolmentStart: '13.08.2020 03:45',
     enrolmentEndDays: 3,
     neededOccurrences: 3,
-    imagePhotographerName: 'Valo Valokuvaaja',
-    imageAltText: 'Vaihtoehtoinen kuvateksti',
+    imagePhotographerName: photographerName,
+    imageAltText: photoAltText,
   });
 
-  expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent('Pidempi kuvaus');
+  expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description);
 
   const contactInfo = within(screen.getByTestId('contact-info'));
   expect(
     contactInfo.getByLabelText(/Nimi/, { selector: 'button' })
-  ).toHaveTextContent('Testaaja2');
+  ).toHaveTextContent(personName);
 
   expect(
     screen.getByLabelText('Tapahtuman kielet', { selector: 'button' })

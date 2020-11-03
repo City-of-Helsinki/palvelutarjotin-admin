@@ -6,7 +6,6 @@ import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 import Modal from 'react-modal';
 import Router from 'react-router';
-import { t } from 'testcafe';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import {
