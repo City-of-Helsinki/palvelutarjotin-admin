@@ -15,12 +15,12 @@ import * as graphqlFns from '../../../generated/graphql';
 import {
   fakeEvent,
   fakeLocalizedObject,
-  fakeLocation,
   fakeOccurrence,
   fakeOccurrences,
   fakeOrganisations,
   fakePerson,
   fakePEvent,
+  fakePlace,
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
@@ -37,7 +37,7 @@ const eventMock = fakeEvent({
   name: fakeLocalizedObject(eventName),
   startTime: '2020-07-13T05:51:05.761000Z',
 });
-const placeMock = fakeLocation({
+const placeMock = fakePlace({
   streetAddress: fakeLocalizedObject('Testikatu'),
 });
 const venueMock = fakeVenue({ hasClothingStorage: true });

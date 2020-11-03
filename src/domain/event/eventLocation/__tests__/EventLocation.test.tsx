@@ -1,22 +1,47 @@
 import React from 'react';
 
-import eventData from '../__mocks__/eventData.json';
-import placeResponse from '../__mocks__/placeResponse.json';
-import venueResponse from '../__mocks__/venueResponse.json';
+import { PlaceDocument, VenueDocument } from '../../../../generated/graphql';
 import {
-  EventQuery,
-  PlaceDocument,
-  VenueDocument,
-} from '../../../../generated/graphql';
+  fakeEvent,
+  fakeLocalizedObject,
+  fakePlace,
+  fakeVenue,
+} from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import EventLocation from '../EventLocation';
+
+const streetAddress = 'Soukantie 4';
+const placeName = 'Soukan kirjasto';
+
+const event = fakeEvent({
+  location: fakePlace({
+    streetAddress: fakeLocalizedObject(streetAddress),
+    name: fakeLocalizedObject(placeName),
+    id: 'tprek:15376',
+  }),
+});
+
+const venueResponse = {
+  data: {
+    venue: fakeVenue({ hasSnackEatingPlace: true, hasClothingStorage: true }),
+  },
+};
+
+const placeResponse = {
+  data: {
+    place: fakePlace({
+      streetAddress: fakeLocalizedObject(streetAddress),
+      name: fakeLocalizedObject(placeName),
+    }),
+  },
+};
 
 const mocks = [
   {
     request: {
       query: PlaceDocument,
       variables: {
-        id: eventData.event.location.id,
+        id: event.location.id,
       },
     },
     result: placeResponse,
@@ -25,7 +50,7 @@ const mocks = [
     request: {
       query: VenueDocument,
       variables: {
-        id: eventData.event.location.id,
+        id: event.location.id,
       },
     },
     result: venueResponse,
@@ -33,21 +58,17 @@ const mocks = [
 ];
 
 test('renders correctly', async () => {
-  render(
-    <EventLocation
-      eventData={eventData as EventQuery}
-      language={'fi' as any}
-    />,
-    { mocks }
-  );
+  render(<EventLocation eventData={{ event }} language={'fi' as any} />, {
+    mocks,
+  });
 
   await screen.findByText('Tapahtumapaikan kuvaus');
 
   expect(
     screen.queryByRole('heading', { name: 'Tapahtumapaikka' })
   ).toBeVisible();
-  expect(screen.queryByText('Soukan kirjasto, Soukantie 4')).toBeVisible();
-  expect(screen.queryByText('Soukantie 4')).toBeVisible();
+  expect(screen.queryByText(`${placeName}, ${streetAddress}`)).toBeVisible();
+  expect(screen.queryByText(streetAddress)).toBeVisible();
   expect(
     screen.queryByText('https://palvelukartta.hel.fi/fi/unit/15376')
   ).toBeVisible();

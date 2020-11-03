@@ -2,33 +2,56 @@ import { MockedProvider } from '@apollo/react-testing';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import eventData from '../__mocks__/event.json';
-import imageMock from '../__mocks__/image.json';
-import { EventQuery, ImageDocument } from '../../../../generated/graphql';
+import { ImageDocument } from '../../../../generated/graphql';
+import {
+  fakeEvent,
+  fakeImage,
+  fakeLocalizedObject,
+} from '../../../../utils/mockDataUtils';
 import EventBasicInfo from '../EventBasicInfo';
 
-const event = eventData.event;
+const event = fakeEvent({
+  name: fakeLocalizedObject('Tapahtuma 13.7.2020'),
+  shortDescription: fakeLocalizedObject('Testitapahtuma 13.7.2020'),
+  description: fakeLocalizedObject('Tapahtuman kuvaus'),
+  infoUrl: fakeLocalizedObject('www.testi.fi'),
+  images: [
+    fakeImage({
+      altText: 'Testikuva',
+      id: '48566',
+      photographerName: 'Testi Kuvaaja',
+    }),
+  ],
+});
 
 const mocks = [
   {
     request: {
       query: ImageDocument,
       variables: {
-        id: eventData.event.images[0].id,
+        id: '48566',
       },
     },
-    result: imageMock,
+    result: {
+      data: {
+        image: fakeImage({
+          altText: 'Testikuva',
+          id: '48566',
+          photographerName: 'Testi Kuvaaja',
+        }),
+      },
+    },
   },
 ];
 
 it('matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks}>
-      <EventBasicInfo eventData={eventData as EventQuery} language="fi" />
+      <EventBasicInfo eventData={{ event }} language="fi" />
     </MockedProvider>
   );
 
-  await screen.findByAltText(event.images[0].altText);
+  await screen.findByAltText('Testikuva');
 
   expect(container).toMatchSnapshot();
 });
@@ -36,7 +59,7 @@ it('matches snapshot', async () => {
 it('renders and shows all the event details', async () => {
   render(
     <MockedProvider mocks={mocks}>
-      <EventBasicInfo eventData={eventData as EventQuery} language="fi" />
+      <EventBasicInfo eventData={{ event }} language="fi" />
     </MockedProvider>
   );
 
@@ -60,7 +83,7 @@ it('renders and shows all the event details', async () => {
   );
 
   displayedTexts.forEach((text) =>
-    expect(screen.queryByText(text)).toBeInTheDocument()
+    expect(screen.getByText(text)).toBeInTheDocument()
   );
 
   const eventImage = await screen.findByAltText(event.images[0].altText);

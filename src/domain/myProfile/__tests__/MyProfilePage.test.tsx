@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import { MockedResponse } from '@apollo/react-testing';
 import React from 'react';
 

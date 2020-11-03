@@ -1,15 +1,25 @@
-import { MockedProvider } from '@apollo/react-testing';
-import pretty from 'pretty';
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
-import wait from 'waait';
 
-import mockPlace from '../../__mocks__/place.json';
 import { PlaceDocument } from '../../../../generated/graphql';
+import {
+  fakeLocalizedObject,
+  fakePlace,
+} from '../../../../utils/mockDataUtils';
+import { render, screen, waitFor } from '../../../../utils/testUtils';
 import PlaceInfo from '../PlaceInfo';
 
-const placeId = mockPlace.data.place.id;
+const placeResult = {
+  data: {
+    place: fakePlace({
+      name: fakeLocalizedObject('Sellon kirjasto'),
+      streetAddress: fakeLocalizedObject('Leppävaarankatu 9'),
+      telephone: fakeLocalizedObject('123321123'),
+      addressLocality: fakeLocalizedObject('testi'),
+    }),
+  },
+};
+
+const placeId = placeResult.data.place.id;
 
 const mocks = [
   {
@@ -17,38 +27,18 @@ const mocks = [
       query: PlaceDocument,
       variables: { id: placeId },
     },
-    result: {
-      ...mockPlace,
-    },
+    result: placeResult,
   },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let container: any = null;
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
-
 test('PlaceInfo should match snapshot', async () => {
-  await act(async () => {
-    render(
-      <MockedProvider mocks={mocks} addTypename={true}>
-        <PlaceInfo language="fi" id={placeId} />
-      </MockedProvider>,
-      container
-    );
-
-    await wait(); // wait for response
+  const { container } = render(<PlaceInfo language="fi" id={placeId} />, {
+    mocks,
   });
 
-  expect(pretty(container.innerHTML)).toMatchSnapshot();
+  await waitFor(() => {
+    expect(screen.queryByText('Sellon kirjasto')).toBeInTheDocument();
+  });
+
+  expect(container.firstChild).toMatchSnapshot();
 });

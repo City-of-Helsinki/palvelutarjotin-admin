@@ -7,25 +7,31 @@ import React from 'react';
 import Modal from 'react-modal';
 import Router from 'react-router';
 
-import addEventResponse from '../__mocks__/addEventResponse.json';
-import imageMutationResponse from '../__mocks__/imageMutationResponse.json';
-import imageResponse from '../__mocks__/imageResponse.json';
-import keywordResponse from '../__mocks__/keywordResponse.json';
-import keywordsResponse from '../__mocks__/keywordsResponse.json';
-import placeResponse from '../__mocks__/placeResponse.json';
-import placesResponse from '../__mocks__/placesResponse.json';
-import profileResponse from '../__mocks__/profileResponse.json';
-import venueResponse from '../__mocks__/venueResponse.json';
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import {
   CreateEventDocument,
   ImageDocument,
   KeywordsDocument,
   MyProfileDocument,
+  PersonDocument,
   PlaceDocument,
   PlacesDocument,
   UploadSingleImageDocument,
+  VenueDocument,
 } from '../../../generated/graphql';
+import {
+  fakeEvent,
+  fakeImage,
+  fakeKeyword,
+  fakeKeywords,
+  fakeLocalizedObject,
+  fakeOrganisations,
+  fakePerson,
+  fakePersons,
+  fakePlace,
+  fakePlaces,
+  fakeVenue,
+} from '../../../utils/mockDataUtils';
 import {
   configure,
   fireEvent,
@@ -39,6 +45,19 @@ import CreateEventPage from '../CreateEventPage';
 
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
+
+const keywordId = 'yso:p4363';
+const placeId = 'tprek:15417';
+const organisationId = 'T3JnYW5pc2F0aW9uTm9kZToy';
+const contactPersonId =
+  'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=';
+const contactName = 'Testaaja2';
+const imageId = '48584';
+const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
+  type: 'image/png',
+});
+const imageAltText = 'AltText';
+const venueDescription = 'Testitapahtuman kuvaus';
 
 const eventFormData = {
   name: 'Testitapahtuma',
@@ -68,26 +87,123 @@ const createEventVariables = {
       { internalId: '/language/en/' },
       { internalId: '/language/fi/' },
     ],
-    keywords: [{ internalId: '/keyword/yso:p4363/' }],
-    location: { internalId: '/place/tprek:15417/' },
+    keywords: [{ internalId: `/keyword/${keywordId}/` }],
+    location: { internalId: `/place/${placeId}/` },
     pEvent: {
       contactEmail: 'testi123@testi123.fi',
-      contactPersonId:
-        'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=',
+      contactPersonId: contactPersonId,
       contactPhoneNumber: '123321123',
       enrolmentEndDays: 3,
       enrolmentStart: '2020-08-13T00:45:00.000Z',
       neededOccurrences: 3,
       autoAcceptance: true,
     },
-    organisationId: 'T3JnYW5pc2F0aW9uTm9kZToy',
+    organisationId: organisationId,
     draft: true,
   },
 };
 
-const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
-  type: 'image/png',
-});
+const addEventResponse = {
+  data: {
+    addEventMutation: {
+      response: {
+        statusCode: 201,
+        body: fakeEvent({ id: 'palvelutarjotin:afz52lpyta' }),
+        __typename: 'EventMutationResponse',
+      },
+      __typename: 'AddEventMutation',
+    },
+  },
+};
+
+const imageMutationResponse = {
+  data: {
+    uploadImageMutation: {
+      response: {
+        statusCode: 201,
+        body: fakeImage({ id: imageId }),
+        __typename: 'ImageMutationResponse',
+      },
+      __typename: 'UploadImageMutation',
+    },
+  },
+};
+
+const imageResponse = {
+  data: {
+    image: fakeImage({
+      altText: imageAltText,
+    }),
+  },
+};
+
+const keywordResponse = {
+  data: {
+    keyword: fakeKeyword(),
+  },
+};
+
+const keywordsResponse = {
+  data: {
+    keywords: fakeKeywords(1, [
+      {
+        name: fakeLocalizedObject('perheet'),
+        id: keywordId,
+      },
+    ]),
+  },
+};
+
+const placeResponse = {
+  data: {
+    place: fakePlace(),
+  },
+};
+
+const placesResponse = {
+  data: {
+    places: fakePlaces(1, [
+      { name: fakeLocalizedObject('Sellon kirjasto'), id: placeId },
+    ]),
+  },
+};
+
+const profileResponse = {
+  data: {
+    myProfile: fakePerson({
+      organisations: fakeOrganisations(1, [
+        {
+          id: organisationId,
+          persons: fakePersons(1, [
+            {
+              organisations: [] as any,
+              name: contactName,
+              id: contactPersonId,
+            },
+          ]),
+          name: 'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto',
+        },
+      ]),
+    }),
+  },
+};
+
+const venueResponse = {
+  data: {
+    venue: fakeVenue({
+      outdoorActivity: true,
+      hasClothingStorage: true,
+      hasSnackEatingPlace: true,
+      translations: [
+        {
+          languageCode: 'FI' as any,
+          description: 'Testitapahtuman kuvaus',
+          __typename: 'VenueTranslationType',
+        },
+      ],
+    }),
+  },
+};
 
 const mocks = [
   {
@@ -112,7 +228,7 @@ const mocks = [
     request: {
       query: ImageDocument,
       variables: {
-        id: '48584',
+        id: imageId,
       },
     },
     result: imageResponse,
@@ -158,6 +274,23 @@ const mocks = [
     result: addEventResponse,
   },
 ];
+
+jest.spyOn(apolloClient, 'query').mockImplementation(({ query }) => {
+  if (query === PersonDocument) {
+    return {
+      data: {
+        person: {
+          emailAddress: 'testi123@testi123.fi',
+          phoneNumber: '123321123',
+        },
+      },
+    };
+  }
+
+  if (query === VenueDocument) {
+    return venueResponse;
+  }
+});
 
 test('page is accessible', async () => {
   const { container } = render(<CreateEventPage />, { mocks });
@@ -256,7 +389,7 @@ test('event can be created with form', async () => {
   fireEvent.change(imageInput, { target: { files: [imageFile] } });
 
   await waitFor(() => {
-    expect(screen.queryByAltText('Preview')).toBeInTheDocument();
+    expect(screen.queryByAltText(imageAltText)).toBeInTheDocument();
   });
 
   expect(
@@ -343,16 +476,7 @@ test('event can be created with form', async () => {
     })
   );
 
-  jest.spyOn(apolloClient, 'query').mockResolvedValueOnce({
-    data: {
-      person: {
-        emailAddress: 'testi123@testi123.fi',
-        phoneNumber: '123321123',
-      },
-    },
-  } as any);
-
-  userEvent.click(contactInfoPart.getByRole('option', { name: 'Testaaja2' }));
+  userEvent.click(contactInfoPart.getByRole('option', { name: contactName }));
 
   // email and name should automatically populate after choosing name from dropdown
   await waitFor(() => {
@@ -392,14 +516,14 @@ test('event can be created with form', async () => {
   userEvent.click(placeInput);
   userEvent.type(placeInput, 'Sellon');
 
-  jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
+  // jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
 
   const place = await screen.findByText(/Sellon kirjasto/i);
   userEvent.click(place);
 
   await waitFor(() =>
     expect(screen.getByLabelText('Tapahtumapaikan kuvaus')).toHaveTextContent(
-      'Testitapahtuman kuvaus'
+      venueDescription
     )
   );
 
