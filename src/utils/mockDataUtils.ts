@@ -297,6 +297,7 @@ export const fakeOccurrence = (
   endTime: '2020-08-03T09:30:00+00:00',
   placeId: '',
   seatsTaken: 0,
+  seatsApproved: 0,
   contactPersons: [] as any,
   createdAt: '' as any,
   enrolments: [] as any,

@@ -540,6 +540,7 @@
       "columnDate": "Datum",
       "columnEnrolmentStarts": "Registrering börjar",
       "columnEnrolments": "Registreringar",
+      "columnEnrolmentsHelper": "accepterad / i väntan på",
       "columnLocation": "Evenemang plats",
       "columnTime": "Tid",
       "labelChooseAllOccurrences": "Välj alla förekomster",

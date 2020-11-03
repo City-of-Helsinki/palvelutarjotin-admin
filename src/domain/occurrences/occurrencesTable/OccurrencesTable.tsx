@@ -15,7 +15,9 @@ import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import PlaceText from '../../place/PlaceText';
+import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from './ActionsDropdown';
+import styles from './occurrencesTable.module.scss';
 
 interface Props {
   eventData?: EventQuery;
@@ -132,8 +134,25 @@ const OccurrencesTable: React.FC<Props> = ({
       id: 'elrolmentStarts',
     },
     {
-      Header: t('occurrences.table.columnEnrolments'),
-      accessor: (row: OccurrenceFieldsFragment) => row.seatsTaken || 0,
+      Header: (
+        <>
+          <div>{t('occurrences.table.columnEnrolments')}</div>
+          <div className={styles.enrolmentsInfoText}>
+            {t('occurrences.table.columnEnrolmentsHelper')}
+          </div>
+        </>
+      ),
+      accessor: (row: OccurrenceFieldsFragment) => {
+        if (row.seatsTaken != null && row.seatsApproved != null) {
+          return (
+            <EnrolmentsBadge
+              acceptedSeatsCount={row.seatsApproved}
+              pendingSeatsCount={row.seatsTaken - row.seatsApproved}
+            />
+          );
+        }
+        return null;
+      },
       id: 'enrolments',
     },
     {
@@ -157,6 +176,7 @@ const OccurrencesTable: React.FC<Props> = ({
       columns={columns}
       data={occurrences}
       onRowClick={goToOccurrenceDetailsPage}
+      tableHeaderRowClassName={styles.tableHeaderRow}
     />
   );
 };
