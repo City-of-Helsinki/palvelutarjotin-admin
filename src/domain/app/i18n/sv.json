@@ -109,7 +109,7 @@
   "createMyProfile": {
     "buttonSubmit": "Spara och fortsätt",
     "error": "Det gick inte att spara min profil",
-    "infoText1": "Hej, välkommen till servicefacket!",
+    "infoText1": "Hej, välkommen till Kultus beta!",
     "infoText2": "För att ange transaktioner i systemet ber vi dig verifiera följande information:",
     "pageTitle": "Fyll i din information",
     "title": "Fyll i din information"
