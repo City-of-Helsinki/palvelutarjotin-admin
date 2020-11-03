@@ -1,5 +1,4 @@
 /* eslint-disable import/no-duplicates */
-import userEvent from '@testing-library/user-event';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 
@@ -13,7 +12,12 @@ import {
   fakePEvent,
   fakeStudyGroup,
 } from '../../../utils/mockDataUtils';
-import { renderWithRoute, screen, waitFor } from '../../../utils/testUtils';
+import {
+  renderWithRoute,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';
@@ -72,8 +76,7 @@ const originalUseUpdateEnrolmentMutation =
   graphqlFns.useUpdateEnrolmentMutation;
 
 // act errors from formik that I couldn't resolve
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-jest.spyOn(console, 'error').mockImplementation(() => {});
+jest.spyOn(console, 'error').mockImplementation(jest.fn());
 
 const apolloMocks = [
   {
@@ -97,7 +100,12 @@ const renderPage = ({ mocks }: { mocks?: any } = {}) => {
   return renderWithRoute(<EditEnrolmentPage />, {
     mocks: mocks || apolloMocks,
     store,
-    routes: [`/events/${eventId}/enrolments/${enrolmentId}/edit`],
+    routes: [
+      ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
+        ':enrolmentId',
+        enrolmentId
+      ),
+    ],
     path: ROUTES.EDIT_ENROLMENT,
   });
 };

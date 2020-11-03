@@ -17,10 +17,12 @@ import {
 import { render, screen, waitFor } from '../../../../utils/testUtils';
 import EnrolmentDetails from '../EnrolmentDetails';
 
+const enrolmentId = 'RW5yb2xtZW50Tm9kZTo1Ng==';
+
 const enrolmentResult = {
   data: {
     enrolment: fakeEnrolment({
-      id: 'RW5yb2xtZW50Tm9kZTo1Ng==',
+      id: enrolmentId,
       enrolmentTime: '2020-08-14T07:15:24.589508+00:00',
       person: fakePerson({
         name: 'Ilmoittautuja',
@@ -52,17 +54,17 @@ const mocks = [
     request: {
       query: EnrolmentDocument,
       variables: {
-        id: 'RW5yb2xtZW50Tm9kZTo1Ng==',
+        id: enrolmentId,
       },
     },
     result: enrolmentResult,
   },
 ];
 
-test('matches snapshot', async () => {
-  const { container } = render(
+const renderEnrolmentDetails = () => {
+  return render(
     <EnrolmentDetails
-      enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
+      enrolmentId={enrolmentId}
       eventId=""
       occurrenceId=""
       onGoBackClick={jest.fn()}
@@ -70,6 +72,10 @@ test('matches snapshot', async () => {
     />,
     { mocks }
   );
+};
+
+test('matches snapshot', async () => {
+  const { container } = renderEnrolmentDetails();
 
   await waitFor(() => {
     expect(screen.queryByText('Ilmoittautuneet')).toBeInTheDocument();
@@ -79,16 +85,7 @@ test('matches snapshot', async () => {
 });
 
 test('renders correct information', async () => {
-  render(
-    <EnrolmentDetails
-      enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
-      eventId=""
-      occurrenceId=""
-      onGoBackClick={jest.fn()}
-      refetchOccurrence={jest.fn()}
-    />,
-    { mocks }
-  );
+  renderEnrolmentDetails();
 
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -108,16 +105,7 @@ test('renders correct information', async () => {
 });
 
 test('enrolment action buttons work correctly', async () => {
-  const { container } = render(
-    <EnrolmentDetails
-      enrolmentId="RW5yb2xtZW50Tm9kZTo1Ng=="
-      eventId=""
-      occurrenceId=""
-      onGoBackClick={jest.fn()}
-      refetchOccurrence={jest.fn()}
-    />,
-    { mocks }
-  );
+  const { container } = renderEnrolmentDetails();
 
   Modal.setAppElement(container);
 
