@@ -294,6 +294,8 @@
     },
     "categorisation": {
       "helperKeywords": "Enter a keyword and select from the suggested options",
+      "labelCategories": "Categories",
+      "labelOtherClassification": "Other classification",
       "labelAudience": "Target groups",
       "labelInLanguage": "Event languages",
       "labelIsFree": "Event is free",
@@ -301,6 +303,7 @@
       "labelNeededOccurrences": "Necessary visits",
       "labelPrice": "Price, €",
       "placeholderKeywords": "Add keyword...",
+      "placeholderCategories": "Select appropriates",
       "title": "Event classifications"
     },
     "changeLanguageModal": {

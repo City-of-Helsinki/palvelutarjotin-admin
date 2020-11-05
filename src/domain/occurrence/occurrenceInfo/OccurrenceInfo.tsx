@@ -1,4 +1,4 @@
-import { Button, IconLocation, IconUser } from 'hds-react';
+import { Button, IconLocation, IconPen, IconUser } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -108,7 +108,11 @@ const EditOccurrenceButton: React.FC<{
 
   return (
     <div className={styles.buttonWrapper}>
-      <Button onClick={goToEditOccurrencePage} variant="supplementary">
+      <Button
+        onClick={goToEditOccurrencePage}
+        variant="supplementary"
+        iconLeft={IconPen}
+      >
         {t('occurrenceDetails.buttonEditOccurrence')}
       </Button>
     </div>

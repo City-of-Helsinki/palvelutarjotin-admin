@@ -96,7 +96,11 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
           <div className={styles.buttonsRight}>
             {/* TODO: preview functionality */}
             {showPreviewButton && (
-              <Button variant="supplementary" onClick={handlePreviewClick}>
+              <Button
+                iconLeft={<div></div>}
+                variant="supplementary"
+                onClick={handlePreviewClick}
+              >
                 {t('enrolment.enrolmentModal.preview')}
               </Button>
             )}

@@ -185,6 +185,8 @@ const EditEventPage: React.FC = () => {
   React.useEffect(() => {
     if (eventData) {
       setInitialValues({
+        additionalCriteria: [],
+        categories: [],
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         contactEmail: eventData.event?.pEvent?.contactEmail || '',
         contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',

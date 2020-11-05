@@ -296,6 +296,8 @@
     },
     "categorisation": {
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
+      "labelCategories": "Kategorier",
+      "labelOtherClassification": "Annan klassificering",
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
       "labelIsFree": "Evenemanget är gratis",
@@ -303,6 +305,7 @@
       "labelNeededOccurrences": "Nödvändiga besök",
       "labelPrice": "Pris, €",
       "placeholderKeywords": "Lägg nyckelord...",
+      "placeholderCategories": "Välj lämpligt",
       "title": "Klassificeringar av evenemang"
     },
     "changeLanguageModal": {

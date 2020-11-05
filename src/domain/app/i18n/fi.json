@@ -295,6 +295,8 @@
     },
     "categorisation": {
       "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "labelCategories": "Kategoriat",
+      "labelOtherClassification": "Muu luokittelu",
       "labelAudience": "Kohderyhmät",
       "labelInLanguage": "Tapahtuman kielet",
       "labelIsFree": "Tapahtuma on ilmainen",
@@ -302,6 +304,7 @@
       "labelNeededOccurrences": "Tarvittavat käyntikerrat",
       "labelPrice": "Hinta, €",
       "placeholderKeywords": "Lisää avainsana...",
+      "placeholderCategories": "Valitse sopivat",
       "title": "Tapahtuman luokittelut"
     },
     "changeLanguageModal": {

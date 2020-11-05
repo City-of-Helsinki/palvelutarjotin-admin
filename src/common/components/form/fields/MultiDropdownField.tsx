@@ -14,8 +14,7 @@ export type Option = {
 
 type Props = SelectProps<Option> &
   FieldProps & {
-    options: Option[];
-    defaultValue: Option;
+    defaultValue: Option[];
     setFieldValue?: (
       field: string,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,11 +62,6 @@ const DropdownField: React.FC<Props> = ({
     });
   };
 
-  const selectedValue = options.find((option) => option.value === value) || {
-    label: '',
-    value: '',
-  };
-
   return (
     <Select
       {...rest}
@@ -75,16 +69,18 @@ const DropdownField: React.FC<Props> = ({
       helper={errorText || helper}
       invalid={Boolean(errorText)}
       optionLabelField={'label'}
-      // closeMenuOnSelect={!multiselect}
+      multiselect={true}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
       id={name}
       placeholder={placeholder || t('common.dropdown.placeholder')}
-      value={selectedValue}
+      value={value
+        .map((item: string) => options.find((option) => option.value === item))
+        .filter((i: Option | undefined) => i)}
       className={classNames(className, { [invalidFieldClass]: errorText })}
-      clearButtonAriaLabel="moi"
-      selectedItemRemoveButtonAriaLabel="moi"
+      clearButtonAriaLabel="clearButtonAriaLabel"
+      selectedItemRemoveButtonAriaLabel="selectedItemRemoveButtonAriaLabel"
     />
   );
 };
