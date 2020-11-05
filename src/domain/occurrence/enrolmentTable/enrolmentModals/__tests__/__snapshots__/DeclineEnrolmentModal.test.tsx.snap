@@ -38,6 +38,7 @@ exports[`matches snapshot 1`] = `
           >
             <svg
               class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+              role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -45,12 +46,13 @@ exports[`matches snapshot 1`] = `
                 fill="none"
                 fill-rule="evenodd"
               >
-                <path
-                  d="M0 0h24v24H0z"
+                <rect
+                  height="24"
+                  width="24"
                 />
-                <path
-                  d="M17.657 7.757L13.414 12l4.243 4.243-1.414 1.414L12 13.414l-4.243 4.243-1.414-1.414L10.586 12 6.343 7.757l1.414-1.414L12 10.586l4.243-4.243z"
+                <polygon
                   fill="currentColor"
+                  points="18 7.5 13.5 12 18 16.5 16.5 18 12 13.5 7.5 18 6 16.5 10.5 12 6 7.5 7.5 6 12 10.5 16.5 6"
                 />
               </g>
             </svg>
@@ -69,7 +71,6 @@ exports[`matches snapshot 1`] = `
             class="Checkbox-module_checkbox__3L0GR checkbox_hds-checkbox__9HMCz noteCheckbox"
           >
             <input
-              aria-checked="false"
               class="Checkbox-module_input__3VZvy checkbox_hds-checkbox__input__1w0pu"
               id="add-note"
               type="checkbox"
@@ -87,11 +88,11 @@ exports[`matches snapshot 1`] = `
           class="buttonsContainer"
         >
           <button
-            class="Button-module_button__3wgee button_hds-button__2A0je Button-module_secondary__399Vd button_hds-button--secondary__1NOWS"
+            class="Button-module_button__1msFE button_hds-button__2A0je Button-module_secondary__1nABp button_hds-button--secondary__1NOWS"
             type="button"
           >
             <span
-              class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+              class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
             >
               Peruuta
             </span>
@@ -100,21 +101,27 @@ exports[`matches snapshot 1`] = `
             class="buttonsRight"
           >
             <button
-              class="Button-module_button__3wgee button_hds-button__2A0je Button-module_supplementary__3Epn- button_hds-button--supplementary__GcHcV"
+              class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV"
               type="button"
             >
+              <div
+                aria-hidden="true"
+                class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+              >
+                <div />
+              </div>
               <span
-                class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+                class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
               >
                 Esikatselu
               </span>
             </button>
             <button
-              class="Button-module_button__3wgee button_hds-button__2A0je Button-module_primary__3bo_T button_hds-button--primary__2NVvO"
+              class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO"
               type="button"
             >
               <span
-                class="Button-module_label__2zMLC button_hds-button__label__2EQa-"
+                class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
               >
                 Lähetä
               </span>

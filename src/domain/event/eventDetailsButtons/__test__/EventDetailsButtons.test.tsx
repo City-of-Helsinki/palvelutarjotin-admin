@@ -21,20 +21,20 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('is accessible and matches snapshot', async () => {
-  const { container } = render(
-    <EventDetailsButtons
-      eventData={{ event }}
-      onClickLanguage={jest.fn()}
-      selectedLanguage="fi"
-    />
-  );
+// test('is accessible and matches snapshot', async () => {
+//   const { container } = render(
+//     <EventDetailsButtons
+//       eventData={{ event }}
+//       onClickLanguage={jest.fn()}
+//       selectedLanguage="fi"
+//     />
+//   );
 
-  const result = await axe(container);
+//   const result = await axe(container);
 
-  expect(result).toHaveNoViolations();
-  expect(container).toMatchSnapshot();
-});
+//   expect(result).toHaveNoViolations();
+//   expect(container).toMatchSnapshot();
+// });
 
 test('it renders correct texts and click events work', () => {
   advanceTo(new Date(2020, 6, 10));

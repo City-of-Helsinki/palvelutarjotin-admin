@@ -45,7 +45,11 @@ const EventLanguageSelector: React.FC<Props> = ({
                 [styles.isCompleted]: language.isCompleted,
               })}
             >
-              {language.isCompleted ? <IconCheck /> : <IconInfoCircle />}
+              {language.isCompleted ? (
+                <IconCheck aria-hidden="true" />
+              ) : (
+                <IconInfoCircle aria-hidden="true" />
+              )}
             </div>
             <span>{language.label}</span>
           </button>
