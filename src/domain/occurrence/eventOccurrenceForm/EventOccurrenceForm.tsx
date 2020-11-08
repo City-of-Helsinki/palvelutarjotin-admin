@@ -170,7 +170,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
               </div>
 
               <div className={styles.occurrenceFormRow}>
-                <FormGroup>
+                <FormGroup data-testid="language-dropdown">
                   <Field
                     component={MultiDropdownField}
                     label={t('eventOccurrenceForm.labelLanguages')}

@@ -111,7 +111,7 @@ const EditOccurrenceButton: React.FC<{
       <Button
         onClick={goToEditOccurrencePage}
         variant="supplementary"
-        iconLeft={IconPen}
+        iconLeft={<IconPen />}
       >
         {t('occurrenceDetails.buttonEditOccurrence')}
       </Button>

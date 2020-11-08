@@ -28,6 +28,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import EditOccurrencePage from '../EditOccurrencePage';
@@ -213,7 +214,10 @@ test('initializes edit occurrence form correctly', async () => {
   expect(screen.getByLabelText('Paikkoja yhteensä')).toHaveValue(30);
   expect(screen.getByLabelText('Ryhmäkoko min')).toHaveValue(10);
   expect(screen.getByLabelText('Ryhmäkoko max')).toHaveValue(20);
-  expect(screen.queryByText('Englanti, Suomi')).toBeInTheDocument();
+
+  const dropdown = within(screen.getByTestId('language-dropdown'));
+  expect(dropdown.queryByText('Suomi')).toBeInTheDocument();
+  expect(dropdown.queryByText('Englanti')).toBeInTheDocument();
 
   await waitFor(() => {
     expect(screen.queryByText('Testikatu')).toBeInTheDocument();

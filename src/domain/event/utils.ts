@@ -1,4 +1,3 @@
-import { getKey } from 'apollo-link/lib/linkUtils';
 import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
@@ -11,7 +10,6 @@ import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
-  Keyword,
   Language as TranslationLanguage,
   OccurrenceFieldsFragment,
   PublishEventMutationInput,

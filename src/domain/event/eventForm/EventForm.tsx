@@ -17,12 +17,7 @@ import FocusToFirstError from '../../../common/components/form/FocusToFirstError
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import { EVENT_LANGUAGES } from '../../../constants';
-import {
-  EventQuery,
-  KeywordSetType,
-  PersonFieldsFragment,
-  useKeywordSetQuery,
-} from '../../../generated/graphql';
+import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
@@ -332,7 +327,7 @@ const EventForm = <T extends FormFields>({
                           />
                         </FormGroup>
                       </div>
-                      <div>
+                      <div data-testid="audience-dropdown">
                         <FormGroup>
                           <Field
                             component={MultiDropdownField}
@@ -345,7 +340,7 @@ const EventForm = <T extends FormFields>({
                       </div>
                     </div>
                     <div className={styles.languageRow}>
-                      <div>
+                      <div data-testid="categories-dropdown">
                         <FormGroup>
                           <Field
                             component={MultiDropdownField}
@@ -360,7 +355,7 @@ const EventForm = <T extends FormFields>({
                           />
                         </FormGroup>
                       </div>
-                      <div>
+                      <div data-testid="additional-criteria-dropdown">
                         <FormGroup>
                           <Field
                             component={MultiDropdownField}

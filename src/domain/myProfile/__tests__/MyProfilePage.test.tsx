@@ -1,6 +1,7 @@
 /* eslint-disable import/no-duplicates */
 import { MockedResponse } from '@apollo/react-testing';
 import React from 'react';
+import wait from 'waait';
 
 import {
   MyProfileDocument,
@@ -69,11 +70,8 @@ test('render profile page correctly', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  await waitFor(() => {
-    expect(
-      screen.getByLabelText('Organisaatio', { selector: 'button' })
-    ).toHaveTextContent('Organisaatio 1, Organisaatio 2');
-  });
+  // wait for organisations
+  // await wait();
 
   expect(
     screen.queryByRole('heading', { name: 'Omat tiedot' })
@@ -82,18 +80,13 @@ test('render profile page correctly', async () => {
   expect(screen.getByLabelText('Nimi')).toHaveValue('Testi Testaaja');
   expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
 
-  const dropdownButton = screen.getByLabelText('Organisaatio', {
-    selector: 'button',
-  });
-
-  userEvent.click(dropdownButton);
-
-  expect(screen.getByLabelText('Organisaatio 1')).toBeChecked();
-  expect(screen.getByLabelText('Organisaatio 2')).toBeChecked();
-
-  // wait to avoid act() errors
   await waitFor(() => {
-    expect(screen.getByLabelText('Organisaatio 3')).not.toBeChecked();
+    expect(
+      screen.getByText('Organisaatio 1', { selector: 'span' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Organisaatio 2', { selector: 'span' })
+    ).toBeInTheDocument();
   });
 });
 
@@ -112,12 +105,6 @@ test('profile can be edited', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  await waitFor(() => {
-    expect(
-      screen.getByLabelText('Organisaatio', { selector: 'button' })
-    ).toHaveTextContent('Organisaatio 1, Organisaatio 2');
-  });
-
   expect(
     screen.queryByRole('heading', { name: 'Omat tiedot' })
   ).toBeInTheDocument();
@@ -132,8 +119,10 @@ test('profile can be edited', async () => {
   });
 
   userEvent.click(dropdownButton);
-  userEvent.click(screen.getByLabelText('Organisaatio 3'));
-  userEvent.click(screen.getByLabelText('Organisaatio 2'));
+  const org1 = await screen.findByText('Organisaatio 3', { selector: 'li' });
+  const org2 = await screen.findByText('Organisaatio 2', { selector: 'li' });
+  userEvent.click(org1);
+  userEvent.click(org2);
 
   userEvent.click(dropdownButton);
 

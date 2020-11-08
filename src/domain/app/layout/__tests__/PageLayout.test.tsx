@@ -17,6 +17,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import * as authSelectors from '../../../auth/selectors';
 import { store } from '../../store';
@@ -94,7 +95,7 @@ it('Pagelayout renders Profile page', async () => {
     screen.queryByRole('heading', { name: 'Täydennä tietosi' })
   ).toBeInTheDocument();
   expect(
-    screen.queryByText('Hei, tervetuloa Palvelutarjottimeen!')
+    screen.queryByText('Hei, tervetuloa Kultus betaan!')
   ).toBeInTheDocument();
 
   expect(screen.queryByText('test@test.fi')).toBeInTheDocument();
@@ -105,21 +106,26 @@ it('Pagelayout renders Profile page', async () => {
   // wait for organisation to load
   await act(wait);
 
-  userEvent.click(
-    screen.getByLabelText('Organisaatio', { selector: 'button' })
-  );
+  // userEvent.click(
+  //   screen.getByLabelText('Organisaatio', { selector: 'button' })
+  // );
 
-  userEvent.click(screen.getByLabelText('Organisaatio 1'));
-  userEvent.click(screen.getByLabelText('Organisaatio 2'));
+  // userEvent.click(screen.getByLabelText('Organisaatio 1'));
+  // userEvent.click(screen.getByLabelText('Organisaatio 2'));
 
-  // close the dropdown
-  userEvent.click(
-    screen.getByLabelText('Organisaatio', { selector: 'button' })
-  );
-
-  await waitFor(() => {
-    expect(screen.queryByLabelText('Organisaatio 1')).not.toBeInTheDocument();
+  const languageSelectorButton = screen.getByLabelText(/Organisaatio/i, {
+    selector: 'button',
   });
+  userEvent.click(languageSelectorButton);
+  userEvent.click(screen.getByText(/organisaatio 1/i));
+  userEvent.click(screen.getByText(/organisaatio 2/i));
+
+  userEvent.click(
+    screen.getByLabelText(/Organisaatio/i, { selector: 'button' })
+  );
+
+  expect(screen.queryByLabelText('Organisaatio 1')).toBeInTheDocument();
+  expect(screen.queryByLabelText('Organisaatio 2')).toBeInTheDocument();
 
   userEvent.click(
     screen.getByLabelText('Olen hyväksynyt palvelut käyttöehdot')
