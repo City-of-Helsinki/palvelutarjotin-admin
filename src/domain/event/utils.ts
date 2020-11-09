@@ -2,29 +2,28 @@ import { isFuture } from 'date-fns';
 import isFutureDate from 'date-fns/isFuture';
 import isPastDate from 'date-fns/isPast';
 import isToday from 'date-fns/isToday';
+import isTomorrow from 'date-fns/isTomorrow';
+import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
-  CreateVenueDocument,
-  CreateVenueMutation,
-  EditVenueDocument,
-  EditVenueMutation,
   EventFieldsFragment,
   EventQuery,
   Language as TranslationLanguage,
   OccurrenceFieldsFragment,
   PublishEventMutationInput,
-  VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
+import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
-import apolloClient from '../app/apollo/apolloClient';
-import { getVenueDescription } from '../venue/utils';
+import getTimeFormat from '../../utils/getTimeFormat';
+import { PUBLICATION_STATUS } from '../events/constants';
+import { VenueDataFields } from '../venue/types';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
-import { EventFormFields } from './types';
+import { CreateEventFormFields, EventFormFields } from './types';
 
 /**
  * Get event placeholder image url
@@ -39,6 +38,34 @@ export const getEventPlaceholderImage = (id: string): string => {
   const index = sum % 4;
 
   return EVENT_PLACEHOLDER_IMAGES[index];
+};
+
+export const getEventStartTimeStr = (
+  event: EventFieldsFragment,
+  locale: Language,
+  t: TFunction
+): string | null => {
+  const nextOccurrenceTime = event.pEvent.nextOccurrenceDatetime;
+  const startTime = nextOccurrenceTime ? new Date(nextOccurrenceTime) : null;
+  const timeFormat = getTimeFormat(locale);
+  const dateFormat = 'iiii dd.MM';
+
+  if (!startTime) return null;
+
+  if (isToday(startTime))
+    return t('events.eventCard.startTime.today', {
+      time: formatDate(startTime, timeFormat, locale),
+    });
+
+  if (isTomorrow(startTime))
+    return t('events.eventCard.startTime.tomorrow', {
+      time: formatDate(startTime, timeFormat, locale),
+    });
+
+  return t('events.eventCard.startTime.other', {
+    date: formatDate(startTime, dateFormat, locale),
+    time: formatDate(startTime, timeFormat, locale),
+  });
 };
 
 /**
@@ -140,68 +167,43 @@ export const getEventPayload = ({
       contactEmail: values.contactEmail,
       contactPersonId: values.contactPersonId,
       contactPhoneNumber: values.contactPhoneNumber,
-      duration: Number(values.duration),
       enrolmentEndDays: Number(values.enrolmentEndDays),
       enrolmentStart: values.enrolmentStart,
       neededOccurrences: Number(values.neededOccurrences),
+      autoAcceptance: values.autoAcceptance,
     },
     organisationId,
   };
 };
 
-export const getExistingVenuePayload = ({
+export const getVenuePayload = ({
   venueData,
-  selectedLanguage,
+  language,
+  locationId,
   formValues: {
     locationDescription,
-    location: locationId,
     hasClothingStorage,
     hasSnackEatingPlace,
+    outdoorActivity,
   },
 }: {
   venueData: VenueQuery;
-  selectedLanguage: Language;
-  formValues: EventFormFields;
+  language: Language;
+  locationId: string;
+  formValues: VenueDataFields;
 }) => {
   return {
     venue: {
       id: locationId,
       hasClothingStorage,
       hasSnackEatingPlace,
+      outdoorActivity,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
-          .filter((t) => t.languageCode !== selectedLanguage.toUpperCase()) ||
-          []),
+          .filter((t) => t.languageCode !== language.toUpperCase()) || []),
         {
-          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
-          description: locationDescription,
-        },
-      ],
-    },
-  };
-};
-
-export const getNewVenuePayload = ({
-  formValues: {
-    location: locationId,
-    hasSnackEatingPlace,
-    hasClothingStorage,
-    locationDescription,
-  },
-  selectedLanguage,
-}: {
-  formValues: EventFormFields;
-  selectedLanguage: Language;
-}) => {
-  return {
-    venue: {
-      id: locationId,
-      hasClothingStorage,
-      hasSnackEatingPlace,
-      translations: [
-        {
-          languageCode: selectedLanguage.toUpperCase() as TranslationLanguage,
+          languageCode: language.toUpperCase() as TranslationLanguage,
           description: locationDescription,
         },
       ],
@@ -217,56 +219,6 @@ export const getEventVenueDescription = (
     (t) => t.languageCode === selectedLanguage.toUpperCase()
   )?.description || '';
 
-export const createOrUpdateVenue = ({
-  formValues,
-  selectedLanguage,
-}: {
-  formValues: EventFormFields;
-  selectedLanguage: Language;
-}) => {
-  // get venueData from cache. It is fetched in the form when event location changes
-  const venueData = apolloClient.readQuery<VenueQuery>({
-    query: VenueDocument,
-    variables: { id: formValues.location },
-  });
-
-  const venueDescription = getVenueDescription(venueData, selectedLanguage);
-  const hasClothingStorage = venueData?.venue?.hasClothingStorage;
-  const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
-
-  const venueShouldBeUpdated = Boolean(
-    venueData?.venue &&
-      (formValues.locationDescription !== venueDescription ||
-        formValues.hasClothingStorage !== hasClothingStorage ||
-        formValues.hasSnackEatingPlace !== hasSnackEatingPlace)
-  );
-  const newVenueShouldBeCreated = Boolean(
-    !venueData?.venue &&
-      (formValues.locationDescription ||
-        formValues.hasClothingStorage ||
-        formValues.hasSnackEatingPlace)
-  );
-
-  if (venueShouldBeUpdated) {
-    return apolloClient.mutate<EditVenueMutation>({
-      variables: getExistingVenuePayload({
-        formValues: formValues,
-        selectedLanguage,
-        venueData: venueData as VenueQuery,
-      }),
-      mutation: EditVenueDocument,
-    });
-  } else if (newVenueShouldBeCreated) {
-    return apolloClient.mutate<CreateVenueMutation>({
-      variables: getNewVenuePayload({
-        formValues: formValues,
-        selectedLanguage,
-      }),
-      mutation: CreateVenueDocument,
-    });
-  }
-};
-
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
     ? isPastDate(new Date(eventData?.event?.startTime)) &&
@@ -279,7 +231,7 @@ export const isFutureEvent = (eventData: EventQuery | undefined) =>
     : false;
 
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
-  !isPastEvent(eventData);
+  eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
 export const hasOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(event.pEvent?.occurrences.edges.length);
@@ -312,6 +264,7 @@ export const getEventFields = (
   event
     ? {
         id: event.id,
+        isEventFree: isEventFree(event),
         eventName: getLocalisedString(event.name, locale),
         shortDescription: getLocalisedString(event.shortDescription, locale),
         description: getLocalisedString(event.description, locale),
@@ -368,10 +321,30 @@ export const getPublishEventPayload = ({
     name: event.name,
     description: event.description,
     pEvent: {
-      duration: event.pEvent.duration,
       neededOccurrences: event.pEvent.neededOccurrences,
     },
     shortDescription: event.shortDescription,
     organisationId,
   };
 };
+
+export const firstOccurrencePrefilledValuesToQuery = (
+  values: CreateEventFormFields
+) => {
+  const params = new URLSearchParams();
+  if (values.occurrenceDate) {
+    params.append('date', values.occurrenceDate.toISOString());
+  }
+  params.append('startsAt', values.occurrenceStartsAt);
+  params.append('endsAt', values.occurrenceEndsAt);
+
+  return params.toString();
+};
+
+/**
+ * Check is event free
+ * @param eventData
+ * @return {boolean}
+ */
+export const isEventFree = (event: EventFieldsFragment): boolean =>
+  Boolean(event.offers.find((item) => item.isFree)?.isFree);

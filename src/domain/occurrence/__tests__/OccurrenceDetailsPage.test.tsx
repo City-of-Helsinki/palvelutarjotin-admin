@@ -1,18 +1,24 @@
-// import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import React from 'react';
 
 import {
-  eventResult,
-  occurrenceResult,
-  placeResult,
-  venueResult,
-} from '../__mocks__/responses';
-import {
+  EnrolmentFieldsFragmentDoc,
+  EnrolmentStatus,
   EventDocument,
   OccurrenceDocument,
   PlaceDocument,
   VenueDocument,
 } from '../../../generated/graphql';
+import {
+  fakeEnrolments,
+  fakeEvent,
+  fakeLocalizedObject,
+  fakeOccurrence,
+  fakePerson,
+  fakePlace,
+  fakeStudyGroup,
+  fakeVenue,
+} from '../../../utils/mockDataUtils';
 import {
   renderWithRoute,
   screen,
@@ -20,14 +26,95 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
 
+const placeId = 'tprek:15376';
 const eventId = 'palvelutarjotin:afzunowba4';
 const occurrenceId = 'T2NjdXJyZW5jZU5vZGU6MTIz';
+const enrolmentId = 'afdgsgfsdg23532';
 const testPath = ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
   ':occurrenceId',
   occurrenceId
 );
+
+const eventResult = {
+  data: {
+    event: fakeEvent({
+      id: eventId,
+      name: fakeLocalizedObject('Tapahtuma 13.7.2020'),
+      publicationStatus: PUBLICATION_STATUS.DRAFT,
+      location: fakePlace({ id: placeId }),
+    }),
+  },
+};
+
+const placeResult = {
+  data: {
+    place: fakePlace({ name: fakeLocalizedObject('Soukan kirjasto') }),
+  },
+};
+
+const venueResult = {
+  data: {
+    venue: fakeVenue({
+      hasClothingStorage: true,
+      translations: [
+        {
+          languageCode: 'FI' as any,
+          description: 'Soukkas',
+          __typename: 'VenueTranslationType',
+        },
+      ],
+    }),
+  },
+};
+
+const occurrenceResult = {
+  data: {
+    occurrence: fakeOccurrence({
+      amountOfSeats: 30,
+      minGroupSize: 10,
+      maxGroupSize: 20,
+      seatsTaken: 20,
+      languages: [
+        {
+          id: 'fi',
+          name: 'Finnish',
+          __typename: 'LanguageType',
+          occurrences: [] as any,
+        },
+        {
+          id: 'en',
+          name: 'English',
+          __typename: 'LanguageType',
+          occurrences: [] as any,
+        },
+      ],
+      startTime: '2020-09-10T09:00:00+00:00',
+      endTime: '2020-09-10T09:30:00+00:00',
+      enrolments: fakeEnrolments(2, [
+        {
+          status: EnrolmentStatus.Approved,
+          studyGroup: fakeStudyGroup({
+            groupSize: 10,
+          }),
+          person: fakePerson({ name: 'Testi Testaaja' }),
+          id: enrolmentId,
+        },
+        {
+          status: EnrolmentStatus.Approved,
+          person: fakePerson({ name: 'Ilmoittautuja' }),
+          studyGroup: fakeStudyGroup({
+            groupSize: 10,
+          }),
+        },
+      ]),
+    }),
+  },
+};
+
+// console.log(JSON.stringify(occurrenceResult, null, 2));
 
 const mocks = [
   {
@@ -69,22 +156,26 @@ const mocks = [
   },
 ];
 
-// TODO: uncomment this when enrolment table is accessible (labels for checkboxes)
-// test('is accessible', async () => {
-//   const { container } = renderWithRoute(<OccurrenceDetailsPage />, {
-//     routes: [testPath],
-//     path: ROUTES.OCCURRENCE_DETAILS,
-//     mocks,
-//   });
+test('is accessible', async () => {
+  const { container } = renderWithRoute(<OccurrenceDetailsPage />, {
+    routes: [testPath],
+    path: ROUTES.OCCURRENCE_DETAILS,
+    mocks,
+  });
 
-//   await waitFor(() => {
-//     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-//   });
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
 
-//   const result = await axe(container);
+  // wait for venue request to finish
+  await waitFor(() => {
+    expect(screen.queryByText('Soukkas')).toBeInTheDocument();
+  });
 
-//   expect(result).toHaveNoViolations();
-// });
+  const result = await axe(container);
+
+  expect(result).toHaveNoViolations();
+});
 
 test('occurrence details are rendered', async () => {
   renderWithRoute(<OccurrenceDetailsPage />, {
@@ -158,6 +249,6 @@ test('enrolment table renders correct information', async () => {
   userEvent.click(screen.getByText('Testi Testaaja'));
 
   expect(pushSpy).toHaveBeenCalledWith(
-    `/fi${testPath}/enrolments/RW5yb2xtZW50Tm9kZTo4NQ==`
+    `/fi${testPath}/enrolments/${enrolmentId}`
   );
 });

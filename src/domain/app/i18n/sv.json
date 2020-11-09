@@ -16,6 +16,7 @@
   },
   "common": {
     "back": "Tillbacka",
+    "leave": "Lämna",
     "alertModal": {
       "buttonCancel": "Avbryt"
     },
@@ -108,7 +109,7 @@
   "createMyProfile": {
     "buttonSubmit": "Spara och fortsätt",
     "error": "Det gick inte att spara min profil",
-    "infoText1": "Hej, välkommen till servicefacket!",
+    "infoText1": "Hej, välkommen till Kultus beta!",
     "infoText2": "För att ange transaktioner i systemet ber vi dig verifiera följande information:",
     "pageTitle": "Fyll i din information",
     "title": "Fyll i din information"
@@ -192,7 +193,16 @@
   "createEvent": {
     "pageTitle": "Ny evenemang",
     "title": "Ny evenemang",
-    "error": "Det gick inte att spara händelsen"
+    "error": "Det gick inte att spara händelsen",
+    "threeStepNotification": {
+      "title": "Händelsen skapas i tre stegHändelsen skapas i tre steg.",
+      "description": "Nödvändig information måste anges innan du går vidare till nästa steg"
+    },
+    "stepTitles": {
+      "titleBasicInfo": "Grundläggande information",
+      "titleOccurrences": "Förekomster",
+      "titlePublish": "Publicera"
+    }
   },
   "editEvent": {
     "buttons": {
@@ -203,13 +213,14 @@
     "title": "Redigera evenemang",
     "error": "Det gick inte att spara händelsen",
     "errorEventIsInThePast": "Händelsen är i det förflutna",
-    "errorEventIsInThePastDescription": "Händelse som är tidigare kan inte redigeras."
+    "errorEventIsInThePastDescription": "Händelse som är tidigare kan inte redigeras.",
+    "errorEventIsPublished": "Händelsen har redan publicerats",
+    "errorEventIsPublishedDescription": "Publicerade händelser kan inte redigeras."
   },
   "eventDetails": {
     "basicInfo": {
       "enrolmentStart": "{{date}} på {{time}}",
       "labelDescription": "Beskrivning",
-      "labelDuration": "Evenemang varaktighet, min",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
@@ -251,6 +262,7 @@
       "labelLocationDescription": "Beskrivning av arenan",
       "snackEatingPlace": "Snack äta plats",
       "clothingStorage": "Klädförvaring",
+      "outdoorActivity": "Utomhusaktivitet",
       "title": "Plats"
     },
     "title": "Evenemangsdetaljer"
@@ -262,7 +274,6 @@
       "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
-      "labelDuration": "Evenemang varaktighet, min",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",
@@ -277,7 +288,12 @@
     },
     "buttonCancel": "Avbryt",
     "buttonSave": "Spara",
+    "buttonSaveAndGoToOccurrences": "Spara och gå till förekomster",
     "buttonSaveDraft": "Spara utkast",
+    "occurrenceTime": {
+      "titleOccurrenceTime": "Förekomsttid",
+      "occurrenceTimeHelperText": "Första förekomstdatum. Resten av händelserna och ytterligare information anges i steg 2."
+    },
     "categorisation": {
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "labelAudience": "Målgrupper",
@@ -318,8 +334,15 @@
       "textOccurrences": "{{count}} händelsetid",
       "textOccurrences_plural": "{{count}} evenemangtider",
       "statusPublished": "Publicerad",
-      "statusNotPublished": "Ej publicerad"
+      "statusNotPublished": "Ej publicerad",
+      "free": "Fri",
+      "startTime": {
+        "other": "{{date}} kl {{time}}",
+        "today": "Idag kl {{time}}",
+        "tomorrow": "Imorgon kl {{time}}"
+      }
     },
+
     "placeholderSearch": "Sök",
     "textEventCount": "{{count}} st",
     "textNoComingEvents": "Inga evenemang med kommande evenemangtider",
@@ -328,12 +351,22 @@
     "titleEventsWithPastOccurrences": "Tidigare evenemang",
     "titleEventsWithoutOccurrences": "Evenemang utan evenemangtider"
   },
+  "eventSummary": {
+    "buttonBack": "Tillbaka till evenemangstiderna",
+    "eventHasBeenPublished": "Händelsen har publicerats",
+    "titleEventSummary": "Sammanfattning av händelser",
+    "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
+    "buttonEditBasicInfo": "Edit basic info",
+    "buttonEditOccurrences": "Redigera förekomster"
+  },
   "createOccurrence": {
-    "buttonBack": "Evenemangtider",
+    "buttonBack": "Tillbaka till grundläggande information",
     "buttonShowEventInfo": "Visa information om evenemang",
     "error": "Det gick inte att spara evenemangtid",
     "formTitle": "Lägg till ny händelsehändelse",
-    "pageTitle": "Ny händelse"
+    "pageTitle": "Ny händelse",
+    "buttonSaveAndGoToPublishing": "Spara och gå till publicering",
+    "buttonGoToPublishing": "Gå till publicering"
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",
@@ -507,6 +540,7 @@
       "columnDate": "Datum",
       "columnEnrolmentStarts": "Registrering börjar",
       "columnEnrolments": "Registreringar",
+      "columnEnrolmentsHelper": "accepterad / i väntan på",
       "columnLocation": "Evenemang plats",
       "columnTime": "Tid",
       "labelChooseAllOccurrences": "Välj alla förekomster",
@@ -523,6 +557,7 @@
       "confirmText2": "Förekomster kan inte läggas till eller ändras efter att evenemanget har publicerats."
     },
     "textNoComingOccurrences": "Inga framtida evenemangtider",
+    "titleOccurrences": "Evenemangtider",
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider",
     "titleEventPublishment": "Händelsepublikation",
@@ -539,6 +574,7 @@
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelHasClothingStorage": "Klädförvaring",
       "labelHasSnackEatingPlace": "Snack äta plats",
+      "outdoorActivity": "Utomhusaktivitet",
       "labelLocationDescription": "Beskrivning av arenan",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
     }

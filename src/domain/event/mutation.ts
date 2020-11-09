@@ -35,8 +35,8 @@ export const MUTATION_EVENT = gql`
           }
           pEvent {
             id
-            duration
             neededOccurrences
+            autoAcceptance
           }
           infoUrl {
             en
@@ -69,6 +69,7 @@ export const MUTATION_EVENT = gql`
           internalId
           publicationStatus
         }
+        resultText
       }
     }
   }
@@ -107,7 +108,6 @@ export const MUTATION_EVENT = gql`
           }
           pEvent {
             id
-            duration
             neededOccurrences
           }
           infoUrl {

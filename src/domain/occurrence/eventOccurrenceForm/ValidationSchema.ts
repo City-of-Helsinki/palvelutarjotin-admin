@@ -23,7 +23,7 @@ const addMaxValidationMessage = (
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
 
-const isValidTime = (time: string) =>
+export const isValidTime = (time: string) =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
 
 export default Yup.object().shape({
@@ -68,13 +68,11 @@ export default Yup.object().shape({
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage),
   minGroupSize: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
     .when(['maxGroupSize'], (maxGroupSize: number, schema: Yup.NumberSchema) =>
       maxGroupSize ? schema.max(maxGroupSize, addMaxValidationMessage) : schema
     ),
   maxGroupSize: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
     .min(1, addMinValidationMessage)
     .when(
       ['amountOfSeats'],

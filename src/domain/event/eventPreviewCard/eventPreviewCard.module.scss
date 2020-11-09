@@ -1,0 +1,93 @@
+@import 'layout';
+@import 'variables';
+
+.eventCard {
+  --background-color-event-card: var(--color-white);
+
+  --color-title: var(--color-black-90);
+  --color-description: var(--color-black-90);
+
+  --fontsize-title: var(--fontsize-heading-xs);
+  --fontsize-description: var(--fontsize-subtitle);
+
+  --fontweight-title: bold;
+  --fontweight-description: normal;
+
+  --height-image: 8.125rem;
+  --height-image-mobile: 14.5rem;
+
+  --lineheight-title: var(--lineheight-l);
+  --lineheight-description: var(--lineheight-l);
+
+  --margin-right-icon: var(--spacing-2-xs);
+
+  --padding-content-wrapper: var(--spacing-s);
+
+  --size-icon: 1.25rem;
+
+  --width-image: 11.25rem;
+}
+
+.eventCard {
+  display: grid;
+  cursor: pointer;
+  background-color: var(--background-color-event-card);
+  text-decoration: none;
+  color: black;
+
+  @include respond_above(sm) {
+    grid-template-columns: var(--width-image) 1fr;
+  }
+
+  .imageWrapper {
+    min-height: var(--height-image-mobile);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    @include respond_above(sm) {
+      min-height: var(--height-image);
+    }
+  }
+
+  .contentWrapper {
+    padding: var(--padding-content-wrapper);
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .title {
+    color: var(--color-title);
+    font-size: var(--fontsize-title);
+    font-weight: var(--fontweight-title);
+    line-height: var(--lineheight-title);
+  }
+
+  .description {
+    color: var(--color-description);
+    font-size: var(--fontsize-description);
+    font-weight: var(--fontweight-description);
+    line-height: var(--lineheight-description);
+  }
+
+  .occurrenceInfoWrapper {
+    display: grid;
+    grid-gap: var(--spacing-m);
+    margin-top: var(--spacing-m);
+
+    @include respond_above(sm) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .textWithIcon {
+    display: flex;
+    align-items: center;
+
+    svg {
+      height: var(--size-icon);
+      width: var(--size-icon);
+      margin-right: var(--margin-right-icon);
+    }
+  }
+}

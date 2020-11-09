@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    aria-hidden="true"
+    class="formSteps"
+  >
+    <div
+      class="active"
+    >
+      1. Perustiedot
+    </div>
+    <div
+      class=""
+    >
+      2. Tapahtuma-ajat
+    </div>
+    <div
+      class=""
+    >
+      3. Julkaise
+    </div>
+  </div>
+  <div
+    class="srOnly"
+  >
+    <p>
+      1. Perustiedot
+    </p>
+  </div>
+</div>
+`;

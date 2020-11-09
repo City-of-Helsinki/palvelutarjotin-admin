@@ -15,12 +15,12 @@ import * as graphqlFns from '../../../generated/graphql';
 import {
   fakeEvent,
   fakeLocalizedObject,
-  fakeLocation,
   fakeOccurrence,
   fakeOccurrences,
   fakeOrganisations,
   fakePerson,
   fakePEvent,
+  fakePlace,
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
@@ -37,7 +37,7 @@ const eventMock = fakeEvent({
   name: fakeLocalizedObject(eventName),
   startTime: '2020-07-13T05:51:05.761000Z',
 });
-const placeMock = fakeLocation({
+const placeMock = fakePlace({
   streetAddress: fakeLocalizedObject('Testikatu'),
 });
 const venueMock = fakeVenue({ hasClothingStorage: true });
@@ -49,7 +49,7 @@ const occurrence = {
   amountOfSeats: 30,
   maxGroupSize: 20,
   minGroupSize: 10,
-  autoAcceptance: true,
+
   startTime: '2020-08-03T09:00:00+00:00',
   endTime: '2020-08-03T09:30:00+00:00',
   languages: [
@@ -215,12 +215,6 @@ test('initializes edit occurrence form correctly', async () => {
   expect(screen.getByLabelText('Ryhmäkoko max')).toHaveValue(20);
   expect(screen.queryByText('Englanti, Suomi')).toBeInTheDocument();
 
-  expect(
-    screen.getByLabelText(
-      'Vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa'
-    )
-  ).toBeChecked();
-
   await waitFor(() => {
     expect(screen.queryByText('Testikatu')).toBeInTheDocument();
     expect(screen.queryByText('Vaatesäilytys')).toBeInTheDocument();
@@ -231,14 +225,16 @@ test('initializes edit occurrence form correctly', async () => {
   userEvent.type(screen.getByLabelText('Paikkoja yhteensä'), '40');
   userEvent.type(screen.getByLabelText('Ryhmäkoko max'), '30');
 
-  userEvent.click(screen.getByRole('button', { name: 'Tallenna' }));
+  userEvent.click(
+    screen.getByRole('button', { name: 'Tallenna ja siirry julkaisuun' })
+  );
 
   await waitFor(() => {
     expect(editOccurrenceSpy).toHaveBeenCalledWith({
       variables: {
         input: {
           amountOfSeats: 3040,
-          autoAcceptance: true,
+
           startTime: new Date('2020-08-03T09:00:00.000Z'),
           endTime: new Date('2020-08-03T09:30:00.000Z'),
           id: occurrenceId,

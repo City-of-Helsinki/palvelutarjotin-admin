@@ -1,3 +1,4 @@
+import { Notification } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -11,6 +12,7 @@ import {
   useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { isTestEnv } from '../../utils/envUtils';
 import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -19,10 +21,14 @@ import { getImageName } from '../image/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
-import EventForm from './eventForm/EventForm';
+import { createOrUpdateVenue } from '../venue/utils';
+import EventForm, { createEventInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
-import { EventFormFields } from './types';
-import { createOrUpdateVenue, getEventPayload } from './utils';
+import { CreateEventFormFields } from './types';
+import {
+  firstOccurrencePrefilledValuesToQuery,
+  getEventPayload,
+} from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
@@ -48,8 +54,9 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
-  const submit = async (values: EventFormFields) => {
+  const handleSubmit = async (values: CreateEventFormFields) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
 
       // Request to create new event
@@ -70,8 +77,9 @@ const CreateEventPage: React.FC = () => {
       );
 
       const createOrUpdateVenueRequest = createOrUpdateVenue({
-        formValues: values,
-        selectedLanguage,
+        venueFormData: values,
+        language: selectedLanguage,
+        locationId: values.location,
       });
 
       if (createOrUpdateVenueRequest) {
@@ -113,12 +121,16 @@ const CreateEventPage: React.FC = () => {
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
       history.push({
-        pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
-        search: `?language=${selectedLanguage}`,
+        pathname: `/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE.replace(
+          ':id',
+          id
+        )}`,
+        search: firstOccurrencePrefilledValuesToQuery(values),
       });
     } catch (e) {
       // TODO: Improve error handling when API returns more informative errors
-      if (process.env.NODE_ENV === 'test') {
+      if (isTestEnv()) {
+        // eslint-disable-next-line no-console
         console.log(e);
       }
       toast(t('createEvent.error'), {
@@ -130,11 +142,15 @@ const CreateEventPage: React.FC = () => {
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
+          <Notification label={t('createEvent.threeStepNotification.title')}>
+            {t('createEvent.threeStepNotification.description')}
+          </Notification>
           <ActiveOrganisationInfo />
           <EventForm
             onCancel={goToEventList}
-            onSubmit={submit}
+            onSubmit={handleSubmit}
             persons={persons}
+            initialValues={createEventInitialValues}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
             title={t('createEvent.title')}

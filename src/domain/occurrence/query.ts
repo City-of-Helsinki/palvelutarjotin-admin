@@ -9,8 +9,9 @@ export const QUERY_OCCURRENCE = gql`
     amountOfSeats
     minGroupSize
     maxGroupSize
-    autoAcceptance
     seatsTaken
+    seatsApproved
+    remainingSeats
     languages {
       id
       name
@@ -18,7 +19,6 @@ export const QUERY_OCCURRENCE = gql`
     startTime
     endTime
     placeId
-    seatsTaken
     cancelled
   }
 

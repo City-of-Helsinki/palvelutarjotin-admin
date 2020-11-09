@@ -32,7 +32,7 @@ exports[`matches snapshot 1`] = `
     <div
       class="description"
     >
-      Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020 Tapahtuma 13.7.2020
+      Tapahtuman kuvaus
     </div>
     <div>
       <div
@@ -44,9 +44,9 @@ exports[`matches snapshot 1`] = `
           Tapahtuman kuva
         </div>
         <img
-          alt="asd"
+          alt="Testikuva"
           class="image"
-          src="https://api.hel.fi/linkedevents-test/media/images/Screenshot_2020-07-07_at_10.48.19.png"
+          src="https://api.hel.fi/linkedevents-test/media/images/test.png"
         />
       </div>
       <div
@@ -55,7 +55,7 @@ exports[`matches snapshot 1`] = `
         Kuvan alt-teksti
       </div>
       <p>
-        asd
+        Testikuva
       </p>
       <div
         class="textTitle"
@@ -63,23 +63,20 @@ exports[`matches snapshot 1`] = `
         Valokuvaaja
       </div>
       <p>
-        asd
+        Testi Kuvaaja
       </p>
     </div>
-    
+    <div
+      class="textTitle"
+    >
+      WWW-osoite, josta saa lisätietoja tapahtumasta
+    </div>
+    <p>
+      www.testi.fi
+    </p>
     <div
       class="durationRow"
     >
-      <div>
-        <div
-          class="textTitle"
-        >
-          Tapahtuman kesto, min
-        </div>
-        <p>
-          11
-        </p>
-      </div>
       <div>
         <div
           class="textTitle"

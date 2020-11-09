@@ -5,18 +5,22 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
-import mockMyProfile from '../../../myProfile/__mocks__/myProfile.json';
+import { fakePerson } from '../../../../utils/mockDataUtils';
 import { store } from '../../store';
 import Header from '../Header';
+
+const profileResponse = {
+  data: {
+    myProfile: fakePerson(),
+  },
+};
 
 const mocks = [
   {
     request: {
       query: MyProfileDocument,
     },
-    result: {
-      ...mockMyProfile,
-    },
+    result: profileResponse,
   },
 ];
 

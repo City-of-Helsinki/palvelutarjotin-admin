@@ -2,6 +2,10 @@
 import faker from 'faker';
 
 import {
+  EnrolmentNode,
+  EnrolmentNodeConnection,
+  EnrolmentNodeEdge,
+  EnrolmentStatus,
   Event,
   EventListResponse,
   Image,
@@ -10,9 +14,11 @@ import {
   Language,
   LanguageType,
   LocalisedObject,
+  NotificationType,
   OccurrenceNode,
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
+  Offer,
   OrganisationNode,
   OrganisationNodeConnection,
   OrganisationNodeEdge,
@@ -23,6 +29,8 @@ import {
   PersonNodeConnection,
   PersonNodeEdge,
   Place,
+  StudyGroupNode,
+  StudyLevel,
   VenueNode,
 } from '../generated/graphql';
 
@@ -53,6 +61,15 @@ export const fakeEvents = (
   __typename: 'EventListResponse',
 });
 
+export const fakeOffer = (overrides?: Partial<Offer>): Offer => ({
+  isFree: true,
+  description: null,
+  price: null,
+  infoUrl: null,
+  __typename: 'Offer',
+  ...overrides,
+});
+
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
   return {
     id: `palvelutarjotin:${faker.random.uuid()}`,
@@ -65,11 +82,11 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     inLanguage: [fakeInLanguage()],
     audience: [],
     keywords: [fakeKeyword()],
-    location: fakeLocation(),
+    location: fakePlace(),
     venue: fakeVenue(),
     pEvent: fakePEvent(),
     startTime: '2020-07-13T05:51:05.761000Z',
-    publicationStatus: 'public',
+    publicationStatus: 'draft',
     datePublished: null,
     externalLinks: [] as any,
     offers: [] as any,
@@ -80,7 +97,55 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
   };
 };
 
-export const fakeInLanguage = (overrides?: InLanguage): InLanguage => ({
+export const fakeEnrolments = (
+  count = 1,
+  enrolments?: Partial<EnrolmentNode>[]
+): EnrolmentNodeConnection => ({
+  edges: generateNodeArray(
+    (i) => fakeEnrolmentNodeEdge(enrolments?.[i]),
+    count
+  ),
+  pageInfo: PageInfoMock,
+  __typename: 'EnrolmentNodeConnection',
+  count,
+});
+
+export const fakeEnrolment = (
+  overrides?: Partial<EnrolmentNode>
+): EnrolmentNode => ({
+  enrolmentTime: '2020-08-18T06:37:40.755109+00:00',
+  id: faker.random.uuid(),
+  occurrence: fakeOccurrence(),
+  studyGroup: fakeStudyGroup(),
+  notificationType: NotificationType.EmailSms,
+  __typename: 'EnrolmentNode',
+  person: fakePerson(),
+  status: EnrolmentStatus.Approved,
+  ...overrides,
+});
+
+export const fakeStudyGroup = (
+  overrides?: Partial<StudyGroupNode>
+): StudyGroupNode => ({
+  amountOfAdult: 1,
+  createdAt: '',
+  enrolments: [] as any,
+  extraNeeds: '',
+  groupName: '',
+  groupSize: 20,
+  id: faker.random.uuid(),
+  name: '',
+  occurrences: fakeOccurrences(),
+  person: fakePerson(),
+  updatedAt: '',
+  __typename: 'StudyGroupNode',
+  studyLevel: StudyLevel.Grade_5,
+  ...overrides,
+});
+
+export const fakeInLanguage = (
+  overrides?: Partial<InLanguage>
+): InLanguage => ({
   id: 'fi',
   internalId: 'https://api.hel.fi/linkedevents-test/v1/language/fi/',
   name: {
@@ -93,7 +158,7 @@ export const fakeInLanguage = (overrides?: InLanguage): InLanguage => ({
   ...overrides,
 });
 
-export const fakeLocation = (overrides?: Partial<Place>): Place => ({
+export const fakePlace = (overrides?: Partial<Place>): Place => ({
   id: faker.random.uuid(),
   internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
   name: fakeLocalizedObject(),
@@ -104,14 +169,31 @@ export const fakeLocation = (overrides?: Partial<Place>): Place => ({
   ...overrides,
 });
 
+export const fakePlaces = (count = 1, places?: Partial<Place>[]) => ({
+  meta: {
+    __typename: 'Meta',
+    count: count,
+    next: '',
+    previous: '',
+  },
+  data: generateNodeArray((i) => fakePlace(places?.[i]), count),
+  __typename: 'PlaceListResponse',
+});
+
+export const fakeKeywords = (count = 1, keywords?: Partial<Keyword>[]) => ({
+  meta: {
+    __typename: 'Meta',
+    count: count,
+    next: '',
+    previous: '',
+  },
+  data: generateNodeArray((i) => fakeKeyword(keywords?.[i]), count),
+  __typename: 'KeywordsListResponse',
+});
+
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => ({
   id: faker.random.uuid(),
-  name: {
-    en: 'families',
-    fi: 'perheet',
-    sv: 'familjer',
-    __typename: 'LocalisedObject',
-  },
+  name: fakeLocalizedObject(),
   internalId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
   __typename: 'Keyword',
   ...overrides,
@@ -121,6 +203,7 @@ export const fakeVenue = (overrides?: Partial<VenueNode>): VenueNode => ({
   id: faker.random.uuid(),
   hasClothingStorage: faker.random.boolean(),
   hasSnackEatingPlace: faker.random.boolean(),
+  outdoorActivity: faker.random.boolean(),
   translations: [
     {
       languageCode: 'FI' as Language,
@@ -152,7 +235,6 @@ export const fakePEvent = (
   contactPerson: fakePerson(),
   contactEmail: 'test@email.com',
   contactPhoneNumber: '1233211234',
-  duration: 11,
   enrolmentEndDays: 3,
   enrolmentStart: '2020-07-13T06:00:00+00:00',
   neededOccurrences: 3,
@@ -161,6 +243,9 @@ export const fakePEvent = (
   createdAt: '' as any,
   linkedEventId: '' as any,
   updatedAt: '' as any,
+  autoAcceptance: false,
+  nextOccurrenceDatetime: '',
+  lastOccurrenceDatetime: '',
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,
 });
@@ -175,6 +260,14 @@ export const fakeOccurrences = (
   ),
   pageInfo: PageInfoMock,
   __typename: 'OccurrenceNodeConnection',
+});
+
+export const fakeEnrolmentNodeEdge = (
+  overrides?: Partial<EnrolmentNode>
+): EnrolmentNodeEdge => ({
+  cursor: '',
+  node: fakeEnrolment(overrides),
+  __typename: 'EnrolmentNodeEdge',
 });
 
 export const fakeOccurrenceNodeEdge = (
@@ -196,7 +289,6 @@ export const fakeOccurrence = (
   amountOfSeats: 30,
   minGroupSize: 10,
   maxGroupSize: 20,
-  autoAcceptance: true,
   languages: [
     { id: 'en', name: 'English', __typename: 'LanguageType' },
     { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
@@ -205,6 +297,7 @@ export const fakeOccurrence = (
   endTime: '2020-08-03T09:30:00+00:00',
   placeId: '',
   seatsTaken: 0,
+  seatsApproved: 0,
   contactPersons: [] as any,
   createdAt: '' as any,
   enrolments: [] as any,
@@ -237,11 +330,12 @@ export const fakeOrganisationNodeEdge = (
 });
 
 export const fakeOrganisation = (
-  overrides?: Partial<OrganisationNode>
+  overrides: Partial<OrganisationNode> = {}
 ): OrganisationNode => ({
   id: faker.random.uuid(),
   name: faker.random.arrayElement(organizationNames) as string,
-  persons: fakePersons(5),
+  // avoid infinite recursion
+  persons: overrides.persons || fakePersons(5),
   phoneNumber: faker.phone.phoneNumber(),
   publisherId: faker.random.uuid(),
   type: 'USER' as OrganisationType,
@@ -284,11 +378,14 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   ...overrides,
 });
 
-export const fakeLocalizedObject = (text?: string): LocalisedObject => ({
+export const fakeLocalizedObject = (
+  text?: string,
+  localizedObject: { fi?: string; en?: string; sv?: string } = {}
+): LocalisedObject => ({
   __typename: 'LocalisedObject',
-  en: null,
-  sv: null,
-  fi: text || faker.random.words(),
+  en: localizedObject.en ?? null,
+  sv: localizedObject.sv ?? null,
+  fi: localizedObject.fi || text || faker.random.words(),
 });
 
 const generateNodeArray = <T extends (...args: any) => any>(

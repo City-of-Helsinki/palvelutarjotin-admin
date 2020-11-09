@@ -1,3 +1,4 @@
+import { isPast } from 'date-fns';
 import { FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
@@ -8,6 +9,8 @@ import { toast } from 'react-toastify';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  OccurrenceFieldsFragment,
+  useDeleteOccurrenceMutation,
   useEditOccurrenceMutation,
   useEventQuery,
   useOccurrenceQuery,
@@ -21,6 +24,8 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import { isEditableEvent } from '../event/utils';
+import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { createOrUpdateVenue, getVenueDescription } from '../venue/utils';
 import EventOccurrenceForm from './eventOccurrenceForm/EventOccurrenceForm';
@@ -51,6 +56,7 @@ const EditOccurrencePage: React.FC = () => {
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
   const [editOccurrence] = useEditOccurrenceMutation();
+  const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const {
     data: occurrenceData,
@@ -64,6 +70,16 @@ const EditOccurrencePage: React.FC = () => {
     skip: !occurrenceData?.occurrence?.placeId,
     variables: { id: occurrenceData?.occurrence?.placeId as string },
   });
+  const occurrences =
+    (eventData?.event?.pEvent?.occurrences.edges.map(
+      (edge) => edge?.node
+    ) as OccurrenceFieldsFragment[]) || [];
+  const comingOccurrences = occurrences.filter(
+    (item) => !isPast(new Date(item.startTime))
+  );
+  const filteredComingOccurrences = occurrenceId
+    ? comingOccurrences.filter((item) => item.id !== occurrenceId)
+    : comingOccurrences;
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
@@ -78,10 +94,6 @@ const EditOccurrencePage: React.FC = () => {
     );
   };
 
-  const goToOccurrencesPage = () => {
-    history.push(`/${locale}${ROUTES.OCCURRENCES.replace(':id', eventId)}`);
-  };
-
   const getPayload = (values: OccurrenceFormFields) => {
     return {
       id: occurrenceId,
@@ -94,6 +106,7 @@ const EditOccurrencePage: React.FC = () => {
 
   const runSubmitRequests = async (values: OccurrenceFormFields) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
 
       requests.push(
@@ -105,7 +118,7 @@ const EditOccurrencePage: React.FC = () => {
       );
 
       const createOrUpdateVenueRequest = createOrUpdateVenue({
-        formValues: values,
+        venueFormData: values,
         locationId: values.placeId,
         language: locale,
       });
@@ -151,6 +164,17 @@ const EditOccurrencePage: React.FC = () => {
     }
   };
 
+  const handleDeleteOccurrence = async (
+    occurrence: OccurrenceFieldsFragment
+  ) => {
+    try {
+      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
+      refetchEvent();
+    } catch (e) {
+      toast.error(t('occurrences.deleteError'));
+    }
+  };
+
   const initialValues: OccurrenceFormFields = React.useMemo(
     () => ({
       date: occurrenceData?.occurrence?.startTime
@@ -168,12 +192,12 @@ const EditOccurrencePage: React.FC = () => {
         ) || [],
       placeId: occurrenceData?.occurrence?.placeId || '',
       amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
-      maxGroupSize: occurrenceData?.occurrence?.maxGroupSize.toString() || '',
-      minGroupSize: occurrenceData?.occurrence?.minGroupSize.toString() || '',
-      autoAcceptance: Boolean(occurrenceData?.occurrence?.autoAcceptance),
+      maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',
+      minGroupSize: occurrenceData?.occurrence?.minGroupSize?.toString() || '',
       locationDescription: getVenueDescription(venueData, locale),
       hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
       hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
+      outdoorActivity: venueData?.venue?.outdoorActivity || false,
     }),
     [locale, occurrenceData, venueData]
   );
@@ -184,33 +208,60 @@ const EditOccurrencePage: React.FC = () => {
         isLoading={loadingEvent || loadingOccurrence || loadingVenue}
       >
         {eventData && occurrenceData ? (
-          <Container>
-            <div className={styles.eventOccurrencePage}>
-              <ActiveOrganisationInfo organisationId={organisationId} />
+          <>
+            {isEditableEvent(eventData) ? (
+              <Container>
+                <div className={styles.eventOccurrencePage}>
+                  <ActiveOrganisationInfo organisationId={organisationId} />
 
-              <BackButton onClick={goToOccurrencesPage}>
-                {t('editOccurrence.buttonBack')}
-              </BackButton>
-              <div className={styles.headerContainer}>
-                <h1>
-                  {getLocalizedString(eventData?.event?.name || {}, locale)}
-                </h1>
-                <Button variant="secondary" onClick={goToEventDetailsPage}>
-                  {t('editOccurrence.buttonShowEventInfo')}
-                </Button>
-              </div>
-              <EventOccurrenceForm
-                eventData={eventData}
-                formTitle={t('editOccurrence.formTitle')}
-                initialValues={initialValues}
-                occurrenceId={occurrenceId}
-                onCancel={goToOccurrenceDetailsPage}
-                onSubmit={submit}
-                onSubmitAndAdd={submitAndAdd}
-                refetchEvent={refetchEvent}
+                  <BackButton onClick={history.goBack}>
+                    {t('editOccurrence.buttonBack')}
+                  </BackButton>
+                  <div className={styles.headerContainer}>
+                    <h1>
+                      {getLocalizedString(eventData?.event?.name || {}, locale)}
+                    </h1>
+                    <Button variant="secondary" onClick={goToEventDetailsPage}>
+                      {t('editOccurrence.buttonShowEventInfo')}
+                    </Button>
+                  </div>
+                  <EventOccurrenceForm
+                    eventData={eventData}
+                    formTitle={t('editOccurrence.formTitle')}
+                    initialValues={initialValues}
+                    occurrenceId={occurrenceId}
+                    onCancel={goToOccurrenceDetailsPage}
+                    onSubmit={submit}
+                    onSubmitAndAdd={submitAndAdd}
+                    refetchEvent={refetchEvent}
+                  />
+                  <h2>
+                    {t('occurrences.titleComingOccurrences')}{' '}
+                    <span className={styles.count}>
+                      {t('occurrences.count', {
+                        count: filteredComingOccurrences.length,
+                      })}
+                    </span>
+                  </h2>
+                  {filteredComingOccurrences.length ? (
+                    <OccurrencesTable
+                      eventData={eventData}
+                      id="coming-occurrences"
+                      occurrences={filteredComingOccurrences}
+                      onDelete={handleDeleteOccurrence}
+                    />
+                  ) : (
+                    <div>{t('occurrences.textNoComingOccurrences')}</div>
+                  )}
+                </div>
+              </Container>
+            ) : (
+              <ErrorPage
+                title={t('editEvent.errorEventIsPublished')}
+                description={t('editEvent.errorEventIsPublishedDescription')}
               />
-            </div>
-          </Container>
+            )}
+          </>
         ) : (
           <ErrorPage />
         )}

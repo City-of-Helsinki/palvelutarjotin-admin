@@ -10,19 +10,23 @@ import {
   OrganisationsDocument,
 } from '../../../../generated/graphql';
 import * as grpahqlFns from '../../../../generated/graphql';
-import { fakeOrganisations } from '../../../../utils/mockDataUtils';
+import { fakeOrganisations, fakePerson } from '../../../../utils/mockDataUtils';
 import {
   act,
-  prettyDOM,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import * as authSelectors from '../../../auth/selectors';
-import mockMyProfile from '../../../myProfile/__mocks__/myProfile.json';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
+
+const profileResponse = {
+  data: {
+    myProfile: fakePerson(),
+  },
+};
 
 const organisationMocks = fakeOrganisations(3, [
   { name: 'Organisaatio 1', id: 'organisation1' },
@@ -35,9 +39,7 @@ const mocks = [
     request: {
       query: MyProfileDocument,
     },
-    result: {
-      ...mockMyProfile,
-    },
+    result: profileResponse,
   },
 ];
 

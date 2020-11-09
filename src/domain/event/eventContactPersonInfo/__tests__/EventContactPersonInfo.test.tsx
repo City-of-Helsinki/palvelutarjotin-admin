@@ -2,31 +2,54 @@ import { MockedProvider } from '@apollo/react-testing';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import eventData from '../__mocks__/eventData.json';
-import personData from '../__mocks__/personData.json';
 import { PersonDocument } from '../../../../generated/graphql';
+import {
+  fakeEvent,
+  fakePerson,
+  fakePEvent,
+} from '../../../../utils/mockDataUtils';
 import EventContactPersonInfo from '../EventContactPersonInfo';
+
+const contactPersonName = 'Testi Testinen';
+const contactPersonEmail = 'testi@testinen.fi';
+const contactPersonPhoneNumber = '12345678';
+
+const event = fakeEvent({
+  pEvent: fakePEvent({
+    contactPerson: fakePerson({
+      id: '123',
+    }),
+    contactEmail: contactPersonEmail,
+    contactPhoneNumber: contactPersonPhoneNumber,
+  }),
+});
 
 const mocks = [
   {
     request: {
       query: PersonDocument,
       variables: {
-        id: eventData.event?.pEvent?.contactPerson?.id,
+        id: event?.pEvent?.contactPerson?.id,
       },
     },
-    result: personData,
+    result: {
+      data: {
+        person: fakePerson({
+          name: contactPersonName,
+        }),
+      },
+    },
   },
 ];
 
 test('matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks}>
-      <EventContactPersonInfo eventData={eventData as any} />
+      <EventContactPersonInfo eventData={{ event }} />
     </MockedProvider>
   );
 
-  await screen.findByText('Testi Testinen');
+  await screen.findByText(contactPersonName);
 
   expect(container).toMatchSnapshot();
 });
@@ -34,15 +57,16 @@ test('matches snapshot', async () => {
 test('renders correct contact information and titles', async () => {
   render(
     <MockedProvider mocks={mocks}>
-      <EventContactPersonInfo eventData={eventData as any} />
+      <EventContactPersonInfo eventData={{ event }} />
     </MockedProvider>
   );
 
-  await screen.findByText('Testi Testinen');
+  await screen.findByText(contactPersonName);
 
-  expect(screen.queryByText('testi@testinen.fi')).toBeVisible();
-  expect(screen.queryByText('Testi Testinen')).toBeVisible();
-  expect(screen.queryByText('12345678')).toBeVisible();
+  expect(screen.queryByText(contactPersonName)).toBeVisible();
+  expect(screen.queryByText(contactPersonEmail)).toBeVisible();
+
+  expect(screen.queryByText(contactPersonPhoneNumber)).toBeVisible();
   expect(screen.queryByText('Yhteyshenkilö')).toBeVisible();
   expect(screen.queryByText('Nimi')).toBeVisible();
   expect(screen.queryByText('Sähköpostiosoite')).toBeVisible();

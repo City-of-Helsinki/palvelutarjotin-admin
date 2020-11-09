@@ -1,11 +1,8 @@
-import { isPast } from 'date-fns';
 import { Field, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
-import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -13,16 +10,11 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
+import FormHelperText from '../../../common/components/FormHelperText/FormHelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import {
-  EventQuery,
-  Language,
-  OccurrenceFieldsFragment,
-  useDeleteOccurrenceMutation,
-} from '../../../generated/graphql';
+import { EventQuery, Language } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
-import OccurrencesTable from '../../occurrences/occurrencesTable/OccurrencesTable';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import { OccurrenceFormFields } from '../types';
@@ -30,7 +22,6 @@ import styles from './eventOccurrenceForm.module.scss';
 import ValidationSchema from './ValidationSchema';
 
 export const defaultInitialValues: OccurrenceFormFields = {
-  autoAcceptance: true,
   date: null,
   languages: [],
   startsAt: '',
@@ -42,6 +33,7 @@ export const defaultInitialValues: OccurrenceFormFields = {
   locationDescription: '',
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
+  outdoorActivity: false,
 };
 
 interface Props {
@@ -49,6 +41,7 @@ interface Props {
   formTitle: string;
   initialValues: OccurrenceFormFields;
   occurrenceId?: string;
+  showFirstOccurrenceHelperText?: boolean;
   onCancel: () => void;
   onSubmit: (values: OccurrenceFormFields) => void;
   onSubmitAndAdd: (
@@ -58,15 +51,26 @@ interface Props {
   refetchEvent: () => void;
 }
 
-const EventOccurrenceForm: React.FC<Props> = ({
+type GoToPublishingProps =
+  | {
+      showGoToPublishingButton?: false;
+      onGoToPublishing?: () => void;
+    }
+  | {
+      showGoToPublishingButton?: boolean;
+      onGoToPublishing: () => void;
+    };
+
+const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
   eventData,
   formTitle,
   initialValues,
-  occurrenceId,
   onCancel,
   onSubmit,
   onSubmitAndAdd,
-  refetchEvent,
+  onGoToPublishing,
+  showFirstOccurrenceHelperText,
+  showGoToPublishingButton,
 }) => {
   const addNew = React.useRef(false);
   const { t } = useTranslation();
@@ -76,35 +80,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
   const [editPlaceMode, setEditPlaceMode] = React.useState(
     Boolean(initialValues.placeId)
   );
-
-  const [deleteOccurrence] = useDeleteOccurrenceMutation();
-
-  const occurrences =
-    (eventData?.event?.pEvent?.occurrences.edges.map(
-      (edge) => edge?.node
-    ) as OccurrenceFieldsFragment[]) || [];
-
-  const comingOccurrences = occurrences.filter(
-    (item) => !isPast(new Date(item.startTime))
-  );
-  const filteredComingOccurrences = occurrenceId
-    ? comingOccurrences.filter((item) => item.id !== occurrenceId)
-    : comingOccurrences;
-
-  const handleDeleteOccurrence = async (
-    occurrence: OccurrenceFieldsFragment
-  ) => {
-    try {
-      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-      refetchEvent();
-    } catch (e) {
-      toast(t('occurrences.deleteError'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-  };
-
-  const handleCancelOccurrence = async () => {};
 
   return (
     <Formik
@@ -130,7 +105,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
             }}
           >
             <FocusToFirstError />
-            <p className={styles.title}>{formTitle}</p>
+            <h2 className={styles.title}>{formTitle}</h2>
             <div className={styles.occurrenceFormRow}>
               <div className={styles.locationRow}>
                 <p>{t('eventOccurrenceForm.infoText1')}</p>
@@ -138,6 +113,13 @@ const EventOccurrenceForm: React.FC<Props> = ({
             </div>
 
             <div className={styles.divider}></div>
+            {showFirstOccurrenceHelperText && (
+              <FormHelperText
+                text="Täydennä ensimmäisen tapahtuma-ajan tiedot"
+                style={{ margin: '2rem 0' }}
+              />
+            )}
+
             <div>
               <div className={styles.occurrenceFormRow}>
                 <FormGroup>
@@ -230,15 +212,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   />
                 </FormGroup>
               </div>
-
-              <FormGroup>
-                <Field
-                  labelText={t('eventOccurrenceForm.labelAutoAcceptance')}
-                  name="autoAcceptance"
-                  component={CheckboxField}
-                />
-              </FormGroup>
-
               <div className={styles.occurrenceFormRow}>
                 <div className={styles.fullRow}>
                   {editPlaceMode ? (
@@ -255,7 +228,7 @@ const EventOccurrenceForm: React.FC<Props> = ({
                     </TextTitle>
                   )}
 
-                  {(!!placeId || !!eventPlaceId) && (
+                  {(placeId || eventPlaceId) && (
                     <FormGroup>
                       <PlaceInfo
                         id={placeId || eventPlaceId}
@@ -275,8 +248,6 @@ const EventOccurrenceForm: React.FC<Props> = ({
                   )}
                 </div>
               </div>
-
-              {/* TODO: Add action handler to buttons */}
               <div className={styles.formActions}>
                 <Button onClick={onCancel} variant="secondary">
                   {t('form.actions.cancel')}
@@ -289,29 +260,16 @@ const EventOccurrenceForm: React.FC<Props> = ({
                 >
                   {t('form.actions.saveAndAddNew')}
                 </Button>
-                <Button type="submit">{t('form.actions.save')}</Button>
+                <Button type="submit">
+                  {t('createOccurrence.buttonSaveAndGoToPublishing')}
+                </Button>
+                {showGoToPublishingButton && (
+                  <Button type="button" onClick={onGoToPublishing}>
+                    {t('createOccurrence.buttonGoToPublishing')}
+                  </Button>
+                )}
               </div>
-
               <div className={styles.divider} />
-              <h2>
-                {t('occurrences.titleComingOccurrences')}{' '}
-                <span className={styles.count}>
-                  {t('occurrences.count', {
-                    count: filteredComingOccurrences.length,
-                  })}
-                </span>
-              </h2>
-              {filteredComingOccurrences.length ? (
-                <OccurrencesTable
-                  eventData={eventData}
-                  id="coming-occurrences"
-                  occurrences={filteredComingOccurrences}
-                  onDelete={handleDeleteOccurrence}
-                  onCancel={handleCancelOccurrence}
-                />
-              ) : (
-                <div>{t('occurrences.textNoComingOccurrences')}</div>
-              )}
             </div>
           </form>
         );

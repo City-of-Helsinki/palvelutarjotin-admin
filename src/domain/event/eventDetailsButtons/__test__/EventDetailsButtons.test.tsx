@@ -2,11 +2,16 @@ import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
-import Router from 'react-router';
 
-import eventData from '../__mocks__/eventData.json';
+import { fakeEvent } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import EventDetailsButtons from '../EventDetailsButtons';
+
+const eventId = 'palvelutarjotin:afzunowba4';
+
+const event = fakeEvent({
+  id: eventId,
+});
 
 afterAll(() => {
   clear();
@@ -19,7 +24,7 @@ afterEach(() => {
 test('is accessible and matches snapshot', async () => {
   const { container } = render(
     <EventDetailsButtons
-      eventData={eventData as any}
+      eventData={{ event }}
       onClickLanguage={jest.fn()}
       selectedLanguage="fi"
     />
@@ -37,7 +42,7 @@ test('it renders correct texts and click events work', () => {
   const clickLanguageMock = jest.fn();
   const { history } = render(
     <EventDetailsButtons
-      eventData={eventData as any}
+      eventData={{ event }}
       onClickLanguage={clickLanguageMock}
       selectedLanguage="fi"
     />
@@ -56,7 +61,7 @@ test('it renders correct texts and click events work', () => {
 
   expect(pushSpy).toHaveBeenCalledTimes(2);
   expect(pushSpy).toHaveBeenCalledWith({
-    pathname: '/fi/events/palvelutarjotin:afzunowba4/edit',
+    pathname: `/fi/events/${eventId}/edit`,
     search: '?language=fi',
   });
 

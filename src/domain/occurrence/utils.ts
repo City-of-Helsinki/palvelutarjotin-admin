@@ -36,6 +36,5 @@ export const getOccurrencePayload = ({
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || 0,
     maxGroupSize: Number(values.maxGroupSize) || 0,
-    autoAcceptance: values.autoAcceptance,
   };
 };

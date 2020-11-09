@@ -2,22 +2,35 @@ import { render, screen } from '@testing-library/react';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 
-import eventData from '../__mocks__/eventData.json';
-import { EventQuery } from '../../../../generated/graphql';
+import {
+  fakeEvent,
+  fakeInLanguage,
+  fakeKeyword,
+  fakeLocalizedObject,
+} from '../../../../utils/mockDataUtils';
 import EventCategorisation from '../EventCategorisation';
+
+const event = fakeEvent({
+  keywords: [
+    fakeKeyword({ name: fakeLocalizedObject('perheet') }),
+    fakeKeyword({ name: fakeLocalizedObject('maahanmuuttajat') }),
+  ],
+  inLanguage: [
+    fakeInLanguage({ name: fakeLocalizedObject('englanti') }),
+    fakeInLanguage({ name: fakeLocalizedObject('suomi') }),
+  ],
+});
 
 test('matches snapshot', () => {
   const { container } = render(
-    <EventCategorisation eventData={eventData as EventQuery} language="fi" />
+    <EventCategorisation eventData={{ event }} language="fi" />
   );
 
   expect(container).toMatchSnapshot();
 });
 
 test('renders ands display information correctly', () => {
-  render(
-    <EventCategorisation eventData={eventData as EventQuery} language="fi" />
-  );
+  render(<EventCategorisation eventData={{ event }} language="fi" />);
 
   // titles
   expect(screen.queryByText('Tapahtuma on ilmainen')).toBeVisible();
@@ -38,25 +51,25 @@ test('renders ands display information correctly', () => {
 });
 
 test('show correct texts with different data', () => {
-  const newEventData = cloneDeep(eventData);
-  newEventData.event.keywords.push({
+  const newEventData = cloneDeep(event);
+  newEventData.keywords.push({
     name: {
       fi: 'eläkeläiset',
     },
   } as any);
-  newEventData.event.pEvent.neededOccurrences = 4;
-  newEventData.event.inLanguage.push({
+  newEventData.pEvent.neededOccurrences = 4;
+  newEventData.inLanguage.push({
     name: {
       fi: 'ruotsi',
     },
   } as any);
-  (newEventData.event.audience as any).push({
+  (newEventData.audience as any).push({
     name: {
       fi: 'eläkeläiset',
     },
   } as any);
   render(
-    <EventCategorisation eventData={newEventData as EventQuery} language="fi" />
+    <EventCategorisation eventData={{ event: newEventData }} language="fi" />
   );
 
   expect(

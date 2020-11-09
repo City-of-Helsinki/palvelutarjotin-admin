@@ -11,13 +11,14 @@ import EditEnrolmentPage from '../../enrolment/EditEnrolmentPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
+import EventPreviewPage from '../../event/EventPreviewPage';
+import EventSummaryPage from '../../event/EventSummaryPage';
 import EventsPage from '../../events/EventsPage';
 import MyProfilePage from '../../myProfile/MyProfilePage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import EditOccurrencePage from '../../occurrence/EditOccurrencePage';
 import OccurrenceDetailsPage from '../../occurrence/OccurrenceDetailsPage';
-import OccurrencesPage from '../../occurrences/OccurrencesPage';
 import PageLayout from '../layout/PageLayout';
 import { ROUTES } from './constants';
 
@@ -66,17 +67,25 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         />
         <Route
           exact
+          path={`/${locale}${ROUTES.EVENT_SUMMARY}`}
+          component={EventSummaryPage}
+        />
+        <Route
+          exact
+          path={`/${locale}${ROUTES.EVENT_PREVIEW}`}
+          component={EventPreviewPage}
+        />
+        <Route
+          exact
           path={`/${locale}${ROUTES.EDIT_EVENT}`}
           component={EditEventPage}
         />
         <Route
           exact
-          path={`/${locale}${ROUTES.OCCURRENCES}`}
-          component={OccurrencesPage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.CREATE_OCCURRENCE}`}
+          path={[
+            `/${locale}${ROUTES.CREATE_OCCURRENCE}`,
+            `/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE}`,
+          ]}
           component={CreateEventOccurrencePage}
         />
         <Route

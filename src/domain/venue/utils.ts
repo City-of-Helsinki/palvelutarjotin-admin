@@ -21,11 +21,16 @@ export const getVenueDescription = (
     (t) => t.languageCode === selectedLanguage.toUpperCase()
   )?.description || '';
 
-export const getExistingVenuePayload = ({
-  formValues: { locationDescription, hasClothingStorage, hasSnackEatingPlace },
-  language,
+export const getVenuePayload = ({
   locationId,
   venueData,
+  language,
+  formValues: {
+    locationDescription,
+    hasClothingStorage,
+    hasSnackEatingPlace,
+    outdoorActivity,
+  },
 }: {
   formValues: VenueDataFields;
   language: Language;
@@ -37,6 +42,7 @@ export const getExistingVenuePayload = ({
       id: locationId,
       hasClothingStorage,
       hasSnackEatingPlace,
+      outdoorActivity,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
@@ -51,39 +57,43 @@ export const getExistingVenuePayload = ({
 };
 
 export const createOrUpdateVenue = async ({
-  formValues,
+  venueFormData,
   language,
   locationId,
 }: {
-  formValues: VenueDataFields;
+  venueFormData: VenueDataFields;
   language: Language;
   locationId: string;
 }) => {
   try {
-    const { data: venueData } = await apolloClient.query<VenueQuery>({
+    const { data: existingVenueData } = await apolloClient.query<VenueQuery>({
       query: VenueDocument,
       variables: { id: locationId },
     });
 
-    const venueDescription = getVenueDescription(venueData, language);
-    const hasClothingStorage = venueData?.venue?.hasClothingStorage;
-    const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
+    const venueDescription = getVenueDescription(existingVenueData, language);
+    const { hasClothingStorage, hasSnackEatingPlace, outdoorActivity } =
+      existingVenueData?.venue || {};
 
     const venueShouldBeUpdated = Boolean(
-      venueData?.venue &&
-        (formValues.locationDescription !== venueDescription ||
-          formValues.hasClothingStorage !== hasClothingStorage ||
-          formValues.hasSnackEatingPlace !== hasSnackEatingPlace)
+      existingVenueData?.venue &&
+        (venueFormData.locationDescription !== venueDescription ||
+          venueFormData.hasClothingStorage !== hasClothingStorage ||
+          venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
+          venueFormData.outdoorActivity !== outdoorActivity)
     );
     const newVenueShouldBeCreated = Boolean(
-      !venueData?.venue && formValues.locationDescription
+      (!existingVenueData?.venue && venueFormData.locationDescription) ||
+        venueFormData.hasClothingStorage !== hasClothingStorage ||
+        venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
+        venueFormData.outdoorActivity !== outdoorActivity
     );
 
-    const variables = getExistingVenuePayload({
-      formValues,
+    const variables = getVenuePayload({
+      formValues: venueFormData,
       language,
       locationId,
-      venueData,
+      venueData: existingVenueData,
     });
 
     if (venueShouldBeUpdated) {
