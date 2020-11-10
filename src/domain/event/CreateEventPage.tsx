@@ -142,10 +142,7 @@ const CreateEventPage: React.FC = () => {
     <PageWrapper title="createEvent.pageTitle">
       <Container>
         <div className={styles.eventPage}>
-          <Notification
-            label={t('createEvent.threeStepNotification.title')}
-            closeButtonLabelText="Sulje"
-          >
+          <Notification label={t('createEvent.threeStepNotification.title')}>
             {t('createEvent.threeStepNotification.description')}
           </Notification>
           <ActiveOrganisationInfo />

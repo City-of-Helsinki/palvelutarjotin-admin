@@ -17,6 +17,7 @@
   "common": {
     "back": "Back",
     "leave": "Leave",
+    "close": "Close",
     "alertModal": {
       "buttonCancel": "Cancel"
     },
@@ -323,6 +324,24 @@
       "labelLocation": "Default venue",
       "placeholderLocation": "Search place...",
       "title": "Location"
+    },
+    "accessibility": {
+      "audienceDropdown": {
+        "clearButtonAriaLabel": "Delete all audience selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete audience selection"
+      },
+      "categoryDropdown": {
+        "clearButtonAriaLabel": "Delete all categories",
+        "selectedItemRemoveButtonAriaLabel": "Delete category selection"
+      },
+      "otherClassificationDropdown": {
+        "clearButtonAriaLabel": "Delete all other classification selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete other classification selection"
+      },
+      "inLanguageDropdown": {
+        "clearButtonAriaLabel": "Delete all language selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete language selection"
+      }
     }
   },
   "events": {

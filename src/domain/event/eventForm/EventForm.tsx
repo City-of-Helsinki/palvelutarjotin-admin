@@ -324,6 +324,12 @@ const EventForm = <T extends FormFields>({
                                 value: language,
                               })
                             )}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.inLanguageDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.inLanguageDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
                           />
                         </FormGroup>
                       </div>
@@ -335,6 +341,12 @@ const EventForm = <T extends FormFields>({
                             name="audience"
                             // TODO: Add list of audiences later
                             options={targetGroups}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.audienceDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.audienceDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
                           />
                         </FormGroup>
                       </div>
@@ -352,6 +364,12 @@ const EventForm = <T extends FormFields>({
                             )}
                             name="categories"
                             options={categoryKeywords}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.categoryDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.categoryDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
                           />
                         </FormGroup>
                       </div>
@@ -367,6 +385,12 @@ const EventForm = <T extends FormFields>({
                             )}
                             name="additionalCriteria"
                             options={additionalCriteriaKeywords}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.otherClassificationDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.otherClassificationDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
                           />
                         </FormGroup>
                       </div>

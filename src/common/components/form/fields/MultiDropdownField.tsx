@@ -21,14 +21,15 @@ type Props = SelectProps<Option> &
       value: any,
       shouldValidate?: boolean | undefined
     ) => void;
+    clearButtonAriaLabel: string;
+    selectedItemRemoveButtonAriaLabel: string;
   };
 
-const DropdownField: React.FC<Props> = ({
+const MultiDropdownField: React.FC<Props> = ({
   className,
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
   helper,
-  multiselect,
   options,
   placeholder,
   setFieldValue,
@@ -68,7 +69,6 @@ const DropdownField: React.FC<Props> = ({
       {...field}
       helper={errorText || helper}
       invalid={Boolean(errorText)}
-      optionLabelField={'label'}
       multiselect={true}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
@@ -79,10 +79,8 @@ const DropdownField: React.FC<Props> = ({
         .map((item: string) => options.find((option) => option.value === item))
         .filter((i: Option | undefined) => i)}
       className={classNames(className, { [invalidFieldClass]: errorText })}
-      clearButtonAriaLabel="clearButtonAriaLabel"
-      selectedItemRemoveButtonAriaLabel="selectedItemRemoveButtonAriaLabel"
     />
   );
 };
 
-export default DropdownField;
+export default MultiDropdownField;

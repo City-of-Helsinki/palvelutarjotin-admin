@@ -83,8 +83,6 @@ const DropdownField: React.FC<Props> = ({
       placeholder={placeholder || t('common.dropdown.placeholder')}
       value={selectedValue}
       className={classNames(className, { [invalidFieldClass]: errorText })}
-      clearButtonAriaLabel="moi"
-      selectedItemRemoveButtonAriaLabel="moi"
     />
   );
 };

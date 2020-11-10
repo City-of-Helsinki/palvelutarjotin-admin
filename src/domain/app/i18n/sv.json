@@ -17,6 +17,7 @@
   "common": {
     "back": "Tillbacka",
     "leave": "Lämna",
+    "close": "Stänga",
     "alertModal": {
       "buttonCancel": "Avbryt"
     },
@@ -325,6 +326,24 @@
       "labelLocation": "Standard venue",
       "placeholderLocation": "Sök plats...",
       "title": "Plats"
+    },
+    "accessibility": {
+      "audienceDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla publikval",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort publikval"
+      },
+      "categoryDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla kategorier",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort kategorival"
+      },
+      "otherClassificationDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla andra klassificeringsval",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort annat klassificeringsvaln"
+      },
+      "inLanguageDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla språkval",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort språkval"
+      }
     }
   },
   "events": {

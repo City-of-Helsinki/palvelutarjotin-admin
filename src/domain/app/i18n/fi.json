@@ -17,6 +17,7 @@
   "common": {
     "back": "Takaisin",
     "leave": "Poistu",
+    "close": "Sulje",
     "alertModal": {
       "buttonCancel": "Peruuta"
     },
@@ -324,6 +325,24 @@
       "labelLocation": "Oletustapahtumapaikka",
       "placeholderLocation": "Etsi paikkaa...",
       "title": "Tapahtumapaikka"
+    },
+    "accessibility": {
+      "audienceDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki kohderyhmävalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista kohderyhmä"
+      },
+      "categoryDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki kategoriavalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista kategoriavalinta"
+      },
+      "otherClassificationDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki muun luokittelun valinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista muun luokittelun valinta"
+      },
+      "inLanguageDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki kielivalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista kielivalinta"
+      }
     }
   },
   "events": {
