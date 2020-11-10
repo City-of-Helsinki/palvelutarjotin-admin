@@ -21,7 +21,7 @@ const ContactPersonInfoPart: React.FC<{
   ) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   touched: FormikTouched<any>;
-}> = ({ contactPersonId, personOptions, setFieldValue, touched }) => {
+}> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
 
   const setContactPersonId = async (name: string, value: string) => {

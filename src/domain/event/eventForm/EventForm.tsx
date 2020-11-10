@@ -7,8 +7,8 @@ import * as Yup from 'yup';
 import EventSteps from '../../../common/components/EventSteps/EventSteps';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
-import DropdownField from '../../../common/components/form/fields/DropdownField';
 import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
+import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
@@ -28,10 +28,13 @@ import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
+import { useKeywordOptions } from './useKeywordOptions';
 import createValidationSchema, { createEventSchema } from './ValidationSchema';
 
 export const defaultInitialValues: EventFormFields = {
   audience: [],
+  categories: [],
+  additionalCriteria: [],
   contactEmail: '',
   contactPersonId: '',
   contactPhoneNumber: '',
@@ -92,6 +95,11 @@ const EventForm = <T extends FormFields>({
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [newLanguage, setNewLanguage] = React.useState(selectedLanguage);
   const { t } = useTranslation();
+  const {
+    additionalCriteriaKeywords,
+    categoryKeywords,
+    targetGroups,
+  } = useKeywordOptions();
 
   const validationSchema = React.useMemo(() => {
     if (edit) {
@@ -146,6 +154,7 @@ const EventForm = <T extends FormFields>({
         touched,
       }) => {
         const { contactPersonId, image, location } = values;
+
         const imageSelected = Boolean(image);
         return (
           <>
@@ -295,36 +304,93 @@ const EventForm = <T extends FormFields>({
                     </FormGroup>
                   </div>
 
-                  <div className={styles.formSection}>
+                  <div
+                    className={styles.formSection}
+                    data-testid="in-language-dropdown"
+                  >
                     <h2>{t('eventForm.categorisation.title')}</h2>
                     <div className={styles.languageRow}>
                       <div>
                         <FormGroup>
                           <Field
-                            component={DropdownField}
+                            component={MultiDropdownField}
                             label={t(
                               'eventForm.categorisation.labelInLanguage'
                             )}
                             name="inLanguage"
-                            multiselect={true}
                             options={Object.values(EVENT_LANGUAGES).map(
                               (language) => ({
                                 label: t(`common.languages.${language}`),
                                 value: language,
                               })
                             )}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.inLanguageDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.inLanguageDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
                           />
                         </FormGroup>
                       </div>
-                      <div>
+                      <div data-testid="audience-dropdown">
                         <FormGroup>
                           <Field
-                            component={DropdownField}
+                            component={MultiDropdownField}
                             label={t('eventForm.categorisation.labelAudience')}
                             name="audience"
-                            multiselect={true}
                             // TODO: Add list of audiences later
-                            options={[]}
+                            options={targetGroups}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.audienceDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.audienceDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
+                    <div className={styles.languageRow}>
+                      <div data-testid="categories-dropdown">
+                        <FormGroup>
+                          <Field
+                            component={MultiDropdownField}
+                            label={t(
+                              'eventForm.categorisation.labelCategories'
+                            )}
+                            placeholder={t(
+                              'eventForm.categorisation.placeholderCategories'
+                            )}
+                            name="categories"
+                            options={categoryKeywords}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.categoryDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.categoryDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
+                          />
+                        </FormGroup>
+                      </div>
+                      <div data-testid="additional-criteria-dropdown">
+                        <FormGroup>
+                          <Field
+                            component={MultiDropdownField}
+                            label={t(
+                              'eventForm.categorisation.labelOtherClassification'
+                            )}
+                            placeholder={t(
+                              'eventForm.categorisation.placeholderCategories'
+                            )}
+                            name="additionalCriteria"
+                            options={additionalCriteriaKeywords}
+                            clearButtonAriaLabel={t(
+                              'eventForm.accessibility.otherClassificationDropdown.clearButtonAriaLabel'
+                            )}
+                            selectedItemRemoveButtonAriaLabel={t(
+                              'eventForm.accessibility.otherClassificationDropdown.selectedItemRemoveButtonAriaLabel'
+                            )}
                           />
                         </FormGroup>
                       </div>

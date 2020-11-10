@@ -22,10 +22,12 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
+  prettyDOM,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
@@ -236,12 +238,13 @@ test('can create new occurrence with form', async () => {
   );
 
   // select languages
-  const languageSelectorButton = screen.getByLabelText('Tapahtuman kieli', {
+  const languageSelectorButton = screen.getByLabelText(/Tapahtuman kieli/i, {
     selector: 'button',
   });
   userEvent.click(languageSelectorButton);
-  userEvent.click(screen.getByRole('option', { name: 'Englanti' }));
-  userEvent.click(screen.getByRole('option', { name: 'Suomi' }));
+  userEvent.click(screen.getByText(/englanti/i));
+  userEvent.click(screen.getByText(/suomi/i));
+
   userEvent.click(
     screen.getByLabelText('Tapahtuman kieli', { selector: 'button' })
   );
@@ -274,7 +277,6 @@ test('can create new occurrence with form', async () => {
       variables: {
         input: {
           amountOfSeats: 30,
-
           endTime: new Date('2020-08-13T10:00:00.000Z'),
           languages: [{ id: 'EN' }, { id: 'FI' }],
           maxGroupSize: 20,

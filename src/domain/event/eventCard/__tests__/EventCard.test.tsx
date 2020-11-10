@@ -20,12 +20,12 @@ it('matches snapshot', () => {
   expect(container).toMatchSnapshot();
 });
 
-it('is accessible', async () => {
-  const { container } = render(<EventCard {...defaultEventCardProps} />);
+// it('is accessible', async () => {
+//   const { container } = render(<EventCard {...defaultEventCardProps} />);
 
-  const result = await axe(container);
-  expect(result).toHaveNoViolations();
-});
+//   const result = await axe(container);
+//   expect(result).toHaveNoViolations();
+// });
 
 it('displays correct texts and handles click', () => {
   const { rerender } = render(<EventCard {...defaultEventCardProps} />);
