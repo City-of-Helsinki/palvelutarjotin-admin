@@ -96,6 +96,20 @@ export const QUERY_EVENT = gql`
   query Event($id: ID!, $include: [String]) {
     event(id: $id, include: $include) {
       ...eventFields
+      additionalCriteria {
+        id
+        internalId
+        name {
+          ...localisedFields
+        }
+      }
+      categories {
+        id
+        internalId
+        name {
+          ...localisedFields
+        }
+      }
     }
   }
 `;
