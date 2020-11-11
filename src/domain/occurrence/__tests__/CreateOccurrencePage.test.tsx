@@ -76,7 +76,7 @@ const eventMockedResponse = {
     query: EventDocument,
     variables: {
       id: eventMock.id,
-      include: ['location'],
+      include: ['location', 'keywords'],
     },
   },
   result: {

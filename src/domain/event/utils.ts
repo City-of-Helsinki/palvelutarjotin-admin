@@ -10,6 +10,7 @@ import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
+  Keyword,
   Language as TranslationLanguage,
   OccurrenceFieldsFragment,
   PublishEventMutationInput,
@@ -352,3 +353,20 @@ export const firstOccurrencePrefilledValuesToQuery = (
  */
 export const isEventFree = (event: EventFieldsFragment): boolean =>
   Boolean(event.offers.find((item) => item.isFree)?.isFree);
+
+export const getRealKeywords = (
+  eventData: EventQuery
+): Keyword[] | undefined => {
+  const { additionalCriteria, categories } = eventData.event || {};
+  return eventData?.event?.keywords.filter((keyword) => {
+    const keywordIsIncludedInCategories = categories?.find(
+      (category) => category.id === keyword.id
+    );
+    const keywordIsIncludedInAdditionalCriteria = additionalCriteria?.find(
+      (additionalCriteria) => additionalCriteria.id === keyword.id
+    );
+    return !(
+      keywordIsIncludedInCategories || keywordIsIncludedInAdditionalCriteria
+    );
+  });
+};

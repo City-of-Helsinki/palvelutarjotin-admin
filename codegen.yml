@@ -1,12 +1,12 @@
 overwrite: true
 schema: ${REACT_APP_API_URI}
-documents: ["./src/**/mutation.ts", "./src/**/query.ts"]
+documents: ['./src/**/mutation.ts', './src/**/query.ts']
 generates:
   src/generated/graphql.tsx:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
     config:
       withHooks: true
       withComponent: false
