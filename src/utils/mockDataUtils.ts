@@ -11,6 +11,7 @@ import {
   Image,
   InLanguage,
   Keyword,
+  KeywordSet,
   Language,
   LanguageType,
   LocalisedObject,
@@ -306,6 +307,24 @@ export const fakeOccurrence = (
   remainingSeats: null as any,
   cancelled: false,
   __typename: 'OccurrenceNode',
+  ...overrides,
+});
+
+export const fakeKeywordSet = (
+  overrides?: Partial<KeywordSet>
+): KeywordSet => ({
+  internalId: faker.random.uuid(),
+  id: faker.random.uuid(),
+  name: fakeLocalizedObject(),
+  keywords: [fakeKeyword()],
+  createdTime: '',
+  dataSource: '',
+  internalContext: '',
+  internalType: '',
+  lastModifiedTime: '',
+  publisher: '',
+  usage: '',
+  __typename: 'KeywordSet',
   ...overrides,
 });
 

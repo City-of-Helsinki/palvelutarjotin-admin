@@ -41,4 +41,16 @@ export const QUERY_KEYWORD = gql`
       }
     }
   }
+
+  query KeywordSet($setType: KeywordSetType!) {
+    keywordSet(setType: $setType) {
+      keywords {
+        ...keywordFields
+      }
+      name {
+        ...localisedFields
+      }
+      internalId
+    }
+  }
 `;

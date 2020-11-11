@@ -17,6 +17,7 @@
   "common": {
     "back": "Tillbacka",
     "leave": "Lämna",
+    "close": "Stänga",
     "alertModal": {
       "buttonCancel": "Avbryt"
     },
@@ -296,6 +297,8 @@
     },
     "categorisation": {
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
+      "labelCategories": "Kategorier",
+      "labelOtherClassification": "Annan klassificering",
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
       "labelIsFree": "Evenemanget är gratis",
@@ -303,6 +306,7 @@
       "labelNeededOccurrences": "Nödvändiga besök",
       "labelPrice": "Pris, €",
       "placeholderKeywords": "Lägg nyckelord...",
+      "placeholderCategories": "Välj lämpligt",
       "title": "Klassificeringar av evenemang"
     },
     "changeLanguageModal": {
@@ -322,6 +326,24 @@
       "labelLocation": "Standard venue",
       "placeholderLocation": "Sök plats...",
       "title": "Plats"
+    },
+    "accessibility": {
+      "audienceDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla publikval",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort publikval"
+      },
+      "categoryDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla kategorier",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort kategorival"
+      },
+      "otherClassificationDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla andra klassificeringsval",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort annat klassificeringsvaln"
+      },
+      "inLanguageDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla språkval",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort språkval"
+      }
     }
   },
   "events": {

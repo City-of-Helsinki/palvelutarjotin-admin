@@ -115,6 +115,7 @@ export const getEventPayload = ({
   organisationId: string;
   selectedLanguage: Language;
 }) => {
+  const { keywords, additionalCriteria, categories } = values;
   return {
     name: { [selectedLanguage]: values.name },
     // start_date and offers are mandatory on LinkedEvents to use dummy data
@@ -151,12 +152,15 @@ export const getEventPayload = ({
         language
       ),
     })),
-    keywords: values.keywords.map((keyword) => ({
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-        keyword
-      ),
-    })),
+    // keywords, additionalCriteria and categories all belond to keywords in linked events
+    keywords: [...keywords, ...additionalCriteria, ...categories].map(
+      (keyword) => ({
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
+          keyword
+        ),
+      })
+    ),
     location: {
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.PLACE,

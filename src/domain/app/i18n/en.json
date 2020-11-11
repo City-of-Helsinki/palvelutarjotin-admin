@@ -17,6 +17,7 @@
   "common": {
     "back": "Back",
     "leave": "Leave",
+    "close": "Close",
     "alertModal": {
       "buttonCancel": "Cancel"
     },
@@ -294,6 +295,8 @@
     },
     "categorisation": {
       "helperKeywords": "Enter a keyword and select from the suggested options",
+      "labelCategories": "Categories",
+      "labelOtherClassification": "Other classification",
       "labelAudience": "Target groups",
       "labelInLanguage": "Event languages",
       "labelIsFree": "Event is free",
@@ -301,6 +304,7 @@
       "labelNeededOccurrences": "Necessary visits",
       "labelPrice": "Price, €",
       "placeholderKeywords": "Add keyword...",
+      "placeholderCategories": "Select appropriates",
       "title": "Event classifications"
     },
     "changeLanguageModal": {
@@ -320,6 +324,24 @@
       "labelLocation": "Default venue",
       "placeholderLocation": "Search place...",
       "title": "Location"
+    },
+    "accessibility": {
+      "audienceDropdown": {
+        "clearButtonAriaLabel": "Delete all audience selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete audience selection"
+      },
+      "categoryDropdown": {
+        "clearButtonAriaLabel": "Delete all categories",
+        "selectedItemRemoveButtonAriaLabel": "Delete category selection"
+      },
+      "otherClassificationDropdown": {
+        "clearButtonAriaLabel": "Delete all other classification selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete other classification selection"
+      },
+      "inLanguageDropdown": {
+        "clearButtonAriaLabel": "Delete all language selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete language selection"
+      }
     }
   },
   "events": {

@@ -1,7 +1,8 @@
 import { axe } from 'jest-axe';
 import React from 'react';
+import wait from 'waait';
 
-import { render } from '../../../../utils/testUtils';
+import { act, render } from '../../../../utils/testUtils';
 import EventForm, { defaultInitialValues } from '../EventForm';
 
 test('test for accessibility violations', async () => {
@@ -16,6 +17,8 @@ test('test for accessibility violations', async () => {
       setSelectedLanguage={jest.fn()}
     />
   );
+
+  await act(wait);
 
   const result = await axe(container);
   expect(result).toHaveNoViolations();

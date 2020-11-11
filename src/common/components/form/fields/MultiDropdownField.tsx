@@ -14,22 +14,22 @@ export type Option = {
 
 type Props = SelectProps<Option> &
   FieldProps & {
-    options: Option[];
-    defaultValue: Option;
+    defaultValue: Option[];
     setFieldValue?: (
       field: string,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       value: any,
       shouldValidate?: boolean | undefined
     ) => void;
+    clearButtonAriaLabel: string;
+    selectedItemRemoveButtonAriaLabel: string;
   };
 
-const DropdownField: React.FC<Props> = ({
+const MultiDropdownField: React.FC<Props> = ({
   className,
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
   helper,
-  multiselect,
   options,
   placeholder,
   setFieldValue,
@@ -63,28 +63,24 @@ const DropdownField: React.FC<Props> = ({
     });
   };
 
-  const selectedValue = options.find((option) => option.value === value) || {
-    label: '',
-    value: '',
-  };
-
   return (
     <Select
       {...rest}
       {...field}
       helper={errorText || helper}
       invalid={Boolean(errorText)}
-      optionLabelField={'label'}
-      // closeMenuOnSelect={!multiselect}
+      multiselect={true}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
       id={name}
       placeholder={placeholder || t('common.dropdown.placeholder')}
-      value={selectedValue}
+      value={value
+        .map((item: string) => options.find((option) => option.value === item))
+        .filter((i: Option | undefined) => i)}
       className={classNames(className, { [invalidFieldClass]: errorText })}
     />
   );
 };
 
-export default DropdownField;
+export default MultiDropdownField;

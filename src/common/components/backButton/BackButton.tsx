@@ -11,7 +11,7 @@ const BackButton: React.FC<Props> = ({ onClick, children }) => {
   return (
     <button className={styles.backButton} onClick={onClick}>
       <div className={styles.backIconWrapper}>
-        <IconArrowLeft />
+        <IconArrowLeft aria-hidden="true" />
       </div>
       <span>{children}</span>
     </button>

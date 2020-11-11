@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DateInputField from '../../../common/components/form/fields/DateInputField';
-import DropdownField from '../../../common/components/form/fields/DropdownField';
+import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import TimepickerField from '../../../common/components/form/fields/TimepickerField';
@@ -170,12 +170,11 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
               </div>
 
               <div className={styles.occurrenceFormRow}>
-                <FormGroup>
+                <FormGroup data-testid="language-dropdown">
                   <Field
-                    component={DropdownField}
+                    component={MultiDropdownField}
                     label={t('eventOccurrenceForm.labelLanguages')}
                     name="languages"
-                    multiselect={true}
                     options={[
                       ...Object.values(Language).map((language) => ({
                         label: t(`common.languages.${language.toLowerCase()}`),

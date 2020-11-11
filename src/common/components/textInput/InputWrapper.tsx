@@ -68,9 +68,9 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
       )}
       {tooltipText && (
         <Tooltip
-          labelText={tooltipLabel || ''}
-          closeButtonLabelText={tooltipCloseButtonLabelText || ''}
-          openButtonLabelText={tooltipOpenButtonLabelText || ''}
+          tooltipLabel={tooltipLabel || ''}
+          // closeButtonLabelText={tooltipCloseButtonLabelText || ''}
+          buttonLabel={tooltipOpenButtonLabelText || ''}
         >
           {tooltipText}
         </Tooltip>
