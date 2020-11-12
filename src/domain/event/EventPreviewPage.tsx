@@ -20,7 +20,7 @@ const EventPage: React.FC = () => {
   const { id: eventId } = useParams<{ id: string }>();
 
   const { data: eventData, loading } = useEventQuery({
-    variables: { id: eventId as string, include: ['keywords,location'] },
+    variables: { id: eventId as string, include: ['keywords', 'location'] },
   });
 
   const {

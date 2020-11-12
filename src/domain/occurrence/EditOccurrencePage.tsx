@@ -50,7 +50,7 @@ const EditOccurrencePage: React.FC = () => {
     loading: loadingEvent,
     refetch: refetchEvent,
   } = useEventQuery({
-    variables: { id: eventId, include: ['location'] },
+    variables: { id: eventId, include: ['keywords', 'location'] },
   });
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';

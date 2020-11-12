@@ -92,7 +92,7 @@ const apolloMocks: MockedResponse[] = [
       query: EventDocument,
       variables: {
         id: eventMock.id,
-        include: ['location'],
+        include: ['keywords', 'location'],
       },
     },
     result: {

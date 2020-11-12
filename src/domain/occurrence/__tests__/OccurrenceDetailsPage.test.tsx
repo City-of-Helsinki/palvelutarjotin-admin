@@ -122,7 +122,7 @@ const mocks = [
       query: EventDocument,
       variables: {
         id: eventId,
-        include: ['location'],
+        include: ['keywords', 'location'],
       },
     },
     result: eventResult,
