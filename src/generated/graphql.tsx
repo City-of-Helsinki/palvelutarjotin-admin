@@ -157,12 +157,13 @@ export type QueryOrganisationsArgs = {
 };
 
 export type QueryEventsArgs = {
-  divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   inLanguage?: Maybe<Scalars['String']>;
   isFree?: Maybe<Scalars['Boolean']>;
-  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keyword?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keywordAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
@@ -2116,12 +2117,13 @@ export type MetaFieldsFragment = { __typename?: 'Meta' } & Pick<
 >;
 
 export type EventsQueryVariables = {
-  divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   inLanguage?: Maybe<Scalars['String']>;
   isFree?: Maybe<Scalars['Boolean']>;
-  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keyword?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keywordAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
@@ -4122,12 +4124,13 @@ export type EventQueryResult = ApolloReactCommon.QueryResult<
 >;
 export const EventsDocument = gql`
   query Events(
-    $divisions: [String]
+    $division: [String]
     $end: String
     $include: [String]
     $inLanguage: String
     $isFree: Boolean
-    $keywords: [String]
+    $keyword: [String]
+    $keywordAnd: [String]
     $keywordNot: [String]
     $language: String
     $location: String
@@ -4144,12 +4147,13 @@ export const EventsDocument = gql`
     $publicationStatus: String
   ) {
     events(
-      divisions: $divisions
+      division: $division
       end: $end
       include: $include
       inLanguage: $inLanguage
       isFree: $isFree
-      keywords: $keywords
+      keyword: $keyword
+      keywordAnd: $keywordAnd
       keywordNot: $keywordNot
       language: $language
       location: $location
@@ -4218,12 +4222,13 @@ export function withEvents<
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
- *      divisions: // value for 'divisions'
+ *      division: // value for 'division'
  *      end: // value for 'end'
  *      include: // value for 'include'
  *      inLanguage: // value for 'inLanguage'
  *      isFree: // value for 'isFree'
- *      keywords: // value for 'keywords'
+ *      keyword: // value for 'keyword'
+ *      keywordAnd: // value for 'keywordAnd'
  *      keywordNot: // value for 'keywordNot'
  *      language: // value for 'language'
  *      location: // value for 'location'
