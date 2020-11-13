@@ -228,7 +228,8 @@
       "labelName": "Evenemang namn",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
-      "title": "Grundläggande information"
+      "title": "Grundläggande information",
+      "photographerText": "Foto: {{photographer}}"
     },
     "buttons": {
       "buttonBack": "Evenemang",

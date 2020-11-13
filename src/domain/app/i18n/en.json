@@ -228,7 +228,8 @@
       "labelInfoUrl": "A web address where you can find more information about the event",
       "labelName": "Event name",
       "labelShortDescription": "Short description (up to 160 characters)",
-      "title": "Basic information"
+      "title": "Basic information",
+      "photographerText": "Photo: {{photographer}}"
     },
     "buttons": {
       "buttonBack": "Events",
