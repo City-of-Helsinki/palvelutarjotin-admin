@@ -25,7 +25,7 @@ const EventImage: React.FC<EventImageProps> = ({
       />
       {photographerName && (
         <div className={styles.photographerText}>
-          {t('event:photographerText', {
+          {t('eventDetails.basicInfo.photographerText', {
             photographer: photographerName,
           })}
         </div>
