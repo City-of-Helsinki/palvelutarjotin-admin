@@ -159,6 +159,7 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
       className={classNames(styles.tableDropdown, {
         [styles.isMenuOpen]: isMenuOpen,
       })}
+      data-testid="table-dropdown-menu"
       ref={container}
     >
       <button
