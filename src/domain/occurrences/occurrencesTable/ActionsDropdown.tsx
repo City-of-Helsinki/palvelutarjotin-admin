@@ -13,7 +13,7 @@ import { ROUTES } from '../../app/routes/constants';
 import styles from './actionsDropdown.module.scss';
 import CancelOccurrenceModal from './CancelOccurrenceModal';
 
-interface Props {
+export interface Props {
   eventId: string;
   isEventDraft: boolean;
   onDelete: (row: OccurrenceFieldsFragment) => void;
