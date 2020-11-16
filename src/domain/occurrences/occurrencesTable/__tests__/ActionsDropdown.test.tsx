@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
+import { tableDropdownTestId } from '../../../../common/components/tableDropdown/TableDropdown';
 import { fakeOccurrence } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import { ROUTES } from '../../../app/routes/constants';
@@ -31,7 +32,7 @@ it('open menu correctly', () => {
 
   userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  expect(screen.getByTestId('table-dropdown-menu')).toHaveClass('isMenuOpen');
+  expect(screen.getByTestId(tableDropdownTestId)).toHaveClass('isMenuOpen');
 });
 
 it('navigates correctly from actions', () => {

@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import styles from './tableDropdown.module.scss';
 
+export const tableDropdownTestId = 'table-dropdown-menu';
+
 export type MenuItemProps = {
   children: ReactElement;
   onClick: (row: Record<string, unknown>) => void;
@@ -159,7 +161,7 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
       className={classNames(styles.tableDropdown, {
         [styles.isMenuOpen]: isMenuOpen,
       })}
-      data-testid="table-dropdown-menu"
+      data-testid={tableDropdownTestId}
       ref={container}
     >
       <button

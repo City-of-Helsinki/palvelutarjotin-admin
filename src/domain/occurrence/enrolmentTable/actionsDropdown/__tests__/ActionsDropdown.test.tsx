@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
+import { tableDropdownTestId } from '../../../../../common/components/tableDropdown/TableDropdown';
 import { DeclineEnrolmentDocument } from '../../../../../generated/graphql';
 import { fakeEnrolment } from '../../../../../utils/mockDataUtils';
 import {
@@ -58,7 +59,7 @@ it('open menu correctly', () => {
 
   userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  expect(screen.getByTestId('table-dropdown-menu')).toHaveClass('isMenuOpen');
+  expect(screen.getByTestId(tableDropdownTestId)).toHaveClass('isMenuOpen');
 });
 
 it('canceling enrolment works from dropdown', async () => {
