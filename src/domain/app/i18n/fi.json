@@ -228,7 +228,8 @@
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
       "labelName": "Tapahtuman nimi",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
-      "title": "Tapahtuman perustiedot"
+      "title": "Tapahtuman perustiedot",
+      "photographerText": "Kuva: {{photographer}}"
     },
     "buttons": {
       "buttonBack": "Tapahtumat",
