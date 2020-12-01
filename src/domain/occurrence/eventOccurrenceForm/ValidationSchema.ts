@@ -1,4 +1,5 @@
-import { isBefore, isToday, parse as parseDate } from 'date-fns';
+import isBefore from 'date-fns/isBefore';
+import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
 import { isTodayOrLater } from '../../../utils/dateUtils';
