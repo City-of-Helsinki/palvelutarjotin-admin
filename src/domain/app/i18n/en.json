@@ -292,7 +292,7 @@
     "buttonSaveDraft": "Save draft",
     "occurrenceTime": {
       "titleOccurrenceTime": "Occurrence time",
-      "occurrenceTimeHelperText": "First occurrence date. Rest of the occurrences and additional information are entererd in step 2."
+      "occurrenceTimeHelperText": "First occurrence date. Rest of the occurrences and additional information are entered in step 2."
     },
     "categorisation": {
       "helperKeywords": "Enter a keyword and select from the suggested options",
@@ -432,7 +432,7 @@
       },
       "date": {
         "required": "This field is required",
-        "future": "This date must be in the future",
+        "mustNotInThePast": "This date must not be in the past",
         "min": "This date must be after {{min}}",
         "max": "This date must be before {{max}}"
       },

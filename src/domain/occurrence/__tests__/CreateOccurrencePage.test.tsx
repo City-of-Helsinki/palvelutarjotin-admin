@@ -1,8 +1,11 @@
 import { MockedResponse } from '@apollo/react-testing';
-import { format } from 'date-fns';
+import { fireEvent } from '@testing-library/react';
+import { addDays, format, formatISO } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
+import range from 'lodash/range';
 import React from 'react';
 
+import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import {
   EventDocument,
   MyProfileDocument,
@@ -22,14 +25,13 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
-  prettyDOM,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
+import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 
@@ -43,24 +45,9 @@ const placeMock = fakePlace({
 });
 const venueMock = fakeVenue();
 
-advanceTo(new Date(2020, 7, 2));
-const fakeOccurrenceOverrides: Partial<OccurrenceNode>[] = [
-  {
-    startTime: '2020-08-03T09:00:00+00:00',
-  },
-  {
-    startTime: '2020-08-04T09:00:00+00:00',
-  },
-  {
-    startTime: '2020-08-05T09:00:00+00:00',
-  },
-  {
-    startTime: '2020-08-06T09:00:00+00:00',
-  },
-  {
-    startTime: '2020-08-07T09:00:00+00:00',
-  },
-];
+let fakeOccurrenceOverrides: Partial<OccurrenceNode>[];
+let eventMockedResponse: MockedResponse;
+let apolloMocks: MockedResponse[];
 
 const occurrenceFormData = {
   date: '13.08.2020',
@@ -71,71 +58,76 @@ const occurrenceFormData = {
   maxGroupSize: '20',
 };
 
-const eventMockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: {
-      id: eventMock.id,
-      include: ['keywords', 'location'],
-    },
-  },
-  result: {
-    data: {
-      event: {
-        ...eventMock,
-        pEvent: fakePEvent({
-          occurrences: fakeOccurrences(
-            fakeOccurrenceOverrides.length,
-            fakeOccurrenceOverrides
-          ),
-        }),
-      },
-    },
-  },
-};
-
-const apolloMocks: MockedResponse[] = [
-  {
+const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
+  advanceTo(fromDate);
+  fakeOccurrenceOverrides = range(1, occurences).map((occurence) => ({
+    startTime: formatISO(addDays(fromDate, occurence)),
+  }));
+  eventMockedResponse = {
     request: {
-      query: MyProfileDocument,
-      variables: {},
-    },
-    result: {
-      data: { myProfile: fakePerson({ organisations: fakeOrganisations() }) },
-    },
-  },
-  // refetch() event data requires second mock
-  eventMockedResponse,
-  eventMockedResponse,
-  {
-    request: {
-      query: PlaceDocument,
+      query: EventDocument,
       variables: {
-        id: eventMock.location.id,
+        id: eventMock.id,
+        include: ['keywords', 'location'],
       },
     },
     result: {
       data: {
-        place: {
-          ...placeMock,
+        event: {
+          ...eventMock,
+          pEvent: fakePEvent({
+            occurrences: fakeOccurrences(
+              fakeOccurrenceOverrides.length,
+              fakeOccurrenceOverrides
+            ),
+          }),
         },
       },
     },
-  },
-  {
-    request: {
-      query: VenueDocument,
-      variables: {
-        id: eventMock.location.id,
+  };
+  apolloMocks = [
+    {
+      request: {
+        query: MyProfileDocument,
+        variables: {},
+      },
+      result: {
+        data: { myProfile: fakePerson({ organisations: fakeOrganisations() }) },
       },
     },
-    result: {
-      data: {
-        venue: venueMock,
+    // refetch() event data requires second mock
+    eventMockedResponse,
+    eventMockedResponse,
+    {
+      request: {
+        query: PlaceDocument,
+        variables: {
+          id: eventMock.location.id,
+        },
+      },
+      result: {
+        data: {
+          place: {
+            ...placeMock,
+          },
+        },
       },
     },
-  },
-];
+    {
+      request: {
+        query: VenueDocument,
+        variables: {
+          id: eventMock.location.id,
+        },
+      },
+      result: {
+        data: {
+          venue: venueMock,
+        },
+      },
+    },
+  ];
+};
 
 afterAll(() => {
   clear();
@@ -146,6 +138,7 @@ afterEach(() => {
 });
 
 test('renders coming occurrences table correctly', async () => {
+  initializeMocks();
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
@@ -192,6 +185,7 @@ test('can create new occurrence with form', async () => {
     .spyOn(graphqlFns, 'useAddOccurrenceMutation')
     .mockReturnValue([createOccurrenceSpy] as any);
 
+  initializeMocks();
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
@@ -215,7 +209,7 @@ test('can create new occurrence with form', async () => {
   const dateInput = screen.getByLabelText('Päivämäärä');
   // click first so focus is kept
   userEvent.click(dateInput);
-  userEvent.type(dateInput, '13.08.2020');
+  userEvent.type(dateInput, occurrenceFormData.date);
 
   const startsAtInput = screen.getByLabelText('Alkaa klo', {
     selector: 'input',
@@ -306,6 +300,7 @@ test('can create new occurrence with form', async () => {
 test('initializes pre-filled occurrence values from URL', async () => {
   const queryString =
     '?date=2020-10-25T22%3A00%3A00.000Z&startsAt=12%3A00&endsAt=13%3A00';
+  initializeMocks();
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [
@@ -334,6 +329,7 @@ test('initializes pre-filled occurrence values from URL', async () => {
 test('does not initializes values from URL if they are invalid', async () => {
   const queryString =
     '?date=2020-101-25T22%3A00%3A00.000Z&startsAt=12%3A000&endsAt=13%3A00';
+  initializeMocks();
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [
@@ -349,4 +345,56 @@ test('does not initializes values from URL if they are invalid', async () => {
   expect(screen.getByRole('textbox', { name: /päivämäärä/i })).toHaveValue('');
   expect(screen.getByRole('textbox', { name: /alkaa klo/i })).toHaveValue('');
   expect(screen.getByRole('textbox', { name: /loppuu klo/i })).toHaveValue('');
+});
+
+test('yesterday is not valid event start day', async () => {
+  const currentDate = new Date(2020, 7, 2);
+  initializeMocks(currentDate, 1);
+  renderWithRoute(<CreateOccurrencePage />, {
+    mocks: apolloMocks,
+    routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
+    path: ROUTES.CREATE_OCCURRENCE,
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  const dateInput = screen.getByLabelText(
+    messages.eventOccurrenceForm.labelDate
+  );
+  userEvent.click(dateInput);
+  userEvent.type(dateInput, format(addDays(currentDate, -1), DATE_FORMAT));
+  fireEvent.blur(dateInput);
+  await waitFor(() => {
+    expect(dateInput).toBeInvalid();
+  });
+  expect(screen.getByRole('alert')).toHaveTextContent(
+    messages.form.validation.date.mustNotInThePast
+  );
+});
+
+test('today is valid event start day', async () => {
+  const currentDate = new Date(2020, 7, 2);
+  initializeMocks(currentDate, 1);
+  renderWithRoute(<CreateOccurrencePage />, {
+    mocks: apolloMocks,
+    routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
+    path: ROUTES.CREATE_OCCURRENCE,
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  const dateInput = screen.getByLabelText(
+    messages.eventOccurrenceForm.labelDate
+  );
+  userEvent.click(dateInput);
+  userEvent.type(dateInput, format(currentDate, DATE_FORMAT));
+  fireEvent.blur(dateInput);
+  await waitFor(() => {
+    expect(dateInput).toBeValid();
+  });
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 });

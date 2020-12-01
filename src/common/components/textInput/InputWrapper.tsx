@@ -76,7 +76,11 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
         </Tooltip>
       )}
       <div className={classNames(styles.inputWrapper)}>{children}</div>
-      {helperText && <div className={styles.helperText}>{helperText}</div>}
+      {helperText && (
+        <div className={styles.helperText} role="alert">
+          {helperText}
+        </div>
+      )}
     </div>
   )
 );

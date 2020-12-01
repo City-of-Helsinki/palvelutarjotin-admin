@@ -1,8 +1,7 @@
-import isBefore from 'date-fns/isBefore';
-import isFuture from 'date-fns/isFuture';
-import parseDate from 'date-fns/parse';
+import { isBefore, isToday, parse as parseDate } from 'date-fns';
 import * as Yup from 'yup';
 
+import { isTodayOrLater } from '../../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 const addMinValidationMessage = (
@@ -30,8 +29,10 @@ export default Yup.object().shape({
   date: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (value: Date) =>
-      isFuture(value)
+    .test(
+      'isTodayOrInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+      isTodayOrLater
     ),
   startsAt: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)

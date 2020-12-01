@@ -435,7 +435,7 @@
       },
       "date": {
         "required": "Detta fält krävs",
-        "future": "Detta datum måste vara i framtiden",
+        "mustNotInThePast": "Detta datum kan inte vara i förr",
         "min": "Detta datum måste vara efter {{min}}",
         "max": "Detta datum måste vara före {{max}}"
       },

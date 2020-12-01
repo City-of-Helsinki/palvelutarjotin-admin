@@ -334,6 +334,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
             className={classNames(inputStyles.input, styles.datepickerInput, {
               [styles.invalid]: !!invalidText,
             })}
+            aria-invalid={!!invalidText}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}

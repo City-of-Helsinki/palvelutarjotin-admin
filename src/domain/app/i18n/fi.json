@@ -432,10 +432,10 @@
         "time": "Ajan tulee olla muotoa hh:mm"
       },
       "date": {
-        "required": "Tämä kenttä on pakollinen",
-        "future": "Tämän kentän on oltava tulevaisuudessa",
-        "min": "Tämän kentän on oltava {{min}} jälkeen",
-        "max": "Tämän kentän on oltava ennen {{max}}"
+        "required": "Päivämäärä on pakollinen",
+        "mustNotInThePast": "Päivämäärä ei voi olla menneisyydessä",
+        "min": "Päivämäärän on oltava {{min}} jälkeen",
+        "max": "Päivämäärän on oltava ennen {{max}}"
       },
       "time": {
         "required": "Tämä kenttä on pakollinen",
