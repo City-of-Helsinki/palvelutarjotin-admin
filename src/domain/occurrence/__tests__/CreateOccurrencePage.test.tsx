@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/react-testing';
-import { fireEvent } from '@testing-library/react';
 import { addDays, format, formatISO } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
 import range from 'lodash/range';
@@ -25,10 +24,12 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
+  fireEvent,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  waitForElementToBeRemoved,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import messages from '../../app/i18n/fi.json';
@@ -368,10 +369,11 @@ test('yesterday is not valid event start day', async () => {
   fireEvent.blur(dateInput);
   await waitFor(() => {
     expect(dateInput).toBeInvalid();
+    expect(dateInput).toHaveAttribute('aria-describedby');
+    expect(
+      screen.queryByText(messages.form.validation.date.mustNotInThePast)
+    ).toBeInTheDocument();
   });
-  expect(screen.getByRole('alert')).toHaveTextContent(
-    messages.form.validation.date.mustNotInThePast
-  );
 });
 
 test('today is valid event start day', async () => {
@@ -395,6 +397,9 @@ test('today is valid event start day', async () => {
   fireEvent.blur(dateInput);
   await waitFor(() => {
     expect(dateInput).toBeValid();
+    expect(dateInput).not.toHaveAttribute('aria-describedby');
+    expect(
+      screen.queryByText(messages.form.validation.date.mustNotInThePast)
+    ).not.toBeInTheDocument();
   });
-  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 });

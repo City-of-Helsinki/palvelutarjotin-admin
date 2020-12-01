@@ -291,6 +291,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   });
 
   const { month, year } = activeMonth;
+  const helperDescription = invalidText || helperText;
 
   return (
     <DatepickerContext.Provider
@@ -320,7 +321,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
         <InputWrapper
           className={className}
           id={id}
-          helperText={invalidText || helperText}
+          helperText={helperDescription}
           invalid={!!invalidText}
           labelText={labelText}
           hideLabel={hideLabel}
@@ -335,6 +336,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
               [styles.invalid]: !!invalidText,
             })}
             aria-invalid={!!invalidText}
+            aria-describedby={helperDescription && `${id}-helper`}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
