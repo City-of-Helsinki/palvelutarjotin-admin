@@ -369,11 +369,11 @@ test('yesterday is not valid event start day', async () => {
   fireEvent.blur(dateInput);
   await waitFor(() => {
     expect(dateInput).toBeInvalid();
-    expect(dateInput).toHaveAttribute('aria-describedby');
-    expect(
-      screen.queryByText(messages.form.validation.date.mustNotInThePast)
-    ).toBeInTheDocument();
   });
+  expect(dateInput).toHaveAttribute('aria-describedby');
+  expect(
+    screen.queryByText(messages.form.validation.date.mustNotInThePast)
+  ).toBeInTheDocument();
 });
 
 test('today is valid event start day', async () => {
@@ -397,9 +397,9 @@ test('today is valid event start day', async () => {
   fireEvent.blur(dateInput);
   await waitFor(() => {
     expect(dateInput).toBeValid();
-    expect(dateInput).not.toHaveAttribute('aria-describedby');
-    expect(
-      screen.queryByText(messages.form.validation.date.mustNotInThePast)
-    ).not.toBeInTheDocument();
   });
+  expect(dateInput).not.toHaveAttribute('aria-describedby');
+  expect(
+    screen.queryByText(messages.form.validation.date.mustNotInThePast)
+  ).not.toBeInTheDocument();
 });
