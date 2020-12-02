@@ -1,8 +1,8 @@
 import isBefore from 'date-fns/isBefore';
-import isFuture from 'date-fns/isFuture';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
+import { isTodayOrLater } from '../../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { isValidTime } from '../../occurrence/eventOccurrenceForm/ValidationSchema';
 
@@ -35,9 +35,9 @@ const createValidationSchemaYup = (
       .typeError(VALIDATION_MESSAGE_KEYS.DATE)
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
       .test(
-        'isInTheFuture',
-        VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-        (value: Date) => isFuture(value)
+        'isTodayOrInTheFuture',
+        VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+        isTodayOrLater
       ),
     neededOccurrences: Yup.number()
       .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
@@ -76,8 +76,10 @@ export const createEventSchema = {
   occurrenceDate: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (value: Date) =>
-      isFuture(value)
+    .test(
+      'isTodayOrInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+      isTodayOrLater
     ),
   occurrenceStartsAt: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
