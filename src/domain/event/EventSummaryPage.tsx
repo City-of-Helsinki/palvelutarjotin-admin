@@ -50,7 +50,7 @@ const EventSummaryPage: React.FC = () => {
   const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
     {
       fetchPolicy: 'network-only',
-      variables: { id: eventId, include: ['location'] },
+      variables: { id: eventId, include: ['location', 'keywords'] },
     }
   );
   const [publishEvent] = usePublishSingleEventMutation();

@@ -30,6 +30,8 @@ export interface EventFormFields extends VenueDataFields {
   shortDescription: string;
   isDraft?: boolean;
   autoAcceptance?: boolean;
+  categories: string[];
+  additionalCriteria: string[];
 }
 
 export interface FirstOccurrenceFields {

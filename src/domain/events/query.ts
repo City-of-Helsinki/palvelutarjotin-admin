@@ -7,12 +7,13 @@ export const QUERY_EVENT = gql`
     previous
   }
   query Events(
-    $divisions: [String]
+    $division: [String]
     $end: String
     $include: [String]
     $inLanguage: String
     $isFree: Boolean
-    $keywords: [String]
+    $keyword: [String]
+    $keywordAnd: [String]
     $keywordNot: [String]
     $language: String
     $location: String
@@ -29,12 +30,13 @@ export const QUERY_EVENT = gql`
     $publicationStatus: String
   ) {
     events(
-      divisions: $divisions
+      division: $division
       end: $end
       include: $include
       inLanguage: $inLanguage
       isFree: $isFree
-      keywords: $keywords
+      keyword: $keyword
+      keywordAnd: $keywordAnd
       keywordNot: $keywordNot
       language: $language
       location: $location

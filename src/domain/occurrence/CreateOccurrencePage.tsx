@@ -59,9 +59,10 @@ const CreateOccurrencePage: React.FC = () => {
     refetch: refetchEvent,
     networkStatus: eventNetworkStatus,
   } = useEventQuery({
-    variables: { id: eventId, include: ['location'] },
+    variables: { id: eventId, include: ['keywords', 'location'] },
     notifyOnNetworkStatusChange: true,
   });
+
   const eventIsRefetching = eventNetworkStatus === NetworkStatus.refetch;
   const eventIsInitialLoading = !eventIsRefetching && loadingEvent;
 

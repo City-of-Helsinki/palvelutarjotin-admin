@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FieldProps } from 'formik';
-import { Dropdown, DropdownProps } from 'hds-react';
+import { Select, SelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,15 +12,17 @@ export type Option = {
   value: string;
 };
 
-interface Props extends DropdownProps, FieldProps {
-  options: Option[];
-  setFieldValue?: (
-    field: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any,
-    shouldValidate?: boolean | undefined
-  ) => void;
-}
+type Props = SelectProps<Option> &
+  FieldProps & {
+    options: Option[];
+    defaultValue: Option;
+    setFieldValue?: (
+      field: string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      value: any,
+      shouldValidate?: boolean | undefined
+    ) => void;
+  };
 
 const DropdownField: React.FC<Props> = ({
   className,
@@ -60,29 +62,26 @@ const DropdownField: React.FC<Props> = ({
       });
     });
   };
+
+  const selectedValue = options.find((option) => option.value === value) || {
+    label: '',
+    value: '',
+  };
+
   return (
-    <Dropdown
+    <Select
       {...rest}
       {...field}
       helper={errorText || helper}
       invalid={Boolean(errorText)}
       optionLabelField={'label'}
-      multiselect={multiselect}
-      closeMenuOnSelect={!multiselect}
+      // closeMenuOnSelect={!multiselect}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
       id={name}
       placeholder={placeholder || t('common.dropdown.placeholder')}
-      selectedOption={
-        multiselect
-          ? value
-              .map((item: string) =>
-                options.find((option) => option.value === item)
-              )
-              .filter((i: Option | undefined) => i)
-          : options.find((option) => option.value === value)
-      }
+      value={selectedValue}
       className={classNames(className, { [invalidFieldClass]: errorText })}
     />
   );

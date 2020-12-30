@@ -30,6 +30,7 @@ import {
   getEventPayload,
   getEventVenueDescription,
   getFirstAvailableLanguage,
+  getRealKeywords,
   isEditableEvent,
 } from './utils';
 
@@ -61,6 +62,7 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
+
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const persons =
     eventData?.event?.pEvent?.organisation?.persons.edges.map(
@@ -185,6 +187,11 @@ const EditEventPage: React.FC = () => {
   React.useEffect(() => {
     if (eventData) {
       setInitialValues({
+        additionalCriteria:
+          eventData.event?.additionalCriteria.map((item) => item.id || '') ||
+          [],
+        categories:
+          eventData.event?.categories.map((item) => item.id || '') || [],
         audience: eventData.event?.audience.map((item) => item.id || '') || [],
         contactEmail: eventData.event?.pEvent?.contactEmail || '',
         contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
@@ -204,7 +211,8 @@ const EditEventPage: React.FC = () => {
           eventData.event?.inLanguage.map((item) => item.id || '') || [],
         // TODO: Get price info from event data
         isFree: true,
-        keywords: eventData.event?.keywords.map((item) => item.id || '') || [],
+        keywords:
+          getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
         location: eventData.event?.location?.id || '',
         name: eventData.event?.name[selectedLanguage] || '',
         neededOccurrences:

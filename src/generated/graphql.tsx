@@ -72,6 +72,7 @@ export type Query = {
   image?: Maybe<Image>;
   keywords?: Maybe<KeywordListResponse>;
   keyword?: Maybe<Keyword>;
+  keywordSet?: Maybe<KeywordSet>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
   notificationTemplate?: Maybe<NotificationTemplateWithContext>;
@@ -156,12 +157,13 @@ export type QueryOrganisationsArgs = {
 };
 
 export type QueryEventsArgs = {
-  divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   inLanguage?: Maybe<Scalars['String']>;
   isFree?: Maybe<Scalars['Boolean']>;
-  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keyword?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keywordAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
@@ -213,6 +215,10 @@ export type QueryKeywordsArgs = {
 
 export type QueryKeywordArgs = {
   id: Scalars['ID'];
+};
+
+export type QueryKeywordSetArgs = {
+  setType: KeywordSetType;
 };
 
 export type QueryEventsSearchArgs = {
@@ -279,9 +285,9 @@ export type OccurrenceNode = Node & {
   languages: Array<LanguageType>;
   cancelled: Scalars['Boolean'];
   enrolments: EnrolmentNodeConnection;
-  remainingSeats?: Maybe<Scalars['Int']>;
-  seatsTaken?: Maybe<Scalars['Int']>;
-  seatsApproved?: Maybe<Scalars['Int']>;
+  remainingSeats: Scalars['Int'];
+  seatsTaken: Scalars['Int'];
+  seatsApproved: Scalars['Int'];
   linkedEvent?: Maybe<Event>;
 };
 
@@ -659,6 +665,10 @@ export type Event = {
   pEvent: PalvelutarjotinEventNode;
   venue?: Maybe<VenueNode>;
   publicationStatus?: Maybe<Scalars['String']>;
+  /** Only use this field in single event query for best performance. This field only work if `keywords` is included in the query argument */
+  categories: Array<Keyword>;
+  /** Only use this field in single event query for best performance. This field only work if `keywords` is included in the query argument */
+  additionalCriteria: Array<Keyword>;
 };
 
 export type Place = {
@@ -867,6 +877,28 @@ export type KeywordListResponse = {
   data: Array<Keyword>;
 };
 
+export type KeywordSet = {
+  __typename?: 'KeywordSet';
+  id?: Maybe<Scalars['String']>;
+  internalId: Scalars['ID'];
+  internalContext?: Maybe<Scalars['String']>;
+  internalType?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  usage?: Maybe<Scalars['String']>;
+  keywords: Array<Keyword>;
+  name?: Maybe<LocalisedObject>;
+};
+
+/** An enumeration. */
+export enum KeywordSetType {
+  Category = 'CATEGORY',
+  AdditionalCriteria = 'ADDITIONAL_CRITERIA',
+  TargetGroup = 'TARGET_GROUP',
+}
+
 export type EventSearchListResponse = {
   __typename?: 'EventSearchListResponse';
   meta: Meta;
@@ -923,6 +955,7 @@ export enum NotificationTemplateType {
   EnrolmentDeclinedSms = 'ENROLMENT_DECLINED_SMS',
   OccurrenceCancelled = 'OCCURRENCE_CANCELLED',
   OccurrenceCancelledSms = 'OCCURRENCE_CANCELLED_SMS',
+  EnrolmentSummaryReport = 'ENROLMENT_SUMMARY_REPORT',
 }
 
 export type Mutation = {
@@ -954,6 +987,7 @@ export type Mutation = {
   updateEventMutation?: Maybe<UpdateEventMutation>;
   /** Using this mutation will update event publication status and also set the `start_time`, `end_time` of linkedEvent */
   publishEventMutation?: Maybe<PublishEventMutation>;
+  unpublishEventMutation?: Maybe<UnpublishEventMutation>;
   deleteEventMutation?: Maybe<DeleteEventMutation>;
   uploadImageMutation?: Maybe<UploadImageMutation>;
   updateImageMutation?: Maybe<UpdateImageMutation>;
@@ -1049,6 +1083,10 @@ export type MutationUpdateEventMutationArgs = {
 };
 
 export type MutationPublishEventMutationArgs = {
+  event?: Maybe<PublishEventMutationInput>;
+};
+
+export type MutationUnpublishEventMutationArgs = {
   event?: Maybe<PublishEventMutationInput>;
 };
 
@@ -1556,6 +1594,11 @@ export type PublishEventMutationInput = {
   pEvent?: Maybe<PalvelutarjotinEventInput>;
 };
 
+export type UnpublishEventMutation = {
+  __typename?: 'UnpublishEventMutation';
+  response?: Maybe<EventMutationResponse>;
+};
+
 export type DeleteEventMutation = {
   __typename?: 'DeleteEventMutation';
   response?: Maybe<EventMutationResponse>;
@@ -2048,7 +2091,24 @@ export type EventQueryVariables = {
 };
 
 export type EventQuery = { __typename?: 'Query' } & {
-  event?: Maybe<{ __typename?: 'Event' } & EventFieldsFragment>;
+  event?: Maybe<
+    { __typename?: 'Event' } & {
+      additionalCriteria: Array<
+        { __typename?: 'Keyword' } & Pick<Keyword, 'id' | 'internalId'> & {
+            name?: Maybe<
+              { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
+            >;
+          }
+      >;
+      categories: Array<
+        { __typename?: 'Keyword' } & Pick<Keyword, 'id' | 'internalId'> & {
+            name?: Maybe<
+              { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
+            >;
+          }
+      >;
+    } & EventFieldsFragment
+  >;
 };
 
 export type MetaFieldsFragment = { __typename?: 'Meta' } & Pick<
@@ -2057,12 +2117,13 @@ export type MetaFieldsFragment = { __typename?: 'Meta' } & Pick<
 >;
 
 export type EventsQueryVariables = {
-  divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   inLanguage?: Maybe<Scalars['String']>;
   isFree?: Maybe<Scalars['Boolean']>;
-  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keyword?: Maybe<Array<Maybe<Scalars['String']>>>;
+  keywordAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
@@ -2172,6 +2233,21 @@ export type KeywordsQuery = { __typename?: 'Query' } & {
       meta: { __typename?: 'Meta' } & Pick<Meta, 'count' | 'next' | 'previous'>;
       data: Array<{ __typename?: 'Keyword' } & KeywordFieldsFragment>;
     }
+  >;
+};
+
+export type KeywordSetQueryVariables = {
+  setType: KeywordSetType;
+};
+
+export type KeywordSetQuery = { __typename?: 'Query' } & {
+  keywordSet?: Maybe<
+    { __typename?: 'KeywordSet' } & Pick<KeywordSet, 'internalId'> & {
+        keywords: Array<{ __typename?: 'Keyword' } & KeywordFieldsFragment>;
+        name?: Maybe<
+          { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
+        >;
+      }
   >;
 };
 
@@ -3955,9 +4031,24 @@ export const EventDocument = gql`
   query Event($id: ID!, $include: [String]) {
     event(id: $id, include: $include) {
       ...eventFields
+      additionalCriteria {
+        id
+        internalId
+        name {
+          ...localisedFields
+        }
+      }
+      categories {
+        id
+        internalId
+        name {
+          ...localisedFields
+        }
+      }
     }
   }
   ${EventFieldsFragmentDoc}
+  ${LocalisedFieldsFragmentDoc}
 `;
 export type EventProps<TChildProps = {}, TDataName extends string = 'data'> = {
   [key in TDataName]: ApolloReactHoc.DataValue<EventQuery, EventQueryVariables>;
@@ -4033,12 +4124,13 @@ export type EventQueryResult = ApolloReactCommon.QueryResult<
 >;
 export const EventsDocument = gql`
   query Events(
-    $divisions: [String]
+    $division: [String]
     $end: String
     $include: [String]
     $inLanguage: String
     $isFree: Boolean
-    $keywords: [String]
+    $keyword: [String]
+    $keywordAnd: [String]
     $keywordNot: [String]
     $language: String
     $location: String
@@ -4055,12 +4147,13 @@ export const EventsDocument = gql`
     $publicationStatus: String
   ) {
     events(
-      divisions: $divisions
+      division: $division
       end: $end
       include: $include
       inLanguage: $inLanguage
       isFree: $isFree
-      keywords: $keywords
+      keyword: $keyword
+      keywordAnd: $keywordAnd
       keywordNot: $keywordNot
       language: $language
       location: $location
@@ -4129,12 +4222,13 @@ export function withEvents<
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
- *      divisions: // value for 'divisions'
+ *      division: // value for 'division'
  *      end: // value for 'end'
  *      include: // value for 'include'
  *      inLanguage: // value for 'inLanguage'
  *      isFree: // value for 'isFree'
- *      keywords: // value for 'keywords'
+ *      keyword: // value for 'keyword'
+ *      keywordAnd: // value for 'keywordAnd'
  *      keywordNot: // value for 'keywordNot'
  *      language: // value for 'language'
  *      location: // value for 'location'
@@ -4632,6 +4726,100 @@ export type KeywordsLazyQueryHookResult = ReturnType<
 export type KeywordsQueryResult = ApolloReactCommon.QueryResult<
   KeywordsQuery,
   KeywordsQueryVariables
+>;
+export const KeywordSetDocument = gql`
+  query KeywordSet($setType: KeywordSetType!) {
+    keywordSet(setType: $setType) {
+      keywords {
+        ...keywordFields
+      }
+      name {
+        ...localisedFields
+      }
+      internalId
+    }
+  }
+  ${KeywordFieldsFragmentDoc}
+  ${LocalisedFieldsFragmentDoc}
+`;
+export type KeywordSetProps<
+  TChildProps = {},
+  TDataName extends string = 'data'
+> = {
+  [key in TDataName]: ApolloReactHoc.DataValue<
+    KeywordSetQuery,
+    KeywordSetQueryVariables
+  >;
+} &
+  TChildProps;
+export function withKeywordSet<
+  TProps,
+  TChildProps = {},
+  TDataName extends string = 'data'
+>(
+  operationOptions?: ApolloReactHoc.OperationOption<
+    TProps,
+    KeywordSetQuery,
+    KeywordSetQueryVariables,
+    KeywordSetProps<TChildProps, TDataName>
+  >
+) {
+  return ApolloReactHoc.withQuery<
+    TProps,
+    KeywordSetQuery,
+    KeywordSetQueryVariables,
+    KeywordSetProps<TChildProps, TDataName>
+  >(KeywordSetDocument, {
+    alias: 'keywordSet',
+    ...operationOptions,
+  });
+}
+
+/**
+ * __useKeywordSetQuery__
+ *
+ * To run a query within a React component, call `useKeywordSetQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordSetQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordSetQuery({
+ *   variables: {
+ *      setType: // value for 'setType'
+ *   },
+ * });
+ */
+export function useKeywordSetQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    KeywordSetQuery,
+    KeywordSetQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<KeywordSetQuery, KeywordSetQueryVariables>(
+    KeywordSetDocument,
+    baseOptions
+  );
+}
+export function useKeywordSetLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    KeywordSetQuery,
+    KeywordSetQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    KeywordSetQuery,
+    KeywordSetQueryVariables
+  >(KeywordSetDocument, baseOptions);
+}
+export type KeywordSetQueryHookResult = ReturnType<typeof useKeywordSetQuery>;
+export type KeywordSetLazyQueryHookResult = ReturnType<
+  typeof useKeywordSetLazyQuery
+>;
+export type KeywordSetQueryResult = ApolloReactCommon.QueryResult<
+  KeywordSetQuery,
+  KeywordSetQueryVariables
 >;
 export const CreateMyProfileDocument = gql`
   mutation CreateMyProfile($myProfile: CreateMyProfileMutationInput!) {

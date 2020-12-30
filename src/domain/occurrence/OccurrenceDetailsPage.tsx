@@ -39,7 +39,7 @@ const OccurrenceDetailsPage: React.FC = () => {
     searchParams.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
   );
   const { data: eventData, loading: loadingEvent } = useEventQuery({
-    variables: { id, include: ['location'] },
+    variables: { id, include: ['keywords', 'location'] },
   });
   const event = eventData?.event;
   const organisationId = event?.pEvent?.organisation?.id || '';

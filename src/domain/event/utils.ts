@@ -10,6 +10,7 @@ import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
+  Keyword,
   Language as TranslationLanguage,
   OccurrenceFieldsFragment,
   PublishEventMutationInput,
@@ -115,6 +116,7 @@ export const getEventPayload = ({
   organisationId: string;
   selectedLanguage: Language;
 }) => {
+  const { keywords, additionalCriteria, categories } = values;
   return {
     name: { [selectedLanguage]: values.name },
     // start_date and offers are mandatory on LinkedEvents to use dummy data
@@ -151,12 +153,15 @@ export const getEventPayload = ({
         language
       ),
     })),
-    keywords: values.keywords.map((keyword) => ({
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-        keyword
-      ),
-    })),
+    // keywords, additionalCriteria and categories all belond to keywords in linked events
+    keywords: [...keywords, ...additionalCriteria, ...categories].map(
+      (keyword) => ({
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
+          keyword
+        ),
+      })
+    ),
     location: {
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.PLACE,
@@ -348,3 +353,20 @@ export const firstOccurrencePrefilledValuesToQuery = (
  */
 export const isEventFree = (event: EventFieldsFragment): boolean =>
   Boolean(event.offers.find((item) => item.isFree)?.isFree);
+
+export const getRealKeywords = (
+  eventData: EventQuery
+): Keyword[] | undefined => {
+  const { additionalCriteria, categories } = eventData.event || {};
+  return eventData?.event?.keywords.filter((keyword) => {
+    const keywordIsIncludedInCategories = categories?.find(
+      (category) => category.id === keyword.id
+    );
+    const keywordIsIncludedInAdditionalCriteria = additionalCriteria?.find(
+      (additionalCriteria) => additionalCriteria.id === keyword.id
+    );
+    return !(
+      keywordIsIncludedInCategories || keywordIsIncludedInAdditionalCriteria
+    );
+  });
+};

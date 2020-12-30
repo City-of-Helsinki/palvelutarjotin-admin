@@ -17,6 +17,7 @@
   "common": {
     "back": "Takaisin",
     "leave": "Poistu",
+    "close": "Sulje",
     "alertModal": {
       "buttonCancel": "Peruuta"
     },
@@ -227,7 +228,8 @@
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
       "labelName": "Tapahtuman nimi",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
-      "title": "Tapahtuman perustiedot"
+      "title": "Tapahtuman perustiedot",
+      "photographerText": "Kuva: {{photographer}}"
     },
     "buttons": {
       "buttonBack": "Tapahtumat",
@@ -295,6 +297,8 @@
     },
     "categorisation": {
       "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "labelCategories": "Kategoriat",
+      "labelOtherClassification": "Muu luokittelu",
       "labelAudience": "Kohderyhmät",
       "labelInLanguage": "Tapahtuman kielet",
       "labelIsFree": "Tapahtuma on ilmainen",
@@ -302,6 +306,7 @@
       "labelNeededOccurrences": "Tarvittavat käyntikerrat",
       "labelPrice": "Hinta, €",
       "placeholderKeywords": "Lisää avainsana...",
+      "placeholderCategories": "Valitse sopivat",
       "title": "Tapahtuman luokittelut"
     },
     "changeLanguageModal": {
@@ -321,6 +326,24 @@
       "labelLocation": "Oletustapahtumapaikka",
       "placeholderLocation": "Etsi paikkaa...",
       "title": "Tapahtumapaikka"
+    },
+    "accessibility": {
+      "audienceDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki kohderyhmävalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista kohderyhmä"
+      },
+      "categoryDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki kategoriavalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista kategoriavalinta"
+      },
+      "otherClassificationDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki muun luokittelun valinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista muun luokittelun valinta"
+      },
+      "inLanguageDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki kielivalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista kielivalinta"
+      }
     }
   },
   "events": {
@@ -409,10 +432,10 @@
         "time": "Ajan tulee olla muotoa hh:mm"
       },
       "date": {
-        "required": "Tämä kenttä on pakollinen",
-        "future": "Tämän kentän on oltava tulevaisuudessa",
-        "min": "Tämän kentän on oltava {{min}} jälkeen",
-        "max": "Tämän kentän on oltava ennen {{max}}"
+        "required": "Päivämäärä on pakollinen",
+        "mustNotInThePast": "Päivämäärä ei voi olla menneisyydessä",
+        "min": "Päivämäärän on oltava {{min}} jälkeen",
+        "max": "Päivämäärän on oltava ennen {{max}}"
       },
       "time": {
         "required": "Tämä kenttä on pakollinen",

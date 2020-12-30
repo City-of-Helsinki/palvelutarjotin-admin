@@ -23,7 +23,7 @@ import DeclineEnrolmentModal from '../enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentModals/DeleteEnrolmentModal';
 import styles from './actionsDropdown.module.scss';
 
-interface Props {
+export interface Props {
   row: EnrolmentFieldsFragment;
   eventId?: string | null;
   onEnrolmentsModified: () => void;

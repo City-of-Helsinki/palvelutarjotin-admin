@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import ErrorMessage from '../../../common/components/form/ErrorMessage';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
-import DropdownField from '../../../common/components/form/fields/DropdownField';
+import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
@@ -70,7 +70,7 @@ const MyProfileForm: React.FC<Props> = ({
       }}
       validationSchema={ValidationSchema}
     >
-      {({ errors, handleSubmit, touched }) => {
+      {({ errors, handleSubmit, touched, values }) => {
         return (
           <form onSubmit={handleSubmit}>
             <FocusToFirstError />
@@ -101,8 +101,7 @@ const MyProfileForm: React.FC<Props> = ({
                 label={t('myProfileForm.labelOrganisations')}
                 helper={t('myProfileForm.helperOrganisations')}
                 placeholder={t('myProfileForm.placeholderOrganisations')}
-                component={DropdownField}
-                multiselect={true}
+                component={MultiDropdownField}
                 options={organisationOptions}
               />
             </FormGroup>
