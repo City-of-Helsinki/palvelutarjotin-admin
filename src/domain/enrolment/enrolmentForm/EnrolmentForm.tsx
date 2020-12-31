@@ -1,6 +1,6 @@
 import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import IconLoadingSpinner from '../../../icons/IconLoadingSpinner';
 import styles from './loadingSpinner.module.scss';

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../textInput/InputWrapper';

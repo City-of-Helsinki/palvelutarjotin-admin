@@ -1,5 +1,5 @@
 import { axe } from 'jest-axe';
-import React from 'react';
+import * as React from 'react';
 import wait from 'waait';
 
 import { act, render } from '../../../../utils/testUtils';

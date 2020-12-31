@@ -1,5 +1,5 @@
 import { useMonth } from '@datepicker-react/hooks';
-import React from 'react';
+import * as React from 'react';
 
 import styles from './datepicker.module.scss';
 import Day from './Day';

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/react-testing';
 import { advanceTo } from 'jest-date-mock';
-import React from 'react';
+import * as React from 'react';
 import wait from 'waait';
 
 import {

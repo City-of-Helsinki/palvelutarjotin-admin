@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import * as React from 'react';
 import wait from 'waait';
 
 import persons from '../__mocks__/persons';

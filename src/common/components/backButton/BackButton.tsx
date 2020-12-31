@@ -1,5 +1,5 @@
 import { IconArrowLeft } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 
 import styles from './backButton.module.scss';
 

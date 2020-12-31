@@ -1,5 +1,5 @@
 import { advanceTo } from 'jest-date-mock';
-import React from 'react';
+import * as React from 'react';
 
 import { EventDocument, MyProfileDocument } from '../../../generated/graphql';
 import {

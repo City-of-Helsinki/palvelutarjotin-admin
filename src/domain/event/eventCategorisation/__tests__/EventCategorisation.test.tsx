@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import cloneDeep from 'lodash/cloneDeep';
-import React from 'react';
+import * as React from 'react';
 
 import {
   fakeEvent,

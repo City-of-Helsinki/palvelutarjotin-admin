@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { User } from 'oidc-client';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteChildrenProps, useLocation } from 'react-router';
 import { toast } from 'react-toastify';

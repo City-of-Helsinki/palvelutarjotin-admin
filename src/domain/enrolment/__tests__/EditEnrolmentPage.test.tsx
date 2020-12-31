@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 import cloneDeep from 'lodash/cloneDeep';
-import React from 'react';
+import * as React from 'react';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';

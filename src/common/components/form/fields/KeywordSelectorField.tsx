@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FieldProps } from 'formik';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import KeywordSelector from '../../../../domain/keyword/KeywordSelector';

@@ -1,17 +1,9 @@
 import { MockedResponse } from '@apollo/react-testing';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import * as React from 'react';
 import Modal from 'react-modal';
 
-import {
-  EventDocument,
-  ImageDocument,
-  MyProfileDocument,
-  PersonDocument,
-  PlaceDocument,
-  VenueDocument,
-} from '../../../generated/graphql';
-import * as graphqlFns from '../../../generated/graphql';
+import * as graphql from '../../../generated/graphql';
 import {
   fakeEvent,
   fakeImage,
@@ -46,7 +38,7 @@ const venueMock = fakeVenue({
 const apolloMocks: MockedResponse[] = [
   {
     request: {
-      query: EventDocument,
+      query: graphql.EventDocument,
       variables: {
         id: 'palvelutarjotin:afzunowba4',
         include: ['audience', 'in_language', 'keywords', 'location'],
@@ -60,7 +52,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: ImageDocument,
+      query: graphql.ImageDocument,
       variables: {
         id: eventMock.images[0].id,
       },
@@ -73,7 +65,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: MyProfileDocument,
+      query: graphql.MyProfileDocument,
       variables: {},
     },
     result: {
@@ -84,7 +76,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: PersonDocument,
+      query: graphql.PersonDocument,
       variables: {
         id: eventMock.pEvent.contactPerson?.id,
       },
@@ -97,7 +89,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: PlaceDocument,
+      query: graphql.PlaceDocument,
       variables: { id: eventMock.location.id },
     },
     result: {
@@ -108,7 +100,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: VenueDocument,
+      query: graphql.VenueDocument,
       variables: { id: eventMock.location.id },
     },
     result: {
@@ -122,7 +114,7 @@ const apolloMocks: MockedResponse[] = [
 test('renders correct information and delete works', async () => {
   const deleteMock = jest.fn();
   jest
-    .spyOn(graphqlFns, 'useDeleteSingleEventMutation')
+    .spyOn(graphql, 'useDeleteSingleEventMutation')
     .mockReturnValue([deleteMock] as any);
   const { container } = renderWithRoute(<EventDetailsPage />, {
     routes: ['/events/palvelutarjotin:afzunowba4'],

@@ -1,8 +1,6 @@
-import { axe } from 'jest-axe';
-import React from 'react';
+import * as React from 'react';
 
 import {
-  EnrolmentFieldsFragmentDoc,
   EnrolmentStatus,
   EventDocument,
   OccurrenceDocument,

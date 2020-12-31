@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import * as React from 'react';
 import Modal from 'react-modal';
 
 import {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import BackButton from './BackButton';
 
@@ -8,5 +8,11 @@ export default {
 };
 
 export const Default = () => (
-  <BackButton onClick={() => {}}>Back to event list</BackButton>
+  <BackButton
+    onClick={() => {
+      /* no-op */
+    }}
+  >
+    Back to event list
+  </BackButton>
 );

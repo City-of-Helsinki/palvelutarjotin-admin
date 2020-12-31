@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import formatDate from 'date-fns/format';
 import { fi } from 'date-fns/locale';
 import { advanceTo } from 'jest-date-mock';
-import React from 'react';
+import * as React from 'react';
 
 import Datepicker, { DatepickerProps } from '../Datepicker';
 

@@ -2,7 +2,7 @@ import { NetworkStatus } from 'apollo-client';
 import { isPast } from 'date-fns';
 import isValidDate from 'date-fns/isValid';
 import { FormikHelpers } from 'formik';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { toast } from 'react-toastify';

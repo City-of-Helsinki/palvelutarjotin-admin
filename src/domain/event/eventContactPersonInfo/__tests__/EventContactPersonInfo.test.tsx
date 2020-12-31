@@ -1,6 +1,6 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
+import * as React from 'react';
 
 import { PersonDocument } from '../../../../generated/graphql';
 import {

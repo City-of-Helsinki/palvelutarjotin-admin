@@ -1,7 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
-import React from 'react';
-import Router from 'react-router';
+import * as React from 'react';
 
 import { Language } from '../../../../types';
 import { render, screen } from '../../../../utils/testUtils';

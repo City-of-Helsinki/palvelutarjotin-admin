@@ -8,9 +8,15 @@ export const datepickerContextDefaultValue: DatepickerContext = {
   isDateHovered: (date: Date) => false,
   isDateBlocked: (date: Date) => false,
   isFirstOrLastSelectedDate: () => false,
-  onDateFocus: () => {},
-  onDateHover: () => {},
-  onDateSelect: () => {},
+  onDateFocus: () => {
+    /* noOp */
+  },
+  onDateHover: () => {
+    /* noOp */
+  },
+  onDateSelect: () => {
+    /* noOp */
+  },
 };
 
 type DatepickerContext = {

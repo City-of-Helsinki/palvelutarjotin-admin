@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import { Language } from '../../../types';

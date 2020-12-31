@@ -2,7 +2,7 @@ import { MockedProvider, MockedResponse } from '@apollo/react-testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import { fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
-import React from 'react';
+import * as React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 
@@ -75,6 +75,7 @@ type CustomRender = {
       path?: string;
       history?: History;
       mocks?: MockedResponse[];
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       store?: Store<any, AnyAction>;
     }
   ): CustomRenderResult;

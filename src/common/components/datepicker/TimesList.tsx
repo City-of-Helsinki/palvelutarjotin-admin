@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';

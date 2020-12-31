@@ -2,17 +2,10 @@ import { MockedResponse } from '@apollo/react-testing';
 import { addDays, format, formatISO } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
 import range from 'lodash/range';
-import React from 'react';
+import * as React from 'react';
 
 import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
-import {
-  EventDocument,
-  MyProfileDocument,
-  OccurrenceNode,
-  PlaceDocument,
-  VenueDocument,
-} from '../../../generated/graphql';
-import * as graphqlFns from '../../../generated/graphql';
+import * as graphql from '../../../generated/graphql';
 import {
   fakeEvent,
   fakeLocalizedObject,
@@ -29,7 +22,6 @@ import {
   screen,
   userEvent,
   waitFor,
-  waitForElementToBeRemoved,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import messages from '../../app/i18n/fi.json';
@@ -46,7 +38,7 @@ const placeMock = fakePlace({
 });
 const venueMock = fakeVenue();
 
-let fakeOccurrenceOverrides: Partial<OccurrenceNode>[];
+let fakeOccurrenceOverrides: Partial<graphql.OccurrenceNode>[];
 let eventMockedResponse: MockedResponse;
 let apolloMocks: MockedResponse[];
 
@@ -66,7 +58,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
   }));
   eventMockedResponse = {
     request: {
-      query: EventDocument,
+      query: graphql.EventDocument,
       variables: {
         id: eventMock.id,
         include: ['keywords', 'location'],
@@ -89,7 +81,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
   apolloMocks = [
     {
       request: {
-        query: MyProfileDocument,
+        query: graphql.MyProfileDocument,
         variables: {},
       },
       result: {
@@ -101,7 +93,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
     eventMockedResponse,
     {
       request: {
-        query: PlaceDocument,
+        query: graphql.PlaceDocument,
         variables: {
           id: eventMock.location.id,
         },
@@ -116,7 +108,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
     },
     {
       request: {
-        query: VenueDocument,
+        query: graphql.VenueDocument,
         variables: {
           id: eventMock.location.id,
         },
@@ -170,7 +162,7 @@ test('renders coming occurrences table correctly', async () => {
 test('can create new occurrence with form', async () => {
   // query is used for venue
   jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
-    if (query === VenueDocument) {
+    if (query === graphql.VenueDocument) {
       return {
         data: {
           venue: fakeVenue(),
@@ -183,7 +175,7 @@ test('can create new occurrence with form', async () => {
 
   const createOccurrenceSpy = jest.fn();
   jest
-    .spyOn(graphqlFns, 'useAddOccurrenceMutation')
+    .spyOn(graphql, 'useAddOccurrenceMutation')
     .mockReturnValue([createOccurrenceSpy] as any);
 
   initializeMocks();

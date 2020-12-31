@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { IconCheck, IconInfoCircle } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 
 import { Language } from '../../../types';
 import styles from './eventLanguageSelector.module.scss';
