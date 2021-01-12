@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import React from 'react';
+import * as React from 'react';
 
 import { invalidFieldClass } from './constants';
 

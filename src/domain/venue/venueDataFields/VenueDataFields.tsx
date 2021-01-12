@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
@@ -15,7 +15,7 @@ const VenueDataFields: React.FC<{
   selectedLanguage: Language;
   setFieldValue: (
     field: string,
-    value: any,
+    value: string | boolean,
     shouldValidate?: boolean | undefined
   ) => void;
 }> = ({ locationId, selectedLanguage, setFieldValue }) => {

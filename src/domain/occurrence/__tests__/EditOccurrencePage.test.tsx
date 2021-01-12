@@ -1,17 +1,9 @@
 import { MockedResponse } from '@apollo/react-testing';
 import { format } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
-import React from 'react';
+import * as React from 'react';
 
-import {
-  EventDocument,
-  MyProfileDocument,
-  OccurrenceDocument,
-  OccurrenceNode,
-  PlaceDocument,
-  VenueDocument,
-} from '../../../generated/graphql';
-import * as graphqlFns from '../../../generated/graphql';
+import * as graphql from '../../../generated/graphql';
 import {
   fakeEvent,
   fakeLocalizedObject,
@@ -56,10 +48,10 @@ const occurrence = {
   languages: [
     { id: 'en', name: 'English', __typename: 'LanguageType' },
     { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
-  ] as graphqlFns.LanguageType[],
+  ] as graphql.LanguageType[],
 };
 
-const fakeOccurrenceOverrides: Partial<OccurrenceNode>[] = [
+const fakeOccurrenceOverrides: Partial<graphql.OccurrenceNode>[] = [
   {
     startTime: '2020-08-03T09:00:00+00:00',
   },
@@ -80,7 +72,7 @@ const fakeOccurrenceOverrides: Partial<OccurrenceNode>[] = [
 const apolloMocks: MockedResponse[] = [
   {
     request: {
-      query: MyProfileDocument,
+      query: graphql.MyProfileDocument,
       variables: {},
     },
     result: {
@@ -89,7 +81,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: EventDocument,
+      query: graphql.EventDocument,
       variables: {
         id: eventMock.id,
         include: ['keywords', 'location'],
@@ -111,7 +103,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: OccurrenceDocument,
+      query: graphql.OccurrenceDocument,
       variables: {
         id: occurrenceId,
       },
@@ -124,7 +116,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: PlaceDocument,
+      query: graphql.PlaceDocument,
       variables: {
         id: eventMock.location.id,
       },
@@ -139,7 +131,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: VenueDocument,
+      query: graphql.VenueDocument,
       variables: {
         id: eventMock.location.id,
       },
@@ -187,7 +179,7 @@ test('renders coming occurrences correctly', async () => {
 test('initializes edit occurrence form correctly', async () => {
   const editOccurrenceSpy = jest.fn();
   jest
-    .spyOn(graphqlFns, 'useEditOccurrenceMutation')
+    .spyOn(graphql, 'useEditOccurrenceMutation')
     .mockReturnValue([editOccurrenceSpy] as any);
   renderWithRoute(<EditOccurrencePage />, {
     mocks: apolloMocks,

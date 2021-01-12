@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { useMyProfileQuery } from '../../generated/graphql';
 import CreateMyProfile from './CreateMyProfile';

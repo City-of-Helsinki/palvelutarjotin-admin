@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import EmailPreview from '../../../../common/components/emailPreview/EmailPreview';
@@ -9,7 +9,6 @@ import {
 import useLocale from '../../../../hooks/useLocale';
 import EnrolmentModal, { EnrolleeProps } from './EnrolmentModal';
 import { getEnrolmentTemplateContextJSON } from './utils';
-
 
 interface DeclineEnrolmentModalProps {
   onClose: () => void;

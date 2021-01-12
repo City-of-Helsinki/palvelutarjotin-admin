@@ -1,6 +1,6 @@
 import { isPast } from 'date-fns';
 import { Button, RadioButton } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';

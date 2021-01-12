@@ -1,6 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
-import React from 'react';
+import * as React from 'react';
 
 import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';

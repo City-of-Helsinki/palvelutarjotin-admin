@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { usePlaceQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import DeleteButton from './DeleteButton';
 
@@ -8,5 +8,11 @@ export default {
 };
 
 export const Default = () => (
-  <DeleteButton onClick={() => {}}>Poista</DeleteButton>
+  <DeleteButton
+    onClick={() => {
+      /* noOp */
+    }}
+  >
+    Poista
+  </DeleteButton>
 );

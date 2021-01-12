@@ -1,7 +1,6 @@
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { advanceTo, clear } from 'jest-date-mock';
-import React from 'react';
+import * as React from 'react';
 
 import { fakeEvent } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';

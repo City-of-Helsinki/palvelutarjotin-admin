@@ -16,7 +16,10 @@ type ExtendedColumnInstance<D extends Record<string, unknown>> = ColumnInstance<
 > &
   StyleProps;
 
-export type ExtendedCell<D extends Record<string, unknown>> = Cell<D, any> & {
+export type ExtendedCell<D extends Record<string, unknown>> = Cell<
+  D,
+  unknown
+> & {
   column: ExtendedColumnInstance<D>;
 };
 

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { FieldProps } from 'formik';
 import { Select, SelectProps } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { invalidFieldClass } from '../constants';

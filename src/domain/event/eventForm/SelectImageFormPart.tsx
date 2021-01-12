@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ImageInputField from '../../../common/components/form/fields/ImageInputField';

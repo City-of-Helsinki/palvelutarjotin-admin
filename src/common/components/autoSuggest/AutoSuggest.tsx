@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { IconCheck, IconCross } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';

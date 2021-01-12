@@ -2,7 +2,7 @@ import './styles/main.scss';
 import './domain/app/i18n/i18nInit';
 
 import * as Sentry from '@sentry/browser';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 

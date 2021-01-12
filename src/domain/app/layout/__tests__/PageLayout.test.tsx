@@ -1,15 +1,11 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { render } from '@testing-library/react';
-import React from 'react';
+import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import wait from 'waait';
 
-import {
-  MyProfileDocument,
-  OrganisationsDocument,
-} from '../../../../generated/graphql';
-import * as grpahqlFns from '../../../../generated/graphql';
+import * as graphql from '../../../../generated/graphql';
 import { fakeOrganisations, fakePerson } from '../../../../utils/mockDataUtils';
 import {
   act,
@@ -17,7 +13,6 @@ import {
   screen,
   userEvent,
   waitFor,
-  within,
 } from '../../../../utils/testUtils';
 import * as authSelectors from '../../../auth/selectors';
 import { store } from '../../store';
@@ -38,7 +33,7 @@ const organisationMocks = fakeOrganisations(3, [
 const mocks = [
   {
     request: {
-      query: MyProfileDocument,
+      query: graphql.MyProfileDocument,
     },
     result: profileResponse,
   },
@@ -62,7 +57,7 @@ it('PageLayout matches snapshot', () => {
 it('Pagelayout renders Profile page', async () => {
   const createProfileMock = jest.fn();
   jest
-    .spyOn(grpahqlFns, 'useCreateMyProfileMutation')
+    .spyOn(graphql, 'useCreateMyProfileMutation')
     .mockReturnValue([createProfileMock] as any);
   jest.spyOn(authSelectors, 'isAuthenticatedSelector').mockReturnValue(true);
   jest
@@ -71,13 +66,13 @@ it('Pagelayout renders Profile page', async () => {
   const mocks = [
     {
       request: {
-        query: MyProfileDocument,
+        query: graphql.MyProfileDocument,
       },
       result: {},
     },
     {
       request: {
-        query: OrganisationsDocument,
+        query: graphql.OrganisationsDocument,
         variables: {},
       },
       result: {

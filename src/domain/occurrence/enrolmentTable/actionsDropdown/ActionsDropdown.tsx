@@ -1,5 +1,5 @@
 import { IconCheck, IconCross, IconCrossCircle, IconPen } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -47,6 +47,7 @@ const ActionsDropdown: React.FC<Props> = ({
   const [approveEnrolment] = useApproveEnrolmentMutation({
     onError: (error) => {
       // TODO: Better error message
+      // eslint-disable-next-line no-console
       console.log(error.message);
       toast(t('enrolment.approveEnrolmentError'), {
         type: toast.TYPE.ERROR,
@@ -61,6 +62,7 @@ const ActionsDropdown: React.FC<Props> = ({
   const [declineEnrolment] = useDeclineEnrolmentMutation({
     onError: (error) => {
       // TODO: Better error message
+      // eslint-disable-next-line no-console
       console.log(error.message);
       toast(t('enrolment.declineEnrolmentError'), {
         type: toast.TYPE.ERROR,
@@ -75,6 +77,7 @@ const ActionsDropdown: React.FC<Props> = ({
   const [deleteEnrolment] = useDeleteEnrolmentMutation({
     onError: (error) => {
       // TODO: Better error message
+      // eslint-disable-next-line no-console
       console.log(error.message);
       toast(t('enrolment.deleteEnrolmentError'), {
         type: toast.TYPE.ERROR,

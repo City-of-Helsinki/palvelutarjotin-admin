@@ -1,5 +1,5 @@
 import { IconAngleRight, IconArrowRight, IconUser } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';

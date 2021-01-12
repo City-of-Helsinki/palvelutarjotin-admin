@@ -1,6 +1,6 @@
 import { format as formatDate } from 'date-fns';
 import { Button, IconCrossCircle } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 

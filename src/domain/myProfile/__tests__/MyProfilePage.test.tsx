@@ -1,13 +1,7 @@
-/* eslint-disable import/no-duplicates */
 import { MockedResponse } from '@apollo/react-testing';
-import React from 'react';
-import wait from 'waait';
+import * as React from 'react';
 
-import {
-  MyProfileDocument,
-  OrganisationsDocument,
-} from '../../../generated/graphql';
-import * as graphqlFns from '../../../generated/graphql';
+import * as graphql from '../../../generated/graphql';
 import { fakeOrganisations, fakePerson } from '../../../utils/mockDataUtils';
 import {
   renderWithRoute,
@@ -32,7 +26,7 @@ const organisationMocks2 = fakeOrganisations(3, [
 const apolloMocks: MockedResponse[] = [
   {
     request: {
-      query: MyProfileDocument,
+      query: graphql.MyProfileDocument,
       variables: {},
     },
     result: {
@@ -48,7 +42,7 @@ const apolloMocks: MockedResponse[] = [
   },
   {
     request: {
-      query: OrganisationsDocument,
+      query: graphql.OrganisationsDocument,
       variables: {},
     },
     result: {
@@ -93,7 +87,7 @@ test('render profile page correctly', async () => {
 test('profile can be edited', async () => {
   const updateProfileMock = jest.fn();
   jest
-    .spyOn(graphqlFns, 'useUpdateMyProfileMutation')
+    .spyOn(graphql, 'useUpdateMyProfileMutation')
     .mockReturnValue([updateProfileMock] as any);
   renderWithRoute(<MyProfilePage />, {
     mocks: apolloMocks,

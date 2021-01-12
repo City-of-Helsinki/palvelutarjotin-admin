@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import pretty from 'pretty';
-import React from 'react';
+import * as React from 'react';
 import { MemoryRouter } from 'react-router';
 
 import PageWrapper from '../PageWrapper';

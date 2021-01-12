@@ -2,7 +2,7 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { mount } from 'enzyme';
 import i18n from 'i18next';
-import React from 'react';
+import * as React from 'react';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';

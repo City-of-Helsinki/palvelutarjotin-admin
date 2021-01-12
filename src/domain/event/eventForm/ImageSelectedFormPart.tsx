@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DeleteButton from '../../../common/components/deleteButton/DeleteButton';
@@ -12,7 +12,7 @@ interface Props {
   imageId: string;
   setFieldValue: (
     field: string,
-    value: any,
+    value: string | string[],
     shouldValidate?: boolean | undefined
   ) => void;
   setFieldTouched: (

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { withA11y } from '@storybook/addon-a11y';
 import { I18nextProvider } from 'react-i18next';

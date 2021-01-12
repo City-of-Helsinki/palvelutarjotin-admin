@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import * as React from 'react';
 import Router from 'react-router';
 
 import messages from '../../app/i18n/fi.json';

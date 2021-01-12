@@ -9,7 +9,7 @@ import {
   IconCrossCircle,
   IconPen,
 } from 'hds-react';
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';

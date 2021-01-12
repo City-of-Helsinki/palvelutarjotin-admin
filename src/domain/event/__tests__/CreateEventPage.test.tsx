@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import userEvent from '@testing-library/user-event';
 import parseDate from 'date-fns/parse';
-import { axe } from 'jest-axe';
 import { advanceTo } from 'jest-date-mock';
-import React from 'react';
+import * as React from 'react';
 import Modal from 'react-modal';
 import Router from 'react-router';
 
@@ -15,6 +13,7 @@ import {
   KeywordsDocument,
   KeywordSetDocument,
   KeywordSetType,
+  Language,
   MyProfileDocument,
   PersonDocument,
   PlaceDocument,
@@ -218,6 +217,7 @@ const profileResponse = {
           id: organisationId,
           persons: fakePersons(1, [
             {
+              /* eslint-disable @typescript-eslint/no-explicit-any */
               organisations: [] as any,
               name: contactName,
               id: contactPersonId,
@@ -238,7 +238,7 @@ const venueResponse = {
       hasSnackEatingPlace: true,
       translations: [
         {
-          languageCode: 'FI' as any,
+          languageCode: Language.Fi,
           description: 'Testitapahtuman kuvaus',
           __typename: 'VenueTranslationType',
         },
@@ -471,6 +471,7 @@ test('modal opens when trying to change language', async () => {
 test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
   const pushMock = jest.fn();
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   jest.spyOn(Router, 'useHistory').mockReturnValue({
     push: pushMock,
   } as any);
