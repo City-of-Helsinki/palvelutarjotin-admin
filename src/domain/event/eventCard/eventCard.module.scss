@@ -28,6 +28,10 @@
   cursor: pointer;
   background-color: var(--background-color-event-card);
 
+  &:focus {
+    outline: 2px var(--color-coat-of-arms) solid;
+  }
+
   @include respond_above(sm) {
     grid-template-columns: var(--width-image) 1fr;
   }
