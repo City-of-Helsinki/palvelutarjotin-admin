@@ -24,7 +24,6 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
-import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 
@@ -353,9 +352,7 @@ test('yesterday is not valid event start day', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  const dateInput = screen.getByLabelText(
-    messages.eventOccurrenceForm.labelDate
-  );
+  const dateInput = screen.getByRole('textbox', { name: 'Päivämäärä' });
   userEvent.click(dateInput);
   userEvent.type(dateInput, format(addDays(currentDate, -1), DATE_FORMAT));
   fireEvent.blur(dateInput);
@@ -364,7 +361,7 @@ test('yesterday is not valid event start day', async () => {
   });
   expect(dateInput).toHaveAttribute('aria-describedby');
   expect(
-    screen.queryByText(messages.form.validation.date.mustNotInThePast)
+    screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
   ).toBeInTheDocument();
 });
 
@@ -381,9 +378,7 @@ test('today is valid event start day', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  const dateInput = screen.getByLabelText(
-    messages.eventOccurrenceForm.labelDate
-  );
+  const dateInput = screen.getByRole('textbox', { name: 'Päivämäärä' });
   userEvent.click(dateInput);
   userEvent.type(dateInput, format(currentDate, DATE_FORMAT));
   fireEvent.blur(dateInput);
@@ -392,6 +387,6 @@ test('today is valid event start day', async () => {
   });
   expect(dateInput).not.toHaveAttribute('aria-describedby');
   expect(
-    screen.queryByText(messages.form.validation.date.mustNotInThePast)
+    screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
   ).not.toBeInTheDocument();
 });
