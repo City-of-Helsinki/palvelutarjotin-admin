@@ -1,10 +1,12 @@
 import isBefore from 'date-fns/isBefore';
+import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { isTodayOrLater } from '../../../utils/dateUtils';
+import { DATETIME_FORMAT } from '../../../common/components/datepicker/contants';
+import { isTodayOrLater, isValidTime } from '../../../utils/dateUtils';
+import formatDate from '../../../utils/formatDate';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
-import { isValidTime } from '../../occurrence/eventOccurrenceForm/ValidationSchema';
 
 // TODO: Validate also provideContactInfo.phone field. Sync validation with backend
 const createValidationSchemaYup = (
@@ -38,6 +40,32 @@ const createValidationSchemaYup = (
         'isTodayOrInTheFuture',
         VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
         isTodayOrLater
+      )
+      .when(
+        ['occurrenceDate', 'occurrenceStartsAt'],
+        (
+          occurenceDate: Date,
+          occurrenceStartsAt: string,
+          schema: Yup.DateSchema
+        ) => {
+          if (isValidDate(occurenceDate)) {
+            const isValid = isValidTime(occurrenceStartsAt);
+            const occurenceStart = isValid
+              ? parseDate(occurrenceStartsAt, 'HH:mm', occurenceDate)
+              : occurenceDate;
+            return schema.test(
+              'isBefore',
+              () => ({
+                key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
+                max: formatDate(occurenceStart, DATETIME_FORMAT),
+              }),
+              (enrolmentStart: Date) => {
+                return enrolmentStart < occurenceStart;
+              }
+            );
+          }
+          return schema;
+        }
       ),
     neededOccurrences: Yup.number()
       .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)

@@ -2,7 +2,7 @@ import isBefore from 'date-fns/isBefore';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { isTodayOrLater } from '../../../utils/dateUtils';
+import { isTodayOrLater, isValidTime } from '../../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 const addMinValidationMessage = (
@@ -22,9 +22,6 @@ const addMaxValidationMessage = (
   max: param.max,
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
-
-export const isValidTime = (time: string) =>
-  /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
 
 export default Yup.object().shape({
   date: Yup.date()
