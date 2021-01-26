@@ -252,7 +252,7 @@ exports[`matches snapshot 1`] = `
               Luokka-aste:
             </td>
             <td>
-              studyLevel.grade_interval
+              5. luokka
             </td>
           </tr>
           <tr

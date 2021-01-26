@@ -20,6 +20,7 @@ import {
   OccurrenceDocument,
   OccurrenceQuery,
   OccurrenceQueryVariables,
+  StudyLevel,
   useApproveEnrolmentMutation,
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
@@ -154,13 +155,22 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
 
   const getStudyLevel = () => {
     const studyLevel = enrolment?.studyGroup?.studyLevel;
-    if (studyLevel) {
+
+    const getStudyLevelString = (studyLevel: StudyLevel) => {
       return studyLevel.startsWith('GRADE')
         ? t('studyLevel.grade_interval', {
             postProcess: 'interval',
             count: Number(studyLevel.split('_')[1]),
           })
         : translateValue('studyLevel.', studyLevel, t);
+    };
+
+    if (Array.isArray(studyLevel)) {
+      return studyLevel.map((level) => getStudyLevelString(level)).join(', ');
+    }
+
+    if (studyLevel) {
+      return getStudyLevelString(studyLevel);
     }
   };
 
@@ -208,7 +218,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   loading={loadingApproveEnrolment}
                 />
               )}
-
               {declineModalOpen && (
                 <DeclineEnrolmentModal
                   enrolmentId={enrolmentId}
@@ -219,7 +228,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   loading={loadingDeclineEnrolment}
                 />
               )}
-
               {deleteModalOpen && (
                 <DeleteEnrolmentModal
                   onClose={() => setDeleteModalOpen(false)}
@@ -227,7 +235,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   loading={loadingDeleteEnrolment}
                 />
               )}
-
               <div className={styles.actionButtons}>
                 {enrolmentIsNotApproved && (
                   <Button
