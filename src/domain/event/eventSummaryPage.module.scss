@@ -80,6 +80,15 @@
       margin-right: var(--spacing-l);
       margin-top: 0 !important;
     }
+
+    &.publishButtonOnly {
+      border: 0;
+      padding: var(--spacing-s) 0;
+
+      .publishButton {
+        margin-left: 0;
+      }
+    }
   }
 
   .showMoreButtonWrapper {

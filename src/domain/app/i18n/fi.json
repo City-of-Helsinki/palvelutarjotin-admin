@@ -569,7 +569,8 @@
     },
     "publishSection": {
       "optionNow": "Heti",
-      "buttonSetPublished": "Aseta julkaisuajankohta",
+      "buttonSetPublished": "Julkaise tapahtuma",
+      "buttonSetPublishedAdvanced": "Aseta julkaisuajankohta",
       "buttonCancelPublishment": "Peru julkaisu",
       "textPublishedTime": "Tapahtuma julkaistu",
       "confirmModalTitle": "Aseta julkaisuajankohta",

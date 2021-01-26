@@ -146,12 +146,14 @@ it('displays event and occurrences correctly', async () => {
     screen.queryByRole('heading', { name: 'Tapahtuma-ajat 3 kpl' })
   ).toBeInTheDocument();
 
-  expect(
+  //temporary commented out pt-598
+  /*expect(
     screen.queryByRole('heading', { name: 'Tapahtuman julkaisu' })
-  ).toBeInTheDocument();
+  ).toBeInTheDocument();*/
 
+  // pt-598 Aseta julkaisuajankohta
   expect(
-    screen.queryByRole('button', { name: 'Aseta julkaisuajankohta' })
+    screen.queryByRole('button', { name: 'Julkaise tapahtuma' })
   ).toBeInTheDocument();
 
   expect(

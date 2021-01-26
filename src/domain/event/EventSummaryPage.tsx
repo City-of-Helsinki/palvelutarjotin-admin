@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { isPast } from 'date-fns';
 import { Button, RadioButton } from 'hds-react';
 import * as React from 'react';
@@ -146,6 +147,9 @@ const EventSummaryPage: React.FC = () => {
     setShowPublishModal(true);
   };
 
+  //temporary accessibility change pt-598
+  const isAdvancedPublish = false;
+
   return (
     <PageWrapper title="occurrences.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -267,14 +271,21 @@ const EventSummaryPage: React.FC = () => {
               </div>
 
               <div>
-                <div className={styles.sectionTitleRow}>
-                  <h2>{t('occurrences.titleEventPublishment')}</h2>
-                </div>
-                <div className={styles.publishSection}>
+                {isAdvancedPublish && (
+                  <div className={styles.sectionTitleRow}>
+                    <h2>{t('occurrences.titleEventPublishment')}</h2>
+                  </div>
+                )}
+                <div
+                  className={classNames(
+                    styles.publishSection,
+                    !isAdvancedPublish && styles.publishButtonOnly
+                  )}
+                >
                   {isEventPublished ? (
                     <>
                       <div>
-                        {t('occurrences.publishSection.textPublishedTime')}{' '}
+                        {t('occurrences.publishSection.textPublishedTime')}
                         {getEventPublishedTime(eventData.event)}
                       </div>
                       <Button
@@ -288,17 +299,25 @@ const EventSummaryPage: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <div>{t('occurrences.titleEventPublishment')}: </div>
-                      <RadioButton
-                        label={t('occurrences.publishSection.optionNow')}
-                        id="publish-now"
-                        checked
-                      />
+                      {isAdvancedPublish && (
+                        <>
+                          <div>{t('occurrences.titleEventPublishment')}: </div>
+                          <RadioButton
+                            label={t('occurrences.publishSection.optionNow')}
+                            id="publish-now"
+                            checked
+                          />
+                        </>
+                      )}
                       <Button
                         className={styles.publishButton}
                         onClick={handlePublishEventClick}
                       >
-                        {t('occurrences.publishSection.buttonSetPublished')}
+                        {isAdvancedPublish
+                          ? t(
+                              'occurrences.publishSection.buttonSetPublishedAdvanced'
+                            )
+                          : t('occurrences.publishSection.buttonSetPublished')}
                       </Button>
                     </>
                   )}

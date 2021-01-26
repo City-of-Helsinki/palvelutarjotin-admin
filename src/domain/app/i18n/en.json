@@ -568,7 +568,8 @@
     },
     "publishSection": {
       "optionNow": "Now",
-      "buttonSetPublished": "Set publication date",
+      "buttonSetPublished": "Publish event",
+      "buttonSetPublishedAdvanced": "Set publication date",
       "buttonCancelPublishment": "Cancel publishment",
       "confirmModalTitle": "Set publication date",
       "textPublishedTime": "Event published",
