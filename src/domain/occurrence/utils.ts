@@ -1,6 +1,6 @@
 import { setHours, setMinutes } from 'date-fns';
 
-import { Language } from '../../generated/graphql';
+import { Language, SeatType } from '../../generated/graphql';
 import { OccurrenceFormFields } from './types';
 /**
  * Get payload to create/edit occurrence
@@ -36,5 +36,8 @@ export const getOccurrencePayload = ({
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || 0,
     maxGroupSize: Number(values.maxGroupSize) || 0,
+    seatType: values.oneGroupFills
+      ? SeatType.EnrolmentCount
+      : SeatType.ChildrenCount,
   };
 };

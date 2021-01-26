@@ -9,4 +9,5 @@ export interface OccurrenceFormFields extends VenueDataFields {
   amountOfSeats: string;
   maxGroupSize: string;
   minGroupSize: string;
+  oneGroupFills: boolean;
 }

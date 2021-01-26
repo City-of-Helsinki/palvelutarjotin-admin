@@ -163,6 +163,7 @@ const CreateOccurrencePage: React.FC = () => {
         amountOfSeats: values.amountOfSeats,
         minGroupSize: values.minGroupSize,
         maxGroupSize: values.maxGroupSize,
+        oneGroupFills: values.oneGroupFills,
       });
       scrollToTop();
       if (isFirstOccurrence) {

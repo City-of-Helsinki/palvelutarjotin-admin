@@ -19,6 +19,7 @@ import {
   OccurrenceNode,
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
+  OccurrenceSeatType,
   Offer,
   OrganisationNode,
   OrganisationNodeConnection,
@@ -308,6 +309,7 @@ export const fakeOccurrence = (
   updatedAt: '' as any,
   remainingSeats: null as any,
   cancelled: false,
+  seatType: OccurrenceSeatType.ChildrenCount,
   __typename: 'OccurrenceNode',
   ...overrides,
 });

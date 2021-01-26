@@ -249,6 +249,13 @@ test('can create new occurrence with form', async () => {
   const maxGroupSizeInput = screen.getByLabelText('Ryhmäkoko max');
   userEvent.type(maxGroupSizeInput, occurrenceFormData.maxGroupSize);
 
+  const oneGroupFillsCheckbox = screen.getByRole('checkbox', {
+    name: /yksi ryhmä täyttää tapahtuman/i,
+  });
+  expect(oneGroupFillsCheckbox).not.toBeChecked();
+  userEvent.click(oneGroupFillsCheckbox);
+  expect(oneGroupFillsCheckbox).toBeChecked();
+
   await waitFor(() => {
     expect(
       screen.queryByText('Tämä kenttä on pakollinen')
@@ -270,6 +277,7 @@ test('can create new occurrence with form', async () => {
           minGroupSize: 10,
           pEventId: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
           placeId: '',
+          seatType: 'ENROLMENT_COUNT',
           startTime: new Date('2020-08-13T09:00:00.000Z'),
         },
       },

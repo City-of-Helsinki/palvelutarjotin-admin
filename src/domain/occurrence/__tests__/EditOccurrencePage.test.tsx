@@ -216,8 +216,6 @@ test('initializes edit occurrence form correctly', async () => {
     expect(screen.queryByText('Vaatesäilytys')).toBeInTheDocument();
   });
 
-  //userEvent.clear(screen.getByLabelText('Paikkoja yhteensä'));
-  // userEvent.clear(screen.getByLabelText('Ryhmäkoko max'));
   userEvent.type(screen.getByLabelText('Paikkoja yhteensä'), '40');
   userEvent.type(screen.getByLabelText('Ryhmäkoko max'), '30');
 
@@ -230,7 +228,7 @@ test('initializes edit occurrence form correctly', async () => {
       variables: {
         input: {
           amountOfSeats: 3040,
-
+          seatType: 'CHILDREN_COUNT',
           startTime: new Date('2020-08-03T09:00:00.000Z'),
           endTime: new Date('2020-08-03T09:30:00.000Z'),
           id: occurrenceId,

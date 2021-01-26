@@ -52,6 +52,7 @@ export type Query = {
   studyGroup?: Maybe<StudyGroupNode>;
   venues?: Maybe<VenueNodeConnection>;
   venue?: Maybe<VenueNode>;
+  cancellingEnrolment?: Maybe<EnrolmentNode>;
   enrolments?: Maybe<EnrolmentNodeConnection>;
   /** The ID of the object */
   enrolment?: Maybe<EnrolmentNode>;
@@ -111,6 +112,10 @@ export type QueryVenuesArgs = {
 };
 
 export type QueryVenueArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryCancellingEnrolmentArgs = {
   id: Scalars['ID'];
 };
 
@@ -284,6 +289,7 @@ export type OccurrenceNode = Node & {
   amountOfSeats: Scalars['Int'];
   languages: Array<LanguageType>;
   cancelled: Scalars['Boolean'];
+  seatType: OccurrenceSeatType;
   enrolments: EnrolmentNodeConnection;
   remainingSeats: Scalars['Int'];
   seatsTaken: Scalars['Int'];
@@ -334,6 +340,7 @@ export type PalvelutarjotinEventNode = Node & {
   contactPhoneNumber: Scalars['String'];
   contactEmail: Scalars['String'];
   autoAcceptance: Scalars['Boolean'];
+  mandatoryAdditionalInformation: Scalars['Boolean'];
   occurrences: OccurrenceNodeConnection;
   nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
   lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
@@ -626,6 +633,14 @@ export type LanguageTypeOccurrencesArgs = {
   date?: Maybe<Scalars['Date']>;
   time?: Maybe<Scalars['Time']>;
 };
+
+/** An enumeration. */
+export enum OccurrenceSeatType {
+  /** children count */
+  ChildrenCount = 'CHILDREN_COUNT',
+  /** enrolment count */
+  EnrolmentCount = 'ENROLMENT_COUNT',
+}
 
 export type Event = {
   __typename?: 'Event';
@@ -949,10 +964,14 @@ export enum NotificationTemplateType {
   OccurrenceUnenrolment = 'OCCURRENCE_UNENROLMENT',
   EnrolmentApproved = 'ENROLMENT_APPROVED',
   EnrolmentDeclined = 'ENROLMENT_DECLINED',
+  EnrolmentCancellation = 'ENROLMENT_CANCELLATION',
+  EnrolmentCancelled = 'ENROLMENT_CANCELLED',
   OccurrenceEnrolmentSms = 'OCCURRENCE_ENROLMENT_SMS',
   OccurrenceUnenrolmentSms = 'OCCURRENCE_UNENROLMENT_SMS',
   EnrolmentApprovedSms = 'ENROLMENT_APPROVED_SMS',
   EnrolmentDeclinedSms = 'ENROLMENT_DECLINED_SMS',
+  EnrolmentCancellationSms = 'ENROLMENT_CANCELLATION_SMS',
+  EnrolmentCancelledSms = 'ENROLMENT_CANCELLED_SMS',
   OccurrenceCancelled = 'OCCURRENCE_CANCELLED',
   OccurrenceCancelledSms = 'OCCURRENCE_CANCELLED_SMS',
   EnrolmentSummaryReport = 'ENROLMENT_SUMMARY_REPORT',
@@ -978,6 +997,7 @@ export type Mutation = {
   updateEnrolment?: Maybe<UpdateEnrolmentMutationPayload>;
   approveEnrolment?: Maybe<ApproveEnrolmentMutationPayload>;
   declineEnrolment?: Maybe<DeclineEnrolmentMutationPayload>;
+  cancelEnrolment?: Maybe<CancelEnrolmentMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
@@ -1054,6 +1074,10 @@ export type MutationDeclineEnrolmentArgs = {
   input: DeclineEnrolmentMutationInput;
 };
 
+export type MutationCancelEnrolmentArgs = {
+  input: CancelEnrolmentMutationInput;
+};
+
 export type MutationCreateMyProfileArgs = {
   input: CreateMyProfileMutationInput;
 };
@@ -1121,6 +1145,7 @@ export type AddOccurrenceMutationInput = {
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId: Scalars['ID'];
   amountOfSeats: Scalars['Int'];
+  seatType?: Maybe<SeatType>;
   languages: Array<Maybe<OccurrenceLanguageInput>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
@@ -1133,6 +1158,12 @@ export type PersonNodeInput = {
   /** Default `fi` */
   language?: Maybe<Language>;
 };
+
+/** An enumeration. */
+export enum SeatType {
+  ChildrenCount = 'CHILDREN_COUNT',
+  EnrolmentCount = 'ENROLMENT_COUNT',
+}
 
 export type OccurrenceLanguageInput = {
   id: Language;
@@ -1157,6 +1188,7 @@ export type UpdateOccurrenceMutationInput = {
   amountOfSeats?: Maybe<Scalars['Int']>;
   /** If present, should include all languages of the occurrence */
   languages: Array<Maybe<OccurrenceLanguageInput>>;
+  seatType?: Maybe<SeatType>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1361,6 +1393,19 @@ export type DeclineEnrolmentMutationInput = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+export type CancelEnrolmentMutationPayload = {
+  __typename?: 'CancelEnrolmentMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CancelEnrolmentMutationInput = {
+  uniqueId: Scalars['ID'];
+  /** Need to be included to actually cancel the enrolment,without this token, BE only initiate thecancellation process by sending a confirmation email to teacher */
+  token?: Maybe<Scalars['String']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 export type CreateMyProfileMutationPayload = {
   __typename?: 'CreateMyProfileMutationPayload';
   myProfile?: Maybe<PersonNode>;
@@ -1514,6 +1559,7 @@ export type PalvelutarjotinEventInput = {
   contactPhoneNumber?: Maybe<Scalars['String']>;
   contactEmail?: Maybe<Scalars['String']>;
   autoAcceptance?: Maybe<Scalars['Boolean']>;
+  mandatoryAdditionalInformation?: Maybe<Scalars['Boolean']>;
 };
 
 export type UpdateEventMutation = {
@@ -2331,6 +2377,7 @@ export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode' } & Pick<
   | 'maxGroupSize'
   | 'seatsTaken'
   | 'seatsApproved'
+  | 'seatType'
   | 'remainingSeats'
   | 'startTime'
   | 'endTime'
@@ -2671,6 +2718,7 @@ export const OccurrenceFieldsFragmentDoc = gql`
     maxGroupSize
     seatsTaken
     seatsApproved
+    seatType
     remainingSeats
     languages {
       id

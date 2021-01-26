@@ -413,6 +413,7 @@
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
     "labelPackedLunchEatingPlace": "Eväidensyöntipaikka",
     "labelOuterwearStorage": "Ulkovaatesäilytys",
+    "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
     "titleParticipantRow": "Osallistujamäärä"
   },
   "form": {

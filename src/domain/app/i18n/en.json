@@ -412,6 +412,7 @@
     "labelLocationDescription": "Event location description",
     "labelPackedLunchEatingPlace": "Packed lunch eating place",
     "labelOuterwearStorage": "Outerwear storage",
+    "labelOneGroupFills": "En grupp fyller evenemanget",
     "titleParticipantRow": "Participant count"
   },
   "form": {

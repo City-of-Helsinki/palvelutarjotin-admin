@@ -3,6 +3,7 @@ import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -34,6 +35,7 @@ export const defaultInitialValues: OccurrenceFormFields = {
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
   outdoorActivity: false,
+  oneGroupFills: false,
 };
 
 interface Props {
@@ -208,6 +210,13 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                     component={TextInputField}
                     min={0}
                     type="number"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Field
+                    labelText={t('eventOccurrenceForm.labelOneGroupFills')}
+                    name="oneGroupFills"
+                    component={CheckboxField}
                   />
                 </FormGroup>
               </div>

@@ -32,6 +32,7 @@
 
   .occurrenceFormRow {
     display: grid;
+    align-items: center;
 
     @include respond_above(md) {
       grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;

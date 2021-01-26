@@ -11,6 +11,7 @@ export const QUERY_OCCURRENCE = gql`
     maxGroupSize
     seatsTaken
     seatsApproved
+    seatType
     remainingSeats
     languages {
       id
