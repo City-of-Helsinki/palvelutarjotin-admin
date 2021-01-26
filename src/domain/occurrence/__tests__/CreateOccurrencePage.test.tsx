@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import * as graphql from '../../../generated/graphql';
+import { runCommonEventFormTests } from '../../../utils/CommonEventFormTests';
 import {
   fakeEvent,
   fakeLocalizedObject,
@@ -129,10 +130,20 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('renders coming occurrences table correctly', async () => {
-  initializeMocks();
-  renderWithRoute(<CreateOccurrencePage />, {
+const InitializeMocksAndRenderPage = (
+  renderOptions,
+  fromDate = new Date(2020, 7, 2),
+  occurences = 5
+) => {
+  initializeMocks(fromDate, occurences);
+  return renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
+    ...renderOptions,
+  });
+};
+
+test('renders coming occurrences table correctly', async () => {
+  InitializeMocksAndRenderPage({
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
     path: ROUTES.CREATE_OCCURRENCE,
   });
@@ -177,9 +188,7 @@ test('can create new occurrence with form', async () => {
     .spyOn(graphql, 'useAddOccurrenceMutation')
     .mockReturnValue([createOccurrenceSpy] as any);
 
-  initializeMocks();
-  renderWithRoute(<CreateOccurrencePage />, {
-    mocks: apolloMocks,
+  InitializeMocksAndRenderPage({
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
     path: ROUTES.CREATE_OCCURRENCE,
   });
@@ -292,9 +301,7 @@ test('can create new occurrence with form', async () => {
 test('initializes pre-filled occurrence values from URL', async () => {
   const queryString =
     '?date=2020-10-25T22%3A00%3A00.000Z&startsAt=12%3A00&endsAt=13%3A00';
-  initializeMocks();
-  renderWithRoute(<CreateOccurrencePage />, {
-    mocks: apolloMocks,
+  InitializeMocksAndRenderPage({
     routes: [
       '/fi' +
         ROUTES.CREATE_FIRST_OCCURRENCE.replace(':id', eventMock.id) +
@@ -321,9 +328,7 @@ test('initializes pre-filled occurrence values from URL', async () => {
 test('does not initializes values from URL if they are invalid', async () => {
   const queryString =
     '?date=2020-101-25T22%3A00%3A00.000Z&startsAt=12%3A000&endsAt=13%3A00';
-  initializeMocks();
-  renderWithRoute(<CreateOccurrencePage />, {
-    mocks: apolloMocks,
+  InitializeMocksAndRenderPage({
     routes: [
       ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id) + queryString,
     ],
@@ -339,54 +344,16 @@ test('does not initializes values from URL if they are invalid', async () => {
   expect(screen.getByRole('textbox', { name: /loppuu klo/i })).toHaveValue('');
 });
 
-test('yesterday is not valid event start day', async () => {
+describe('common event form tests', () => {
   const currentDate = new Date(2020, 7, 2);
-  initializeMocks(currentDate, 1);
-  renderWithRoute(<CreateOccurrencePage />, {
-    mocks: apolloMocks,
-    routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
-    path: ROUTES.CREATE_OCCURRENCE,
-  });
-
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
-
-  const dateInput = screen.getByRole('textbox', { name: 'Päivämäärä' });
-  userEvent.click(dateInput);
-  userEvent.type(dateInput, format(addDays(currentDate, -1), DATE_FORMAT));
-  fireEvent.blur(dateInput);
-  await waitFor(() => {
-    expect(dateInput).toBeInvalid();
-  });
-  expect(dateInput).toHaveAttribute('aria-describedby');
-  expect(
-    screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
-  ).toBeInTheDocument();
-});
-
-test('today is valid event start day', async () => {
-  const currentDate = new Date(2020, 7, 2);
-  initializeMocks(currentDate, 1);
-  renderWithRoute(<CreateOccurrencePage />, {
-    mocks: apolloMocks,
-    routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
-    path: ROUTES.CREATE_OCCURRENCE,
-  });
-
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
-
-  const dateInput = screen.getByRole('textbox', { name: 'Päivämäärä' });
-  userEvent.click(dateInput);
-  userEvent.type(dateInput, format(currentDate, DATE_FORMAT));
-  fireEvent.blur(dateInput);
-  await waitFor(() => {
-    expect(dateInput).toBeValid();
-  });
-  expect(dateInput).not.toHaveAttribute('aria-describedby');
-  expect(
-    screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
-  ).not.toBeInTheDocument();
+  runCommonEventFormTests(() =>
+    InitializeMocksAndRenderPage(
+      {
+        routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
+        path: ROUTES.CREATE_OCCURRENCE,
+      },
+      currentDate,
+      1
+    )
+  );
 });
