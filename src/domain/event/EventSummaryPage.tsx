@@ -279,7 +279,9 @@ const EventSummaryPage: React.FC = () => {
                 <div
                   className={classNames(
                     styles.publishSection,
-                    !isAdvancedPublish && styles.publishButtonOnly
+                    !isAdvancedPublish &&
+                      !isEventPublished &&
+                      styles.publishButtonOnly
                   )}
                 >
                   {isEventPublished ? (
