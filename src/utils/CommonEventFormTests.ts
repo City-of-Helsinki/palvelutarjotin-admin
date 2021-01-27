@@ -1,8 +1,13 @@
 import { addDays, format } from 'date-fns';
+import parseDate from 'date-fns/parse';
 import { advanceTo, clear } from 'jest-date-mock';
 
-import { DATE_FORMAT } from '../common/components/datepicker/contants';
 import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+} from '../common/components/datepicker/contants';
+import {
+  act,
   CustomRenderResult,
   fireEvent,
   screen,
@@ -11,7 +16,7 @@ import {
 } from './testUtils';
 
 export const runCommonEventFormTests = (
-  renderForm: () => CustomRenderResult
+  renderForm: (currentDate: Date) => CustomRenderResult
 ) => {
   describe('Common event form tests', () => {
     afterAll(() => {
@@ -23,9 +28,9 @@ export const runCommonEventFormTests = (
     };
 
     it('yesterday is not valid event start day', async () => {
-      const currentDate = new Date(2020, 7, 2);
+      const currentDate = new Date('2008-08-01');
       setCurrentSystemDate(currentDate);
-      renderForm();
+      renderForm(currentDate);
 
       await waitFor(() => {
         expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
@@ -47,7 +52,7 @@ export const runCommonEventFormTests = (
     it('today is valid event start day', async () => {
       const currentDate = new Date(2020, 7, 2);
       setCurrentSystemDate(currentDate);
-      renderForm();
+      renderForm(currentDate);
 
       await waitFor(() => {
         expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();

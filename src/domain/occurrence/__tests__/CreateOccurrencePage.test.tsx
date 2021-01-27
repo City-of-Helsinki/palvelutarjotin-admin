@@ -345,8 +345,7 @@ test('does not initializes values from URL if they are invalid', async () => {
 });
 
 describe('common event form tests', () => {
-  const currentDate = new Date(2020, 7, 2);
-  runCommonEventFormTests(() =>
+  runCommonEventFormTests((currentDate: Date) =>
     InitializeMocksAndRenderPage(
       {
         routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],

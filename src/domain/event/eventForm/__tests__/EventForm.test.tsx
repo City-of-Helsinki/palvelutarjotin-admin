@@ -1,10 +1,14 @@
 import { format } from 'date-fns';
+import parseDate from 'date-fns/parse';
 import { axe } from 'jest-axe';
 import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import wait from 'waait';
 
-import { DATE_FORMAT } from '../../../../common/components/datepicker/contants';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+} from '../../../../common/components/datepicker/contants';
 import { runCommonEventFormTests } from '../../../../utils/CommonEventFormTests';
 import {
   act,
@@ -45,7 +49,48 @@ const renderForm = () =>
 describe('eventForm Tests', () => {
   runCommonEventFormTests(renderForm);
 
-  it('enrolment must start after event date', async () => {
+  it('enrolment must start in the future', async () => {
+    const currentDay = '08.08.2008';
+    const currentTime = '15:00'; // actual time is 12:00 in helsinki timezone
+
+    // prettier-ignore
+    const currentDate = parseDate(`${currentDay} ${currentTime}`, DATETIME_FORMAT, new Date());
+    advanceTo(currentDate);
+    renderForm();
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    });
+
+    const enrolmentStartInput = screen.getByRole('textbox', {
+      name: /Ilmoittautuminen alkaa/g,
+    });
+    userEvent.click(enrolmentStartInput);
+    userEvent.type(enrolmentStartInput, `${currentDay} 09:00`);
+    fireEvent.blur(enrolmentStartInput);
+    await waitFor(() => {
+      expect(enrolmentStartInput).toBeInvalid();
+    });
+    expect(enrolmentStartInput).toHaveAttribute('aria-describedby');
+    expect(
+      screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
+    ).toBeInTheDocument();
+
+    userEvent.click(enrolmentStartInput);
+    userEvent.clear(enrolmentStartInput);
+    userEvent.type(enrolmentStartInput, `${currentDay} 21:00`);
+    fireEvent.blur(enrolmentStartInput);
+
+    await waitFor(() => {
+      expect(enrolmentStartInput).toBeValid();
+    });
+    expect(enrolmentStartInput).not.toHaveAttribute('aria-describedby');
+    expect(
+      screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
+    ).not.toBeInTheDocument();
+  });
+
+  it.only('enrolment must start after event date', async () => {
     const currentDate = new Date(2020, 7, 2);
     advanceTo(currentDate);
     renderForm();

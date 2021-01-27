@@ -1,4 +1,5 @@
 import isBefore from 'date-fns/isBefore';
+import isFuture from 'date-fns/isFuture';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
@@ -37,9 +38,9 @@ const createValidationSchemaYup = (
       .typeError(VALIDATION_MESSAGE_KEYS.DATE)
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
       .test(
-        'isTodayOrInTheFuture',
+        'isInTheFuture',
         VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
-        isTodayOrLater
+        isFuture
       )
       .when(
         ['occurrenceDate', 'occurrenceStartsAt'],
