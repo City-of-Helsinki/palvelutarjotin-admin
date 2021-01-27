@@ -65,36 +65,4 @@
       margin: 0;
     }
   }
-
-  .publishSection {
-    display: flex;
-    padding: var(--spacing-s) var(--spacing-m);
-    border: 1px solid var(--publish-section-border-color);
-    align-items: center;
-
-    .publishButton {
-      margin-left: auto;
-    }
-
-    > *:not(:last-child) {
-      margin-right: var(--spacing-l);
-      margin-top: 0 !important;
-    }
-  }
-
-  .showMoreButtonWrapper {
-    text-align: center;
-    color: var(--color-link);
-    font-size: var(--fontsize-link);
-    font-weight: var(--fontweight-link);
-    text-decoration: none;
-  }
-
-  .stepsContainer {
-    margin: var(--spacing-l) 0;
-  }
-
-  .summarySection {
-    margin: var(--spacing-l) 0;
-  }
 }
