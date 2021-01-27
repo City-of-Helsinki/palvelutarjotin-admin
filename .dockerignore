@@ -8,4 +8,4 @@
 !package.json
 !tsconfig.json
 !yarn.lock
-*/*/testUtils.ts
+*/*/testUtils.tsx

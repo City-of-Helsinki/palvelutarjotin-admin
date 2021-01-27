@@ -20,6 +20,7 @@
     "src/**/*.stories.*",
     "**/*.test.*",
     "src/utils/testUtils.tsx",
-    "src/utils/mockDataUtils.ts"
+    "src/utils/mockDataUtils.ts",
+    "src/utils/CommonEventFormTests.ts"
   ]
 }

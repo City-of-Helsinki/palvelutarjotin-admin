@@ -92,7 +92,7 @@
       "query.ts",
       "mutation.ts",
       "types.ts",
-      "testUtils.ts",
+      "testUtils.tsx",
       "/icons/",
       "serviceWorker.ts",
       "./src/index.tsx",

@@ -90,7 +90,7 @@ describe('eventForm Tests', () => {
     ).not.toBeInTheDocument();
   });
 
-  it.only('enrolment must start after event date', async () => {
+  it('enrolment must start after event date', async () => {
     const currentDate = new Date(2020, 7, 2);
     advanceTo(currentDate);
     renderForm();

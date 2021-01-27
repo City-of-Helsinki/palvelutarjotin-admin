@@ -1,13 +1,8 @@
 import { addDays, format } from 'date-fns';
-import parseDate from 'date-fns/parse';
 import { advanceTo, clear } from 'jest-date-mock';
 
+import { DATE_FORMAT } from '../common/components/datepicker/contants';
 import {
-  DATE_FORMAT,
-  DATETIME_FORMAT,
-} from '../common/components/datepicker/contants';
-import {
-  act,
   CustomRenderResult,
   fireEvent,
   screen,
@@ -23,13 +18,9 @@ export const runCommonEventFormTests = (
       clear();
     });
 
-    const setCurrentSystemDate = (currentDate: Date) => {
-      advanceTo(currentDate);
-    };
-
     it('yesterday is not valid event start day', async () => {
       const currentDate = new Date('2008-08-01');
-      setCurrentSystemDate(currentDate);
+      advanceTo(currentDate);
       renderForm(currentDate);
 
       await waitFor(() => {
@@ -51,7 +42,7 @@ export const runCommonEventFormTests = (
 
     it('today is valid event start day', async () => {
       const currentDate = new Date(2020, 7, 2);
-      setCurrentSystemDate(currentDate);
+      advanceTo(currentDate);
       renderForm(currentDate);
 
       await waitFor(() => {
