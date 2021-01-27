@@ -4,7 +4,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import range from 'lodash/range';
 import * as React from 'react';
 
-import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import * as graphql from '../../../generated/graphql';
 import { runCommonEventFormTests } from '../../../utils/CommonEventFormTests';
 import {

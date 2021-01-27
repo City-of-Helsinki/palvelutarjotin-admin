@@ -29,7 +29,7 @@ export default Yup.object().shape({
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .test(
       'isTodayOrInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+      VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
       isTodayOrLater
     ),
   startsAt: Yup.string()

@@ -39,7 +39,7 @@ const createValidationSchemaYup = (
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
       .test(
         'isInTheFuture',
-        VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+        VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
         isFuture
       )
       .when(
@@ -107,7 +107,7 @@ export const createEventSchema = {
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .test(
       'isTodayOrInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+      VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
       isTodayOrLater
     ),
   occurrenceStartsAt: Yup.string()
