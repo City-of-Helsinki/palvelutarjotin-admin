@@ -1,5 +1,5 @@
 import { Field, Formik, FormikHelpers } from 'formik';
-import { Button, Checkbox } from 'hds-react';
+import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
