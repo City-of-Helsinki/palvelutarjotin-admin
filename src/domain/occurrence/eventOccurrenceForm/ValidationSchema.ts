@@ -68,6 +68,15 @@ export default Yup.object().shape({
     }),
   amountOfSeats: Yup.number()
     .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+    .when(
+      'oneGroupFills',
+      (oneGroupFills: boolean, schema: Yup.NumberSchema) => {
+        if (oneGroupFills) {
+          return schema;
+        }
+        return schema.min(1, addMinValidationMessage);
+      }
+    )
     .min(1, addMinValidationMessage),
   minGroupSize: Yup.number()
     .min(1, addMinValidationMessage)
@@ -77,10 +86,15 @@ export default Yup.object().shape({
   maxGroupSize: Yup.number()
     .min(1, addMinValidationMessage)
     .when(
-      ['amountOfSeats'],
-      (amountOfSeats: number, schema: Yup.NumberSchema) =>
-        amountOfSeats
+      ['amountOfSeats', 'oneGroupFills'],
+      (
+        amountOfSeats: number,
+        oneGroupFills: boolean,
+        schema: Yup.NumberSchema
+      ) =>
+        amountOfSeats && !oneGroupFills
           ? schema.max(amountOfSeats, addMaxValidationMessage)
           : schema
     ),
+  oneGroupFills: Yup.boolean(),
 });
