@@ -567,7 +567,8 @@
       "columnLocation": "Evenemang plats",
       "columnTime": "Tid",
       "labelChooseAllOccurrences": "Välj alla förekomster",
-      "labelChooseOccurrence": "Välj förekomst {{info}}"
+      "labelChooseOccurrence": "Välj förekomst {{info}}",
+      "oneGroup": "1 grupp"
     },
     "publishSection": {
       "optionNow": "Nu",
@@ -585,7 +586,8 @@
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider",
     "titleEventPublishment": "Händelsepublikation",
-    "errorEventPublicationFailed": "Händelsepublikationen misslyckades"
+    "errorEventPublicationFailed": "Händelsepublikationen misslyckades",
+    "occurrenceIsFull": "Förekomsten är full"
   },
   "studyLevel": {
     "grade": "{{count}}: a klass",

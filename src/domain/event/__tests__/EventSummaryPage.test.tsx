@@ -12,14 +12,18 @@ import {
   fakePEvent,
 } from '../../../utils/mockDataUtils';
 import {
+  configure,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import EventSummaryPage from '../EventSummaryPage';
+
+configure({ defaultHidden: true });
 
 const eventId1 = 'eventMockId';
 const eventName = 'Tapahtuma123456';
@@ -39,7 +43,12 @@ const eventMock1 = fakeEvent({
     occurrences: fakeOccurrences(3, [
       { startTime: new Date(2020, 11, 11).toISOString() },
       { startTime: new Date(2020, 11, 12).toISOString() },
-      { startTime: new Date(2020, 11, 13).toISOString() },
+      {
+        startTime: new Date(2020, 11, 13).toISOString(),
+        remainingSeats: 0,
+        seatsApproved: 10,
+        seatsTaken: 30,
+      },
     ]),
   }),
 });
@@ -111,6 +120,7 @@ const mocks = [
 ];
 
 advanceTo(new Date(2020, 10, 10));
+
 it('displays event and occurrences correctly', async () => {
   renderWithRoute(<EventSummaryPage />, {
     mocks,
@@ -267,4 +277,33 @@ it('shows upcoming and past occurrences', async () => {
   expect(
     screen.getByRole('heading', { name: 'Menneet tapahtuma-ajat 2 kpl' })
   ).toBeInTheDocument();
+});
+
+it('shows full occurrence row correctly', async () => {
+  const fullOccurrecneRowText =
+    'Valitse tapahtuma-aika 13.12.2020 00:00 – 12:30 13.12.2020 00:00 – 12:30 30 13.07.2020 10 20 Tapahtuma on täynnä Valitse';
+  renderWithRoute(<EventSummaryPage />, {
+    mocks,
+    path: ROUTES.EVENT_SUMMARY,
+    routes: [`/events/${eventId1}/summary`],
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByText(organisationName)).toBeInTheDocument();
+    expect(screen.queryAllByText(eventName)).toHaveLength(2);
+  });
+
+  const fullOccurrence = screen.queryByRole('row', {
+    name: fullOccurrecneRowText,
+  });
+
+  expect(fullOccurrence).toBeInTheDocument();
+
+  const withinFullOccurrence = within(fullOccurrence);
+  const acceptedEnrolments = withinFullOccurrence.getByText('10');
+
+  expect(acceptedEnrolments.parentElement).toHaveClass('enrolmentFull');
+  expect(acceptedEnrolments.parentElement).toHaveTextContent(
+    /Tapahtuma on täynnä/i
+  );
 });

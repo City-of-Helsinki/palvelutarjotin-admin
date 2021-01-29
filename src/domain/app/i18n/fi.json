@@ -522,6 +522,8 @@
     "pageTitle": "Tapahtuma-aika",
     "textDateAndTime": "{{date}} klo {{time}}",
     "textAmountOfSeats": "{{count}} paikka",
+    "textAmountOfGroups": "{{count}} ryhmä",
+    "textAmountOfGroups_plural": "{{count}} ryhmää",
     "textAmountOfSeats_plural": "{{count}} paikkaa",
     "textGroupInfo": "ryhmän koko {{minGroupSize}}–{{maxGroupSize}}",
     "languages": {
@@ -566,7 +568,8 @@
       "columnLocation": "Tapahtumapaikka",
       "columnTime": "Kellonaika",
       "labelChooseAllOccurrences": "Valitse kaikki tapahtuma-ajat",
-      "labelChooseOccurrence": "Valitse tapahtuma-aika {{info}}"
+      "labelChooseOccurrence": "Valitse tapahtuma-aika {{info}}",
+      "oneGroup": "1 ryhmä"
     },
     "publishSection": {
       "optionNow": "Heti",
@@ -584,7 +587,8 @@
     "titleComingOccurrences": "Tulevat tapahtuma-ajat",
     "titlePastOccurrences": "Menneet tapahtuma-ajat",
     "titleEventPublishment": "Tapahtuman julkaisu",
-    "errorEventPublicationFailed": "Tapahtuman julkaisu epäonnistui"
+    "errorEventPublicationFailed": "Tapahtuman julkaisu epäonnistui",
+    "occurrenceIsFull": "Tapahtuma on täynnä"
   },
   "studyLevel": {
     "grade": "{{count}}. luokka",

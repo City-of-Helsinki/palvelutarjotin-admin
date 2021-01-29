@@ -252,6 +252,7 @@ export const fakePEvent = (
   autoAcceptance: false,
   nextOccurrenceDatetime: '',
   lastOccurrenceDatetime: '',
+  mandatoryAdditionalInformation: false,
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,
 });
@@ -310,7 +311,6 @@ export const fakeOccurrence = (
   studyGroups: [] as any,
   updatedAt: '' as any,
   remainingSeats: null as any,
-  seatType: '' as any,
   cancelled: false,
   seatType: OccurrenceSeatType.ChildrenCount,
   __typename: 'OccurrenceNode',

@@ -5,7 +5,11 @@ import EnrolmentBadge from '../EnrolmentsBadge';
 
 it('matches snapshot', () => {
   const { container } = render(
-    <EnrolmentBadge acceptedSeatsCount={10} pendingSeatsCount={10} />
+    <EnrolmentBadge
+      acceptedSeatsCount={10}
+      pendingSeatsCount={10}
+      remainingSeatsCount={30}
+    />
   );
 
   expect(container).toMatchSnapshot();

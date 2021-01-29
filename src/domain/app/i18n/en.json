@@ -522,6 +522,8 @@
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",
     "textAmountOfSeats_plural": "{{count}} seats",
+    "textAmountOfGroups": "{{count}} grupp",
+    "textAmountOfGroups_plural": "{{count}} grupper",
     "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
     "languages": {
       "en": "in English",
@@ -565,7 +567,8 @@
       "columnLocation": "Location",
       "columnTime": "Time",
       "labelChooseAllOccurrences": "Select all occurrences",
-      "labelChooseOccurrence": "Select occurrence {{info}}"
+      "labelChooseOccurrence": "Select occurrence {{info}}",
+      "oneGroup": "1 group"
     },
     "publishSection": {
       "optionNow": "Now",
@@ -583,7 +586,8 @@
     "titleComingOccurrences": "Coming event times",
     "titlePastOccurrences": "Past event times",
     "titleEventPublishment": "Event publishment",
-    "errorEventPublicationFailed": "Event publication failed"
+    "errorEventPublicationFailed": "Event publication failed",
+    "occurrenceIsFull": "Occurrence is full"
   },
   "studyLevel": {
     "grade_interval": "(1){1st grade};(2){2nd grade};",
