@@ -20,7 +20,7 @@ export interface EnrolmentFormFields {
     groupName: string;
     groupSize: string;
     amountOfAdult: string;
-    studyLevel: string;
+    studyLevels: string[];
     extraNeeds: string;
   };
 }

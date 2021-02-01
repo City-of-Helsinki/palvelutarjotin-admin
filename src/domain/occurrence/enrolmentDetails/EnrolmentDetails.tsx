@@ -20,7 +20,7 @@ import {
   OccurrenceDocument,
   OccurrenceQuery,
   OccurrenceQueryVariables,
-  StudyLevel,
+  StudyLevelNodeConnection,
   useApproveEnrolmentMutation,
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
@@ -153,25 +153,25 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
     }
   };
 
-  const getStudyLevel = () => {
-    const studyLevel = enrolment?.studyGroup?.studyLevel;
+  const getStudyLevels = (studyLevels: StudyLevelNodeConnection): string => {
+    if (studyLevels) {
+      const translations: string[] | undefined = studyLevels.edges?.map(
+        (edge) => {
+          if (!edge?.node?.id) return '';
+          const level: string = edge.node.id.toUpperCase();
 
-    const getStudyLevelString = (studyLevel: StudyLevel) => {
-      return studyLevel.startsWith('GRADE')
-        ? t('studyLevel.grade_interval', {
-            postProcess: 'interval',
-            count: Number(studyLevel.split('_')[1]),
-          })
-        : translateValue('studyLevel.', studyLevel, t);
-    };
-
-    if (Array.isArray(studyLevel)) {
-      return studyLevel.map((level) => getStudyLevelString(level)).join(', ');
+          return level.startsWith('GRADE')
+            ? t('studyLevel.grade_interval', {
+                postProcess: 'interval',
+                count: Number(level.split('_')[1]),
+              })
+            : translateValue('studyLevel.', level, t);
+        }
+      );
+      return translations.join(', ');
     }
 
-    if (studyLevel) {
-      return getStudyLevelString(studyLevel);
-    }
+    return '';
   };
 
   const handleEditEnrolment = () => {
@@ -330,10 +330,13 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   label={t('enrolment.enrolmentDetails.labelGroupName')}
                   value={enrolment.studyGroup.groupName}
                 />
-                {enrolment.studyGroup.studyLevel && (
+                {enrolment.studyGroup.studyLevels && (
                   <EnrolmentInfoRow
                     label={t('enrolment.enrolmentDetails.labelStudyLevel')}
-                    value={getStudyLevel()}
+                    value={getStudyLevels(
+                      enrolment?.studyGroup
+                        .studyLevels as StudyLevelNodeConnection
+                    )}
                   />
                 )}
                 <EnrolmentInfoRow

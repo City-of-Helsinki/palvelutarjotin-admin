@@ -7,7 +7,13 @@ export const QUERY_ENROLMENT = gql`
     amountOfAdult
     name
     groupName
-    studyLevel
+    studyLevels {
+      edges {
+        node {
+          ...studyLevelFields
+        }
+      }
+    }
     extraNeeds
     person {
       ...personFields

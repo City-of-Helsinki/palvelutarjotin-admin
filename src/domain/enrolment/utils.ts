@@ -2,7 +2,6 @@ import {
   EnrolmentFieldsFragment,
   Language,
   NotificationType,
-  StudyLevel,
   UpdateEnrolmentMutationInput,
 } from '../../generated/graphql';
 import { EnrolmentFormFields } from './types';
@@ -58,7 +57,7 @@ export const getUpdateEnrolmentPayload = ({
         ...values.studyGroup.person,
         language: values.language as Language,
       },
-      studyLevel: values.studyGroup.studyLevel as StudyLevel,
+      studyLevels: values.studyGroup.studyLevels,
     },
   };
 };

@@ -11,6 +11,7 @@ import {
   fakePerson,
   fakePEvent,
   fakeStudyGroup,
+  fakeStudyLevels,
 } from '../../../utils/mockDataUtils';
 import {
   renderWithRoute,
@@ -35,7 +36,7 @@ const personName = 'Testi Testinen';
 const groupSize = 10;
 const extraNeeds = 'lisätarpeet';
 const personPhoneNumber = '123321123';
-const studyLevel = graphqlFns.StudyLevel.Grade_4;
+const studyLevels = fakeStudyLevels(2);
 const occurrenceId = '3453yrgdsgh3y';
 
 const enrolmentResponse = {
@@ -63,7 +64,7 @@ const enrolmentResponse = {
         groupSize,
         amountOfAdult,
         extraNeeds: extraNeeds,
-        studyLevel,
+        studyLevels,
       }),
       notificationType,
     }),
@@ -240,7 +241,7 @@ it('calls update enrolment function with correct parameters when form is submitt
             groupSize: groupSize,
             groupName: groupName,
             name: studyGroupName,
-            studyLevel: studyLevel,
+            studyLevels: studyLevels.edges.map((e) => e.node.id),
             person: {
               name: personName,
               emailAddress: personEmailAddress,

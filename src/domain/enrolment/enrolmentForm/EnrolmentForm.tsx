@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DropdownField from '../../../common/components/form/fields/DropdownField';
+import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
-import { Language, StudyLevel } from '../../../generated/graphql';
+import { Language, useStudyLevelsQuery } from '../../../generated/graphql';
 import { translateValue } from '../../../utils/translateUtils';
 import Container from '../../app/layout/Container';
 import { EnrolmentFormFields } from '../types';
@@ -39,7 +40,7 @@ export const defaultInitialValues: EnrolmentFormFields = {
     groupName: '',
     groupSize: '',
     amountOfAdult: '',
-    studyLevel: '',
+    studyLevels: [],
     extraNeeds: '',
   },
 };
@@ -55,15 +56,28 @@ const EnrolmentForm: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const studyLevelOptions = Object.values(StudyLevel).map((level) => ({
-    label: level.startsWith('GRADE')
-      ? t('studyLevel.grade_interval', {
-          postProcess: 'interval',
-          count: Number(level.split('_')[1]),
-        })
-      : translateValue('studyLevel.', level, t),
-    value: level,
-  }));
+  const { data: studyLevelsData } = useStudyLevelsQuery();
+
+  const studyLevelOptions = studyLevelsData?.studyLevels?.edges?.map(
+    (studyLevelNodeEdge) => {
+      const level:
+        | string
+        | undefined = studyLevelNodeEdge?.node?.id.toUpperCase();
+
+      if (!level) {
+        return { label: '', value: '' };
+      }
+      return {
+        label: level.startsWith('GRADE')
+          ? t('studyLevel.grade_interval', {
+              postProcess: 'interval',
+              count: Number(level.split('_')[1]),
+            })
+          : translateValue('studyLevel.', level, t),
+        value: level,
+      };
+    }
+  );
 
   const languageOptions = Object.values(Language).map((level) => ({
     label: translateValue('enrolmentForm.language.', level, t),
@@ -127,9 +141,9 @@ const EnrolmentForm: React.FC<Props> = ({
                 <FormGroup>
                   <Field
                     label={t('enrolmentForm.studyGroup.labelStudyLevel')}
-                    component={DropdownField}
-                    name="studyGroup.studyLevel"
-                    options={studyLevelOptions}
+                    component={MultiDropdownField}
+                    name="studyGroup.studyLevels"
+                    options={studyLevelOptions?.length ? studyLevelOptions : []}
                   />
                 </FormGroup>
               </div>
