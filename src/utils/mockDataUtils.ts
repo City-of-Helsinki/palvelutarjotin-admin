@@ -19,6 +19,7 @@ import {
   OccurrenceNode,
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
+  OccurrenceSeatType,
   Offer,
   OrganisationNode,
   OrganisationNodeConnection,
@@ -31,7 +32,9 @@ import {
   PersonNodeEdge,
   Place,
   StudyGroupNode,
-  StudyLevel,
+  StudyLevelNode,
+  StudyLevelNodeConnection,
+  StudyLevelNodeEdge,
   VenueNode,
 } from '../generated/graphql';
 
@@ -142,7 +145,7 @@ export const fakeStudyGroup = (
   person: fakePerson(),
   updatedAt: '',
   __typename: 'StudyGroupNode',
-  studyLevel: StudyLevel.Grade_5,
+  studyLevels: fakeStudyLevels(),
   ...overrides,
 });
 
@@ -307,7 +310,9 @@ export const fakeOccurrence = (
   studyGroups: [] as any,
   updatedAt: '' as any,
   remainingSeats: null as any,
+  seatType: '' as any,
   cancelled: false,
+  seatType: OccurrenceSeatType.ChildrenCount,
   __typename: 'OccurrenceNode',
   ...overrides,
 });
@@ -415,3 +420,57 @@ const generateNodeArray = <T extends (...args: any) => any>(
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
 };
+
+export enum StudyLevel {
+  Preschool = 'PRESCHOOL',
+  Grade1 = 'GRADE_1',
+  Grade2 = 'GRADE_2',
+  Grade3 = 'GRADE_3',
+  Grade4 = 'GRADE_4',
+  Grade5 = 'GRADE_5',
+  Grade6 = 'GRADE_6',
+  Grade7 = 'GRADE_7',
+  Grade8 = 'GRADE_8',
+  Grade9 = 'GRADE_9',
+  Grade10 = 'GRADE_10',
+  Secondary = 'SECONDARY',
+}
+
+export const initialStudyLevels = Object.keys(StudyLevel).map(
+  (lvl: string) => StudyLevel[lvl as keyof typeof StudyLevel] as StudyLevel
+);
+
+export const fakeStudyLevels = (count?: number): StudyLevelNodeConnection => ({
+  edges: initialStudyLevels
+    .slice(0, count)
+    .map((label: StudyLevel, level: number) =>
+      fakeStudyLevelNodeEdge({ id: label, label, level })
+    ),
+  pageInfo: PageInfoMock,
+  __typename: 'StudyLevelNodeConnection',
+});
+
+export const fakeStudyLevel = (
+  overrides?: Partial<StudyLevelNode>
+): StudyLevelNode => ({
+  __typename: 'StudyLevelNode',
+  id: faker.random.word(),
+  label: faker.random.words(),
+  level: faker.random.number(),
+  translations: [
+    {
+      languageCode: 'FI' as Language,
+      label: faker.random.word(),
+      __typename: 'StudyLevelTranslationType',
+    },
+  ],
+  ...overrides,
+});
+
+export const fakeStudyLevelNodeEdge = (
+  overrides?: Partial<StudyLevelNode>
+): StudyLevelNodeEdge => ({
+  cursor: '',
+  node: fakeStudyLevel(overrides),
+  __typename: 'StudyLevelNodeEdge',
+});

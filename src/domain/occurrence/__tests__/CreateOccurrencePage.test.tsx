@@ -249,6 +249,13 @@ test('can create new occurrence with form', async () => {
   const maxGroupSizeInput = screen.getByLabelText('Ryhmäkoko max');
   userEvent.type(maxGroupSizeInput, occurrenceFormData.maxGroupSize);
 
+  const oneGroupFillsCheckbox = screen.getByRole('checkbox', {
+    name: /yksi ryhmä täyttää tapahtuman/i,
+  });
+  expect(oneGroupFillsCheckbox).not.toBeChecked();
+  userEvent.click(oneGroupFillsCheckbox);
+  expect(oneGroupFillsCheckbox).toBeChecked();
+
   await waitFor(() => {
     expect(
       screen.queryByText('Tämä kenttä on pakollinen')
@@ -263,13 +270,14 @@ test('can create new occurrence with form', async () => {
     expect(createOccurrenceSpy).toHaveBeenCalledWith({
       variables: {
         input: {
-          amountOfSeats: 30,
+          amountOfSeats: 1,
           endTime: new Date('2020-08-13T10:00:00.000Z'),
           languages: [{ id: 'EN' }, { id: 'FI' }],
           maxGroupSize: 20,
           minGroupSize: 10,
           pEventId: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
           placeId: '',
+          seatType: 'ENROLMENT_COUNT',
           startTime: new Date('2020-08-13T09:00:00.000Z'),
         },
       },
@@ -285,9 +293,8 @@ test('can create new occurrence with form', async () => {
   });
 
   // amount of seats should not reset after saving and creating new occurrence
-  expect(screen.getByLabelText('Paikkoja yhteensä')).toHaveValue(
-    Number(occurrenceFormData.amountOfSeats)
-  );
+  // 1 because one group fills was selected
+  expect(screen.getByLabelText('Paikkoja yhteensä')).toHaveValue(1);
 });
 
 test('initializes pre-filled occurrence values from URL', async () => {
@@ -394,4 +401,24 @@ test('today is valid event start day', async () => {
   expect(
     screen.queryByText(messages.form.validation.date.mustNotInThePast)
   ).not.toBeInTheDocument();
+});
+
+test('when only one group checkbox is checked, amount of seats should be disabled', async () => {
+  initializeMocks();
+  renderWithRoute(<CreateOccurrencePage />, {
+    mocks: apolloMocks,
+    routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
+    path: ROUTES.CREATE_OCCURRENCE,
+  });
+
+  const seatsCountInput = await screen.findByLabelText('Paikkoja yhteensä');
+  const oneGroupFillsCheckbox = screen.getByRole('checkbox', {
+    name: /yksi ryhmä täyttää tapahtuman/i,
+  });
+  userEvent.click(oneGroupFillsCheckbox);
+
+  await waitFor(() => {
+    expect(seatsCountInput).toHaveValue(1);
+  });
+  expect(seatsCountInput).toBeDisabled();
 });

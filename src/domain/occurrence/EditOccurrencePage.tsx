@@ -10,6 +10,7 @@ import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   OccurrenceFieldsFragment,
+  OccurrenceSeatType,
   useDeleteOccurrenceMutation,
   useEditOccurrenceMutation,
   useEventQuery,
@@ -190,6 +191,9 @@ const EditOccurrencePage: React.FC = () => {
         occurrenceData?.occurrence?.languages.map((language) =>
           language.id.toUpperCase()
         ) || [],
+      oneGroupFills:
+        occurrenceData?.occurrence?.seatType ===
+        OccurrenceSeatType.EnrolmentCount,
       placeId: occurrenceData?.occurrence?.placeId || '',
       amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',

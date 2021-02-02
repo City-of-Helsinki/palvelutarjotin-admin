@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 
 import {
   EnrolmentDocument,
+  EnrolmentNode,
   EnrolmentStatus,
 } from '../../../../generated/graphql';
 import {
@@ -13,43 +14,14 @@ import {
   fakePerson,
   fakePEvent,
   fakeStudyGroup,
+  fakeStudyLevels,
 } from '../../../../utils/mockDataUtils';
 import { render, screen, waitFor } from '../../../../utils/testUtils';
 import EnrolmentDetails from '../EnrolmentDetails';
 
 const enrolmentId = 'RW5yb2xtZW50Tm9kZTo1Ng==';
 
-const enrolmentResult = {
-  data: {
-    enrolment: fakeEnrolment({
-      id: enrolmentId,
-      enrolmentTime: '2020-08-14T07:15:24.589508+00:00',
-      person: fakePerson({
-        name: 'Ilmoittautuja',
-        phoneNumber: '123321123',
-        emailAddress: 'ilmo@ilmoittautuja.com',
-      }),
-      status: EnrolmentStatus.Approved,
-      occurrence: fakeOccurrence({
-        pEvent: fakePEvent({
-          organisation: fakeOrganisation(),
-        }),
-      }),
-      studyGroup: fakeStudyGroup({
-        name: 'Yläaste',
-        groupName: 'Ryhmän nimi',
-        extraNeeds: 'Lisätietoja tässä',
-        person: fakePerson({
-          name: 'Ilmoittautuja',
-          emailAddress: 'ilmo@ilmoittautuja.com',
-          phoneNumber: '123321123',
-        }),
-      }),
-    }),
-  },
-};
-
-const mocks = [
+const getMocks = (overrides?: Partial<EnrolmentNode>) => [
   {
     request: {
       query: EnrolmentDocument,
@@ -57,11 +29,41 @@ const mocks = [
         id: enrolmentId,
       },
     },
-    result: enrolmentResult,
+    result: {
+      data: {
+        enrolment: fakeEnrolment({
+          id: enrolmentId,
+          enrolmentTime: '2020-08-14T07:15:24.589508+00:00',
+          person: fakePerson({
+            name: 'Ilmoittautuja',
+            phoneNumber: '123321123',
+            emailAddress: 'ilmo@ilmoittautuja.com',
+          }),
+          status: EnrolmentStatus.Approved,
+          occurrence: fakeOccurrence({
+            pEvent: fakePEvent({
+              organisation: fakeOrganisation(),
+            }),
+          }),
+          studyGroup: fakeStudyGroup({
+            name: 'Yläaste',
+            groupName: 'Ryhmän nimi',
+            extraNeeds: 'Lisätietoja tässä',
+            person: fakePerson({
+              name: 'Ilmoittautuja',
+              emailAddress: 'ilmo@ilmoittautuja.com',
+              phoneNumber: '123321123',
+            }),
+            studyLevels: fakeStudyLevels(6),
+          }),
+          ...overrides,
+        }),
+      },
+    },
   },
 ];
 
-const renderEnrolmentDetails = () => {
+const renderEnrolmentDetails = (mocks = getMocks()) => {
   return render(
     <EnrolmentDetails
       enrolmentId={enrolmentId}
@@ -102,6 +104,7 @@ test('renders correct information', async () => {
   expect(screen.queryByText('Yläaste')).toBeInTheDocument();
   expect(screen.queryByText('Ryhmän nimi')).toBeInTheDocument();
   expect(screen.queryByText('Lisätietoja tässä')).toBeInTheDocument();
+  expect(screen.queryByText(/5\. luokka/i)).toBeVisible();
 });
 
 test('enrolment action buttons work correctly', async () => {
@@ -130,4 +133,21 @@ test('enrolment action buttons work correctly', async () => {
   ).toBeVisible();
 
   userEvent.click(screen.getByText('Sulje'));
+});
+
+test('renders multiple studygroups correctly', async () => {
+  const { container } = renderEnrolmentDetails(
+    getMocks({
+      studyGroup: fakeStudyGroup({
+        studyLevels: fakeStudyLevels(),
+      }),
+    })
+  );
+  Modal.setAppElement(container);
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  expect(screen.queryByText(/5\. luokka, 6\. luokka/i)).toBeVisible();
 });

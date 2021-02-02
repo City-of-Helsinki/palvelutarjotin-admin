@@ -16,7 +16,6 @@ const CheckboxField: React.FC<Props> = (props) => {
     form: { errors, touched },
     ...rest
   } = props;
-
   const { t } = useTranslation();
   const errorText = getErrorText(errors, touched, name, t);
 

@@ -29,7 +29,7 @@ const CancelOccurrenceModal: React.FC<CancelOccurrenceModalProps> = ({
     data?.occurrence?.enrolments.edges.map((e) => ({
       personName: e?.node?.person?.name,
       studyGroupName: e?.node?.studyGroup.name,
-      studyLevel: e?.node?.studyGroup.studyLevel,
+      studyLevels: e?.node?.studyGroup.studyLevels,
       groupSize: e?.node?.studyGroup.groupSize,
       amountOfAdult: e?.node?.studyGroup.amountOfAdult,
     })) || [];

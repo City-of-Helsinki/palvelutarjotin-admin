@@ -50,8 +50,11 @@ export type Query = {
   studyGroups?: Maybe<StudyGroupNodeConnection>;
   /** The ID of the object */
   studyGroup?: Maybe<StudyGroupNode>;
+  studyLevels?: Maybe<StudyLevelNodeConnection>;
+  studyLevel?: Maybe<StudyLevelNode>;
   venues?: Maybe<VenueNodeConnection>;
   venue?: Maybe<VenueNode>;
+  cancellingEnrolment?: Maybe<EnrolmentNode>;
   enrolments?: Maybe<EnrolmentNodeConnection>;
   /** The ID of the object */
   enrolment?: Maybe<EnrolmentNode>;
@@ -103,6 +106,17 @@ export type QueryStudyGroupArgs = {
   id: Scalars['ID'];
 };
 
+export type QueryStudyLevelsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryStudyLevelArgs = {
+  id: Scalars['ID'];
+};
+
 export type QueryVenuesArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
@@ -111,6 +125,10 @@ export type QueryVenuesArgs = {
 };
 
 export type QueryVenueArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryCancellingEnrolmentArgs = {
   id: Scalars['ID'];
 };
 
@@ -284,6 +302,7 @@ export type OccurrenceNode = Node & {
   amountOfSeats: Scalars['Int'];
   languages: Array<LanguageType>;
   cancelled: Scalars['Boolean'];
+  seatType: OccurrenceSeatType;
   enrolments: EnrolmentNodeConnection;
   remainingSeats: Scalars['Int'];
   seatsTaken: Scalars['Int'];
@@ -334,6 +353,7 @@ export type PalvelutarjotinEventNode = Node & {
   contactPhoneNumber: Scalars['String'];
   contactEmail: Scalars['String'];
   autoAcceptance: Scalars['Boolean'];
+  mandatoryAdditionalInformation: Scalars['Boolean'];
   occurrences: OccurrenceNodeConnection;
   nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
   lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
@@ -525,10 +545,17 @@ export type StudyGroupNode = Node & {
   groupSize: Scalars['Int'];
   amountOfAdult: Scalars['Int'];
   groupName: Scalars['String'];
-  studyLevel?: Maybe<StudyLevel>;
+  studyLevels: StudyLevelNodeConnection;
   extraNeeds: Scalars['String'];
   occurrences: OccurrenceNodeConnection;
   enrolments: EnrolmentNodeConnection;
+};
+
+export type StudyGroupNodeStudyLevelsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type StudyGroupNodeOccurrencesArgs = {
@@ -549,21 +576,38 @@ export type StudyGroupNodeEnrolmentsArgs = {
   status?: Maybe<Scalars['String']>;
 };
 
-/** An enumeration. */
-export enum StudyLevel {
-  Preschool = 'PRESCHOOL',
-  Grade_1 = 'GRADE_1',
-  Grade_2 = 'GRADE_2',
-  Grade_3 = 'GRADE_3',
-  Grade_4 = 'GRADE_4',
-  Grade_5 = 'GRADE_5',
-  Grade_6 = 'GRADE_6',
-  Grade_7 = 'GRADE_7',
-  Grade_8 = 'GRADE_8',
-  Grade_9 = 'GRADE_9',
-  Grade_10 = 'GRADE_10',
-  Secondary = 'SECONDARY',
-}
+export type StudyLevelNodeConnection = {
+  __typename?: 'StudyLevelNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<StudyLevelNodeEdge>>;
+};
+
+/** A Relay edge containing a `StudyLevelNode` and its cursor. */
+export type StudyLevelNodeEdge = {
+  __typename?: 'StudyLevelNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<StudyLevelNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type StudyLevelNode = Node & {
+  __typename?: 'StudyLevelNode';
+  id: Scalars['ID'];
+  /** Used to make a hierarchy between study levels. */
+  level: Scalars['Int'];
+  translations: Array<StudyLevelTranslationType>;
+  /** Translated field in the language defined in request ACCEPT-LANGUAGE header  */
+  label?: Maybe<Scalars['String']>;
+};
+
+export type StudyLevelTranslationType = {
+  __typename?: 'StudyLevelTranslationType';
+  languageCode: Language;
+  label: Scalars['String'];
+};
 
 export type EnrolmentNodeConnection = {
   __typename?: 'EnrolmentNodeConnection';
@@ -626,6 +670,14 @@ export type LanguageTypeOccurrencesArgs = {
   date?: Maybe<Scalars['Date']>;
   time?: Maybe<Scalars['Time']>;
 };
+
+/** An enumeration. */
+export enum OccurrenceSeatType {
+  /** children count */
+  ChildrenCount = 'CHILDREN_COUNT',
+  /** enrolment count */
+  EnrolmentCount = 'ENROLMENT_COUNT',
+}
 
 export type Event = {
   __typename?: 'Event';
@@ -949,10 +1001,14 @@ export enum NotificationTemplateType {
   OccurrenceUnenrolment = 'OCCURRENCE_UNENROLMENT',
   EnrolmentApproved = 'ENROLMENT_APPROVED',
   EnrolmentDeclined = 'ENROLMENT_DECLINED',
+  EnrolmentCancellation = 'ENROLMENT_CANCELLATION',
+  EnrolmentCancelled = 'ENROLMENT_CANCELLED',
   OccurrenceEnrolmentSms = 'OCCURRENCE_ENROLMENT_SMS',
   OccurrenceUnenrolmentSms = 'OCCURRENCE_UNENROLMENT_SMS',
   EnrolmentApprovedSms = 'ENROLMENT_APPROVED_SMS',
   EnrolmentDeclinedSms = 'ENROLMENT_DECLINED_SMS',
+  EnrolmentCancellationSms = 'ENROLMENT_CANCELLATION_SMS',
+  EnrolmentCancelledSms = 'ENROLMENT_CANCELLED_SMS',
   OccurrenceCancelled = 'OCCURRENCE_CANCELLED',
   OccurrenceCancelledSms = 'OCCURRENCE_CANCELLED_SMS',
   EnrolmentSummaryReport = 'ENROLMENT_SUMMARY_REPORT',
@@ -978,6 +1034,7 @@ export type Mutation = {
   updateEnrolment?: Maybe<UpdateEnrolmentMutationPayload>;
   approveEnrolment?: Maybe<ApproveEnrolmentMutationPayload>;
   declineEnrolment?: Maybe<DeclineEnrolmentMutationPayload>;
+  cancelEnrolment?: Maybe<CancelEnrolmentMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
@@ -1054,6 +1111,10 @@ export type MutationDeclineEnrolmentArgs = {
   input: DeclineEnrolmentMutationInput;
 };
 
+export type MutationCancelEnrolmentArgs = {
+  input: CancelEnrolmentMutationInput;
+};
+
 export type MutationCreateMyProfileArgs = {
   input: CreateMyProfileMutationInput;
 };
@@ -1121,6 +1182,7 @@ export type AddOccurrenceMutationInput = {
   contactPersons?: Maybe<Array<Maybe<PersonNodeInput>>>;
   pEventId: Scalars['ID'];
   amountOfSeats: Scalars['Int'];
+  seatType?: Maybe<SeatType>;
   languages: Array<Maybe<OccurrenceLanguageInput>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
@@ -1133,6 +1195,12 @@ export type PersonNodeInput = {
   /** Default `fi` */
   language?: Maybe<Language>;
 };
+
+/** An enumeration. */
+export enum SeatType {
+  ChildrenCount = 'CHILDREN_COUNT',
+  EnrolmentCount = 'ENROLMENT_COUNT',
+}
 
 export type OccurrenceLanguageInput = {
   id: Language;
@@ -1157,6 +1225,7 @@ export type UpdateOccurrenceMutationInput = {
   amountOfSeats?: Maybe<Scalars['Int']>;
   /** If present, should include all languages of the occurrence */
   languages: Array<Maybe<OccurrenceLanguageInput>>;
+  seatType?: Maybe<SeatType>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1244,7 +1313,7 @@ export type AddStudyGroupMutationInput = {
   groupName?: Maybe<Scalars['String']>;
   extraNeeds?: Maybe<Scalars['String']>;
   amountOfAdult?: Maybe<Scalars['Int']>;
-  studyLevel?: Maybe<StudyLevel>;
+  studyLevels?: Maybe<Array<Maybe<Scalars['String']>>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1262,7 +1331,7 @@ export type UpdateStudyGroupMutationInput = {
   groupName?: Maybe<Scalars['String']>;
   extraNeeds?: Maybe<Scalars['String']>;
   amountOfAdult?: Maybe<Scalars['Int']>;
-  studyLevel?: Maybe<StudyLevel>;
+  studyLevels?: Maybe<Array<Maybe<Scalars['String']>>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1303,7 +1372,7 @@ export type StudyGroupInput = {
   groupName?: Maybe<Scalars['String']>;
   extraNeeds?: Maybe<Scalars['String']>;
   amountOfAdult?: Maybe<Scalars['Int']>;
-  studyLevel?: Maybe<StudyLevel>;
+  studyLevels?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type UnenrolOccurrenceMutationPayload = {
@@ -1358,6 +1427,19 @@ export type DeclineEnrolmentMutationPayload = {
 export type DeclineEnrolmentMutationInput = {
   enrolmentId: Scalars['ID'];
   customMessage?: Maybe<Scalars['String']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CancelEnrolmentMutationPayload = {
+  __typename?: 'CancelEnrolmentMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type CancelEnrolmentMutationInput = {
+  uniqueId: Scalars['ID'];
+  /** Need to be included to actually cancel the enrolment,without this token, BE only initiate thecancellation process by sending a confirmation email to teacher */
+  token?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1514,6 +1596,7 @@ export type PalvelutarjotinEventInput = {
   contactPhoneNumber?: Maybe<Scalars['String']>;
   contactEmail?: Maybe<Scalars['String']>;
   autoAcceptance?: Maybe<Scalars['Boolean']>;
+  mandatoryAdditionalInformation?: Maybe<Scalars['Boolean']>;
 };
 
 export type UpdateEventMutation = {
@@ -1764,14 +1847,21 @@ export type UpdateEnrolmentMutation = { __typename?: 'Mutation' } & {
 
 export type StudyGroupFieldsFragment = { __typename?: 'StudyGroupNode' } & Pick<
   StudyGroupNode,
-  | 'id'
-  | 'groupSize'
-  | 'amountOfAdult'
-  | 'name'
-  | 'groupName'
-  | 'studyLevel'
-  | 'extraNeeds'
-> & { person: { __typename?: 'PersonNode' } & PersonFieldsFragment };
+  'id' | 'groupSize' | 'amountOfAdult' | 'name' | 'groupName' | 'extraNeeds'
+> & {
+    studyLevels: { __typename?: 'StudyLevelNodeConnection' } & {
+      edges: Array<
+        Maybe<
+          { __typename?: 'StudyLevelNodeEdge' } & {
+            node?: Maybe<
+              { __typename?: 'StudyLevelNode' } & StudyLevelFieldsFragment
+            >;
+          }
+        >
+      >;
+    };
+    person: { __typename?: 'PersonNode' } & PersonFieldsFragment;
+  };
 
 export type EnrolmentFieldsFragment = { __typename?: 'EnrolmentNode' } & Pick<
   EnrolmentNode,
@@ -2331,6 +2421,7 @@ export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode' } & Pick<
   | 'maxGroupSize'
   | 'seatsTaken'
   | 'seatsApproved'
+  | 'seatType'
   | 'remainingSeats'
   | 'startTime'
   | 'endTime'
@@ -2540,6 +2631,46 @@ export type PlacesQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type StudyLevelFieldsFragment = { __typename?: 'StudyLevelNode' } & Pick<
+  StudyLevelNode,
+  'id' | 'label' | 'level'
+> & {
+    translations: Array<
+      { __typename?: 'StudyLevelTranslationType' } & Pick<
+        StudyLevelTranslationType,
+        'languageCode' | 'label'
+      >
+    >;
+  };
+
+export type StudyLevelsQueryVariables = {};
+
+export type StudyLevelsQuery = { __typename?: 'Query' } & {
+  studyLevels?: Maybe<
+    { __typename?: 'StudyLevelNodeConnection' } & {
+      edges: Array<
+        Maybe<
+          { __typename?: 'StudyLevelNodeEdge' } & {
+            node?: Maybe<
+              { __typename?: 'StudyLevelNode' } & StudyLevelFieldsFragment
+            >;
+          }
+        >
+      >;
+    }
+  >;
+};
+
+export type StudyLevelQueryVariables = {
+  id: Scalars['ID'];
+};
+
+export type StudyLevelQuery = { __typename?: 'Query' } & {
+  studyLevel?: Maybe<
+    { __typename?: 'StudyLevelNode' } & StudyLevelFieldsFragment
+  >;
+};
+
 export type CreateVenueMutationVariables = {
   venue: AddVenueMutationInput;
 };
@@ -2593,6 +2724,17 @@ export const PersonFieldsFragmentDoc = gql`
     language
   }
 `;
+export const StudyLevelFieldsFragmentDoc = gql`
+  fragment studyLevelFields on StudyLevelNode {
+    id
+    label
+    level
+    translations {
+      languageCode
+      label
+    }
+  }
+`;
 export const StudyGroupFieldsFragmentDoc = gql`
   fragment studyGroupFields on StudyGroupNode {
     id
@@ -2600,12 +2742,19 @@ export const StudyGroupFieldsFragmentDoc = gql`
     amountOfAdult
     name
     groupName
-    studyLevel
+    studyLevels {
+      edges {
+        node {
+          ...studyLevelFields
+        }
+      }
+    }
     extraNeeds
     person {
       ...personFields
     }
   }
+  ${StudyLevelFieldsFragmentDoc}
   ${PersonFieldsFragmentDoc}
 `;
 export const EnrolmentFieldsFragmentDoc = gql`
@@ -2671,6 +2820,7 @@ export const OccurrenceFieldsFragmentDoc = gql`
     maxGroupSize
     seatsTaken
     seatsApproved
+    seatType
     remainingSeats
     languages {
       id
@@ -6072,6 +6222,183 @@ export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = ApolloReactCommon.QueryResult<
   PlacesQuery,
   PlacesQueryVariables
+>;
+export const StudyLevelsDocument = gql`
+  query StudyLevels {
+    studyLevels {
+      edges {
+        node {
+          ...studyLevelFields
+        }
+      }
+    }
+  }
+  ${StudyLevelFieldsFragmentDoc}
+`;
+export type StudyLevelsProps<
+  TChildProps = {},
+  TDataName extends string = 'data'
+> = {
+  [key in TDataName]: ApolloReactHoc.DataValue<
+    StudyLevelsQuery,
+    StudyLevelsQueryVariables
+  >;
+} &
+  TChildProps;
+export function withStudyLevels<
+  TProps,
+  TChildProps = {},
+  TDataName extends string = 'data'
+>(
+  operationOptions?: ApolloReactHoc.OperationOption<
+    TProps,
+    StudyLevelsQuery,
+    StudyLevelsQueryVariables,
+    StudyLevelsProps<TChildProps, TDataName>
+  >
+) {
+  return ApolloReactHoc.withQuery<
+    TProps,
+    StudyLevelsQuery,
+    StudyLevelsQueryVariables,
+    StudyLevelsProps<TChildProps, TDataName>
+  >(StudyLevelsDocument, {
+    alias: 'studyLevels',
+    ...operationOptions,
+  });
+}
+
+/**
+ * __useStudyLevelsQuery__
+ *
+ * To run a query within a React component, call `useStudyLevelsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStudyLevelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStudyLevelsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useStudyLevelsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    StudyLevelsQuery,
+    StudyLevelsQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<StudyLevelsQuery, StudyLevelsQueryVariables>(
+    StudyLevelsDocument,
+    baseOptions
+  );
+}
+export function useStudyLevelsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    StudyLevelsQuery,
+    StudyLevelsQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    StudyLevelsQuery,
+    StudyLevelsQueryVariables
+  >(StudyLevelsDocument, baseOptions);
+}
+export type StudyLevelsQueryHookResult = ReturnType<typeof useStudyLevelsQuery>;
+export type StudyLevelsLazyQueryHookResult = ReturnType<
+  typeof useStudyLevelsLazyQuery
+>;
+export type StudyLevelsQueryResult = ApolloReactCommon.QueryResult<
+  StudyLevelsQuery,
+  StudyLevelsQueryVariables
+>;
+export const StudyLevelDocument = gql`
+  query StudyLevel($id: ID!) {
+    studyLevel(id: $id) {
+      ...studyLevelFields
+    }
+  }
+  ${StudyLevelFieldsFragmentDoc}
+`;
+export type StudyLevelProps<
+  TChildProps = {},
+  TDataName extends string = 'data'
+> = {
+  [key in TDataName]: ApolloReactHoc.DataValue<
+    StudyLevelQuery,
+    StudyLevelQueryVariables
+  >;
+} &
+  TChildProps;
+export function withStudyLevel<
+  TProps,
+  TChildProps = {},
+  TDataName extends string = 'data'
+>(
+  operationOptions?: ApolloReactHoc.OperationOption<
+    TProps,
+    StudyLevelQuery,
+    StudyLevelQueryVariables,
+    StudyLevelProps<TChildProps, TDataName>
+  >
+) {
+  return ApolloReactHoc.withQuery<
+    TProps,
+    StudyLevelQuery,
+    StudyLevelQueryVariables,
+    StudyLevelProps<TChildProps, TDataName>
+  >(StudyLevelDocument, {
+    alias: 'studyLevel',
+    ...operationOptions,
+  });
+}
+
+/**
+ * __useStudyLevelQuery__
+ *
+ * To run a query within a React component, call `useStudyLevelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStudyLevelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStudyLevelQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStudyLevelQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    StudyLevelQuery,
+    StudyLevelQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<StudyLevelQuery, StudyLevelQueryVariables>(
+    StudyLevelDocument,
+    baseOptions
+  );
+}
+export function useStudyLevelLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    StudyLevelQuery,
+    StudyLevelQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    StudyLevelQuery,
+    StudyLevelQueryVariables
+  >(StudyLevelDocument, baseOptions);
+}
+export type StudyLevelQueryHookResult = ReturnType<typeof useStudyLevelQuery>;
+export type StudyLevelLazyQueryHookResult = ReturnType<
+  typeof useStudyLevelLazyQuery
+>;
+export type StudyLevelQueryResult = ApolloReactCommon.QueryResult<
+  StudyLevelQuery,
+  StudyLevelQueryVariables
 >;
 export const CreateVenueDocument = gql`
   mutation CreateVenue($venue: AddVenueMutationInput!) {

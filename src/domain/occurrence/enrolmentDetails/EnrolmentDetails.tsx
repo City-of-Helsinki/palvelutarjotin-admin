@@ -20,6 +20,7 @@ import {
   OccurrenceDocument,
   OccurrenceQuery,
   OccurrenceQueryVariables,
+  StudyLevelNodeConnection,
   useApproveEnrolmentMutation,
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
@@ -28,6 +29,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
+import { joinStudyLevelLabels } from '../../studyLevel/utils';
 import ApproveEnrolmentModal from '../enrolmentTable/enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentTable/enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentTable/enrolmentModals/DeleteEnrolmentModal';
@@ -152,18 +154,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
     }
   };
 
-  const getStudyLevel = () => {
-    const studyLevel = enrolment?.studyGroup?.studyLevel;
-    if (studyLevel) {
-      return studyLevel.startsWith('GRADE')
-        ? t('studyLevel.grade_interval', {
-            postProcess: 'interval',
-            count: Number(studyLevel.split('_')[1]),
-          })
-        : translateValue('studyLevel.', studyLevel, t);
-    }
-  };
-
   const handleEditEnrolment = () => {
     history.push(
       `/${locale}${ROUTES.EDIT_ENROLMENT}`
@@ -208,7 +198,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   loading={loadingApproveEnrolment}
                 />
               )}
-
               {declineModalOpen && (
                 <DeclineEnrolmentModal
                   enrolmentId={enrolmentId}
@@ -219,7 +208,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   loading={loadingDeclineEnrolment}
                 />
               )}
-
               {deleteModalOpen && (
                 <DeleteEnrolmentModal
                   onClose={() => setDeleteModalOpen(false)}
@@ -227,7 +215,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   loading={loadingDeleteEnrolment}
                 />
               )}
-
               <div className={styles.actionButtons}>
                 {enrolmentIsNotApproved && (
                   <Button
@@ -323,10 +310,14 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   label={t('enrolment.enrolmentDetails.labelGroupName')}
                   value={enrolment.studyGroup.groupName}
                 />
-                {enrolment.studyGroup.studyLevel && (
+                {enrolment.studyGroup.studyLevels && (
                   <EnrolmentInfoRow
                     label={t('enrolment.enrolmentDetails.labelStudyLevel')}
-                    value={getStudyLevel()}
+                    value={joinStudyLevelLabels(
+                      enrolment.studyGroup
+                        .studyLevels as StudyLevelNodeConnection,
+                      t
+                    )}
                   />
                 )}
                 <EnrolmentInfoRow
