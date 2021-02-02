@@ -29,6 +29,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
+import { joinStudyLevelLabels } from '../../studyLevel/utils';
 import ApproveEnrolmentModal from '../enrolmentTable/enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentTable/enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentTable/enrolmentModals/DeleteEnrolmentModal';
@@ -151,27 +152,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
         },
       });
     }
-  };
-
-  const getStudyLevels = (studyLevels: StudyLevelNodeConnection): string => {
-    if (studyLevels) {
-      const translations: string[] | undefined = studyLevels.edges?.map(
-        (edge) => {
-          if (!edge?.node?.id) return '';
-          const level: string = edge.node.id.toUpperCase();
-
-          return level.startsWith('GRADE')
-            ? t('studyLevel.grade_interval', {
-                postProcess: 'interval',
-                count: Number(level.split('_')[1]),
-              })
-            : translateValue('studyLevel.', level, t);
-        }
-      );
-      return translations.join(', ');
-    }
-
-    return '';
   };
 
   const handleEditEnrolment = () => {
@@ -333,9 +313,10 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                 {enrolment.studyGroup.studyLevels && (
                   <EnrolmentInfoRow
                     label={t('enrolment.enrolmentDetails.labelStudyLevel')}
-                    value={getStudyLevels(
-                      enrolment?.studyGroup
-                        .studyLevels as StudyLevelNodeConnection
+                    value={joinStudyLevelLabels(
+                      enrolment.studyGroup
+                        .studyLevels as StudyLevelNodeConnection,
+                      t
                     )}
                   />
                 )}
