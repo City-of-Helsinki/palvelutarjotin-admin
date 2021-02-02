@@ -92,6 +92,10 @@ const EditorEnrolmentPage: React.FC = () => {
   React.useEffect(() => {
     if (enrolmentData) {
       const enrolment = enrolmentData.enrolment;
+      const studyLevels =
+        enrolment?.studyGroup?.studyLevels?.edges
+          .map((edge) => edge?.node?.id as string)
+          .filter((n) => n) || [];
       setInitialValues({
         hasEmailNotification:
           enrolment?.notificationType === NotificationType.Email ||
@@ -108,7 +112,7 @@ const EditorEnrolmentPage: React.FC = () => {
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
           groupName: enrolment?.studyGroup.groupName || '',
           name: enrolment?.studyGroup.name || '',
-          studyLevel: enrolment?.studyGroup.studyLevel || '',
+          studyLevels: studyLevels || [],
           person: {
             name: enrolment?.studyGroup.person.name || '',
             emailAddress: enrolment?.studyGroup.person.emailAddress || '',

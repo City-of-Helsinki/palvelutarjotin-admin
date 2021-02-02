@@ -20,7 +20,7 @@ import {
   OccurrenceDocument,
   OccurrenceQuery,
   OccurrenceQueryVariables,
-  StudyLevel,
+  StudyLevelNodeConnection,
   useApproveEnrolmentMutation,
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
@@ -29,6 +29,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
+import { joinStudyLevelLabels } from '../../studyLevel/utils';
 import ApproveEnrolmentModal from '../enrolmentTable/enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentTable/enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentTable/enrolmentModals/DeleteEnrolmentModal';
@@ -150,27 +151,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
           });
         },
       });
-    }
-  };
-
-  const getStudyLevel = () => {
-    const studyLevel = enrolment?.studyGroup?.studyLevel;
-
-    const getStudyLevelString = (studyLevel: StudyLevel) => {
-      return studyLevel.startsWith('GRADE')
-        ? t('studyLevel.grade_interval', {
-            postProcess: 'interval',
-            count: Number(studyLevel.split('_')[1]),
-          })
-        : translateValue('studyLevel.', studyLevel, t);
-    };
-
-    if (Array.isArray(studyLevel)) {
-      return studyLevel.map((level) => getStudyLevelString(level)).join(', ');
-    }
-
-    if (studyLevel) {
-      return getStudyLevelString(studyLevel);
     }
   };
 
@@ -330,10 +310,14 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   label={t('enrolment.enrolmentDetails.labelGroupName')}
                   value={enrolment.studyGroup.groupName}
                 />
-                {enrolment.studyGroup.studyLevel && (
+                {enrolment.studyGroup.studyLevels && (
                   <EnrolmentInfoRow
                     label={t('enrolment.enrolmentDetails.labelStudyLevel')}
-                    value={getStudyLevel()}
+                    value={joinStudyLevelLabels(
+                      enrolment.studyGroup
+                        .studyLevels as StudyLevelNodeConnection,
+                      t
+                    )}
                   />
                 )}
                 <EnrolmentInfoRow

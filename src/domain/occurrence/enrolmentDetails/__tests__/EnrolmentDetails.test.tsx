@@ -6,7 +6,6 @@ import {
   EnrolmentDocument,
   EnrolmentNode,
   EnrolmentStatus,
-  StudyLevel,
 } from '../../../../generated/graphql';
 import {
   fakeEnrolment,
@@ -15,13 +14,9 @@ import {
   fakePerson,
   fakePEvent,
   fakeStudyGroup,
+  fakeStudyLevels,
 } from '../../../../utils/mockDataUtils';
-import {
-  prettyDOM,
-  render,
-  screen,
-  waitFor,
-} from '../../../../utils/testUtils';
+import { render, screen, waitFor } from '../../../../utils/testUtils';
 import EnrolmentDetails from '../EnrolmentDetails';
 
 const enrolmentId = 'RW5yb2xtZW50Tm9kZTo1Ng==';
@@ -59,6 +54,7 @@ const getMocks = (overrides?: Partial<EnrolmentNode>) => [
               emailAddress: 'ilmo@ilmoittautuja.com',
               phoneNumber: '123321123',
             }),
+            studyLevels: fakeStudyLevels(6),
           }),
           ...overrides,
         }),
@@ -143,7 +139,7 @@ test('renders multiple studygroups correctly', async () => {
   const { container } = renderEnrolmentDetails(
     getMocks({
       studyGroup: fakeStudyGroup({
-        studyLevel: [StudyLevel.Grade_5, StudyLevel.Grade_6] as any,
+        studyLevels: fakeStudyLevels(),
       }),
     })
   );
