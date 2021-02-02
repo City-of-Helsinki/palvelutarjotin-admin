@@ -1,5 +1,5 @@
 import { isPast } from 'date-fns';
-import { Button, RadioButton } from 'hds-react';
+import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -10,13 +10,11 @@ import EditButton from '../../common/components/editButton/EditButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
 import FormHelperText from '../../common/components/FormHelperText/FormHelperText';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import ConfirmationModal from '../../common/components/modal/ConfirmationModal';
 import {
   OccurrenceFieldsFragment,
   useCancelOccurrenceMutation,
   useDeleteOccurrenceMutation,
   useEventQuery,
-  usePublishSingleEventMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
@@ -27,11 +25,10 @@ import ErrorPage from '../errorPage/ErrorPage';
 import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
 import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
-import { getEventPublishedTime } from '../occurrences/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { NAVIGATED_FROM } from './EditEventPage';
+import EventPublish from './eventPublish/EventPublish';
 import styles from './eventSummaryPage.module.scss';
-import { getPublishEventPayload } from './utils';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
 
@@ -45,7 +42,6 @@ const EventSummaryPage: React.FC = () => {
   const { id: eventId } = useParams<Params>();
   const locale = useLocale();
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
-  const [showPublishModal, setShowPublishModal] = React.useState(false);
 
   const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
     {
@@ -53,13 +49,11 @@ const EventSummaryPage: React.FC = () => {
       variables: { id: eventId, include: ['location', 'keywords'] },
     }
   );
-  const [publishEvent] = usePublishSingleEventMutation();
+
   const [cancelOccurrence] = useCancelOccurrenceMutation();
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
-  const isEventPublished =
-    eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
   const isEventDraft =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
@@ -119,31 +113,6 @@ const EventSummaryPage: React.FC = () => {
         type: toast.TYPE.ERROR,
       });
     }
-  };
-
-  const handlePublishEvent = async () => {
-    try {
-      if (eventData?.event) {
-        await publishEvent({
-          variables: {
-            event: getPublishEventPayload({
-              event: eventData?.event,
-              organisationId,
-            }),
-          },
-        });
-      }
-      toast.success(t('eventSummary.eventHasBeenPublished'));
-    } catch (error) {
-      toast(t('occurrences.errorEventPublicationFailed'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-    setShowPublishModal(false);
-  };
-
-  const handlePublishEventClick = async () => {
-    setShowPublishModal(true);
   };
 
   return (
@@ -265,63 +234,13 @@ const EventSummaryPage: React.FC = () => {
                   </>
                 )}
               </div>
-
-              <div>
-                <div className={styles.sectionTitleRow}>
-                  <h2>{t('occurrences.titleEventPublishment')}</h2>
-                </div>
-                <div className={styles.publishSection}>
-                  {isEventPublished ? (
-                    <>
-                      <div>
-                        {t('occurrences.publishSection.textPublishedTime')}{' '}
-                        {getEventPublishedTime(eventData.event)}
-                      </div>
-                      <Button
-                        className={styles.publishButton}
-                        onClick={() => alert('TODO: implement unpublish')}
-                      >
-                        {t(
-                          'occurrences.publishSection.buttonCancelPublishment'
-                        )}
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <div>{t('occurrences.titleEventPublishment')}: </div>
-                      <RadioButton
-                        label={t('occurrences.publishSection.optionNow')}
-                        id="publish-now"
-                        checked
-                      />
-                      <Button
-                        className={styles.publishButton}
-                        onClick={handlePublishEventClick}
-                      >
-                        {t('occurrences.publishSection.buttonSetPublished')}
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </div>
+              <EventPublish event={eventData?.event} />
             </div>
           </Container>
         ) : (
           <ErrorPage />
         )}
       </LoadingSpinner>
-      <ConfirmationModal
-        isOpen={showPublishModal}
-        onConfirm={handlePublishEvent}
-        confirmButtonText={t(
-          'occurrences.publishSection.confirmPublicationButton'
-        )}
-        title={t('occurrences.publishSection.confirmModalTitle')}
-        toggleModal={() => setShowPublishModal(false)}
-      >
-        <p>{t('occurrences.publishSection.confirmText1')}</p>
-        <p>{t('occurrences.publishSection.confirmText2')}</p>
-      </ConfirmationModal>
     </PageWrapper>
   );
 };

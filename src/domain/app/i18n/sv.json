@@ -571,7 +571,8 @@
     },
     "publishSection": {
       "optionNow": "Nu",
-      "buttonSetPublished": "Ställ in publiceringsdatum",
+      "buttonSetPublished": "Publicera evenemang",
+      "buttonSetPublishedAdvanced": "Ställ in publiceringsdatum",
       "buttonCancelPublishment": "Avbryt publiceringen",
       "confirmModalTitle": "Ställ in publiceringsdatum",
       "textPublishedTime": "Händelse publicerad",
