@@ -1,6 +1,7 @@
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
 
 import { loginTunnistamo } from '../../auth/authenticate';
 import Container from '../layout/Container';
@@ -9,9 +10,10 @@ import styles from './loginPage.module.scss';
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const location = useLocation();
 
   const login = () => {
-    loginTunnistamo();
+    loginTunnistamo(`${location.pathname}${location.search}`);
   };
 
   return (
