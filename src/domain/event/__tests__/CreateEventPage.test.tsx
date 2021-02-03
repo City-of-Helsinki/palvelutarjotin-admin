@@ -349,6 +349,7 @@ const mocks = [
       skip: false,
       variables: {
         dataSource: 'tprek',
+        showAllPlaces: true,
         pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
         text: 'Sellon',
       },

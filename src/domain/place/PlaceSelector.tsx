@@ -59,6 +59,7 @@ const PlaceSelector: React.FC<Props> = ({
     variables: {
       dataSource: 'tprek',
       pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
+      showAllPlaces: true,
       text: searchValue,
     },
   });
