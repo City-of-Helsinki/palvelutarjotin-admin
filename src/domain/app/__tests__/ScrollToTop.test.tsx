@@ -1,0 +1,37 @@
+import * as React from 'react';
+
+import { render, screen, waitFor } from '../../../utils/testUtils';
+import AppRoutes from '../routes/AppRoutes';
+import ScrollToTop, { resetFocusId } from '../ScrollToTop';
+
+const TestComponent = () => {
+  return (
+    <div>
+      <ScrollToTop ignoredPaths={[]} forceScrollToTopPaths={[]} />
+      <AppRoutes />
+    </div>
+  );
+};
+
+test('focuses and scrolls to top when route changes', async () => {
+  const scrollSpy = jest.spyOn(window, 'scrollTo');
+  const { history } = render(<TestComponent />, { routes: ['/fi'] });
+
+  const loginButton = screen.queryByRole('button', { name: 'Kirjaudu sisään' });
+  expect(loginButton).toBeVisible();
+
+  loginButton.focus();
+  expect(loginButton).toHaveFocus();
+
+  expect(screen.getByTestId(resetFocusId)).not.toHaveFocus();
+
+  expect(scrollSpy).toHaveBeenCalledTimes(1);
+
+  history.push('/fi/random');
+
+  await waitFor(() => {
+    expect(screen.getByTestId(resetFocusId)).toHaveFocus();
+  });
+
+  expect(scrollSpy).toHaveBeenCalledTimes(2);
+});
