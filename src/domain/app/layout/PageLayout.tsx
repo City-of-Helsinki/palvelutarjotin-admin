@@ -17,6 +17,8 @@ import { useMobileMenuContext } from '../mobileMenu/MobileMenu';
 import { ROUTES } from '../routes/constants';
 import styles from './pageLayout.module.scss';
 
+export const MAIN_CONTENT_ID = 'main-content';
+
 const PageLayout: React.FC = ({ children }) => {
   const { pathname } = useLocation();
   const { isMobileMenuOpen } = useMobileMenuContext();
@@ -35,6 +37,7 @@ const PageLayout: React.FC = ({ children }) => {
         className={classNames(styles.pageBody, {
           [styles.mobileMenuOpen]: isMobileMenuOpen,
         })}
+        id={MAIN_CONTENT_ID}
       >
         {/* Make sure that loading spinner is not restarted on callback page */}
         <LoadingSpinner

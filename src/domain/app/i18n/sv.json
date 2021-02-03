@@ -56,7 +56,8 @@
     "tableDropdown": {
       "toggleButton": "Välj"
     },
-    "buttonClose": "Stäng"
+    "buttonClose": "Stäng",
+    "linkSkipToContent": "Gå till innehållet"
   },
   "enrolmentForm": {
     "buttonSubmit": "Skicka in registrering",

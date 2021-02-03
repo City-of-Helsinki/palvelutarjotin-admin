@@ -57,7 +57,8 @@
     "tableDropdown": {
       "toggleButton": "Valitse"
     },
-    "buttonClose": "Sulje"
+    "buttonClose": "Sulje",
+    "linkSkipToContent": "Siirry sisältöön"
   },
   "enrolmentForm": {
     "buttonSubmit": "Lähetä ilmoittautuminen",

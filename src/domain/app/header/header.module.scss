@@ -1,6 +1,37 @@
+@import 'common';
+
 .headerWrapper {
   display: grid;
+  position: relative;
   > div {
     padding: 0;
+  }
+}
+
+.skipToContent {
+  &:not(:focus) {
+    @extend %hiddenFromScreen;
+  }
+
+  &:focus {
+    align-items: center;
+    background: var(--color-white);
+    border: 2px solid var(--color-black);
+    box-shadow: 0 0 0 2px var(--color-white),
+      0 0 0 5px var(--header-focus-outline-color);
+    box-sizing: border-box;
+    color: var(--color-black);
+    display: flex;
+    font-weight: 500;
+    left: 0;
+    opacity: 1;
+    outline: none;
+    padding: var(--spacing-3-xs) var(--spacing-m);
+    position: absolute;
+    text-decoration: none;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: var(--spacing-s);
+    z-index: 11;
   }
 }
