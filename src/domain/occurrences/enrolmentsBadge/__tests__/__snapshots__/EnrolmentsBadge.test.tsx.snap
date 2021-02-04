@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
     class="badgeContainer"
   >
     <div
-      class="acceptedSeats"
+      class="approvedSeats"
     >
       <span>
         10

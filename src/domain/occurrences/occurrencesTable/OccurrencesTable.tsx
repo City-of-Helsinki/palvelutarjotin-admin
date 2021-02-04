@@ -154,7 +154,7 @@ const OccurrencesTable: React.FC<Props> = ({
         if (row.seatsTaken != null && row.seatsApproved != null) {
           return (
             <EnrolmentsBadge
-              acceptedSeatsCount={row.seatsApproved}
+              approvedSeatsCount={row.seatsApproved}
               pendingSeatsCount={row.seatsTaken - row.seatsApproved}
               remainingSeatsCount={row.remainingSeats}
             />

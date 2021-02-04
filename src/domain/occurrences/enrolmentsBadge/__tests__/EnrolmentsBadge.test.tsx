@@ -6,7 +6,7 @@ import EnrolmentBadge from '../EnrolmentsBadge';
 it('matches snapshot', () => {
   const { container } = render(
     <EnrolmentBadge
-      acceptedSeatsCount={10}
+      approvedSeatsCount={10}
       pendingSeatsCount={10}
       remainingSeatsCount={30}
     />
@@ -16,7 +16,7 @@ it('matches snapshot', () => {
 });
 
 it('renders seat numbers', () => {
-  render(<EnrolmentBadge acceptedSeatsCount={10} pendingSeatsCount={20} />);
+  render(<EnrolmentBadge approvedSeatsCount={10} pendingSeatsCount={20} />);
 
   expect(screen.queryByText('10')).toBeInTheDocument();
   expect(screen.queryByText('20')).toBeInTheDocument();

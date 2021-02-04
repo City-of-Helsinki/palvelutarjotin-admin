@@ -6,13 +6,13 @@ import SrOnly from '../../../common/components/SrOnly/SrOnly';
 import styles from './enrolmentsBadge.module.scss';
 
 interface EnrolmentsBadgeProps {
-  acceptedSeatsCount?: number | null;
+  approvedSeatsCount?: number | null;
   pendingSeatsCount?: number | null;
   remainingSeatsCount?: number | null;
 }
 
 const EnrolmentsBadge: React.FC<EnrolmentsBadgeProps> = ({
-  acceptedSeatsCount = 0,
+  approvedSeatsCount = 0,
   pendingSeatsCount = 0,
   remainingSeatsCount = 0,
 }) => {
@@ -21,11 +21,11 @@ const EnrolmentsBadge: React.FC<EnrolmentsBadgeProps> = ({
   return (
     <div className={styles.badgeContainer}>
       <div
-        className={classNames(styles.acceptedSeats, {
+        className={classNames(styles.approvedSeats, {
           [styles.enrolmentFull]: isOccurrenceFull,
         })}
       >
-        <span>{acceptedSeatsCount}</span>
+        <span>{approvedSeatsCount}</span>
         {isOccurrenceFull && (
           <div className={styles.eventFullTooltip} aria-hidden>
             {t('occurrences.occurrenceIsFull')}
