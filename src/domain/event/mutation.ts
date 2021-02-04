@@ -33,6 +33,14 @@ export const MUTATION_EVENT = gql`
             photographerName
             altText
           }
+          offers {
+            price {
+              en
+              fi
+              sv
+            }
+            isFree
+          }
           pEvent {
             id
             neededOccurrences
@@ -105,6 +113,14 @@ export const MUTATION_EVENT = gql`
             cropping
             photographerName
             altText
+          }
+          offers {
+            price {
+              en
+              fi
+              sv
+            }
+            isFree
           }
           pEvent {
             id

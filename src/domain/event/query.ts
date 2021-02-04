@@ -23,6 +23,7 @@ export const QUERY_EVENT = gql`
         }
       }
     }
+    paymentInstruction
   }
 
   fragment localisedFields on LocalisedObject {

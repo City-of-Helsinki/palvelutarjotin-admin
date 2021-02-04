@@ -354,6 +354,7 @@ export type PalvelutarjotinEventNode = Node & {
   contactEmail: Scalars['String'];
   autoAcceptance: Scalars['Boolean'];
   mandatoryAdditionalInformation: Scalars['Boolean'];
+  paymentInstruction: Scalars['String'];
   occurrences: OccurrenceNodeConnection;
   nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
   lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
@@ -1597,6 +1598,7 @@ export type PalvelutarjotinEventInput = {
   contactEmail?: Maybe<Scalars['String']>;
   autoAcceptance?: Maybe<Scalars['Boolean']>;
   mandatoryAdditionalInformation?: Maybe<Scalars['Boolean']>;
+  paymentInstruction?: Maybe<Scalars['String']>;
 };
 
 export type UpdateEventMutation = {
@@ -1974,6 +1976,16 @@ export type CreateEventMutation = { __typename?: 'Mutation' } & {
                       | 'altText'
                     >
                   >;
+                  offers: Array<
+                    { __typename?: 'Offer' } & Pick<Offer, 'isFree'> & {
+                        price?: Maybe<
+                          { __typename?: 'LocalisedObject' } & Pick<
+                            LocalisedObject,
+                            'en' | 'fi' | 'sv'
+                          >
+                        >;
+                      }
+                  >;
                   pEvent: { __typename?: 'PalvelutarjotinEventNode' } & Pick<
                     PalvelutarjotinEventNode,
                     'id' | 'neededOccurrences' | 'autoAcceptance'
@@ -2075,6 +2087,16 @@ export type EditEventMutation = { __typename?: 'Mutation' } & {
                       | 'photographerName'
                       | 'altText'
                     >
+                  >;
+                  offers: Array<
+                    { __typename?: 'Offer' } & Pick<Offer, 'isFree'> & {
+                        price?: Maybe<
+                          { __typename?: 'LocalisedObject' } & Pick<
+                            LocalisedObject,
+                            'en' | 'fi' | 'sv'
+                          >
+                        >;
+                      }
                   >;
                   pEvent: { __typename?: 'PalvelutarjotinEventNode' } & Pick<
                     PalvelutarjotinEventNode,
@@ -2250,7 +2272,9 @@ export type UploadSingleImageMutation = { __typename?: 'Mutation' } & {
         { __typename?: 'ImageMutationResponse' } & Pick<
           ImageMutationResponse,
           'statusCode'
-        > & { body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment> }
+        > & {
+            body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment>;
+          }
       >;
     }
   >;
@@ -2267,7 +2291,9 @@ export type UpdateSingleImageMutation = { __typename?: 'Mutation' } & {
         { __typename?: 'ImageMutationResponse' } & Pick<
           ImageMutationResponse,
           'statusCode'
-        > & { body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment> }
+        > & {
+            body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment>;
+          }
       >;
     }
   >;
@@ -3787,6 +3813,14 @@ export const CreateEventDocument = gql`
             photographerName
             altText
           }
+          offers {
+            price {
+              en
+              fi
+              sv
+            }
+            isFree
+          }
           pEvent {
             id
             neededOccurrences
@@ -4087,6 +4121,14 @@ export const EditEventDocument = gql`
             cropping
             photographerName
             altText
+          }
+          offers {
+            price {
+              en
+              fi
+              sv
+            }
+            isFree
           }
           pEvent {
             id

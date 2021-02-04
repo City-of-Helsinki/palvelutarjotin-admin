@@ -95,7 +95,14 @@ const createEventVariables = {
   event: {
     name: { fi: 'Testitapahtuma' },
     startTime: '2020-08-07T21:00:00.000Z',
-    offers: [{ isFree: true }],
+    offers: [
+      {
+        price: {
+          fi: '',
+        },
+        isFree: true,
+      },
+    ],
     shortDescription: { fi: 'Testikuvaus' },
     description: { fi: 'Pidempi kuvaus' },
     images: [{ internalId: '/image/48584/' }],
@@ -149,7 +156,9 @@ const addEventResponse = {
     addEventMutation: {
       response: {
         statusCode: 201,
-        body: fakeEvent({ id: 'palvelutarjotin:afz52lpyta' }),
+        body: fakeEvent({
+          id: 'palvelutarjotin:afz52lpyta',
+        }),
         __typename: 'EventMutationResponse',
       },
       __typename: 'AddEventMutation',

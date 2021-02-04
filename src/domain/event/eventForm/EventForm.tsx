@@ -153,7 +153,7 @@ const EventForm = <T extends FormFields>({
         setFieldTouched,
         touched,
       }) => {
-        const { contactPersonId, image, location } = values;
+        const { contactPersonId, image, location, isFree } = values;
 
         const imageSelected = Boolean(image);
         return (
@@ -395,48 +395,62 @@ const EventForm = <T extends FormFields>({
                         </FormGroup>
                       </div>
                     </div>
-                    <FormGroup>
-                      <Field
-                        helperText={t(
-                          'eventForm.categorisation.helperKeywords'
-                        )}
-                        labelText={t('eventForm.categorisation.labelKeywords')}
-                        name="keywords"
-                        required
-                        placeholder={t(
-                          'eventForm.categorisation.placeholderKeywords'
-                        )}
-                        component={KeywordSelectorField}
-                      />
-                    </FormGroup>
+
+                    <div className={styles.keywordRow}>
+                      <div data-testid="keywords-dropdown">
+                        <FormGroup>
+                          <Field
+                            helperText={t(
+                              'eventForm.categorisation.helperKeywords'
+                            )}
+                            labelText={t(
+                              'eventForm.categorisation.labelKeywords'
+                            )}
+                            name="keywords"
+                            required
+                            placeholder={t(
+                              'eventForm.categorisation.placeholderKeywords'
+                            )}
+                            component={KeywordSelectorField}
+                          />
+                        </FormGroup>
+                      </div>
+                      <div data-testid="neededOccurrences-stepper">
+                        <FormGroup>
+                          <Field
+                            labelText={t(
+                              'eventForm.categorisation.labelNeededOccurrences'
+                            )}
+                            name="neededOccurrences"
+                            required
+                            component={TextInputField}
+                            min={1}
+                            type="number"
+                          />
+                        </FormGroup>
+                      </div>
+                    </div>
                     <div className={styles.priceRow}>
                       <div>
                         <Field
-                          disabled
+                          disabled={isFree === true}
                           labelText={t('eventForm.categorisation.labelPrice')}
                           name="price"
                           component={TextInputField}
+                          type="number"
                         />
                       </div>
+                      {/*
+                       TODO: Add price unit field
+                      <div></div>
+                       */}
                       <div className={styles.isFreeWrapper}>
                         <Field
-                          disabled
                           labelText={t('eventForm.categorisation.labelIsFree')}
                           name="isFree"
                           component={CheckboxField}
                         />
                       </div>
-
-                      <Field
-                        labelText={t(
-                          'eventForm.categorisation.labelNeededOccurrences'
-                        )}
-                        name="neededOccurrences"
-                        required
-                        component={TextInputField}
-                        min={1}
-                        type="number"
-                      />
                     </div>
                   </div>
 

@@ -40,6 +40,15 @@
     }
   }
 
+  .keywordRow {
+    display: grid;
+    grid-gap: var(--grid-gap);
+  
+    @include respond_above(sm) {
+      grid-template-columns: 3fr 1fr;
+    }
+  }
+
   .priceRow {
     display: grid;
     grid-gap: var(--grid-gap);

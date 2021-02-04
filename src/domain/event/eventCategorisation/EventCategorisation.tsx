@@ -21,7 +21,10 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   const inLanguage = eventData.event?.inLanguage;
   const audience = eventData.event?.audience;
   const keywords = eventData.event?.keywords;
-
+  const offer = eventData.event?.offers?.[0];
+  const price: string = offer?.price?.[language] || '';
+  const isFree: boolean = offer?.isFree || price === '';
+  // const priceDescription: string = offer?.description?.[language] || '';
   const arrayToText = (
     items: { name?: LocalisedFieldsFragment | null }[] | undefined
   ) => {
@@ -58,7 +61,13 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
       <div className={styles.priceRow}>
         <div>
           <TextTitle>{t('eventDetails.categorisation.labelPrice')}</TextTitle>
-          <p>{t('eventDetails.categorisation.eventIsFree')}</p>
+          {isFree && <p>{t('eventDetails.categorisation.eventIsFree')}</p>}
+          {!isFree && (
+            <p className={styles.eventPriceMultiline}>
+              {price}
+              {/* TODO: {priceDescription !== '' && `\n${priceDescription}`} */}
+            </p>
+          )}
         </div>
         <div>
           <TextTitle>
