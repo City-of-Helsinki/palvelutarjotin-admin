@@ -522,8 +522,8 @@
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",
     "textAmountOfSeats_plural": "{{count}} seats",
-    "textAmountOfGroups": "{{count}} grupp",
-    "textAmountOfGroups_plural": "{{count}} grupper",
+    "textAmountOfGroups": "{{count}} group",
+    "textAmountOfGroups_plural": "{{count}} groups",
     "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
     "languages": {
       "en": "in English",

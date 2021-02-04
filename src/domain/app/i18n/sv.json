@@ -524,6 +524,8 @@
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",
     "textAmountOfSeats_plural": "{{count}} platser",
+    "textAmountOfGroups": "{{count}} grupp",
+    "textAmountOfGroups_plural": "{{count}} grupper",
     "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
     "languages": {
       "en": "engelsk",
