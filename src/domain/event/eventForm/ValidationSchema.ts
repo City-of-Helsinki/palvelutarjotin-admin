@@ -45,24 +45,22 @@ const createValidationSchemaYup = (
       .when(
         ['occurrenceDate', 'occurrenceStartsAt'],
         (
-          occurenceDate: Date,
+          occurrenceDate: Date,
           occurrenceStartsAt: string,
           schema: Yup.DateSchema
         ) => {
-          if (isValidDate(occurenceDate)) {
+          if (isValidDate(occurrenceDate)) {
             const isValid = isValidTime(occurrenceStartsAt);
-            const occurenceStart = isValid
-              ? parseDate(occurrenceStartsAt, 'HH:mm', occurenceDate)
-              : occurenceDate;
+            const occurrenceStart = isValid
+              ? parseDate(occurrenceStartsAt, 'HH:mm', occurrenceDate)
+              : occurrenceDate;
             return schema.test(
               'isBefore',
               () => ({
                 key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
-                max: formatDate(occurenceStart, DATETIME_FORMAT),
+                max: formatDate(occurrenceStart, DATETIME_FORMAT),
               }),
-              (enrolmentStart: Date) => {
-                return enrolmentStart < occurenceStart;
-              }
+              (enrolmentStart: Date) => enrolmentStart < occurrenceStart
             );
           }
           return schema;

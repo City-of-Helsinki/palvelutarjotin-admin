@@ -32,30 +32,31 @@ const eventMock = fakeEvent({
   name: fakeLocalizedObject(eventName),
   startTime: '2020-07-13T05:51:05.761000Z',
 });
+
 const placeMock = fakePlace({
   streetAddress: fakeLocalizedObject('Testikatu'),
 });
 const venueMock = fakeVenue();
 
-let fakeOccurrenceOverrides: Partial<graphql.OccurrenceNode>[];
-let eventMockedResponse: MockedResponse;
-let apolloMocks: MockedResponse[];
-
-const occurrenceFormData = {
-  date: '13.08.2020',
-  startsAt: '12:00',
-  endsAt: '13:00',
-  amountOfSeats: '30',
-  minGroupSize: '10',
-  maxGroupSize: '20',
-};
-
-const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
+const initializeMocks = (fromDate = new Date(2020, 7, 2), occurrences = 5) => {
   advanceTo(fromDate);
-  fakeOccurrenceOverrides = range(1, occurences).map((occurence) => ({
-    startTime: formatISO(addDays(fromDate, occurence)),
+
+  const occurrenceFormData = {
+    date: '13.08.2020',
+    startsAt: '12:00',
+    endsAt: '13:00',
+    amountOfSeats: '30',
+    minGroupSize: '10',
+    maxGroupSize: '20',
+  };
+  const fakeOccurrenceOverrides: Partial<graphql.OccurrenceNode>[] = range(
+    1,
+    occurrences
+  ).map((occurrence) => ({
+    startTime: formatISO(addDays(fromDate, occurrence)),
   }));
-  eventMockedResponse = {
+
+  const eventMockedResponse: MockedResponse = {
     request: {
       query: graphql.EventDocument,
       variables: {
@@ -77,7 +78,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
       },
     },
   };
-  apolloMocks = [
+  const apolloMocks: MockedResponse[] = [
     {
       request: {
         query: graphql.MyProfileDocument,
@@ -119,6 +120,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurences = 5) => {
       },
     },
   ];
+  return { fakeOccurrenceOverrides, occurrenceFormData, apolloMocks };
 };
 
 afterAll(() => {
@@ -129,20 +131,25 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-const InitializeMocksAndRenderPage = (
+const initializeMocksAndRenderPage = (
   renderOptions,
   fromDate = new Date(2020, 7, 2),
-  occurences = 5
+  occurrences = 5
 ) => {
-  initializeMocks(fromDate, occurences);
-  return renderWithRoute(<CreateOccurrencePage />, {
+  const {
+    fakeOccurrenceOverrides,
+    occurrenceFormData,
+    apolloMocks,
+  } = initializeMocks(fromDate, occurrences);
+  const page = renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     ...renderOptions,
   });
+  return { fakeOccurrenceOverrides, occurrenceFormData };
 };
 
 test('renders coming occurrences table correctly', async () => {
-  InitializeMocksAndRenderPage({
+  const { fakeOccurrenceOverrides } = initializeMocksAndRenderPage({
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
     path: ROUTES.CREATE_OCCURRENCE,
   });
@@ -187,7 +194,7 @@ test('can create new occurrence with form', async () => {
     .spyOn(graphql, 'useAddOccurrenceMutation')
     .mockReturnValue([createOccurrenceSpy] as any);
 
-  InitializeMocksAndRenderPage({
+  const { occurrenceFormData } = initializeMocksAndRenderPage({
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
     path: ROUTES.CREATE_OCCURRENCE,
   });
@@ -197,7 +204,7 @@ test('can create new occurrence with form', async () => {
   });
 
   expect(
-    screen.queryByRole('heading', { name: eventName })
+    screen.queryByRole('heading', { name: eventMock.name.fi })
   ).toBeInTheDocument();
 
   // Location and venue data renders
@@ -300,7 +307,7 @@ test('can create new occurrence with form', async () => {
 test('initializes pre-filled occurrence values from URL', async () => {
   const queryString =
     '?date=2020-10-25T22%3A00%3A00.000Z&startsAt=12%3A00&endsAt=13%3A00';
-  InitializeMocksAndRenderPage({
+  initializeMocksAndRenderPage({
     routes: [
       '/fi' +
         ROUTES.CREATE_FIRST_OCCURRENCE.replace(':id', eventMock.id) +
@@ -327,7 +334,7 @@ test('initializes pre-filled occurrence values from URL', async () => {
 test('does not initializes values from URL if they are invalid', async () => {
   const queryString =
     '?date=2020-101-25T22%3A00%3A00.000Z&startsAt=12%3A000&endsAt=13%3A00';
-  InitializeMocksAndRenderPage({
+  initializeMocksAndRenderPage({
     routes: [
       ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id) + queryString,
     ],
@@ -345,7 +352,7 @@ test('does not initializes values from URL if they are invalid', async () => {
 
 describe('common event form tests', () => {
   runCommonEventFormTests((currentDate: Date) =>
-    InitializeMocksAndRenderPage(
+    initializeMocksAndRenderPage(
       {
         routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
         path: ROUTES.CREATE_OCCURRENCE,
