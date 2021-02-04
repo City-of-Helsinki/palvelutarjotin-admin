@@ -8,16 +8,15 @@ import styles from './enrolmentsBadge.module.scss';
 interface EnrolmentsBadgeProps {
   approvedSeatsCount?: number | null;
   pendingSeatsCount?: number | null;
-  remainingSeatsCount?: number | null;
+  isOccurrenceFull: boolean;
 }
 
 const EnrolmentsBadge: React.FC<EnrolmentsBadgeProps> = ({
   approvedSeatsCount = 0,
   pendingSeatsCount = 0,
-  remainingSeatsCount = 0,
+  isOccurrenceFull,
 }) => {
   const { t } = useTranslation();
-  const isOccurrenceFull = remainingSeatsCount === 0;
   return (
     <div className={styles.badgeContainer}>
       <div

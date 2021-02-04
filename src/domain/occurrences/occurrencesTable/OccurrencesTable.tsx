@@ -156,7 +156,7 @@ const OccurrencesTable: React.FC<Props> = ({
             <EnrolmentsBadge
               approvedSeatsCount={row.seatsApproved}
               pendingSeatsCount={row.seatsTaken - row.seatsApproved}
-              remainingSeatsCount={row.remainingSeats}
+              isOccurrenceFull={row.remainingSeats === 0}
             />
           );
         }
