@@ -1,10 +1,13 @@
 import isBefore from 'date-fns/isBefore';
+import isFuture from 'date-fns/isFuture';
+import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { isTodayOrLater } from '../../../utils/dateUtils';
+import { DATETIME_FORMAT } from '../../../common/components/datepicker/contants';
+import { isTodayOrLater, isValidTime } from '../../../utils/dateUtils';
+import formatDate from '../../../utils/formatDate';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
-import { isValidTime } from '../../occurrence/eventOccurrenceForm/ValidationSchema';
 
 // TODO: Validate also provideContactInfo.phone field. Sync validation with backend
 const createValidationSchemaYup = (
@@ -35,9 +38,33 @@ const createValidationSchemaYup = (
       .typeError(VALIDATION_MESSAGE_KEYS.DATE)
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
       .test(
-        'isTodayOrInTheFuture',
-        VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
-        isTodayOrLater
+        'isInTheFuture',
+        VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
+        isFuture
+      )
+      .when(
+        ['occurrenceDate', 'occurrenceStartsAt'],
+        (
+          occurrenceDate: Date,
+          occurrenceStartsAt: string,
+          schema: Yup.DateSchema
+        ) => {
+          if (isValidDate(occurrenceDate)) {
+            const isValid = isValidTime(occurrenceStartsAt);
+            const occurrenceStart = isValid
+              ? parseDate(occurrenceStartsAt, 'HH:mm', occurrenceDate)
+              : occurrenceDate;
+            return schema.test(
+              'isBefore',
+              () => ({
+                key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
+                max: formatDate(occurrenceStart, DATETIME_FORMAT),
+              }),
+              (enrolmentStart: Date) => enrolmentStart < occurrenceStart
+            );
+          }
+          return schema;
+        }
       ),
     neededOccurrences: Yup.number()
       .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
@@ -78,7 +105,7 @@ export const createEventSchema = {
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .test(
       'isTodayOrInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_TODAY_OR_LATER,
+      VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
       isTodayOrLater
     ),
   occurrenceStartsAt: Yup.string()

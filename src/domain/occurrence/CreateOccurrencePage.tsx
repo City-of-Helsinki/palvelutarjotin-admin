@@ -19,6 +19,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
+import { isValidTime } from '../../utils/dateUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
 import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
@@ -33,7 +34,6 @@ import { createOrUpdateVenue } from '../venue/utils';
 import EventOccurrenceForm, {
   defaultInitialValues,
 } from './eventOccurrenceForm/EventOccurrenceForm';
-import { isValidTime } from './eventOccurrenceForm/ValidationSchema';
 import styles from './occurrencePage.module.scss';
 import { OccurrenceFormFields } from './types';
 import { getOccurrencePayload } from './utils';

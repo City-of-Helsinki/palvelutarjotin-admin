@@ -81,7 +81,7 @@ type CustomRender = {
   ): CustomRenderResult;
 };
 
-type CustomRenderResult = RenderResult & { history: History };
+export type CustomRenderResult = RenderResult & { history: History };
 
 export { customRender as render, renderWithRoute, reduxStore };
 
