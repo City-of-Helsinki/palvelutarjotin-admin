@@ -589,7 +589,9 @@
     "titlePastOccurrences": "Tidigare evenemangtider",
     "titleEventPublishment": "Händelsepublikation",
     "errorEventPublicationFailed": "Händelsepublikationen misslyckades",
-    "occurrenceIsFull": "Förekomsten är full"
+    "occurrenceIsFull": "Förekomsten är full",
+    "approvedEnrolments": "{{count}} accepterad",
+    "pendingEnrolments": "{{count}} pågående"
   },
   "studyLevel": {
     "grade": "{{count}}: a klass",

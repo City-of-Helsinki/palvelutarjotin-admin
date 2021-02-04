@@ -25,14 +25,26 @@ const EnrolmentsBadge: React.FC<EnrolmentsBadgeProps> = ({
           [styles.enrolmentFull]: isOccurrenceFull,
         })}
       >
-        <span>{approvedSeatsCount}</span>
+        <span aria-hidden>{approvedSeatsCount}</span>
+        <SrOnly>
+          {t('occurrences.approvedEnrolments', {
+            count: approvedSeatsCount || 0,
+          })}
+        </SrOnly>
         {isOccurrenceFull && (
           <div className={styles.eventFullTooltip} aria-hidden>
             {t('occurrences.occurrenceIsFull')}
           </div>
         )}
       </div>
-      <div className={styles.pendingSeats}>{pendingSeatsCount}</div>
+      <div className={styles.pendingSeats}>
+        <span aria-hidden>{pendingSeatsCount}</span>
+        <SrOnly>
+          {t('occurrences.pendingEnrolments', {
+            count: pendingSeatsCount || 0,
+          })}
+        </SrOnly>
+      </div>
       {isOccurrenceFull && (
         <SrOnly> {t('occurrences.occurrenceIsFull')}</SrOnly>
       )}

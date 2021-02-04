@@ -8,14 +8,30 @@ exports[`matches snapshot 1`] = `
     <div
       class="approvedSeats"
     >
-      <span>
+      <span
+        aria-hidden="true"
+      >
         10
       </span>
+      <div
+        class="srOnly"
+      >
+        10 hyväksytty
+      </div>
     </div>
     <div
       class="pendingSeats"
     >
-      10
+      <span
+        aria-hidden="true"
+      >
+        10
+      </span>
+      <div
+        class="srOnly"
+      >
+        10 hyväksymättä
+      </div>
     </div>
   </div>
 </div>

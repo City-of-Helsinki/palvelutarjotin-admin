@@ -588,7 +588,9 @@
     "titlePastOccurrences": "Menneet tapahtuma-ajat",
     "titleEventPublishment": "Tapahtuman julkaisu",
     "errorEventPublicationFailed": "Tapahtuman julkaisu epäonnistui",
-    "occurrenceIsFull": "Tapahtuma on täynnä"
+    "occurrenceIsFull": "Tapahtuma on täynnä",
+    "approvedEnrolments": "{{count}} hyväksytty",
+    "pendingEnrolments": "{{count}} hyväksymättä"
   },
   "studyLevel": {
     "grade": "{{count}}. luokka",

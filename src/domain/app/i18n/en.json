@@ -587,7 +587,9 @@
     "titlePastOccurrences": "Past event times",
     "titleEventPublishment": "Event publishment",
     "errorEventPublicationFailed": "Event publication failed",
-    "occurrenceIsFull": "Occurrence is full"
+    "occurrenceIsFull": "Occurrence is full",
+    "approvedEnrolments": "{{count}} approved",
+    "pendingEnrolments": "{{count}} pending"
   },
   "studyLevel": {
     "grade_interval": "(1){1st grade};(2){2nd grade};",
