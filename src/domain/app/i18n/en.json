@@ -386,7 +386,8 @@
     "formTitle": "Add new occurrence",
     "pageTitle": "New occurrence",
     "buttonSaveAndGoToPublishing": "Save and go to publishing",
-    "buttonGoToPublishing": "Go to publishing"
+    "buttonGoToPublishing": "Go to publishing",
+    "firstOccurrenceHelperText": "Fill information of the first occurrence"
   },
   "editOccurrence": {
     "buttonBack": "Event times",

@@ -389,7 +389,8 @@
     "formTitle": "Lägg till ny händelsehändelse",
     "pageTitle": "Ny händelse",
     "buttonSaveAndGoToPublishing": "Spara och gå till publicering",
-    "buttonGoToPublishing": "Gå till publicering"
+    "buttonGoToPublishing": "Gå till publicering",
+    "firstOccurrenceHelperText": "Fyll information om den första händelsen"
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",

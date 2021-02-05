@@ -17,7 +17,6 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
-  fireEvent,
   renderWithRoute,
   screen,
   userEvent,
@@ -141,7 +140,7 @@ const initializeMocksAndRenderPage = (
     occurrenceFormData,
     apolloMocks,
   } = initializeMocks(fromDate, occurrences);
-  const page = renderWithRoute(<CreateOccurrencePage />, {
+  renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     ...renderOptions,
   });
@@ -371,7 +370,7 @@ describe('common event form tests', () => {
 });
 
 test('when only one group checkbox is checked, amount of seats should be disabled', async () => {
-  initializeMocks();
+  const { apolloMocks } = initializeMocks();
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],

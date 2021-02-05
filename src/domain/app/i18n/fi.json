@@ -387,7 +387,8 @@
     "formTitle": "Lisää uusi tapahtuma-aika",
     "pageTitle": "Uusi tapahtuma-aika",
     "buttonSaveAndGoToPublishing": "Tallenna ja siirry julkaisuun",
-    "buttonGoToPublishing": "Siirry julkaisuun"
+    "buttonGoToPublishing": "Siirry julkaisuun",
+    "firstOccurrenceHelperText": "Täydennä ensimmäisen tapahtuma-ajan tiedot"
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",
