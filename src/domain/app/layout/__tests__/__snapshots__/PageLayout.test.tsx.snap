@@ -7,6 +7,13 @@ exports[`PageLayout matches snapshot 1`] = `
   <header
     class="headerWrapper"
   >
+    <a
+      aria-label="Siirry sisältöön"
+      class="skipToContent"
+      href="#main-content"
+    >
+      Siirry sisältöön
+    </a>
     <div
       class="container default"
     >
@@ -124,6 +131,7 @@ exports[`PageLayout matches snapshot 1`] = `
   <div
     aria-hidden="false"
     class="pageBody"
+    id="main-content"
   >
     <div
       class="pageWrapper"

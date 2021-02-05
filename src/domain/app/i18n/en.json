@@ -57,7 +57,8 @@
     "tableDropdown": {
       "toggleButton": "Select"
     },
-    "buttonClose": "Close"
+    "buttonClose": "Close",
+    "linkSkipToContent": "Skip to content"
   },
   "enrolmentForm": {
     "buttonSubmit": "Submit registration",

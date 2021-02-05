@@ -1,12 +1,8 @@
-import { MockedProvider } from '@apollo/react-testing';
-import { render } from '@testing-library/react';
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import { store } from '../../store';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import Header from '../Header';
 
 const profileResponse = {
@@ -25,14 +21,12 @@ const mocks = [
 ];
 
 it('Header matches snapshot', () => {
-  const { container } = render(
-    <MockedProvider mocks={mocks}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <Header />
-        </MemoryRouter>
-      </Provider>
-    </MockedProvider>
-  );
+  const { container } = render(<Header />, { mocks });
   expect(container.firstChild).toMatchSnapshot();
+});
+
+it('focuses skip link first', () => {
+  render(<Header />);
+  userEvent.tab();
+  expect(screen.getByText('Siirry sisältöön')).toHaveFocus();
 });

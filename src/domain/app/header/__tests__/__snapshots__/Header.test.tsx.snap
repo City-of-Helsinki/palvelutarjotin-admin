@@ -4,6 +4,13 @@ exports[`Header matches snapshot 1`] = `
 <header
   class="headerWrapper"
 >
+  <a
+    aria-label="Siirry sisältöön"
+    class="skipToContent"
+    href="#main-content"
+  >
+    Siirry sisältöön
+  </a>
   <div
     class="container default"
   >

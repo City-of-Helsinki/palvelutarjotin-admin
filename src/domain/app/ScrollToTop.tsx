@@ -3,6 +3,8 @@ import { matchPath, useLocation } from 'react-router';
 
 import useLocale from '../../hooks/useLocale';
 
+export const resetFocusId = 'reset-focus';
+
 // Ensure that browser scrolls to top when pathname changes
 const ScrollToTop: React.FC<{
   ignoredPaths: string[];
@@ -10,6 +12,7 @@ const ScrollToTop: React.FC<{
 }> = ({ ignoredPaths, forceScrollToTopPaths = [] }) => {
   const { pathname } = useLocation();
   const locale = useLocale();
+  const resetFocusNode = React.useRef<HTMLDivElement>(null);
 
   const isMatch = React.useCallback(
     (paths: string[]) =>
@@ -23,19 +26,25 @@ const ScrollToTop: React.FC<{
     [locale, pathname]
   );
 
+  const resetScrollAndFocus = () => {
+    resetFocusNode.current?.focus();
+    window.scrollTo(0, 0);
+  };
+
   React.useEffect(() => {
-    if (isMatch(forceScrollToTopPaths)) {
-      scrollToTop();
-    } else if (!isMatch(ignoredPaths)) {
-      scrollToTop();
+    if (isMatch(forceScrollToTopPaths) || !isMatch(ignoredPaths)) {
+      resetScrollAndFocus();
     }
   }, [forceScrollToTopPaths, ignoredPaths, isMatch]);
 
-  return null;
-};
-
-const scrollToTop = () => {
-  window.scrollTo(0, 0);
+  return (
+    <div
+      ref={resetFocusNode}
+      tabIndex={-1}
+      id={resetFocusId}
+      data-testid={resetFocusId}
+    />
+  );
 };
 
 export default ScrollToTop;
