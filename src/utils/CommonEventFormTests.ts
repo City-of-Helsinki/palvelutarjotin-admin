@@ -11,7 +11,7 @@ import {
 } from './testUtils';
 
 export const runCommonEventFormTests = (
-  renderForm: (currentDate: Date) => CustomRenderResult
+  renderForm: (currentDate: Date) => void
 ) => {
   describe('Common event form tests', () => {
     afterAll(() => {

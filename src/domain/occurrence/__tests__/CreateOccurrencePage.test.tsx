@@ -141,7 +141,7 @@ const initializeMocksAndRenderPage = (
     occurrenceFormData,
     apolloMocks,
   } = initializeMocks(fromDate, occurrences);
-  const page = renderWithRoute(<CreateOccurrencePage />, {
+  renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     ...renderOptions,
   });
@@ -358,7 +358,7 @@ test('does not initializes values from URL if they are invalid', async () => {
 });
 
 describe('common event form tests', () => {
-  runCommonEventFormTests((currentDate: Date) =>
+  runCommonEventFormTests((currentDate: Date) => {
     initializeMocksAndRenderPage(
       {
         routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
@@ -366,14 +366,12 @@ describe('common event form tests', () => {
       },
       currentDate,
       1
-    )
-  );
+    );
+  });
 });
 
 test('when only one group checkbox is checked, amount of seats should be disabled', async () => {
-  initializeMocks();
-  renderWithRoute(<CreateOccurrencePage />, {
-    mocks: apolloMocks,
+  initializeMocksAndRenderPage({
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
     path: ROUTES.CREATE_OCCURRENCE,
   });
