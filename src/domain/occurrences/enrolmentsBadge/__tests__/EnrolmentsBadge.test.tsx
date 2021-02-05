@@ -8,7 +8,7 @@ it('matches snapshot', () => {
     <EnrolmentBadge
       approvedSeatsCount={10}
       pendingSeatsCount={10}
-      remainingSeatsCount={30}
+      isOccurrenceFull={false}
     />
   );
 
@@ -16,7 +16,13 @@ it('matches snapshot', () => {
 });
 
 it('renders seat numbers', () => {
-  render(<EnrolmentBadge approvedSeatsCount={10} pendingSeatsCount={20} />);
+  render(
+    <EnrolmentBadge
+      approvedSeatsCount={10}
+      pendingSeatsCount={20}
+      isOccurrenceFull={false}
+    />
+  );
 
   expect(screen.queryByText('10')).toBeInTheDocument();
   expect(screen.queryByText('20')).toBeInTheDocument();
