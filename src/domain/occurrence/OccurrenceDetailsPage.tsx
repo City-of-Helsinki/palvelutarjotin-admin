@@ -106,6 +106,7 @@ const OccurrenceDetailsPage: React.FC = () => {
                     eventId={event.id}
                     id="enrolments-table"
                     seatsTaken={occurrence.seatsTaken || 0}
+                    seatsRemaining={occurrence.remainingSeats}
                     onEnrolmentsModified={handleEnrolmentsModified}
                   />
                 )}

@@ -1,7 +1,11 @@
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 
-import { EventDocument, MyProfileDocument } from '../../../generated/graphql';
+import {
+  Event,
+  EventDocument,
+  MyProfileDocument,
+} from '../../../generated/graphql';
 import {
   fakeEvent,
   fakeLocalizedObject,
@@ -12,20 +16,26 @@ import {
   fakePEvent,
 } from '../../../utils/mockDataUtils';
 import {
+  configure,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import EventSummaryPage from '../EventSummaryPage';
+
+configure({ defaultHidden: true });
 
 const eventId1 = 'eventMockId';
 const eventName = 'Tapahtuma123456';
 const eventDescription = 'Tapahtuman kuvaus';
 const organisationName = 'Testiorganisaatio';
 const organisationId = 'organisationId';
+
+const seatsApproved = 10;
 
 const eventId2 = 'eventMockId2';
 
@@ -39,7 +49,12 @@ const eventMock1 = fakeEvent({
     occurrences: fakeOccurrences(3, [
       { startTime: new Date(2020, 11, 11).toISOString() },
       { startTime: new Date(2020, 11, 12).toISOString() },
-      { startTime: new Date(2020, 11, 13).toISOString() },
+      {
+        startTime: new Date(2020, 11, 13).toISOString(),
+        remainingSeats: 0,
+        seatsApproved,
+        seatsTaken: 30,
+      },
     ]),
   }),
 });
@@ -68,7 +83,10 @@ const profileMock = fakePerson({
   ]),
 });
 
-const mocks = [
+const getMocks = ({
+  event1,
+  event2,
+}: { event1?: Event; event2?: Event } = {}) => [
   {
     request: {
       query: EventDocument,
@@ -79,7 +97,7 @@ const mocks = [
     },
     result: {
       data: {
-        event: eventMock1,
+        event: event1 || eventMock1,
       },
     },
   },
@@ -93,7 +111,7 @@ const mocks = [
     },
     result: {
       data: {
-        event: eventMock2,
+        event: event2 || eventMock2,
       },
     },
   },
@@ -111,9 +129,10 @@ const mocks = [
 ];
 
 advanceTo(new Date(2020, 10, 10));
+
 it('displays event and occurrences correctly', async () => {
   renderWithRoute(<EventSummaryPage />, {
-    mocks,
+    mocks: getMocks(),
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId1}/summary`],
   });
@@ -167,7 +186,7 @@ it('displays event and occurrences correctly', async () => {
 
 it('navigates to edit event page when edit button is clicked', async () => {
   const { history } = renderWithRoute(<EventSummaryPage />, {
-    mocks,
+    mocks: getMocks(),
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId1}/summary`],
   });
@@ -192,7 +211,7 @@ it('navigates to edit event page when edit button is clicked', async () => {
 
 it('navigates to edit occurrences page when edit occurrences button is clicked', async () => {
   const { history } = renderWithRoute(<EventSummaryPage />, {
-    mocks,
+    mocks: getMocks(),
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId1}/summary`],
   });
@@ -217,7 +236,7 @@ it('navigates to edit occurrences page when edit occurrences button is clicked',
 
 it('hides edit buttons when event has been published', async () => {
   renderWithRoute(<EventSummaryPage />, {
-    mocks,
+    mocks: getMocks(),
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId2}/summary`],
   });
@@ -250,7 +269,7 @@ it('hides edit buttons when event has been published', async () => {
 
 it('shows upcoming and past occurrences', async () => {
   renderWithRoute(<EventSummaryPage />, {
-    mocks,
+    mocks: getMocks(),
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId2}/summary`],
   });
@@ -267,4 +286,64 @@ it('shows upcoming and past occurrences', async () => {
   expect(
     screen.getByRole('heading', { name: 'Menneet tapahtuma-ajat 2 kpl' })
   ).toBeInTheDocument();
+});
+
+it('shows full and not full occurrence rows correctly', async () => {
+  const fullOccurrenceRowText =
+    'Valitse tapahtuma-aika 13.12.2020 00:00 – 12:30 13.12.2020 00:00 – 12:30 30 13.07.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä Valitse';
+  const notFullOccurrenceRowText =
+    'Valitse tapahtuma-aika 12.12.2020 00:00 – 12:30 12.12.2020 00:00 – 12:30 30 13.07.2020 0 hyväksytty 0 hyväksymättä Valitse';
+  const seatsApproved = 10;
+  renderWithRoute(<EventSummaryPage />, {
+    mocks: getMocks({
+      event1: {
+        ...eventMock1,
+        pEvent: fakePEvent({
+          organisation: fakeOrganisation({ id: organisationId }),
+          occurrences: fakeOccurrences(3, [
+            { startTime: new Date(2020, 11, 12).toISOString() },
+            {
+              startTime: new Date(2020, 11, 13).toISOString(),
+              remainingSeats: 0,
+              seatsApproved,
+              seatsTaken: 30,
+            },
+          ]),
+        }),
+      },
+    }),
+    path: ROUTES.EVENT_SUMMARY,
+    routes: [`/events/${eventId1}/summary`],
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByText(organisationName)).toBeInTheDocument();
+    expect(screen.queryAllByText(eventName)).toHaveLength(2);
+  });
+
+  const fullOccurrence = screen.getByRole('row', {
+    name: fullOccurrenceRowText,
+  });
+  const notFullOccurrence = screen.getByRole('row', {
+    name: notFullOccurrenceRowText,
+  });
+
+  expect(fullOccurrence).toBeInTheDocument();
+
+  const withinFullOccurrence = within(fullOccurrence);
+  const withinNotFullOccurrence = within(notFullOccurrence);
+  const acceptedEnrolments = withinFullOccurrence.getByText(
+    seatsApproved.toString()
+  );
+  const acceptedEnrolments2 = withinNotFullOccurrence.getAllByText('0')[0];
+
+  expect(acceptedEnrolments.parentElement).toHaveClass('enrolmentFull');
+  expect(acceptedEnrolments.parentElement).toHaveTextContent(
+    /Tapahtuma on täynnä/i
+  );
+
+  expect(acceptedEnrolments2.parentElement).not.toHaveClass('enrolmentFull');
+  expect(acceptedEnrolments2.parentElement).not.toHaveTextContent(
+    /Tapahtuma on täynnä/i
+  );
 });

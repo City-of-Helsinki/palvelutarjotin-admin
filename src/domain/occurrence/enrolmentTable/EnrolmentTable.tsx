@@ -23,6 +23,7 @@ interface Props {
   enrolments: EnrolmentFieldsFragment[];
   id: string;
   seatsTaken?: number;
+  seatsRemaining?: number;
   eventId?: string | null;
   occurrenceId?: string | null;
   onEnrolmentsModified: () => void;
@@ -32,6 +33,7 @@ const EnrolmentTable: React.FC<Props> = ({
   enrolments,
   id,
   seatsTaken = 0,
+  seatsRemaining = 0,
   eventId,
   occurrenceId,
   onEnrolmentsModified,
@@ -205,6 +207,9 @@ const EnrolmentTable: React.FC<Props> = ({
           pendingCount,
           seatsTaken,
         })}
+        {seatsRemaining === 0 && (
+          <span> ({t('occurrences.occurrenceIsFull')})</span>
+        )}
       </div>
       {!!enrolments.length && (
         <Table

@@ -8,6 +8,7 @@ import Table from '../../../common/components/table/Table';
 import {
   EventQuery,
   OccurrenceFieldsFragment,
+  OccurrenceSeatType,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
@@ -122,7 +123,14 @@ const OccurrencesTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrences.table.columnAmountOfSeats'),
-      accessor: (row: OccurrenceFieldsFragment) => row.amountOfSeats,
+      accessor: (row: OccurrenceFieldsFragment) => {
+        if (row.seatType === OccurrenceSeatType.EnrolmentCount) {
+          return t('occurrenceDetails.textAmountOfGroups', {
+            count: row.amountOfSeats,
+          });
+        }
+        return row.amountOfSeats;
+      },
       id: 'amountOfSeats',
     },
     {
@@ -146,8 +154,9 @@ const OccurrencesTable: React.FC<Props> = ({
         if (row.seatsTaken != null && row.seatsApproved != null) {
           return (
             <EnrolmentsBadge
-              acceptedSeatsCount={row.seatsApproved}
+              approvedSeatsCount={row.seatsApproved}
               pendingSeatsCount={row.seatsTaken - row.seatsApproved}
+              isOccurrenceFull={row.remainingSeats === 0}
             />
           );
         }

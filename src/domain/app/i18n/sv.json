@@ -524,6 +524,8 @@
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",
     "textAmountOfSeats_plural": "{{count}} platser",
+    "textAmountOfGroups": "{{count}} grupp",
+    "textAmountOfGroups_plural": "{{count}} grupper",
     "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
     "languages": {
       "en": "engelsk",
@@ -567,7 +569,8 @@
       "columnLocation": "Evenemang plats",
       "columnTime": "Tid",
       "labelChooseAllOccurrences": "Välj alla förekomster",
-      "labelChooseOccurrence": "Välj förekomst {{info}}"
+      "labelChooseOccurrence": "Välj förekomst {{info}}",
+      "oneGroup": "1 grupp"
     },
     "publishSection": {
       "optionNow": "Nu",
@@ -585,7 +588,10 @@
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider",
     "titleEventPublishment": "Händelsepublikation",
-    "errorEventPublicationFailed": "Händelsepublikationen misslyckades"
+    "errorEventPublicationFailed": "Händelsepublikationen misslyckades",
+    "occurrenceIsFull": "Förekomsten är full",
+    "approvedEnrolments": "{{count}} accepterad",
+    "pendingEnrolments": "{{count}} pågående"
   },
   "studyLevel": {
     "grade": "{{count}}: a klass",

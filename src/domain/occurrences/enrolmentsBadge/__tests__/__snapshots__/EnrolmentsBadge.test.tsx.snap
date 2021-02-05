@@ -6,16 +6,32 @@ exports[`matches snapshot 1`] = `
     class="badgeContainer"
   >
     <div
-      class="acceptedSeats"
+      class="approvedSeats"
     >
-      <span>
+      <span
+        aria-hidden="true"
+      >
         10
       </span>
+      <div
+        class="srOnly"
+      >
+        10 hyväksytty
+      </div>
     </div>
     <div
       class="pendingSeats"
     >
-      10
+      <span
+        aria-hidden="true"
+      >
+        10
+      </span>
+      <div
+        class="srOnly"
+      >
+        10 hyväksymättä
+      </div>
     </div>
   </div>
 </div>

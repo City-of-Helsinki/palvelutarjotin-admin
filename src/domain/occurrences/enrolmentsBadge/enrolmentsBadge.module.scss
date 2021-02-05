@@ -1,6 +1,7 @@
 .badgeContainer {
   --boxHeight: 28px;
   --boxWidth: 35px;
+  --color-full: var(--color-alert);
 
   display: flex;
   height: var(--boxHeight);
@@ -13,11 +14,39 @@
   }
 }
 
-.acceptedSeats {
+.eventFullTooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  background-color: var(--color-full);
+  padding: var(--spacing-xs) var(--spacing-s);
+  white-space: nowrap;
+  top: calc(100%);
+  font-weight: 500;
+  transition: 300ms opacity, visibility 300ms;
+  z-index: 999;
+}
+
+.enrolmentFull {
+  &:hover {
+    .eventFullTooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.approvedSeats {
   background-color: var(--color-success);
   color: white;
+  position: relative;
 }
 
 .pendingSeats {
   background-color: var(--color-black-10);
+}
+
+.enrolmentFull {
+  background-color: var(--color-full);
+  color: black;
 }
