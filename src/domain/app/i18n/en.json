@@ -301,13 +301,17 @@
       "labelOtherClassification": "Other classification",
       "labelAudience": "Target groups",
       "labelInLanguage": "Event languages",
-      "labelIsFree": "Event is free",
       "labelKeywords": "Event keywords",
       "labelNeededOccurrences": "Necessary visits",
-      "labelPrice": "Price, €",
       "placeholderKeywords": "Add keyword...",
       "placeholderCategories": "Select appropriates",
       "title": "Event classifications"
+    },
+    "offers": {
+      "title": "Event pricing",
+      "labelIsFree": "Event is free",
+      "labelPrice": "Price, €",
+      "labelPriceDescription": "Additional information"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Change language",

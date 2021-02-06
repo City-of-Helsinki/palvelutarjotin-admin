@@ -210,6 +210,8 @@ const EditEventPage: React.FC = () => {
         inLanguage:
           eventData.event?.inLanguage.map((item) => item.id || '') || [],
         isFree: !!eventData.event?.offers?.[0]?.isFree,
+        priceDescription:
+          eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
         keywords:
           getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
         location: eventData.event?.location?.id || '',

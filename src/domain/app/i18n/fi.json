@@ -302,13 +302,17 @@
       "labelOtherClassification": "Muu luokittelu",
       "labelAudience": "Kohderyhmät",
       "labelInLanguage": "Tapahtuman kielet",
-      "labelIsFree": "Tapahtuma on ilmainen",
       "labelKeywords": "Tapahtuman avainsanat",
       "labelNeededOccurrences": "Tarvittavat käyntikerrat",
-      "labelPrice": "Hinta, €",
       "placeholderKeywords": "Lisää avainsana...",
       "placeholderCategories": "Valitse sopivat",
       "title": "Tapahtuman luokittelut"
+    },
+    "offers": {
+      "title": "Tapahtuman hinnoittelu",
+      "labelIsFree": "Tapahtuma on ilmainen",
+      "labelPrice": "Hinta, €",
+      "labelPriceDescription": "Lisätiedot"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Vaihda kieli",

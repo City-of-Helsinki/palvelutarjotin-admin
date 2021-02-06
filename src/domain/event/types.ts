@@ -27,6 +27,7 @@ export interface EventFormFields extends VenueDataFields {
   name: string;
   neededOccurrences: string;
   price: string;
+  priceDescription: string;
   shortDescription: string;
   isDraft?: boolean;
   autoAcceptance?: boolean;

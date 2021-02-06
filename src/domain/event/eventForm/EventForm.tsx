@@ -52,6 +52,7 @@ export const defaultInitialValues: EventFormFields = {
   name: '',
   neededOccurrences: '1',
   price: '',
+  priceDescription: '',
   shortDescription: '',
   locationDescription: '',
   hasClothingStorage: false,
@@ -430,27 +431,39 @@ const EventForm = <T extends FormFields>({
                         </FormGroup>
                       </div>
                     </div>
+                  </div>
+                  <div className={styles.formSection}>
+                    <h2>{t('eventForm.offers.title')}</h2>
                     <div className={styles.priceRow}>
                       <div>
                         <Field
-                          disabled={isFree === true}
-                          labelText={t('eventForm.categorisation.labelPrice')}
+                          disabled={isFree}
+                          labelText={t('eventForm.offers.labelPrice')}
                           name="price"
                           component={TextInputField}
                           type="number"
                         />
                       </div>
                       {/*
-                       TODO: Add price unit field
-                      <div></div>
-                       */}
+                         TODO: Add price unit field
+                        <div></div>
+                         */}
                       <div className={styles.isFreeWrapper}>
                         <Field
-                          labelText={t('eventForm.categorisation.labelIsFree')}
+                          labelText={t('eventForm.offers.labelIsFree')}
                           name="isFree"
                           component={CheckboxField}
                         />
                       </div>
+                    </div>
+                    <div className={styles.priceDescriptionWrapper}>
+                      <Field
+                        disabled={isFree}
+                        labelText={t('eventForm.offers.labelPriceDescription')}
+                        name="priceDescription"
+                        component={TextAreaInputField}
+                        rows={20}
+                      />
                     </div>
                   </div>
 

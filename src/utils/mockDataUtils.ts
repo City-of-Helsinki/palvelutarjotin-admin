@@ -67,7 +67,12 @@ export const fakeEvents = (
 
 export const fakeOffer = (overrides?: Partial<Offer>): Offer => ({
   isFree: true,
-  description: null,
+  description: {
+    en: null,
+    fi: 'description',
+    sv: null,
+    __typename: 'LocalisedObject',
+  },
   price: {
     en: null,
     fi: '99,9',

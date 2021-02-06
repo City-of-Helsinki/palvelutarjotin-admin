@@ -52,6 +52,7 @@
   .priceRow {
     display: grid;
     grid-gap: var(--grid-gap);
+    margin-bottom: var(--spacing-m);
 
     @include respond_above(sm) {
       grid-template-columns: 1fr 2fr 1fr;

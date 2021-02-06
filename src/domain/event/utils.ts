@@ -127,6 +127,9 @@ export const getEventPayload = ({
         price: {
           [selectedLanguage]: values.price,
         },
+        description: {
+          [selectedLanguage]: values.priceDescription,
+        },
       },
     ],
     shortDescription: {

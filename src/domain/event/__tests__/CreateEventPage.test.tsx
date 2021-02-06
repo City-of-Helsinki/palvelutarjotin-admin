@@ -100,6 +100,9 @@ const createEventVariables = {
         price: {
           fi: '',
         },
+        description: {
+          fi: '',
+        },
         isFree: true,
       },
     ],

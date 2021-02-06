@@ -183,6 +183,9 @@ const mocks = [
           endTime: '',
           offers: [
             {
+              description: {
+                fi: 'description',
+              },
               price: {
                 fi: '99,9',
               },

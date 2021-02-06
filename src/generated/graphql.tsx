@@ -354,7 +354,6 @@ export type PalvelutarjotinEventNode = Node & {
   contactEmail: Scalars['String'];
   autoAcceptance: Scalars['Boolean'];
   mandatoryAdditionalInformation: Scalars['Boolean'];
-  paymentInstruction: Scalars['String'];
   occurrences: OccurrenceNodeConnection;
   nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
   lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
@@ -1598,7 +1597,6 @@ export type PalvelutarjotinEventInput = {
   contactEmail?: Maybe<Scalars['String']>;
   autoAcceptance?: Maybe<Scalars['Boolean']>;
   mandatoryAdditionalInformation?: Maybe<Scalars['Boolean']>;
-  paymentInstruction?: Maybe<Scalars['String']>;
 };
 
 export type UpdateEventMutation = {
