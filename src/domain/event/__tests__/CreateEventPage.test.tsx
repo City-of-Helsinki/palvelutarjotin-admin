@@ -731,3 +731,18 @@ const testMultiDropdownValues = async ({
     });
   });
 };
+
+test('price field is accessible only when isFree field is not checked', async () => {
+  render(<CreateEventPage />, { mocks });
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
+    expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
+    expect(screen.getByLabelText(/Lisätiedot/)).toHaveAttribute('disabled');
+  });
+  userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+    expect(screen.getByLabelText(/Hinta/)).not.toHaveAttribute('disabled');
+    expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
+  });
+});
