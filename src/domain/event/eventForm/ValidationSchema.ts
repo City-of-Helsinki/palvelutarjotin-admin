@@ -100,7 +100,7 @@ const createValidationSchemaYup = (
       is: false,
       then: Yup.string()
         // Price field is a string field which should contain positive numbers
-        .matches(/^\d+(\.\d+)?$/)
+        .matches(/^\d+(\.\d+)?$/, VALIDATION_MESSAGE_KEYS.STRING_POSITIVENUMBER)
         // Price should be required when event is not free
         .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
     }),

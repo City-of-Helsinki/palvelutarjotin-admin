@@ -435,7 +435,8 @@
         "required": "Tämä kenttä on pakollinen",
         "url": "Tämän kentän on oltava kelvollinen URL-osoite",
         "date": "Tämän kentän on oltava kelvollinen päivämäärä",
-        "time": "Ajan tulee olla muotoa hh:mm"
+        "time": "Ajan tulee olla muotoa hh:mm",
+        "positiveNumber": "Tämän kentän on oltava kelvollinen numero"
       },
       "date": {
         "required": "Päivämäärä on pakollinen",

@@ -55,25 +55,6 @@ const CreateEventPage: React.FC = () => {
   };
 
   const handleSubmit = async (values: CreateEventFormFields) => {
-    console.log(
-      JSON.stringify(
-        {
-          variables: {
-            event: {
-              ...getEventPayload({
-                values,
-                selectedLanguage,
-                organisationId: selectedOrganisation?.id || '',
-              }),
-              // save event always as a draft first
-              draft: true,
-            },
-          },
-        },
-        null,
-        2
-      )
-    );
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];

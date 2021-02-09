@@ -434,7 +434,8 @@
         "required": "This field is required",
         "url": "This field must be a valid URL",
         "date": "This field must be a valid date",
-        "time": "Time must be given in the following format hh:mm"
+        "time": "Time must be given in the following format hh:mm",
+        "positiveNumber": "This field must be a valid number"
       },
       "date": {
         "required": "This field is required",

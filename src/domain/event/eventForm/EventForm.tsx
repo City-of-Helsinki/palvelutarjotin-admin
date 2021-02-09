@@ -442,6 +442,7 @@ const EventForm = <T extends FormFields>({
                           name="price"
                           component={TextInputField}
                           type="number"
+                          min={0}
                         />
                       </div>
                       {/*

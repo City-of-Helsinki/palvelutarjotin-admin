@@ -22,10 +22,10 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   const audience = eventData.event?.audience;
   const keywords = eventData.event?.keywords;
   const offer = eventData.event?.offers?.[0];
-  const price = offer?.price?.[language] || '';
-  const priceDescription = offer?.description?.[language] || '';
+  const price = offer?.price?.[language];
+  const priceDescription = offer?.description?.[language];
   const isFree = offer?.isFree ?? !price;
-  const priceInfoUrl = offer?.infoUrl?.[language] || '';
+  const priceInfoUrl = offer?.infoUrl?.[language];
 
   const createLink = (prefix: string, url: string) => (
     <>
@@ -76,8 +76,8 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
           {!isFree && (
             <p className={styles.eventPriceMultiline}>
               {price}
-              {priceDescription !== '' && `\n${priceDescription}`}
-              {priceInfoUrl !== '' && createLink(`\nInfo: `, priceInfoUrl)}
+              {priceDescription && `\n${priceDescription}`}
+              {priceInfoUrl && createLink(`\nInfo: `, priceInfoUrl)}
             </p>
           )}
         </div>
