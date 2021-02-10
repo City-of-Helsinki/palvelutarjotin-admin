@@ -1949,50 +1949,23 @@ export type CreateEventMutation = { __typename?: 'Mutation' } & {
         > & {
             body?: Maybe<
               { __typename?: 'Event' } & Pick<Event, 'id' | 'internalId'> & {
-                  name: { __typename?: 'LocalisedObject' } & Pick<
-                    LocalisedObject,
-                    'en' | 'fi' | 'sv'
-                  >;
-                  shortDescription: { __typename?: 'LocalisedObject' } & Pick<
-                    LocalisedObject,
-                    'en' | 'fi' | 'sv'
-                  >;
-                  description: { __typename?: 'LocalisedObject' } & Pick<
-                    LocalisedObject,
-                    'en' | 'fi' | 'sv'
-                  >;
-                  images: Array<
-                    { __typename?: 'Image' } & Pick<
-                      Image,
-                      | 'id'
-                      | 'internalId'
-                      | 'license'
-                      | 'name'
-                      | 'url'
-                      | 'cropping'
-                      | 'photographerName'
-                      | 'altText'
-                    >
-                  >;
-                  offers: Array<
-                    { __typename?: 'Offer' } & Pick<Offer, 'isFree'> & {
-                        price?: Maybe<
-                          { __typename?: 'LocalisedObject' } & Pick<
-                            LocalisedObject,
-                            'en' | 'fi' | 'sv'
-                          >
-                        >;
-                      }
-                  >;
+                  name: {
+                    __typename?: 'LocalisedObject';
+                  } & LocalisedFieldsFragment;
+                  shortDescription: {
+                    __typename?: 'LocalisedObject';
+                  } & LocalisedFieldsFragment;
+                  description: {
+                    __typename?: 'LocalisedObject';
+                  } & LocalisedFieldsFragment;
+                  images: Array<{ __typename?: 'Image' } & ImageFieldsFragment>;
+                  offers: Array<{ __typename?: 'Offer' } & OfferFieldsFragment>;
                   pEvent: { __typename?: 'PalvelutarjotinEventNode' } & Pick<
                     PalvelutarjotinEventNode,
                     'id' | 'neededOccurrences' | 'autoAcceptance'
                   >;
                   infoUrl?: Maybe<
-                    { __typename?: 'LocalisedObject' } & Pick<
-                      LocalisedObject,
-                      'en' | 'fi' | 'sv'
-                    >
+                    { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
                   >;
                 }
             >;
@@ -2061,50 +2034,23 @@ export type EditEventMutation = { __typename?: 'Mutation' } & {
         > & {
             body?: Maybe<
               { __typename?: 'Event' } & Pick<Event, 'id' | 'internalId'> & {
-                  name: { __typename?: 'LocalisedObject' } & Pick<
-                    LocalisedObject,
-                    'en' | 'fi' | 'sv'
-                  >;
-                  shortDescription: { __typename?: 'LocalisedObject' } & Pick<
-                    LocalisedObject,
-                    'en' | 'fi' | 'sv'
-                  >;
-                  description: { __typename?: 'LocalisedObject' } & Pick<
-                    LocalisedObject,
-                    'en' | 'fi' | 'sv'
-                  >;
-                  images: Array<
-                    { __typename?: 'Image' } & Pick<
-                      Image,
-                      | 'id'
-                      | 'internalId'
-                      | 'license'
-                      | 'name'
-                      | 'url'
-                      | 'cropping'
-                      | 'photographerName'
-                      | 'altText'
-                    >
-                  >;
-                  offers: Array<
-                    { __typename?: 'Offer' } & Pick<Offer, 'isFree'> & {
-                        price?: Maybe<
-                          { __typename?: 'LocalisedObject' } & Pick<
-                            LocalisedObject,
-                            'en' | 'fi' | 'sv'
-                          >
-                        >;
-                      }
-                  >;
+                  name: {
+                    __typename?: 'LocalisedObject';
+                  } & LocalisedFieldsFragment;
+                  shortDescription: {
+                    __typename?: 'LocalisedObject';
+                  } & LocalisedFieldsFragment;
+                  description: {
+                    __typename?: 'LocalisedObject';
+                  } & LocalisedFieldsFragment;
+                  images: Array<{ __typename?: 'Image' } & ImageFieldsFragment>;
+                  offers: Array<{ __typename?: 'Offer' } & OfferFieldsFragment>;
                   pEvent: { __typename?: 'PalvelutarjotinEventNode' } & Pick<
                     PalvelutarjotinEventNode,
                     'id' | 'neededOccurrences'
                   >;
                   infoUrl?: Maybe<
-                    { __typename?: 'LocalisedObject' } & Pick<
-                      LocalisedObject,
-                      'en' | 'fi' | 'sv'
-                    >
+                    { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
                   >;
                 }
             >;
@@ -2270,9 +2216,7 @@ export type UploadSingleImageMutation = { __typename?: 'Mutation' } & {
         { __typename?: 'ImageMutationResponse' } & Pick<
           ImageMutationResponse,
           'statusCode'
-        > & {
-            body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment>;
-          }
+        > & { body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment> }
       >;
     }
   >;
@@ -2289,9 +2233,7 @@ export type UpdateSingleImageMutation = { __typename?: 'Mutation' } & {
         { __typename?: 'ImageMutationResponse' } & Pick<
           ImageMutationResponse,
           'statusCode'
-        > & {
-            body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment>;
-          }
+        > & { body?: Maybe<{ __typename?: 'Image' } & ImageFieldsFragment> }
       >;
     }
   >;
@@ -3787,37 +3729,19 @@ export const CreateEventDocument = gql`
           id
           internalId
           name {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           shortDescription {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           description {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           images {
-            id
-            internalId
-            license
-            name
-            url
-            cropping
-            photographerName
-            altText
+            ...imageFields
           }
           offers {
-            price {
-              en
-              fi
-              sv
-            }
-            isFree
+            ...offerFields
           }
           pEvent {
             id
@@ -3825,14 +3749,15 @@ export const CreateEventDocument = gql`
             autoAcceptance
           }
           infoUrl {
-            en
-            fi
-            sv
+            ...localisedFields
           }
         }
       }
     }
   }
+  ${LocalisedFieldsFragmentDoc}
+  ${ImageFieldsFragmentDoc}
+  ${OfferFieldsFragmentDoc}
 `;
 export type CreateEventMutationFn = ApolloReactCommon.MutationFunction<
   CreateEventMutation,
@@ -4096,51 +4021,34 @@ export const EditEventDocument = gql`
           id
           internalId
           name {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           shortDescription {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           description {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           images {
-            id
-            internalId
-            license
-            name
-            url
-            cropping
-            photographerName
-            altText
+            ...imageFields
           }
           offers {
-            price {
-              en
-              fi
-              sv
-            }
-            isFree
+            ...offerFields
           }
           pEvent {
             id
             neededOccurrences
           }
           infoUrl {
-            en
-            fi
-            sv
+            ...localisedFields
           }
         }
       }
     }
   }
+  ${LocalisedFieldsFragmentDoc}
+  ${ImageFieldsFragmentDoc}
+  ${OfferFieldsFragmentDoc}
 `;
 export type EditEventMutationFn = ApolloReactCommon.MutationFunction<
   EditEventMutation,
