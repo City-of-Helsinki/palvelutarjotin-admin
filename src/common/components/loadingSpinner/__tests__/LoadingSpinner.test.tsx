@@ -1,11 +1,12 @@
+import { render } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
 import LoadingSpinner from '../LoadingSpinner';
 
 it('LoadingSpinner matches snapshot', () => {
-  const spinner = shallow(<LoadingSpinner isLoading={true} />);
-  expect(spinner.html()).toMatchSnapshot();
+  const { container } = render(<LoadingSpinner isLoading={true} />);
+  expect(container).toMatchSnapshot();
 });
 
 it('render spinner if isLoading is true', () => {
