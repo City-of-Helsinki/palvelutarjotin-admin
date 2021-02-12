@@ -326,7 +326,7 @@
     "location": {
       "helperLocation": "Standardplats för evenemangtider",
       "labelLocation": "Standard venue",
-      "placeholderLocation": "Sök plats...",
+      "placeholderLocation": "Sök evenemangsplats...",
       "title": "Plats"
     },
     "accessibility": {
@@ -366,7 +366,6 @@
         "tomorrow": "Imorgon kl {{time}}"
       }
     },
-
     "placeholderSearch": "Sök",
     "textEventCount": "{{count}} st",
     "textNoComingEvents": "Inga evenemang med kommande evenemangtider",

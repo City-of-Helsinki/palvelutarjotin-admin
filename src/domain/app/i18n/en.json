@@ -324,7 +324,7 @@
     "location": {
       "helperLocation": "The default venue for event times",
       "labelLocation": "Default venue",
-      "placeholderLocation": "Search place...",
+      "placeholderLocation": "Search venue...",
       "title": "Location"
     },
     "accessibility": {

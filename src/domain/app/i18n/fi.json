@@ -325,7 +325,7 @@
     "location": {
       "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
       "labelLocation": "Oletustapahtumapaikka",
-      "placeholderLocation": "Etsi paikkaa...",
+      "placeholderLocation": "Etsi tapahtumapaikkaa...",
       "title": "Tapahtumapaikka"
     },
     "accessibility": {
