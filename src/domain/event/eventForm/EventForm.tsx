@@ -379,7 +379,7 @@ const EventForm = <T extends FormFields>({
                           <Field
                             component={MultiDropdownField}
                             label={t(
-                              'eventForm.categorisation.labelOtherClassification'
+                              'eventForm.categorisation.labelActivities'
                             )}
                             placeholder={t(
                               'eventForm.categorisation.placeholderCategories'
@@ -387,10 +387,10 @@ const EventForm = <T extends FormFields>({
                             name="additionalCriteria"
                             options={additionalCriteriaKeywords}
                             clearButtonAriaLabel={t(
-                              'eventForm.accessibility.otherClassificationDropdown.clearButtonAriaLabel'
+                              'eventForm.accessibility.activityDropdown.clearButtonAriaLabel'
                             )}
                             selectedItemRemoveButtonAriaLabel={t(
-                              'eventForm.accessibility.otherClassificationDropdown.selectedItemRemoveButtonAriaLabel'
+                              'eventForm.accessibility.activityDropdown.selectedItemRemoveButtonAriaLabel'
                             )}
                           />
                         </FormGroup>

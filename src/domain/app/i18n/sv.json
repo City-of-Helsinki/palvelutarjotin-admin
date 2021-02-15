@@ -300,7 +300,7 @@
     "categorisation": {
       "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
       "labelCategories": "Kategorier",
-      "labelOtherClassification": "Annan klassificering",
+      "labelActivities": "Aktiviteter",
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
       "labelKeywords": "Evenemangs nyckelord",
@@ -342,9 +342,9 @@
         "clearButtonAriaLabel": "Ta bort alla kategorier",
         "selectedItemRemoveButtonAriaLabel": "Ta bort kategorival"
       },
-      "otherClassificationDropdown": {
-        "clearButtonAriaLabel": "Ta bort alla andra klassificeringsval",
-        "selectedItemRemoveButtonAriaLabel": "Ta bort annat klassificeringsvaln"
+      "activityDropdown": {
+        "clearButtonAriaLabel": "Ta bort alla aktiviteter",
+        "selectedItemRemoveButtonAriaLabel": "Ta bort aktivitet"
       },
       "inLanguageDropdown": {
         "clearButtonAriaLabel": "Ta bort alla språkval",

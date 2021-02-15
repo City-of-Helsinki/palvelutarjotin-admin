@@ -299,7 +299,7 @@
     "categorisation": {
       "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
       "labelCategories": "Kategoriat",
-      "labelOtherClassification": "Muu luokittelu",
+      "labelActivities": "Aktiviteetit",
       "labelAudience": "Kohderyhmät",
       "labelInLanguage": "Tapahtuman kielet",
       "labelKeywords": "Tapahtuman avainsanat",
@@ -341,9 +341,9 @@
         "clearButtonAriaLabel": "Poista kaikki kategoriavalinnat",
         "selectedItemRemoveButtonAriaLabel": "Poista kategoriavalinta"
       },
-      "otherClassificationDropdown": {
-        "clearButtonAriaLabel": "Poista kaikki muun luokittelun valinnat",
-        "selectedItemRemoveButtonAriaLabel": "Poista muun luokittelun valinta"
+      "activityDropdown": {
+        "clearButtonAriaLabel": "Poista kaikki aktiviteettivalinnat",
+        "selectedItemRemoveButtonAriaLabel": "Poista aktiviteettivalinta"
       },
       "inLanguageDropdown": {
         "clearButtonAriaLabel": "Poista kaikki kielivalinnat",

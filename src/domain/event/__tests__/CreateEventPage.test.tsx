@@ -639,7 +639,7 @@ test('event can be created with form', async () => {
   });
 
   await testMultiDropdownValues({
-    dropdownLabel: /muu luokittelu/i,
+    dropdownLabel: /aktiviteetit/i,
     dropdownTestId: 'additional-criteria-dropdown',
     values: additionalCriteria,
   });
