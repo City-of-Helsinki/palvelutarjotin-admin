@@ -29,6 +29,9 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
     language
   );
 
+  const mandatoryAdditionalInformation =
+    eventData.event?.pEvent?.mandatoryAdditionalInformation;
+
   const imageId = eventData.event?.images[0]?.id;
 
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
@@ -70,6 +73,23 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           />
         </>
       )}
+
+      <>
+        <TextTitle>
+          {t('eventDetails.basicInfo.labelMandatoryAdditionalInformation')}
+        </TextTitle>
+        {mandatoryAdditionalInformation ? (
+          <p>
+            {t('eventDetails.basicInfo.mandatoryAdditionalInformationTrueText')}
+          </p>
+        ) : (
+          <p>
+            {t(
+              'eventDetails.basicInfo.mandatoryAdditionalInformationFalseText'
+            )}
+          </p>
+        )}
+      </>
 
       {imageId && <ImageInfo imageId={imageId} />}
 

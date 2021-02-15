@@ -231,6 +231,8 @@ const EditEventPage: React.FC = () => {
           eventData?.event?.venue?.hasSnackEatingPlace || false,
         outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
         autoAcceptance: eventData.event?.pEvent.autoAcceptance,
+        mandatoryAdditionalInformation:
+          eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
       });
     }
   }, [eventData, selectedLanguage]);

@@ -224,6 +224,9 @@
     "basicInfo": {
       "enrolmentStart": "{{date}} at {{time}}",
       "labelDescription": "Description",
+      "labelMandatoryAdditionalInformation": "Mandatory entry of additional information",
+      "mandatoryAdditionalInformationTrueText": "Entering additional information is mandatory for the registrant",
+      "mandatoryAdditionalInformationFalseText": "Additional information is not mandatory",
       "labelEnrolmentEndDays": "Enrolment closes, days",
       "labelEnrolmentStart": "Enrolment begins",
       "labelInfoUrl": "A web address where you can find more information about the event",
@@ -276,6 +279,7 @@
       "descriptionAddImage": "Add image for the event. You also need name of the photographer and publication license. Max size of the image is 2 megabytes. Recommended dimensios are 1200px X 800px.",
       "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelDescription": "Description",
+      "labelMandatoryAdditionalInformation": "Entering additional information is mandatory for the registrant",
       "labelEnrolmentEndDays": "Enrolment closes, days",
       "labelEnrolmentStart": "Enrolment begins",
       "labelImage": "Event picture",

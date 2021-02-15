@@ -182,6 +182,7 @@ export const getEventPayload = ({
       enrolmentStart: values.enrolmentStart,
       neededOccurrences: Number(values.neededOccurrences),
       autoAcceptance: values.autoAcceptance,
+      mandatoryAdditionalInformation: values.mandatoryAdditionalInformation,
     },
     organisationId,
   };
@@ -290,6 +291,8 @@ export const getEventFields = (
         contactEmail: event.pEvent?.contactEmail,
         contactPerson: event.pEvent?.contactPerson?.name,
         neededOccurrences: event.pEvent?.neededOccurrences,
+        mandatoryAdditionalInformation:
+          event.pEvent?.mandatoryAdditionalInformation,
         occurrences:
           event.pEvent?.occurrences.edges.map(
             (edge) => edge?.node as OccurrenceFieldsFragment
@@ -329,6 +332,8 @@ export const getPublishEventPayload = ({
     description: event.description,
     pEvent: {
       neededOccurrences: event.pEvent.neededOccurrences,
+      mandatoryAdditionalInformation:
+        event.pEvent.mandatoryAdditionalInformation,
     },
     shortDescription: event.shortDescription,
     organisationId,

@@ -147,6 +147,7 @@ const eventResponse = {
         enrolmentEndDays: 3,
         enrolmentStart: '2020-08-13T00:45:00.000Z',
         neededOccurrences: 3,
+        mandatoryAdditionalInformation: false,
         autoAcceptance: true,
         contactPerson: fakePerson({
           id: contactPersonId,
@@ -211,6 +212,7 @@ const mocks = [
             enrolmentStart: '2020-08-13T00:45:00.000Z',
             neededOccurrences: 3,
             autoAcceptance: true,
+            mandatoryAdditionalInformation: false,
           },
           organisationId: personId,
           draft: true,
@@ -328,6 +330,12 @@ test('edit event form initializes and submits correctly', async () => {
 
   userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
+  });
+
   userEvent.click(
     screen.getByRole('button', {
       name: 'Tallenna',
@@ -336,12 +344,6 @@ test('edit event form initializes and submits correctly', async () => {
 
   await waitFor(() => {
     expect(goBack).toHaveBeenCalled();
-  });
-
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
   });
 });
 
@@ -364,6 +366,12 @@ test('returns to create occurrences page when it should after saving', async () 
 
   userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
+  });
+
   userEvent.click(
     screen.getByRole('button', {
       name: 'Tallenna',
@@ -374,11 +382,5 @@ test('returns to create occurrences page when it should after saving', async () 
     expect(historyPush).toHaveBeenCalledWith(
       '/fi/events/123/occurrences/create'
     );
-  });
-
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
   });
 });

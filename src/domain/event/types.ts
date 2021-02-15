@@ -14,6 +14,7 @@ export interface EventFormFields extends VenueDataFields {
   contactPersonId: string;
   contactPhoneNumber: string;
   description: string;
+  mandatoryAdditionalInformation: boolean;
   enrolmentEndDays: string;
   enrolmentStart: Date | null;
   image: string;
