@@ -67,8 +67,18 @@ export const fakeEvents = (
 
 export const fakeOffer = (overrides?: Partial<Offer>): Offer => ({
   isFree: true,
-  description: null,
-  price: null,
+  description: {
+    en: null,
+    fi: 'description',
+    sv: null,
+    __typename: 'LocalisedObject',
+  },
+  price: {
+    en: null,
+    fi: '99,9',
+    sv: null,
+    __typename: 'LocalisedObject',
+  },
   infoUrl: null,
   __typename: 'Offer',
   ...overrides,
@@ -93,7 +103,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     publicationStatus: 'draft',
     datePublished: null,
     externalLinks: [] as any,
-    offers: [] as any,
+    offers: [fakeOffer()],
     subEvents: [] as any,
     endTime: '2020-07-13T05:51:05.761000Z',
     additionalCriteria: [],

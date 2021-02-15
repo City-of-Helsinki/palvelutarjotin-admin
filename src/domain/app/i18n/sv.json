@@ -303,13 +303,17 @@
       "labelOtherClassification": "Annan klassificering",
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
-      "labelIsFree": "Evenemanget är gratis",
       "labelKeywords": "Evenemangs nyckelord",
       "labelNeededOccurrences": "Nödvändiga besök",
-      "labelPrice": "Pris, €",
       "placeholderKeywords": "Lägg nyckelord...",
       "placeholderCategories": "Välj lämpligt",
       "title": "Klassificeringar av evenemang"
+    },
+    "offers": {
+      "title": "Evenemanget prissättning",
+      "labelIsFree": "Evenemanget är gratis",
+      "labelPrice": "Pris, €",
+      "labelPriceDescription": "Ytterligare information"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Ändra språk",
@@ -366,7 +370,6 @@
         "tomorrow": "Imorgon kl {{time}}"
       }
     },
-
     "placeholderSearch": "Sök",
     "textEventCount": "{{count}} st",
     "textNoComingEvents": "Inga evenemang med kommande evenemangtider",
@@ -431,8 +434,9 @@
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
         "url": "Detta fält måste vara en giltig URL",
-        "date": "This field must be valid date",
-        "time": "Tid måste ges i följande format hh:mm"
+        "date": "Detta fält måste vara en giltig datum",
+        "time": "Tid måste ges i följande format hh:mm",
+        "positiveNumber": "Detta fält måste vara ett giltigt nummer"
       },
       "date": {
         "required": "Detta fält krävs",

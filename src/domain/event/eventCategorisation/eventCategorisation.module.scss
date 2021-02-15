@@ -4,7 +4,7 @@
   .languageRow {
     display: grid;
     grid-gap: var(--grid-gap);
-  
+
     @include respond_above(sm) {
       grid-template-columns: 1fr 1fr;
     }
@@ -17,5 +17,9 @@
     @include respond_above(sm) {
       grid-template-columns: 1fr 1fr;
     }
+  }
+
+  .eventPriceMultiline {
+    white-space: pre-line;
   }
 }

@@ -3,6 +3,7 @@ export enum VALIDATION_MESSAGE_KEYS {
   NUMBER_MAX = 'form.validation.number.max',
   NUMBER_MIN = 'form.validation.number.min',
   NUMBER_REQUIRED = 'form.validation.number.required',
+  STRING_POSITIVENUMBER = 'form.validation.string.positiveNumber',
   STRING_MAX = 'form.validation.string.max',
   STRING_MIN = 'form.validation.string.min',
   STRING_REQUIRED = 'form.validation.string.required',

@@ -95,7 +95,17 @@ const createEventVariables = {
   event: {
     name: { fi: 'Testitapahtuma' },
     startTime: '2020-08-07T21:00:00.000Z',
-    offers: [{ isFree: true }],
+    offers: [
+      {
+        price: {
+          fi: '',
+        },
+        description: {
+          fi: '',
+        },
+        isFree: true,
+      },
+    ],
     shortDescription: { fi: 'Testikuvaus' },
     description: { fi: 'Pidempi kuvaus' },
     images: [{ internalId: '/image/48584/' }],
@@ -149,7 +159,9 @@ const addEventResponse = {
     addEventMutation: {
       response: {
         statusCode: 201,
-        body: fakeEvent({ id: 'palvelutarjotin:afz52lpyta' }),
+        body: fakeEvent({
+          id: 'palvelutarjotin:afz52lpyta',
+        }),
         __typename: 'EventMutationResponse',
       },
       __typename: 'AddEventMutation',
@@ -719,3 +731,20 @@ const testMultiDropdownValues = async ({
     });
   });
 };
+
+test('price field is accessible only when isFree field is not checked', async () => {
+  render(<CreateEventPage />, { mocks });
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeInTheDocument();
+  });
+
+  expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
+  expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
+  expect(screen.getByLabelText(/Lisätiedot/)).toHaveAttribute('disabled');
+
+  userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+
+  expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+  expect(screen.getByLabelText(/Hinta/)).not.toHaveAttribute('disabled');
+  expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
+});

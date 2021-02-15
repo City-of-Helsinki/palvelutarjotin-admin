@@ -96,6 +96,14 @@ const createValidationSchemaYup = (
     ),
     contactEmail: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
     autoAcceptance: Yup.boolean(),
+    price: Yup.string().when('isFree', {
+      is: false,
+      then: Yup.string()
+        // Price field is a string field which should contain positive numbers
+        .matches(/^\d+(\.\d+)?$/, VALIDATION_MESSAGE_KEYS.STRING_POSITIVENUMBER)
+        // Price should be required when event is not free
+        .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
+    }),
     ...schema,
   });
 

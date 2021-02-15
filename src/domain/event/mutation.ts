@@ -9,29 +9,19 @@ export const MUTATION_EVENT = gql`
           id
           internalId
           name {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           shortDescription {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           description {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           images {
-            id
-            internalId
-            license
-            name
-            url
-            cropping
-            photographerName
-            altText
+            ...imageFields
+          }
+          offers {
+            ...offerFields
           }
           pEvent {
             id
@@ -39,9 +29,7 @@ export const MUTATION_EVENT = gql`
             autoAcceptance
           }
           infoUrl {
-            en
-            fi
-            sv
+            ...localisedFields
           }
         }
       }
@@ -82,38 +70,26 @@ export const MUTATION_EVENT = gql`
           id
           internalId
           name {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           shortDescription {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           description {
-            en
-            fi
-            sv
+            ...localisedFields
           }
           images {
-            id
-            internalId
-            license
-            name
-            url
-            cropping
-            photographerName
-            altText
+            ...imageFields
+          }
+          offers {
+            ...offerFields
           }
           pEvent {
             id
             neededOccurrences
           }
           infoUrl {
-            en
-            fi
-            sv
+            ...localisedFields
           }
         }
       }

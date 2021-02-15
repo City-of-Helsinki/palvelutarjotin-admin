@@ -167,7 +167,7 @@ const EditEventPage: React.FC = () => {
     } catch (e) {
       if (isTestEnv()) {
         // eslint-disable-next-line no-console
-        console.log(e);
+        console.error(e);
       }
       // TODO: Improve error handling when API returns more informative errors
       toast(t('editEvent.error'), {
@@ -209,16 +209,16 @@ const EditEventPage: React.FC = () => {
         infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
         inLanguage:
           eventData.event?.inLanguage.map((item) => item.id || '') || [],
-        // TODO: Get price info from event data
-        isFree: true,
+        isFree: !!eventData.event?.offers?.[0]?.isFree,
+        priceDescription:
+          eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
         keywords:
           getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
         location: eventData.event?.location?.id || '',
         name: eventData.event?.name[selectedLanguage] || '',
         neededOccurrences:
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
-        // TODO: Get price info from event data
-        price: '',
+        price: eventData.event?.offers?.[0]?.price?.[selectedLanguage] || '',
         shortDescription:
           eventData.event?.shortDescription?.[selectedLanguage] || '',
         locationDescription: getEventVenueDescription(

@@ -161,7 +161,9 @@ const updateEventResponse = {
     updateEventMutation: {
       response: {
         statusCode: 200,
-        body: fakeEvent({ id: 'palvelutarjotin:afz52lpyta' }),
+        body: fakeEvent({
+          id: 'palvelutarjotin:afz52lpyta',
+        }),
         __typename: 'EventMutationResponse',
       },
       __typename: 'UpdateEventMutation',
@@ -179,7 +181,17 @@ const mocks = [
           name: { fi: 'TestitapahtumaTestinimi' },
           startTime: '2020-08-04T21:00:00.000Z',
           endTime: '',
-          offers: [{ isFree: true }],
+          offers: [
+            {
+              description: {
+                fi: 'description',
+              },
+              price: {
+                fi: '99,9',
+              },
+              isFree: true,
+            },
+          ],
           shortDescription: { fi: shortDescription },
           description: { fi: description },
           images: [{ internalId: '/image/48598/' }],

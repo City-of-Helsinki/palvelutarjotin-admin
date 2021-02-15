@@ -123,7 +123,13 @@ export const getEventPayload = ({
     startTime: new Date().toISOString(),
     offers: [
       {
-        isFree: true,
+        isFree: values.isFree,
+        price: {
+          [selectedLanguage]: values.price,
+        },
+        description: {
+          [selectedLanguage]: values.priceDescription,
+        },
       },
     ],
     shortDescription: {
@@ -318,11 +324,7 @@ export const getPublishEventPayload = ({
       internalId: event.location.internalId,
     },
     keywords: event.keywords.map((k) => ({ internalId: k.internalId })),
-    offers: [
-      {
-        isFree: true,
-      },
-    ],
+    offers: event.offers,
     name: event.name,
     description: event.description,
     pEvent: {
