@@ -2,13 +2,7 @@ import { addDays, format } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
 
 import { DATE_FORMAT } from '../common/components/datepicker/contants';
-import {
-  CustomRenderResult,
-  fireEvent,
-  screen,
-  userEvent,
-  waitFor,
-} from './testUtils';
+import { fireEvent, screen, userEvent, waitFor } from './testUtils';
 
 export const runCommonEventFormTests = (
   renderForm: (currentDate: Date) => void

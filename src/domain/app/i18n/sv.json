@@ -223,6 +223,9 @@
     "basicInfo": {
       "enrolmentStart": "{{date}} på {{time}}",
       "labelDescription": "Beskrivning",
+      "labelMandatoryAdditionalInformation": "Obligatorisk registrering av ytterligare information",
+      "mandatoryAdditionalInformationTrueText": "Ytterligare information är inte obligatoriskt",
+      "mandatoryAdditionalInformationFalseText": "Ytterligare information är inte obligatoriskt",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
@@ -277,6 +280,7 @@
       "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
+      "labelMandatoryAdditionalInformation": "Att registrera ytterligare information är obligatoriskt",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",

@@ -39,6 +39,7 @@ export const defaultInitialValues: EventFormFields = {
   contactPersonId: '',
   contactPhoneNumber: '',
   description: '',
+  mandatoryAdditionalInformation: false,
   enrolmentEndDays: '',
   enrolmentStart: null,
   image: '',
@@ -212,6 +213,15 @@ const EventForm = <T extends FormFields>({
                         required
                         component={TextAreaInputField}
                         rows={20}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Field
+                        labelText={t(
+                          'eventForm.basicInfo.labelMandatoryAdditionalInformation'
+                        )}
+                        name="mandatoryAdditionalInformation"
+                        component={CheckboxField}
                       />
                     </FormGroup>
 

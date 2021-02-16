@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-import toJson from 'enzyme-to-json';
 import * as React from 'react';
 
 import Container from '../Container';

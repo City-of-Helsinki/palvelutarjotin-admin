@@ -148,6 +148,7 @@ const createEventVariables = {
       enrolmentStart: '2020-08-13T00:45:00.000Z',
       neededOccurrences: 3,
       autoAcceptance: true,
+      mandatoryAdditionalInformation: false,
     },
     organisationId: organisationId,
     draft: true,
@@ -680,17 +681,17 @@ test('event can be created with form', async () => {
   // Venue mutation mock
   jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
 
-  userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
-  );
-
   await waitFor(() => {
     expect(
       screen.queryByText('Sivulla on tallentamattomia muutoksia')
     ).toBeInTheDocument();
   });
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
+  );
 
   const parsedOccurrenceDate = parseDate(
     firstOccurrenceDate,

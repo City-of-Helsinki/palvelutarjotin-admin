@@ -34,6 +34,14 @@ exports[`matches snapshot 1`] = `
     >
       Tapahtuman kuvaus
     </div>
+    <div
+      class="textTitle"
+    >
+      Lisätietojen syöttämisen pakollisuus
+    </div>
+    <p>
+      Lisätietojen syöttäminen ei ole pakollista
+    </p>
     <div>
       <div
         class="imagePreview"

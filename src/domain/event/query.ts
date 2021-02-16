@@ -13,6 +13,7 @@ export const QUERY_EVENT = gql`
     enrolmentEndDays
     enrolmentStart
     neededOccurrences
+    mandatoryAdditionalInformation
     organisation {
       ...organisationNodeFields
     }

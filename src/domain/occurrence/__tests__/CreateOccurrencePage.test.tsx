@@ -17,7 +17,6 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
-  fireEvent,
   renderWithRoute,
   screen,
   userEvent,

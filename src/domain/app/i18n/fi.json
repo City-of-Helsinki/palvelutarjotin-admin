@@ -224,6 +224,9 @@
     "basicInfo": {
       "enrolmentStart": "{{date}} klo {{time}}",
       "labelDescription": "Kuvaus",
+      "labelMandatoryAdditionalInformation": "Lisätietojen syöttämisen pakollisuus",
+      "mandatoryAdditionalInformationTrueText": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
+      "mandatoryAdditionalInformationFalseText": "Lisätietojen syöttäminen ei ole pakollista",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
@@ -277,6 +280,7 @@
       "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin. Maksimi koko 2 megatavua. Suositeltu kuvakoko on 1200px X 800px.",
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
       "labelDescription": "Kuvaus",
+      "labelMandatoryAdditionalInformation": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelImage": "Tapahtuman kuva",
