@@ -302,7 +302,7 @@
     "categorisation": {
       "helperKeywords": "Enter a keyword and select from the suggested options",
       "labelCategories": "Categories",
-      "labelOtherClassification": "Other classification",
+      "labelActivities": "Activities",
       "labelAudience": "Target groups",
       "labelInLanguage": "Event languages",
       "labelKeywords": "Event keywords",
@@ -344,9 +344,9 @@
         "clearButtonAriaLabel": "Delete all categories",
         "selectedItemRemoveButtonAriaLabel": "Delete category selection"
       },
-      "otherClassificationDropdown": {
-        "clearButtonAriaLabel": "Delete all other classification selections",
-        "selectedItemRemoveButtonAriaLabel": "Delete other classification selection"
+      "activityDropdown": {
+        "clearButtonAriaLabel": "Delete all activity selections",
+        "selectedItemRemoveButtonAriaLabel": "Delete activity selection"
       },
       "inLanguageDropdown": {
         "clearButtonAriaLabel": "Delete all language selections",
