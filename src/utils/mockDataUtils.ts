@@ -148,7 +148,7 @@ export const fakeStudyGroup = (
   enrolments: [] as any,
   extraNeeds: '',
   groupName: '',
-  groupSize: 20,
+  groupSize: 19,
   id: faker.random.uuid(),
   name: '',
   occurrences: fakeOccurrences(),

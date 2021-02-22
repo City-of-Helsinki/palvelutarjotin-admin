@@ -15,6 +15,7 @@ import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import { ROUTES } from '../../app/routes/constants';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
+import { getNumberOfParticipants } from '../../enrolment/utils';
 import ActionsDropdown from './actionsDropdown/ActionsDropdown';
 import AdditionalInfo from './additionalInfo/AdditionalInfo';
 import styles from './enrolmentTable.module.scss';
@@ -80,13 +81,15 @@ const EnrolmentTable: React.FC<Props> = ({
     );
   };
 
-  const approvedCount = enrolments
-    .filter((e) => e.status === EnrolmentStatus.Approved)
-    .reduce((acc, cur) => acc + cur.studyGroup.groupSize, 0);
+  const approvedCount = getNumberOfParticipants(
+    enrolments,
+    EnrolmentStatus.Approved
+  );
 
-  const pendingCount = enrolments
-    .filter((e) => e.status === EnrolmentStatus.Pending)
-    .reduce((acc, cur) => acc + cur.studyGroup.groupSize, 0);
+  const pendingCount = getNumberOfParticipants(
+    enrolments,
+    EnrolmentStatus.Pending
+  );
 
   const columns = [
     {

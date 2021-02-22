@@ -1,5 +1,6 @@
 import {
   EnrolmentFieldsFragment,
+  EnrolmentStatus,
   Language,
   NotificationType,
   UpdateEnrolmentMutationInput,
@@ -60,4 +61,17 @@ export const getUpdateEnrolmentPayload = ({
       studyLevels: values.studyGroup.studyLevels,
     },
   };
+};
+
+export const getNumberOfParticipants = (
+  enrolments: EnrolmentFieldsFragment[],
+  status: EnrolmentStatus
+) => {
+  return enrolments
+    .filter((e) => e.status === status)
+    .reduce(
+      (acc, cur) =>
+        acc + cur.studyGroup.groupSize + cur.studyGroup.amountOfAdult,
+      0
+    );
 };
