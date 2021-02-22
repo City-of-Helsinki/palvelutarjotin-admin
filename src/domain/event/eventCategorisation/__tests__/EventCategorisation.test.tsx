@@ -14,6 +14,19 @@ const event = fakeEvent({
   keywords: [
     fakeKeyword({ name: fakeLocalizedObject('perheet') }),
     fakeKeyword({ name: fakeLocalizedObject('maahanmuuttajat') }),
+    fakeKeyword({
+      name: fakeLocalizedObject('maahanmuuttajat'),
+      id: 'teatteri',
+    }),
+    fakeKeyword({ name: fakeLocalizedObject('Työpaja'), id: 'työpaja' }),
+  ],
+  categories: [
+    fakeKeyword({ name: fakeLocalizedObject('Musiikki') }),
+    fakeKeyword({ name: fakeLocalizedObject('Teatteri'), id: 'teatteri' }),
+  ],
+  additionalCriteria: [
+    fakeKeyword({ name: fakeLocalizedObject('Luontokoulu') }),
+    fakeKeyword({ name: fakeLocalizedObject('Työpaja'), id: 'työpaja' }),
   ],
   inLanguage: [
     fakeInLanguage({ name: fakeLocalizedObject('englanti') }),
@@ -29,7 +42,7 @@ test('matches snapshot', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('renders ands display information correctly', () => {
+test('renders and displays information correctly', () => {
   render(<EventCategorisation eventData={{ event }} language="fi" />);
 
   // titles
@@ -45,6 +58,8 @@ test('renders ands display information correctly', () => {
   // data
   expect(screen.queryByText('englanti, suomi')).toBeVisible();
   expect(screen.queryByText('maahanmuuttajat, perheet')).toBeVisible();
+  expect(screen.queryByText('Luontokoulu, Työpaja')).toBeVisible();
+  expect(screen.queryByText('Musiikki, Teatteri')).toBeVisible();
   expect(screen.queryByText('Tapahtuma on ilmainen')).toBeVisible();
   expect(screen.queryByText('3')).toBeVisible();
   expect(screen.queryByText('-')).toBeInTheDocument();

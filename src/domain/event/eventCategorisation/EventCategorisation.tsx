@@ -21,11 +21,20 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   const inLanguage = eventData.event?.inLanguage;
   const audience = eventData.event?.audience;
   const keywords = eventData.event?.keywords;
+  const additionalCriteria = eventData.event?.additionalCriteria;
+  const categories = eventData.event?.categories;
   const offer = eventData.event?.offers?.[0];
   const price = offer?.price?.[language];
   const priceDescription = offer?.description?.[language];
   const isFree = offer?.isFree ?? !price;
   const priceInfoUrl = offer?.infoUrl?.[language];
+
+  // Get keywords that are not already included in categories or activities
+  const filteredKeywords = keywords?.filter(
+    (keyword) =>
+      !categories?.find((category) => category.id === keyword.id) &&
+      !additionalCriteria?.find((activity) => activity.id === keyword.id)
+  );
 
   const createLink = (prefix: string, url: string) => (
     <>
@@ -66,8 +75,23 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
         </div>
       </div>
 
+      <div className={styles.languageRow}>
+        <div>
+          <TextTitle>
+            {t('eventDetails.categorisation.labelCategories')}
+          </TextTitle>
+          {<p>{arrayToText(categories)}</p>}
+        </div>
+        <div>
+          <TextTitle>
+            {t('eventDetails.categorisation.labelActivities')}
+          </TextTitle>
+          <p>{arrayToText(additionalCriteria)}</p>
+        </div>
+      </div>
+
       <TextTitle>{t('eventDetails.categorisation.labelKeywords')}</TextTitle>
-      <p>{arrayToText(keywords)}</p>
+      <p>{arrayToText(filteredKeywords)}</p>
 
       <div className={styles.priceRow}>
         <div>

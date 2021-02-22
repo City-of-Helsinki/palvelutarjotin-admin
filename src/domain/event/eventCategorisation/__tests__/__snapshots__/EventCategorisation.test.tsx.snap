@@ -33,6 +33,30 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
+      class="languageRow"
+    >
+      <div>
+        <div
+          class="textTitle"
+        >
+          Kategoriat
+        </div>
+        <p>
+          Musiikki, Teatteri
+        </p>
+      </div>
+      <div>
+        <div
+          class="textTitle"
+        >
+          Aktiviteetit
+        </div>
+        <p>
+          Luontokoulu, Työpaja
+        </p>
+      </div>
+    </div>
+    <div
       class="textTitle"
     >
       Tapahtuman avainsanat
