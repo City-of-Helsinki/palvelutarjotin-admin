@@ -105,7 +105,7 @@ const EventDetailsPage = () => {
             {upcomingOccurrences.map((o) => {
               const startTime = o?.node?.startTime;
               return (
-                <li>
+                <li key={o?.node?.id}>
                   {t('eventDetails.deleteModal.occurrenceTime', {
                     date: formatDate(new Date(startTime), 'dd.MM.yyyy'),
                     time: formatDate(new Date(startTime), 'HH:mm'),

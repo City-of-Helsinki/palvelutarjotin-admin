@@ -60,7 +60,7 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   return (
     <div className={styles.eventCategorisation}>
       <h2>{t('eventDetails.categorisation.title')}</h2>
-      <div className={styles.languageRow}>
+      <div className={styles.infoRow}>
         <div>
           <TextTitle>
             {t('eventDetails.categorisation.labelInLanguage')}
@@ -75,7 +75,7 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
         </div>
       </div>
 
-      <div className={styles.languageRow}>
+      <div className={styles.infoRow}>
         <div>
           <TextTitle>
             {t('eventDetails.categorisation.labelCategories')}
@@ -93,7 +93,7 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
       <TextTitle>{t('eventDetails.categorisation.labelKeywords')}</TextTitle>
       <p>{arrayToText(filteredKeywords)}</p>
 
-      <div className={styles.priceRow}>
+      <div className={styles.infoRow}>
         <div>
           <TextTitle>{t('eventDetails.categorisation.labelPrice')}</TextTitle>
           {isFree && <p>{t('eventDetails.categorisation.eventIsFree')}</p>}
