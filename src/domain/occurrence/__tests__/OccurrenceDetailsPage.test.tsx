@@ -95,7 +95,8 @@ const occurrenceResult = {
         {
           status: EnrolmentStatus.Approved,
           studyGroup: fakeStudyGroup({
-            groupSize: 10,
+            groupSize: 8,
+            amountOfAdult: 2,
           }),
           person: fakePerson({ name: 'Testi Testaaja' }),
           id: enrolmentId,
@@ -105,6 +106,7 @@ const occurrenceResult = {
           person: fakePerson({ name: 'Ilmoittautuja' }),
           studyGroup: fakeStudyGroup({
             groupSize: 10,
+            amountOfAdult: 0,
           }),
         },
       ]),
