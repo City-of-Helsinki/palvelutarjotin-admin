@@ -98,18 +98,10 @@ export const QUERY_EVENT = gql`
     event(id: $id, include: $include) {
       ...eventFields
       additionalCriteria {
-        id
-        internalId
-        name {
-          ...localisedFields
-        }
+        ...keywordFields
       }
       categories {
-        id
-        internalId
-        name {
-          ...localisedFields
-        }
+        ...keywordFields
       }
     }
   }
