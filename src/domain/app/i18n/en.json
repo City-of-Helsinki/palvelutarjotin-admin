@@ -269,6 +269,10 @@
       "snackEatingPlace": "Snack eating place",
       "clothingStorage": "Clothing storage",
       "outdoorActivity": "Outdoor activity",
+      "toiletNearby": "Toilet nearby",
+      "areaForGroupWork": "Area for group work",
+      "indoorPlayingArea": "Indoor playing area",
+      "outdoorPlayingArea": "Outdoor playing area",
       "title": "Location"
     }
   },
@@ -419,8 +423,6 @@
     "labelAutoAcceptance": "Automatically confirm registrations within the number of participants",
     "labelEventLocation": "Event location",
     "labelLocationDescription": "Event location description",
-    "labelPackedLunchEatingPlace": "Packed lunch eating place",
-    "labelOuterwearStorage": "Outerwear storage",
     "labelOneGroupFills": "One group fills the event",
     "titleParticipantRow": "Participant count"
   },
@@ -612,7 +614,11 @@
       "helperLocationDescription": "Additional information to facilitate the visit",
       "labelHasClothingStorage": "Clothing storage",
       "labelHasSnackEatingPlace": "Snack eating place",
-      "outdoorActivity": "Outdoor activity",
+      "labelOutdoorActivity": "Outdoor activity",
+      "labelHasToiletNearby": "Toilet nearby",
+      "labelHasAreaForGroupWork": "Area for group work",
+      "labelHasIndoorPlayingArea": "Indoor playing area",
+      "labelHasOutdoorPlayingArea": "Outdoor playing area",
       "labelLocationDescription": "Description of the venue",
       "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ..."
     }

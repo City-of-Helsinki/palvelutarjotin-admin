@@ -67,6 +67,11 @@ const venueQueryResponse = {
       id: placeId,
       hasClothingStorage: true,
       hasSnackEatingPlace: true,
+      outdoorActivity: true,
+      hasToiletNearby: true,
+      hasAreaForGroupWork: true,
+      hasIndoorPlayingArea: true,
+      hasOutdoorPlayingArea: true,
       translations: [
         {
           languageCode: 'FI' as any,

@@ -269,6 +269,10 @@
       "snackEatingPlace": "Eväidensyöntipaikka",
       "clothingStorage": "Vaatesäilytys",
       "outdoorActivity": "Toiminta tapahtuu ulkona",
+      "toiletNearby": "WC lähellä tilaa",
+      "areaForGroupWork": "Ryhmätyötilaa",
+      "indoorPlayingArea": "Leikkitilaa sisällä",
+      "outdoorPlayingArea": "Leikkitilaa ulkona",
       "title": "Tapahtumapaikka"
     },
     "title": "Tapahtuman tiedot"
@@ -420,8 +424,6 @@
     "labelAutoAcceptance": "Vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa",
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
-    "labelPackedLunchEatingPlace": "Eväidensyöntipaikka",
-    "labelOuterwearStorage": "Ulkovaatesäilytys",
     "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
     "titleParticipantRow": "Osallistujamäärä"
   },
@@ -613,7 +615,11 @@
       "helperLocationDescription": "Vierailua helpottavaa lisätietoa",
       "labelHasClothingStorage": "Ulkovaatesäilytys",
       "labelHasSnackEatingPlace": "Eväidensyöntipaikka",
-      "outdoorActivity": "Toiminta tapahtuu ulkona",
+      "labelOutdoorActivity": "Toiminta tapahtuu ulkona",
+      "labelHasToiletNearby": "WC lähellä tilaa",
+      "labelHasAreaForGroupWork": "Ryhmätyötilaa",
+      "labelHasIndoorPlayingArea": "Leikkitilaa sisällä",
+      "labelHasOutdoorPlayingArea": "Leikkitilaa ulkona",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
       "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
     }

@@ -35,18 +35,17 @@ const VenueDataFields: React.FC<{
           );
 
           setFieldValue('locationDescription', description?.description || '');
-          setFieldValue(
+          ([
             'hasSnackEatingPlace',
-            data.venue?.hasSnackEatingPlace || false
-          );
-          setFieldValue(
             'hasClothingStorage',
-            data.venue?.hasClothingStorage || false
-          );
-          setFieldValue(
             'outdoorActivity',
-            data.venue?.outdoorActivity || false
-          );
+            'hasToiletNearby',
+            'hasAreaForGroupWork',
+            'hasIndoorPlayingArea',
+            'hasOutdoorPlayingArea',
+          ] as const).forEach((v) => {
+            setFieldValue(v, data.venue?.[v] || false);
+          });
         } catch (err) {
           // clear description when error happens
           setFieldValue('locationDescription', '');
@@ -80,7 +79,27 @@ const VenueDataFields: React.FC<{
         <Field
           component={CheckboxField}
           name="outdoorActivity"
-          labelText={t('venue.venueDataFields.outdoorActivity')}
+          labelText={t('venue.venueDataFields.labelOutdoorActivity')}
+        />
+        <Field
+          component={CheckboxField}
+          name="hasToiletNearby"
+          labelText={t('venue.venueDataFields.labelHasToiletNearby')}
+        />
+        <Field
+          component={CheckboxField}
+          name="hasAreaForGroupWork"
+          labelText={t('venue.venueDataFields.labelHasAreaForGroupWork')}
+        />
+        <Field
+          component={CheckboxField}
+          name="hasIndoorPlayingArea"
+          labelText={t('venue.venueDataFields.labelHasIndoorPlayingArea')}
+        />
+        <Field
+          component={CheckboxField}
+          name="hasOutdoorPlayingArea"
+          labelText={t('venue.venueDataFields.labelHasOutdoorPlayingArea')}
         />
       </div>
     </FormGroup>

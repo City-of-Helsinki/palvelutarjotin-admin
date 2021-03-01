@@ -30,6 +30,10 @@ export const getVenuePayload = ({
     hasClothingStorage,
     hasSnackEatingPlace,
     outdoorActivity,
+    hasToiletNearby,
+    hasAreaForGroupWork,
+    hasIndoorPlayingArea,
+    hasOutdoorPlayingArea,
   },
 }: {
   formValues: VenueDataFields;
@@ -43,6 +47,10 @@ export const getVenuePayload = ({
       hasClothingStorage,
       hasSnackEatingPlace,
       outdoorActivity,
+      hasToiletNearby,
+      hasAreaForGroupWork,
+      hasIndoorPlayingArea,
+      hasOutdoorPlayingArea,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
@@ -72,20 +80,35 @@ export const createOrUpdateVenue = async ({
     });
 
     const venueDescription = getVenueDescription(existingVenueData, language);
-    const { hasClothingStorage, hasSnackEatingPlace, outdoorActivity } =
-      existingVenueData?.venue || {};
+    const {
+      hasClothingStorage,
+      hasSnackEatingPlace,
+      outdoorActivity,
+      hasToiletNearby,
+      hasAreaForGroupWork,
+      hasIndoorPlayingArea,
+      hasOutdoorPlayingArea,
+    } = existingVenueData?.venue || {};
 
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
         (venueFormData.locationDescription !== venueDescription ||
           venueFormData.hasClothingStorage !== hasClothingStorage ||
           venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
+          venueFormData.hasToiletNearby !== hasToiletNearby ||
+          venueFormData.hasAreaForGroupWork !== hasAreaForGroupWork ||
+          venueFormData.hasIndoorPlayingArea !== hasIndoorPlayingArea ||
+          venueFormData.hasOutdoorPlayingArea !== hasOutdoorPlayingArea ||
           venueFormData.outdoorActivity !== outdoorActivity)
     );
     const newVenueShouldBeCreated = Boolean(
       (!existingVenueData?.venue && venueFormData.locationDescription) ||
         venueFormData.hasClothingStorage !== hasClothingStorage ||
         venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
+        venueFormData.hasToiletNearby !== hasToiletNearby ||
+        venueFormData.hasAreaForGroupWork !== hasAreaForGroupWork ||
+        venueFormData.hasIndoorPlayingArea !== hasIndoorPlayingArea ||
+        venueFormData.hasOutdoorPlayingArea !== hasOutdoorPlayingArea ||
         venueFormData.outdoorActivity !== outdoorActivity
     );
 

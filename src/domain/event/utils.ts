@@ -4,17 +4,14 @@ import isPastDate from 'date-fns/isPast';
 import isToday from 'date-fns/isToday';
 import isTomorrow from 'date-fns/isTomorrow';
 import { TFunction } from 'i18next';
-import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
   Keyword,
-  Language as TranslationLanguage,
   OccurrenceFieldsFragment,
   PublishEventMutationInput,
-  VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import formatDate from '../../utils/formatDate';
@@ -22,7 +19,6 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { VenueDataFields } from '../venue/types';
 import { EVENT_PLACEHOLDER_IMAGES } from './constants';
 import { CreateEventFormFields, EventFormFields } from './types';
 
@@ -185,41 +181,6 @@ export const getEventPayload = ({
       mandatoryAdditionalInformation: values.mandatoryAdditionalInformation,
     },
     organisationId,
-  };
-};
-
-export const getVenuePayload = ({
-  venueData,
-  language,
-  locationId,
-  formValues: {
-    locationDescription,
-    hasClothingStorage,
-    hasSnackEatingPlace,
-    outdoorActivity,
-  },
-}: {
-  venueData: VenueQuery;
-  language: Language;
-  locationId: string;
-  formValues: VenueDataFields;
-}) => {
-  return {
-    venue: {
-      id: locationId,
-      hasClothingStorage,
-      hasSnackEatingPlace,
-      outdoorActivity,
-      translations: [
-        ...(venueData?.venue?.translations
-          .map((t) => omit(t, ['__typename']))
-          .filter((t) => t.languageCode !== language.toUpperCase()) || []),
-        {
-          languageCode: language.toUpperCase() as TranslationLanguage,
-          description: locationDescription,
-        },
-      ],
-    },
   };
 };
 

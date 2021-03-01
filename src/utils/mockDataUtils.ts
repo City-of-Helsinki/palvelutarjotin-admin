@@ -107,6 +107,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     subEvents: [] as any,
     endTime: '2020-07-13T05:51:05.761000Z',
     additionalCriteria: [],
+    activities: [],
     categories: [],
     __typename: 'Event',
     ...overrides,
@@ -220,6 +221,10 @@ export const fakeVenue = (overrides?: Partial<VenueNode>): VenueNode => ({
   hasClothingStorage: faker.random.boolean(),
   hasSnackEatingPlace: faker.random.boolean(),
   outdoorActivity: faker.random.boolean(),
+  hasToiletNearby: faker.random.boolean(),
+  hasAreaForGroupWork: faker.random.boolean(),
+  hasIndoorPlayingArea: faker.random.boolean(),
+  hasOutdoorPlayingArea: faker.random.boolean(),
   translations: [
     {
       languageCode: 'FI' as Language,

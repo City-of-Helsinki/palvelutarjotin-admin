@@ -249,6 +249,10 @@ const venueResponse = {
       outdoorActivity: true,
       hasClothingStorage: true,
       hasSnackEatingPlace: true,
+      hasToiletNearby: true,
+      hasAreaForGroupWork: true,
+      hasIndoorPlayingArea: true,
+      hasOutdoorPlayingArea: true,
       translations: [
         {
           languageCode: Language.Fi,

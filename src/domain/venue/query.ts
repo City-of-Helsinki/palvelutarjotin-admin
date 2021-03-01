@@ -6,6 +6,10 @@ export const QUERY_VENUE = gql`
     hasClothingStorage
     hasSnackEatingPlace
     outdoorActivity
+    hasToiletNearby
+    hasAreaForGroupWork
+    hasIndoorPlayingArea
+    hasOutdoorPlayingArea
     translations {
       languageCode
       description

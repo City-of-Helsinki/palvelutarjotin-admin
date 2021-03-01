@@ -269,6 +269,10 @@
       "snackEatingPlace": "Snack äta plats",
       "clothingStorage": "Klädförvaring",
       "outdoorActivity": "Utomhusaktivitet",
+      "toiletNearby": "Toalett i närheten",
+      "areaForGroupWork": "Grupparbetsutrymme",
+      "indoorPlayingArea": "Lekutrymme inne",
+      "outdoorPlayingArea": "Lekutrymme ute",
       "title": "Plats"
     },
     "title": "Evenemangsdetaljer"
@@ -420,8 +424,6 @@
     "labelGroupSizeMax": "Gruppstorlek max",
     "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
     "labelEventLocation": "Eventplats",
-    "labelLocationDescription": "Händelse platsbeskrivning",
-    "labelPackedLunchEatingPlace": "Lunchställe med lunchpaket",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",
     "titleParticipantRow": "Deltagarantal"
@@ -614,7 +616,11 @@
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelHasClothingStorage": "Klädförvaring",
       "labelHasSnackEatingPlace": "Snack äta plats",
-      "outdoorActivity": "Utomhusaktivitet",
+      "labelOutdoorActivity": "Utomhusaktivitet",
+      "labelHasToiletNearby": "Toalett i närheten",
+      "labelHasAreaForGroupWork": "Grupparbetsutrymme",
+      "labelHasIndoorPlayingArea": "Lekutrymme inne",
+      "labelHasOutdoorPlayingArea": "Lekutrymme ute",
       "labelLocationDescription": "Beskrivning av arenan",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
     }
