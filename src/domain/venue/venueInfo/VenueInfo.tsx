@@ -10,7 +10,7 @@ import IconPlayIndoor from '../../../icons/IconPlayIndoor';
 import IconPlayOutdoor from '../../../icons/IconPlayOutdoor';
 import IconToilet from '../../../icons/IconToilet';
 import { Language } from '../../../types';
-import { getVenueDescription } from '../utils';
+import { getVenueDescription, hasAmenity } from '../utils';
 import styles from './venueInfo.module.scss';
 
 interface Props {
@@ -25,13 +25,15 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
     variables: { id: placeId },
   });
   const venueDescription = getVenueDescription(venueData, language);
-  const hasClothingStorage = venueData?.venue?.hasClothingStorage;
-  const hasSnackEatingPlace = venueData?.venue?.hasSnackEatingPlace;
-  const outdoorActivity = venueData?.venue?.outdoorActivity;
-  const hasToiletNearby = venueData?.venue?.hasToiletNearby;
-  const hasAreaForGroupWork = venueData?.venue?.hasAreaForGroupWork;
-  const hasIndoorPlayingArea = venueData?.venue?.hasIndoorPlayingArea;
-  const hasOutdoorPlayingArea = venueData?.venue?.hasOutdoorPlayingArea;
+  const {
+    hasClothingStorage,
+    hasSnackEatingPlace,
+    outdoorActivity,
+    hasToiletNearby,
+    hasAreaForGroupWork,
+    hasIndoorPlayingArea,
+    hasOutdoorPlayingArea,
+  } = venueData?.venue || {};
 
   return (
     <div className={styles.venueInfo}>
@@ -43,13 +45,7 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
           <p>{venueDescription}</p>
         </div>
       )}
-      {(hasSnackEatingPlace ||
-        hasClothingStorage ||
-        outdoorActivity ||
-        hasToiletNearby ||
-        hasAreaForGroupWork ||
-        hasIndoorPlayingArea ||
-        hasOutdoorPlayingArea) && (
+      {hasAmenity(venueData?.venue) && (
         <div className={styles.venueAmenities}>
           {hasSnackEatingPlace && (
             <div>

@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React, { ReactComponentElement } from 'react';
 
 type Props = { className?: string };
 
-export default function IconPlayOutdoor({ className = '' }: Props) {
+export default function IconPlayOutdoor({
+  className = '',
+}: Props): ReactComponentElement<'svg', Props> {
   return (
     <svg
       width="24px"
@@ -15,7 +17,7 @@ export default function IconPlayOutdoor({ className = '' }: Props) {
       <g
         id="Currents"
         stroke="none"
-        stroke-width="1"
+        strokeWidth="1"
         fill="none"
         fillRule="evenodd"
       >
