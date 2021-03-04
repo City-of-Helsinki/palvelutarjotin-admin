@@ -245,6 +245,8 @@
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
       "labelKeywords": "Evenemangs nyckelord",
+      "labelCategories": "Kategorier",
+      "labelActivities": "Aktiviteter",
       "labelNeededOccurrences": "Nödvändiga besök",
       "labelPrice": "Pris, €",
       "title": "Klassificeringar av evenemang"

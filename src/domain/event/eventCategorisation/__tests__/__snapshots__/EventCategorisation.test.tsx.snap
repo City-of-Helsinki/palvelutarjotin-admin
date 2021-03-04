@@ -9,7 +9,7 @@ exports[`matches snapshot 1`] = `
       Tapahtuman luokittelut
     </h2>
     <div
-      class="languageRow"
+      class="infoRow"
     >
       <div>
         <div
@@ -33,6 +33,30 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
+      class="infoRow"
+    >
+      <div>
+        <div
+          class="textTitle"
+        >
+          Kategoriat
+        </div>
+        <p>
+          Musiikki, Teatteri
+        </p>
+      </div>
+      <div>
+        <div
+          class="textTitle"
+        >
+          Aktiviteetit
+        </div>
+        <p>
+          Luontokoulu, Työpaja
+        </p>
+      </div>
+    </div>
+    <div
       class="textTitle"
     >
       Tapahtuman avainsanat
@@ -41,7 +65,7 @@ exports[`matches snapshot 1`] = `
       maahanmuuttajat, perheet
     </p>
     <div
-      class="priceRow"
+      class="infoRow"
     >
       <div>
         <div
