@@ -10,20 +10,20 @@
 
 .venueAmenities {
   display: flex;
+  flex-wrap: wrap;
   margin-top: var(--section-spacing);
 
   & > div {
+    flex: 1 1 30%;
     align-items: center;
     display: flex;
+    margin-top: var(--spacing-2-xs);
+    margin-right: 1rem;
 
     svg {
       height: var(--icon-size);
       width: var(--icon-size);
       margin-right: var(--icon-spacing);
     }
-  }
-
-  & > :not(:last-child) {
-    margin-right: 1rem;
   }
 }

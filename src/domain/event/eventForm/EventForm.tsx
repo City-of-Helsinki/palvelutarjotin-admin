@@ -59,6 +59,10 @@ export const defaultInitialValues: EventFormFields = {
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
   outdoorActivity: false,
+  hasToiletNearby: false,
+  hasAreaForGroupWork: false,
+  hasIndoorPlayingArea: false,
+  hasOutdoorPlayingArea: false,
   autoAcceptance: true,
 };
 

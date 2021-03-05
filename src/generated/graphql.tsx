@@ -721,6 +721,8 @@ export type Event = {
   categories: Array<Keyword>;
   /** Only use this field in single event query for best performance. This field only work if `keywords` is included in the query argument */
   additionalCriteria: Array<Keyword>;
+  /** Only use this field in single event query for best performance. This field only work if `keywords` is included in the query argument */
+  activities: Array<Keyword>;
 };
 
 export type Place = {
@@ -868,6 +870,10 @@ export type VenueNode = Node & {
   hasClothingStorage: Scalars['Boolean'];
   hasSnackEatingPlace: Scalars['Boolean'];
   outdoorActivity: Scalars['Boolean'];
+  hasToiletNearby: Scalars['Boolean'];
+  hasAreaForGroupWork: Scalars['Boolean'];
+  hasIndoorPlayingArea: Scalars['Boolean'];
+  hasOutdoorPlayingArea: Scalars['Boolean'];
   translations: Array<VenueTranslationType>;
   /** place_id from linkedEvent */
   id: Scalars['ID'];
@@ -948,6 +954,7 @@ export type KeywordSet = {
 export enum KeywordSetType {
   Category = 'CATEGORY',
   AdditionalCriteria = 'ADDITIONAL_CRITERIA',
+  Activities = 'ACTIVITIES',
   TargetGroup = 'TARGET_GROUP',
 }
 
@@ -1264,6 +1271,10 @@ export type AddVenueMutationInput = {
   hasClothingStorage: Scalars['Boolean'];
   hasSnackEatingPlace: Scalars['Boolean'];
   outdoorActivity: Scalars['Boolean'];
+  hasToiletNearby: Scalars['Boolean'];
+  hasAreaForGroupWork: Scalars['Boolean'];
+  hasIndoorPlayingArea: Scalars['Boolean'];
+  hasOutdoorPlayingArea: Scalars['Boolean'];
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1285,6 +1296,10 @@ export type UpdateVenueMutationInput = {
   hasClothingStorage?: Maybe<Scalars['Boolean']>;
   hasSnackEatingPlace?: Maybe<Scalars['Boolean']>;
   outdoorActivity?: Maybe<Scalars['Boolean']>;
+  hasToiletNearby?: Maybe<Scalars['Boolean']>;
+  hasAreaForGroupWork?: Maybe<Scalars['Boolean']>;
+  hasIndoorPlayingArea?: Maybe<Scalars['Boolean']>;
+  hasOutdoorPlayingArea?: Maybe<Scalars['Boolean']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -2654,7 +2669,14 @@ export type EditVenueMutation = { __typename?: 'Mutation' } & {
 
 export type VenueFieldsFragment = { __typename?: 'VenueNode' } & Pick<
   VenueNode,
-  'id' | 'hasClothingStorage' | 'hasSnackEatingPlace' | 'outdoorActivity'
+  | 'id'
+  | 'hasClothingStorage'
+  | 'hasSnackEatingPlace'
+  | 'outdoorActivity'
+  | 'hasToiletNearby'
+  | 'hasAreaForGroupWork'
+  | 'hasIndoorPlayingArea'
+  | 'hasOutdoorPlayingArea'
 > & {
     translations: Array<
       { __typename?: 'VenueTranslationType' } & Pick<
@@ -2853,6 +2875,10 @@ export const VenueFieldsFragmentDoc = gql`
     hasClothingStorage
     hasSnackEatingPlace
     outdoorActivity
+    hasToiletNearby
+    hasAreaForGroupWork
+    hasIndoorPlayingArea
+    hasOutdoorPlayingArea
     translations {
       languageCode
       description

@@ -230,6 +230,13 @@ const EditEventPage: React.FC = () => {
         hasSnackEatingPlace:
           eventData?.event?.venue?.hasSnackEatingPlace || false,
         outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
+        hasToiletNearby: eventData?.event?.venue?.hasToiletNearby || false,
+        hasAreaForGroupWork:
+          eventData?.event?.venue?.hasAreaForGroupWork || false,
+        hasIndoorPlayingArea:
+          eventData?.event?.venue?.hasIndoorPlayingArea || false,
+        hasOutdoorPlayingArea:
+          eventData?.event?.venue?.hasOutdoorPlayingArea || false,
         autoAcceptance: eventData.event?.pEvent.autoAcceptance,
         mandatoryAdditionalInformation:
           eventData.event?.pEvent?.mandatoryAdditionalInformation || false,

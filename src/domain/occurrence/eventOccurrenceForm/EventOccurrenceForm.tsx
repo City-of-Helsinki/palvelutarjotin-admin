@@ -36,6 +36,10 @@ export const defaultInitialValues: OccurrenceFormFields = {
   hasSnackEatingPlace: false,
   outdoorActivity: false,
   oneGroupFills: false,
+  hasToiletNearby: false,
+  hasAreaForGroupWork: false,
+  hasIndoorPlayingArea: false,
+  hasOutdoorPlayingArea: false,
 };
 
 interface Props {

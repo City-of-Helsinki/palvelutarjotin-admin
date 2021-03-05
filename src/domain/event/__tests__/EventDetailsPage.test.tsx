@@ -33,6 +33,11 @@ const profileMock = fakePerson({ organisations: fakeOrganisations() });
 const venueMock = fakeVenue({
   hasSnackEatingPlace: true,
   hasClothingStorage: true,
+  outdoorActivity: true,
+  hasToiletNearby: true,
+  hasAreaForGroupWork: true,
+  hasIndoorPlayingArea: true,
+  hasOutdoorPlayingArea: true,
 });
 
 const apolloMocks: MockedResponse[] = [

@@ -7,11 +7,22 @@ import {
   EditVenueMutation,
   Language as TranslationLanguage,
   VenueDocument,
+  VenueNode,
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import apolloClient from '../app/apollo/apolloClient';
 import { VenueDataFields } from './types';
+
+const VENUE_AMENITIES = [
+  'hasClothingStorage',
+  'hasSnackEatingPlace',
+  'hasToiletNearby',
+  'hasAreaForGroupWork',
+  'hasIndoorPlayingArea',
+  'hasOutdoorPlayingArea',
+  'outdoorActivity',
+] as const;
 
 export const getVenueDescription = (
   venueData: VenueQuery | undefined | null,
@@ -30,6 +41,10 @@ export const getVenuePayload = ({
     hasClothingStorage,
     hasSnackEatingPlace,
     outdoorActivity,
+    hasToiletNearby,
+    hasAreaForGroupWork,
+    hasIndoorPlayingArea,
+    hasOutdoorPlayingArea,
   },
 }: {
   formValues: VenueDataFields;
@@ -43,6 +58,10 @@ export const getVenuePayload = ({
       hasClothingStorage,
       hasSnackEatingPlace,
       outdoorActivity,
+      hasToiletNearby,
+      hasAreaForGroupWork,
+      hasIndoorPlayingArea,
+      hasOutdoorPlayingArea,
       translations: [
         ...(venueData?.venue?.translations
           .map((t) => omit(t, ['__typename']))
@@ -54,6 +73,18 @@ export const getVenuePayload = ({
       ],
     },
   };
+};
+
+export const hasAmenity = (venue: VenueNode | null | undefined) => {
+  if (!venue) return false;
+  return VENUE_AMENITIES.some((field) => venue[field]);
+};
+
+export const hasAmenitiesChanged = (
+  a: Partial<VenueDataFields>,
+  b: Partial<VenueDataFields>
+) => {
+  return VENUE_AMENITIES.some((field) => a[field] !== b[field]);
 };
 
 export const createOrUpdateVenue = async ({
@@ -72,21 +103,16 @@ export const createOrUpdateVenue = async ({
     });
 
     const venueDescription = getVenueDescription(existingVenueData, language);
-    const { hasClothingStorage, hasSnackEatingPlace, outdoorActivity } =
-      existingVenueData?.venue || {};
 
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
         (venueFormData.locationDescription !== venueDescription ||
-          venueFormData.hasClothingStorage !== hasClothingStorage ||
-          venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
-          venueFormData.outdoorActivity !== outdoorActivity)
+          hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData))
     );
+
     const newVenueShouldBeCreated = Boolean(
       (!existingVenueData?.venue && venueFormData.locationDescription) ||
-        venueFormData.hasClothingStorage !== hasClothingStorage ||
-        venueFormData.hasSnackEatingPlace !== hasSnackEatingPlace ||
-        venueFormData.outdoorActivity !== outdoorActivity
+        hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData)
     );
 
     const variables = getVenuePayload({

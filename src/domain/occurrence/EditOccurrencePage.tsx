@@ -202,6 +202,10 @@ const EditOccurrencePage: React.FC = () => {
       hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
       hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
       outdoorActivity: venueData?.venue?.outdoorActivity || false,
+      hasToiletNearby: venueData?.venue?.hasToiletNearby || false,
+      hasAreaForGroupWork: venueData?.venue?.hasAreaForGroupWork || false,
+      hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
+      hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
     }),
     [locale, occurrenceData, venueData]
   );
