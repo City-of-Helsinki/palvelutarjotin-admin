@@ -2166,19 +2166,9 @@ export type EventQuery = { __typename?: 'Query' } & {
   event?: Maybe<
     { __typename?: 'Event' } & {
       additionalCriteria: Array<
-        { __typename?: 'Keyword' } & Pick<Keyword, 'id' | 'internalId'> & {
-            name?: Maybe<
-              { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
-            >;
-          }
+        { __typename?: 'Keyword' } & KeywordFieldsFragment
       >;
-      categories: Array<
-        { __typename?: 'Keyword' } & Pick<Keyword, 'id' | 'internalId'> & {
-            name?: Maybe<
-              { __typename?: 'LocalisedObject' } & LocalisedFieldsFragment
-            >;
-          }
-      >;
+      categories: Array<{ __typename?: 'Keyword' } & KeywordFieldsFragment>;
     } & EventFieldsFragment
   >;
 };
@@ -4158,23 +4148,15 @@ export const EventDocument = gql`
     event(id: $id, include: $include) {
       ...eventFields
       additionalCriteria {
-        id
-        internalId
-        name {
-          ...localisedFields
-        }
+        ...keywordFields
       }
       categories {
-        id
-        internalId
-        name {
-          ...localisedFields
-        }
+        ...keywordFields
       }
     }
   }
   ${EventFieldsFragmentDoc}
-  ${LocalisedFieldsFragmentDoc}
+  ${KeywordFieldsFragmentDoc}
 `;
 export type EventProps<TChildProps = {}, TDataName extends string = 'data'> = {
   [key in TDataName]: ApolloReactHoc.DataValue<EventQuery, EventQueryVariables>;

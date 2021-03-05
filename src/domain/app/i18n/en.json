@@ -245,6 +245,8 @@
       "labelAudience": "Target groups",
       "labelInLanguage": "Event languages",
       "labelKeywords": "Event keywords",
+      "labelCategories": "Categories",
+      "labelActivities": "Activities",
       "labelNeededOccurrences": "Necessary visits",
       "labelPrice": "Price, €",
       "title": "Event classifications"
