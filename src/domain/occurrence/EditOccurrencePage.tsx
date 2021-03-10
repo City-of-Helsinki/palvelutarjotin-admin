@@ -188,8 +188,8 @@ const EditOccurrencePage: React.FC = () => {
         ? formatDate(new Date(occurrenceData?.occurrence?.endTime), 'HH:mm')
         : '',
       languages:
-        occurrenceData?.occurrence?.languages.map((language) =>
-          language.id.toUpperCase()
+        occurrenceData?.occurrence?.languages.edges.map(
+          (edge) => edge?.node?.id || ''
         ) || [],
       oneGroupFills:
         occurrenceData?.occurrence?.seatType ===

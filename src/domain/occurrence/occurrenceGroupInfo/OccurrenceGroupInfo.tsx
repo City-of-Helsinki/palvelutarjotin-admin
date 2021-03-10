@@ -13,7 +13,9 @@ interface Props {
 const OccurrenceGroupInfo: React.FC<Props> = ({ occurrence }) => {
   const { t } = useTranslation();
 
-  const languages = occurrence.languages.map((language) => language.id);
+  const languages = occurrence.languages.edges.map(
+    (edge) => edge?.node?.id || ''
+  );
   const amountOfSeats = occurrence.amountOfSeats;
   const maxGroupSize = occurrence.maxGroupSize;
   const minGroupSize = occurrence.minGroupSize;

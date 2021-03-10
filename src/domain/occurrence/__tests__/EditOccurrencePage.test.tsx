@@ -6,6 +6,7 @@ import * as React from 'react';
 import * as graphql from '../../../generated/graphql';
 import {
   fakeEvent,
+  fakeLanguages,
   fakeLocalizedObject,
   fakeOccurrence,
   fakeOccurrences,
@@ -45,10 +46,10 @@ const occurrence = {
 
   startTime: '2020-08-03T09:00:00+00:00',
   endTime: '2020-08-03T09:30:00+00:00',
-  languages: [
-    { id: 'en', name: 'English', __typename: 'LanguageType' },
-    { id: 'fi', name: 'Finnish', __typename: 'LanguageType' },
-  ] as graphql.LanguageType[],
+  languages: fakeLanguages([
+    { id: 'en', name: 'English' },
+    { id: 'fi', name: 'Finnish' },
+  ]),
 };
 
 const fakeOccurrenceOverrides: Partial<graphql.OccurrenceNode>[] = [
@@ -232,7 +233,7 @@ test('initializes edit occurrence form correctly', async () => {
           startTime: new Date('2020-08-03T09:00:00.000Z'),
           endTime: new Date('2020-08-03T09:30:00.000Z'),
           id: occurrenceId,
-          languages: [{ id: 'EN' }, { id: 'FI' }],
+          languages: [{ id: 'en' }, { id: 'fi' }],
           maxGroupSize: 2030,
           minGroupSize: 10,
           pEventId: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',

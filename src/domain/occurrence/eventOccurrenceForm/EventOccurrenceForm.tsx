@@ -13,7 +13,8 @@ import FocusToFirstError from '../../../common/components/form/FocusToFirstError
 import FormGroup from '../../../common/components/form/FormGroup';
 import FormHelperText from '../../../common/components/FormHelperText/FormHelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import { EventQuery, Language } from '../../../generated/graphql';
+import { EVENT_LANGUAGES } from '../../../constants';
+import { EventQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
@@ -187,7 +188,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                     label={t('eventOccurrenceForm.labelLanguages')}
                     name="languages"
                     options={[
-                      ...Object.values(Language).map((language) => ({
+                      ...Object.values(EVENT_LANGUAGES).map((language) => ({
                         label: t(`common.languages.${language.toLowerCase()}`),
                         value: language,
                       })),

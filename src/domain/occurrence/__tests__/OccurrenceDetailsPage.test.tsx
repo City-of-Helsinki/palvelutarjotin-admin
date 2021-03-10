@@ -10,6 +10,7 @@ import {
 import {
   fakeEnrolments,
   fakeEvent,
+  fakeLanguages,
   fakeLocalizedObject,
   fakeOccurrence,
   fakePerson,
@@ -75,20 +76,16 @@ const occurrenceResult = {
       minGroupSize: 10,
       maxGroupSize: 20,
       seatsTaken: 20,
-      languages: [
+      languages: fakeLanguages([
         {
           id: 'fi',
           name: 'Finnish',
-          __typename: 'LanguageType',
-          occurrences: [] as any,
         },
         {
           id: 'en',
           name: 'English',
-          __typename: 'LanguageType',
-          occurrences: [] as any,
         },
-      ],
+      ]),
       startTime: '2020-09-10T09:00:00+00:00',
       endTime: '2020-09-10T09:30:00+00:00',
       enrolments: fakeEnrolments(2, [
