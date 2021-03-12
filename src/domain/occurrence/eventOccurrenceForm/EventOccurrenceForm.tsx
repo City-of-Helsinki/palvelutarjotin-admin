@@ -17,6 +17,7 @@ import { EVENT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
+import sortFavorably from '../../../utils/sortFavorably';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import { OccurrenceFormFields } from '../types';
@@ -87,6 +88,29 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
   const [editPlaceMode, setEditPlaceMode] = React.useState(
     Boolean(initialValues.placeId)
   );
+
+  const languages = React.useMemo(() => {
+    const languagesOrder = sortFavorably(
+      Object.values(EVENT_LANGUAGES).map((language) =>
+        t(`common.languages.${language.toLowerCase()}`)
+      ),
+      [
+        EVENT_LANGUAGES.FI,
+        EVENT_LANGUAGES.SV,
+        EVENT_LANGUAGES.EN,
+      ].map((language) => t(`common.languages.${language.toLowerCase()}`))
+    );
+
+    return Object.values(EVENT_LANGUAGES)
+      .map((language) => ({
+        label: t(`common.languages.${language.toLowerCase()}`),
+        value: language,
+      }))
+      .sort(
+        (a, b) =>
+          languagesOrder.indexOf(a.label) - languagesOrder.indexOf(b.label)
+      );
+  }, [t]);
 
   return (
     <Formik
@@ -187,12 +211,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                     component={MultiDropdownField}
                     label={t('eventOccurrenceForm.labelLanguages')}
                     name="languages"
-                    options={[
-                      ...Object.values(EVENT_LANGUAGES).map((language) => ({
-                        label: t(`common.languages.${language.toLowerCase()}`),
-                        value: language,
-                      })),
-                    ]}
+                    options={languages}
                   />
                 </FormGroup>
                 <FormGroup>
