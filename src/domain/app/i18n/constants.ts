@@ -1,11 +1,11 @@
 export enum VALIDATION_MESSAGE_KEYS {
   EMAIL = 'form.validation.string.email',
-  NUMBER_MAX = 'form.validation.number.max',
   NUMBER_MIN = 'form.validation.number.min',
+  NUMBER_MAX = 'form.validation.number.max',
   NUMBER_REQUIRED = 'form.validation.number.required',
   STRING_POSITIVENUMBER = 'form.validation.string.positiveNumber',
-  STRING_MAX = 'form.validation.string.max',
   STRING_MIN = 'form.validation.string.min',
+  STRING_MAX = 'form.validation.string.max',
   STRING_REQUIRED = 'form.validation.string.required',
   URL = 'form.validation.string.url',
   DATE_REQUIRED = 'form.validation.date.required',
@@ -15,6 +15,6 @@ export enum VALIDATION_MESSAGE_KEYS {
   DATE_MAX = 'form.validation.date.max',
   TIME = 'form.validation.string.time',
   TIME_MIN = 'form.validation.time.min',
-  TIME_MAX = 'form.validation.time.min',
+  TIME_MAX = 'form.validation.time.max',
   TIME_REQUIRED = 'form.validation.time.required',
 }

@@ -10,4 +10,6 @@ export interface OccurrenceFormFields extends VenueDataFields {
   maxGroupSize: string;
   minGroupSize: string;
   oneGroupFills: boolean;
+  enrolmentStart: Date | null;
+  enrolmentEndDays: number;
 }

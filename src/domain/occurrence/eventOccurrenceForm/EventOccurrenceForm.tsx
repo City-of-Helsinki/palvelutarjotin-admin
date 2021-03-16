@@ -42,6 +42,8 @@ export const defaultInitialValues: OccurrenceFormFields = {
   hasAreaForGroupWork: false,
   hasIndoorPlayingArea: false,
   hasOutdoorPlayingArea: false,
+  enrolmentStart: null,
+  enrolmentEndDays: 0,
 };
 
 interface Props {
@@ -188,6 +190,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                   <FormGroup>
                     {/* TODO: Get real values from api when implemented */}
                     <p
+                      data-testid="eventOccurrenceForm-infoText2"
                       dangerouslySetInnerHTML={{
                         __html: t('eventOccurrenceForm.infoText2', {
                           date: eventData.event?.pEvent?.enrolmentStart

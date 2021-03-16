@@ -206,8 +206,10 @@ const EditOccurrencePage: React.FC = () => {
       hasAreaForGroupWork: venueData?.venue?.hasAreaForGroupWork || false,
       hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
       hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
+      enrolmentStart: eventData?.event?.pEvent.enrolmentStart || null,
+      enrolmentEndDays: eventData?.event?.pEvent.enrolmentEndDays || 0,
     }),
-    [locale, occurrenceData, venueData]
+    [eventData, locale, occurrenceData, venueData]
   );
 
   return (

@@ -1,8 +1,10 @@
+import addDays from 'date-fns/addDays';
 import isBefore from 'date-fns/isBefore';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
 import { isTodayOrLater, isValidTime } from '../../../utils/dateUtils';
+import formatDate from '../../../utils/formatDate';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 const addMinValidationMessage = (
@@ -31,6 +33,25 @@ export default Yup.object().shape({
       'isTodayOrInTheFuture',
       VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
       isTodayOrLater
+    )
+    .when(
+      ['enrolmentStart', 'enrolmentEndDays'],
+      (
+        enrolmentStart: Date,
+        enrolmentEndDays: number,
+        schema: Yup.DateSchema
+      ) => {
+        if (!enrolmentStart || !(enrolmentStart instanceof Date)) return schema;
+        const minDate =
+          enrolmentEndDays > 0
+            ? addDays(enrolmentStart, enrolmentEndDays)
+            : enrolmentStart;
+        minDate.setHours(0, 0, 0, 0);
+        return schema.min(minDate, () => ({
+          key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+          min: formatDate(minDate),
+        }));
+      }
     ),
   startsAt: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)

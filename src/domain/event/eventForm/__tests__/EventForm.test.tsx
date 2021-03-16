@@ -134,7 +134,7 @@ describe('eventForm Tests', () => {
     expect(enrolmentStartInput).toHaveAttribute('aria-describedby');
     expect(
       screen.queryByText(
-        `Päivämäärän on oltava ennen ${currentDateFormatted} 15:00`
+        `Päivämäärän on oltava viimeistään ${currentDateFormatted} 15:00`
       )
     ).toBeInTheDocument();
     userEvent.click(enrolmentStartInput);
