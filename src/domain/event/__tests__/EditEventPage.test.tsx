@@ -4,13 +4,17 @@ import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import Router from 'react-router';
 
+import { LINKEDEVENTS_CONTENT_TYPE } from '../../../constants';
 import {
   EditEventDocument,
   EventDocument,
   KeywordDocument,
+  KeywordSetType,
   MyProfileDocument,
   PlaceDocument,
 } from '../../../generated/graphql';
+import { getKeywordSetsMockResponses } from '../../../test/apollo-mocks/keywordSetMocks';
+import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
 import {
   fakeEvent,
   fakeImage,
@@ -36,6 +40,14 @@ beforeEach(() => {
   });
 });
 
+const getKeywordId = (keywordId: string) => {
+  return getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
+    keywordId
+  );
+};
+
+const keywordId = 'yso:p4363';
 const placeId = 'tprek:15417';
 const eventId = 'palvelutarjotin:afz56bfiaq';
 const shortDescription = 'Testitapahtuman kuvaus';
@@ -53,6 +65,23 @@ const personId = 'T3JnYW5pc2F0aW9uTm9kZTox';
 const venueDescription = 'Venue description';
 const personName = 'Testaaja2';
 const organizationName = 'Kulttuurin ja vapaa-ajan toimiala';
+
+const categoryKeywords = [
+  { id: 'categoryId1', name: 'Liikunta' },
+  { id: 'categoryId2', name: 'Musiikki' },
+];
+
+const criteriaKeywords = [
+  { id: 'criteriaId1', name: 'Työpaja' },
+  { id: 'criteriaId2', name: 'Luontokoulu' },
+];
+
+const audienceKeywords = [
+  { id: 'targetGroupId1', name: 'Muu ryhmä' },
+  { id: 'targetGroupId2', name: 'Esiopetus' },
+];
+
+const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 
 const keywordMockResponse = {
   keyword: fakeKeyword({
@@ -127,6 +156,10 @@ const eventResponse = {
       name: fakeLocalizedObject(eventName),
       startTime: '2020-08-04T21:00:00.000Z',
       endTime: '',
+      additionalCriteria: criteriaKeywords.map((k) =>
+        fakeKeyword({ id: k.id })
+      ),
+      categories: categoryKeywords.map((k) => fakeKeyword({ id: k.id })),
       offers: [fakeOffer()],
       images: [
         fakeImage({
@@ -144,7 +177,11 @@ const eventResponse = {
         fakeInLanguage({ id: 'fi', name: fakeLocalizedObject('suomi') }),
         fakeInLanguage({ id: 'en', name: fakeLocalizedObject('englanti') }),
       ],
-      keywords: [fakeKeyword({ id: 'yso:p4363' })],
+      audience: audienceKeywords.map((k) => fakeKeyword({ id: k.id })),
+      keywords: [
+        fakeKeyword({ id: keywordId }),
+        ...basicKeywords.map((k) => fakeKeyword({ id: k.id })),
+      ],
       pEvent: fakePEvent({
         organisation: fakeOrganisation({ id: personId }),
         contactEmail: contactEmail,
@@ -202,12 +239,19 @@ const mocks = [
           description: { fi: description },
           images: [{ internalId: '/image/48598/' }],
           infoUrl: { fi: infoUrl },
-          audience: [],
+          audience: audienceKeywords.map((k) => ({
+            internalId: getKeywordId(k.id),
+          })),
           inLanguage: [
             { internalId: '/language/fi/' },
             { internalId: '/language/en/' },
           ],
-          keywords: [{ internalId: '/keyword/yso:p4363/' }],
+          keywords: [
+            {
+              internalId: getKeywordId(keywordId),
+            },
+            ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
+          ],
           location: { internalId: `/place/${placeId}/` },
           pEvent: {
             contactEmail: contactEmail,
@@ -263,6 +307,20 @@ const mocks = [
     },
     result: placeResponse,
   },
+  ...getKeywordSetsMockResponses([
+    {
+      setType: KeywordSetType.TargetGroup,
+      keywords: audienceKeywords,
+    },
+    {
+      setType: KeywordSetType.Category,
+      keywords: categoryKeywords,
+    },
+    {
+      setType: KeywordSetType.AdditionalCriteria,
+      keywords: criteriaKeywords,
+    },
+  ]),
 ];
 
 jest

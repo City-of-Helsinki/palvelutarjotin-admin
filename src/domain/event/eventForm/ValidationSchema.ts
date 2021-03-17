@@ -72,9 +72,16 @@ const createValidationSchemaYup = (
         min: param.min,
         key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
       })),
-    keywords: Yup.array()
+    audience: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(0),
+    categories: Yup.array()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .min(0),
+    additionalCriteria: Yup.array()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .min(0),
+    keywords: Yup.array().min(0),
     location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     // providerContactInfo: Yup.object().shape({
     //   email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),

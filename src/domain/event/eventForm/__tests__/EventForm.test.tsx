@@ -18,7 +18,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import EventForm, { defaultInitialValues } from '../EventForm';
+import EventForm, { createEventInitialValues } from '../EventForm';
 
 afterAll(() => {
   clear();
@@ -38,7 +38,7 @@ const renderForm = () =>
     <EventForm
       title="Testilomake"
       persons={[]}
-      initialValues={defaultInitialValues}
+      initialValues={createEventInitialValues}
       onCancel={jest.fn()}
       selectedLanguage="fi"
       onSubmit={jest.fn()}
