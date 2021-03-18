@@ -16,7 +16,6 @@ import TimepickerField from '../../../common/components/form/fields/TimepickerFi
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
-import { EVENT_LANGUAGES } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -324,30 +323,7 @@ const EventForm = <T extends FormFields>({
                     data-testid="in-language-dropdown"
                   >
                     <h2>{t('eventForm.categorisation.title')}</h2>
-                    <div className={styles.languageRow}>
-                      <div>
-                        <FormGroup>
-                          <Field
-                            component={MultiDropdownField}
-                            label={t(
-                              'eventForm.categorisation.labelInLanguage'
-                            )}
-                            name="inLanguage"
-                            options={Object.values(EVENT_LANGUAGES).map(
-                              (language) => ({
-                                label: t(`common.languages.${language}`),
-                                value: language,
-                              })
-                            )}
-                            clearButtonAriaLabel={t(
-                              'eventForm.accessibility.inLanguageDropdown.clearButtonAriaLabel'
-                            )}
-                            selectedItemRemoveButtonAriaLabel={t(
-                              'eventForm.accessibility.inLanguageDropdown.selectedItemRemoveButtonAriaLabel'
-                            )}
-                          />
-                        </FormGroup>
-                      </div>
+                    <div>
                       <div data-testid="audience-dropdown">
                         <FormGroup>
                           <Field
@@ -366,7 +342,7 @@ const EventForm = <T extends FormFields>({
                         </FormGroup>
                       </div>
                     </div>
-                    <div className={styles.languageRow}>
+                    <div>
                       <div data-testid="categories-dropdown">
                         <FormGroup>
                           <Field
@@ -388,6 +364,8 @@ const EventForm = <T extends FormFields>({
                           />
                         </FormGroup>
                       </div>
+                    </div>
+                    <div>
                       <div data-testid="additional-criteria-dropdown">
                         <FormGroup>
                           <Field
@@ -410,8 +388,7 @@ const EventForm = <T extends FormFields>({
                         </FormGroup>
                       </div>
                     </div>
-
-                    <div className={styles.keywordRow}>
+                    <div>
                       <div data-testid="keywords-dropdown">
                         <FormGroup>
                           <Field
@@ -430,7 +407,10 @@ const EventForm = <T extends FormFields>({
                           />
                         </FormGroup>
                       </div>
-                      <div data-testid="neededOccurrences-stepper">
+                      <div
+                        className={styles.neededOccurrencesRow}
+                        data-testid="neededOccurrences-stepper"
+                      >
                         <FormGroup>
                           <Field
                             labelText={t(

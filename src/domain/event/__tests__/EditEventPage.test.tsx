@@ -322,10 +322,6 @@ test('edit event form initializes and submits correctly', async () => {
     contactInfo.getByLabelText(/Nimi/, { selector: 'button' })
   ).toHaveTextContent(personName);
 
-  const dropdown = within(screen.getByTestId('in-language-dropdown'));
-  expect(dropdown.queryByText('Suomi')).toBeInTheDocument();
-  expect(dropdown.queryByText('Englanti')).toBeInTheDocument();
-
   await waitFor(() => {
     expect(screen.getAllByText('Sellon kirjasto')).toHaveLength(2);
   });

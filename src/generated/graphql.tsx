@@ -55,6 +55,8 @@ export type Query = {
   venues?: Maybe<VenueNodeConnection>;
   venue?: Maybe<VenueNode>;
   cancellingEnrolment?: Maybe<EnrolmentNode>;
+  languages?: Maybe<LanguageNodeConnection>;
+  language?: Maybe<LanguageNode>;
   enrolments?: Maybe<EnrolmentNodeConnection>;
   /** The ID of the object */
   enrolment?: Maybe<EnrolmentNode>;
@@ -129,6 +131,17 @@ export type QueryVenueArgs = {
 };
 
 export type QueryCancellingEnrolmentArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryLanguagesArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type QueryLanguageArgs = {
   id: Scalars['ID'];
 };
 
@@ -300,7 +313,7 @@ export type OccurrenceNode = Node & {
   studyGroups: StudyGroupNodeConnection;
   placeId: Scalars['String'];
   amountOfSeats: Scalars['Int'];
-  languages: Array<LanguageType>;
+  languages: LanguageNodeConnection;
   cancelled: Scalars['Boolean'];
   seatType: OccurrenceSeatType;
   enrolments: EnrolmentNodeConnection;
@@ -318,6 +331,13 @@ export type OccurrenceNodeContactPersonsArgs = {
 };
 
 export type OccurrenceNodeStudyGroupsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+export type OccurrenceNodeLanguagesArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -654,21 +674,27 @@ export enum EnrolmentStatus {
   Declined = 'DECLINED',
 }
 
-export type LanguageType = {
-  __typename?: 'LanguageType';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  occurrences: OccurrenceNodeConnection;
+export type LanguageNodeConnection = {
+  __typename?: 'LanguageNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<LanguageNodeEdge>>;
 };
 
-export type LanguageTypeOccurrencesArgs = {
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  upcoming?: Maybe<Scalars['Boolean']>;
-  date?: Maybe<Scalars['Date']>;
-  time?: Maybe<Scalars['Time']>;
+/** A Relay edge containing a `LanguageNode` and its cursor. */
+export type LanguageNodeEdge = {
+  __typename?: 'LanguageNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<LanguageNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type LanguageNode = Node & {
+  __typename?: 'LanguageNode';
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 /** An enumeration. */
@@ -1190,7 +1216,7 @@ export type AddOccurrenceMutationInput = {
   pEventId: Scalars['ID'];
   amountOfSeats: Scalars['Int'];
   seatType?: Maybe<SeatType>;
-  languages: Array<Maybe<OccurrenceLanguageInput>>;
+  languages: Array<Maybe<LanguageInput>>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -1209,8 +1235,8 @@ export enum SeatType {
   EnrolmentCount = 'ENROLMENT_COUNT',
 }
 
-export type OccurrenceLanguageInput = {
-  id: Language;
+export type LanguageInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type UpdateOccurrenceMutationPayload = {
@@ -1231,7 +1257,7 @@ export type UpdateOccurrenceMutationInput = {
   pEventId?: Maybe<Scalars['ID']>;
   amountOfSeats?: Maybe<Scalars['Int']>;
   /** If present, should include all languages of the occurrence */
-  languages: Array<Maybe<OccurrenceLanguageInput>>;
+  languages: Array<Maybe<LanguageInput>>;
   seatType?: Maybe<SeatType>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
@@ -2385,6 +2411,11 @@ export type EditOccurrenceMutation = { __typename?: 'Mutation' } & {
   >;
 };
 
+export type LanguageFieldsFragment = { __typename?: 'LanguageNode' } & Pick<
+  LanguageNode,
+  'id' | 'name'
+>;
+
 export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode' } & Pick<
   OccurrenceNode,
   | 'id'
@@ -2406,9 +2437,17 @@ export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode' } & Pick<
         'id'
       >
     >;
-    languages: Array<
-      { __typename?: 'LanguageType' } & Pick<LanguageType, 'id' | 'name'>
-    >;
+    languages: { __typename?: 'LanguageNodeConnection' } & {
+      edges: Array<
+        Maybe<
+          { __typename?: 'LanguageNodeEdge' } & {
+            node?: Maybe<
+              { __typename?: 'LanguageNode' } & LanguageFieldsFragment
+            >;
+          }
+        >
+      >;
+    };
   };
 
 export type OccurrenceQueryVariables = {
@@ -2788,6 +2827,12 @@ export const OrganisationNodeFieldsFragmentDoc = gql`
   }
   ${PersonFieldsFragmentDoc}
 `;
+export const LanguageFieldsFragmentDoc = gql`
+  fragment languageFields on LanguageNode {
+    id
+    name
+  }
+`;
 export const OccurrenceFieldsFragmentDoc = gql`
   fragment occurrenceFields on OccurrenceNode {
     id
@@ -2802,14 +2847,18 @@ export const OccurrenceFieldsFragmentDoc = gql`
     seatType
     remainingSeats
     languages {
-      id
-      name
+      edges {
+        node {
+          ...languageFields
+        }
+      }
     }
     startTime
     endTime
     placeId
     cancelled
   }
+  ${LanguageFieldsFragmentDoc}
 `;
 export const PEventFieldsFragmentDoc = gql`
   fragment pEventFields on PalvelutarjotinEventNode {

@@ -118,10 +118,7 @@ const createEventVariables = {
         internalId: getKeywordId(targetGroupId2),
       },
     ],
-    inLanguage: [
-      { internalId: '/language/en/' },
-      { internalId: '/language/fi/' },
-    ],
+    inLanguage: [],
     keywords: [
       {
         internalId: getKeywordId(keywordId),
@@ -629,12 +626,6 @@ test('event can be created with form', async () => {
       'testi123@testi123.fi'
     );
     expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
-  });
-
-  await testMultiDropdownValues({
-    dropdownLabel: /tapahtuman kielet/i,
-    dropdownTestId: 'in-language-dropdown',
-    values: ['Englanti', 'Suomi'],
   });
 
   await testMultiDropdownValues({

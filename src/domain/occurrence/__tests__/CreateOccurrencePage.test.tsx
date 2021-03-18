@@ -285,7 +285,7 @@ test('can create new occurrence with form', async () => {
         input: {
           amountOfSeats: 1,
           endTime: new Date('2020-08-13T10:00:00.000Z'),
-          languages: [{ id: 'EN' }, { id: 'FI' }],
+          languages: [{ id: 'en' }, { id: 'fi' }],
           maxGroupSize: 20,
           minGroupSize: 10,
           pEventId: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
