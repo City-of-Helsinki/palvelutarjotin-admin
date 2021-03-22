@@ -111,8 +111,6 @@ const occurrenceResult = {
   },
 };
 
-// console.log(JSON.stringify(occurrenceResult, null, 2));
-
 const mocks = [
   {
     request: {

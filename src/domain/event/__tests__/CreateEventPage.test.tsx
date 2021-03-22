@@ -11,7 +11,6 @@ import {
   CreateEventDocument,
   ImageDocument,
   KeywordsDocument,
-  KeywordSetDocument,
   KeywordSetType,
   Language,
   MyProfileDocument,
@@ -21,13 +20,13 @@ import {
   UploadSingleImageDocument,
   VenueDocument,
 } from '../../../generated/graphql';
+import { getKeywordSetsMockResponses } from '../../../test/apollo-mocks/keywordSetMocks';
 import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
 import {
   fakeEvent,
   fakeImage,
   fakeKeyword,
   fakeKeywords,
-  fakeKeywordSet,
   fakeLocalizedObject,
   fakeOrganisations,
   fakePerson,
@@ -63,12 +62,22 @@ const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
 const imageAltText = 'AltText';
 const venueDescription = 'Testitapahtuman kuvaus';
 
-const categoryId1 = 'categoryId1';
-const categoryId2 = 'categoryId2';
-const criteriaId1 = 'criteriaId1';
-const criteriaId2 = 'criteriaId2';
-const targetGroupId1 = 'targetGroupId1';
-const targetGroupId2 = 'targetGroupId2';
+const categoryKeywords = [
+  { id: 'categoryId1', name: 'Liikunta' },
+  { id: 'categoryId2', name: 'Musiikki' },
+];
+
+const criteriaKeywords = [
+  { id: 'criteriaId1', name: 'Työpaja' },
+  { id: 'criteriaId2', name: 'Luontokoulu' },
+];
+
+const audienceKeywords = [
+  { id: 'targetGroupId1', name: 'Muu ryhmä' },
+  { id: 'targetGroupId2', name: 'Esiopetus' },
+];
+
+const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 
 const eventFormData = {
   name: 'Testitapahtuma',
@@ -110,31 +119,13 @@ const createEventVariables = {
     description: { fi: 'Pidempi kuvaus' },
     images: [{ internalId: '/image/48584/' }],
     infoUrl: { fi: 'https://www.palvelutarjotin.fi' },
-    audience: [
-      {
-        internalId: getKeywordId(targetGroupId1),
-      },
-      {
-        internalId: getKeywordId(targetGroupId2),
-      },
-    ],
+    audience: audienceKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     inLanguage: [],
     keywords: [
       {
         internalId: getKeywordId(keywordId),
       },
-      {
-        internalId: getKeywordId(criteriaId1),
-      },
-      {
-        internalId: getKeywordId(criteriaId2),
-      },
-      {
-        internalId: getKeywordId(categoryId1),
-      },
-      {
-        internalId: getKeywordId(categoryId2),
-      },
+      ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
     location: { internalId: `/place/${placeId}/` },
     pEvent: {
@@ -261,63 +252,6 @@ const venueResponse = {
   },
 };
 
-const categories = ['Liikunta', 'Musiikki'];
-
-const categoriesResponse = {
-  data: {
-    keywordSet: fakeKeywordSet({
-      keywords: [
-        fakeKeyword({
-          id: categoryId1,
-          name: fakeLocalizedObject(categories[0]),
-        }),
-        fakeKeyword({
-          id: categoryId2,
-          name: fakeLocalizedObject(categories[1]),
-        }),
-      ],
-    }),
-  },
-};
-
-const additionalCriteria = ['Työpaja', 'Luontokoulu'];
-
-const additionalCriteriaResponse = {
-  data: {
-    keywordSet: fakeKeywordSet({
-      keywords: [
-        fakeKeyword({
-          id: criteriaId1,
-          name: fakeLocalizedObject(additionalCriteria[0]),
-        }),
-        fakeKeyword({
-          id: criteriaId2,
-          name: fakeLocalizedObject(additionalCriteria[1]),
-        }),
-      ],
-    }),
-  },
-};
-
-const targetGroups = ['Muu ryhmä', 'Esiopetus'];
-
-const targetGroupsResponse = {
-  data: {
-    keywordSet: fakeKeywordSet({
-      keywords: [
-        fakeKeyword({
-          id: targetGroupId1,
-          name: fakeLocalizedObject(targetGroups[0]),
-        }),
-        fakeKeyword({
-          id: targetGroupId2,
-          name: fakeLocalizedObject(targetGroups[1]),
-        }),
-      ],
-    }),
-  },
-};
-
 const mocks = [
   {
     request: {
@@ -387,36 +321,23 @@ const mocks = [
     },
     result: addEventResponse,
   },
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        setType: KeywordSetType.Category,
-      },
+  ...getKeywordSetsMockResponses([
+    {
+      setType: KeywordSetType.TargetGroup,
+      keywords: audienceKeywords,
     },
-    result: categoriesResponse,
-  },
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        setType: KeywordSetType.AdditionalCriteria,
-      },
+    {
+      setType: KeywordSetType.Category,
+      keywords: categoryKeywords,
     },
-    result: additionalCriteriaResponse,
-  },
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        setType: KeywordSetType.TargetGroup,
-      },
+    {
+      setType: KeywordSetType.AdditionalCriteria,
+      keywords: criteriaKeywords,
     },
-    result: targetGroupsResponse,
-  },
+  ]),
 ];
 
-jest.spyOn(apolloClient, 'query').mockImplementation(({ query }) => {
+jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
   if (query === PersonDocument) {
     return {
       data: {
@@ -631,19 +552,19 @@ test('event can be created with form', async () => {
   await testMultiDropdownValues({
     dropdownLabel: /kategoriat/i,
     dropdownTestId: 'categories-dropdown',
-    values: categories,
+    values: categoryKeywords.map((k) => k.name),
   });
 
   await testMultiDropdownValues({
     dropdownLabel: /aktiviteetit/i,
     dropdownTestId: 'additional-criteria-dropdown',
-    values: additionalCriteria,
+    values: criteriaKeywords.map((k) => k.name),
   });
 
   await testMultiDropdownValues({
     dropdownLabel: /kohderyhmät/i,
     dropdownTestId: 'audience-dropdown',
-    values: targetGroups,
+    values: audienceKeywords.map((k) => k.name),
   });
 
   jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);

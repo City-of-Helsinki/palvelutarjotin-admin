@@ -296,6 +296,7 @@
       "labelName": "Evenemang namn",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
+      "helperEnrolmentEndDays": "Välj hur många dagar innan händelsetiden anmälan slutar",
       "photographer": "Fotograf",
       "title": "Grundläggande information"
     },
@@ -308,7 +309,7 @@
       "occurrenceTimeHelperText": "Första förekomstdatum. Resten av händelserna och ytterligare information anges i steg 2."
     },
     "categorisation": {
-      "helperKeywords": "Ange ett nyckelord och välj bland de föreslagna alternativen",
+      "helperKeywords": "Skriv ett nyckelord och välj bland de alternativen",
       "labelCategories": "Kategorier",
       "labelActivities": "Aktiviteter",
       "labelAudience": "Målgrupper",

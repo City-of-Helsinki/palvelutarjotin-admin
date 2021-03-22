@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import faker from 'faker';
 
+import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import {
   EnrolmentNode,
   EnrolmentNodeConnection,
@@ -39,6 +40,7 @@ import {
   StudyLevelNodeEdge,
   VenueNode,
 } from '../generated/graphql';
+import getLinkedEventsInternalId from './getLinkedEventsInternalId';
 
 const organizationNames = [
   'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto',
@@ -210,13 +212,19 @@ export const fakeKeywords = (count = 1, keywords?: Partial<Keyword>[]) => ({
   __typename: 'KeywordsListResponse',
 });
 
-export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => ({
-  id: faker.random.uuid(),
-  name: fakeLocalizedObject(),
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
-  __typename: 'Keyword',
-  ...overrides,
-});
+export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
+  const id = overrides?.id || faker.random.uuid();
+  return {
+    id: faker.random.uuid(),
+    name: fakeLocalizedObject(),
+    internalId: getLinkedEventsInternalId(
+      LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
+      id
+    ),
+    __typename: 'Keyword',
+    ...overrides,
+  };
+};
 
 export const fakeVenue = (overrides?: Partial<VenueNode>): VenueNode => ({
   id: faker.random.uuid(),
@@ -305,7 +313,7 @@ export const fakeOccurrenceNodeEdge = (
 export const fakeLanguages = (
   languages?: Partial<LanguageNode>[]
 ): LanguageNodeConnection => ({
-  edges: languages.map((language) => fakeLanguageNodeEdge(language)),
+  edges: languages?.map((language) => fakeLanguageNodeEdge(language)) || [],
   pageInfo: PageInfoMock,
   __typename: 'LanguageNodeConnection',
 });

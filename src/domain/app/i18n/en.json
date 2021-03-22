@@ -294,6 +294,7 @@
       "labelInfoUrl": "A web address where you can find more information about the event",
       "labelName": "Event name",
       "labelShortDescription": "Short description (up to 160 characters)",
+      "helperEnrolmentEndDays": "Select how many days before occurrences enrolment ends",
       "photographer": "Photographer",
       "title": "Basic information"
     },
@@ -306,7 +307,7 @@
       "occurrenceTimeHelperText": "First occurrence date. Rest of the occurrences and additional information are entered in step 2."
     },
     "categorisation": {
-      "helperKeywords": "Enter a keyword and select from the suggested options",
+      "helperKeywords": "Enter a keyword and choose from the options",
       "labelCategories": "Categories",
       "labelActivities": "Activities",
       "labelAudience": "Target groups",

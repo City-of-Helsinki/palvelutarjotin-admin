@@ -295,6 +295,7 @@
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
       "labelName": "Tapahtuman nimi",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "helperEnrolmentEndDays": "Valitse kuinka monta päivää ennen tapahtuma-aikaa ilmoittautuminen päättyy",
       "photographer": "Valokuvaaja",
       "title": "Tapahtuman perustiedot"
     },
@@ -307,7 +308,7 @@
       "occurrenceTimeHelperText": "Ensimmäinen tapahtuma-aika. Loput tapahtuma-ajat ja niiden lisätiedot syötetään vaiheessa 2."
     },
     "categorisation": {
-      "helperKeywords": "Kirjoita asiasana ja valitse ehdotetuista vaihtoehdoista",
+      "helperKeywords": "Kirjoita asiasana ja valitse vaihtoehdoista",
       "labelCategories": "Kategoriat",
       "labelActivities": "Aktiviteetit",
       "labelAudience": "Kohderyhmät",
