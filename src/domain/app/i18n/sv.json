@@ -323,7 +323,8 @@
       "title": "Evenemanget prissättning",
       "labelIsFree": "Evenemanget är gratis",
       "labelPrice": "Pris, €",
-      "labelPriceDescription": "Ytterligare information"
+      "labelPriceDescription": "Ytterligare information",
+      "placeholderPriceDescription": "pris per barn / grupp,\nhur man ska betala (fakturering eller betalkort),\navbokningsregler"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Ändra språk",

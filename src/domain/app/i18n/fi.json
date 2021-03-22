@@ -322,7 +322,8 @@
       "title": "Tapahtuman hinnoittelu",
       "labelIsFree": "Tapahtuma on ilmainen",
       "labelPrice": "Hinta, €",
-      "labelPriceDescription": "Lisätiedot"
+      "labelPriceDescription": "Lisätiedot",
+      "placeholderPriceDescription": "hinta lasta/ryhmää kohden,\nmiten maksetaan (laskutus vai pankkikortti),\nperuutusehdot"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Vaihda kieli",

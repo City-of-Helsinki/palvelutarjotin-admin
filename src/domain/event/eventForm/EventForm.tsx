@@ -457,6 +457,9 @@ const EventForm = <T extends FormFields>({
                         labelText={t('eventForm.offers.labelPriceDescription')}
                         name="priceDescription"
                         component={TextAreaInputField}
+                        placeHolder={t(
+                          'eventForm.offers.placeholderPriceDescription'
+                        )}
                         rows={20}
                       />
                     </div>

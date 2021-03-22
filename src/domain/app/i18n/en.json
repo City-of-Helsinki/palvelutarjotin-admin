@@ -321,7 +321,8 @@
       "title": "Event pricing",
       "labelIsFree": "Event is free",
       "labelPrice": "Price, €",
-      "labelPriceDescription": "Additional information"
+      "labelPriceDescription": "Additional information",
+      "placeholderPriceDescription": "price per child / group,\nhow to pay (billing or debit card),\nperuutusehdot"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Change language",
