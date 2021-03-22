@@ -287,6 +287,7 @@
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
       "labelMandatoryAdditionalInformation": "Att registrera ytterligare information är obligatoriskt",
+      "guidanceTextMandatoryAdditionalInformation": "Skriv på händelse om du behöver mer information om gruppen eller aktiviteter och markera svaret som obligatoriskt...",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",
