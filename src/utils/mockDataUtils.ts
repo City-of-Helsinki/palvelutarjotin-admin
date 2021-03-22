@@ -313,7 +313,7 @@ export const fakeOccurrenceNodeEdge = (
 export const fakeLanguages = (
   languages?: Partial<LanguageNode>[]
 ): LanguageNodeConnection => ({
-  edges: languages.map((language) => fakeLanguageNodeEdge(language)),
+  edges: languages?.map((language) => fakeLanguageNodeEdge(language)) || [],
   pageInfo: PageInfoMock,
   __typename: 'LanguageNodeConnection',
 });
