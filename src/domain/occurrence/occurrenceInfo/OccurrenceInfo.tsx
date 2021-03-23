@@ -16,6 +16,7 @@ import { getEventFields } from '../../event/utils';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import OccurrenceGroupInfo from '../occurrenceGroupInfo/OccurrenceGroupInfo';
+import OccurrenceGroupLanguageInfo from '../occurrenceGroupInfo/OccurrenceGroupLanguageInfo';
 import styles from './occurrenceInfo.module.scss';
 
 interface Props {
@@ -72,6 +73,10 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
           <IconUser />
         </div>
         <OccurrenceGroupInfo occurrence={occurrence} />
+      </div>
+      <div className={styles.infoRow}>
+        <div className={styles.iconWrapper}></div>
+        <OccurrenceGroupLanguageInfo occurrence={occurrence} />
       </div>
       <div className={styles.infoRow}>
         <div className={styles.iconWrapper}>

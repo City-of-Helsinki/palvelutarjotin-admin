@@ -65,7 +65,7 @@ test('it renders correct texts and click events work', () => {
   });
 
   expect(screen.queryByText('Tapahtumat')).toBeVisible();
-  expect(screen.queryByText('Suomi')).toBeVisible();
-  expect(screen.queryByText('Englanti')).toBeVisible();
-  expect(screen.queryByText('Ruotsi')).toBeVisible();
+  expect(screen.queryByText('suomi')).toBeVisible();
+  expect(screen.queryByText('englanti')).toBeVisible();
+  expect(screen.queryByText('ruotsi')).toBeVisible();
 });

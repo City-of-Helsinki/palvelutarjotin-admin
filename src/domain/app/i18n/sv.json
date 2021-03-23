@@ -544,11 +544,7 @@
     "textAmountOfGroups": "{{count}} grupp",
     "textAmountOfGroups_plural": "{{count}} grupper",
     "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
-    "languages": {
-      "en": "engelsk",
-      "fi": "finska",
-      "sv": "svenska"
-    }
+    "labelLanguages": "Språk"
   },
   "occurrences": {
     "actionsDropdown": {

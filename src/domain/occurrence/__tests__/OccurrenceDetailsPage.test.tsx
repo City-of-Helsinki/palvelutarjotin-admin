@@ -188,10 +188,9 @@ test('occurrence details are rendered', async () => {
     screen.queryByText('10.09.2020 klo 12:00 – 12:30')
   ).toBeInTheDocument();
   expect(
-    screen.queryByText(
-      '30 paikkaa, ryhmän koko 10–20, suomenkielinen, englanninkielinen'
-    )
+    screen.queryByText('30 paikkaa, ryhmän koko 10–20')
   ).toBeInTheDocument();
+  expect(screen.queryByText('Kieli: suomi, englanti')).toBeInTheDocument();
 
   expect(
     screen.queryByRole('button', { name: 'Näytä tapahtuman tiedot' })

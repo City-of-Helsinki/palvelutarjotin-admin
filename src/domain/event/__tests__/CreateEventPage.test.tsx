@@ -385,7 +385,7 @@ test('modal opens when trying to change language', async () => {
   });
 
   // should open modal when trying to change event language
-  userEvent.click(screen.getByRole('button', { name: 'Ruotsi' }));
+  userEvent.click(screen.getByRole('button', { name: 'ruotsi' }));
   expect(screen.getByRole('dialog')).toHaveTextContent(/vaihda kieli/i);
 
   const modal = within(screen.getByRole('dialog', {}));

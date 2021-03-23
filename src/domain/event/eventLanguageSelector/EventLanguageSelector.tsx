@@ -29,7 +29,8 @@ const EventLanguageSelector: React.FC<Props> = ({
         const isSelected = language.value === selectedLanguage;
         return (
           <button
-            key={index}
+            key={`eventLanguageSelector-${index}`}
+            data-testid={`eventLanguageSelector-${language.label}`}
             className={classNames(styles.languageButton, {
               [styles.isDisabled]: language.isDisabled,
               [styles.isSelected]: isSelected,

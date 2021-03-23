@@ -209,8 +209,8 @@ test('initializes edit occurrence form correctly', async () => {
   expect(screen.getByLabelText('Ryhmäkoko max')).toHaveValue(20);
 
   const dropdown = within(screen.getByTestId('language-dropdown'));
-  expect(dropdown.queryByText('Suomi')).toBeInTheDocument();
-  expect(dropdown.queryByText('Englanti')).toBeInTheDocument();
+  expect(dropdown.queryByText('suomi')).toBeInTheDocument();
+  expect(dropdown.queryByText('englanti')).toBeInTheDocument();
 
   await waitFor(() => {
     expect(screen.queryByText('Testikatu')).toBeInTheDocument();

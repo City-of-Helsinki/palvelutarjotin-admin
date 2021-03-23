@@ -138,7 +138,9 @@ test('renders correct information and delete works', async () => {
   });
 
   // Suomi language is active
-  expect(screen.getByText('Suomi').parentElement).toHaveClass('isSelected');
+  expect(screen.getByTestId('eventLanguageSelector-suomi')).toHaveClass(
+    'isSelected'
+  );
 
   expect(
     screen.queryByRole('heading', { name: 'Testitapahtuma' })

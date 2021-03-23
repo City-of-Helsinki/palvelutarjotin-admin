@@ -167,7 +167,7 @@ it('initializes edit form correctly', async () => {
     screen.queryByLabelText(messages.enrolmentForm.labelLanguage, {
       selector: 'button',
     })
-  ).toHaveTextContent('Suomi');
+  ).toHaveTextContent('suomi');
 
   expect(
     screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelExtraNeeds)

@@ -60,7 +60,7 @@ const EnrolmentForm: React.FC<Props> = ({
   const { options: studyLevelOptions } = useStudyLevels();
 
   const languageOptions = Object.values(Language).map((level) => ({
-    label: translateValue('enrolmentForm.language.', level, t),
+    label: translateValue('common.languages.', level, t),
     value: level,
   }));
 
