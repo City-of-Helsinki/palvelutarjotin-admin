@@ -287,6 +287,7 @@
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
       "labelMandatoryAdditionalInformation": "Att registrera ytterligare information är obligatoriskt",
+      "guidanceTextMandatoryAdditionalInformation": "Skriv på händelse om du behöver mer information om gruppen eller aktiviteter och markera svaret som obligatoriskt...",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",
@@ -324,7 +325,8 @@
       "title": "Evenemanget prissättning",
       "labelIsFree": "Evenemanget är gratis",
       "labelPrice": "Pris, €",
-      "labelPriceDescription": "Ytterligare information"
+      "labelPriceDescription": "Ytterligare information",
+      "placeholderPriceDescription": "pris per barn / grupp,\nhur man ska betala (fakturering eller betalkort),\navbokningsregler"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Ändra språk",

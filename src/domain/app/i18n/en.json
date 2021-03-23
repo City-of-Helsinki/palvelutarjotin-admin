@@ -286,6 +286,7 @@
       "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelDescription": "Description",
       "labelMandatoryAdditionalInformation": "Entering additional information is mandatory for the registrant",
+      "guidanceTextMandatoryAdditionalInformation": "Tell above if you need more information about group or other things in activities and make answer as mandatory...",
       "labelEnrolmentEndDays": "Enrolment closes, days",
       "labelEnrolmentStart": "Enrolment begins",
       "labelImage": "Event picture",
@@ -322,7 +323,8 @@
       "title": "Event pricing",
       "labelIsFree": "Event is free",
       "labelPrice": "Price, €",
-      "labelPriceDescription": "Additional information"
+      "labelPriceDescription": "Additional information",
+      "placeholderPriceDescription": "price per child / group,\nhow to pay (billing or debit card),\nperuutusehdot"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Change language",

@@ -218,10 +218,18 @@ const EventForm = <T extends FormFields>({
                         rows={20}
                       />
                     </FormGroup>
+                    <p>
+                      {t(
+                        'eventForm.basicInfo.guidanceTextMandatoryAdditionalInformation'
+                      )}
+                    </p>
                     <FormGroup>
                       <Field
                         labelText={t(
                           'eventForm.basicInfo.labelMandatoryAdditionalInformation'
+                        )}
+                        helperText={t(
+                          'eventForm.basicInfo.guidanceTextMandatoryAdditionalInformation'
                         )}
                         name="mandatoryAdditionalInformation"
                         component={CheckboxField}
@@ -462,6 +470,9 @@ const EventForm = <T extends FormFields>({
                         labelText={t('eventForm.offers.labelPriceDescription')}
                         name="priceDescription"
                         component={TextAreaInputField}
+                        placeHolder={t(
+                          'eventForm.offers.placeholderPriceDescription'
+                        )}
                         rows={20}
                       />
                     </div>
