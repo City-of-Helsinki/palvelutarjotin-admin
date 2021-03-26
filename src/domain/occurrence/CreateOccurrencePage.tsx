@@ -11,7 +11,6 @@ import BackButton from '../../common/components/backButton/BackButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
-  EventQuery,
   OccurrenceFieldsFragment,
   useAddOccurrenceMutation,
   useDeleteOccurrenceMutation,
@@ -75,7 +74,7 @@ const CreateOccurrencePage: React.FC = () => {
     (item) => !isPast(new Date(item.startTime))
   );
 
-  const initialFormValues = useInitialFormValues(isFirstOccurrence, eventData);
+  const initialFormValues = useInitialFormValues(isFirstOccurrence);
   const { loading: loadingMyProfile } = useMyProfileQuery();
 
   const [createOccurrence] = useAddOccurrenceMutation();
@@ -197,7 +196,7 @@ const CreateOccurrencePage: React.FC = () => {
         isLoading={eventIsInitialLoading || loadingMyProfile}
         hasPadding={false}
       >
-        {eventData ? (
+        {eventData?.event ? (
           <>
             {isEditableEvent(eventData) ? (
               <Container>
@@ -223,7 +222,7 @@ const CreateOccurrencePage: React.FC = () => {
                     />
                   )}
                   <EventOccurrenceForm
-                    eventData={eventData}
+                    event={eventData.event}
                     formTitle={t('createOccurrence.formTitle')}
                     initialValues={initialFormValues}
                     onCancel={goToEventSummary}
@@ -253,10 +252,7 @@ const CreateOccurrencePage: React.FC = () => {
 
 // TODO: maybe could just provide enableReinitialize props form parent component
 // to simplify this. We might not need reinitialization here.
-const useInitialFormValues = (
-  isFirstOccurrence: boolean,
-  eventData: EventQuery | undefined
-) => {
+const useInitialFormValues = (isFirstOccurrence: boolean) => {
   const searcParams = useSearchParams();
 
   const getInitialFormValues = () => {
@@ -265,36 +261,27 @@ const useInitialFormValues = (
     const initialStartsAt = searcParams.get('startsAt');
     const initialEndsAt = searcParams.get('endsAt');
 
-    const initialValues = {
-      ...defaultInitialValues,
-      enrolmentStart: eventData?.event?.pEvent?.enrolmentStart
-        ? new Date(eventData?.event?.pEvent?.enrolmentStart)
-        : null,
-      enrolmentEndDays: eventData?.event?.pEvent?.enrolmentEndDays || 0,
-    };
-
     // if is first occurrence, use pre-filled values from event form (query params)
     if (isFirstOccurrence && initialDate && initialEndsAt && initialStartsAt) {
-      const valuesAreValid =
+      if (
         isValidDate(new Date(initialDate)) &&
         isValidTime(initialStartsAt) &&
-        isValidTime(initialEndsAt);
-
-      if (valuesAreValid) {
-        Object.assign(initialValues, {
+        isValidTime(initialEndsAt)
+      ) {
+        return {
+          ...defaultInitialValues,
           date: new Date(initialDate),
           startsAt: initialStartsAt,
           endsAt: initialEndsAt,
-        });
+        };
       }
     }
-
-    return initialValues;
+    return defaultInitialValues;
   };
 
   // we don't want the initialValues to update because we don't
   // want form to reset to those on subsequent renders
-  return React.useMemo(getInitialFormValues, [eventData]);
+  return React.useMemo(getInitialFormValues, []);
 };
 
 export default CreateOccurrencePage;

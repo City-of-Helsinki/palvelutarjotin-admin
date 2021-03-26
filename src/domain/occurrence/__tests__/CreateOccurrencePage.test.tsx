@@ -430,6 +430,10 @@ test('occurrence date cannot be before enrolments ending day', async () => {
     'mahdollista 01.08.2008 jälkeen ja sulkeutuu 2 päivää ennen tapahtuma-ajan alkua.'
   );
 
+  expect(
+    screen.queryByText('Päivämäärän on oltava aikaisintaan 03.08.2008')
+  ).not.toBeInTheDocument();
+
   const dateInput = screen.getByRole('textbox', { name: 'Päivämäärä' });
   userEvent.click(dateInput);
   userEvent.type(dateInput, format(currentDate, DATE_FORMAT));

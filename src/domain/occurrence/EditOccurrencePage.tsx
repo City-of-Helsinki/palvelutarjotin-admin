@@ -206,10 +206,8 @@ const EditOccurrencePage: React.FC = () => {
       hasAreaForGroupWork: venueData?.venue?.hasAreaForGroupWork || false,
       hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
       hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
-      enrolmentStart: eventData?.event?.pEvent.enrolmentStart || null,
-      enrolmentEndDays: eventData?.event?.pEvent.enrolmentEndDays || 0,
     }),
-    [eventData, locale, occurrenceData, venueData]
+    [locale, occurrenceData, venueData]
   );
 
   return (
@@ -217,7 +215,7 @@ const EditOccurrencePage: React.FC = () => {
       <LoadingSpinner
         isLoading={loadingEvent || loadingOccurrence || loadingVenue}
       >
-        {eventData && occurrenceData ? (
+        {eventData?.event && occurrenceData ? (
           <>
             {isEditableEvent(eventData) ? (
               <Container>
@@ -229,14 +227,14 @@ const EditOccurrencePage: React.FC = () => {
                   </BackButton>
                   <div className={styles.headerContainer}>
                     <h1>
-                      {getLocalizedString(eventData?.event?.name || {}, locale)}
+                      {getLocalizedString(eventData.event.name || {}, locale)}
                     </h1>
                     <Button variant="secondary" onClick={goToEventDetailsPage}>
                       {t('editOccurrence.buttonShowEventInfo')}
                     </Button>
                   </div>
                   <EventOccurrenceForm
-                    eventData={eventData}
+                    event={eventData.event}
                     formTitle={t('editOccurrence.formTitle')}
                     initialValues={initialValues}
                     occurrenceId={occurrenceId}

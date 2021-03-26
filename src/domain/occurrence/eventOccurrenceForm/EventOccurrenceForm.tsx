@@ -2,6 +2,7 @@ import { Field, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { DateSchema } from 'yup';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
@@ -14,7 +15,7 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import FormHelperText from '../../../common/components/FormHelperText/FormHelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { EVENT_LANGUAGES } from '../../../constants';
-import { EventQuery } from '../../../generated/graphql';
+import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import sortFavorably from '../../../utils/sortFavorably';
@@ -22,7 +23,9 @@ import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import { OccurrenceFormFields } from '../types';
 import styles from './eventOccurrenceForm.module.scss';
-import ValidationSchema from './ValidationSchema';
+import ValidationSchema, {
+  testDateWithEnrolmentValidationSchema,
+} from './ValidationSchema';
 
 export const defaultInitialValues: OccurrenceFormFields = {
   date: null,
@@ -42,12 +45,10 @@ export const defaultInitialValues: OccurrenceFormFields = {
   hasAreaForGroupWork: false,
   hasIndoorPlayingArea: false,
   hasOutdoorPlayingArea: false,
-  enrolmentStart: null,
-  enrolmentEndDays: 0,
 };
 
 interface Props {
-  eventData: EventQuery;
+  event: EventFieldsFragment;
   formTitle: string;
   initialValues: OccurrenceFormFields;
   occurrenceId?: string;
@@ -72,7 +73,7 @@ type GoToPublishingProps =
     };
 
 const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
-  eventData,
+  event,
   formTitle,
   initialValues,
   onCancel,
@@ -86,7 +87,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const eventPlaceId = eventData?.event?.location?.id || '';
+  const eventPlaceId = event?.location?.id || '';
   const [editPlaceMode, setEditPlaceMode] = React.useState(
     Boolean(initialValues.placeId)
   );
@@ -114,6 +115,16 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
       );
   }, [t]);
 
+  const validationSchema = React.useMemo(
+    () =>
+      testDateWithEnrolmentValidationSchema(
+        ValidationSchema.fields.date as DateSchema,
+        event?.pEvent,
+        ValidationSchema
+      ),
+    [event]
+  );
+
   return (
     <Formik
       enableReinitialize={true}
@@ -126,7 +137,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
           onSubmit(values);
         }
       }}
-      validationSchema={ValidationSchema}
+      validationSchema={validationSchema}
     >
       {({
         values: { placeId, oneGroupFills },
@@ -193,14 +204,12 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                       data-testid="eventOccurrenceForm-infoText2"
                       dangerouslySetInnerHTML={{
                         __html: t('eventOccurrenceForm.infoText2', {
-                          date: eventData.event?.pEvent?.enrolmentStart
+                          date: event?.pEvent?.enrolmentStart
                             ? formatDate(
-                                new Date(
-                                  eventData.event?.pEvent?.enrolmentStart
-                                )
+                                new Date(event?.pEvent?.enrolmentStart)
                               )
                             : '',
-                          count: eventData.event?.pEvent?.enrolmentEndDays || 0,
+                          count: event?.pEvent?.enrolmentEndDays || 0,
                         }),
                       }}
                     />
@@ -246,28 +255,6 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                   />
                 </FormGroup>
                 <FormGroup>
-                  {/* <Checkbox
-                    id="oneGroupFills"
-                    labelText={t('eventOccurrenceForm.labelOneGroupFills')}
-                    checked={oneGroupFills}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const checked = e.target.checked;
-                      setFieldValue('oneGroupFills', checked);
-                      // Calling setFieldValue twice here messes values up, setTimeout seems to help
-                      // without setTimeout values in ValidationSchema are not in sync with these values
-                      // another way to achieve this: https://github.com/formium/formik/issues/2204#issuecomment-574207100
-                      setTimeout(() => {
-                        if (checked) {
-                          setFieldValue('amountOfSeats', 1);
-                        } else {
-                          setFieldValue(
-                            'amountOfSeats',
-                            initialValues.amountOfSeats
-                          );
-                        }
-                      });
-                    }}
-                  /> */}
                   <div style={{ marginTop: '28px' }}>
                     <Field
                       labelText={t('eventOccurrenceForm.labelOneGroupFills')}

@@ -1,8 +1,9 @@
-import addDays from 'date-fns/addDays';
+import { addDays } from 'date-fns';
 import isBefore from 'date-fns/isBefore';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
+import { PEventFieldsFragment } from '../../../generated/graphql';
 import { isTodayOrLater, isValidTime } from '../../../utils/dateUtils';
 import formatDate from '../../../utils/formatDate';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -33,25 +34,6 @@ export default Yup.object().shape({
       'isTodayOrInTheFuture',
       VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
       isTodayOrLater
-    )
-    .when(
-      ['enrolmentStart', 'enrolmentEndDays'],
-      (
-        enrolmentStart: Date,
-        enrolmentEndDays: number,
-        schema: Yup.DateSchema
-      ) => {
-        if (!enrolmentStart || !(enrolmentStart instanceof Date)) return schema;
-        const minDate =
-          enrolmentEndDays > 0
-            ? addDays(enrolmentStart, enrolmentEndDays)
-            : enrolmentStart;
-        minDate.setHours(0, 0, 0, 0);
-        return schema.min(minDate, () => ({
-          key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-          min: formatDate(minDate),
-        }));
-      }
     ),
   startsAt: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
@@ -116,3 +98,38 @@ export default Yup.object().shape({
     ),
   oneGroupFills: Yup.boolean(),
 });
+
+export const testDateWithEnrolmentValidationSchema = (
+  dateField: Yup.DateSchema,
+  pEvent: PEventFieldsFragment | undefined,
+  schema: Yup.ObjectSchema<object>
+) => {
+  const { enrolmentStart, enrolmentEndDays } = pEvent ?? {};
+
+  if (!enrolmentStart || !enrolmentEndDays) {
+    return schema;
+  }
+
+  function testEnrolmentEndDays(
+    enrolmentStart: Date,
+    enrolmentEndDays: number,
+    schema: Yup.DateSchema<Date>
+  ) {
+    const minDate =
+      enrolmentEndDays > 0
+        ? addDays(enrolmentStart, enrolmentEndDays)
+        : enrolmentStart;
+    minDate.setHours(0, 0, 0, 0);
+    return schema.min(minDate, () => ({
+      key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+      min: formatDate(minDate),
+    }));
+  }
+  return schema.shape({
+    date: testEnrolmentEndDays(
+      new Date(enrolmentStart),
+      enrolmentEndDays,
+      dateField
+    ),
+  });
+};
