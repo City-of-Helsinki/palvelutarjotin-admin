@@ -19,7 +19,10 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { EVENT_PLACEHOLDER_IMAGES } from './constants';
+import {
+  EVENT_PLACEHOLDER_IMAGES,
+  VIRTUAL_EVENT_LOCATION_ID,
+} from './constants';
 import { CreateEventFormFields, EventFormFields } from './types';
 
 /**
@@ -167,7 +170,8 @@ export const getEventPayload = ({
     location: {
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.PLACE,
-        values.location
+        // If event is virtual, we use location id for internet events
+        values.isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.location
       ),
     },
     pEvent: {

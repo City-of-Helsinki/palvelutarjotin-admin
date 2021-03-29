@@ -45,6 +45,7 @@ import {
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import CreateEventPage from '../CreateEventPage';
+import { EventFormFields } from '../types';
 
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
@@ -79,7 +80,7 @@ const audienceKeywords = [
 
 const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 
-const eventFormData = {
+const defaultFormData = {
   name: 'Testitapahtuma',
   shortDescription: 'Testikuvaus',
   description: 'Pidempi kuvaus',
@@ -91,6 +92,7 @@ const eventFormData = {
   neededOccurrences: '3',
   imagePhotographerName: 'Valo Valokuvaaja',
   imageAltText: 'Vaihtoehtoinen kuvateksti',
+  firstOccurrenceDate: '20.11.2020',
 };
 
 const getKeywordId = (keywordId: string) => {
@@ -321,6 +323,20 @@ const mocks = [
     },
     result: addEventResponse,
   },
+  {
+    request: {
+      query: CreateEventDocument,
+      variables: {
+        event: {
+          ...createEventVariables.event,
+          location: {
+            internalId: '/place/helsinki:internet/',
+          },
+        },
+      },
+    },
+    result: addEventResponse,
+  },
   ...getKeywordSetsMockResponses([
     {
       setType: KeywordSetType.TargetGroup,
@@ -354,6 +370,15 @@ jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
   }
 });
 
+const mockUseHistory = () => {
+  const pushMock = jest.fn();
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  jest.spyOn(Router, 'useHistory').mockReturnValue({
+    push: pushMock,
+  } as any);
+  return pushMock;
+};
+
 // test('page is accessible', async () => {
 //   const { container } = render(<CreateEventPage />, { mocks });
 
@@ -378,10 +403,13 @@ test('modal opens when trying to change language', async () => {
     ).toBeInTheDocument();
   });
 
-  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), eventFormData.name);
+  userEvent.type(
+    screen.getByLabelText(/Tapahtuman nimi/),
+    defaultFormData.name
+  );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: eventFormData.name,
+    name: defaultFormData.name,
   });
 
   // should open modal when trying to change event language
@@ -406,15 +434,107 @@ test('modal opens when trying to change language', async () => {
 
 test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
-  const pushMock = jest.fn();
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
+  const pushMock = mockUseHistory();
   const { container } = render(<CreateEventPage />, { mocks });
 
   Modal.setAppElement(container);
 
+  await fillForm({ ...defaultFormData, startTime: '12:00', endTime: '13:00' });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
+  });
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
+  );
+
+  const parsedOccurrenceDate = parseDate(
+    defaultFormData.firstOccurrenceDate,
+    'dd.MM.yyyy',
+    new Date()
+  );
+
+  const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
+  await waitFor(() => {
+    expect(pushMock).toHaveBeenCalledWith({
+      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
+      search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
+    });
+  });
+});
+
+test('price field is accessible only when isFree field is not checked', async () => {
+  render(<CreateEventPage />, { mocks });
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeInTheDocument();
+  });
+
+  expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
+  expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
+  expect(screen.getByLabelText(/Lisätiedot/)).toHaveAttribute('disabled');
+
+  userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+
+  expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+  expect(screen.getByLabelText(/Hinta/)).not.toHaveAttribute('disabled');
+  expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
+});
+
+test('virtual event checkbox sets internet location correctly', async () => {
+  advanceTo(new Date(2020, 7, 8));
+  const pushMock = mockUseHistory();
+  const { container } = render(<CreateEventPage />, { mocks });
+
+  Modal.setAppElement(container);
+
+  await fillForm({ ...defaultFormData, startTime: '12:00', endTime: '13:00' });
+
+  const defaultLocationInput = screen.getByRole('textbox', {
+    name: /oletustapahtumapaikka/i,
+  });
+  expect(defaultLocationInput).not.toBeDisabled();
+
+  const virtualEventCheckbox = screen.getByRole('checkbox', {
+    name: /tapahtuma järjestetään virtuaalisesti/i,
+  });
+  userEvent.click(virtualEventCheckbox);
+
+  expect(defaultLocationInput).toBeDisabled();
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
+  );
+
+  const parsedOccurrenceDate = parseDate(
+    defaultFormData.firstOccurrenceDate,
+    'dd.MM.yyyy',
+    new Date()
+  );
+
+  const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
+  await waitFor(() => {
+    expect(pushMock).toHaveBeenCalledWith({
+      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
+      search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
+    });
+  });
+});
+
+const fillForm = async (
+  eventFormData: Omit<Partial<EventFormFields>, 'enrolmentStart'> & {
+    enrolmentStart: string;
+    firstOccurrenceDate: string;
+    startTime: string;
+    endTime: string;
+  }
+) => {
   await waitFor(() => {
     expect(
       screen.queryByText('Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto')
@@ -485,26 +605,25 @@ test('event can be created with form', async () => {
   const dateInput = screen.getByLabelText(/Päivämäärä/i);
   // click first so focus is kept
   userEvent.click(dateInput);
-  const firstOccurrenceDate = '20.11.2020';
-  userEvent.type(dateInput, '20.11.2020');
+  userEvent.type(dateInput, eventFormData.firstOccurrenceDate);
 
   const startsAtInput = screen.getByLabelText(/Alkaa klo/i, {
     selector: 'input',
   });
-  userEvent.type(startsAtInput, '12:00');
+  userEvent.type(startsAtInput, eventFormData.startTime);
   userEvent.click(
     screen.getByRole('option', {
-      name: '12:00',
+      name: eventFormData.startTime,
     })
   );
 
   const endsAtInput = screen.getByLabelText(/Loppuu klo/i, {
     selector: 'input',
   });
-  userEvent.type(endsAtInput, '13:00');
+  userEvent.type(endsAtInput, eventFormData.endTime);
   userEvent.click(
     screen.getByRole('option', {
-      name: '13:00',
+      name: eventFormData.endTime,
     })
   );
 
@@ -596,33 +715,7 @@ test('event can be created with form', async () => {
 
   // Venue mutation mock
   jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
-
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
-  });
-
-  userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
-  );
-
-  const parsedOccurrenceDate = parseDate(
-    firstOccurrenceDate,
-    'dd.MM.yyyy',
-    new Date()
-  );
-
-  const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
-  await waitFor(() => {
-    expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
-      search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
-    });
-  });
-});
+};
 
 const testMultiDropdownValues = async ({
   dropdownTestId,
@@ -648,20 +741,3 @@ const testMultiDropdownValues = async ({
     });
   });
 };
-
-test('price field is accessible only when isFree field is not checked', async () => {
-  render(<CreateEventPage />, { mocks });
-  await waitFor(() => {
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeInTheDocument();
-  });
-
-  expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
-  expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
-  expect(screen.getByLabelText(/Lisätiedot/)).toHaveAttribute('disabled');
-
-  userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
-
-  expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
-  expect(screen.getByLabelText(/Hinta/)).not.toHaveAttribute('disabled');
-  expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
-});

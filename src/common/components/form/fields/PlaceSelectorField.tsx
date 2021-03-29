@@ -13,6 +13,7 @@ interface Props extends FieldProps {
   labelText: string;
   placeholder?: string;
   required?: boolean;
+  disabled: boolean;
 }
 
 const PlaceSelectorField: React.FC<Props> = (props) => {
@@ -25,6 +26,7 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
     helperText,
     labelText,
     placeholder,
+    disabled,
   } = props;
   const invalidText = getErrorText(errors, touched, name, t);
 
@@ -49,6 +51,7 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
   return (
     <PlaceSelector
       {...field}
+      disabled={disabled}
       id={name}
       invalidText={invalidText}
       helperText={helperText}

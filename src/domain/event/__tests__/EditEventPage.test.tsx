@@ -214,57 +214,74 @@ const updateEventResponse = {
   },
 };
 
+const editEventVariables = {
+  event: {
+    id: eventId,
+    name: { fi: 'TestitapahtumaTestinimi' },
+    startTime: '2020-08-04T21:00:00.000Z',
+    endTime: '',
+    offers: [
+      {
+        description: {
+          fi: 'description',
+        },
+        price: {
+          fi: '99,9',
+        },
+        isFree: true,
+      },
+    ],
+    shortDescription: { fi: shortDescription },
+    description: { fi: description },
+    images: [{ internalId: '/image/48598/' }],
+    infoUrl: { fi: infoUrl },
+    audience: audienceKeywords.map((k) => ({
+      internalId: getKeywordId(k.id),
+    })),
+    inLanguage: [
+      { internalId: '/language/fi/' },
+      { internalId: '/language/en/' },
+    ],
+    keywords: [
+      {
+        internalId: getKeywordId(keywordId),
+      },
+      ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
+    ],
+    location: { internalId: `/place/${placeId}/` },
+    pEvent: {
+      contactEmail: contactEmail,
+      contactPersonId: contactPersonId,
+      contactPhoneNumber: contactPhoneNumber,
+      enrolmentEndDays: 3,
+      enrolmentStart: '2020-08-13T00:45:00.000Z',
+      neededOccurrences: 3,
+      autoAcceptance: true,
+      mandatoryAdditionalInformation: false,
+    },
+    organisationId: personId,
+    draft: true,
+  },
+};
+
 const mocks = [
+  {
+    request: {
+      query: EditEventDocument,
+      variables: editEventVariables,
+    },
+    result: updateEventResponse,
+  },
   {
     request: {
       query: EditEventDocument,
       variables: {
         event: {
-          id: eventId,
-          name: { fi: 'TestitapahtumaTestinimi' },
-          startTime: '2020-08-04T21:00:00.000Z',
-          endTime: '',
-          offers: [
-            {
-              description: {
-                fi: 'description',
-              },
-              price: {
-                fi: '99,9',
-              },
-              isFree: true,
-            },
-          ],
-          shortDescription: { fi: shortDescription },
-          description: { fi: description },
-          images: [{ internalId: '/image/48598/' }],
-          infoUrl: { fi: infoUrl },
-          audience: audienceKeywords.map((k) => ({
-            internalId: getKeywordId(k.id),
-          })),
-          inLanguage: [
-            { internalId: '/language/fi/' },
-            { internalId: '/language/en/' },
-          ],
-          keywords: [
-            {
-              internalId: getKeywordId(keywordId),
-            },
-            ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
-          ],
-          location: { internalId: `/place/${placeId}/` },
-          pEvent: {
-            contactEmail: contactEmail,
-            contactPersonId: contactPersonId,
-            contactPhoneNumber: contactPhoneNumber,
-            enrolmentEndDays: 3,
-            enrolmentStart: '2020-08-13T00:45:00.000Z',
-            neededOccurrences: 3,
-            autoAcceptance: true,
-            mandatoryAdditionalInformation: false,
+          ...editEventVariables.event,
+          name: { fi: 'Testitapahtuma' },
+          location: {
+            internalId: '/place/helsinki:internet/',
           },
-          organisationId: personId,
-          draft: true,
         },
       },
     },
@@ -284,9 +301,7 @@ const mocks = [
     request: {
       query: MyProfileDocument,
     },
-    result: {
-      ...profileResponse,
-    },
+    result: profileResponse,
   },
   {
     request: {
@@ -393,6 +408,43 @@ test('edit event form initializes and submits correctly', async () => {
     expect(
       screen.queryByText('Sivulla on tallentamattomia muutoksia')
     ).toBeInTheDocument();
+  });
+
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna',
+    })
+  );
+
+  await waitFor(() => {
+    expect(goBack).toHaveBeenCalled();
+  });
+});
+
+test('virtual event checkbox works correctly', async () => {
+  const { history } = render(<EditEventPage />, { mocks });
+
+  const goBack = jest.spyOn(history, 'goBack');
+
+  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(screen.queryByText(organizationName)).toBeInTheDocument();
+  });
+
+  await waitFor(() => {
+    expect(screen.getAllByText('Sellon kirjasto')).toHaveLength(2);
+  });
+
+  userEvent.click(
+    screen.getByRole('checkbox', {
+      name: /tapahtuma järjestetään virtuaalisesti/i,
+    })
+  );
+
+  // Location shouldn't be shown after virtual event checkbox has been clicked
+  await waitFor(() => {
+    expect(screen.queryByText('Sellon kirjasto')).not.toBeInTheDocument();
   });
 
   userEvent.click(
