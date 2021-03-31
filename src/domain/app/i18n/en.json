@@ -70,11 +70,6 @@
     "labelIsSameResponsiblePerson": "Same as notifier",
     "labelIsSharingDataAccepted": "I agree to share my information with the event organizer",
     "labelLanguage": "Language",
-    "language": {
-      "en": "English",
-      "fi": "Finnish",
-      "sv": "Swedish"
-    },
     "person": {
       "labelEmailAddress": "Email address",
       "labelName": "Name",
@@ -542,11 +537,7 @@
     "textAmountOfGroups": "{{count}} group",
     "textAmountOfGroups_plural": "{{count}} groups",
     "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
-    "languages": {
-      "en": "in English",
-      "fi": "in Finnish",
-      "sv": "in Swedish"
-    }
+    "labelLanguages": "Language"
   },
   "occurrences": {
     "actionsDropdown": {

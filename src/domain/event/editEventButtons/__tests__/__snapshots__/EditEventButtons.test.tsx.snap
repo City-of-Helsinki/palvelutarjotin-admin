@@ -51,6 +51,7 @@ exports[`matches snapshot 1`] = `
     >
       <button
         class="languageButton isSelected"
+        data-testid="eventLanguageSelector-suomi"
         type="button"
       >
         <div
@@ -78,11 +79,12 @@ exports[`matches snapshot 1`] = `
           </svg>
         </div>
         <span>
-          Suomi
+          suomi
         </span>
       </button>
       <button
         class="languageButton"
+        data-testid="eventLanguageSelector-ruotsi"
         type="button"
       >
         <div
@@ -110,11 +112,12 @@ exports[`matches snapshot 1`] = `
           </svg>
         </div>
         <span>
-          Ruotsi
+          ruotsi
         </span>
       </button>
       <button
         class="languageButton"
+        data-testid="eventLanguageSelector-englanti"
         type="button"
       >
         <div
@@ -142,7 +145,7 @@ exports[`matches snapshot 1`] = `
           </svg>
         </div>
         <span>
-          Englanti
+          englanti
         </span>
       </button>
     </div>

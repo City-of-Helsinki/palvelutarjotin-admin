@@ -47,12 +47,12 @@
       "buttonClose": "Sulje"
     },
     "languages": {
-      "ar": "Arabia",
-      "en": "Englanti",
-      "fi": "Suomi",
-      "ru": "Venäjä",
-      "sv": "Ruotsi",
-      "zh_hans": "Kiina"
+      "ar": "arabia",
+      "en": "englanti",
+      "fi": "suomi",
+      "ru": "venäjä",
+      "sv": "ruotsi",
+      "zh_hans": "kiina"
     },
     "tableDropdown": {
       "toggleButton": "Valitse"
@@ -543,11 +543,7 @@
     "textAmountOfGroups_plural": "{{count}} ryhmää",
     "textAmountOfSeats_plural": "{{count}} paikkaa",
     "textGroupInfo": "ryhmän koko {{minGroupSize}}–{{maxGroupSize}}",
-    "languages": {
-      "en": "englanninkielinen",
-      "fi": "suomenkielinen",
-      "sv": "ruotsinkielinen"
-    }
+    "labelLanguages": "Kieli"
   },
   "occurrences": {
     "actionsDropdown": {
