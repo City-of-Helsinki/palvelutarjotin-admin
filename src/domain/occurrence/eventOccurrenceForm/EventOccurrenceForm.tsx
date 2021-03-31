@@ -2,7 +2,6 @@ import { Field, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DateSchema } from 'yup';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
@@ -23,9 +22,7 @@ import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import { OccurrenceFormFields } from '../types';
 import styles from './eventOccurrenceForm.module.scss';
-import ValidationSchema, {
-  testDateWithEnrolmentValidationSchema,
-} from './ValidationSchema';
+import { getValidationSchema } from './ValidationSchema';
 
 export const defaultInitialValues: OccurrenceFormFields = {
   date: null,
@@ -116,12 +113,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
   }, [t]);
 
   const validationSchema = React.useMemo(
-    () =>
-      testDateWithEnrolmentValidationSchema(
-        ValidationSchema.fields.date as DateSchema,
-        event?.pEvent,
-        ValidationSchema
-      ),
+    () => getValidationSchema(event?.pEvent),
     [event]
   );
 

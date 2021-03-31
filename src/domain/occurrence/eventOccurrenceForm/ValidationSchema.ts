@@ -26,7 +26,7 @@ const addMaxValidationMessage = (
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
 
-export default Yup.object().shape({
+const ValidationSchema = Yup.object().shape({
   date: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
@@ -99,32 +99,49 @@ export default Yup.object().shape({
   oneGroupFills: Yup.boolean(),
 });
 
-export const testDateWithEnrolmentValidationSchema = (
-  dateField: Yup.DateSchema,
-  pEvent: PEventFieldsFragment | undefined,
-  schema: Yup.ObjectSchema<object>
+/**
+ * Occurrence date cannot be before the actual enrolment starts
+ * and before the occurrence starts, there should be empty days at least for
+ * an amount of the enrolmentEndDays field's value.
+ */
+const testEnrolmentEndDays = (
+  enrolmentStart: Date,
+  enrolmentEndDays: number,
+  schema: Yup.DateSchema<Date>
 ) => {
+  const minDate =
+    enrolmentEndDays > 0
+      ? addDays(enrolmentStart, enrolmentEndDays)
+      : enrolmentStart;
+  minDate.setHours(0, 0, 0, 0);
+  return schema.min(minDate, () => ({
+    key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+    min: formatDate(minDate),
+  }));
+};
+
+/**
+ * The date field validation needs an enrolment start date
+ * and the number of days before the enrolment ends
+ * from the occurrence's event.
+ *
+ * NOTE: Since the 2 parameters are not properties of an occurrence, but an event,
+ * it is not wanted to add them part of an occurrence domain,
+ * so this function is an answer to that.
+ */
+export const getValidationSchema = (
+  pEvent: PEventFieldsFragment | undefined
+) => {
+  const schema = ValidationSchema;
+  const dateField = ValidationSchema.fields.date as Yup.DateSchema;
   const { enrolmentStart, enrolmentEndDays } = pEvent ?? {};
 
+  // They should never be empty when creating an occurrence,
+  // but TS forces us to be sure about it.
   if (!enrolmentStart || !enrolmentEndDays) {
     return schema;
   }
 
-  function testEnrolmentEndDays(
-    enrolmentStart: Date,
-    enrolmentEndDays: number,
-    schema: Yup.DateSchema<Date>
-  ) {
-    const minDate =
-      enrolmentEndDays > 0
-        ? addDays(enrolmentStart, enrolmentEndDays)
-        : enrolmentStart;
-    minDate.setHours(0, 0, 0, 0);
-    return schema.min(minDate, () => ({
-      key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-      min: formatDate(minDate),
-    }));
-  }
   return schema.shape({
     date: testEnrolmentEndDays(
       new Date(enrolmentStart),
@@ -133,3 +150,5 @@ export const testDateWithEnrolmentValidationSchema = (
     ),
   });
 };
+
+export default ValidationSchema;
