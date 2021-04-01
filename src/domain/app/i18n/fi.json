@@ -452,13 +452,13 @@
       "date": {
         "required": "Päivämäärä on pakollinen",
         "mustNotInThePast": "Päivämäärä ei voi olla menneisyydessä",
-        "min": "Päivämäärän on oltava {{min}} jälkeen",
-        "max": "Päivämäärän on oltava ennen {{max}}"
+        "min": "Päivämäärän on oltava aikaisintaan {{min}}",
+        "max": "Päivämäärän on oltava viimeistään {{max}}"
       },
       "time": {
         "required": "Tämä kenttä on pakollinen",
-        "min": "Arvon tulee olla vähintään {{min}}",
-        "max": "Arvon tulee olla enintään {{max}}"
+        "min": "Arvon tulee olla aikaisintaan {{min}}",
+        "max": "Arvon tulee olla viimeistään {{max}}"
       }
     },
     "actions": {

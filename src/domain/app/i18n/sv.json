@@ -453,13 +453,13 @@
       "date": {
         "required": "Detta fält krävs",
         "mustNotInThePast": "Detta datum kan inte vara i förr",
-        "min": "Detta datum måste vara efter {{min}}",
-        "max": "Detta datum måste vara före {{max}}"
+        "min": "Detta datum måste vara tidigast {{min}}",
+        "max": "Detta datum måste vara senast {{max}}"
       },
       "time": {
         "required": "Detta fält krävs",
-        "min": "Den här tiden måste vara efter {{min}}",
-        "max": "Den här tiden måste vara innan {{max}}"
+        "min": "Den här tiden måste vara tidigast {{min}}",
+        "max": "Den här tiden måste vara senast {{max}}"
       }
     },
     "actions": {

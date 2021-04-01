@@ -215,7 +215,7 @@ const EditOccurrencePage: React.FC = () => {
       <LoadingSpinner
         isLoading={loadingEvent || loadingOccurrence || loadingVenue}
       >
-        {eventData && occurrenceData ? (
+        {eventData?.event && occurrenceData ? (
           <>
             {isEditableEvent(eventData) ? (
               <Container>
@@ -227,14 +227,14 @@ const EditOccurrencePage: React.FC = () => {
                   </BackButton>
                   <div className={styles.headerContainer}>
                     <h1>
-                      {getLocalizedString(eventData?.event?.name || {}, locale)}
+                      {getLocalizedString(eventData.event.name || {}, locale)}
                     </h1>
                     <Button variant="secondary" onClick={goToEventDetailsPage}>
                       {t('editOccurrence.buttonShowEventInfo')}
                     </Button>
                   </div>
                   <EventOccurrenceForm
-                    eventData={eventData}
+                    event={eventData.event}
                     formTitle={t('editOccurrence.formTitle')}
                     initialValues={initialValues}
                     occurrenceId={occurrenceId}

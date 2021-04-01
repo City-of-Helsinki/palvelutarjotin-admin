@@ -49,7 +49,6 @@ const CreateOccurrencePage: React.FC = () => {
   const isFirstOccurrence = Boolean(
     useRouteMatch(`/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE}`)
   );
-  const initialFormValues = useInitialFormValues(isFirstOccurrence);
 
   const { id: eventId } = useParams<Params>();
 
@@ -75,6 +74,7 @@ const CreateOccurrencePage: React.FC = () => {
     (item) => !isPast(new Date(item.startTime))
   );
 
+  const initialFormValues = useInitialFormValues(isFirstOccurrence);
   const { loading: loadingMyProfile } = useMyProfileQuery();
 
   const [createOccurrence] = useAddOccurrenceMutation();
@@ -196,7 +196,7 @@ const CreateOccurrencePage: React.FC = () => {
         isLoading={eventIsInitialLoading || loadingMyProfile}
         hasPadding={false}
       >
-        {eventData ? (
+        {eventData?.event ? (
           <>
             {isEditableEvent(eventData) ? (
               <Container>
@@ -222,7 +222,7 @@ const CreateOccurrencePage: React.FC = () => {
                     />
                   )}
                   <EventOccurrenceForm
-                    eventData={eventData}
+                    event={eventData.event}
                     formTitle={t('createOccurrence.formTitle')}
                     initialValues={initialFormValues}
                     onCancel={goToEventSummary}
@@ -263,18 +263,18 @@ const useInitialFormValues = (isFirstOccurrence: boolean) => {
 
     // if is first occurrence, use pre-filled values from event form (query params)
     if (isFirstOccurrence && initialDate && initialEndsAt && initialStartsAt) {
-      const valuesAreValid =
+      if (
         isValidDate(new Date(initialDate)) &&
         isValidTime(initialStartsAt) &&
-        isValidTime(initialEndsAt);
-      return valuesAreValid
-        ? {
-            ...defaultInitialValues,
-            date: new Date(initialDate),
-            startsAt: initialStartsAt,
-            endsAt: initialEndsAt,
-          }
-        : defaultInitialValues;
+        isValidTime(initialEndsAt)
+      ) {
+        return {
+          ...defaultInitialValues,
+          date: new Date(initialDate),
+          startsAt: initialStartsAt,
+          endsAt: initialEndsAt,
+        };
+      }
     }
     return defaultInitialValues;
   };

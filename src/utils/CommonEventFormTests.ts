@@ -5,7 +5,11 @@ import { DATE_FORMAT } from '../common/components/datepicker/contants';
 import { fireEvent, screen, userEvent, waitFor } from './testUtils';
 
 export const runCommonEventFormTests = (
-  renderForm: (currentDate: Date) => void
+  renderForm: (
+    currentDate: Date,
+    enrolmentStart: Date,
+    enrolmentEndDays: number
+  ) => void
 ) => {
   describe('Common event form tests', () => {
     afterAll(() => {
@@ -15,7 +19,7 @@ export const runCommonEventFormTests = (
     it('yesterday is not valid event start day', async () => {
       const currentDate = new Date('2008-08-01');
       advanceTo(currentDate);
-      renderForm(currentDate);
+      renderForm(currentDate, currentDate, 0);
 
       await waitFor(() => {
         expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
@@ -37,7 +41,7 @@ export const runCommonEventFormTests = (
     it('today is valid event start day', async () => {
       const currentDate = new Date(2020, 7, 2);
       advanceTo(currentDate);
-      renderForm(currentDate);
+      renderForm(currentDate, currentDate, 0);
 
       await waitFor(() => {
         expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();

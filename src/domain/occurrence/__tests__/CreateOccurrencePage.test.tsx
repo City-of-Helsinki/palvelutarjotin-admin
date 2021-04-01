@@ -4,6 +4,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import range from 'lodash/range';
 import * as React from 'react';
 
+import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import * as graphql from '../../../generated/graphql';
 import { runCommonEventFormTests } from '../../../utils/CommonEventFormTests';
 import {
@@ -17,6 +18,7 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
+  fireEvent,
   renderWithRoute,
   screen,
   userEvent,
@@ -37,8 +39,18 @@ const placeMock = fakePlace({
 });
 const venueMock = fakeVenue();
 
-const initializeMocks = (fromDate = new Date(2020, 7, 2), occurrences = 5) => {
+const initializeMocks = (
+  fromDate = new Date(2020, 7, 2),
+  occurrences = 5,
+  enrolmentStart = null,
+  enrolmentEndDays = 3
+) => {
   advanceTo(fromDate);
+
+  const pEventOverrides = {
+    enrolmentStart: enrolmentStart || fromDate,
+    enrolmentEndDays,
+  };
 
   const occurrenceFormData = {
     date: '13.08.2020',
@@ -72,6 +84,7 @@ const initializeMocks = (fromDate = new Date(2020, 7, 2), occurrences = 5) => {
               fakeOccurrenceOverrides.length,
               fakeOccurrenceOverrides
             ),
+            ...pEventOverrides,
           }),
         },
       },
@@ -133,13 +146,15 @@ afterEach(() => {
 const initializeMocksAndRenderPage = (
   renderOptions,
   fromDate = new Date(2020, 7, 2),
+  enrolmentStart = fromDate,
+  enrolmentEndDays = 0,
   occurrences = 5
 ) => {
   const {
     fakeOccurrenceOverrides,
     occurrenceFormData,
     apolloMocks,
-  } = initializeMocks(fromDate, occurrences);
+  } = initializeMocks(fromDate, occurrences, enrolmentStart, enrolmentEndDays);
   renderWithRoute(<CreateOccurrencePage />, {
     mocks: apolloMocks,
     ...renderOptions,
@@ -357,16 +372,20 @@ test('does not initializes values from URL if they are invalid', async () => {
 });
 
 describe('common event form tests', () => {
-  runCommonEventFormTests((currentDate: Date) => {
-    initializeMocksAndRenderPage(
-      {
-        routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
-        path: ROUTES.CREATE_OCCURRENCE,
-      },
-      currentDate,
-      1
-    );
-  });
+  runCommonEventFormTests(
+    (currentDate: Date, enrolmentStart: Date, enrolmentEndDays = 0) => {
+      initializeMocksAndRenderPage(
+        {
+          routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
+          path: ROUTES.CREATE_OCCURRENCE,
+        },
+        currentDate,
+        enrolmentStart,
+        enrolmentEndDays,
+        1
+      );
+    }
+  );
 });
 
 test('when only one group checkbox is checked, amount of seats should be disabled', async () => {
@@ -385,4 +404,45 @@ test('when only one group checkbox is checked, amount of seats should be disable
     expect(seatsCountInput).toHaveValue(1);
   });
   expect(seatsCountInput).toBeDisabled();
+});
+
+test('occurrence date cannot be before enrolments ending day', async () => {
+  const currentDate = new Date('2008-08-01');
+  advanceTo(currentDate);
+
+  initializeMocksAndRenderPage(
+    {
+      routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventMock.id)],
+      path: ROUTES.CREATE_OCCURRENCE,
+    },
+    currentDate,
+    currentDate,
+    2
+  );
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  expect(
+    screen.queryByTestId('eventOccurrenceForm-infoText2')
+  ).toHaveTextContent(
+    'mahdollista 01.08.2008 jälkeen ja sulkeutuu 2 päivää ennen tapahtuma-ajan alkua.'
+  );
+
+  expect(
+    screen.queryByText('Päivämäärän on oltava aikaisintaan 03.08.2008')
+  ).not.toBeInTheDocument();
+
+  const dateInput = screen.getByRole('textbox', { name: 'Päivämäärä' });
+  userEvent.click(dateInput);
+  userEvent.type(dateInput, format(currentDate, DATE_FORMAT));
+  fireEvent.blur(dateInput);
+  await waitFor(() => {
+    expect(dateInput).toBeInvalid();
+  });
+  expect(dateInput).toHaveAttribute('aria-describedby');
+  expect(
+    screen.queryByText('Päivämäärän on oltava aikaisintaan 03.08.2008')
+  ).toBeInTheDocument();
 });

@@ -446,13 +446,13 @@
       "date": {
         "required": "This field is required",
         "mustNotInThePast": "This date must not be in the past",
-        "min": "This date must be after {{min}}",
-        "max": "This date must be before {{max}}"
+        "min": "This date must be earliest {{min}}",
+        "max": "This date must be latest {{max}}"
       },
       "time": {
         "required": "This field is required",
-        "min": "This time must be after {{min}}",
-        "max": "This time must be before {{max}}"
+        "min": "This time must be earliest {{min}}",
+        "max": "This time must be latest {{max}}"
       }
     },
     "actions": {
