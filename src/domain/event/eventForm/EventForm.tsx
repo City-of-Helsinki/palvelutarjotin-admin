@@ -334,6 +334,7 @@ const EventForm = <T extends FormFields>({
                       <div data-testid="audience-dropdown">
                         <FormGroup>
                           <Field
+                            required
                             component={MultiDropdownField}
                             label={t('eventForm.categorisation.labelAudience')}
                             name="audience"
@@ -353,6 +354,7 @@ const EventForm = <T extends FormFields>({
                       <div data-testid="categories-dropdown">
                         <FormGroup>
                           <Field
+                            required
                             component={MultiDropdownField}
                             label={t(
                               'eventForm.categorisation.labelCategories'
@@ -376,6 +378,7 @@ const EventForm = <T extends FormFields>({
                       <div data-testid="additional-criteria-dropdown">
                         <FormGroup>
                           <Field
+                            required
                             component={MultiDropdownField}
                             label={t(
                               'eventForm.categorisation.labelActivities'
@@ -406,7 +409,6 @@ const EventForm = <T extends FormFields>({
                               'eventForm.categorisation.labelKeywords'
                             )}
                             name="keywords"
-                            required
                             placeholder={t(
                               'eventForm.categorisation.placeholderKeywords'
                             )}
