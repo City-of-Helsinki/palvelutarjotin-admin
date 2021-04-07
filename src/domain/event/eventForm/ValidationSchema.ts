@@ -82,11 +82,12 @@ const createValidationSchemaYup = (
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(0),
     keywords: Yup.array().min(0),
-    location: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    // providerContactInfo: Yup.object().shape({
-    //   email: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
-    //   name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    // }),
+    location: Yup.string().when('isVirtual', {
+      is: false,
+      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+      otherwise: Yup.string(),
+    }),
+    isVirtual: Yup.boolean(),
     image: Yup.string(),
     imagePhotographerName: Yup.string().when('image', {
       is: (image) => image,

@@ -22,6 +22,7 @@ import { PUBLICATION_STATUS } from '../events/constants';
 import { getImageName } from '../image/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { createOrUpdateVenue } from '../venue/utils';
+import { VIRTUAL_EVENT_LOCATION_ID } from './constants';
 import EventForm, { defaultInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { EventFormFields } from './types';
@@ -184,6 +185,15 @@ const EditEventPage: React.FC = () => {
     setSelectedLanguage(newLanguage);
   };
 
+  const getLocationId = (locationId: string | undefined | null): string => {
+    // If location id is virtual event location, we are not going to show it as location.
+    // Only virtual location checkbox should be checked.
+    if (locationId !== VIRTUAL_EVENT_LOCATION_ID) {
+      return locationId ?? '';
+    }
+    return '';
+  };
+
   React.useEffect(() => {
     if (eventData) {
       setInitialValues({
@@ -214,7 +224,7 @@ const EditEventPage: React.FC = () => {
           eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
         keywords:
           getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
-        location: eventData.event?.location?.id || '',
+        location: getLocationId(eventData.event?.location.id),
         name: eventData.event?.name[selectedLanguage] || '',
         neededOccurrences:
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
@@ -240,6 +250,7 @@ const EditEventPage: React.FC = () => {
         autoAcceptance: eventData.event?.pEvent.autoAcceptance,
         mandatoryAdditionalInformation:
           eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
+        isVirtual: eventData.event?.location.id === VIRTUAL_EVENT_LOCATION_ID,
       });
     }
   }, [eventData, selectedLanguage]);

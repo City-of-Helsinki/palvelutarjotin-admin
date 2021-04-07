@@ -9,3 +9,5 @@ export const EVENT_PLACEHOLDER_IMAGES = [
   imgPlaceholderC,
   imgPlaceholderD,
 ];
+
+export const VIRTUAL_EVENT_LOCATION_ID = 'helsinki:internet';

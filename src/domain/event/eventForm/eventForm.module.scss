@@ -40,6 +40,10 @@
     }
   }
 
+  .isVirtualCheckbox {
+    margin-top: var(--spacing-s);
+  }
+
   .neededOccurrencesRow {
     display: grid;
     grid-gap: var(--grid-gap);

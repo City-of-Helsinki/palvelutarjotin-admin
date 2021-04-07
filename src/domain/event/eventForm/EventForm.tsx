@@ -29,6 +29,7 @@ import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
 import { useKeywordOptions } from './useKeywordOptions';
 import createValidationSchema, { createEventSchema } from './ValidationSchema';
+import VirtualEventCheckboxField from './VirtualEventCheckboxField';
 
 export const defaultInitialValues: EventFormFields = {
   audience: [],
@@ -63,6 +64,7 @@ export const defaultInitialValues: EventFormFields = {
   hasIndoorPlayingArea: false,
   hasOutdoorPlayingArea: false,
   autoAcceptance: true,
+  isVirtual: false,
 };
 
 export const createEventInitialValues: CreateEventFormFields = {
@@ -159,8 +161,8 @@ const EventForm = <T extends FormFields>({
         touched,
       }) => {
         const { contactPersonId, image, location, isFree } = values;
-
         const imageSelected = Boolean(image);
+
         return (
           <>
             <FocusToFirstError />
@@ -462,7 +464,7 @@ const EventForm = <T extends FormFields>({
                         labelText={t('eventForm.offers.labelPriceDescription')}
                         name="priceDescription"
                         component={TextAreaInputField}
-                        placeHolder={t(
+                        placeholder={t(
                           'eventForm.offers.placeholderPriceDescription'
                         )}
                         rows={20}
@@ -478,10 +480,10 @@ const EventForm = <T extends FormFields>({
                       labelText={t('eventForm.location.labelLocation')}
                       name="location"
                       required
+                      disabled={values.isVirtual}
                       placeholder={t('eventForm.location.placeholderLocation')}
                       component={PlaceSelectorField}
                     />
-
                     {location && (
                       <>
                         <div className={styles.placeInfoContainer}>
@@ -497,6 +499,13 @@ const EventForm = <T extends FormFields>({
                         />
                       </>
                     )}
+                    <div className={styles.isVirtualCheckbox}>
+                      <Field
+                        labelText="Tapahtuma järjestetään virtuaalisesti"
+                        name="isVirtual"
+                        component={VirtualEventCheckboxField}
+                      />
+                    </div>
                   </div>
 
                   <div className={styles.formSection}>

@@ -28,6 +28,7 @@ interface Props {
   placeholder?: string;
   value: string | string[];
   required?: boolean;
+  disabled: boolean;
 }
 
 const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
@@ -50,6 +51,7 @@ const PlaceSelector: React.FC<Props> = ({
   placeholder,
   value,
   required,
+  disabled,
 }) => {
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
@@ -115,6 +117,7 @@ const PlaceSelector: React.FC<Props> = ({
     <AutoSuggest
       className={className}
       helperText={helperText}
+      disabled={disabled}
       id={id}
       required={required}
       inputValue={inputValue}

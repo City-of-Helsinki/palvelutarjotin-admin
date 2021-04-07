@@ -34,6 +34,7 @@ export interface EventFormFields extends VenueDataFields {
   autoAcceptance?: boolean;
   categories: string[];
   additionalCriteria: string[];
+  isVirtual: boolean;
 }
 
 export interface FirstOccurrenceFields {
