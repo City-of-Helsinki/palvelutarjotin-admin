@@ -76,7 +76,7 @@
     "test:nowatch": "react-scripts test --watchAll=false --env=jest-environment-jsdom-sixteen",
     "test:staged": "yarn test:nowatch --findRelatedTests",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
-    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" testcafe/e2e/",
+    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video reporttestcafe/e2e/",
     "codegen": "graphql-codegen -r dotenv/config dotenv_config_path=.env.development.local  --config codegen.yml",
     "storybook": "start-storybook -p 9009 -s public",
     "deploy-storybook": "storybook-to-ghpages",
