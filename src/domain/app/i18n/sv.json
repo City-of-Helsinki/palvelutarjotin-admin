@@ -609,8 +609,11 @@
   "studyLevel": {
     "grade": "{{count}}: a klass",
     "grade_plural": "{{count}}: a klass",
-    "preschool": "Förskola",
-    "secondary": "Gymnasieskola"
+    "preschool": "5-6 åldrig",
+    "secondary": "Gymnasieskola",
+    "age02": "0-2 åldrig",
+    "age34": "3-4 åldrig",
+    "other": "Annan grupp"
   },
   "venue": {
     "venueDataFields": {
