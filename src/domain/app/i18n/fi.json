@@ -418,6 +418,7 @@
     "infoText1": "Lisää tapahtumalle tapahtuma-aika, johon asiakkaat voivat ilmoittautua. Huomaathan, että voit luoda kerralla suuremman määrän aikoja kopioimalla jo luomiasi tapahtuma-aikoja.",
     "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
+    "helpTextFirstOccurrence": "Täydennä ensimmäisen tapahtuma-ajan tiedot",
     "labelDate": "Päivämäärä",
     "labelStartsAt": "Alkaa klo",
     "labelEndsAt": "Loppuu klo",

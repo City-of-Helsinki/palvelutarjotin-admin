@@ -156,7 +156,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
             <div className={styles.divider}></div>
             {showFirstOccurrenceHelperText && (
               <FormHelperText
-                text="Täydennä ensimmäisen tapahtuma-ajan tiedot"
+                text={t('eventOccurrenceForm.helpTextFirstOccurrence')}
                 style={{ margin: '2rem 0' }}
               />
             )}
