@@ -15,14 +15,17 @@ import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
-import styles from './occurrencesTable.module.scss';
+import styles from './occurrencesTableSummary.module.scss';
 
 export interface Props {
   eventData?: EventQuery;
   occurrences: OccurrenceFieldsFragment[];
 }
 
-const OccurrencesTable: React.FC<Props> = ({ eventData, occurrences }) => {
+const OccurrencesTableSummary: React.FC<Props> = ({
+  eventData,
+  occurrences,
+}) => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
@@ -114,4 +117,4 @@ const OccurrencesTable: React.FC<Props> = ({ eventData, occurrences }) => {
   );
 };
 
-export default OccurrencesTable;
+export default OccurrencesTableSummary;

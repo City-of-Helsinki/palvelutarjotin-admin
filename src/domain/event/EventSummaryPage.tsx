@@ -21,7 +21,7 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
-import OccurrencesTable from '../occurrences/occurrencesTableReadOnly/OccurrencesTableReadOnly';
+import OccurrencesTableSummary from '../occurrences/occurrencesTableReadOnly/OccurrencesTableSummary';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { NAVIGATED_FROM } from './EditEventPage';
 import EventPublish from './eventPublish/EventPublish';
@@ -151,7 +151,7 @@ const EventSummaryPage: React.FC = () => {
                   )}
                 </div>
                 {!!comingOccurrences.length ? (
-                  <OccurrencesTable
+                  <OccurrencesTableSummary
                     eventData={eventData}
                     occurrences={comingOccurrences}
                   />
@@ -169,7 +169,7 @@ const EventSummaryPage: React.FC = () => {
                         })}
                       </span>
                     </h2>
-                    <OccurrencesTable
+                    <OccurrencesTableSummary
                       eventData={eventData}
                       occurrences={
                         showAllPastEvents

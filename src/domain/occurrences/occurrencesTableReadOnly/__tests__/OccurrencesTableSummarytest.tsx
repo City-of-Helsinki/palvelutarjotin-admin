@@ -4,7 +4,7 @@ import formatDate from '../../../../utils/formatDate';
 import formatTimeRange from '../../../../utils/formatTimeRange';
 import { fakeOccurrence } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
-import OccurrencesTableReadOnly, { Props } from '../OccurrencesTableReadOnly';
+import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 
 const locale = 'fi';
 const startTime = new Date(2020, 11, 11).toISOString();
@@ -24,7 +24,7 @@ const mockOccurrence = fakeOccurrence({
 
 const renderComponent = (props?: Partial<Props>) => {
   return render(
-    <OccurrencesTableReadOnly occurrences={[mockOccurrence]} {...props} />
+    <OccurrencesTableSummary occurrences={[mockOccurrence]} {...props} />
   );
 };
 
