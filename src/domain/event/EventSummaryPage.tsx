@@ -3,7 +3,6 @@ import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import EditButton from '../../common/components/editButton/EditButton';
@@ -12,8 +11,6 @@ import FormHelperText from '../../common/components/FormHelperText/FormHelperTex
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   OccurrenceFieldsFragment,
-  useCancelOccurrenceMutation,
-  useDeleteOccurrenceMutation,
   useEventQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
@@ -24,7 +21,7 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
-import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
+import OccurrencesTable from '../occurrences/occurrencesTableReadOnly/OccurrencesTableReadOnly';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { NAVIGATED_FROM } from './EditEventPage';
 import EventPublish from './eventPublish/EventPublish';
@@ -43,17 +40,12 @@ const EventSummaryPage: React.FC = () => {
   const locale = useLocale();
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
 
-  const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
-    {
-      fetchPolicy: 'network-only',
-      variables: { id: eventId, include: ['location', 'keywords'] },
-    }
-  );
-
-  const [cancelOccurrence] = useCancelOccurrenceMutation();
+  const { data: eventData, loading } = useEventQuery({
+    fetchPolicy: 'network-only',
+    variables: { id: eventId, include: ['location', 'keywords'] },
+  });
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  const [deleteOccurrence] = useDeleteOccurrenceMutation();
   const isEventDraft =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
@@ -85,35 +77,6 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const goToHome = () => history.push(ROUTES.HOME);
-
-  const handleDeleteOccurrence = async (
-    occurrence: OccurrenceFieldsFragment
-  ) => {
-    try {
-      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-      refetchEventData();
-    } catch (e) {
-      toast(t('occurrences.deleteError'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-  };
-
-  const handleCancelOccurrence = async (
-    occurrence: OccurrenceFieldsFragment,
-    message?: string
-  ) => {
-    try {
-      await cancelOccurrence({
-        variables: { input: { id: occurrence.id, reason: message } },
-      });
-      refetchEventData();
-    } catch (e) {
-      toast(t('occurrences.cancelError'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-  };
 
   return (
     <PageWrapper title="occurrences.pageTitle">
@@ -190,10 +153,7 @@ const EventSummaryPage: React.FC = () => {
                 {!!comingOccurrences.length ? (
                   <OccurrencesTable
                     eventData={eventData}
-                    id="coming-occurrences"
                     occurrences={comingOccurrences}
-                    onDelete={handleDeleteOccurrence}
-                    onCancel={handleCancelOccurrence}
                   />
                 ) : (
                   <div>{t('occurrences.textNoComingOccurrences')}</div>
@@ -211,14 +171,11 @@ const EventSummaryPage: React.FC = () => {
                     </h2>
                     <OccurrencesTable
                       eventData={eventData}
-                      id="past-occurrences"
                       occurrences={
                         showAllPastEvents
                           ? pastOccurrences
                           : pastOccurrences.slice(0, PAST_OCCURRENCE_AMOUNT)
                       }
-                      onDelete={handleDeleteOccurrence}
-                      onCancel={handleCancelOccurrence}
                     />
                     {!showAllPastEvents &&
                       pastOccurrences.length > PAST_OCCURRENCE_AMOUNT && (
