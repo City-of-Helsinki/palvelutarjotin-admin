@@ -150,6 +150,9 @@
       "titlePublish": "Publish"
     }
   },
+  "copyEvent": {
+    "title": "new event (based on old event)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Events",

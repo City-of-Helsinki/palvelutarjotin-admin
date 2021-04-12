@@ -206,6 +206,9 @@
       "titlePublish": "Publicera"
     }
   },
+  "copyEvent": {
+    "title": "Nytt evenemang (baserat på gammalt evenemang)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Evenemang",

@@ -207,6 +207,9 @@
       "titlePublish": "Julkaise"
     }
   },
+  "copyEvent": {
+    "title": "Uusi tapahtuma (vanhan tapahtuman pohjalta)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Tapahtumat",
