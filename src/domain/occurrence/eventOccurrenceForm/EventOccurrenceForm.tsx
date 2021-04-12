@@ -25,23 +25,13 @@ import styles from './eventOccurrenceForm.module.scss';
 import { getValidationSchema } from './ValidationSchema';
 
 export const defaultInitialValues: OccurrenceFormFields = {
-  date: null,
+  startTime: null,
+  endTime: null,
   languages: [],
-  startsAt: '',
-  endsAt: '',
-  placeId: '',
+  location: '',
   amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
-  locationDescription: '',
-  hasClothingStorage: false,
-  hasSnackEatingPlace: false,
-  outdoorActivity: false,
-  oneGroupFills: false,
-  hasToiletNearby: false,
-  hasAreaForGroupWork: false,
-  hasIndoorPlayingArea: false,
-  hasOutdoorPlayingArea: false,
 };
 
 interface Props {
@@ -86,7 +76,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
 
   const eventPlaceId = event?.location?.id || '';
   const [editPlaceMode, setEditPlaceMode] = React.useState(
-    Boolean(initialValues.placeId)
+    Boolean(initialValues.location)
   );
 
   const languages = React.useMemo(() => {
@@ -131,12 +121,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
       }}
       validationSchema={validationSchema}
     >
-      {({
-        values: { placeId, oneGroupFills },
-        handleSubmit,
-        setFieldValue,
-        setValues,
-      }) => {
+      {({ values: { location }, handleSubmit, setFieldValue, setValues }) => {
         return (
           <form
             className={styles.eventOccurrenceForm}
@@ -218,7 +203,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                     options={languages}
                   />
                 </FormGroup>
-                <FormGroup>
+                {/* <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
                     name="amountOfSeats"
@@ -227,7 +212,7 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                     min={0}
                     type="number"
                   />
-                </FormGroup>
+                </FormGroup> */}
                 <FormGroup>
                   <Field
                     labelText={t('eventOccurrenceForm.labelGroupSizeMin')}
@@ -290,20 +275,20 @@ const EventOccurrenceForm: React.FC<Props & GoToPublishingProps> = ({
                     </TextTitle>
                   )}
 
-                  {(placeId || eventPlaceId) && (
+                  {(location || eventPlaceId) && (
                     <FormGroup>
                       <PlaceInfo
-                        id={placeId || eventPlaceId}
+                        id={location || eventPlaceId}
                         language={locale}
                         onEditButtonClick={setEditPlaceMode}
                         showEditButton={!editPlaceMode}
-                        showVenueInfo={!placeId}
+                        showVenueInfo={!location}
                       />
                     </FormGroup>
                   )}
-                  {placeId && (
+                  {location && (
                     <VenueDataFields
-                      locationId={placeId}
+                      locationId={location}
                       selectedLanguage={locale}
                       setFieldValue={setFieldValue}
                     />

@@ -1,0 +1,77 @@
+@import 'layout';
+@import 'variables';
+
+.occurrencesFormPart {
+  margin-bottom: var(--spacing-m);
+
+  h2 {
+    font-size: var(--fontsize-heading-s);
+    margin-bottom: var(--spacing-m);
+  }
+}
+
+.noOccurrencesCheckBox {
+  margin-bottom: var(--spacing-m);
+}
+
+.occurrenceFormRow {
+  display: grid;
+  margin-bottom: var(--spacing-l);
+
+  @include respond_above(md) {
+    grid-template-columns: repeat(3, 1fr) 180px 110px 110px 110px;
+    grid-gap: $baseMargin;
+  }
+}
+
+.occurrencesTable {
+  --background-color-cell: var(--color-white);
+  --background-color-cell-header: var(--color-black-10);
+  --border-color-cell: var(--color-black-10);
+  --color-cell: var(--color-black-90);
+  --color-cell-header: var(--color-black-90);
+  --fontsize-cell: var(--fontsize-body-l);
+  --fontsize-cell-header: var(--fontsize-body-l);
+  --margin-bottom-table: var(--spacing-m);
+  --spacing-cell: var(--spacing-m);
+  --expanded-row-border-color: var(--color-black-30);
+
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin: var(--spacing-m) 0;
+
+  thead {
+    tr {
+      th {
+        background-color: var(--background-color-cell-header);
+        color: var(--color-cell-header);
+        font-size: var(--fontsize-cell-header);
+        font-weight: normal;
+        text-align: left;
+        padding: var(--spacing-cell);
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border: 1px solid transparent;
+        border-bottom: none;
+        background-color: var(--background-color-cell);
+        color: var(--color-cell);
+        font-size: var(--fontsize-cell);
+        font-weight: normal;
+        text-align: left;
+        padding: var(--spacing-cell);
+      }
+
+      &:not(:first-child) {
+        td {
+          border-top: 1px solid var(--border-color-cell);
+        }
+      }
+    }
+  }
+}

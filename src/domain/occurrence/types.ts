@@ -1,13 +1,9 @@
-import { VenueDataFields } from '../venue/types';
-
-export interface OccurrenceFormFields extends VenueDataFields {
-  date: Date | null;
-  startsAt: string;
-  endsAt: string;
+export interface OccurrenceFormFields {
+  startTime: Date | null;
+  endTime: Date | null;
   languages: string[];
-  placeId: string;
+  location: string;
   amountOfSeats: string;
   maxGroupSize: string;
   minGroupSize: string;
-  oneGroupFills: boolean;
 }

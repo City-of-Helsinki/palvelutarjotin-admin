@@ -1,6 +1,8 @@
-import { setHours, setMinutes } from 'date-fns';
-
-import { Language, SeatType } from '../../generated/graphql';
+import {
+  Language,
+  OccurrenceFieldsFragment,
+  useEventQuery,
+} from '../../generated/graphql';
 import { OccurrenceFormFields } from './types';
 /**
  * Get payload to create/edit occurrence
@@ -14,30 +16,41 @@ export const getOccurrencePayload = ({
   values: OccurrenceFormFields;
   pEventId: string;
 }) => {
-  const getMinutes = (time: string) => Number(/:(.*)/.exec(time)?.[1]);
-  const getHours = (time: string) => Number(/(.*):/.exec(time)?.[1]);
-
   return {
-    startTime: values.date
-      ? setHours(
-          setMinutes(values.date, getMinutes(values.startsAt)),
-          getHours(values.startsAt)
-        )
-      : new Date(),
-    endTime: values.date
-      ? setHours(
-          setMinutes(values.date, getMinutes(values.endsAt)),
-          getHours(values.endsAt)
-        )
-      : new Date(),
+    startTime: values.startTime,
+    endTime: values.endTime,
     languages: values.languages.map((lang) => ({ id: lang as Language })),
     pEventId,
-    placeId: values.placeId,
+    placeId: values.location,
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || 0,
     maxGroupSize: Number(values.maxGroupSize) || 0,
-    seatType: values.oneGroupFills
-      ? SeatType.EnrolmentCount
-      : SeatType.ChildrenCount,
+    // seatType: values.oneGroupFills
+    //   ? SeatType.EnrolmentCount
+    //   : SeatType.ChildrenCount,
   };
+};
+
+// Reused query, helps with refetching
+export const useBaseEventQuery: typeof useEventQuery = ({
+  variables,
+  ...options
+} = {}) =>
+  useEventQuery({
+    variables: {
+      id: variables?.id ?? '',
+      include: ['keywords', 'location'],
+    },
+    ...options,
+  });
+
+export const getOccurrenceFields = (
+  occurrence: OccurrenceFieldsFragment | undefined | null
+) => {
+  return occurrence
+    ? {
+        languages:
+          occurrence.languages.edges.map((edge) => edge?.node?.id ?? '') ?? [],
+      }
+    : {};
 };

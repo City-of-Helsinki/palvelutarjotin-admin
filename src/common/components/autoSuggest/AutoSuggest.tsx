@@ -336,7 +336,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
   ) : null;
 
   const singleValue: React.ReactElement | null =
-    !inputValue && !Array.isArray(value) ? (
+    !inputValue && !Array.isArray(value) && value?.label ? (
       <div
         className={styles.singleValue}
         onClick={() => {

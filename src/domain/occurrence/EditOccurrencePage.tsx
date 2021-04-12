@@ -118,15 +118,15 @@ const EditOccurrencePage: React.FC = () => {
         })
       );
 
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: values,
-        locationId: values.placeId,
-        language: locale,
-      });
+      // const createOrUpdateVenueRequest = createOrUpdateVenue({
+      //   venueFormData: values,
+      //   locationId: values.placeId,
+      //   language: locale,
+      // });
 
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
-      }
+      // if (createOrUpdateVenueRequest) {
+      //   requests.push(createOrUpdateVenueRequest);
+      // }
 
       await Promise.all(requests);
     } catch (e) {
@@ -176,39 +176,39 @@ const EditOccurrencePage: React.FC = () => {
     }
   };
 
-  const initialValues: OccurrenceFormFields = React.useMemo(
-    () => ({
-      date: occurrenceData?.occurrence?.startTime
-        ? new Date(occurrenceData?.occurrence?.startTime)
-        : null,
-      startsAt: occurrenceData?.occurrence?.startTime
-        ? formatDate(new Date(occurrenceData?.occurrence?.startTime), 'HH:mm')
-        : '',
-      endsAt: occurrenceData?.occurrence?.endTime
-        ? formatDate(new Date(occurrenceData?.occurrence?.endTime), 'HH:mm')
-        : '',
-      languages:
-        occurrenceData?.occurrence?.languages.edges.map(
-          (edge) => edge?.node?.id || ''
-        ) || [],
-      oneGroupFills:
-        occurrenceData?.occurrence?.seatType ===
-        OccurrenceSeatType.EnrolmentCount,
-      placeId: occurrenceData?.occurrence?.placeId || '',
-      amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
-      maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',
-      minGroupSize: occurrenceData?.occurrence?.minGroupSize?.toString() || '',
-      locationDescription: getVenueDescription(venueData, locale),
-      hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
-      hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
-      outdoorActivity: venueData?.venue?.outdoorActivity || false,
-      hasToiletNearby: venueData?.venue?.hasToiletNearby || false,
-      hasAreaForGroupWork: venueData?.venue?.hasAreaForGroupWork || false,
-      hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
-      hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
-    }),
-    [locale, occurrenceData, venueData]
-  );
+  // const initialValues: OccurrenceFormFields = React.useMemo(
+  //   () => ({
+  //     date: occurrenceData?.occurrence?.startTime
+  //       ? new Date(occurrenceData?.occurrence?.startTime)
+  //       : null,
+  //     startsAt: occurrenceData?.occurrence?.startTime
+  //       ? formatDate(new Date(occurrenceData?.occurrence?.startTime), 'HH:mm')
+  //       : '',
+  //     endsAt: occurrenceData?.occurrence?.endTime
+  //       ? formatDate(new Date(occurrenceData?.occurrence?.endTime), 'HH:mm')
+  //       : '',
+  //     languages:
+  //       occurrenceData?.occurrence?.languages.edges.map(
+  //         (edge) => edge?.node?.id || ''
+  //       ) || [],
+  //     oneGroupFills:
+  //       occurrenceData?.occurrence?.seatType ===
+  //       OccurrenceSeatType.EnrolmentCount,
+  //     placeId: occurrenceData?.occurrence?.placeId || '',
+  //     amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
+  //     maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',
+  //     minGroupSize: occurrenceData?.occurrence?.minGroupSize?.toString() || '',
+  //     locationDescription: getVenueDescription(venueData, locale),
+  //     hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
+  //     hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
+  //     outdoorActivity: venueData?.venue?.outdoorActivity || false,
+  //     hasToiletNearby: venueData?.venue?.hasToiletNearby || false,
+  //     hasAreaForGroupWork: venueData?.venue?.hasAreaForGroupWork || false,
+  //     hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
+  //     hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
+  //   }),
+  //   [locale, occurrenceData, venueData]
+  // );
 
   return (
     <PageWrapper title="editOccurrence.pageTitle">
@@ -233,7 +233,7 @@ const EditOccurrencePage: React.FC = () => {
                       {t('editOccurrence.buttonShowEventInfo')}
                     </Button>
                   </div>
-                  <EventOccurrenceForm
+                  {/* <EventOccurrenceForm
                     event={eventData.event}
                     formTitle={t('editOccurrence.formTitle')}
                     initialValues={initialValues}
@@ -242,7 +242,7 @@ const EditOccurrencePage: React.FC = () => {
                     onSubmit={submit}
                     onSubmitAndAdd={submitAndAdd}
                     refetchEvent={refetchEvent}
-                  />
+                  /> */}
                   <h2>
                     {t('occurrences.titleComingOccurrences')}{' '}
                     <span className={styles.count}>
