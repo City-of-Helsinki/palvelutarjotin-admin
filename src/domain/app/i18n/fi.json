@@ -287,7 +287,7 @@
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
       "labelDescription": "Kuvaus",
       "labelMandatoryAdditionalInformation": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
-      "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskentttä pakolliseksi...",
+      "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskenttä pakolliseksi...",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelImage": "Tapahtuman kuva",

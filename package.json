@@ -76,7 +76,7 @@
     "test:nowatch": "react-scripts test --watchAll=false --env=jest-environment-jsdom-sixteen",
     "test:staged": "yarn test:nowatch --findRelatedTests",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
-    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" testcafe/e2e/",
+    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report testcafe/e2e/",
     "codegen": "graphql-codegen -r dotenv/config dotenv_config_path=.env.development.local  --config codegen.yml",
     "storybook": "start-storybook -p 9009 -s public",
     "deploy-storybook": "storybook-to-ghpages",
@@ -122,6 +122,7 @@
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.4",
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@graphql-codegen/cli": "1.13.3",
     "@graphql-codegen/typescript": "1.13.3",
     "@graphql-codegen/typescript-operations": "1.13.3",
