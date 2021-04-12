@@ -342,3 +342,61 @@ export const getRealKeywords = (
     );
   });
 };
+
+export const getLocationId = (
+  locationId: string | undefined | null
+): string => {
+  // If location id is virtual event location, we are not going to show it as location.
+  // Only virtual location checkbox should be checked.
+  if (locationId !== VIRTUAL_EVENT_LOCATION_ID) {
+    return locationId ?? '';
+  }
+  return '';
+};
+
+export const getEventFormValues = (
+  eventData: EventQuery,
+  selectedLanguage: Language
+) => ({
+  additionalCriteria:
+    eventData.event?.additionalCriteria.map((item) => item.id || '') || [],
+  categories: eventData.event?.categories.map((item) => item.id || '') || [],
+  audience: eventData.event?.audience.map((item) => item.id || '') || [],
+  contactEmail: eventData.event?.pEvent?.contactEmail || '',
+  contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
+  contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
+  description: eventData.event?.description?.[selectedLanguage] || '',
+  enrolmentEndDays: eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
+  enrolmentStart: eventData.event?.pEvent?.enrolmentStart
+    ? new Date(eventData.event?.pEvent?.enrolmentStart)
+    : null,
+  image: eventData.event?.images[0]?.id || '',
+  imageAltText: eventData.event?.images[0]?.altText || '',
+  imagePhotographerName: eventData.event?.images[0]?.photographerName || '',
+  infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
+  inLanguage: eventData.event?.inLanguage.map((item) => item.id || '') || [],
+  isFree: !!eventData.event?.offers?.[0]?.isFree,
+  priceDescription:
+    eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
+  keywords:
+    getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
+  location: getLocationId(eventData.event?.location.id),
+  name: eventData.event?.name[selectedLanguage] || '',
+  neededOccurrences:
+    eventData.event?.pEvent?.neededOccurrences.toString() || '',
+  price: eventData.event?.offers?.[0]?.price?.[selectedLanguage] || '',
+  shortDescription: eventData.event?.shortDescription?.[selectedLanguage] || '',
+  locationDescription: getEventVenueDescription(eventData, selectedLanguage),
+  hasClothingStorage: eventData?.event?.venue?.hasClothingStorage || false,
+  hasSnackEatingPlace: eventData?.event?.venue?.hasSnackEatingPlace || false,
+  outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
+  hasToiletNearby: eventData?.event?.venue?.hasToiletNearby || false,
+  hasAreaForGroupWork: eventData?.event?.venue?.hasAreaForGroupWork || false,
+  hasIndoorPlayingArea: eventData?.event?.venue?.hasIndoorPlayingArea || false,
+  hasOutdoorPlayingArea:
+    eventData?.event?.venue?.hasOutdoorPlayingArea || false,
+  autoAcceptance: eventData.event?.pEvent.autoAcceptance,
+  mandatoryAdditionalInformation:
+    eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
+  isVirtual: eventData.event?.location.id === VIRTUAL_EVENT_LOCATION_ID,
+});

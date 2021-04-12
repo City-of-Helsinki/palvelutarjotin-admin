@@ -76,6 +76,10 @@ const EventSummaryPage: React.FC = () => {
     );
   };
 
+  const copyEventToNewTemplate = () => {
+    history.push(`/${locale}${ROUTES.COPY_EVENT.replace(':id', eventId)}`);
+  };
+
   const goToHome = () => history.push(ROUTES.HOME);
 
   return (
@@ -99,6 +103,9 @@ const EventSummaryPage: React.FC = () => {
                 </h1>
                 <Button onClick={goToEventDetailsPage} variant="secondary">
                   {t('occurrences.buttonEventDetails')}
+                </Button>
+                <Button onClick={copyEventToNewTemplate} variant="secondary">
+                  {t('occurrences.buttonCloneEventDetails')}
                 </Button>
               </div>
               {isEventDraft && (

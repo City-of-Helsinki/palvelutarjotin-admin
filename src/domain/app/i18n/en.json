@@ -550,6 +550,7 @@
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
     "buttonEventDetails": "View event details",
+    "buttonCloneEventDetails": "Copy to a new template",
     "buttonShowMore": "Show more occurrences",
     "count": "{{count}} pcs",
     "deleteError": "Failed to delete event time",

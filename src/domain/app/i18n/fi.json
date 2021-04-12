@@ -556,6 +556,7 @@
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "buttonCloneEventDetails": "Kopioi uuteen pohjaan",
     "buttonShowMore": "Näytä lisää tapahtuma-aikoja",
     "count": "{{count}} kpl",
     "deleteError": "Tapahtuma-ajan poistaminen epäonnistui",

@@ -1,4 +1,5 @@
 import { Notification } from 'hds-react';
+import { compact } from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -9,7 +10,6 @@ import {
   PersonFieldsFragment,
   useCreateEventMutation,
   useMyProfileQuery,
-  useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { isTestEnv } from '../../utils/envUtils';
@@ -17,12 +17,14 @@ import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
-import { getImageName } from '../image/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
-import { createOrUpdateVenue } from '../venue/utils';
 import EventForm, { createEventInitialValues } from './eventForm/EventForm';
+import {
+  useCreateOrUpdateVenueRequest,
+  useUpdateImageRequest,
+} from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
 import {
@@ -37,7 +39,6 @@ const CreateEventPage: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState(locale);
 
   const [createEvent] = useCreateEventMutation();
-  const [updateImage] = useUpdateSingleImageMutation();
   const { data: myProfileData } = useMyProfileQuery();
 
   const activeOrganisation = useSelector(activeOrganisationSelector);
@@ -54,13 +55,15 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
+  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest(
+    selectedLanguage
+  );
+  const updateImageRequestHandler = useUpdateImageRequest();
+
   const handleSubmit = async (values: CreateEventFormFields) => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const requests: Promise<any>[] = [];
-
-      // Request to create new event
-      requests.push(
+      const requests: Promise<any>[] = compact([
         createEvent({
           variables: {
             event: {
@@ -73,38 +76,10 @@ const CreateEventPage: React.FC = () => {
               draft: true,
             },
           },
-        })
-      );
-
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: values,
-        language: selectedLanguage,
-        locationId: values.location,
-      });
-
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
-      }
-
-      const imageId = values.image;
-      if (imageId) {
-        const imageName = getImageName(imageId);
-        if (imageName) {
-          // Request to update image data
-          requests.push(
-            updateImage({
-              variables: {
-                image: {
-                  altText: values.imageAltText,
-                  id: values.image,
-                  name: imageName,
-                  photographerName: values.imagePhotographerName,
-                },
-              },
-            })
-          );
-        }
-      }
+        }),
+        createOrUpdateVenueRequestHandler(values),
+        updateImageRequestHandler(values),
+      ]);
 
       // Run all requests parallel
       const responses = await Promise.all(requests);
