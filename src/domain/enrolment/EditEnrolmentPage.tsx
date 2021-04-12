@@ -1,5 +1,3 @@
-import map from 'lodash/map';
-import method from 'lodash/method';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -114,7 +112,7 @@ const EditorEnrolmentPage: React.FC = () => {
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
           groupName: enrolment?.studyGroup.groupName || '',
           name: enrolment?.studyGroup.name || '',
-          studyLevels: map(studyLevels, method('toUpperCase')) || [],
+          studyLevels: studyLevels.map((s) => s.toUpperCase()) || [],
           person: {
             name: enrolment?.studyGroup.person.name || '',
             emailAddress: enrolment?.studyGroup.person.emailAddress || '',
