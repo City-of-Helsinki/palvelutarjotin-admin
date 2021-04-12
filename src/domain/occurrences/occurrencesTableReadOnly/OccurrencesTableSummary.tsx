@@ -1,4 +1,3 @@
-import { Checkbox } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -14,57 +13,24 @@ import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
-import { PUBLICATION_STATUS } from '../../events/constants';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
-import ActionsDropdown from './ActionsDropdown';
-import styles from './occurrencesTable.module.scss';
+import styles from './occurrencesTableSummary.module.scss';
 
-interface Props {
+export interface Props {
   eventData?: EventQuery;
-  id: string;
   occurrences: OccurrenceFieldsFragment[];
-  onDelete: (occurrence: OccurrenceFieldsFragment) => void;
-  onCancel?: (occurrence: OccurrenceFieldsFragment, message?: string) => void;
 }
 
-const OccurrencesTable: React.FC<Props> = ({
+const OccurrencesTableSummary: React.FC<Props> = ({
   eventData,
-  id,
   occurrences,
-  onDelete,
-  onCancel,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const [selectedOccurrences, setSelectedOccurrences] = React.useState<
-    string[]
-  >([]);
   const eventId = eventData?.event?.id || '';
   const eventLocationId = eventData?.event?.location?.id || '';
-  const isEventDraft =
-    eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
-  const isAllSelected = React.useMemo(
-    () => occurrences.every((o) => selectedOccurrences.includes(o.id)),
-    [occurrences, selectedOccurrences]
-  );
-
-  const selectAll = () => {
-    setSelectedOccurrences(occurrences.map((item) => item.id));
-  };
-
-  const unselectAll = () => {
-    setSelectedOccurrences([]);
-  };
-
-  const handleCheckboxChange = (row: OccurrenceFieldsFragment) => {
-    setSelectedOccurrences(
-      selectedOccurrences.includes(row.id)
-        ? selectedOccurrences.filter((item) => item !== row.id)
-        : [...selectedOccurrences, row.id]
-    );
-  };
 
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
     history.push(
@@ -76,31 +42,6 @@ const OccurrencesTable: React.FC<Props> = ({
   };
 
   const columns = [
-    {
-      Header: (
-        <Checkbox
-          id={`${id}_select-all_checkbox`}
-          checked={isAllSelected}
-          onChange={isAllSelected ? unselectAll : selectAll}
-          aria-label={t('occurrences.table.labelChooseAllOccurrences')}
-        />
-      ),
-      accessor: (row: OccurrenceFieldsFragment) => (
-        <Checkbox
-          id={`${id}_${row.id}_checkbox`}
-          checked={selectedOccurrences.includes(row.id)}
-          onChange={() => handleCheckboxChange(row)}
-          aria-label={t('occurrences.table.labelChooseOccurrence', {
-            info: `${formatDate(new Date(row.startTime))}  ${formatTimeRange(
-              new Date(row.startTime),
-              new Date(row.endTime),
-              locale
-            )}`,
-          })}
-        />
-      ),
-      id: 'selectRow',
-    },
     {
       Header: t('occurrences.table.columnDate'),
       accessor: (row: OccurrenceFieldsFragment) =>
@@ -164,20 +105,6 @@ const OccurrencesTable: React.FC<Props> = ({
       },
       id: 'enrolments',
     },
-    {
-      Header: t('occurrences.table.columnActions'),
-      accessor: (row: OccurrenceFieldsFragment) => (
-        <ActionsDropdown
-          eventId={eventId}
-          isEventDraft={isEventDraft}
-          onDelete={onDelete}
-          onCancel={onCancel}
-          row={row}
-        />
-      ),
-      id: 'actions',
-      rowClickDisabled: true,
-    },
   ];
 
   return (
@@ -190,4 +117,4 @@ const OccurrencesTable: React.FC<Props> = ({
   );
 };
 
-export default OccurrencesTable;
+export default OccurrencesTableSummary;

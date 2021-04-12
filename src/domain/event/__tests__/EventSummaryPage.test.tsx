@@ -290,9 +290,9 @@ it('shows upcoming and past occurrences', async () => {
 
 it('shows full and not full occurrence rows correctly', async () => {
   const fullOccurrenceRowText =
-    'Valitse tapahtuma-aika 13.12.2020 00:00 – 12:30 13.12.2020 00:00 – 12:30 30 13.07.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä Valitse';
+    '13.12.2020 00:00 – 12:30 30 13.07.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä';
   const notFullOccurrenceRowText =
-    'Valitse tapahtuma-aika 12.12.2020 00:00 – 12:30 12.12.2020 00:00 – 12:30 30 13.07.2020 0 hyväksytty 0 hyväksymättä Valitse';
+    '12.12.2020 00:00 – 12:30 30 13.07.2020 0 hyväksytty 0 hyväksymättä';
   const seatsApproved = 10;
   renderWithRoute(<EventSummaryPage />, {
     mocks: getMocks({
