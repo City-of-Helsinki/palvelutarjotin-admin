@@ -80,7 +80,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
         eventData?.event?.pEvent?.enrolmentStart
           ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
           : '',
-      id: 'elrolmentStarts',
+      id: 'enrolmentStarts',
     },
     {
       Header: (
