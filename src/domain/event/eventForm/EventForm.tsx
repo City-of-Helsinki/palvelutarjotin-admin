@@ -67,10 +67,15 @@ export const defaultInitialValues: EventFormFields = {
   isVirtual: false,
 };
 
-export const createEventInitialValues: CreateEventFormFields = {
+export const createEventAlwaysEmptyInitialValues = {
   occurrenceDate: null,
   occurrenceStartsAt: '',
   occurrenceEndsAt: '',
+  enrolmentStart: null,
+};
+
+export const createEventInitialValues: CreateEventFormFields = {
+  ...createEventAlwaysEmptyInitialValues,
   ...defaultInitialValues,
 };
 
@@ -123,6 +128,7 @@ const EventForm = <T extends FormFields>({
   const personOptions = React.useMemo(
     () =>
       persons.map((person) => ({
+        key: person.id,
         label: person.name,
         value: person.id,
       })),

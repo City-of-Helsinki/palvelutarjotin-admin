@@ -4,7 +4,10 @@ import { useLocation, useParams } from 'react-router';
 import { useEventQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import CreateEventPage from './CreateEventPage';
-import { createEventInitialValues } from './eventForm/EventForm';
+import {
+  createEventAlwaysEmptyInitialValues,
+  createEventInitialValues,
+} from './eventForm/EventForm';
 import { CreateEventFormFields } from './types';
 import {
   getEventFormValues,
@@ -19,12 +22,10 @@ const CopyEventPage: React.FC = () => {
   const language = getEventLanguageFromUrl(location.search);
 
   const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
-  const [initialValues, setInitialValues] = useState<CreateEventFormFields>({
-    ...createEventInitialValues,
-    occurrenceDate: null,
-    occurrenceStartsAt: '',
-    occurrenceEndsAt: '',
-  });
+
+  const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
+    createEventInitialValues
+  );
 
   const { data: eventData, loading } = useEventQuery({
     fetchPolicy: 'network-only',
@@ -45,6 +46,7 @@ const CopyEventPage: React.FC = () => {
       setInitialValues({
         ...createEventInitialValues,
         ...getEventFormValues(eventData, selectedLanguage),
+        ...createEventAlwaysEmptyInitialValues,
       });
     }
   }, [eventData, selectedLanguage]);
