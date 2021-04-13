@@ -47,24 +47,24 @@ const getKeywordId = (keywordId: string) => {
   );
 };
 
-const keywordId = 'yso:p4363';
-const placeId = 'tprek:15417';
-const eventId = 'palvelutarjotin:afz56bfiaq';
-const shortDescription = 'Testitapahtuman kuvaus';
-const description = 'Pidempi kuvaus';
-const eventName = 'Testitapahtuma';
-const photographerName = 'Valo Valokuvaaja';
-const photoAltText = 'Vaihtoehtoinen kuvateksti';
-const placeName = 'Sellon kirjasto';
-const infoUrl = 'https://www.palvelutarjotin.fi';
-const contactEmail = 'testi@testi.fi';
-const contactPhoneNumber = '123123123';
-const contactPersonId =
+export const keywordId = 'yso:p4363';
+export const placeId = 'tprek:15417';
+export const eventId = 'palvelutarjotin:afz56bfiaq';
+export const shortDescription = 'Testitapahtuman kuvaus';
+export const description = 'Pidempi kuvaus';
+export const eventName = 'Testitapahtuma';
+export const photographerName = 'Valo Valokuvaaja';
+export const photoAltText = 'Vaihtoehtoinen kuvateksti';
+export const placeName = 'Sellon kirjasto';
+export const infoUrl = 'https://www.palvelutarjotin.fi';
+export const contactEmail = 'testi@testi.fi';
+export const contactPhoneNumber = '123123123';
+export const contactPersonId =
   'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=';
-const personId = 'T3JnYW5pc2F0aW9uTm9kZTox';
-const venueDescription = 'Venue description';
-const personName = 'Testaaja2';
-const organizationName = 'Kulttuurin ja vapaa-ajan toimiala';
+export const personId = 'T3JnYW5pc2F0aW9uTm9kZTox';
+export const venueDescription = 'Venue description';
+export const personName = 'Testaaja2';
+export const organizationName = 'Kulttuurin ja vapaa-ajan toimiala';
 
 const categoryKeywords = [
   { id: 'categoryId1', name: 'Liikunta' },
@@ -83,14 +83,14 @@ const audienceKeywords = [
 
 const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 
-const keywordMockResponse = {
+export const keywordMockResponse = {
   keyword: fakeKeyword({
     id: 'yso:p4363',
     name: fakeLocalizedObject('perheet'),
   }),
 };
 
-const venueQueryResponse = {
+export const venueQueryResponse = {
   data: {
     venue: fakeVenue({
       id: placeId,
@@ -264,7 +264,7 @@ const editEventVariables = {
   },
 };
 
-const mocks = [
+export const mocks = [
   {
     request: {
       query: EditEventDocument,
