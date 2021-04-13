@@ -2,15 +2,13 @@ import { Notification } from 'hds-react';
 import { compact } from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
-  PersonFieldsFragment,
+  OrganisationNodeFieldsFragment,
   useCreateEventMutation,
-  useMyProfileQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
@@ -19,14 +17,13 @@ import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
-import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { activeOrganisationSelector } from '../organisation/selector';
 import EventForm, { createEventInitialValues } from './eventForm/EventForm';
 import {
   useCreateOrUpdateVenueRequest,
   useUpdateImageRequest,
 } from './eventForm/useEventFormSubmitRequests';
+import useOrganisationPersons from './eventForm/useOrganisationPersons';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
 import {
@@ -34,29 +31,14 @@ import {
   getEventPayload,
 } from './utils';
 
-const useEventFormCreateProps = () => {
+const useEventFormCreateSubmit = (
+  selectedLanguage: Language,
+  selectedOrganisation: OrganisationNodeFieldsFragment | null | undefined
+) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const [selectedLanguage, setSelectedLanguage] = React.useState(locale);
-
   const [createEvent] = useCreateEventMutation();
-  const { data: myProfileData } = useMyProfileQuery();
-
-  const activeOrganisation = useSelector(activeOrganisationSelector);
-  const selectedOrganisation =
-    myProfileData?.myProfile &&
-    getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
-
-  const persons =
-    selectedOrganisation?.persons.edges.map(
-      (edge) => edge?.node as PersonFieldsFragment
-    ) || [];
-
-  const goToEventList = () => {
-    history.push(ROUTES.HOME);
-  };
-
   const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest(
     selectedLanguage
   );
@@ -116,13 +98,7 @@ const useEventFormCreateProps = () => {
     }
   };
 
-  return {
-    onCancel: goToEventList,
-    onSubmit: handleSubmit,
-    persons: persons,
-    selectedLanguage: selectedLanguage,
-    setSelectedLanguage: setSelectedLanguage,
-  };
+  return handleSubmit;
 };
 
 const CreateEventPage: React.FC<{
@@ -137,14 +113,21 @@ const CreateEventPage: React.FC<{
   setSelectedLanguage,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
+  const history = useHistory();
+  const [defaultSelectedLanguage, defaultSetSelectedLanguage] = React.useState(
+    locale
+  );
+  const { organisation, persons } = useOrganisationPersons();
 
-  const {
-    onCancel,
-    onSubmit,
-    persons,
-    selectedLanguage: defaultSelectedLanguage,
-    setSelectedLanguage: defaultSetSelectedLanguage,
-  } = useEventFormCreateProps();
+  const onSubmit = useEventFormCreateSubmit(
+    selectedLanguage ?? defaultSelectedLanguage,
+    organisation
+  );
+
+  const goToEventList = () => {
+    history.push(ROUTES.HOME);
+  };
 
   return (
     <PageWrapper title="createEvent.pageTitle">
@@ -156,7 +139,7 @@ const CreateEventPage: React.FC<{
             </Notification>
             <ActiveOrganisationInfo />
             <EventForm
-              onCancel={onCancel}
+              onCancel={goToEventList}
               onSubmit={onSubmit}
               persons={persons}
               initialValues={initialValues}

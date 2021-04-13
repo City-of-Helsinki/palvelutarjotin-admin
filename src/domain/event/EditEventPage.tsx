@@ -1,11 +1,12 @@
 import { compact } from 'lodash';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  EventQuery,
   PersonFieldsFragment,
   useEditEventMutation,
   useEventQuery,
@@ -40,41 +41,21 @@ export enum NAVIGATED_FROM {
   EVENT_SUMMARY = 'eventSummary',
 }
 
-const EditEventPage: React.FC = () => {
+const useEventFormEditSubmit = (
+  initialValues: EventFormFields,
+  eventData: EventQuery | undefined,
+  selectedLanguage: Language
+) => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const language = getEventLanguageFromUrl(location.search);
-  const navigatedFrom = useSearchParams().get('navigationFrom');
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const [selectedLanguage, setSelectedLanguage] = React.useState(
-    language || locale
-  );
-
-  const [initialValues, setInitialValues] = React.useState<EventFormFields>(
-    defaultInitialValues
-  );
-
-  const { data: eventData, loading } = useEventQuery({
-    fetchPolicy: 'network-only',
-    variables: {
-      id,
-      include: ['audience', 'in_language', 'keywords', 'location'],
-    },
-  });
-
-  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  const persons =
-    eventData?.event?.pEvent?.organisation?.persons.edges.map(
-      (edge) => edge?.node as PersonFieldsFragment
-    ) || [];
-
   const [editEvent] = useEditEventMutation();
-
-  const goToEventDetailsPage = () => {
-    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
-  };
+  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest(
+    selectedLanguage
+  );
+  const updateImageRequestHandler = useUpdateImageRequest();
+  const navigatedFrom = useSearchParams().get('navigationFrom');
 
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
@@ -94,28 +75,11 @@ const EditEventPage: React.FC = () => {
     }
   };
 
-  React.useEffect(() => {
-    if (eventData) {
-      setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
-    }
-  }, [eventData, language]);
-
-  React.useEffect(() => {
-    if (eventData && selectedLanguage) {
-      setInitialValues(getEventFormValues(eventData, selectedLanguage));
-    }
-  }, [eventData, selectedLanguage]);
-
   const shouldSaveImage = (values: EventFormFields): boolean =>
     !!values.image &&
     (values.image !== initialValues.image ||
       values.imageAltText !== initialValues.imageAltText ||
       values.imagePhotographerName !== initialValues.imagePhotographerName);
-
-  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest(
-    selectedLanguage
-  );
-  const updateImageRequestHandler = useUpdateImageRequest();
 
   const submit = async (values: EventFormFields) => {
     try {
@@ -128,7 +92,8 @@ const EditEventPage: React.FC = () => {
               ...getEventPayload({
                 values,
                 selectedLanguage,
-                organisationId,
+                organisationId:
+                  eventData?.event?.pEvent?.organisation?.id ?? '',
               }),
               // endTime needed
               // eslint-disable-next-line max-len
@@ -160,6 +125,52 @@ const EditEventPage: React.FC = () => {
     }
   };
 
+  return submit;
+};
+
+const EditEventPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const language = getEventLanguageFromUrl(location.search);
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const history = useHistory();
+  const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
+
+  const [initialValues, setInitialValues] = useState<EventFormFields>(
+    defaultInitialValues
+  );
+
+  const { data: eventData, loading } = useEventQuery({
+    fetchPolicy: 'network-only',
+    variables: {
+      id,
+      include: ['audience', 'in_language', 'keywords', 'location'],
+    },
+  });
+
+  const organisation = eventData?.event?.pEvent?.organisation;
+  const persons =
+    organisation?.persons.edges.map(
+      (edge) => edge?.node as PersonFieldsFragment
+    ) || [];
+
+  const goToEventDetailsPage = () => {
+    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+  };
+
+  useEffect(() => {
+    if (eventData) {
+      setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
+    }
+  }, [eventData, language]);
+
+  useEffect(() => {
+    if (eventData && selectedLanguage) {
+      setInitialValues(getEventFormValues(eventData, selectedLanguage));
+    }
+  }, [eventData, selectedLanguage]);
+
   const handleLanguageChange = (newLanguage: Language) => {
     history.push({
       pathname: `/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
@@ -168,22 +179,31 @@ const EditEventPage: React.FC = () => {
     setSelectedLanguage(newLanguage);
   };
 
-  const isCloningEvent = true;
+  const onSubmit = useEventFormEditSubmit(
+    initialValues,
+    eventData,
+    selectedLanguage
+  );
+
   return (
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
         {!!eventData ? (
           <>
-            {isEditableEvent(eventData) || isCloningEvent ? (
+            {isEditableEvent(eventData) ? (
               <Container>
                 <div className={styles.eventPage}>
-                  <ActiveOrganisationInfo organisationId={organisationId} />
+                  <ActiveOrganisationInfo
+                    organisationId={
+                      eventData?.event?.pEvent?.organisation?.id ?? ''
+                    }
+                  />
                   <EventForm
                     edit
                     eventData={eventData}
                     initialValues={initialValues}
                     onCancel={goToEventDetailsPage}
-                    onSubmit={submit}
+                    onSubmit={onSubmit}
                     persons={persons}
                     selectedLanguage={selectedLanguage}
                     setSelectedLanguage={handleLanguageChange}
