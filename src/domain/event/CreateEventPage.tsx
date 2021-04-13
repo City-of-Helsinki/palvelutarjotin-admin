@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
+import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   PersonFieldsFragment,
   useCreateEventMutation,
@@ -32,7 +33,10 @@ import {
   getEventPayload,
 } from './utils';
 
-const CreateEventPage: React.FC = () => {
+const CreateEventPage: React.FC<{
+  initialValues: CreateEventFormFields;
+  loading: boolean;
+}> = ({ initialValues = createEventInitialValues, loading = false }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
@@ -115,23 +119,25 @@ const CreateEventPage: React.FC = () => {
   };
   return (
     <PageWrapper title="createEvent.pageTitle">
-      <Container>
-        <div className={styles.eventPage}>
-          <Notification label={t('createEvent.threeStepNotification.title')}>
-            {t('createEvent.threeStepNotification.description')}
-          </Notification>
-          <ActiveOrganisationInfo />
-          <EventForm
-            onCancel={goToEventList}
-            onSubmit={handleSubmit}
-            persons={persons}
-            initialValues={createEventInitialValues}
-            selectedLanguage={selectedLanguage}
-            setSelectedLanguage={setSelectedLanguage}
-            title={t('createEvent.title')}
-          />
-        </div>
-      </Container>
+      <LoadingSpinner isLoading={loading}>
+        <Container>
+          <div className={styles.eventPage}>
+            <Notification label={t('createEvent.threeStepNotification.title')}>
+              {t('createEvent.threeStepNotification.description')}
+            </Notification>
+            <ActiveOrganisationInfo />
+            <EventForm
+              onCancel={goToEventList}
+              onSubmit={handleSubmit}
+              persons={persons}
+              initialValues={initialValues}
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+              title={t('createEvent.title')}
+            />
+          </div>
+        </Container>
+      </LoadingSpinner>
     </PageWrapper>
   );
 };
