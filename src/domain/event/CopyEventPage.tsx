@@ -19,7 +19,6 @@ const CopyEventPage: React.FC = () => {
   const language = getEventLanguageFromUrl(location.search);
 
   const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
-  console.info('selectedLanguage', selectedLanguage);
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>({
     ...createEventInitialValues,
     occurrenceDate: null,
@@ -34,6 +33,7 @@ const CopyEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
+
   useEffect(() => {
     if (eventData) {
       setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
@@ -41,17 +41,22 @@ const CopyEventPage: React.FC = () => {
   }, [eventData, language]);
 
   useEffect(() => {
-    console.log('eventData', eventData, 'selectedLanguage', selectedLanguage);
     if (eventData && selectedLanguage) {
-      console.log('eventData', eventData, 'selectedLanguage', selectedLanguage);
       setInitialValues({
         ...createEventInitialValues,
         ...getEventFormValues(eventData, selectedLanguage),
       });
     }
   }, [eventData, selectedLanguage]);
-  console.log('initialValues', initialValues, 'eventData', eventData);
-  return <CreateEventPage initialValues={initialValues} loading={loading} />;
+
+  return (
+    <CreateEventPage
+      initialValues={initialValues}
+      loading={loading}
+      selectedLanguage={selectedLanguage}
+      setSelectedLanguage={setSelectedLanguage}
+    />
+  );
 };
 
 export default CopyEventPage;

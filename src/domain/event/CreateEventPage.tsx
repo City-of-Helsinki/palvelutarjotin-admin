@@ -13,6 +13,7 @@ import {
   useMyProfileQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
@@ -33,10 +34,7 @@ import {
   getEventPayload,
 } from './utils';
 
-const CreateEventPage: React.FC<{
-  initialValues: CreateEventFormFields;
-  loading: boolean;
-}> = ({ initialValues = createEventInitialValues, loading = false }) => {
+const useEventFormCreateProps = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
@@ -117,6 +115,37 @@ const CreateEventPage: React.FC<{
       });
     }
   };
+
+  return {
+    onCancel: goToEventList,
+    onSubmit: handleSubmit,
+    persons: persons,
+    selectedLanguage: selectedLanguage,
+    setSelectedLanguage: setSelectedLanguage,
+  };
+};
+
+const CreateEventPage: React.FC<{
+  initialValues: CreateEventFormFields;
+  loading: boolean;
+  selectedLanguage: Language | undefined;
+  setSelectedLanguage: (selectedLanguage: Language) => void | undefined;
+}> = ({
+  initialValues = createEventInitialValues,
+  loading = false,
+  selectedLanguage,
+  setSelectedLanguage,
+}) => {
+  const { t } = useTranslation();
+
+  const {
+    onCancel,
+    onSubmit,
+    persons,
+    selectedLanguage: defaultSelectedLanguage,
+    setSelectedLanguage: defaultSetSelectedLanguage,
+  } = useEventFormCreateProps();
+
   return (
     <PageWrapper title="createEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -127,12 +156,14 @@ const CreateEventPage: React.FC<{
             </Notification>
             <ActiveOrganisationInfo />
             <EventForm
-              onCancel={goToEventList}
-              onSubmit={handleSubmit}
+              onCancel={onCancel}
+              onSubmit={onSubmit}
               persons={persons}
               initialValues={initialValues}
-              selectedLanguage={selectedLanguage}
-              setSelectedLanguage={setSelectedLanguage}
+              selectedLanguage={selectedLanguage ?? defaultSelectedLanguage}
+              setSelectedLanguage={
+                setSelectedLanguage ?? defaultSetSelectedLanguage
+              }
               title={t('createEvent.title')}
             />
           </div>
