@@ -8,7 +8,6 @@ import { resetApiTokenData } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { userSelector } from '../../auth/selectors';
 import EditEnrolmentPage from '../../enrolment/EditEnrolmentPage';
-import CopyEventPage from '../../event/CopyEventPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
 import EventDetailsPage from '../../event/EventDetailsPage';
@@ -64,7 +63,7 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         <Route
           exact
           path={`/${locale}${ROUTES.COPY_EVENT}`}
-          component={CopyEventPage}
+          component={CreateEventPage}
         />
         <Route
           exact

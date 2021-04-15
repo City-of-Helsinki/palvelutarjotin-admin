@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import Router from 'react-router';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
-import { LINKEDEVENTS_CONTENT_TYPE } from '../../../constants';
 import {
   CreateEventDocument,
   ImageDocument,
@@ -21,7 +20,23 @@ import {
   VenueDocument,
 } from '../../../generated/graphql';
 import { getKeywordSetsMockResponses } from '../../../test/apollo-mocks/keywordSetMocks';
-import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
+import {
+  audienceKeywords,
+  basicKeywords,
+  categoryKeywords,
+  contactEmail,
+  contactPhoneNumber,
+  criteriaKeywords,
+  description,
+  editMocks,
+  eventName,
+  getKeywordId,
+  infoUrl,
+  personName,
+  photoAltText,
+  photographerName,
+  shortDescription,
+} from '../../../test/EventPageTestUtil';
 import {
   fakeEvent,
   fakeImage,
@@ -46,7 +61,6 @@ import {
 import apolloClient from '../../app/apollo/apolloClient';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
-
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
 
@@ -63,23 +77,6 @@ const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
 const imageAltText = 'AltText';
 const venueDescription = 'Testitapahtuman kuvaus';
 
-const categoryKeywords = [
-  { id: 'categoryId1', name: 'Liikunta' },
-  { id: 'categoryId2', name: 'Musiikki' },
-];
-
-const criteriaKeywords = [
-  { id: 'criteriaId1', name: 'Työpaja' },
-  { id: 'criteriaId2', name: 'Luontokoulu' },
-];
-
-const audienceKeywords = [
-  { id: 'targetGroupId1', name: 'Muu ryhmä' },
-  { id: 'targetGroupId2', name: 'Esiopetus' },
-];
-
-const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
-
 const defaultFormData = {
   name: 'Testitapahtuma',
   shortDescription: 'Testikuvaus',
@@ -93,13 +90,6 @@ const defaultFormData = {
   imagePhotographerName: 'Valo Valokuvaaja',
   imageAltText: 'Vaihtoehtoinen kuvateksti',
   firstOccurrenceDate: '20.11.2020',
-};
-
-const getKeywordId = (keywordId: string) => {
-  return getLinkedEventsInternalId(
-    LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-    keywordId
-  );
 };
 
 const createEventVariables = {
@@ -741,3 +731,60 @@ const testMultiDropdownValues = async ({
     });
   });
 };
+
+test.skip('copied event is initialized correctly', async () => {
+  advanceTo(new Date(2020, 7, 5));
+  render(<CreateEventPage />, { mocks: editMocks });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  await waitFor(() => {
+    expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
+    expect(screen.queryByText('perheet')).toBeInTheDocument();
+    expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
+      venueDescription
+    );
+  });
+
+  expect(screen.getByTestId('event-form')).toHaveFormValues({
+    name: eventName,
+    shortDescription,
+    infoUrl,
+    contactEmail,
+    contactPhoneNumber,
+    enrolmentStart: '',
+    enrolmentEndDays: 3,
+    neededOccurrences: 3,
+    imagePhotographerName: photographerName,
+    imageAltText: photoAltText,
+  });
+
+  expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description);
+
+  await screen.findByRole('button', {
+    name: new RegExp(personName, 'i'),
+  });
+
+  await waitFor(() => {
+    expect(screen.getAllByText('Sellon kirjasto')).toHaveLength(2);
+  });
+
+  expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
+  expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
+
+  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Sivulla on tallentamattomia muutoksia')
+    ).toBeInTheDocument();
+  });
+
+  expect(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
+  ).toBeInTheDocument();
+});

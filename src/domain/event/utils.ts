@@ -23,8 +23,8 @@ import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
 } from './constants';
+import { createEventInitialValues } from './eventForm/EventForm';
 import { CreateEventFormFields, EventFormFields } from './types';
-
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -357,7 +357,8 @@ export const getLocationId = (
 export const getEventFormValues = (
   eventData: EventQuery,
   selectedLanguage: Language
-) => ({
+): CreateEventFormFields => ({
+  ...createEventInitialValues,
   additionalCriteria:
     eventData.event?.additionalCriteria.map((item) => item.id || '') || [],
   categories: eventData.event?.categories.map((item) => item.id || '') || [],
