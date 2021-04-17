@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import Router from 'react-router';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
+import { EMPTY_LOCALISED_OBJECT } from '../../../constants';
 import {
   CreateEventDocument,
   ImageDocument,
@@ -26,6 +27,7 @@ import {
   categoryKeywords,
   contactEmail,
   contactPhoneNumber,
+  createFinnishLocalisedObject,
   criteriaKeywords,
   description,
   editMocks,
@@ -78,10 +80,10 @@ const imageAltText = 'AltText';
 const venueDescription = 'Testitapahtuman kuvaus';
 
 const defaultFormData = {
-  name: 'Testitapahtuma',
-  shortDescription: 'Testikuvaus',
-  description: 'Pidempi kuvaus',
-  infoUrl: 'https://www.palvelutarjotin.fi',
+  name: createFinnishLocalisedObject('Testitapahtuma'),
+  shortDescription: createFinnishLocalisedObject('Testikuvaus'),
+  description: createFinnishLocalisedObject('Pidempi kuvaus'),
+  infoUrl: createFinnishLocalisedObject('https://www.palvelutarjotin.fi'),
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
   enrolmentStart: '13.08.2020 03:45',
@@ -94,23 +96,22 @@ const defaultFormData = {
 
 const createEventVariables = {
   event: {
-    name: { fi: 'Testitapahtuma' },
+    name: createFinnishLocalisedObject('Testitapahtuma', true),
     startTime: '2020-08-07T21:00:00.000Z',
     offers: [
       {
-        price: {
-          fi: '',
-        },
-        description: {
-          fi: '',
-        },
+        price: EMPTY_LOCALISED_OBJECT,
+        description: EMPTY_LOCALISED_OBJECT,
         isFree: true,
       },
     ],
-    shortDescription: { fi: 'Testikuvaus' },
-    description: { fi: 'Pidempi kuvaus' },
+    shortDescription: createFinnishLocalisedObject('Testikuvaus', true),
+    description: createFinnishLocalisedObject('Pidempi kuvaus', true),
     images: [{ internalId: '/image/48584/' }],
-    infoUrl: { fi: 'https://www.palvelutarjotin.fi' },
+    infoUrl: createFinnishLocalisedObject(
+      'https://www.palvelutarjotin.fi',
+      true
+    ),
     audience: audienceKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     inLanguage: [],
     keywords: [
@@ -395,11 +396,11 @@ test('modal opens when trying to change language', async () => {
 
   userEvent.type(
     screen.getByLabelText(/Tapahtuman nimi/),
-    defaultFormData.name
+    defaultFormData.name.fi
   );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: defaultFormData.name,
+    'name.fi': defaultFormData.name.fi,
   });
 
   // should open modal when trying to change event language
@@ -456,7 +457,7 @@ test('event can be created with form', async () => {
       search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
     });
   });
-});
+}, /* it seems that running test takes over 100 seconds and fails, let's override the default timeout with 150 seconds */ 150_000);
 
 test('price field is accessible only when isFree field is not checked', async () => {
   render(<CreateEventPage />, { mocks });
@@ -531,39 +532,37 @@ const fillForm = async (
     ).toBeInTheDocument();
   });
 
-  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), eventFormData.name);
+  userEvent.type(
+    screen.getByLabelText(/Tapahtuman nimi/),
+    eventFormData.name.fi
+  );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: eventFormData.name,
+    'name.fi': eventFormData.name.fi,
   });
 
   userEvent.type(
     screen.getByLabelText(/lyhyt kuvaus/i),
-    eventFormData.shortDescription
+    eventFormData.shortDescription.fi
   );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: eventFormData.name,
-    shortDescription: eventFormData.shortDescription,
+    'name.fi': eventFormData.name.fi,
+    'shortDescription.fi': eventFormData.shortDescription.fi,
   });
 
-  userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description);
+  userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description.fi);
   userEvent.type(
     screen.getByLabelText('WWW-osoite, josta saa lisätietoja tapahtumasta'),
-    eventFormData.infoUrl
+    eventFormData.infoUrl.fi
   );
 
   // image input should disappear after adding image
-  const imageInput = screen.getByLabelText('Tapahtuman kuva');
-  expect(
-    screen.queryByRole('button', { name: 'Lisää kuva' })
-  ).toBeInTheDocument();
+  const imageInput = await screen.findByLabelText('Tapahtuman kuva');
+  await screen.findByRole('button', { name: 'Lisää kuva' });
 
   fireEvent.change(imageInput, { target: { files: [imageFile] } });
-
-  await waitFor(() => {
-    expect(screen.queryByAltText(imageAltText)).toBeInTheDocument();
-  });
+  await screen.findByAltText(imageAltText);
 
   expect(
     screen.queryByRole('button', { name: 'Lisää kuva' })
@@ -749,9 +748,9 @@ test.skip('copied event is initialized correctly', async () => {
   });
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: eventName,
-    shortDescription,
-    infoUrl,
+    'name.fi': eventName,
+    'shortDescription,fi': shortDescription,
+    'infoUrl.fi': infoUrl,
     contactEmail,
     contactPhoneNumber,
     enrolmentStart: '',

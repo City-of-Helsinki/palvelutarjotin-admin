@@ -18,7 +18,9 @@ import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
+import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { getVenueDescription } from '../venue/utils';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
@@ -109,32 +111,24 @@ export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
 export const getEventPayload = ({
   values,
   organisationId,
-  selectedLanguage,
 }: {
   values: EventFormFields;
   organisationId: string;
-  selectedLanguage: Language;
 }) => {
   const { keywords, additionalCriteria, categories } = values;
   return {
-    name: { [selectedLanguage]: values.name },
+    name: getLocalisedObject(values.name),
     // start_date and offers are mandatory on LinkedEvents to use dummy data
     startTime: new Date().toISOString(),
     offers: [
       {
         isFree: values.isFree,
-        price: {
-          [selectedLanguage]: values.price,
-        },
-        description: {
-          [selectedLanguage]: values.priceDescription,
-        },
+        price: getLocalisedObject(values.price),
+        description: getLocalisedObject(values.priceDescription),
       },
     ],
-    shortDescription: {
-      [selectedLanguage]: values.shortDescription,
-    },
-    description: { [selectedLanguage]: values.description },
+    shortDescription: getLocalisedObject(values.shortDescription),
+    description: getLocalisedObject(values.description),
     images: values.image
       ? [
           {
@@ -145,7 +139,7 @@ export const getEventPayload = ({
           },
         ]
       : [],
-    infoUrl: { [selectedLanguage]: values.infoUrl },
+    infoUrl: getLocalisedObject(values.infoUrl),
     audience: values.audience.map((keyword) => ({
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
@@ -187,14 +181,6 @@ export const getEventPayload = ({
     organisationId,
   };
 };
-
-export const getEventVenueDescription = (
-  eventData: EventQuery | null,
-  selectedLanguage: Language
-): string =>
-  eventData?.event?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
@@ -320,7 +306,7 @@ export const firstOccurrencePrefilledValuesToQuery = (
 
 /**
  * Check is event free
- * @param eventData
+ * @param event
  * @return {boolean}
  */
 export const isEventFree = (event: EventFieldsFragment): boolean =>
@@ -355,8 +341,7 @@ export const getLocationId = (
 };
 
 export const getEventFormValues = (
-  eventData: EventQuery,
-  selectedLanguage: Language
+  eventData: EventQuery
 ): CreateEventFormFields => ({
   ...createEventInitialValues,
   additionalCriteria:
@@ -366,7 +351,7 @@ export const getEventFormValues = (
   contactEmail: eventData.event?.pEvent?.contactEmail || '',
   contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
   contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
-  description: eventData.event?.description?.[selectedLanguage] || '',
+  description: getLocalisedObject(eventData.event?.description),
   enrolmentEndDays: eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
   enrolmentStart: eventData.event?.pEvent?.enrolmentStart
     ? new Date(eventData.event?.pEvent?.enrolmentStart)
@@ -374,20 +359,21 @@ export const getEventFormValues = (
   image: eventData.event?.images[0]?.id || '',
   imageAltText: eventData.event?.images[0]?.altText || '',
   imagePhotographerName: eventData.event?.images[0]?.photographerName || '',
-  infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
+  infoUrl: getLocalisedObject(eventData.event?.infoUrl),
   inLanguage: eventData.event?.inLanguage.map((item) => item.id || '') || [],
   isFree: !!eventData.event?.offers?.[0]?.isFree,
-  priceDescription:
-    eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
+  priceDescription: getLocalisedObject(
+    eventData.event?.offers?.[0]?.description
+  ),
   keywords:
     getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
   location: getLocationId(eventData.event?.location.id),
-  name: eventData.event?.name[selectedLanguage] || '',
+  name: getLocalisedObject(eventData.event?.name),
   neededOccurrences:
     eventData.event?.pEvent?.neededOccurrences.toString() || '',
-  price: eventData.event?.offers?.[0]?.price?.[selectedLanguage] || '',
-  shortDescription: eventData.event?.shortDescription?.[selectedLanguage] || '',
-  locationDescription: getEventVenueDescription(eventData, selectedLanguage),
+  price: getLocalisedObject(eventData.event?.offers?.[0]?.price),
+  shortDescription: getLocalisedObject(eventData.event?.shortDescription),
+  locationDescription: getVenueDescription(eventData.event?.venue),
   hasClothingStorage: eventData?.event?.venue?.hasClothingStorage || false,
   hasSnackEatingPlace: eventData?.event?.venue?.hasSnackEatingPlace || false,
   outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,

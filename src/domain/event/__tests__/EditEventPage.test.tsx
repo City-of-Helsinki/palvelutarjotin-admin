@@ -7,6 +7,7 @@ import Router from 'react-router';
 import {
   contactEmail,
   contactPhoneNumber,
+  createFinnishLocalisedObject,
   description,
   editMocks,
   eventName,
@@ -68,9 +69,9 @@ test('edit event form initializes and submits correctly', async () => {
   });
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
-    name: eventName,
-    shortDescription: shortDescription,
-    infoUrl: infoUrl,
+    'name.fi': eventName,
+    'shortDescription.fi': shortDescription,
+    'infoUrl.fi': infoUrl,
     contactEmail: contactEmail,
     contactPhoneNumber: contactPhoneNumber,
     enrolmentStart: '13.08.2020 03:45',

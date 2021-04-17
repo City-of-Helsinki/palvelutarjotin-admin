@@ -47,7 +47,7 @@ const ImageSelectedFormPart: React.FC<Props> = ({
   return (
     <>
       <ImagePreview id={imageId} />
-      <div className={styles.imageSelectRow}>
+      <div className={styles.imageSelectRow} data-test-id="imageSelected">
         <div className={styles.imageSelect}>
           <DeleteButton onClick={clearImageFormFields}>
             {t('eventForm.basicInfo.deleteImage')}

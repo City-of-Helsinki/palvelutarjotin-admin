@@ -198,7 +198,7 @@ const EditOccurrencePage: React.FC = () => {
       amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',
       minGroupSize: occurrenceData?.occurrence?.minGroupSize?.toString() || '',
-      locationDescription: getVenueDescription(venueData, locale),
+      locationDescription: getVenueDescription(venueData?.venue),
       hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
       hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
       outdoorActivity: venueData?.venue?.outdoorActivity || false,
@@ -207,7 +207,7 @@ const EditOccurrencePage: React.FC = () => {
       hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
       hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
     }),
-    [locale, occurrenceData, venueData]
+    [occurrenceData, venueData]
   );
 
   return (

@@ -37,6 +37,7 @@ import {
   getEventFormValues,
   getEventLanguageFromUrl,
   getEventPayload,
+  getFirstAvailableLanguage,
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
@@ -84,9 +85,10 @@ const CreateEventPage: React.FC = () => {
             },
           });
           setInitialValues({
-            ...getEventFormValues(data, selectedLanguage),
+            ...getEventFormValues(data),
             ...createEventAlwaysEmptyInitialValues,
           });
+          setSelectedLanguage(language || getFirstAvailableLanguage(data));
         } else {
           setInitialValues(createEventInitialValues);
         }
@@ -102,9 +104,10 @@ const CreateEventPage: React.FC = () => {
     eventIdToCopy,
     apolloClient,
     handleError,
-    selectedLanguage,
     setInitialValues,
     setLoading,
+    setSelectedLanguage,
+    language,
   ]);
 
   const activeOrganisation = useSelector(activeOrganisationSelector);
@@ -132,7 +135,6 @@ const CreateEventPage: React.FC = () => {
             event: {
               ...getEventPayload({
                 values,
-                selectedLanguage,
                 organisationId: selectedOrganisation?.id || '',
               }),
               // save event always as a draft first

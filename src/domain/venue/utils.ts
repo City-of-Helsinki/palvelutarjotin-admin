@@ -6,11 +6,13 @@ import {
   EditVenueDocument,
   EditVenueMutation,
   Language as TranslationLanguage,
+  LocalisedObject,
   VenueDocument,
   VenueNode,
   VenueQuery,
 } from '../../generated/graphql';
 import { Language } from '../../types';
+import { getLocalisedObject } from '../../utils/translateUtils';
 import apolloClient from '../app/apollo/apolloClient';
 import { VenueDataFields } from './types';
 
@@ -25,12 +27,17 @@ const VENUE_AMENITIES = [
 ] as const;
 
 export const getVenueDescription = (
-  venueData: VenueQuery | undefined | null,
-  selectedLanguage: Language
-): string =>
-  venueData?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
+  venue: VenueNode | undefined | null
+): LocalisedObject =>
+  getLocalisedObject(
+    venue?.translations.reduce<LocalisedObject>(
+      (result, { languageCode, description }) => ({
+        ...result,
+        ...(languageCode && { [languageCode.toLowerCase()]: description }),
+      }),
+      {}
+    )
+  );
 
 export const getVenuePayload = ({
   locationId,
@@ -102,11 +109,10 @@ export const createOrUpdateVenue = async ({
       variables: { id: locationId },
     });
 
-    const venueDescription = getVenueDescription(existingVenueData, language);
-
+    const venueDescription = getVenueDescription(existingVenueData?.venue);
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
-        (venueFormData.locationDescription !== venueDescription ||
+        (venueFormData.locationDescription?.[language] !== venueDescription ||
           hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData))
     );
 

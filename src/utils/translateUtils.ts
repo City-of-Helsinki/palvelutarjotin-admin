@@ -1,5 +1,9 @@
 import { InterpolationOptions, TFunction } from 'i18next';
 
+import { EMPTY_LOCALISED_OBJECT } from '../constants';
+import { LocalisedObject } from '../generated/graphql';
+import { omitTypename } from '../types';
+
 /**
  * Convert snake case string to camel case.
  * e.g
@@ -51,3 +55,6 @@ export const translateValue = (
     options
   );
 };
+
+export const getLocalisedObject = (obj?: LocalisedObject | null) =>
+  omitTypename(obj) ?? EMPTY_LOCALISED_OBJECT;

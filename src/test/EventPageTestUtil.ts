@@ -1,4 +1,7 @@
-import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
+import {
+  EMPTY_LOCALISED_OBJECT,
+  LINKEDEVENTS_CONTENT_TYPE,
+} from '../constants';
 import {
   EditEventDocument,
   EventDocument,
@@ -43,6 +46,15 @@ export const personId = 'T3JnYW5pc2F0aW9uTm9kZTox';
 export const venueDescription = 'Venue description';
 export const personName = 'Testaaja2';
 export const organizationName = 'Kulttuurin ja vapaa-ajan toimiala';
+
+export const createFinnishLocalisedObject = (
+  fiText: string,
+  emptyString?: boolean
+) => ({
+  fi: fiText,
+  sv: emptyString ? '' : null,
+  en: emptyString ? '' : null,
+});
 
 export const keywordMockResponse = {
   keyword: fakeKeyword({
@@ -100,24 +112,20 @@ export const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 const editEventVariables = {
   event: {
     id: eventId,
-    name: { fi: 'TestitapahtumaTestinimi' },
+    name: createFinnishLocalisedObject('TestitapahtumaTestinimi'),
     startTime: '2020-08-04T21:00:00.000Z',
     endTime: '',
     offers: [
       {
-        description: {
-          fi: 'description',
-        },
-        price: {
-          fi: '99,9',
-        },
+        description: createFinnishLocalisedObject('description'),
+        price: createFinnishLocalisedObject('99,9'),
         isFree: true,
       },
     ],
-    shortDescription: { fi: shortDescription },
-    description: { fi: description },
+    shortDescription: createFinnishLocalisedObject(shortDescription),
+    description: createFinnishLocalisedObject(description),
     images: [{ internalId: '/image/48598/' }],
-    infoUrl: { fi: infoUrl },
+    infoUrl: createFinnishLocalisedObject(infoUrl),
     audience: audienceKeywords.map((k) => ({
       internalId: getKeywordId(k.id),
     })),
@@ -263,7 +271,7 @@ export const editMocks = [
       variables: {
         event: {
           ...editEventVariables.event,
-          name: { fi: 'Testitapahtuma' },
+          name: createFinnishLocalisedObject('Testitapahtuma'),
           location: {
             internalId: '/place/helsinki:internet/',
           },

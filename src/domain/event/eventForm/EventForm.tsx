@@ -16,6 +16,7 @@ import TimepickerField from '../../../common/components/form/fields/TimepickerFi
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
+import { EMPTY_LOCALISED_OBJECT } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -38,24 +39,24 @@ export const defaultInitialValues: EventFormFields = {
   contactEmail: '',
   contactPersonId: '',
   contactPhoneNumber: '',
-  description: '',
+  description: EMPTY_LOCALISED_OBJECT,
   mandatoryAdditionalInformation: false,
   enrolmentEndDays: '',
   enrolmentStart: null,
   image: '',
   imageAltText: '',
   imagePhotographerName: '',
-  infoUrl: '',
+  infoUrl: EMPTY_LOCALISED_OBJECT,
   inLanguage: [],
   isFree: true,
   keywords: [],
   location: '',
-  name: '',
+  name: EMPTY_LOCALISED_OBJECT,
   neededOccurrences: '1',
-  price: '',
-  priceDescription: '',
-  shortDescription: '',
-  locationDescription: '',
+  price: EMPTY_LOCALISED_OBJECT,
+  priceDescription: EMPTY_LOCALISED_OBJECT,
+  shortDescription: EMPTY_LOCALISED_OBJECT,
+  locationDescription: EMPTY_LOCALISED_OBJECT,
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
   outdoorActivity: false,
@@ -168,7 +169,6 @@ const EventForm = <T extends FormFields>({
       }) => {
         const { contactPersonId, image, location, isFree } = values;
         const imageSelected = Boolean(image);
-
         return (
           <>
             <FocusToFirstError />
@@ -202,7 +202,7 @@ const EventForm = <T extends FormFields>({
                     <FormGroup>
                       <Field
                         labelText={t('eventForm.basicInfo.labelName')}
-                        name="name"
+                        name={`name.${selectedLanguage}`}
                         required
                         component={TextInputField}
                       />
@@ -212,7 +212,7 @@ const EventForm = <T extends FormFields>({
                         labelText={t(
                           'eventForm.basicInfo.labelShortDescription'
                         )}
-                        name="shortDescription"
+                        name={`shortDescription.${selectedLanguage}`}
                         required
                         component={TextInputField}
                       />
@@ -220,7 +220,7 @@ const EventForm = <T extends FormFields>({
                     <FormGroup>
                       <Field
                         labelText={t('eventForm.basicInfo.labelDescription')}
-                        name="description"
+                        name={`description.${selectedLanguage}`}
                         required
                         component={TextAreaInputField}
                         rows={20}
@@ -254,7 +254,7 @@ const EventForm = <T extends FormFields>({
                     <FormGroup>
                       <Field
                         labelText={t('eventForm.basicInfo.labelInfoUrl')}
-                        name="infoUrl"
+                        name={`infoUrl.${selectedLanguage}`}
                         component={TextInputField}
                       />
                     </FormGroup>
@@ -470,7 +470,7 @@ const EventForm = <T extends FormFields>({
                       <Field
                         disabled={isFree}
                         labelText={t('eventForm.offers.labelPriceDescription')}
-                        name="priceDescription"
+                        name={`priceDescription.${selectedLanguage}`}
                         component={TextAreaInputField}
                         placeholder={t(
                           'eventForm.offers.placeholderPriceDescription'

@@ -91,7 +91,6 @@ const useEventFormEditSubmit = (
               id: eventData?.event?.id || '',
               ...getEventPayload({
                 values,
-                selectedLanguage,
                 organisationId:
                   eventData?.event?.pEvent?.organisation?.id ?? '',
               }),
@@ -166,10 +165,10 @@ const EditEventPage: React.FC = () => {
   }, [eventData, language]);
 
   useEffect(() => {
-    if (eventData && selectedLanguage) {
-      setInitialValues(getEventFormValues(eventData, selectedLanguage));
+    if (eventData) {
+      setInitialValues(getEventFormValues(eventData));
     }
-  }, [eventData, selectedLanguage]);
+  }, [eventData]);
 
   const handleLanguageChange = (newLanguage: Language) => {
     history.push({
