@@ -133,7 +133,6 @@ const EventForm = <T extends FormFields>({
         label: person.name,
         value: person.id,
       })),
-
     [persons]
   );
 

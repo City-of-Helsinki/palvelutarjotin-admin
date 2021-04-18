@@ -7,16 +7,19 @@ import Router from 'react-router';
 import {
   contactEmail,
   contactPhoneNumber,
-  createFinnishLocalisedObject,
+  defaultOrganizationName,
   description,
   editMocks,
+  eventId,
   eventName,
   infoUrl,
+  keyword,
+  keywordId,
   keywordMockResponse,
-  organizationName,
   personName,
   photoAltText,
   photographerName,
+  placeName,
   shortDescription,
   venueDescription,
   venueQueryResponse,
@@ -27,14 +30,14 @@ import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
 
 beforeEach(() => {
   jest.spyOn(Router, 'useParams').mockReturnValue({
-    id: '123',
+    id: eventId,
   });
 });
 
 jest
   .spyOn(apolloClient, 'readQuery')
   .mockImplementation(({ variables }: any) => {
-    if (variables.id === 'yso:p4363') {
+    if (variables.id === keywordId) {
       return keywordMockResponse;
     }
   });
@@ -54,19 +57,16 @@ test('edit event form initializes and submits correctly', async () => {
 
   const goBack = jest.spyOn(history, 'goBack');
 
-  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
-
   await waitFor(() => {
-    expect(screen.queryByText(organizationName)).toBeInTheDocument();
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
+  await screen.findByText(defaultOrganizationName);
+  await screen.findByText(keyword);
 
-  await waitFor(() => {
-    expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
-    expect(screen.queryByText('perheet')).toBeInTheDocument();
-    expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
-      venueDescription
-    );
-  });
+  expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
+  expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
+    venueDescription
+  );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
     'name.fi': eventName,
@@ -88,20 +88,14 @@ test('edit event form initializes and submits correctly', async () => {
     contactInfo.getByLabelText(/Nimi/, { selector: 'button' })
   ).toHaveTextContent(personName);
 
-  await waitFor(() => {
-    expect(screen.getAllByText('Sellon kirjasto')).toHaveLength(2);
-  });
+  expect(screen.getAllByText(placeName)).toHaveLength(2);
 
   expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
   expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
 
   userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
   userEvent.click(
     screen.getByRole('button', {
@@ -119,15 +113,13 @@ test('virtual event checkbox works correctly', async () => {
 
   const goBack = jest.spyOn(history, 'goBack');
 
-  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
-
   await waitFor(() => {
-    expect(screen.queryByText(organizationName)).toBeInTheDocument();
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  await waitFor(() => {
-    expect(screen.getAllByText('Sellon kirjasto')).toHaveLength(2);
-  });
+  await screen.findByText(defaultOrganizationName);
+
+  expect(screen.getAllByText(placeName)).toHaveLength(2);
 
   userEvent.click(
     screen.getByRole('checkbox', {
@@ -137,7 +129,7 @@ test('virtual event checkbox works correctly', async () => {
 
   // Location shouldn't be shown after virtual event checkbox has been clicked
   await waitFor(() => {
-    expect(screen.queryByText('Sellon kirjasto')).not.toBeInTheDocument();
+    expect(screen.queryByText(placeName)).not.toBeInTheDocument();
   });
 
   userEvent.click(
@@ -162,19 +154,11 @@ test('returns to create occurrences page when it should after saving', async () 
 
   const historyPush = jest.spyOn(history, 'push');
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Kulttuurin ja vapaa-ajan toimiala')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText(defaultOrganizationName);
 
   userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
   userEvent.click(
     screen.getByRole('button', {
@@ -184,7 +168,7 @@ test('returns to create occurrences page when it should after saving', async () 
 
   await waitFor(() => {
     expect(historyPush).toHaveBeenCalledWith(
-      '/fi/events/123/occurrences/create'
+      `/fi/events/${eventId}/occurrences/create`
     );
   });
 });

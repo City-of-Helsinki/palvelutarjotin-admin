@@ -6,6 +6,7 @@ import CheckboxField from '../../../common/components/form/fields/CheckboxField'
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { VenueDocument, VenueQuery } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import apolloClient from '../../app/apollo/apolloClient';
 import styles from './venueDataFields.module.scss';
@@ -20,7 +21,7 @@ const VenueDataFields: React.FC<{
   ) => void;
 }> = ({ locationId, selectedLanguage, setFieldValue }) => {
   const { t } = useTranslation();
-
+  const locale = useLocale();
   React.useEffect(() => {
     const getVenueInfo = async () => {
       if (locationId) {
@@ -34,7 +35,10 @@ const VenueDataFields: React.FC<{
             (t) => (t.languageCode as string).toLowerCase() === selectedLanguage
           );
 
-          setFieldValue('locationDescription', description?.description || '');
+          setFieldValue(
+            `locationDescription.${locale}`,
+            description?.description || ''
+          );
           ([
             'hasSnackEatingPlace',
             'hasClothingStorage',
@@ -53,14 +57,14 @@ const VenueDataFields: React.FC<{
       }
     };
     getVenueInfo();
-  }, [locationId, setFieldValue, selectedLanguage]);
+  }, [locationId, setFieldValue, selectedLanguage, locale]);
 
   return (
     <FormGroup>
       <Field
         helperText={t('venue.venueDataFields.helperLocationDescription')}
         labelText={t('venue.venueDataFields.labelLocationDescription')}
-        name="locationDescription"
+        name={`locationDescription.${locale}`}
         placeholder={t('venue.venueDataFields.placeholderLocationDescription')}
         component={TextAreaInputField}
         rows={5}

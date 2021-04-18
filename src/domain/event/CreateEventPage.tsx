@@ -1,8 +1,7 @@
 import { useApolloClient } from '@apollo/react-hooks';
 import { Notification } from 'hds-react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useHistory, useLocation, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -10,9 +9,8 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import {
   EventDocument,
   EventQuery,
-  PersonFieldsFragment,
+  OrganisationNodeFieldsFragment,
   useCreateEventMutation,
-  useMyProfileQuery,
   useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
@@ -22,9 +20,9 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import { getImageName } from '../image/utils';
-import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { activeOrganisationSelector } from '../organisation/selector';
+import { getPersons } from '../organisation/oranisationUtils';
+import { useSelectedOrganisation } from '../organisation/useSelectedOrganisation';
 import { createOrUpdateVenue } from '../venue/utils';
 import EventForm, {
   createEventAlwaysEmptyInitialValues,
@@ -41,23 +39,32 @@ import {
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
-  const apolloClient = useApolloClient();
   const { id: eventIdToCopy } = useParams<{ id: string }>();
+  const apolloClient = useApolloClient();
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
   const locale = useLocale();
-  const language = getEventLanguageFromUrl(location.search);
+  const language = useMemo(() => getEventLanguageFromUrl(location.search), [
+    location.search,
+  ]);
   const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
 
+  const [loading, setLoading] = useState(true);
+  const [eventData, setEventData] = useState<EventQuery | null>(null);
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     createEventInitialValues
   );
-  const [loading, setLoading] = useState<boolean>(true);
 
   const [createEvent] = useCreateEventMutation();
   const [updateImage] = useUpdateSingleImageMutation();
-  const { data: myProfileData } = useMyProfileQuery();
+
+  const selectedOrganisation = useSelectedOrganisation();
+
+  const [eventOrganisation, setEventOrganisation] = useState<
+    OrganisationNodeFieldsFragment | null | undefined
+  >(null);
+
   const handleError = useCallback(
     (err: Error) => {
       // TODO: Improve error handling when API returns more informative errors
@@ -84,41 +91,38 @@ const CreateEventPage: React.FC = () => {
               include: ['audience', 'in_language', 'keywords', 'location'],
             },
           });
+          setEventData(data);
           setInitialValues({
             ...getEventFormValues(data),
             ...createEventAlwaysEmptyInitialValues,
           });
-          setSelectedLanguage(language || getFirstAvailableLanguage(data));
         } else {
           setInitialValues(createEventInitialValues);
         }
       } catch (err) {
-        setInitialValues(createEventInitialValues);
         handleError(err);
       } finally {
         setLoading(false);
       }
     };
     getInitialValues();
-  }, [
-    eventIdToCopy,
-    apolloClient,
-    handleError,
-    setInitialValues,
-    setLoading,
-    setSelectedLanguage,
-    language,
-  ]);
+  }, [eventIdToCopy, apolloClient, handleError, setInitialValues, setLoading]);
 
-  const activeOrganisation = useSelector(activeOrganisationSelector);
-  const selectedOrganisation =
-    myProfileData?.myProfile &&
-    getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
+  useEffect(() => {
+    if (language) {
+      setSelectedLanguage(language);
+    } else {
+      setSelectedLanguage(getFirstAvailableLanguage(eventData));
+    }
+  }, [eventData, language, setSelectedLanguage]);
 
-  const persons =
-    selectedOrganisation?.persons.edges.map(
-      (edge) => edge?.node as PersonFieldsFragment
-    ) || [];
+  useEffect(() => {
+    setEventOrganisation(eventData?.event?.pEvent?.organisation);
+  }, [eventData, setEventOrganisation]);
+
+  const organisation = eventOrganisation ?? selectedOrganisation;
+  const persons = useMemo(() => getPersons(organisation), [organisation]);
+
   const goToEventList = () => {
     history.push(ROUTES.HOME);
   };
@@ -135,7 +139,7 @@ const CreateEventPage: React.FC = () => {
             event: {
               ...getEventPayload({
                 values,
-                organisationId: selectedOrganisation?.id || '',
+                organisationId: organisation?.id ?? '',
               }),
               // save event always as a draft first
               draft: true,

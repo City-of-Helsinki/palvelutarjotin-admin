@@ -67,7 +67,6 @@ const DropdownField: React.FC<Props> = ({
     label: '',
     value: '',
   };
-
   return (
     <Select
       {...rest}

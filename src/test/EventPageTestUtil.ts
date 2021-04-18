@@ -42,10 +42,16 @@ export const contactEmail = 'testi@testi.fi';
 export const contactPhoneNumber = '123123123';
 export const contactPersonId =
   'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=';
-export const personId = 'T3JnYW5pc2F0aW9uTm9kZTox';
+export const eventContactPersonId =
+  'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=';
+export const organisationId = 'T3JnYW5pc2F0aW9uTm9kZToy';
 export const venueDescription = 'Venue description';
 export const personName = 'Testaaja2';
-export const organizationName = 'Kulttuurin ja vapaa-ajan toimiala';
+export const eventOrganizationPersonName = 'Event Testaaja';
+export const defaultOrganizationName =
+  'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto';
+export const eventOrganizationName = 'Kulttuurin ja vapaa-ajan toimiala';
+export const keyword = 'perheet';
 
 export const createFinnishLocalisedObject = (
   fiText: string,
@@ -58,8 +64,8 @@ export const createFinnishLocalisedObject = (
 
 export const keywordMockResponse = {
   keyword: fakeKeyword({
-    id: 'yso:p4363',
-    name: fakeLocalizedObject('perheet'),
+    id: keywordId,
+    name: fakeLocalizedObject(keyword),
   }),
 };
 
@@ -150,7 +156,7 @@ const editEventVariables = {
       autoAcceptance: true,
       mandatoryAdditionalInformation: false,
     },
-    organisationId: personId,
+    organisationId: organisationId,
     draft: true,
   },
 };
@@ -206,7 +212,17 @@ const eventResponse = {
         ...basicKeywords.map((k) => fakeKeyword({ id: k.id })),
       ],
       pEvent: fakePEvent({
-        organisation: fakeOrganisation({ id: personId }),
+        organisation: fakeOrganisation({
+          id: organisationId,
+          name: eventOrganizationName,
+          persons: fakePersons(1, [
+            {
+              organisations: [] as never,
+              name: eventOrganizationPersonName,
+              id: contactPersonId,
+            },
+          ]),
+        }),
         contactEmail: contactEmail,
         contactPhoneNumber: contactPhoneNumber,
         enrolmentEndDays: 3,
@@ -222,12 +238,14 @@ const eventResponse = {
   },
 };
 
-const profileResponse = {
+console.log('eventResponse', JSON.stringify(eventResponse.data));
+
+export const profileResponse = {
   data: {
     myProfile: fakePerson({
       organisations: fakeOrganisations(1, [
         {
-          id: personId,
+          id: organisationId,
           persons: fakePersons(1, [
             {
               organisations: [] as never,
@@ -235,7 +253,7 @@ const profileResponse = {
               id: contactPersonId,
             },
           ]),
-          name: organizationName,
+          name: defaultOrganizationName,
         },
       ]),
     }),
@@ -245,8 +263,8 @@ const profileResponse = {
 const keywordResponse = {
   data: {
     keyword: fakeKeyword({
-      id: 'yso:p4363',
-      name: fakeLocalizedObject('perheet'),
+      id: keywordId,
+      name: fakeLocalizedObject(keyword),
     }),
   },
 };
@@ -284,7 +302,7 @@ export const editMocks = [
     request: {
       query: EventDocument,
       variables: {
-        id: '123',
+        id: eventId,
         include: ['audience', 'in_language', 'keywords', 'location'],
       },
     },
@@ -300,7 +318,7 @@ export const editMocks = [
     request: {
       query: KeywordDocument,
       variables: {
-        id: 'yso:p4363',
+        id: keywordId,
       },
     },
     result: keywordResponse,

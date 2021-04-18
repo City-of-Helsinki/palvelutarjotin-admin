@@ -26,18 +26,32 @@ import {
   basicKeywords,
   categoryKeywords,
   contactEmail,
+  contactPersonId,
   contactPhoneNumber,
   createFinnishLocalisedObject,
   criteriaKeywords,
+  defaultOrganizationName,
   description,
   editMocks,
+  eventId,
   eventName,
+  eventOrganizationName,
+  eventOrganizationPersonName,
   getKeywordId,
   infoUrl,
+  keyword,
+  keywordId,
+  keywordMockResponse,
+  organisationId,
   personName,
   photoAltText,
   photographerName,
+  placeId,
+  placeName,
+  profileResponse,
   shortDescription,
+  venueDescription,
+  venueQueryResponse,
 } from '../../../test/EventPageTestUtil';
 import {
   fakeEvent,
@@ -45,9 +59,6 @@ import {
   fakeKeyword,
   fakeKeywords,
   fakeLocalizedObject,
-  fakeOrganisations,
-  fakePerson,
-  fakePersons,
   fakePlace,
   fakePlaces,
   fakeVenue,
@@ -66,24 +77,17 @@ import { EventFormFields } from '../types';
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
 
-const keywordId = 'yso:p4363';
-const placeId = 'tprek:15417';
-const organisationId = 'T3JnYW5pc2F0aW9uTm9kZToy';
-const contactPersonId =
-  'UGVyc29uTm9kZTo0MGZmYTIwMS1mOWJhLTQyZTYtYjY3Ny01MWQyM2Q4OGQ4ZDk=';
-const contactName = 'Testaaja2';
 const imageId = '48584';
 const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
   type: 'image/png',
 });
 const imageAltText = 'AltText';
-const venueDescription = 'Testitapahtuman kuvaus';
 
 const defaultFormData = {
-  name: createFinnishLocalisedObject('Testitapahtuma'),
-  shortDescription: createFinnishLocalisedObject('Testikuvaus'),
-  description: createFinnishLocalisedObject('Pidempi kuvaus'),
-  infoUrl: createFinnishLocalisedObject('https://www.palvelutarjotin.fi'),
+  name: createFinnishLocalisedObject(eventName, true),
+  shortDescription: createFinnishLocalisedObject(shortDescription, true),
+  description: createFinnishLocalisedObject(description, true),
+  infoUrl: createFinnishLocalisedObject(infoUrl, true),
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
   enrolmentStart: '13.08.2020 03:45',
@@ -96,7 +100,7 @@ const defaultFormData = {
 
 const createEventVariables = {
   event: {
-    name: createFinnishLocalisedObject('Testitapahtuma', true),
+    name: defaultFormData.name,
     startTime: '2020-08-07T21:00:00.000Z',
     offers: [
       {
@@ -105,13 +109,10 @@ const createEventVariables = {
         isFree: true,
       },
     ],
-    shortDescription: createFinnishLocalisedObject('Testikuvaus', true),
-    description: createFinnishLocalisedObject('Pidempi kuvaus', true),
+    shortDescription: defaultFormData.shortDescription,
+    description: defaultFormData.description,
     images: [{ internalId: '/image/48584/' }],
-    infoUrl: createFinnishLocalisedObject(
-      'https://www.palvelutarjotin.fi',
-      true
-    ),
+    infoUrl: defaultFormData.infoUrl,
     audience: audienceKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     inLanguage: [],
     keywords: [
@@ -131,7 +132,7 @@ const createEventVariables = {
       autoAcceptance: true,
       mandatoryAdditionalInformation: false,
     },
-    organisationId: organisationId,
+    organisationId,
     draft: true,
   },
 };
@@ -182,7 +183,7 @@ const keywordsResponse = {
   data: {
     keywords: fakeKeywords(1, [
       {
-        name: fakeLocalizedObject('perheet'),
+        name: fakeLocalizedObject(keyword),
         id: keywordId,
       },
     ]),
@@ -198,29 +199,8 @@ const placeResponse = {
 const placesResponse = {
   data: {
     places: fakePlaces(1, [
-      { name: fakeLocalizedObject('Sellon kirjasto'), id: placeId },
+      { name: fakeLocalizedObject(placeName), id: placeId },
     ]),
-  },
-};
-
-const profileResponse = {
-  data: {
-    myProfile: fakePerson({
-      organisations: fakeOrganisations(1, [
-        {
-          id: organisationId,
-          persons: fakePersons(1, [
-            {
-              /* eslint-disable @typescript-eslint/no-explicit-any */
-              organisations: [] as any,
-              name: contactName,
-              id: contactPersonId,
-            },
-          ]),
-          name: 'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto',
-        },
-      ]),
-    }),
   },
 };
 
@@ -237,7 +217,7 @@ const venueResponse = {
       translations: [
         {
           languageCode: Language.Fi,
-          description: 'Testitapahtuman kuvaus',
+          description: venueDescription,
           __typename: 'VenueTranslationType',
         },
       ],
@@ -279,7 +259,7 @@ const mocks = [
       skip: false,
       variables: {
         pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
-        text: 'perheet',
+        text: keyword,
       },
     },
     result: keywordsResponse,
@@ -388,11 +368,7 @@ test('modal opens when trying to change language', async () => {
 
   Modal.setAppElement(container);
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText(defaultOrganizationName);
 
   userEvent.type(
     screen.getByLabelText(/Tapahtuman nimi/),
@@ -416,11 +392,7 @@ test('modal opens when trying to change language', async () => {
 
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText('Sivulla on tallentamattomia muutoksia');
 });
 
 test('event can be created with form', async () => {
@@ -461,9 +433,7 @@ test('event can be created with form', async () => {
 
 test('price field is accessible only when isFree field is not checked', async () => {
   render(<CreateEventPage />, { mocks });
-  await waitFor(() => {
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeInTheDocument();
-  });
+  await screen.findByLabelText(/Tapahtuma on ilmainen/);
 
   expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
   expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
@@ -526,11 +496,7 @@ const fillForm = async (
     endTime: string;
   }
 ) => {
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText(defaultOrganizationName);
 
   userEvent.type(
     screen.getByLabelText(/Tapahtuman nimi/),
@@ -647,7 +613,7 @@ const fillForm = async (
     })
   );
 
-  userEvent.click(contactInfoPart.getByRole('option', { name: contactName }));
+  userEvent.click(contactInfoPart.getByRole('option', { name: personName }));
 
   // email and name should automatically populate after choosing name from dropdown
   await waitFor(() => {
@@ -724,66 +690,88 @@ const testMultiDropdownValues = async ({
 
   const dropdown = within(screen.getByTestId(dropdownTestId));
 
-  await waitFor(() => {
-    values.forEach((value) => {
-      expect(dropdown.queryByText(value)).toBeInTheDocument();
-    });
-  });
+  await Promise.all(values.map((value) => dropdown.findByText(value)));
 };
 
-test.skip('copied event is initialized correctly', async () => {
-  advanceTo(new Date(2020, 7, 5));
-  render(<CreateEventPage />, { mocks: editMocks });
+describe('Copy event', () => {
+  beforeEach(() => {
+    jest.spyOn(Router, 'useParams').mockReturnValue({
+      id: eventId,
+    });
+    jest
+      .spyOn(apolloClient, 'readQuery')
+      .mockImplementation(({ variables }: any) => {
+        if (variables.id === keywordId) {
+          return keywordMockResponse;
+        }
+      });
+    jest
+      .spyOn(apolloClient, 'query')
+      .mockResolvedValue(venueQueryResponse as any);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    jest
+      .spyOn(apolloClient, 'readQuery')
+      .mockReturnValue(venueQueryResponse as any);
+
+    advanceTo(new Date(2020, 7, 5));
   });
 
-  await waitFor(() => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('initializes copied event correctly', async () => {
+    render(<CreateEventPage />, {
+      mocks: editMocks,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    });
+
+    await screen.findByText(eventOrganizationName);
+    await screen.findByText(keyword);
+
     expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
-    expect(screen.queryByText('perheet')).toBeInTheDocument();
     expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
       venueDescription
     );
+
+    expect(screen.getByTestId('event-form')).toHaveFormValues({
+      'name.fi': eventName,
+      'shortDescription.fi': shortDescription,
+      'infoUrl.fi': infoUrl,
+      contactEmail,
+      contactPhoneNumber,
+      enrolmentStart: '',
+      enrolmentEndDays: 3,
+      neededOccurrences: 3,
+      imagePhotographerName: photographerName,
+      imageAltText: photoAltText,
+    });
+
+    expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description);
+
+    await waitFor(() => {
+      expect(
+        within(screen.getByTestId('contact-info')).getByLabelText(/Nimi/, {
+          selector: 'button',
+        })
+      ).toHaveTextContent(eventOrganizationPersonName);
+    });
+
+    await waitFor(() => {
+      expect(screen.getAllByText(placeName)).toHaveLength(2);
+    });
+
+    expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
+    expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
+
+    userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
+
+    await screen.findByText('Sivulla on tallentamattomia muutoksia');
+    await screen.findByRole('button', {
+      name: /tallenna ja siirry tapahtuma-aikoihin/i,
+    });
   });
-
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventName,
-    'shortDescription,fi': shortDescription,
-    'infoUrl.fi': infoUrl,
-    contactEmail,
-    contactPhoneNumber,
-    enrolmentStart: '',
-    enrolmentEndDays: 3,
-    neededOccurrences: 3,
-    imagePhotographerName: photographerName,
-    imageAltText: photoAltText,
-  });
-
-  expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description);
-
-  await screen.findByRole('button', {
-    name: new RegExp(personName, 'i'),
-  });
-
-  await waitFor(() => {
-    expect(screen.getAllByText('Sellon kirjasto')).toHaveLength(2);
-  });
-
-  expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
-  expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
-
-  userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
-
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
-  });
-
-  expect(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
-  ).toBeInTheDocument();
 });

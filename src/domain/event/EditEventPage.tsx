@@ -21,6 +21,7 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { PUBLICATION_STATUS } from '../events/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { getPersons } from '../organisation/oranisationUtils';
 import EventForm, { defaultInitialValues } from './eventForm/EventForm';
 import {
   useCreateOrUpdateVenueRequest,
@@ -147,12 +148,9 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
-
+  console.log(JSON.stringify(eventData));
   const organisation = eventData?.event?.pEvent?.organisation;
-  const persons =
-    organisation?.persons.edges.map(
-      (edge) => edge?.node as PersonFieldsFragment
-    ) || [];
+  const persons = getPersons(organisation);
 
   const goToEventDetailsPage = () => {
     history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
@@ -193,9 +191,7 @@ const EditEventPage: React.FC = () => {
               <Container>
                 <div className={styles.eventPage}>
                   <ActiveOrganisationInfo
-                    organisationId={
-                      eventData?.event?.pEvent?.organisation?.id ?? ''
-                    }
+                    organisationId={organisation?.id ?? ''}
                   />
                   <EventForm
                     edit
