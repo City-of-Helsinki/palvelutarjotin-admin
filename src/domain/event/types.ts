@@ -1,5 +1,5 @@
 import { Event, Image, LocalisedObject } from '../../generated/graphql';
-import { VenueDataFields } from '../venue/types';
+import { OldVenueDataFields } from '../venue/types';
 
 export type EventLanguages = 'en' | 'fi' | 'sv';
 
@@ -8,7 +8,7 @@ export type EventInList = Pick<Event, 'id' | 'startTime' | 'endTime'> & {
   name: LocalisedObject;
 };
 
-export interface EventFormFields extends VenueDataFields {
+export interface EventFormFields extends OldVenueDataFields {
   audience: string[];
   contactEmail: string;
   contactPersonId: string;

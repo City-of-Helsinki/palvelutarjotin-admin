@@ -300,8 +300,9 @@
       "photographer": "Valokuvaaja",
       "title": "Tapahtuman perustiedot"
     },
+    "formLanguageSelectorTitle": "Valitse lomakkeen kieliversiot",
     "buttonCancel": "Peruuta",
-    "buttonSave": "Tallenna",
+    "buttonSave": "Tallenna tiedot",
     "buttonSaveAndGoToOccurrences": "Tallenna ja siirry tapahtuma-aikoihin",
     "buttonSaveDraft": "Tallenna luonnos",
     "occurrenceTime": {
@@ -339,11 +340,18 @@
       "labelPhone": "Puhelinnumero",
       "title": "Yhteyshenkilö"
     },
+    "enrolment": {
+      "title": "Ilmoittautuminen",
+      "labelExternalEnrolment": "Ilmoittautuminen ohjataan eri sivustolle",
+      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle",
+      "labelEnrolmentRequired": "Tapahtuma-aikoihin osallistuminen edellyttää ilmoittautumista"
+    },
     "location": {
       "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
       "labelLocation": "Oletustapahtumapaikka",
       "placeholderLocation": "Etsi tapahtumapaikkaa...",
-      "title": "Tapahtumapaikka"
+      "title": "Tapahtumapaikka",
+      "labelEventIsHeldVirtual": "Tapahtuma järjestetään virtuaalisesti"
     },
     "accessibility": {
       "audienceDropdown": {
@@ -362,6 +370,11 @@
         "clearButtonAriaLabel": "Poista kaikki kielivalinnat",
         "selectedItemRemoveButtonAriaLabel": "Poista kielivalinta"
       }
+    },
+    "occurrences": {
+      "occurrencesFormSectionTitle": "Tapahtuma-aika",
+      "labelEventHasNoOccurrences": "Tapahtumalla ei ole lukittua ajankohtaa",
+      "buttonAddNewOccurence": "Lisää uusi tapahtuma"
     }
   },
   "events": {
@@ -419,8 +432,8 @@
     "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "labelDate": "Päivämäärä",
-    "labelStartsAt": "Alkaa klo",
-    "labelEndsAt": "Loppuu klo",
+    "labelStartsAt": "Alkaa",
+    "labelEndsAt": "Päättyy",
     "labelEnrolmentStarts": "Ilmoittautuminen alkaa",
     "labelLanguages": "Tapahtuman kieli",
     "labelAmountOfSeats": "Paikkoja",
@@ -582,7 +595,13 @@
       "columnTime": "Kellonaika",
       "labelChooseAllOccurrences": "Valitse kaikki tapahtuma-ajat",
       "labelChooseOccurrence": "Valitse tapahtuma-aika {{info}}",
-      "oneGroup": "1 ryhmä"
+      "oneGroup": "1 ryhmä",
+      "columnStarts": "Alkaa",
+      "columnEnds": "Päättyy",
+      "columnLanguages": "Tapahtuman kieli",
+      "columnMaxGroupSize": "Min",
+      "columnMinGroupSize": "Max",
+      "buttonDeleteOccurrence": "Poista tapahtuma-aika"
     },
     "publishSection": {
       "optionNow": "Heti",

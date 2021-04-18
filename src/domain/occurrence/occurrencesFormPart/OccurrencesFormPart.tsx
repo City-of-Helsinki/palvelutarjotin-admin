@@ -1,10 +1,13 @@
+import addHours from 'date-fns/addHours';
 import formatDate from 'date-fns/format';
-import { Field, Formik, FormikHelpers } from 'formik';
+import isBefore from 'date-fns/isBefore';
+import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, Checkbox, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
@@ -17,7 +20,10 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
 import PlaceText from '../../place/PlaceText';
-import { OccurrenceFormFields } from '../types';
+import {
+  OccurrenceSectionFormFields,
+  TimeAndLocationFormFields,
+} from '../types';
 import {
   getOccurrenceFields,
   getOccurrencePayload,
@@ -31,22 +37,23 @@ import {
   getOptimisticDeleteOccurrenceResponse,
   getOrderedLanguageOptions,
 } from './utils';
-import ValidationSchema from './ValidationSchema';
+import getValidationSchema from './ValidationSchema';
 
-export const defaultInitialValues: OccurrenceFormFields = {
+export const defaultInitialValues: OccurrenceSectionFormFields = {
   startTime: null,
   endTime: null,
   languages: [],
-  location: '',
+  occurrenceLocation: '',
   amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
+  oneGroupFills: false,
 };
 
-const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
-  pEventId,
-  eventId,
-}) => {
+const OccurrencesForm: React.FC<{
+  pEventId: string;
+  eventId: string;
+}> = ({ pEventId, eventId }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const [
@@ -56,6 +63,19 @@ const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const {
+    values: { location },
+  } = useFormikContext<TimeAndLocationFormFields>();
+
+  const initialValues = React.useMemo(() => {
+    return {
+      ...defaultInitialValues,
+      occurrenceLocation: location,
+    };
+  }, [location]);
+
+  const validationSchema = React.useMemo(() => getValidationSchema(), []);
+
+  const {
     data: eventData,
     refetch: refetchEvent,
     variables: eventVariables,
@@ -63,14 +83,28 @@ const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
     variables: { id: eventId },
   });
 
-  const { occurrences } = getEventFields(eventData?.event, locale);
+  const reinitializeForm = (
+    values: OccurrenceSectionFormFields,
+    action: FormikHelpers<OccurrenceSectionFormFields>
+  ) => {
+    action.resetForm();
+    action.setValues({
+      ...defaultInitialValues,
+      occurrenceLocation: values.occurrenceLocation,
+      minGroupSize: values.minGroupSize,
+      maxGroupSize: values.maxGroupSize,
+      amountOfSeats: values.amountOfSeats,
+      languages: values.languages,
+      oneGroupFills: values.oneGroupFills,
+    });
+  };
 
   const addOccurrence = async (
-    values: OccurrenceFormFields,
-    action: FormikHelpers<OccurrenceFormFields>
+    values: OccurrenceSectionFormFields,
+    action: FormikHelpers<OccurrenceSectionFormFields>
   ) => {
     try {
-      action.resetForm();
+      reinitializeForm(values, action);
       await createOccurrence({
         variables: {
           input: getOccurrencePayload({
@@ -85,6 +119,8 @@ const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
       });
       refetchEvent();
     } catch (e) {
+      // Put form values back if mutation happens to fail.
+      action.setValues(values);
       // TODO: Improve error handling when API returns more informative errors
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
@@ -105,7 +141,8 @@ const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
           });
         },
       });
-      refetchEvent();
+      // Maybe no need to do this, some race condition problems...
+      // refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,
@@ -113,18 +150,16 @@ const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
     }
   };
 
-  const languageOptions = React.useMemo(() => getOrderedLanguageOptions(t), [
-    t,
-  ]);
+  const { occurrences } = getEventFields(eventData?.event, locale);
 
   return (
     <div className={styles.occurrencesFormPart}>
-      <h2>Tapahtuma-aika</h2>
+      <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
       <div className={styles.noOccurrencesCheckBox}>
         <Checkbox
           disabled
           id="no-locked-occurrence"
-          label="Tapahtumalla ei ole lukittua ajankohtaa"
+          label={t('eventForm.occurrences.labelEventHasNoOccurrences')}
           checked={false}
         />
       </div>
@@ -135,73 +170,129 @@ const OccurrencesForm: React.FC<{ pEventId: string; eventId: string }> = ({
         />
       )}
       <Formik
-        enableReinitialize={true}
-        initialValues={defaultInitialValues}
-        validateOnChange
+        initialValues={initialValues}
         onSubmit={addOccurrence}
-        validationSchema={ValidationSchema}
+        validationSchema={validationSchema}
+        validateOnChange
       >
-        {({ handleSubmit }) => {
-          return (
-            <div className={styles.eventOccurrenceForm}>
-              <div className={styles.occurrenceFormRow}>
-                <Field
-                  labelText={t('eventOccurrenceForm.labelEventLocation')}
-                  name="location"
-                  component={PlaceSelectorField}
-                />
-                <Field
-                  labelText={t('eventOccurrenceForm.labelDate')}
-                  name="startTime"
-                  timeSelector
-                  component={DateInputField}
-                />
-                <Field
-                  labelText="Päättyy"
-                  name="endTime"
-                  timeSelector
-                  component={DateInputField}
-                />
-                <Field
-                  label={t('eventOccurrenceForm.labelLanguages')}
-                  name="languages"
-                  component={MultiDropdownField}
-                  options={languageOptions}
-                />
-                <Field
-                  labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
-                  name="amountOfSeats"
-                  component={TextInputField}
-                  min={0}
-                  type="number"
-                />
-                <Field
-                  labelText={t('eventOccurrenceForm.labelGroupSizeMin')}
-                  name="minGroupSize"
-                  component={TextInputField}
-                  min={0}
-                  type="number"
-                />
-                <Field
-                  labelText={t('eventOccurrenceForm.labelGroupSizeMax')}
-                  name="maxGroupSize"
-                  component={TextInputField}
-                  min={0}
-                  type="number"
-                />
-              </div>
-              <div>
-                <Button
-                  disabled={addOccurrenceLoading}
-                  onClick={() => handleSubmit()}
-                >
-                  Lisää uusi aika
-                </Button>
-              </div>
-            </div>
-          );
-        }}
+        <OccurrenceForm
+          addOccurrenceLoading={addOccurrenceLoading}
+          eventDefaultlocation={location}
+        />
       </Formik>
+    </div>
+  );
+};
+
+const OccurrenceForm: React.FC<{
+  addOccurrenceLoading: boolean;
+  eventDefaultlocation: string;
+}> = ({ addOccurrenceLoading, eventDefaultlocation }) => {
+  const { t } = useTranslation();
+  const {
+    handleSubmit,
+    setFieldValue,
+    values: { startTime, endTime, oneGroupFills },
+  } = useFormikContext<OccurrenceSectionFormFields>();
+
+  const languageOptions = React.useMemo(() => getOrderedLanguageOptions(t), [
+    t,
+  ]);
+
+  React.useEffect(() => {
+    oneGroupFills
+      ? setFieldValue('amountOfSeats', '1')
+      : setFieldValue('amountOfSeats', '');
+  }, [oneGroupFills, setFieldValue]);
+
+  React.useEffect(() => {
+    eventDefaultlocation
+      ? setFieldValue('occurrenceLocation', eventDefaultlocation)
+      : setFieldValue('occurrenceLocation', '');
+  }, [eventDefaultlocation, setFieldValue]);
+
+  React.useEffect(() => {
+    // Initialize endTime if not yet given
+    if (startTime && !endTime) {
+      setFieldValue('endTime', addHours(startTime, 1));
+    }
+
+    // Set endTime 1 hour after startTime if it happens to be before startTime
+    if (startTime && endTime && isBefore(endTime, startTime)) {
+      setFieldValue('endTime', addHours(startTime, 1));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startTime, setFieldValue]);
+
+  return (
+    <div className={styles.eventOccurrenceForm}>
+      <div className={styles.occurrenceFormRow}>
+        <Field
+          labelText={t('eventOccurrenceForm.labelEventLocation')}
+          name="occurrenceLocation"
+          component={PlaceSelectorField}
+        />
+        <Field
+          labelText={t('eventOccurrenceForm.labelStartsAt')}
+          name="startTime"
+          timeSelector
+          component={DateInputField}
+        />
+        <Field
+          labelText={t('eventOccurrenceForm.labelEndsAt')}
+          name="endTime"
+          timeSelector
+          component={DateInputField}
+        />
+        <Field
+          label={t('eventOccurrenceForm.labelLanguages')}
+          name="languages"
+          component={MultiDropdownField}
+          options={languageOptions}
+        />
+        {/* divs are here to avoid styling problem with HDS */}
+        <div>
+          <Field
+            labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
+            name="amountOfSeats"
+            disabled={oneGroupFills}
+            component={TextInputField}
+            min={0}
+            type="number"
+          />
+        </div>
+        <div>
+          <Field
+            labelText={t('eventOccurrenceForm.labelGroupSizeMin')}
+            name="minGroupSize"
+            component={TextInputField}
+            min={0}
+            type="number"
+          />
+        </div>
+        <div>
+          <Field
+            labelText={t('eventOccurrenceForm.labelGroupSizeMax')}
+            name="maxGroupSize"
+            component={TextInputField}
+            min={0}
+            type="number"
+          />
+        </div>
+        {/* divs are here to avoid styling problem with HDS */}
+      </div>
+      <div className={styles.formRow}>
+        <Field
+          label={t('eventOccurrenceForm.labelOneGroupFills')}
+          name="oneGroupFills"
+          component={CheckboxField}
+        />
+      </div>
+      <div>
+        <Button disabled={addOccurrenceLoading} onClick={() => handleSubmit()}>
+          {t('eventForm.occurrences.buttonAddNewOccurence')}
+        </Button>
+      </div>
     </div>
   );
 };
@@ -217,13 +308,13 @@ const OccurrencesTable: React.FC<{
     <table className={styles.occurrencesTable}>
       <thead>
         <tr>
-          <th>Tapahtumapaikka</th>
-          <th>Alkaa</th>
-          <th>Päättyy</th>
-          <th>Tapahtuman kieli</th>
-          <th>Paikkoja</th>
-          <th>Min</th>
-          <th>Max</th>
+          <th>{t('occurrences.table.columnLocation')}</th>
+          <th>{t('occurrences.table.columnStarts')}</th>
+          <th>{t('occurrences.table.columnEnds')}</th>
+          <th>{t('occurrences.table.columnLanguages')}</th>
+          <th>{t('occurrences.table.columnAmountOfSeats')}</th>
+          <th>{t('occurrences.table.columnMinGroupSize')}</th>
+          <th>{t('occurrences.table.columnMaxGroupSize')}</th>
           <th></th>
         </tr>
       </thead>
@@ -249,7 +340,11 @@ const OccurrencesTable: React.FC<{
               <td>{occurrence.minGroupSize ?? '–'}</td>
               <td>{occurrence.maxGroupSize ?? '–'}</td>
               <td>
-                <button onClick={() => onDeleteOccurrence(occurrence.id)}>
+                <button
+                  type="button"
+                  onClick={() => onDeleteOccurrence(occurrence.id)}
+                  aria-label={t('occurrences.table.buttonDeleteOccurrence')}
+                >
                   <IconMinusCircleFill />
                 </button>
               </td>

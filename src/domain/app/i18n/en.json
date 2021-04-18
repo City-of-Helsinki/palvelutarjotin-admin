@@ -294,6 +294,7 @@
       "photographer": "Photographer",
       "title": "Basic information"
     },
+    "formLanguageSelectorTitle": "Select form language versions",
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
     "buttonSaveAndGoToOccurrences": "Save and go to occurrences",
@@ -333,11 +334,18 @@
       "labelPhone": "Phone",
       "title": "Contact person"
     },
+    "enrolment": {
+      "title": "Enrolment",
+      "labelExternalEnrolment": "Enrolment is done on external site",
+      "labelExternalEnrolmentUrl": "Web address for the registration form",
+      "labelEnrolmentRequired": "Enrolment to event is required"
+    },
     "location": {
       "helperLocation": "The default venue for event times",
       "labelLocation": "Default venue",
       "placeholderLocation": "Search venue...",
-      "title": "Location"
+      "title": "Location",
+      "labelEventIsHeldVirtual": "Event is held virtually"
     },
     "accessibility": {
       "audienceDropdown": {
@@ -356,6 +364,11 @@
         "clearButtonAriaLabel": "Delete all language selections",
         "selectedItemRemoveButtonAriaLabel": "Delete language selection"
       }
+    },
+    "occurrences": {
+      "occurrencesFormSectionTitle": "Occurrences",
+      "labelEventHasNoOccurrences": "This event doesn't have specific occurrence time",
+      "buttonAddNewOccurence": "Add new occurrence"
     }
   },
   "events": {
@@ -576,7 +589,13 @@
       "columnTime": "Time",
       "labelChooseAllOccurrences": "Select all occurrences",
       "labelChooseOccurrence": "Select occurrence {{info}}",
-      "oneGroup": "1 group"
+      "oneGroup": "1 group",
+      "columnStarts": "Starts",
+      "columnEnds": "Ends",
+      "columnLanguages": "Event language",
+      "columnMaxGroupSize": "Min",
+      "columnMinGroupSize": "Max",
+      "buttonDeleteOccurrence": "Delete occurrence"
     },
     "publishSection": {
       "optionNow": "Now",

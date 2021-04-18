@@ -1,24 +1,43 @@
+import { useApolloClient } from '@apollo/react-hooks';
 import { NetworkStatus } from 'apollo-client';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
+import FocusToFirstError from '../../common/components/form/FocusToFirstError';
+import FormLanguageSelector from '../../common/components/formLanguageSelector/FormLanguageSelector';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { useMyProfileQuery } from '../../generated/graphql';
+import {
+  useEditEventMutation,
+  useMyProfileQuery,
+  VenueDocument,
+  VenueQuery,
+} from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
 import { NAVIGATED_FROM } from '../event/EditEventPage';
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { createOrUpdateVenue } from '../venue/utils';
+import { defaultInitialValues } from './constants';
+import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
 import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
-import { useBaseEventQuery } from './utils';
+import { LocationDescriptions, TimeAndLocationFormFields } from './types';
+import { getEditEventPayload, useBaseEventQuery } from './utils';
+import ValidationSchema from './ValidationSchema';
 
 interface Params {
   id: string;
@@ -28,16 +47,20 @@ const CreateOccurrencePage: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const locale = useLocale();
-  //  const isFirstOccurrence = Boolean(
-  //   useRouteMatch(`/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE}`)
-  // );
-
+  const apolloClient = useApolloClient();
+  const [selectedLanguages, setSelectedLanguages] = React.useState<Language[]>([
+    'fi',
+  ]);
   const { id: eventId } = useParams<Params>();
+  const [initialValues, setInitialValues] = React.useState(
+    defaultInitialValues
+  );
+
+  const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
 
   const {
     data: eventData,
     loading: loadingEvent,
-    // refetch: refetchEvent,
     networkStatus: eventNetworkStatus,
   } = useBaseEventQuery({
     variables: { id: eventId },
@@ -48,33 +71,52 @@ const CreateOccurrencePage: React.FC = () => {
   const eventIsInitialLoading = !eventIsRefetching && loadingEvent;
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  // const occurrences =
-  //   (eventData?.event?.pEvent?.occurrences.edges.map(
-  //     (edge) => edge?.node
-  //   ) as OccurrenceFieldsFragment[]) || [];
-
-  //   const comingOccurrences = occurrences.filter(
-  //   (item) => !isPast(new Date(item.startTime))
-  // );
-
-  // const initialFormValues = useInitialFormValues(isFirstOccurrence);
   const { loading: loadingMyProfile } = useMyProfileQuery();
 
-  // const [deleteOccurrence] = useDeleteOccurrenceMutation();
+  React.useEffect(() => {
+    const initializeForm = async () => {
+      if (eventData?.event) {
+        const event = eventData.event;
 
-  // const goToEventSummary = () => {
-  //   history.push(`/${locale}${ROUTES.EVENT_SUMMARY.replace(':id', eventId)}`);
-  // };
+        const { data } = await apolloClient.query<VenueQuery>({
+          query: VenueDocument,
+          variables: {
+            id: event.location.id,
+          },
+        });
+        const venueData = data.venue;
 
-  // const handleGoToPublishing = () => {
-  //   history.push(`/${locale}${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
-  // };
-
-  // const goToCreateOccurrencePage = () => {
-  //   history.replace(
-  //     `/${locale}${ROUTES.CREATE_OCCURRENCE}`.replace(':id', eventId)
-  //   );
-  // };
+        setInitialValues({
+          ...defaultInitialValues,
+          autoAcceptance: event.pEvent.autoAcceptance,
+          enrolmentEndDays: event.pEvent.enrolmentEndDays?.toString() ?? '',
+          enrolmentStart: new Date(event.pEvent.enrolmentStart),
+          isVirtual: event.location.id === VIRTUAL_EVENT_LOCATION_ID,
+          neededOccurrences: event.pEvent.neededOccurrences.toString() ?? '',
+          location: event.location.id ?? '',
+          hasAreaForGroupWork: venueData?.hasAreaForGroupWork ?? false,
+          hasClothingStorage: venueData?.hasClothingStorage ?? false,
+          hasIndoorPlayingArea: venueData?.hasIndoorPlayingArea ?? false,
+          hasSnackEatingPlace: venueData?.hasSnackEatingPlace ?? false,
+          hasOutdoorPlayingArea: venueData?.hasOutdoorPlayingArea ?? false,
+          hasToiletNearby: venueData?.hasToiletNearby ?? false,
+          outdoorActivity: venueData?.outdoorActivity ?? false,
+          locationDescription: venueData?.translations
+            ? Object.values(venueData?.translations).reduce(
+                (acc, { description, languageCode }) => {
+                  return {
+                    ...acc,
+                    [languageCode.toLowerCase()]: description,
+                  };
+                },
+                {} as LocationDescriptions
+              )
+            : ({} as LocationDescriptions),
+        });
+      }
+    };
+    initializeForm();
+  }, [apolloClient, eventData]);
 
   const goToEventBasicInfo = () => {
     history.push(
@@ -85,18 +127,67 @@ const CreateOccurrencePage: React.FC = () => {
     );
   };
 
-  // const handleDeleteOccurrence = async (
-  //   occurrence: OccurrenceFieldsFragment
-  // ) => {
-  //   try {
-  //     await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-  //     refetchEvent();
-  //   } catch (e) {
-  //     toast(t('occurrences.deleteError'), {
-  //       type: toast.TYPE.ERROR,
-  //     });
-  //   }
-  // };
+  const handleSelectedLanguagesChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.checked) {
+      setSelectedLanguages([...selectedLanguages, e.target.value as Language]);
+    } else {
+      setSelectedLanguages(
+        selectedLanguages.filter((lang) => e.target.value !== lang)
+      );
+    }
+  };
+
+  const handleSaveEventInfo = async (
+    values: TimeAndLocationFormFields
+    // formikHelpers: FormikHelpers<TimeAndLocationFormFields>
+  ) => {
+    try {
+      const requests: Promise<any>[] = [];
+
+      // Request to create new event
+      requests.push(
+        editEvent({
+          variables: {
+            event: {
+              id: eventData?.event?.id || '',
+              ...getEditEventPayload({
+                event: eventData?.event!,
+                formValues: values,
+              }),
+            },
+          },
+        })
+      );
+
+      const createOrUpdateVenueRequest = createOrUpdateVenue({
+        venueFormData: {
+          locationDescription: values.locationDescription,
+          hasAreaForGroupWork: values.hasAreaForGroupWork,
+          hasClothingStorage: values.hasClothingStorage,
+          hasIndoorPlayingArea: values.hasIndoorPlayingArea,
+          hasOutdoorPlayingArea: values.hasOutdoorPlayingArea,
+          hasSnackEatingPlace: values.hasSnackEatingPlace,
+          hasToiletNearby: values.hasToiletNearby,
+          outdoorActivity: values.outdoorActivity,
+        },
+        locationId: values.location,
+      });
+
+      if (createOrUpdateVenueRequest) {
+        requests.push(createOrUpdateVenueRequest);
+      }
+
+      await Promise.all(requests);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
+      toast(t('createOccurrence.error'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
+  };
 
   return (
     <PageWrapper title="createOccurrence.pageTitle">
@@ -114,36 +205,29 @@ const CreateOccurrencePage: React.FC = () => {
                     {t('createOccurrence.buttonBack')}
                   </BackButton>
                   <div className={styles.headerContainer}>
-                    <h1>
-                      {getLocalizedString(eventData?.event?.name || {}, locale)}
-                    </h1>
-                  </div>
-                  <div className={styles.stepsContainer}>
-                    <EventSteps step={2} />
-                  </div>
-                  {/* {!!comingOccurrences.length && (
-                    <OccurrencesTable
-                      eventData={eventData}
-                      id="coming-occurrences"
-                      occurrences={comingOccurrences}
-                      onDelete={handleDeleteOccurrence}
+                    <div>
+                      <h1>
+                        {getLocalizedString(
+                          eventData?.event?.name || {},
+                          locale
+                        )}
+                      </h1>
+                      <div className={styles.stepsContainer}>
+                        <EventSteps step={2} />
+                      </div>
+                    </div>
+                    <FormLanguageSelector
+                      selectedLanguages={selectedLanguages}
+                      onLanguageClick={handleSelectedLanguagesChange}
                     />
-                  )} */}
-                  {/* <EventOccurrenceForm
-                    event={eventData.event}
-                    formTitle={t('createOccurrence.formTitle')}
-                    initialValues={initialFormValues}
-                    onCancel={goToEventSummary}
-                    onSubmit={handleSubmit}
-                    onSubmitAndAdd={handleSubmitAndAdd}
-                    refetchEvent={refetchEvent}
-                    showFirstOccurrenceHelperText={isFirstOccurrence}
-                    showGoToPublishingButton={occurrences.length > 0}
-                    onGoToPublishing={handleGoToPublishing}
-                  /> */}
-                  <OccurrencesFormPart
+                  </div>
+                  <OccurrenceInfoForm
+                    initialValues={initialValues}
                     pEventId={eventData.event.pEvent.id}
                     eventId={eventId}
+                    selectedLanguages={selectedLanguages}
+                    onSubmit={handleSaveEventInfo}
+                    editEventLoading={editEventLoading}
                   />
                 </div>
               </Container>
@@ -162,38 +246,49 @@ const CreateOccurrencePage: React.FC = () => {
   );
 };
 
-// TODO: maybe could just provide enableReinitialize props form parent component
-// to simplify this. We might not need reinitialization here.
-// const useInitialFormValues = (isFirstOccurrence: boolean) => {
-//   const searcParams = useSearchParams();
+const OccurrenceInfoForm: React.FC<{
+  pEventId: string;
+  eventId: string;
+  selectedLanguages: Language[];
+  initialValues: TimeAndLocationFormFields;
+  onSubmit: (
+    values: TimeAndLocationFormFields,
+    formikHelpers: FormikHelpers<TimeAndLocationFormFields>
+  ) => void | Promise<void>;
+  editEventLoading: boolean;
+}> = ({
+  pEventId,
+  eventId,
+  selectedLanguages,
+  onSubmit,
+  initialValues,
+  editEventLoading,
+}) => {
+  const { t } = useTranslation();
 
-//   const getInitialFormValues = () => {
-//     // initial pre-filled values from event wizard step 1
-//     const initialDate = searcParams.get('date');
-//     const initialStartsAt = searcParams.get('startsAt');
-//     const initialEndsAt = searcParams.get('endsAt');
-
-//     // if is first occurrence, use pre-filled values from event form (query params)
-//     if (isFirstOccurrence && initialDate && initialEndsAt && initialStartsAt) {
-//       if (
-//         isValidDate(new Date(initialDate)) &&
-//         isValidTime(initialStartsAt) &&
-//         isValidTime(initialEndsAt)
-//       ) {
-//         return {
-//           ...defaultInitialValues,
-//           date: new Date(initialDate),
-//           startsAt: initialStartsAt,
-//           endsAt: initialEndsAt,
-//         };
-//       }
-//     }
-//     return defaultInitialValues;
-//   };
-
-//   // we don't want the initialValues to update because we don't
-//   // want form to reset to those on subsequent renders
-//   return React.useMemo(getInitialFormValues, []);
-// };
+  return (
+    <Formik<TimeAndLocationFormFields>
+      initialValues={initialValues}
+      enableReinitialize
+      onSubmit={onSubmit}
+      validationSchema={ValidationSchema}
+    >
+      <Form className={styles.occurrencesForm} noValidate>
+        <FocusToFirstError />
+        <LocationFormPart selectedLanguages={selectedLanguages} />
+        <EnrolmentInfoFormPart />
+        <OccurrencesFormPart pEventId={pEventId} eventId={eventId} />
+        <div className={styles.submitButtons}>
+          <Button disabled={editEventLoading} type="submit">
+            {t('eventForm.buttonSave')}
+          </Button>
+          <Button variant="secondary" type="button">
+            {t('createOccurrence.buttonGoToPublishing')}
+          </Button>
+        </div>
+      </Form>
+    </Formik>
+  );
+};
 
 export default CreateOccurrencePage;

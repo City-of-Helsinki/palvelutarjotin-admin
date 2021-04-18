@@ -21,7 +21,6 @@ import { getImageName } from '../image/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
-import { createOrUpdateVenue } from '../venue/utils';
 import EventForm, { createEventInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
@@ -75,16 +74,6 @@ const CreateEventPage: React.FC = () => {
           },
         })
       );
-
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: values,
-        language: selectedLanguage,
-        locationId: values.location,
-      });
-
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
-      }
 
       const imageId = values.image;
       if (imageId) {

@@ -1,9 +1,34 @@
-export interface OccurrenceFormFields {
+import { SUPPORT_LANGUAGES } from '../../constants';
+
+export interface OccurrenceSectionFormFields {
   startTime: Date | null;
   endTime: Date | null;
   languages: string[];
-  location: string;
+  occurrenceLocation: string;
   amountOfSeats: string;
   maxGroupSize: string;
   minGroupSize: string;
+  oneGroupFills: boolean;
 }
+
+export type LocationDescriptions = { [K in SUPPORT_LANGUAGES]: string };
+
+export type TimeAndLocationFormFields = {
+  location: string;
+  isVirtual: boolean;
+  enrolmentNeeded: boolean;
+  externalEnrolment: boolean;
+  externalEnrolmentUrl: string;
+  enrolmentStart: Date | null;
+  enrolmentEndDays: string;
+  neededOccurrences: string;
+  autoAcceptance: boolean;
+  locationDescription: LocationDescriptions;
+  hasClothingStorage: boolean;
+  hasSnackEatingPlace: boolean;
+  outdoorActivity: boolean;
+  hasToiletNearby: boolean;
+  hasAreaForGroupWork: boolean;
+  hasIndoorPlayingArea: boolean;
+  hasOutdoorPlayingArea: boolean;
+};

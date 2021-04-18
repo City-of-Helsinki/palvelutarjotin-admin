@@ -21,7 +21,6 @@ import ErrorPage from '../errorPage/ErrorPage';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { getImageName } from '../image/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { createOrUpdateVenue } from '../venue/utils';
 import { VIRTUAL_EVENT_LOCATION_ID } from './constants';
 import EventForm, { defaultInitialValues } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
@@ -133,15 +132,15 @@ const EditEventPage: React.FC = () => {
         })
       );
 
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: values,
-        language: selectedLanguage,
-        locationId: values.location,
-      });
+      // const createOrUpdateVenueRequest = createOrUpdateVenue({
+      //   venueFormData: values,
+      //   language: selectedLanguage,q
+      //   locationId: values.location,
+      // });
 
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
-      }
+      // if (createOrUpdateVenueRequest) {
+      //   requests.push(createOrUpdateVenueRequest);
+      // }
 
       if (shouldSaveImage(values)) {
         const imageName = getImageName(values.image);

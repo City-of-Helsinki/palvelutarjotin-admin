@@ -301,6 +301,7 @@
       "photographer": "Fotograf",
       "title": "Grundläggande information"
     },
+    "formLanguageSelectorTitle": "Välj formularspråkversioner",
     "buttonCancel": "Avbryt",
     "buttonSave": "Spara",
     "buttonSaveAndGoToOccurrences": "Spara och gå till förekomster",
@@ -340,11 +341,18 @@
       "labelPhone": "Telefon",
       "title": "Kontaktperson"
     },
+    "enrolment": {
+      "title": "Inskrivning",
+      "labelExternalEnrolment": "Registrering sker på extern webbplats",
+      "labelExternalEnrolmentUrl": "Webbadress för registreringsformuläret",
+      "labelEnrolmentRequired": "Anmälan till evenemang krävs"
+    },
     "location": {
       "helperLocation": "Standardplats för evenemangtider",
       "labelLocation": "Standard venue",
       "placeholderLocation": "Sök evenemangsplats...",
-      "title": "Plats"
+      "title": "Plats",
+      "labelEventIsHeldVirtual": "Evenemanget hålls praktiskt taget"
     },
     "accessibility": {
       "audienceDropdown": {
@@ -363,6 +371,11 @@
         "clearButtonAriaLabel": "Ta bort alla språkval",
         "selectedItemRemoveButtonAriaLabel": "Ta bort språkval"
       }
+    },
+    "occurrences": {
+      "occurrencesFormSectionTitle": "Förekomster",
+      "labelEventHasNoOccurrences": "Den här händelsen har ingen specifik förekomsttid",
+      "buttonAddNewOccurence": "Lägg till ny förekomst"
     }
   },
   "events": {
@@ -425,8 +438,8 @@
     "labelEnrolmentStarts": "Anmälan börjar",
     "labelLanguages": "Event språk",
     "labelAmountOfSeats": "Totala fläckar",
-    "labelGroupSizeMin": "Gruppstorlek min",
-    "labelGroupSizeMax": "Gruppstorlek max",
+    "labelGroupSizeMin": "Min",
+    "labelGroupSizeMax": "Max",
     "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
     "labelEventLocation": "Eventplats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
@@ -583,7 +596,13 @@
       "columnTime": "Tid",
       "labelChooseAllOccurrences": "Välj alla förekomster",
       "labelChooseOccurrence": "Välj förekomst {{info}}",
-      "oneGroup": "1 grupp"
+      "oneGroup": "1 grupp",
+      "columnStarts": "Börjar",
+      "columnEnds": "Slutar",
+      "columnLanguages": "Händelsens språk",
+      "columnMaxGroupSize": "Min",
+      "columnMinGroupSize": "Max",
+      "buttonDeleteOccurrence": "Ta bort förekomst"
     },
     "publishSection": {
       "optionNow": "Nu",

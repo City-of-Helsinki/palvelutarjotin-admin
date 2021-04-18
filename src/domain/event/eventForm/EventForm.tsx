@@ -20,7 +20,6 @@ import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
-import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
 import { CreateEventFormFields, EventFormFields } from '../types';
 import ContactPersonInfoPart from './ContactPersonInfoPart';
@@ -448,10 +447,6 @@ const EventForm = <T extends FormFields>({
                           min={0}
                         />
                       </div>
-                      {/*
-                         TODO: Add price unit field
-                        <div></div>
-                         */}
                       <div className={styles.isFreeWrapper}>
                         <Field
                           labelText={t('eventForm.offers.labelIsFree')}
@@ -494,11 +489,11 @@ const EventForm = <T extends FormFields>({
                             language={selectedLanguage}
                           />
                         </div>
-                        <VenueDataFields
+                        {/* <VenueDataFields
                           locationId={location}
                           selectedLanguage={selectedLanguage}
                           setFieldValue={setFieldValue}
-                        />
+                        /> */}
                       </>
                     )}
                     <div className={styles.isVirtualCheckbox}>

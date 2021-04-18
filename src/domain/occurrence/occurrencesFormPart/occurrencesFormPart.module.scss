@@ -2,8 +2,6 @@
 @import 'variables';
 
 .occurrencesFormPart {
-  margin-bottom: var(--spacing-m);
-
   h2 {
     font-size: var(--fontsize-heading-s);
     margin-bottom: var(--spacing-m);
@@ -11,7 +9,7 @@
 }
 
 .noOccurrencesCheckBox {
-  margin-bottom: var(--spacing-m);
+  margin: var(--spacing-l) 0;
 }
 
 .occurrenceFormRow {
@@ -39,7 +37,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  margin: var(--spacing-m) 0;
+  margin: var(--spacing-l) 0;
 
   thead {
     tr {
@@ -73,5 +71,17 @@
         }
       }
     }
+  }
+}
+
+.formRow {
+  margin: var(--spacing-l) 0;
+  display: flex;
+  column-gap: var(--spacing-l);
+  white-space: nowrap;
+
+  & > div {
+    margin-top: 0 !important;
+    width: 100%;
   }
 }

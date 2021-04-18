@@ -1,5 +1,7 @@
 import { DataProxy } from 'apollo-cache';
+import isBefore from 'date-fns/isBefore';
 import { TFunction } from 'i18next';
+import orderBy from 'lodash/orderBy';
 import uniqueId from 'lodash/uniqueId';
 
 import { EVENT_LANGUAGES } from '../../../constants';
@@ -16,7 +18,7 @@ import {
   PageInfo,
 } from '../../../generated/graphql';
 import sortFavorably from '../../../utils/sortFavorably';
-import { OccurrenceFormFields } from '../types';
+import { OccurrenceSectionFormFields } from '../types';
 
 export const getOrderedLanguageOptions = (t: TFunction) => {
   const languagesOrder = sortFavorably(
@@ -42,7 +44,7 @@ export const getOrderedLanguageOptions = (t: TFunction) => {
 };
 
 export const getOptimisticCreateOccurrenceResponse = (
-  values: OccurrenceFormFields
+  values: OccurrenceSectionFormFields
 ): AddOccurrenceMutation => {
   return {
     __typename: 'Mutation',
@@ -53,14 +55,19 @@ export const getOptimisticCreateOccurrenceResponse = (
         id: uniqueId(),
         amountOfSeats: Number(values.amountOfSeats) || 0,
         cancelled: false,
+        startTime: values.startTime?.toISOString(),
         endTime: values.endTime?.toISOString(),
-        startTime: values.endTime?.toISOString(),
         languages: fakeLanguages(
-          values.languages.map((lang) => ({ name: lang }))
+          orderBy(values.languages, undefined, 'asc').map((lang) => ({
+            name: lang,
+            id: lang,
+          }))
         ),
-        placeId: values.location,
+        placeId: values.occurrenceLocation,
         remainingSeats: Number(values.amountOfSeats) || 0,
-        seatType: OccurrenceSeatType.ChildrenCount,
+        seatType: values.oneGroupFills
+          ? OccurrenceSeatType.EnrolmentCount
+          : OccurrenceSeatType.ChildrenCount,
         seatsApproved: 0,
         seatsTaken: 0,
         maxGroupSize: Number(values.maxGroupSize) || 0,
@@ -100,6 +107,34 @@ export const addOccurrencesToCache = ({
       variables: eventVariables,
     }) as EventQuery;
 
+    // Find index where to insert new occurrence in the cache array
+    const index = cachedEvent.event?.pEvent.occurrences.edges.findIndex((o) => {
+      const occurrenceStartTime = new Date(o?.node?.startTime);
+      const startTime = new Date(data.addOccurrence?.occurrence?.startTime);
+      return isBefore(startTime, occurrenceStartTime);
+    });
+
+    const newOccurrences =
+      index != null && index > -1
+        ? [
+            ...(cachedEvent.event?.pEvent.occurrences.edges ?? []).slice(
+              0,
+              index
+            ),
+            {
+              __typename: 'OccurrenceNodeEdge',
+              node: addOccurrence.occurrence,
+            },
+            ...(cachedEvent.event?.pEvent.occurrences.edges ?? []).slice(index),
+          ]
+        : [
+            ...(cachedEvent.event?.pEvent.occurrences.edges ?? []),
+            {
+              __typename: 'OccurrenceNodeEdge',
+              node: addOccurrence.occurrence,
+            },
+          ];
+
     proxy.writeQuery({
       query: EventDocument,
       data: {
@@ -109,16 +144,7 @@ export const addOccurrencesToCache = ({
             ...cachedEvent.event?.pEvent,
             occurrences: {
               ...cachedEvent.event?.pEvent.occurrences,
-              edges: [
-                ...(cachedEvent.event?.pEvent.occurrences.edges ?? []),
-                {
-                  __typename: 'OccurrenceNodeEdge',
-                  node: {
-                    __typename: 'OccurrenceNode',
-                    ...addOccurrence.occurrence,
-                  },
-                },
-              ],
+              edges: newOccurrences,
             },
           },
         },
