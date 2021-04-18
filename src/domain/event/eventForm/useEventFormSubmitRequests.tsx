@@ -1,5 +1,4 @@
 import { useUpdateSingleImageMutation } from '../../../generated/graphql';
-import { Language } from '../../../types';
 import { getImageName } from '../../image/utils';
 import { createOrUpdateVenue } from '../../venue/utils';
 import { CreateEventFormFields, EventFormFields } from '../types';
