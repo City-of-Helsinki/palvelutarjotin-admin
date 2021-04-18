@@ -4,11 +4,10 @@ import { getImageName } from '../../image/utils';
 import { createOrUpdateVenue } from '../../venue/utils';
 import { CreateEventFormFields, EventFormFields } from '../types';
 
-const useCreateOrUpdateVenueRequest = (selectedLanguage: Language) => {
+const useCreateOrUpdateVenueRequest = () => {
   return (values: CreateEventFormFields | EventFormFields) => {
     const createOrUpdateVenueRequest = createOrUpdateVenue({
       venueFormData: values,
-      language: selectedLanguage,
       locationId: values.location,
     });
 

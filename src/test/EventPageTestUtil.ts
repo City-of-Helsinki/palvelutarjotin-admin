@@ -238,8 +238,6 @@ const eventResponse = {
   },
 };
 
-console.log('eventResponse', JSON.stringify(eventResponse.data));
-
 export const profileResponse = {
   data: {
     myProfile: fakePerson({

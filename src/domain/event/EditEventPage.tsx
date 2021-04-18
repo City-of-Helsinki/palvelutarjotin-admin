@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EventQuery,
-  PersonFieldsFragment,
   useEditEventMutation,
   useEventQuery,
 } from '../../generated/graphql';
@@ -44,17 +43,14 @@ export enum NAVIGATED_FROM {
 
 const useEventFormEditSubmit = (
   initialValues: EventFormFields,
-  eventData: EventQuery | undefined,
-  selectedLanguage: Language
+  eventData: EventQuery | undefined
 ) => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
   const [editEvent] = useEditEventMutation();
-  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest(
-    selectedLanguage
-  );
+  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest();
   const updateImageRequestHandler = useUpdateImageRequest();
   const navigatedFrom = useSearchParams().get('navigationFrom');
 
@@ -148,7 +144,6 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
-  console.log(JSON.stringify(eventData));
   const organisation = eventData?.event?.pEvent?.organisation;
   const persons = getPersons(organisation);
 
@@ -176,11 +171,7 @@ const EditEventPage: React.FC = () => {
     setSelectedLanguage(newLanguage);
   };
 
-  const onSubmit = useEventFormEditSubmit(
-    initialValues,
-    eventData,
-    selectedLanguage
-  );
+  const onSubmit = useEventFormEditSubmit(initialValues, eventData);
 
   return (
     <PageWrapper title="editEvent.pageTitle">

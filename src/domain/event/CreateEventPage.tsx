@@ -150,7 +150,6 @@ const CreateEventPage: React.FC = () => {
 
       const createOrUpdateVenueRequest = createOrUpdateVenue({
         venueFormData: values,
-        language: selectedLanguage,
         locationId: values.location,
       });
 
