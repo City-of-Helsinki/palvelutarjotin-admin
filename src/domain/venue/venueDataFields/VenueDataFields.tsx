@@ -24,7 +24,6 @@ const VenueDataFields: React.FC<{
   ) => void;
 }> = ({ locationId, selectedLanguages, setFieldValue }) => {
   const { t } = useTranslation();
-  const multipleDescriptionFields = selectedLanguages.length > 1;
   const locale = useLocale();
   const sortedLanguages = sortFavorably(selectedLanguages, [locale]);
   const {
@@ -77,11 +76,9 @@ const VenueDataFields: React.FC<{
       <div className={styles.locationDescriptionFieldsContainer}>
         {sortedLanguages.map((lang, langIndex) => {
           const showHelperText = langIndex === 0;
-          const labelText = multipleDescriptionFields
-            ? `${t(
-                'venue.venueDataFields.labelLocationDescription'
-              )} (${lang.toUpperCase()})`
-            : t('venue.venueDataFields.labelLocationDescription');
+          const labelText = `${t(
+            'venue.venueDataFields.labelLocationDescription'
+          )} (${lang.toUpperCase()})`;
 
           return (
             <Field
