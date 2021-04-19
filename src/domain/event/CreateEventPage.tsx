@@ -108,17 +108,15 @@ const CreateEventPage: React.FC = () => {
     getInitialValues();
   }, [eventIdToCopy, apolloClient, handleError, setInitialValues, setLoading]);
 
-  useEffect(() => {
-    if (language) {
-      setSelectedLanguage(language);
-    } else {
-      setSelectedLanguage(getFirstAvailableLanguage(eventData));
-    }
-  }, [eventData, language, setSelectedLanguage]);
+  useEffect(
+    () => setSelectedLanguage(language ?? getFirstAvailableLanguage(eventData)),
+    [eventData, language, setSelectedLanguage]
+  );
 
-  useEffect(() => {
-    setEventOrganisation(eventData?.event?.pEvent?.organisation);
-  }, [eventData, setEventOrganisation]);
+  useEffect(
+    () => setEventOrganisation(eventData?.event?.pEvent?.organisation),
+    [eventData, setEventOrganisation]
+  );
 
   const organisation = eventOrganisation ?? selectedOrganisation;
   const persons = useMemo(() => getPersons(organisation), [organisation]);
