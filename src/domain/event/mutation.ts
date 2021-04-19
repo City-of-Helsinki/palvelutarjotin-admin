@@ -67,7 +67,7 @@ export const MUTATION_EVENT = gql`
       response {
         statusCode
         body {
-          id
+          # id
           internalId
           name {
             ...localisedFields
@@ -86,6 +86,10 @@ export const MUTATION_EVENT = gql`
           }
           pEvent {
             id
+            neededOccurrences
+            autoAcceptance
+            enrolmentEndDays
+            enrolmentStart
             neededOccurrences
           }
           infoUrl {

@@ -20,8 +20,8 @@ export type TimeAndLocationFormFields = {
   externalEnrolment: boolean;
   externalEnrolmentUrl: string;
   enrolmentStart: Date | null;
-  enrolmentEndDays: string;
-  neededOccurrences: string;
+  enrolmentEndDays: number | string;
+  neededOccurrences: number | string;
   autoAcceptance: boolean;
   locationDescription: LocationDescriptions;
   hasClothingStorage: boolean;

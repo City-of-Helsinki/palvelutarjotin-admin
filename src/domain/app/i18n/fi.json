@@ -305,6 +305,7 @@
     "buttonSave": "Tallenna tiedot",
     "buttonSaveAndGoToOccurrences": "Tallenna ja siirry tapahtuma-aikoihin",
     "buttonSaveDraft": "Tallenna luonnos",
+    "saveSuccesful": "Tiedot tallennettu",
     "occurrenceTime": {
       "titleOccurrenceTime": "Tapahtuman ajankohta",
       "occurrenceTimeHelperText": "Ensimmäinen tapahtuma-aika. Loput tapahtuma-ajat ja niiden lisätiedot syötetään vaiheessa 2."

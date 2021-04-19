@@ -77,11 +77,6 @@ const EnrolmentInfoFormPart: React.FC = () => {
               name="autoAcceptance"
               component={CheckboxField}
             />
-            {/* <Field
-              label={t('eventOccurrenceForm.labelOneGroupFills')}
-              name="oneGroupFills"
-              component={CheckboxField}
-            /> */}
           </div>
         </div>
       </div>

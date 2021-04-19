@@ -15,7 +15,7 @@ import apolloClient from '../app/apollo/apolloClient';
 import { LocationDescriptions } from '../occurrence/types';
 import { VenueDataFields } from './types';
 
-const VENUE_AMENITIES = [
+export const VENUE_AMENITIES = [
   'hasClothingStorage',
   'hasSnackEatingPlace',
   'hasToiletNearby',
@@ -43,7 +43,6 @@ export const getVenueDescriptions = (
 
 export const getVenuePayload = ({
   locationId,
-  venueData,
   formValues: {
     locationDescription,
     hasClothingStorage,
@@ -57,7 +56,6 @@ export const getVenuePayload = ({
 }: {
   formValues: VenueDataFields;
   locationId: string;
-  venueData: VenueQuery;
 }) => {
   return {
     venue: {
@@ -94,6 +92,7 @@ export const hasAmenitiesChanged = (
   return VENUE_AMENITIES.some((field) => a[field] !== b[field]);
 };
 
+// TODO: FIX synonym problem with locationDescription and venueDescription (they are the same thing)
 const hasDescriptionsChanged = (
   existingVenueDescriptions: Pick<
     VenueTranslationType,
@@ -101,9 +100,12 @@ const hasDescriptionsChanged = (
   >[],
   formDescriptions: LocationDescriptions
 ): boolean => {
-  return existingVenueDescriptions.some(({ languageCode, description }) => {
+  return Object.entries(formDescriptions).some(([lang, formDescription]) => {
     return (
-      formDescriptions[languageCode.toLowerCase() as Language] !== description
+      existingVenueDescriptions.find(
+        (description) =>
+          description.languageCode.toLowerCase() === lang.toLowerCase()
+      )?.description !== formDescription
     );
   });
 };
@@ -123,12 +125,6 @@ export const createOrUpdateVenue = async ({
 
     const venueDescription = getVenueDescriptions(existingVenueData);
 
-    // TODO: FIX synonym problem with locationDDescription and venueDescription (they are the same thing)
-    hasDescriptionsChanged(
-      getVenueDescriptions(existingVenueData),
-      venueFormData.locationDescription
-    );
-
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
         (hasDescriptionsChanged(
@@ -146,7 +142,6 @@ export const createOrUpdateVenue = async ({
     const variables = getVenuePayload({
       formValues: venueFormData,
       locationId,
-      venueData: existingVenueData,
     });
 
     if (venueShouldBeUpdated) {

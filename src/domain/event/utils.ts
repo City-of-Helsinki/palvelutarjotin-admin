@@ -289,7 +289,7 @@ export const getPublishEventPayload = ({
   return {
     id: event.id,
     location: {
-      internalId: event.location.internalId,
+      internalId: event.location?.internalId,
     },
     keywords: event.keywords.map((k) => ({ internalId: k.internalId })),
     offers: event.offers,

@@ -6,6 +6,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import useLocalStorage from 'react-use/esm/useLocalStorage';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
@@ -48,9 +49,10 @@ const CreateOccurrencePage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const apolloClient = useApolloClient();
-  const [selectedLanguages, setSelectedLanguages] = React.useState<Language[]>([
-    'fi',
-  ]);
+  const [selectedLanguages, setSelectedLanguages] = useLocalStorage<Language[]>(
+    'formLanguages',
+    ['fi']
+  );
   const { id: eventId } = useParams<Params>();
   const [initialValues, setInitialValues] = React.useState(
     defaultInitialValues
@@ -81,19 +83,20 @@ const CreateOccurrencePage: React.FC = () => {
         const { data } = await apolloClient.query<VenueQuery>({
           query: VenueDocument,
           variables: {
-            id: event.location.id,
+            id: event.location?.id,
           },
         });
         const venueData = data.venue;
 
+        const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         setInitialValues({
           ...defaultInitialValues,
           autoAcceptance: event.pEvent.autoAcceptance,
-          enrolmentEndDays: event.pEvent.enrolmentEndDays?.toString() ?? '',
+          enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
           enrolmentStart: new Date(event.pEvent.enrolmentStart),
-          isVirtual: event.location.id === VIRTUAL_EVENT_LOCATION_ID,
-          neededOccurrences: event.pEvent.neededOccurrences.toString() ?? '',
-          location: event.location.id ?? '',
+          isVirtual: isVirtualEvent,
+          neededOccurrences: event.pEvent.neededOccurrences ?? '',
+          location: isVirtualEvent ? '' : event.location?.id || '',
           hasAreaForGroupWork: venueData?.hasAreaForGroupWork ?? false,
           hasClothingStorage: venueData?.hasClothingStorage ?? false,
           hasIndoorPlayingArea: venueData?.hasIndoorPlayingArea ?? false,
@@ -101,6 +104,7 @@ const CreateOccurrencePage: React.FC = () => {
           hasOutdoorPlayingArea: venueData?.hasOutdoorPlayingArea ?? false,
           hasToiletNearby: venueData?.hasToiletNearby ?? false,
           outdoorActivity: venueData?.outdoorActivity ?? false,
+          // TODO: dirty prop not working correctly when all fields are not initialized here (empty descriptions)
           locationDescription: venueData?.translations
             ? Object.values(venueData?.translations).reduce(
                 (acc, { description, languageCode }) => {
@@ -131,21 +135,23 @@ const CreateOccurrencePage: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.checked) {
-      setSelectedLanguages([...selectedLanguages, e.target.value as Language]);
+      setSelectedLanguages([
+        ...(selectedLanguages ?? []),
+        e.target.value as Language,
+      ]);
     } else {
       setSelectedLanguages(
-        selectedLanguages.filter((lang) => e.target.value !== lang)
+        (selectedLanguages ?? []).filter((lang) => e.target.value !== lang)
       );
     }
   };
 
   const handleSaveEventInfo = async (
-    values: TimeAndLocationFormFields
-    // formikHelpers: FormikHelpers<TimeAndLocationFormFields>
+    values: TimeAndLocationFormFields,
+    formikHelpers: FormikHelpers<TimeAndLocationFormFields>
   ) => {
     try {
       const requests: Promise<any>[] = [];
-
       // Request to create new event
       requests.push(
         editEvent({
@@ -161,25 +167,31 @@ const CreateOccurrencePage: React.FC = () => {
         })
       );
 
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: {
-          locationDescription: values.locationDescription,
-          hasAreaForGroupWork: values.hasAreaForGroupWork,
-          hasClothingStorage: values.hasClothingStorage,
-          hasIndoorPlayingArea: values.hasIndoorPlayingArea,
-          hasOutdoorPlayingArea: values.hasOutdoorPlayingArea,
-          hasSnackEatingPlace: values.hasSnackEatingPlace,
-          hasToiletNearby: values.hasToiletNearby,
-          outdoorActivity: values.outdoorActivity,
-        },
-        locationId: values.location,
-      });
+      if (values.location) {
+        const createOrUpdateVenueRequest = createOrUpdateVenue({
+          venueFormData: {
+            locationDescription: values.locationDescription,
+            hasAreaForGroupWork: values.hasAreaForGroupWork,
+            hasClothingStorage: values.hasClothingStorage,
+            hasIndoorPlayingArea: values.hasIndoorPlayingArea,
+            hasOutdoorPlayingArea: values.hasOutdoorPlayingArea,
+            hasSnackEatingPlace: values.hasSnackEatingPlace,
+            hasToiletNearby: values.hasToiletNearby,
+            outdoorActivity: values.outdoorActivity,
+          },
+          locationId: values.location,
+        });
 
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
+        if (createOrUpdateVenueRequest) {
+          requests.push(createOrUpdateVenueRequest);
+        }
       }
 
       await Promise.all(requests);
+      formikHelpers.resetForm({ values });
+      toast(t('eventForm.saveSuccesful'), {
+        type: toast.TYPE.SUCCESS,
+      });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e);
@@ -217,7 +229,7 @@ const CreateOccurrencePage: React.FC = () => {
                       </div>
                     </div>
                     <FormLanguageSelector
-                      selectedLanguages={selectedLanguages}
+                      selectedLanguages={selectedLanguages ?? []}
                       onLanguageClick={handleSelectedLanguagesChange}
                     />
                   </div>
@@ -225,7 +237,7 @@ const CreateOccurrencePage: React.FC = () => {
                     initialValues={initialValues}
                     pEventId={eventData.event.pEvent.id}
                     eventId={eventId}
-                    selectedLanguages={selectedLanguages}
+                    selectedLanguages={selectedLanguages ?? []}
                     onSubmit={handleSaveEventInfo}
                     editEventLoading={editEventLoading}
                   />
@@ -273,20 +285,23 @@ const OccurrenceInfoForm: React.FC<{
       onSubmit={onSubmit}
       validationSchema={ValidationSchema}
     >
-      <Form className={styles.occurrencesForm} noValidate>
-        <FocusToFirstError />
-        <LocationFormPart selectedLanguages={selectedLanguages} />
-        <EnrolmentInfoFormPart />
-        <OccurrencesFormPart pEventId={pEventId} eventId={eventId} />
-        <div className={styles.submitButtons}>
-          <Button disabled={editEventLoading} type="submit">
-            {t('eventForm.buttonSave')}
-          </Button>
-          <Button variant="secondary" type="button">
-            {t('createOccurrence.buttonGoToPublishing')}
-          </Button>
-        </div>
-      </Form>
+      {({ dirty }) => (
+        <Form className={styles.occurrencesForm} noValidate>
+          <FocusToFirstError />
+          <LocationFormPart selectedLanguages={selectedLanguages} />
+          <EnrolmentInfoFormPart />
+          <OccurrencesFormPart pEventId={pEventId} eventId={eventId} />
+          <div className={styles.submitButtons}>
+            <Button disabled={editEventLoading || !dirty} type="submit">
+              {t('eventForm.buttonSave')}
+            </Button>
+            {/* TODO: handle this button */}
+            <Button variant="secondary" type="button">
+              {t('createOccurrence.buttonGoToPublishing')}
+            </Button>
+          </div>
+        </Form>
+      )}
     </Formik>
   );
 };

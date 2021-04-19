@@ -117,6 +117,7 @@ const OccurrencesForm: React.FC<{
           addOccurrencesToCache({ proxy, data, eventVariables });
         },
       });
+      console.log('refetch');
       refetchEvent();
     } catch (e) {
       // Put form values back if mutation happens to fail.
@@ -141,8 +142,6 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
-      // Maybe no need to do this, some race condition problems...
-      // refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,

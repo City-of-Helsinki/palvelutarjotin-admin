@@ -299,6 +299,7 @@
     "buttonSave": "Save",
     "buttonSaveAndGoToOccurrences": "Save and go to occurrences",
     "buttonSaveDraft": "Save draft",
+    "saveSuccesful": "Data has been saved",
     "occurrenceTime": {
       "titleOccurrenceTime": "Occurrence time",
       "occurrenceTimeHelperText": "First occurrence date. Rest of the occurrences and additional information are entered in step 2."

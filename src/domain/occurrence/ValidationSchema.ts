@@ -47,7 +47,9 @@ const ValidationSchema = Yup.object().shape({
   externalEnrolment: Yup.boolean(),
   externalEnrolmentUrl: Yup.string().when('externalEnrolment', {
     is: true,
-    then: Yup.string().url().required(VALIDATION_MESSAGE_KEYS.URL),
+    then: Yup.string()
+      .url(VALIDATION_MESSAGE_KEYS.URL)
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     otherwise: Yup.string(),
   }),
   neededOccurrences: Yup.number()

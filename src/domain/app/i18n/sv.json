@@ -306,6 +306,7 @@
     "buttonSave": "Spara",
     "buttonSaveAndGoToOccurrences": "Spara och gå till förekomster",
     "buttonSaveDraft": "Spara utkast",
+    "saveSuccesful": "Data har sparats",
     "occurrenceTime": {
       "titleOccurrenceTime": "Förekomsttid",
       "occurrenceTimeHelperText": "Första förekomstdatum. Resten av händelserna och ytterligare information anges i steg 2."

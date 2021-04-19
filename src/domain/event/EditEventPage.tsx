@@ -223,7 +223,7 @@ const EditEventPage: React.FC = () => {
           eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
         keywords:
           getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
-        location: getLocationId(eventData.event?.location.id),
+        location: getLocationId(eventData.event?.location?.id),
         name: eventData.event?.name[selectedLanguage] || '',
         neededOccurrences:
           eventData.event?.pEvent?.neededOccurrences.toString() || '',
@@ -249,7 +249,7 @@ const EditEventPage: React.FC = () => {
         autoAcceptance: eventData.event?.pEvent.autoAcceptance,
         mandatoryAdditionalInformation:
           eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
-        isVirtual: eventData.event?.location.id === VIRTUAL_EVENT_LOCATION_ID,
+        isVirtual: eventData.event?.location?.id === VIRTUAL_EVENT_LOCATION_ID,
       });
     }
   }, [eventData, selectedLanguage]);

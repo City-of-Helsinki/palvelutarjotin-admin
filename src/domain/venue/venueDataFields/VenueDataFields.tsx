@@ -1,4 +1,4 @@
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +10,8 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import sortFavorably from '../../../utils/sortFavorably';
 import apolloClient from '../../app/apollo/apolloClient';
+import { TimeAndLocationFormFields } from '../../occurrence/types';
+import { VENUE_AMENITIES } from '../utils';
 import styles from './venueDataFields.module.scss';
 
 const VenueDataFields: React.FC<{
@@ -25,6 +27,9 @@ const VenueDataFields: React.FC<{
   const multipleDescriptionFields = selectedLanguages.length > 1;
   const locale = useLocale();
   const sortedLanguages = sortFavorably(selectedLanguages, [locale]);
+  const {
+    values: { locationDescription },
+  } = useFormikContext<TimeAndLocationFormFields>();
 
   React.useEffect(() => {
     const getVenueInfo = async () => {
@@ -35,28 +40,30 @@ const VenueDataFields: React.FC<{
             variables: { id: locationId },
           });
 
-          // Inititalize all venue description translation fields
-          // (doesn't matter if they are not visible/rendered)
-          data.venue?.translations.forEach((t) =>
-            setFieldValue(
-              `locationDescription.${t.languageCode.toLowerCase() as Language}`,
-              t.description || ''
-            )
-          );
+          if (data.venue) {
+            // Inititalize all venue description translation fields
+            // (doesn't matter if they are not visible/rendered)
+            data.venue.translations.forEach((t) =>
+              setFieldValue(
+                `locationDescription.${
+                  t.languageCode.toLowerCase() as Language
+                }`,
+                t.description || ''
+              )
+            );
+          } else {
+            // If venue data missing for location, empty all description fields.
+            Object.keys(locationDescription).forEach((key) => {
+              setFieldValue(`locationDescription.${key as Language}`, '');
+            });
+          }
 
-          ([
-            'hasSnackEatingPlace',
-            'hasClothingStorage',
-            'outdoorActivity',
-            'hasToiletNearby',
-            'hasAreaForGroupWork',
-            'hasIndoorPlayingArea',
-            'hasOutdoorPlayingArea',
-          ] as const).forEach((v) => {
+          VENUE_AMENITIES.forEach((v) => {
             setFieldValue(v, data.venue?.[v] || false);
           });
         } catch (err) {
           // clear description when error happens
+          // TODO: fix this to include all languages...
           setFieldValue('locationDescription.fi', '');
         }
       }

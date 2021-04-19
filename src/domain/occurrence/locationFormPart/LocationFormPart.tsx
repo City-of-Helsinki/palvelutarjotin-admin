@@ -7,6 +7,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import VirtualEventCheckboxField from '../../event/eventForm/VirtualEventCheckboxField';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
+import { VENUE_AMENITIES } from '../../venue/utils';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import styles from '../occurrencePage.module.scss';
 import { TimeAndLocationFormFields } from '../types';
@@ -19,9 +20,22 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
 
   const {
     values,
-    values: { location },
+    values: { location, locationDescription },
     setFieldValue,
   } = useFormikContext<TimeAndLocationFormFields>();
+
+  React.useEffect(() => {
+    // Empty venue descriptions and amenities from form when location is not defined
+    if (!location) {
+      Object.keys(locationDescription).forEach((key) => {
+        setFieldValue(`locationDescription.${key as Language}`, '');
+      });
+
+      VENUE_AMENITIES.forEach((v) => {
+        setFieldValue(v, false);
+      });
+    }
+  }, [location, locationDescription, setFieldValue]);
 
   return (
     <div className={styles.formSection}>
