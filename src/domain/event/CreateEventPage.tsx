@@ -2,7 +2,7 @@ import { useApolloClient } from '@apollo/react-hooks';
 import { Notification } from 'hds-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -33,9 +33,7 @@ import { CreateEventFormFields } from './types';
 import {
   firstOccurrencePrefilledValuesToQuery,
   getEventFormValues,
-  getEventLanguageFromUrl,
   getEventPayload,
-  getFirstAvailableLanguage,
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
@@ -43,12 +41,8 @@ const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
   const history = useHistory();
-  const location = useLocation();
   const locale = useLocale();
-  const language = useMemo(() => getEventLanguageFromUrl(location.search), [
-    location.search,
-  ]);
-  const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
+  const [selectedLanguage, setSelectedLanguage] = useState(locale);
 
   const [loading, setLoading] = useState(true);
   const [eventData, setEventData] = useState<EventQuery | null>(null);
@@ -107,11 +101,6 @@ const CreateEventPage: React.FC = () => {
     };
     getInitialValues();
   }, [eventIdToCopy, apolloClient, handleError, setInitialValues, setLoading]);
-
-  useEffect(
-    () => setSelectedLanguage(language ?? getFirstAvailableLanguage(eventData)),
-    [eventData, language, setSelectedLanguage]
-  );
 
   useEffect(
     () => setEventOrganisation(eventData?.event?.pEvent?.organisation),
