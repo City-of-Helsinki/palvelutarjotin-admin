@@ -32,7 +32,7 @@ import { useKeywordOptions } from './useKeywordOptions';
 import createValidationSchema, { createEventSchema } from './ValidationSchema';
 import VirtualEventCheckboxField from './VirtualEventCheckboxField';
 
-export const defaultInitialValues: EventFormFields = {
+export const eventInitialValues: EventFormFields = {
   audience: [],
   categories: [],
   additionalCriteria: [],
@@ -68,7 +68,7 @@ export const defaultInitialValues: EventFormFields = {
   isVirtual: false,
 };
 
-export const createEventAlwaysEmptyInitialValues = {
+export const eventOccurenceInitialValues = {
   occurrenceDate: null,
   occurrenceStartsAt: '',
   occurrenceEndsAt: '',
@@ -76,8 +76,8 @@ export const createEventAlwaysEmptyInitialValues = {
 };
 
 export const createEventInitialValues: CreateEventFormFields = {
-  ...createEventAlwaysEmptyInitialValues,
-  ...defaultInitialValues,
+  ...eventOccurenceInitialValues,
+  ...eventInitialValues,
 };
 
 type FormFields = CreateEventFormFields | EventFormFields;
@@ -447,10 +447,8 @@ const EventForm = <T extends FormFields>({
                         <Field
                           disabled={isFree}
                           labelText={t('eventForm.offers.labelPrice')}
-                          name="price"
+                          name={`price.${selectedLanguage}`}
                           component={TextInputField}
-                          type="number"
-                          min={0}
                         />
                       </div>
                       {/*

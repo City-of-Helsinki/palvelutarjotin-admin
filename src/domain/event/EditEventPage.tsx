@@ -21,7 +21,7 @@ import ErrorPage from '../errorPage/ErrorPage';
 import { PUBLICATION_STATUS } from '../events/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { getPersons } from '../organisation/oranisationUtils';
-import EventForm, { defaultInitialValues } from './eventForm/EventForm';
+import EventForm, { eventInitialValues } from './eventForm/EventForm';
 import {
   useCreateOrUpdateVenueRequest,
   useUpdateImageRequest,
@@ -134,7 +134,7 @@ const EditEventPage: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
 
   const [initialValues, setInitialValues] = useState<EventFormFields>(
-    defaultInitialValues
+    eventInitialValues
   );
 
   const { data: eventData, loading } = useEventQuery({

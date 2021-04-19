@@ -25,8 +25,8 @@ import { getPersons } from '../organisation/oranisationUtils';
 import { useSelectedOrganisation } from '../organisation/useSelectedOrganisation';
 import { createOrUpdateVenue } from '../venue/utils';
 import EventForm, {
-  createEventAlwaysEmptyInitialValues,
   createEventInitialValues,
+  eventOccurenceInitialValues,
 } from './eventForm/EventForm';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
@@ -94,7 +94,7 @@ const CreateEventPage: React.FC = () => {
           setEventData(data);
           setInitialValues({
             ...getEventFormValues(data),
-            ...createEventAlwaysEmptyInitialValues,
+            ...eventOccurenceInitialValues,
           });
         } else {
           setInitialValues(createEventInitialValues);
@@ -129,7 +129,6 @@ const CreateEventPage: React.FC = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = [];
-
       // Request to create new event
       requests.push(
         createEvent({
@@ -177,7 +176,6 @@ const CreateEventPage: React.FC = () => {
 
       // Run all requests parallel
       const responses = await Promise.all(requests);
-
       // TODO: come up with a better way to handle this
       // Find the request that made the eventMutation and get the id
       const id =

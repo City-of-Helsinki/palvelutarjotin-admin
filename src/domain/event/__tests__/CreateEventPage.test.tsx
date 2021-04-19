@@ -690,7 +690,9 @@ const testMultiDropdownValues = async ({
 
   const dropdown = within(screen.getByTestId(dropdownTestId));
 
-  await Promise.all(values.map((value) => dropdown.findByText(value)));
+  for (const value of values) {
+    await dropdown.findByText(value);
+  }
 };
 
 describe('Copy event', () => {
