@@ -16,7 +16,7 @@ import TimepickerField from '../../../common/components/form/fields/TimepickerFi
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
-import { EMPTY_LOCALISED_OBJECT } from '../../../constants';
+import { createEmptyLocalizedObject } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -39,24 +39,24 @@ export const eventInitialValues: EventFormFields = {
   contactEmail: '',
   contactPersonId: '',
   contactPhoneNumber: '',
-  description: EMPTY_LOCALISED_OBJECT,
+  description: createEmptyLocalizedObject(),
   mandatoryAdditionalInformation: false,
   enrolmentEndDays: '',
   enrolmentStart: null,
   image: '',
   imageAltText: '',
   imagePhotographerName: '',
-  infoUrl: EMPTY_LOCALISED_OBJECT,
+  infoUrl: createEmptyLocalizedObject(),
   inLanguage: [],
   isFree: true,
   keywords: [],
   location: '',
-  name: EMPTY_LOCALISED_OBJECT,
+  name: createEmptyLocalizedObject(),
   neededOccurrences: '1',
-  price: EMPTY_LOCALISED_OBJECT,
-  priceDescription: EMPTY_LOCALISED_OBJECT,
-  shortDescription: EMPTY_LOCALISED_OBJECT,
-  locationDescription: EMPTY_LOCALISED_OBJECT,
+  price: createEmptyLocalizedObject(),
+  priceDescription: createEmptyLocalizedObject(),
+  shortDescription: createEmptyLocalizedObject(),
+  locationDescription: createEmptyLocalizedObject(),
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
   outdoorActivity: false,

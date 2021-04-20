@@ -1,6 +1,6 @@
 import { InterpolationOptions, TFunction } from 'i18next';
 
-import { EMPTY_LOCALISED_OBJECT } from '../constants';
+import { createEmptyLocalizedObject } from '../constants';
 import { LocalisedObject } from '../generated/graphql';
 import { omitTypename } from '../types';
 
@@ -57,4 +57,4 @@ export const translateValue = (
 };
 
 export const getLocalisedObject = (obj?: LocalisedObject | null) =>
-  omitTypename(obj) ?? EMPTY_LOCALISED_OBJECT;
+  omitTypename(obj) ?? createEmptyLocalizedObject;

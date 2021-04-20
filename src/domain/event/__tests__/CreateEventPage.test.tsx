@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import Router from 'react-router';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
-import { EMPTY_LOCALISED_OBJECT } from '../../../constants';
+import { createEmptyLocalizedObject } from '../../../constants';
 import {
   CreateEventDocument,
   ImageDocument,
@@ -104,8 +104,8 @@ const createEventVariables = {
     startTime: '2020-08-07T21:00:00.000Z',
     offers: [
       {
-        price: EMPTY_LOCALISED_OBJECT,
-        description: EMPTY_LOCALISED_OBJECT,
+        price: createEmptyLocalizedObject(),
+        description: createEmptyLocalizedObject(),
         isFree: true,
       },
     ],

@@ -35,7 +35,7 @@ const VenueDataFields: React.FC<{
           const description = getVenueDescription(data.venue);
           setFieldValue(
             `locationDescription.${selectedLanguage}`,
-            description[selectedLanguage] ?? ''
+            description?.[selectedLanguage] ?? ''
           );
           ([
             'hasSnackEatingPlace',

@@ -13,7 +13,10 @@ import FocusToFirstError from '../../../common/components/form/FocusToFirstError
 import FormGroup from '../../../common/components/form/FormGroup';
 import FormHelperText from '../../../common/components/FormHelperText/FormHelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import { EMPTY_LOCALISED_OBJECT, EVENT_LANGUAGES } from '../../../constants';
+import {
+  createEmptyLocalizedObject,
+  EVENT_LANGUAGES,
+} from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
@@ -33,7 +36,7 @@ export const defaultInitialValues: OccurrenceFormFields = {
   amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
-  locationDescription: EMPTY_LOCALISED_OBJECT,
+  locationDescription: createEmptyLocalizedObject,
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
   outdoorActivity: false,

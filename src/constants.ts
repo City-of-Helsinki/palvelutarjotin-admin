@@ -44,7 +44,7 @@ export const PRIVACY_POLICY_LINKS = {
     'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personregister%20Tj%C3%A4nstepalett.pdf',
 };
 
-export const EMPTY_LOCALISED_OBJECT: LocalisedObject = Object.freeze({
+export const createEmptyLocalizedObject = (): LocalisedObject => ({
   [SUPPORT_LANGUAGES.FI]: '',
   [SUPPORT_LANGUAGES.SV]: '',
   [SUPPORT_LANGUAGES.EN]: '',

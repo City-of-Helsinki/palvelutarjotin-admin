@@ -26,15 +26,13 @@ const VENUE_AMENITIES = [
 
 export const getVenueDescription = (
   venue: VenueNode | undefined | null
-): LocalisedObject =>
-  getLocalisedObject(
-    venue?.translations.reduce<LocalisedObject>(
-      (result, { languageCode, description }) => ({
-        ...result,
-        ...(languageCode && { [languageCode.toLowerCase()]: description }),
-      }),
-      {}
-    )
+): LocalisedObject | undefined =>
+  venue?.translations?.reduce<LocalisedObject>(
+    (result, { languageCode, description }) => ({
+      ...result,
+      [languageCode.toLowerCase()]: description,
+    }),
+    {}
   );
 
 export const getVenuePayload = ({

@@ -1,5 +1,5 @@
 import {
-  EMPTY_LOCALISED_OBJECT,
+  createEmptyLocalizedObject,
   LINKEDEVENTS_CONTENT_TYPE,
 } from '../constants';
 import {

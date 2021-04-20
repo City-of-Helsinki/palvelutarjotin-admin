@@ -37,7 +37,7 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
 
   return (
     <div className={styles.venueInfo}>
-      {venueDescription && (
+      {venueDescription?.[language] && (
         <div className={styles.venueDescription}>
           <TextTitle>
             {t('eventDetails.location.labelLocationDescription')}

@@ -375,7 +375,9 @@ export const getEventFormValues = (
     eventData.event?.pEvent?.neededOccurrences.toString() || '',
   price: getLocalisedObject(eventData.event?.offers?.[0]?.price),
   shortDescription: getLocalisedObject(eventData.event?.shortDescription),
-  locationDescription: getVenueDescription(eventData.event?.venue),
+  locationDescription: getLocalisedObject(
+    getVenueDescription(eventData.event?.venue)
+  ),
   hasClothingStorage: eventData?.event?.venue?.hasClothingStorage || false,
   hasSnackEatingPlace: eventData?.event?.venue?.hasSnackEatingPlace || false,
   outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,

@@ -21,6 +21,7 @@ import useLocale from '../../hooks/useLocale';
 import formatDate from '../../utils/formatDate';
 import getLocalizedString from '../../utils/getLocalizedString';
 import scrollToTop from '../../utils/scrollToTop';
+import { getLocalisedObject } from '../../utils/translateUtils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -197,7 +198,9 @@ const EditOccurrencePage: React.FC = () => {
       amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',
       minGroupSize: occurrenceData?.occurrence?.minGroupSize?.toString() || '',
-      locationDescription: getVenueDescription(venueData?.venue),
+      locationDescription: getLocalisedObject(
+        getVenueDescription(venueData?.venue)
+      ),
       hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
       hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
       outdoorActivity: venueData?.venue?.outdoorActivity || false,
