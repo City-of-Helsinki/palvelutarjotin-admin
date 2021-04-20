@@ -150,6 +150,9 @@
       "titlePublish": "Publish"
     }
   },
+  "copyEvent": {
+    "title": "new event (based on old event)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Events",
@@ -426,6 +429,7 @@
     "infoText1": "Add an event time for the event that customers can sign up for. Please note that you can create more times at once by copying the event times you have already created.",
     "infoText2": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> day before the start of the event time. You can change these settings in the event information.",
     "infoText2_plural": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> days before the start of the event time. You can change these settings in the event information.",
+    "helpTextFirstOccurrence": "Fill in the information for the first event time",
     "labelDate": "Date",
     "labelStartsAt": "Starts at",
     "labelEndsAt": "Ends at",
@@ -563,6 +567,7 @@
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
     "buttonEventDetails": "View event details",
+    "buttonCloneEventDetails": "Copy to a new template",
     "buttonShowMore": "Show more occurrences",
     "count": "{{count}} pcs",
     "deleteError": "Failed to delete event time",
@@ -622,8 +627,11 @@
   "studyLevel": {
     "grade_interval": "(1){1st grade};(2){2nd grade};",
     "grade_plural": "{{count}}th grade",
-    "preschool": "Preschool",
-    "secondary": "Upper secondary school"
+    "preschool": "5-6 aged",
+    "secondary": "Upper secondary school",
+    "age02": "0-2 aged",
+    "age34": "3-4 aged",
+    "other": "Other group"
   },
   "venue": {
     "venueDataFields": {

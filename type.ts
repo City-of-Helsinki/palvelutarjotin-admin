@@ -1,7 +1,7 @@
-import { LocalisedObjectInput } from '../../generated/graphql';
+import { SUPPORT_LANGUAGES } from '../../constants';
 
 export type OldVenueDataFields = {
-  locationDescription: LocalisedObjectInput;
+  locationDescription: string;
   hasClothingStorage: boolean;
   hasSnackEatingPlace: boolean;
   outdoorActivity: boolean;
@@ -12,7 +12,7 @@ export type OldVenueDataFields = {
 };
 
 export type VenueDataFields = {
-  locationDescription: LocalisedObjectInput;
+  locationDescription: { [K in SUPPORT_LANGUAGES]: string };
   hasClothingStorage: boolean;
   hasSnackEatingPlace: boolean;
   outdoorActivity: boolean;

@@ -64,14 +64,12 @@ test('renders correctly', async () => {
 
   await screen.findByText('Tapahtumapaikan kuvaus');
 
-  expect(
-    screen.queryByRole('heading', { name: 'Tapahtumapaikka' })
-  ).toBeVisible();
-  expect(screen.queryByText(`${placeName}, ${streetAddress}`)).toBeVisible();
-  expect(screen.queryByText(streetAddress)).toBeVisible();
-  expect(
-    screen.queryByText('https://palvelukartta.hel.fi/fi/unit/15376')
-  ).toBeVisible();
-  expect(screen.queryByText('Eväidensyöntipaikka')).toBeVisible();
-  expect(screen.queryByText('Vaatesäilytys')).toBeVisible();
+  await screen.findByRole('heading', { name: 'Tapahtumapaikka' });
+  await screen.findByText(`${placeName}, ${streetAddress}`);
+  await screen.findByText(streetAddress);
+  await screen.findByRole('link', {
+    name: 'https://palvelukartta.hel.fi/fi/unit/15376',
+  });
+  await screen.findByText(/eväidensyöntipaikka/i);
+  await screen.findByText(/vaatesäilytys/i);
 });

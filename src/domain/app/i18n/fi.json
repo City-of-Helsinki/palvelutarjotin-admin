@@ -207,6 +207,9 @@
       "titlePublish": "Julkaise"
     }
   },
+  "copyEvent": {
+    "title": "Uusi tapahtuma (vanhan tapahtuman pohjalta)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Tapahtumat",
@@ -287,7 +290,7 @@
       "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
       "labelDescription": "Kuvaus",
       "labelMandatoryAdditionalInformation": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
-      "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskentttä pakolliseksi...",
+      "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskenttä pakolliseksi...",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelImage": "Tapahtuman kuva",
@@ -432,6 +435,7 @@
     "infoText1": "Lisää tapahtumalle tapahtuma-aika, johon asiakkaat voivat ilmoittautua. Huomaathan, että voit luoda kerralla suuremman määrän aikoja kopioimalla jo luomiasi tapahtuma-aikoja.",
     "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
+    "helpTextFirstOccurrence": "Täydennä ensimmäisen tapahtuma-ajan tiedot",
     "labelDate": "Päivämäärä",
     "labelStartsAt": "Alkaa",
     "labelEndsAt": "Päättyy",
@@ -569,6 +573,7 @@
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
     "buttonEventDetails": "Näytä tapahtuman tiedot",
+    "buttonCloneEventDetails": "Kopioi uuteen pohjaan",
     "buttonShowMore": "Näytä lisää tapahtuma-aikoja",
     "count": "{{count}} kpl",
     "deleteError": "Tapahtuma-ajan poistaminen epäonnistui",
@@ -628,8 +633,11 @@
   "studyLevel": {
     "grade": "{{count}}. luokka",
     "grade_plural": "{{count}}. luokka",
-    "preschool": "Esikoulu",
-    "secondary": "Lukio"
+    "preschool": "5-6 -vuotiaat",
+    "secondary": "Lukio",
+    "age02": "0-2 -vuotiaat",
+    "age34": "3-4 -vuotiaat",
+    "other": "Muu ryhmä"
   },
   "venue": {
     "venueDataFields": {

@@ -1,3 +1,5 @@
+import { LocalisedObject } from './generated/graphql';
+
 /**
  * Check is the instance that is rendering component client (not SSR)
  */
@@ -14,6 +16,8 @@ export enum SUPPORT_LANGUAGES {
   SV = 'sv',
   EN = 'en',
 }
+
+export const supportedLanguages = Object.values(SUPPORT_LANGUAGES);
 
 export enum LINKEDEVENTS_CONTENT_TYPE {
   IMAGE = 'image',
@@ -39,3 +43,9 @@ export const PRIVACY_POLICY_LINKS = {
   sv:
     'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personregister%20Tj%C3%A4nstepalett.pdf',
 };
+
+export const createEmptyLocalizedObject = (): LocalisedObject => ({
+  [SUPPORT_LANGUAGES.FI]: '',
+  [SUPPORT_LANGUAGES.SV]: '',
+  [SUPPORT_LANGUAGES.EN]: '',
+});

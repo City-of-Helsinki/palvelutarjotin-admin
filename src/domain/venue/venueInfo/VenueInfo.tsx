@@ -24,7 +24,7 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
     fetchPolicy: 'network-only',
     variables: { id: placeId },
   });
-  const venueDescription = getVenueDescription(venueData, language);
+  const venueDescription = getVenueDescription(venueData?.venue);
   const {
     hasClothingStorage,
     hasSnackEatingPlace,
@@ -37,12 +37,12 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
 
   return (
     <div className={styles.venueInfo}>
-      {venueDescription && (
+      {venueDescription?.[language] && (
         <div className={styles.venueDescription}>
           <TextTitle>
             {t('eventDetails.location.labelLocationDescription')}
           </TextTitle>
-          <p>{venueDescription}</p>
+          <p>{venueDescription[language]}</p>
         </div>
       )}
       {hasAmenity(venueData?.venue) && (

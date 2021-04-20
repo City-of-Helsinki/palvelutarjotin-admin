@@ -56,7 +56,7 @@
 
   .titleRow {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     grid-gap: (var(--grid-gap));
     align-items: center;
     margin: 1rem 0 2rem;

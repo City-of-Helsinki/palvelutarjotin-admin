@@ -19,7 +19,7 @@ env:
   K8S_LIMIT_CPU: 5m
   K8S_LIMIT_RAM: 20Mi
   K8S_REPLICACOUNT: 2
-  
+  PUBLIC_URL: https://${{ secrets.ENVIRONMENT_URL_STABLE }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,8 +52,28 @@ jobs:
         env:
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE_STABLE }}
           K8S_ADDITIONAL_HOSTNAMES: ${{ secrets.K8S_ADDITIONAL_HOSTNAMES }}
-          ENVIRONMENT_URL: https://${{ secrets.ENVIRONMENT_URL_STABLE }}
+          ENVIRONMENT_URL: ${{ env.PUBLIC_URL }}
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-production
+      - name: production deploy notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: Deployer
+          SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
+          SLACK_TITLE: ${{ env.PUBLIC_URL }} has been updated!
+          SLACK_MESSAGE: 'A new version of Kultus Admin Beta has been deployed to production! ${{ env.PUBLIC_URL }} :tada: :tada: '
+          SLACK_CHANNEL: pomodori
+        if: success()
+      - name: production deploy failure notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: Deployer
+          SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
+          SLACK_TITLE: Deploying to ${{ env.PUBLIC_URL }} has *FAILED!*
+          SLACK_MESSAGE: Deploying to ${{ env.PUBLIC_URL }} has *FAILED!*
+          SLACK_CHANNEL: pomodori
+        if: failure()
   smoke-tests:
     runs-on: windows-latest
     needs: production
@@ -77,12 +97,13 @@ jobs:
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files --production=false
       - name: Run TestCafe tests
+        id: testcafe
         run: yarn browser-test:ci
         env:
           BROWSER_TESTS_LOCAL_ENV_URL: https://${{ secrets.ENVIRONMENT_URL_STABLE }}
-      - name: Upload screenshots of failed tests
+      - name: Upload screenshots and videos of failed tests to artifact
         uses: actions/upload-artifact@v2
-        if: failure()
         with:
-          name: screenshots
-          path: screenshots/
+          name: report
+          path: report/
+        if: always() && steps.testcafe.outcome == 'failure'

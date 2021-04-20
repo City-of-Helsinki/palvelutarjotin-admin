@@ -25,3 +25,5 @@ yarn-error.log*
 # testcafe screenshots
 /screenshot
 
+# ItelliJ
+*.iml

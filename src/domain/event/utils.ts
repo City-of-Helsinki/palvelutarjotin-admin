@@ -18,13 +18,15 @@ import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
+import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { getVenueDescription } from '../venue/utils';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
 } from './constants';
+import { createEventInitialValues } from './eventForm/EventForm';
 import { CreateEventFormFields, EventFormFields } from './types';
-
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -93,10 +95,12 @@ export const getEventLanguageFromUrl = (search: string): Language | null => {
  * @param {object} eventData
  * @return {string}
  */
-export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
-  if (eventData.event?.name.fi) return SUPPORT_LANGUAGES.FI;
-  if (eventData.event?.name.sv) return SUPPORT_LANGUAGES.SV;
-  if (eventData.event?.name.en) return SUPPORT_LANGUAGES.EN;
+export const getFirstAvailableLanguage = (
+  eventData?: EventQuery | null
+): Language => {
+  if (eventData?.event?.name.fi) return SUPPORT_LANGUAGES.FI;
+  if (eventData?.event?.name.sv) return SUPPORT_LANGUAGES.SV;
+  if (eventData?.event?.name.en) return SUPPORT_LANGUAGES.EN;
 
   return SUPPORT_LANGUAGES.FI;
 };
@@ -109,32 +113,24 @@ export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
 export const getEventPayload = ({
   values,
   organisationId,
-  selectedLanguage,
 }: {
   values: EventFormFields;
   organisationId: string;
-  selectedLanguage: Language;
 }) => {
   const { keywords, additionalCriteria, categories } = values;
   return {
-    name: { [selectedLanguage]: values.name },
+    name: getLocalisedObject(values.name),
     // start_date and offers are mandatory on LinkedEvents to use dummy data
     startTime: new Date().toISOString(),
     offers: [
       {
         isFree: values.isFree,
-        price: {
-          [selectedLanguage]: values.price,
-        },
-        description: {
-          [selectedLanguage]: values.priceDescription,
-        },
+        price: getLocalisedObject(values.price),
+        description: getLocalisedObject(values.priceDescription),
       },
     ],
-    shortDescription: {
-      [selectedLanguage]: values.shortDescription,
-    },
-    description: { [selectedLanguage]: values.description },
+    shortDescription: getLocalisedObject(values.shortDescription),
+    description: getLocalisedObject(values.description),
     images: values.image
       ? [
           {
@@ -145,7 +141,7 @@ export const getEventPayload = ({
           },
         ]
       : [],
-    infoUrl: { [selectedLanguage]: values.infoUrl },
+    infoUrl: getLocalisedObject(values.infoUrl),
     audience: values.audience.map((keyword) => ({
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
@@ -187,14 +183,6 @@ export const getEventPayload = ({
     organisationId,
   };
 };
-
-export const getEventVenueDescription = (
-  eventData: EventQuery | null,
-  selectedLanguage: Language
-): string =>
-  eventData?.event?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
@@ -320,7 +308,7 @@ export const firstOccurrencePrefilledValuesToQuery = (
 
 /**
  * Check is event free
- * @param eventData
+ * @param event
  * @return {boolean}
  */
 export const isEventFree = (event: EventFieldsFragment): boolean =>
@@ -342,3 +330,64 @@ export const getRealKeywords = (
     );
   });
 };
+
+export const getLocationId = (
+  locationId: string | undefined | null
+): string => {
+  // If location id is virtual event location, we are not going to show it as location.
+  // Only virtual location checkbox should be checked.
+  if (locationId !== VIRTUAL_EVENT_LOCATION_ID) {
+    return locationId ?? '';
+  }
+  return '';
+};
+
+export const getEventFormValues = (
+  eventData: EventQuery
+): CreateEventFormFields => ({
+  ...createEventInitialValues,
+  additionalCriteria:
+    eventData.event?.additionalCriteria.map((item) => item.id || '') || [],
+  categories: eventData.event?.categories.map((item) => item.id || '') || [],
+  audience: eventData.event?.audience.map((item) => item.id || '') || [],
+  contactEmail: eventData.event?.pEvent?.contactEmail || '',
+  contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
+  contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
+  description: getLocalisedObject(eventData.event?.description),
+  enrolmentEndDays: eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
+  enrolmentStart: eventData.event?.pEvent?.enrolmentStart
+    ? new Date(eventData.event?.pEvent?.enrolmentStart)
+    : null,
+  image: eventData.event?.images[0]?.id || '',
+  imageAltText: eventData.event?.images[0]?.altText || '',
+  imagePhotographerName: eventData.event?.images[0]?.photographerName || '',
+  infoUrl: getLocalisedObject(eventData.event?.infoUrl),
+  inLanguage: eventData.event?.inLanguage.map((item) => item.id || '') || [],
+  isFree: !!eventData.event?.offers?.[0]?.isFree,
+  priceDescription: getLocalisedObject(
+    eventData.event?.offers?.[0]?.description
+  ),
+  keywords:
+    getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
+  location: getLocationId(eventData.event?.location?.id),
+  name: getLocalisedObject(eventData.event?.name),
+  neededOccurrences:
+    eventData.event?.pEvent?.neededOccurrences.toString() || '',
+  price: getLocalisedObject(eventData.event?.offers?.[0]?.price),
+  shortDescription: getLocalisedObject(eventData.event?.shortDescription),
+  locationDescription: getLocalisedObject(
+    getVenueDescription(eventData.event?.venue)
+  ),
+  hasClothingStorage: eventData?.event?.venue?.hasClothingStorage || false,
+  hasSnackEatingPlace: eventData?.event?.venue?.hasSnackEatingPlace || false,
+  outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
+  hasToiletNearby: eventData?.event?.venue?.hasToiletNearby || false,
+  hasAreaForGroupWork: eventData?.event?.venue?.hasAreaForGroupWork || false,
+  hasIndoorPlayingArea: eventData?.event?.venue?.hasIndoorPlayingArea || false,
+  hasOutdoorPlayingArea:
+    eventData?.event?.venue?.hasOutdoorPlayingArea || false,
+  autoAcceptance: eventData.event?.pEvent.autoAcceptance,
+  mandatoryAdditionalInformation:
+    eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
+  isVirtual: eventData.event?.location?.id === VIRTUAL_EVENT_LOCATION_ID,
+});

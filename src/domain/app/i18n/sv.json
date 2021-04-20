@@ -206,6 +206,9 @@
       "titlePublish": "Publicera"
     }
   },
+  "copyEvent": {
+    "title": "Nytt evenemang (baserat på gammalt evenemang)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Evenemang",
@@ -433,6 +436,7 @@
     "infoText1": "Lägg till en evenemangtid för det evenemang som kunder kan registrera sig för. Observera att du kan skapa fler gånger samtidigt genom att kopiera händelsetiderna som du redan har skapat.",
     "infoText2": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dag före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
     "infoText2_plural": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
+    "helpTextFirstOccurrence": "Fyll i Informationen för den första evenemang",
     "labelDate": "Datum",
     "labelStartsAt": "Börjar kl",
     "labelEndsAt": "Slutar kl",
@@ -570,6 +574,7 @@
     "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
+    "buttonCloneEventDetails": "Kopiera till en ny mall",
     "buttonShowMore": "Visa fler händelser",
     "count": "{{count}} st",
     "deleteError": "Det gick inte att ta bort evenemangtiden",
@@ -629,8 +634,11 @@
   "studyLevel": {
     "grade": "{{count}}: a klass",
     "grade_plural": "{{count}}: a klass",
-    "preschool": "Förskola",
-    "secondary": "Gymnasieskola"
+    "preschool": "5-6 åldrig",
+    "secondary": "Gymnasieskola",
+    "age02": "0-2 åldrig",
+    "age34": "3-4 åldrig",
+    "other": "Annan grupp"
   },
   "venue": {
     "venueDataFields": {

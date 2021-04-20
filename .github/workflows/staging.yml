@@ -1,9 +1,7 @@
-name: Build & Staging & Acceptance tests
+name: Build & Staging & Acceptance tests For Release
 on:
   push:
-    branches:
-      - master
-
+    branches: [master]
 env:
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_REGISTRY_USER: ${{ secrets.GHCR_CONTAINER_REGISTRY_USER }}
@@ -19,7 +17,7 @@ env:
   K8S_LIMIT_CPU: 5m
   K8S_LIMIT_RAM: 20Mi
   K8S_REPLICACOUNT: 2
-  
+  PUBLIC_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,8 +50,18 @@ jobs:
           track: 'staging'
         env:
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE_STAGING }}
-          ENVIRONMENT_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
+          ENVIRONMENT_URL: ${{ env.PUBLIC_URL }}
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-staging
+      - name: staging deploy failure notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: DeployManager
+          SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
+          SLACK_TITLE: Deploying to ${{ env.PUBLIC_URL }} has *FAILED!*
+          SLACK_MESSAGE: Deploying to ${{ env.PUBLIC_URL }} has *FAILED!*
+          SLACK_CHANNEL: pomodori-alerts
+        if: failure()
   acceptance-tests:
     runs-on: windows-latest
     needs: staging
@@ -77,12 +85,13 @@ jobs:
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files --production=false
       - name: Run TestCafe tests
+        id: testcafe
         run: yarn browser-test:ci
         env:
           BROWSER_TESTS_LOCAL_ENV_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
-      - name: Upload screenshots of failed tests
+      - name: Upload screenshots and videos of failed tests to artifact
         uses: actions/upload-artifact@v2
-        if: failure()
         with:
-          name: screenshots
-          path: screenshots/
+          name: report
+          path: report/
+        if: always() && steps.testcafe.outcome == 'failure'

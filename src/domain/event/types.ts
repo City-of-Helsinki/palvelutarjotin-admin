@@ -1,35 +1,33 @@
 import { Event, Image, LocalisedObject } from '../../generated/graphql';
-import { OldVenueDataFields } from '../venue/types';
-
-export type EventLanguages = 'en' | 'fi' | 'sv';
+import { OldVenueDataFields, VenueDataFields } from '../venue/types';
 
 export type EventInList = Pick<Event, 'id' | 'startTime' | 'endTime'> & {
   images: Array<Pick<Image, 'id' | 'name' | 'url'>>;
   name: LocalisedObject;
 };
 
-export interface EventFormFields extends OldVenueDataFields {
+export interface EventFormFields extends VenueDataFields {
   audience: string[];
   contactEmail: string;
   contactPersonId: string;
   contactPhoneNumber: string;
-  description: string;
+  description: LocalisedObject;
   mandatoryAdditionalInformation: boolean;
   enrolmentEndDays: string;
   enrolmentStart: Date | null;
   image: string;
   imageAltText: string;
   imagePhotographerName: string;
-  infoUrl: string;
+  infoUrl: LocalisedObject;
   inLanguage: string[];
   isFree: boolean;
   keywords: string[];
   location: string;
-  name: string;
+  name: LocalisedObject;
   neededOccurrences: string;
-  price: string;
-  priceDescription: string;
-  shortDescription: string;
+  price: LocalisedObject;
+  priceDescription: LocalisedObject;
+  shortDescription: LocalisedObject;
   isDraft?: boolean;
   autoAcceptance?: boolean;
   categories: string[];

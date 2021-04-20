@@ -58,6 +58,13 @@ jobs:
           DEPLOY_URL=$(kubectl get ingress -n "${{ env.K8S_NAMESPACE }}" -o jsonpath='{.items[0].spec.rules[0].host}')
           echo "BROWSER_TESTS_LOCAL_ENV_URL=https://$DEPLOY_URL" >> $GITHUB_ENV
         shell: bash
+      - name: Create PR comment for Deploy URL
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          header: deployment-url
+          message: |
+            **Palvelutarjotin-admin branch is deployed to: ${{ env.BROWSER_TESTS_LOCAL_ENV_URL }}** :rocket::rocket::rocket:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
         with:
@@ -75,10 +82,11 @@ jobs:
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files
       - name: Run Acceptance Tests (TestCafe Browser Tests)
+        id: testcafe
         run: yarn browser-test:ci
-      - name: Upload screenshots of failed tests
+      - name: Upload screenshots and videos of failed tests to artifact
         uses: actions/upload-artifact@v2
-        if: failure()
         with:
-          name: screenshots
-          path: screenshots/
+          name: report
+          path: report/
+        if: always() && steps.testcafe.outcome == 'failure'

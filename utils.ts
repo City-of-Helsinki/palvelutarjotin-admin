@@ -4,7 +4,6 @@ import {
   EditVenueDocument,
   EditVenueMutation,
   Language as TranslationLanguage,
-  LocalisedObject,
   VenueDocument,
   VenueNode,
   VenueQuery,
@@ -13,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import apolloClient from '../app/apollo/apolloClient';
+import { LocationDescriptions } from '../occurrence/types';
 import { VenueDataFields } from './types';
 
 export const VENUE_AMENITIES = [
@@ -26,15 +26,12 @@ export const VENUE_AMENITIES = [
 ] as const;
 
 export const getVenueDescription = (
-  venue: VenueNode | undefined | null
-): LocalisedObject | undefined =>
-  venue?.translations?.reduce<LocalisedObject>(
-    (result, { languageCode, description }) => ({
-      ...result,
-      [languageCode.toLowerCase()]: description,
-    }),
-    {}
-  );
+  venueData: VenueQuery | undefined | null,
+  selectedLanguage: Language
+): string =>
+  venueData?.venue?.translations.find(
+    (t) => t.languageCode === selectedLanguage.toUpperCase()
+  )?.description || '';
 
 export const getVenueDescriptions = (
   venueData: VenueQuery | undefined | null
@@ -101,7 +98,7 @@ const hasDescriptionsChanged = (
     VenueTranslationType,
     'languageCode' | 'description'
   >[],
-  formDescriptions: LocalisedObject
+  formDescriptions: LocationDescriptions
 ): boolean => {
   return Object.entries(formDescriptions).some(([lang, formDescription]) => {
     return (

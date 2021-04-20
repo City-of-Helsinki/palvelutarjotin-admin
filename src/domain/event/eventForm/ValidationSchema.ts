@@ -5,9 +5,16 @@ import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
 import { DATETIME_FORMAT } from '../../../common/components/datepicker/contants';
+import { SUPPORT_LANGUAGES } from '../../../constants';
 import { isTodayOrLater, isValidTime } from '../../../utils/dateUtils';
 import formatDate from '../../../utils/formatDate';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
+
+const priceValidation = Yup.string()
+  // Price field is a string field which should contain positive numbers
+  .matches(/^\d+(\.\d+)?$/, VALIDATION_MESSAGE_KEYS.STRING_POSITIVENUMBER)
+  // Price should be required when event is not free
+  .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED);
 
 // TODO: Validate also provideContactInfo.phone field. Sync validation with backend
 const createValidationSchemaYup = (
@@ -104,13 +111,13 @@ const createValidationSchemaYup = (
     ),
     contactEmail: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
     autoAcceptance: Yup.boolean(),
-    price: Yup.string().when('isFree', {
+    price: Yup.object().when('isFree', {
       is: false,
-      then: Yup.string()
-        // Price field is a string field which should contain positive numbers
-        .matches(/^\d+(\.\d+)?$/, VALIDATION_MESSAGE_KEYS.STRING_POSITIVENUMBER)
-        // Price should be required when event is not free
-        .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED),
+      then: Yup.object().shape({
+        [SUPPORT_LANGUAGES.FI]: priceValidation,
+        [SUPPORT_LANGUAGES.SV]: priceValidation,
+        [SUPPORT_LANGUAGES.EN]: priceValidation,
+      }),
     }),
     ...schema,
   });
