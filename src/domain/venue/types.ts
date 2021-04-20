@@ -1,5 +1,7 @@
+import { LocalisedObject } from '../../generated/graphql';
+
 export type VenueDataFields = {
-  locationDescription: string;
+  locationDescription?: LocalisedObject | null;
   hasClothingStorage: boolean;
   hasSnackEatingPlace: boolean;
   outdoorActivity: boolean;

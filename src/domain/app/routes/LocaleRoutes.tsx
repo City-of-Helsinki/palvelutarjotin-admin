@@ -62,6 +62,11 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         />
         <Route
           exact
+          path={`/${locale}${ROUTES.COPY_EVENT}`}
+          component={CreateEventPage}
+        />
+        <Route
+          exact
           path={`/${locale}${ROUTES.EVENT_DETAILS}`}
           component={EventDetailsPage}
         />

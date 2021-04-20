@@ -1,6 +1,7 @@
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',
+  COPY_EVENT = '/events/copy/:id',
   CREATE_OCCURRENCE = '/events/:id/occurrences/create',
   CREATE_FIRST_OCCURRENCE = '/events/:id/occurrences/createfirst',
   EDIT_OCCURRENCE = '/events/:id/occurrences/:occurrenceId/edit',

@@ -21,6 +21,7 @@ import useLocale from '../../hooks/useLocale';
 import formatDate from '../../utils/formatDate';
 import getLocalizedString from '../../utils/getLocalizedString';
 import scrollToTop from '../../utils/scrollToTop';
+import { getLocalisedObject } from '../../utils/translateUtils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -121,7 +122,6 @@ const EditOccurrencePage: React.FC = () => {
       const createOrUpdateVenueRequest = createOrUpdateVenue({
         venueFormData: values,
         locationId: values.placeId,
-        language: locale,
       });
 
       if (createOrUpdateVenueRequest) {
@@ -198,7 +198,9 @@ const EditOccurrencePage: React.FC = () => {
       amountOfSeats: occurrenceData?.occurrence?.amountOfSeats.toString() || '',
       maxGroupSize: occurrenceData?.occurrence?.maxGroupSize?.toString() || '',
       minGroupSize: occurrenceData?.occurrence?.minGroupSize?.toString() || '',
-      locationDescription: getVenueDescription(venueData, locale),
+      locationDescription: getLocalisedObject(
+        getVenueDescription(venueData?.venue)
+      ),
       hasClothingStorage: venueData?.venue?.hasClothingStorage || false,
       hasSnackEatingPlace: venueData?.venue?.hasSnackEatingPlace || false,
       outdoorActivity: venueData?.venue?.outdoorActivity || false,
@@ -207,7 +209,7 @@ const EditOccurrencePage: React.FC = () => {
       hasIndoorPlayingArea: venueData?.venue?.hasIndoorPlayingArea || false,
       hasOutdoorPlayingArea: venueData?.venue?.hasOutdoorPlayingArea || false,
     }),
-    [locale, occurrenceData, venueData]
+    [occurrenceData, venueData]
   );
 
   return (

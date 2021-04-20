@@ -222,9 +222,7 @@ test('can create new occurrence with form', async () => {
   ).toBeInTheDocument();
 
   // Location and venue data renders
-  await waitFor(() => {
-    expect(screen.queryByText('TestiVenue')).toBeInTheDocument();
-  });
+  await screen.findByText('TestiVenue');
   expect(screen.queryByText('Testikatu')).toBeInTheDocument();
 
   const dateInput = screen.getByLabelText('Päivämäärä');

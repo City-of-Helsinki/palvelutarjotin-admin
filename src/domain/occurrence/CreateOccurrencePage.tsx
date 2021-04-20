@@ -126,7 +126,6 @@ const CreateOccurrencePage: React.FC = () => {
       const createOrUpdateVenueRequest = createOrUpdateVenue({
         venueFormData: values,
         locationId: values.placeId,
-        language: locale,
       });
 
       if (createOrUpdateVenueRequest) {

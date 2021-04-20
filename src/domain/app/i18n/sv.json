@@ -206,6 +206,9 @@
       "titlePublish": "Publicera"
     }
   },
+  "copyEvent": {
+    "title": "Nytt evenemang (baserat på gammalt evenemang)"
+  },
   "editEvent": {
     "buttons": {
       "buttonBack": "Evenemang",
@@ -557,6 +560,7 @@
     "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
     "buttonEventDetails": "Visa information om evenemanget",
+    "buttonCloneEventDetails": "Kopiera till en ny mall",
     "buttonShowMore": "Visa fler händelser",
     "count": "{{count}} st",
     "deleteError": "Det gick inte att ta bort evenemangtiden",
