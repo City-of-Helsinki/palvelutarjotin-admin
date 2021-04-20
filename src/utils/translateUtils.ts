@@ -57,4 +57,4 @@ export const translateValue = (
 };
 
 export const getLocalisedObject = (obj?: LocalisedObject | null) =>
-  omitTypename(obj) ?? createEmptyLocalizedObject;
+  omitTypename(obj) ?? createEmptyLocalizedObject();

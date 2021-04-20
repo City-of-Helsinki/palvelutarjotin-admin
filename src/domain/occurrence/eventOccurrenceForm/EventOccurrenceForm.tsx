@@ -36,7 +36,7 @@ export const defaultInitialValues: OccurrenceFormFields = {
   amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
-  locationDescription: createEmptyLocalizedObject,
+  locationDescription: createEmptyLocalizedObject(),
   hasClothingStorage: false,
   hasSnackEatingPlace: false,
   outdoorActivity: false,
