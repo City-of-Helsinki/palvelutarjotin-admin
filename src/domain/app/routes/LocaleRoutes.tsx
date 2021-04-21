@@ -86,10 +86,7 @@ const LocaleRoutes: React.FC<RouteComponentProps<{
         />
         <Route
           exact
-          path={[
-            `/${locale}${ROUTES.CREATE_OCCURRENCE}`,
-            `/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE}`,
-          ]}
+          path={[`/${locale}${ROUTES.CREATE_OCCURRENCE}`]}
           component={CreateEventOccurrencePage}
         />
         <Route

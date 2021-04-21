@@ -1,23 +1,28 @@
 import { useUpdateSingleImageMutation } from '../../../generated/graphql';
 import { getImageName } from '../../image/utils';
+import { VenueDataFields } from '../../venue/types';
 import { createOrUpdateVenue } from '../../venue/utils';
-import { CreateEventFormFields, EventFormFields } from '../types';
+import { CreateEventFormFields } from '../types';
 
 const useCreateOrUpdateVenueRequest = () => {
-  return (values: CreateEventFormFields | EventFormFields) => {
-    const createOrUpdateVenueRequest = createOrUpdateVenue({
-      venueFormData: values,
-      locationId: values.location,
+  return ({
+    venueFormData,
+    locationId,
+  }: {
+    venueFormData: VenueDataFields;
+    locationId: string;
+  }) => {
+    return createOrUpdateVenue({
+      venueFormData,
+      locationId,
     });
-
-    return createOrUpdateVenueRequest;
   };
 };
 
 const useUpdateImageRequest = () => {
   const [updateImage] = useUpdateSingleImageMutation();
 
-  return (values: CreateEventFormFields | EventFormFields) => {
+  return (values: CreateEventFormFields) => {
     const imageId = values.image;
     if (imageId) {
       const imageName = getImageName(imageId);
@@ -38,4 +43,4 @@ const useUpdateImageRequest = () => {
   };
 };
 
-export { useCreateOrUpdateVenueRequest, useUpdateImageRequest };
+export { useUpdateImageRequest, useCreateOrUpdateVenueRequest };

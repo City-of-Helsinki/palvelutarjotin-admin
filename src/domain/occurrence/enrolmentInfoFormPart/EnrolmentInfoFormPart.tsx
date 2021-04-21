@@ -12,8 +12,17 @@ const EnrolmentInfoFormPart: React.FC = () => {
   const { t } = useTranslation();
 
   const {
-    values: { externalEnrolment },
+    values: { externalEnrolment, neededOccurrences, autoAcceptance },
+    setFieldValue,
   } = useFormikContext<TimeAndLocationFormFields>();
+
+  // Enrolments cannot be manually accepted if more than one occurrence is needed
+  // So we se autoAcceptance to true id neededOccurrences is more than 1
+  React.useEffect(() => {
+    if (neededOccurrences > 1 && !autoAcceptance) {
+      setFieldValue('autoAcceptance', true);
+    }
+  }, [autoAcceptance, neededOccurrences, setFieldValue]);
 
   return (
     <div className={styles.formSection}>
@@ -75,6 +84,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
             <Field
               label={t('eventOccurrenceForm.labelAutoAcceptance')}
               name="autoAcceptance"
+              disabled={neededOccurrences > 1}
               component={CheckboxField}
             />
           </div>

@@ -22,21 +22,11 @@ import { ROUTES } from '../app/routes/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { getPersons } from '../organisation/oranisationUtils';
 import { useSelectedOrganisation } from '../organisation/useSelectedOrganisation';
-import EventForm, {
-  createEventInitialValues,
-  eventOccurenceInitialValues,
-} from './eventForm/EventForm';
-import {
-  useCreateOrUpdateVenueRequest,
-  useUpdateImageRequest,
-} from './eventForm/useEventFormSubmitRequests';
+import EventForm, { createEventInitialValues } from './eventForm/EventForm';
+import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
-import {
-  firstOccurrencePrefilledValuesToQuery,
-  getEventFormValues,
-  getEventPayload,
-} from './utils';
+import { getEventFormValues, getEventPayload } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { id: eventIdToCopy } = useParams<{ id: string }>();
@@ -45,7 +35,6 @@ const CreateEventPage: React.FC = () => {
   const history = useHistory();
   const locale = useLocale();
   const [selectedLanguage, setSelectedLanguage] = useState(locale);
-  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest();
   const updateImageRequestHandler = useUpdateImageRequest();
 
   const [loading, setLoading] = useState(true);
@@ -89,10 +78,7 @@ const CreateEventPage: React.FC = () => {
             },
           });
           setEventData(data);
-          setInitialValues({
-            ...getEventFormValues(data),
-            ...eventOccurenceInitialValues,
-          });
+          setInitialValues(getEventFormValues(data));
         } else {
           setInitialValues(createEventInitialValues);
         }
@@ -125,7 +111,7 @@ const CreateEventPage: React.FC = () => {
           variables: {
             event: {
               ...getEventPayload({
-                values,
+                formValues: values,
                 organisationId: organisation?.id ?? '',
               }),
               // save event always as a draft first
@@ -133,7 +119,6 @@ const CreateEventPage: React.FC = () => {
             },
           },
         }),
-        createOrUpdateVenueRequestHandler(values),
         updateImageRequestHandler(values),
       ]);
 
@@ -150,11 +135,7 @@ const CreateEventPage: React.FC = () => {
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
       history.push({
-        pathname: `/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE.replace(
-          ':id',
-          id
-        )}`,
-        search: firstOccurrencePrefilledValuesToQuery(values),
+        pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
       });
     } catch (e) {
       handleError(e);

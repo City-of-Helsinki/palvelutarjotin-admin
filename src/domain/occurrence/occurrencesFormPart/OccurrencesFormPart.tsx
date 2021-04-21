@@ -117,7 +117,6 @@ const OccurrencesForm: React.FC<{
           addOccurrencesToCache({ proxy, data, eventVariables });
         },
       });
-      console.log('refetch');
       refetchEvent();
     } catch (e) {
       // Put form values back if mutation happens to fail.

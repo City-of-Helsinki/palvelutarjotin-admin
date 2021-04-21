@@ -2,36 +2,29 @@ import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 
 import EventSteps from '../../../common/components/EventSteps/EventSteps';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
-import DateInputField from '../../../common/components/form/fields/DateInputField';
 import KeywordSelectorField from '../../../common/components/form/fields/KeywordSelectorField';
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
-import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
-import TimepickerField from '../../../common/components/form/fields/TimepickerField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import { createEmptyLocalizedObject } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import { Language } from '../../../types';
-import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
-import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import EditEventButtons from '../editEventButtons/EditEventButtons';
-import { CreateEventFormFields, EventFormFields } from '../types';
+import { CreateEventFormFields } from '../types';
 import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
 import { useKeywordOptions } from './useKeywordOptions';
-import createValidationSchema, { createEventSchema } from './ValidationSchema';
-import VirtualEventCheckboxField from './VirtualEventCheckboxField';
+import createValidationSchema from './ValidationSchema';
 
-export const eventInitialValues: EventFormFields = {
+export const eventInitialValues: CreateEventFormFields = {
   audience: [],
   categories: [],
   additionalCriteria: [],
@@ -40,8 +33,6 @@ export const eventInitialValues: EventFormFields = {
   contactPhoneNumber: '',
   description: createEmptyLocalizedObject(),
   mandatoryAdditionalInformation: false,
-  enrolmentEndDays: '',
-  enrolmentStart: null,
   image: '',
   imageAltText: '',
   imagePhotographerName: '',
@@ -49,37 +40,17 @@ export const eventInitialValues: EventFormFields = {
   inLanguage: [],
   isFree: true,
   keywords: [],
-  location: '',
   name: createEmptyLocalizedObject(),
-  neededOccurrences: '1',
   price: createEmptyLocalizedObject(),
   priceDescription: createEmptyLocalizedObject(),
   shortDescription: createEmptyLocalizedObject(),
-  locationDescription: createEmptyLocalizedObject(),
-  hasClothingStorage: false,
-  hasSnackEatingPlace: false,
-  outdoorActivity: false,
-  hasToiletNearby: false,
-  hasAreaForGroupWork: false,
-  hasIndoorPlayingArea: false,
-  hasOutdoorPlayingArea: false,
-  autoAcceptance: true,
-  isVirtual: false,
-};
-
-export const eventOccurenceInitialValues = {
-  occurrenceDate: null,
-  occurrenceStartsAt: '',
-  occurrenceEndsAt: '',
-  enrolmentStart: null,
 };
 
 export const createEventInitialValues: CreateEventFormFields = {
-  ...eventOccurenceInitialValues,
   ...eventInitialValues,
 };
 
-type FormFields = CreateEventFormFields | EventFormFields;
+type FormFields = CreateEventFormFields;
 
 type Props<T extends FormFields> = {
   eventData?: EventQuery;
@@ -114,16 +85,8 @@ const EventForm = <T extends FormFields>({
   } = useKeywordOptions();
 
   const validationSchema = React.useMemo(() => {
-    if (edit) {
-      // different validation when event is edited
-      return createValidationSchema({
-        enrolmentStart: Yup.date()
-          .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-          .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED),
-      });
-    }
-    return createValidationSchema(createEventSchema);
-  }, [edit]);
+    return createValidationSchema();
+  }, []);
 
   const personOptions = React.useMemo(
     () =>
@@ -165,7 +128,7 @@ const EventForm = <T extends FormFields>({
         setFieldTouched,
         touched,
       }) => {
-        const { contactPersonId, image, location, isFree } = values;
+        const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
         return (
           <>
@@ -254,77 +217,6 @@ const EventForm = <T extends FormFields>({
                         labelText={t('eventForm.basicInfo.labelInfoUrl')}
                         name={`infoUrl.${selectedLanguage}`}
                         component={TextInputField}
-                      />
-                    </FormGroup>
-                  </div>
-
-                  <div className={styles.formSection}>
-                    <div className={styles.headerWithInfo}>
-                      <h2>
-                        {t('eventForm.occurrenceTime.titleOccurrenceTime')}
-                      </h2>
-                      <p className={styles.helperText}>
-                        {t('eventForm.occurrenceTime.occurrenceTimeHelperText')}
-                      </p>
-                    </div>
-                    {!edit && (
-                      <FormGroup>
-                        <div className={styles.occurrenceFormRow}>
-                          <Field
-                            labelText={t('eventOccurrenceForm.labelDate')}
-                            name="occurrenceDate"
-                            component={DateInputField}
-                          />
-                          <Field
-                            labelText={t('eventOccurrenceForm.labelStartsAt')}
-                            name="occurrenceStartsAt"
-                            component={TimepickerField}
-                            minuteInterval={15}
-                          />
-                          <Field
-                            labelText={t('eventOccurrenceForm.labelEndsAt')}
-                            name="occurrenceEndsAt"
-                            component={TimepickerField}
-                            minuteInterval={15}
-                          />
-                        </div>
-                      </FormGroup>
-                    )}
-
-                    <div className={styles.durationRow}>
-                      <div>
-                        <FormGroup>
-                          <Field
-                            labelText={t(
-                              'eventForm.basicInfo.labelEnrolmentStart'
-                            )}
-                            name="enrolmentStart"
-                            required
-                            component={DateInputField}
-                            timeSelector={true}
-                          />
-                        </FormGroup>
-                      </div>
-                      <div>
-                        <FormGroup>
-                          <Field
-                            labelText={t(
-                              'eventForm.basicInfo.labelEnrolmentEndDays'
-                            )}
-                            required
-                            name="enrolmentEndDays"
-                            component={TextInputField}
-                            min={0}
-                            type="number"
-                          />
-                        </FormGroup>
-                      </div>
-                    </div>
-                    <FormGroup>
-                      <Field
-                        labelText={t('eventOccurrenceForm.labelAutoAcceptance')}
-                        name="autoAcceptance"
-                        component={CheckboxField}
                       />
                     </FormGroup>
                   </div>
@@ -420,23 +312,6 @@ const EventForm = <T extends FormFields>({
                           />
                         </FormGroup>
                       </div>
-                      <div
-                        className={styles.neededOccurrencesRow}
-                        data-testid="neededOccurrences-stepper"
-                      >
-                        <FormGroup>
-                          <Field
-                            labelText={t(
-                              'eventForm.categorisation.labelNeededOccurrences'
-                            )}
-                            name="neededOccurrences"
-                            required
-                            component={TextInputField}
-                            min={1}
-                            type="number"
-                          />
-                        </FormGroup>
-                      </div>
                     </div>
                   </div>
                   <div className={styles.formSection}>
@@ -468,42 +343,6 @@ const EventForm = <T extends FormFields>({
                           'eventForm.offers.placeholderPriceDescription'
                         )}
                         rows={20}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.formSection}>
-                    <h2>{t('eventForm.location.title')}</h2>
-
-                    <Field
-                      helperText={t('eventForm.location.helperLocation')}
-                      labelText={t('eventForm.location.labelLocation')}
-                      name="location"
-                      required
-                      disabled={values.isVirtual}
-                      placeholder={t('eventForm.location.placeholderLocation')}
-                      component={PlaceSelectorField}
-                    />
-                    {location && (
-                      <>
-                        <div className={styles.placeInfoContainer}>
-                          <PlaceInfo
-                            id={location}
-                            language={selectedLanguage}
-                          />
-                        </div>
-                        {/* <VenueDataFields
-                          locationId={location}
-                          selectedLanguage={selectedLanguage}
-                          setFieldValue={setFieldValue}
-                        /> */}
-                      </>
-                    )}
-                    <div className={styles.isVirtualCheckbox}>
-                      <Field
-                        labelText="Tapahtuma järjestetään virtuaalisesti"
-                        name="isVirtual"
-                        component={VirtualEventCheckboxField}
                       />
                     </div>
                   </div>

@@ -2,6 +2,7 @@ import { useApolloClient } from '@apollo/react-hooks';
 import { NetworkStatus } from 'apollo-client';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
+import compact from 'lodash/compact';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
@@ -28,9 +29,9 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
 import { NAVIGATED_FROM } from '../event/EditEventPage';
+import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSubmitRequests';
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { createOrUpdateVenue } from '../venue/utils';
 import { defaultInitialValues } from './constants';
 import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
@@ -58,6 +59,8 @@ const CreateOccurrencePage: React.FC = () => {
     defaultInitialValues
   );
 
+  const createOrUpdateVenue = useCreateOrUpdateVenueRequest();
+
   const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
 
   const {
@@ -66,6 +69,7 @@ const CreateOccurrencePage: React.FC = () => {
     networkStatus: eventNetworkStatus,
   } = useBaseEventQuery({
     variables: { id: eventId },
+    fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });
 
@@ -91,9 +95,15 @@ const CreateOccurrencePage: React.FC = () => {
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         setInitialValues({
           ...defaultInitialValues,
-          autoAcceptance: event.pEvent.autoAcceptance,
+          // If enrolment start time is not defined yet, then user hasn't filled this form yet
+          // and initial value can be set to true as default
+          autoAcceptance: event.pEvent.enrolmentStart
+            ? event.pEvent.autoAcceptance
+            : true,
           enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
-          enrolmentStart: new Date(event.pEvent.enrolmentStart),
+          enrolmentStart: event.pEvent.enrolmentStart
+            ? new Date(event.pEvent.enrolmentStart)
+            : null,
           isVirtual: isVirtualEvent,
           neededOccurrences: event.pEvent.neededOccurrences ?? '',
           location: isVirtualEvent ? '' : event.location?.id || '',
@@ -151,10 +161,11 @@ const CreateOccurrencePage: React.FC = () => {
     formikHelpers: FormikHelpers<TimeAndLocationFormFields>
   ) => {
     try {
-      const requests: Promise<any>[] = [];
-      // Request to create new event
-      requests.push(
+      const requests: Promise<any>[] = compact([
         editEvent({
+          // with fetchPolicy="no-cache" cache is not updated with the result and in turn eventData is
+          // not updated and therefore form not reseted
+          fetchPolicy: 'no-cache',
           variables: {
             event: {
               id: eventData?.event?.id || '',
@@ -164,28 +175,23 @@ const CreateOccurrencePage: React.FC = () => {
               }),
             },
           },
-        })
-      );
-
-      if (values.location) {
-        const createOrUpdateVenueRequest = createOrUpdateVenue({
-          venueFormData: {
-            locationDescription: values.locationDescription,
-            hasAreaForGroupWork: values.hasAreaForGroupWork,
-            hasClothingStorage: values.hasClothingStorage,
-            hasIndoorPlayingArea: values.hasIndoorPlayingArea,
-            hasOutdoorPlayingArea: values.hasOutdoorPlayingArea,
-            hasSnackEatingPlace: values.hasSnackEatingPlace,
-            hasToiletNearby: values.hasToiletNearby,
-            outdoorActivity: values.outdoorActivity,
-          },
-          locationId: values.location,
-        });
-
-        if (createOrUpdateVenueRequest) {
-          requests.push(createOrUpdateVenueRequest);
-        }
-      }
+        }),
+        values.location
+          ? createOrUpdateVenue({
+              venueFormData: {
+                locationDescription: values.locationDescription,
+                hasAreaForGroupWork: values.hasAreaForGroupWork,
+                hasClothingStorage: values.hasClothingStorage,
+                hasIndoorPlayingArea: values.hasIndoorPlayingArea,
+                hasOutdoorPlayingArea: values.hasOutdoorPlayingArea,
+                hasSnackEatingPlace: values.hasSnackEatingPlace,
+                hasToiletNearby: values.hasToiletNearby,
+                outdoorActivity: values.outdoorActivity,
+              },
+              locationId: values.location,
+            })
+          : null,
+      ]);
 
       await Promise.all(requests);
       formikHelpers.resetForm({ values });

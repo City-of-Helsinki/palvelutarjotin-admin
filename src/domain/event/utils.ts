@@ -20,13 +20,12 @@ import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { getVenueDescription } from '../venue/utils';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
 } from './constants';
 import { createEventInitialValues } from './eventForm/EventForm';
-import { CreateEventFormFields, EventFormFields } from './types';
+import { CreateEventFormFields } from './types';
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -111,44 +110,44 @@ export const getFirstAvailableLanguage = (
  * @return {object}
  */
 export const getEventPayload = ({
-  values,
+  formValues,
   organisationId,
 }: {
-  values: EventFormFields;
+  formValues: CreateEventFormFields;
   organisationId: string;
 }) => {
-  const { keywords, additionalCriteria, categories } = values;
+  const { keywords, additionalCriteria, categories } = formValues;
   return {
-    name: getLocalisedObject(values.name),
+    name: getLocalisedObject(formValues.name),
     // start_date and offers are mandatory on LinkedEvents to use dummy data
     startTime: new Date().toISOString(),
     offers: [
       {
-        isFree: values.isFree,
-        price: getLocalisedObject(values.price),
-        description: getLocalisedObject(values.priceDescription),
+        isFree: formValues.isFree,
+        price: getLocalisedObject(formValues.price),
+        description: getLocalisedObject(formValues.priceDescription),
       },
     ],
-    shortDescription: getLocalisedObject(values.shortDescription),
-    description: getLocalisedObject(values.description),
-    images: values.image
+    shortDescription: getLocalisedObject(formValues.shortDescription),
+    description: getLocalisedObject(formValues.description),
+    images: formValues.image
       ? [
           {
             internalId: getLinkedEventsInternalId(
               LINKEDEVENTS_CONTENT_TYPE.IMAGE,
-              values.image
+              formValues.image
             ),
           },
         ]
       : [],
-    infoUrl: getLocalisedObject(values.infoUrl),
-    audience: values.audience.map((keyword) => ({
+    infoUrl: getLocalisedObject(formValues.infoUrl),
+    audience: formValues.audience.map((keyword) => ({
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
         keyword
       ),
     })),
-    inLanguage: values.inLanguage.map((language) => ({
+    inLanguage: formValues.inLanguage.map((language) => ({
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
         language
@@ -163,22 +162,89 @@ export const getEventPayload = ({
         ),
       })
     ),
-    location: {
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.PLACE,
-        // If event is virtual, we use location id for internet events
-        values.isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.location
-      ),
-    },
     pEvent: {
-      contactEmail: values.contactEmail,
-      contactPersonId: values.contactPersonId,
-      contactPhoneNumber: values.contactPhoneNumber,
-      enrolmentEndDays: Number(values.enrolmentEndDays),
-      enrolmentStart: values.enrolmentStart,
-      neededOccurrences: Number(values.neededOccurrences),
-      autoAcceptance: values.autoAcceptance,
-      mandatoryAdditionalInformation: values.mandatoryAdditionalInformation,
+      contactEmail: formValues.contactEmail,
+      contactPersonId: formValues.contactPersonId,
+      contactPhoneNumber: formValues.contactPhoneNumber,
+      neededOccurrences: 1,
+      mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
+    },
+    organisationId,
+  };
+};
+
+export const getEditEventPayload = ({
+  formValues,
+  existingEventValues,
+  organisationId,
+}: {
+  formValues: CreateEventFormFields;
+  existingEventValues: EventFieldsFragment;
+  organisationId: string;
+}) => {
+  const { keywords, additionalCriteria, categories } = formValues;
+  return {
+    name: getLocalisedObject(formValues.name),
+    // start_date and offers are mandatory on LinkedEvents to use dummy data
+    startTime: new Date().toISOString(),
+    offers: [
+      {
+        isFree: formValues.isFree,
+        price: getLocalisedObject(formValues.price),
+        description: getLocalisedObject(formValues.priceDescription),
+      },
+    ],
+    shortDescription: getLocalisedObject(formValues.shortDescription),
+    description: getLocalisedObject(formValues.description),
+    images: formValues.image
+      ? [
+          {
+            internalId: getLinkedEventsInternalId(
+              LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+              formValues.image
+            ),
+          },
+        ]
+      : [],
+    infoUrl: getLocalisedObject(formValues.infoUrl),
+    audience: formValues.audience.map((keyword) => ({
+      internalId: getLinkedEventsInternalId(
+        LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
+        keyword
+      ),
+    })),
+    inLanguage: formValues.inLanguage.map((language) => ({
+      internalId: getLinkedEventsInternalId(
+        LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+        language
+      ),
+    })),
+    // keywords, additionalCriteria and categories all belond to keywords in linked events
+    keywords: [...keywords, ...additionalCriteria, ...categories].map(
+      (keyword) => ({
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
+          keyword
+        ),
+      })
+    ),
+    // Add location to payload if it has been already added previously
+    ...(existingEventValues.location
+      ? {
+          location: { internalId: existingEventValues.location.internalId },
+        }
+      : null),
+    pEvent: {
+      contactEmail: formValues.contactEmail,
+      contactPersonId: formValues.contactPersonId,
+      contactPhoneNumber: formValues.contactPhoneNumber,
+      enrolmentEndDays:
+        Number(existingEventValues.pEvent.enrolmentEndDays) ?? 0,
+      // enrolmentStart: formValues.enrolmentStart,
+      neededOccurrences:
+        Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
+      autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
+      mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
     },
     organisationId,
   };
@@ -293,19 +359,6 @@ export const getPublishEventPayload = ({
   };
 };
 
-export const firstOccurrencePrefilledValuesToQuery = (
-  values: CreateEventFormFields
-) => {
-  const params = new URLSearchParams();
-  if (values.occurrenceDate) {
-    params.append('date', values.occurrenceDate.toISOString());
-  }
-  params.append('startsAt', values.occurrenceStartsAt);
-  params.append('endsAt', values.occurrenceEndsAt);
-
-  return params.toString();
-};
-
 /**
  * Check is event free
  * @param event
@@ -354,10 +407,6 @@ export const getEventFormValues = (
   contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
   contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
   description: getLocalisedObject(eventData.event?.description),
-  enrolmentEndDays: eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
-  enrolmentStart: eventData.event?.pEvent?.enrolmentStart
-    ? new Date(eventData.event?.pEvent?.enrolmentStart)
-    : null,
   image: eventData.event?.images[0]?.id || '',
   imageAltText: eventData.event?.images[0]?.altText || '',
   imagePhotographerName: eventData.event?.images[0]?.photographerName || '',
@@ -369,25 +418,9 @@ export const getEventFormValues = (
   ),
   keywords:
     getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
-  location: getLocationId(eventData.event?.location?.id),
   name: getLocalisedObject(eventData.event?.name),
-  neededOccurrences:
-    eventData.event?.pEvent?.neededOccurrences.toString() || '',
   price: getLocalisedObject(eventData.event?.offers?.[0]?.price),
   shortDescription: getLocalisedObject(eventData.event?.shortDescription),
-  locationDescription: getLocalisedObject(
-    getVenueDescription(eventData.event?.venue)
-  ),
-  hasClothingStorage: eventData?.event?.venue?.hasClothingStorage || false,
-  hasSnackEatingPlace: eventData?.event?.venue?.hasSnackEatingPlace || false,
-  outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
-  hasToiletNearby: eventData?.event?.venue?.hasToiletNearby || false,
-  hasAreaForGroupWork: eventData?.event?.venue?.hasAreaForGroupWork || false,
-  hasIndoorPlayingArea: eventData?.event?.venue?.hasIndoorPlayingArea || false,
-  hasOutdoorPlayingArea:
-    eventData?.event?.venue?.hasOutdoorPlayingArea || false,
-  autoAcceptance: eventData.event?.pEvent.autoAcceptance,
   mandatoryAdditionalInformation:
     eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
-  isVirtual: eventData.event?.location?.id === VIRTUAL_EVENT_LOCATION_ID,
 });

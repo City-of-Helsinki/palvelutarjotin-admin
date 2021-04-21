@@ -27,6 +27,7 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
   React.useEffect(() => {
     // Empty venue descriptions and amenities from form when location is not defined
     if (!location) {
+      console.log(values);
       Object.keys(locationDescription).forEach((key) => {
         setFieldValue(`locationDescription.${key as Language}`, '');
       });
@@ -35,7 +36,7 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
         setFieldValue(v, false);
       });
     }
-  }, [location, locationDescription, setFieldValue]);
+  }, [location, locationDescription, setFieldValue, values]);
 
   return (
     <div className={styles.formSection}>

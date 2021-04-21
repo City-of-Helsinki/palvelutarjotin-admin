@@ -22,16 +22,13 @@ import { PUBLICATION_STATUS } from '../events/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { getPersons } from '../organisation/oranisationUtils';
 import EventForm, { eventInitialValues } from './eventForm/EventForm';
-import {
-  useCreateOrUpdateVenueRequest,
-  useUpdateImageRequest,
-} from './eventForm/useEventFormSubmitRequests';
+import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
-import { EventFormFields } from './types';
+import { CreateEventFormFields } from './types';
 import {
+  getEditEventPayload,
   getEventFormValues,
   getEventLanguageFromUrl,
-  getEventPayload,
   getFirstAvailableLanguage,
   isEditableEvent,
 } from './utils';
@@ -42,7 +39,7 @@ export enum NAVIGATED_FROM {
 }
 
 const useEventFormEditSubmit = (
-  initialValues: EventFormFields,
+  initialValues: CreateEventFormFields,
   eventData: EventQuery | undefined
 ) => {
   const { id } = useParams<{ id: string }>();
@@ -50,7 +47,6 @@ const useEventFormEditSubmit = (
   const locale = useLocale();
   const history = useHistory();
   const [editEvent] = useEditEventMutation();
-  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest();
   const updateImageRequestHandler = useUpdateImageRequest();
   const navigatedFrom = useSearchParams().get('navigationFrom');
 
@@ -72,43 +68,51 @@ const useEventFormEditSubmit = (
     }
   };
 
-  const shouldSaveImage = (values: EventFormFields): boolean =>
+  const shouldSaveImage = (values: CreateEventFormFields): boolean =>
     !!values.image &&
     (values.image !== initialValues.image ||
       values.imageAltText !== initialValues.imageAltText ||
       values.imagePhotographerName !== initialValues.imagePhotographerName);
 
-  const submit = async (values: EventFormFields) => {
+  const submit = async (values: CreateEventFormFields) => {
+    const existingEventValues = eventData?.event;
+
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const requests: Promise<any>[] = compact([
-        editEvent({
-          variables: {
-            event: {
-              id: eventData?.event?.id || '',
-              ...getEventPayload({
-                values,
-                organisationId:
-                  eventData?.event?.pEvent?.organisation?.id ?? '',
-              }),
-              // endTime needed
-              // eslint-disable-next-line max-len
-              // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
-              endTime: eventData?.event?.endTime,
-              draft:
-                eventData?.event?.publicationStatus ===
-                PUBLICATION_STATUS.DRAFT,
+      if (existingEventValues) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const requests: Promise<any>[] = compact([
+          editEvent({
+            variables: {
+              event: {
+                id: eventData?.event?.id || '',
+                ...getEditEventPayload({
+                  formValues: values,
+                  existingEventValues,
+                  organisationId:
+                    eventData?.event?.pEvent?.organisation?.id ?? '',
+                }),
+                // endTime needed
+                // eslint-disable-next-line max-len
+                // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
+                endTime: eventData?.event?.endTime,
+                draft:
+                  eventData?.event?.publicationStatus ===
+                  PUBLICATION_STATUS.DRAFT,
+              },
             },
-          },
-        }),
-        createOrUpdateVenueRequestHandler(values),
-        shouldSaveImage(values) ? updateImageRequestHandler(values) : undefined,
-      ]);
+          }),
+          shouldSaveImage(values)
+            ? updateImageRequestHandler(values)
+            : undefined,
+        ]);
 
-      // Run all requests parallel
-      await Promise.all(requests);
+        // Run all requests parallel
+        await Promise.all(requests);
 
-      navigateAfterSave();
+        navigateAfterSave();
+      } else {
+        throw new Error('Existing event values missing!');
+      }
     } catch (e) {
       if (isTestEnv()) {
         // eslint-disable-next-line no-console
@@ -133,7 +137,7 @@ const EditEventPage: React.FC = () => {
   const history = useHistory();
   const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
 
-  const [initialValues, setInitialValues] = useState<EventFormFields>(
+  const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     eventInitialValues
   );
 

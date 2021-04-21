@@ -13,7 +13,7 @@ export const defaultInitialValues: TimeAndLocationFormFields = {
   enrolmentStart: null,
   enrolmentEndDays: '',
   neededOccurrences: '',
-  autoAcceptance: false,
+  autoAcceptance: true,
   locationDescription: {
     fi: '',
     en: '',

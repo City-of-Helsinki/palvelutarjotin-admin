@@ -64,7 +64,12 @@ const ValidationSchema = Yup.object().shape({
     otherwise: Yup.string(),
   }),
   isVirtual: Yup.boolean(),
-  autoAcceptance: Yup.boolean(),
+  // TODO make this reauired to be true when more than one 1 needed occurrence
+  autoAcceptance: Yup.boolean().when('neededOccurrences', {
+    is: (val: number) => val > 1,
+    then: Yup.bool().oneOf([true]),
+    otherwise: Yup.boolean(),
+  }),
 });
 
 export default ValidationSchema;
