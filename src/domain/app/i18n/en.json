@@ -21,6 +21,9 @@
     "alertModal": {
       "buttonCancel": "Cancel"
     },
+    "notificationModal": {
+      "buttonClose": "Close"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Clear value",
@@ -416,7 +419,15 @@
     "formTitle": "Add new occurrence",
     "pageTitle": "New occurrence",
     "buttonSaveAndGoToPublishing": "Save and go to publishing",
-    "buttonGoToPublishing": "Go to publishing"
+    "buttonGoToPublishing": "Go to publishing",
+    "missingEventInfo": {
+      "modalTitle": "Event has missing information",
+      "missingInfoTitle": "Missing information",
+      "eventLocation": "Event location",
+      "enrolmentStartTime": "Enrolment start time",
+      "enrolmentEndDays": "Enrolment end days",
+      "occurrences": "Event needs at least one occurrence"
+    }
   },
   "editOccurrence": {
     "buttonBack": "Event times",

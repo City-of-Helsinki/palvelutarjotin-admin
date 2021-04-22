@@ -1114,6 +1114,7 @@ export type Mutation = {
   unenrolOccurrence?: Maybe<UnenrolOccurrenceMutationPayload>;
   updateEnrolment?: Maybe<UpdateEnrolmentMutationPayload>;
   approveEnrolment?: Maybe<ApproveEnrolmentMutationPayload>;
+  massApproveEnrolments?: Maybe<MassApproveEnrolmentsMutationPayload>;
   declineEnrolment?: Maybe<DeclineEnrolmentMutationPayload>;
   cancelEnrolment?: Maybe<CancelEnrolmentMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
@@ -1200,6 +1201,11 @@ export type MutationUpdateEnrolmentArgs = {
 
 export type MutationApproveEnrolmentArgs = {
   input: ApproveEnrolmentMutationInput;
+};
+
+
+export type MutationMassApproveEnrolmentsArgs = {
+  input: MassApproveEnrolmentsMutationInput;
 };
 
 
@@ -1532,6 +1538,18 @@ export type ApproveEnrolmentMutationPayload = {
 
 export type ApproveEnrolmentMutationInput = {
   enrolmentId: Scalars['ID'];
+  customMessage?: Maybe<Scalars['String']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type MassApproveEnrolmentsMutationPayload = {
+   __typename?: 'MassApproveEnrolmentsMutationPayload';
+  enrolments: Array<Maybe<EnrolmentNode>>;
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type MassApproveEnrolmentsMutationInput = {
+  enrolmentIds: Array<Maybe<Scalars['ID']>>;
   customMessage?: Maybe<Scalars['String']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
@@ -2143,7 +2161,7 @@ export type EditEventMutation = (
       & Pick<EventMutationResponse, 'statusCode'>
       & { body?: Maybe<(
         { __typename?: 'Event' }
-        & Pick<Event, 'internalId'>
+        & Pick<Event, 'id' | 'internalId'>
         & { name: (
           { __typename?: 'LocalisedObject' }
           & LocalisedFieldsFragment
@@ -3764,6 +3782,7 @@ export const EditEventDocument = gql`
     response {
       statusCode
       body {
+        id
         internalId
         name {
           ...localisedFields

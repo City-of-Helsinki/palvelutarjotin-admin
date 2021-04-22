@@ -21,6 +21,9 @@
     "alertModal": {
       "buttonCancel": "Avbryt"
     },
+    "notificationModal": {
+      "buttonClose": "Stänga"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Klart värde",
@@ -423,7 +426,15 @@
     "formTitle": "Lägg till ny händelsehändelse",
     "pageTitle": "Ny händelse",
     "buttonSaveAndGoToPublishing": "Spara och gå till publicering",
-    "buttonGoToPublishing": "Gå till publicering"
+    "buttonGoToPublishing": "Gå till publicering",
+    "missingEventInfo": {
+      "modalTitle": "Händelsen saknar information",
+      "missingInfoTitle": "Saknad information",
+      "eventLocation": "Händelselokal",
+      "enrolmentStartTime": "Starttid för anmälan",
+      "enrolmentEndDays": "Slutdagar för anmälan",
+      "occurrences": "Händelsen behöver minst en förekomst"
+    }
   },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",

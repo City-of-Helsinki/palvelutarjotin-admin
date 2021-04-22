@@ -21,6 +21,9 @@
     "alertModal": {
       "buttonCancel": "Peruuta"
     },
+    "notificationModal": {
+      "buttonClose": "Sulje"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Poista arvo",
@@ -422,7 +425,15 @@
     "formTitle": "Lisää uusi tapahtuma-aika",
     "pageTitle": "Uusi tapahtuma-aika",
     "buttonSaveAndGoToPublishing": "Tallenna ja siirry julkaisuun",
-    "buttonGoToPublishing": "Siirry julkaisuun"
+    "buttonGoToPublishing": "Siirry julkaisuun",
+    "missingEventInfo": {
+      "modalTitle": "Tapahtumasta puuttuu tietoja",
+      "missingInfoTitle": "Puuttuvat tiedot",
+      "eventLocation": "Tapahtuman sijainti",
+      "enrolmentStartTime": "Ilmoittautumisen alkamisaika",
+      "enrolmentEndDays": "Ilmoittautumisen päättyminen",
+      "occurrences": "Tapahtumalla on oltava ainakin yksi tapahtuma-aika"
+    }
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",

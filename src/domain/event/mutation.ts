@@ -67,7 +67,7 @@ export const MUTATION_EVENT = gql`
       response {
         statusCode
         body {
-          # id
+          id
           internalId
           name {
             ...localisedFields
