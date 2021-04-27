@@ -49,7 +49,7 @@ export const useBaseEventQuery: typeof useEventQuery = ({
   useEventQuery({
     variables: {
       id: variables?.id ?? '',
-      include: ['keywords', 'location'],
+      include: ['location', 'keywords', 'audience'],
     },
     ...options,
   });

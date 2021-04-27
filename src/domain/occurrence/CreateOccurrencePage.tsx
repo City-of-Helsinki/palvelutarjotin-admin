@@ -64,9 +64,10 @@ const CreateOccurrencePage: React.FC = () => {
     'fi',
   ]);
   const { id: eventId } = useParams<Params>();
-  const [initialValues, setInitialValues] = React.useState(
-    defaultInitialValues
-  );
+  const [
+    initialValues,
+    setInitialValues,
+  ] = React.useState<TimeAndLocationFormFields | null>(null);
 
   const createOrUpdateVenue = useCreateOrUpdateVenueRequest();
 
@@ -142,7 +143,10 @@ const CreateOccurrencePage: React.FC = () => {
         });
       }
     };
-    initializeForm();
+    // hack to prevent reinitializing form with old values after mutation
+    if (eventData) {
+      initializeForm();
+    }
   }, [apolloClient, eventData, setSelectedLanguages]);
 
   const goToEventBasicInfo = () => {
@@ -217,7 +221,7 @@ const CreateOccurrencePage: React.FC = () => {
         ]);
 
         await Promise.all(requests);
-        // formikHelpers.resetForm({ values });
+        formikHelpers.resetForm({ values });
         refetchEvent();
         toast(t('eventForm.saveSuccesful'), {
           type: toast.TYPE.SUCCESS,
@@ -325,16 +329,18 @@ const CreateOccurrencePage: React.FC = () => {
                       onLanguageClick={handleSelectedLanguagesChange}
                     />
                   </div>
-                  <OccurrenceInfoForm
-                    initialValues={initialValues}
-                    pEventId={eventData.event.pEvent.id}
-                    eventId={eventId}
-                    selectedLanguages={selectedLanguages ?? []}
-                    onSubmit={handleSaveEventInfo}
-                    editEventLoading={editEventLoading}
-                    loadingEvent={loadingEvent}
-                    onGoToPublishingClick={handleGoToPublishingClick}
-                  />
+                  {initialValues && (
+                    <OccurrenceInfoForm
+                      initialValues={initialValues}
+                      pEventId={eventData.event.pEvent.id}
+                      eventId={eventId}
+                      selectedLanguages={selectedLanguages ?? []}
+                      onSubmit={handleSaveEventInfo}
+                      editEventLoading={editEventLoading}
+                      loadingEvent={loadingEvent}
+                      onGoToPublishingClick={handleGoToPublishingClick}
+                    />
+                  )}
                 </div>
                 <NotificationModal
                   isOpen={!!missingEventInfoError}
@@ -395,7 +401,6 @@ const OccurrenceInfoForm: React.FC<{
   return (
     <Formik<TimeAndLocationFormFields>
       initialValues={initialValues}
-      enableReinitialize
       onSubmit={onSubmit}
       validationSchema={ValidationSchema}
     >

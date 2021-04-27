@@ -66,7 +66,7 @@ const KeywordSelector: React.FC<Props> = ({
   const keywordOptions =
     keywordsData?.keywords?.data.map((keyword) => ({
       label: getOptionLabel(keyword),
-      value: keyword.id || '',
+      value: keyword.internalId || '',
     })) || [];
 
   const handleBlur = (
@@ -114,7 +114,7 @@ const KeywordSelector: React.FC<Props> = ({
       loading={loading}
       onBlur={handleBlur}
       onChange={handleChange}
-      optionLabelToString={optionLabelToString}
+      optionLabelToString={optionLabelToString as any}
       options={keywordOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}

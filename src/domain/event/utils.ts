@@ -146,10 +146,7 @@ export const getEventPayload = ({
       : [],
     infoUrl: getLocalisedObject(formValues.infoUrl),
     audience: formValues.audience.map((keyword) => ({
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-        keyword
-      ),
+      internalId: keyword,
     })),
     inLanguage: formValues.inLanguage.map((language) => ({
       internalId: getLinkedEventsInternalId(
@@ -160,10 +157,7 @@ export const getEventPayload = ({
     // keywords, additionalCriteria and categories all belond to keywords in linked events
     keywords: [...keywords, ...additionalCriteria, ...categories].map(
       (keyword) => ({
-        internalId: getLinkedEventsInternalId(
-          LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-          keyword
-        ),
+        internalId: keyword,
       })
     ),
     pEvent: {
@@ -216,10 +210,7 @@ export const getEditEventPayload = ({
       : [],
     infoUrl: getLocalisedObject(formValues.infoUrl),
     audience: formValues.audience.map((keyword) => ({
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-        keyword
-      ),
+      internalId: keyword,
     })),
     inLanguage: formValues.inLanguage.map((language) => ({
       internalId: getLinkedEventsInternalId(
@@ -230,10 +221,7 @@ export const getEditEventPayload = ({
     // keywords, additionalCriteria and categories all belond to keywords in linked events
     keywords: [...keywords, ...additionalCriteria, ...categories].map(
       (keyword) => ({
-        internalId: getLinkedEventsInternalId(
-          LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-          keyword
-        ),
+        internalId: keyword,
       })
     ),
     // Add location to payload if it has been already added previously
@@ -389,10 +377,11 @@ export const getRealKeywords = (
   const { additionalCriteria, categories } = eventData.event || {};
   return eventData?.event?.keywords.filter((keyword) => {
     const keywordIsIncludedInCategories = categories?.find(
-      (category) => category.id === keyword.id
+      (category) => category.internalId === keyword.internalId
     );
     const keywordIsIncludedInAdditionalCriteria = additionalCriteria?.find(
-      (additionalCriteria) => additionalCriteria.id === keyword.id
+      (additionalCriteria) =>
+        additionalCriteria.internalId === keyword.internalId
     );
     return !(
       keywordIsIncludedInCategories || keywordIsIncludedInAdditionalCriteria
@@ -416,9 +405,12 @@ export const getEventFormValues = (
 ): CreateEventFormFields => ({
   ...createEventInitialValues,
   additionalCriteria:
-    eventData.event?.additionalCriteria.map((item) => item.id || '') || [],
-  categories: eventData.event?.categories.map((item) => item.id || '') || [],
-  audience: eventData.event?.audience.map((item) => item.id || '') || [],
+    eventData.event?.additionalCriteria.map((item) => item.internalId || '') ||
+    [],
+  categories:
+    eventData.event?.categories.map((item) => item.internalId || '') || [],
+  audience:
+    eventData.event?.audience.map((item) => item.internalId || '') || [],
   contactEmail: eventData.event?.pEvent?.contactEmail || '',
   contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
   contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
@@ -433,7 +425,8 @@ export const getEventFormValues = (
     eventData.event?.offers?.[0]?.description
   ),
   keywords:
-    getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
+    getRealKeywords(eventData)?.map((keyword) => keyword.internalId || '') ||
+    [],
   name: getLocalisedObject(eventData.event?.name),
   price: eventData.event?.offers?.[0]?.price?.fi ?? '',
   shortDescription: getLocalisedObject(eventData.event?.shortDescription),
