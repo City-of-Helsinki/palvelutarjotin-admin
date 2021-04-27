@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -12,7 +12,6 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
-import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -28,10 +27,12 @@ import { CreateEventFormFields } from './types';
 import {
   getEditEventPayload,
   getEventFormValues,
-  getEventLanguageFromUrl,
-  getFirstAvailableLanguage,
   isEditableEvent,
 } from './utils';
+
+export enum EDIT_EVENT_QUERY_PARAMS {
+  NAVIGATED_FROM = 'navigatedFrom',
+}
 
 export enum NAVIGATED_FROM {
   OCCURRENCES = 'occurrences',
@@ -48,7 +49,9 @@ const useEventFormEditSubmit = (
   const history = useHistory();
   const [editEvent] = useEditEventMutation();
   const updateImageRequestHandler = useUpdateImageRequest();
-  const navigatedFrom = useSearchParams().get('navigationFrom');
+  const navigatedFrom = useSearchParams().get(
+    EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM
+  );
 
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
@@ -130,12 +133,9 @@ const useEventFormEditSubmit = (
 
 const EditEventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const language = getEventLanguageFromUrl(location.search);
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
 
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     eventInitialValues
@@ -157,23 +157,9 @@ const EditEventPage: React.FC = () => {
 
   useEffect(() => {
     if (eventData) {
-      setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
-    }
-  }, [eventData, language]);
-
-  useEffect(() => {
-    if (eventData) {
       setInitialValues(getEventFormValues(eventData));
     }
   }, [eventData]);
-
-  const handleLanguageChange = (newLanguage: Language) => {
-    history.push({
-      pathname: `/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
-      search: `?language=${newLanguage}`,
-    });
-    setSelectedLanguage(newLanguage);
-  };
 
   const onSubmit = useEventFormEditSubmit(initialValues, eventData);
 
@@ -189,14 +175,12 @@ const EditEventPage: React.FC = () => {
                     organisationId={organisation?.id ?? ''}
                   />
                   <EventForm
-                    edit
+                    formType="edit"
                     eventData={eventData}
                     initialValues={initialValues}
                     onCancel={goToEventDetailsPage}
                     onSubmit={onSubmit}
                     persons={persons}
-                    selectedLanguage={selectedLanguage}
-                    setSelectedLanguage={handleLanguageChange}
                     title={t('editEvent.title')}
                   />
                 </div>

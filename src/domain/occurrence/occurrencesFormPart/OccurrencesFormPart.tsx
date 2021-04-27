@@ -81,6 +81,7 @@ const OccurrencesForm: React.FC<{
     variables: eventVariables,
   } = useBaseEventQuery({
     variables: { id: eventId },
+    fetchPolicy: 'network-only',
   });
 
   const reinitializeForm = (

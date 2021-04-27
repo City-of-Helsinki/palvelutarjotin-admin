@@ -20,7 +20,7 @@ export interface CreateEventFormFields {
   isFree: boolean;
   keywords: string[];
   name: LocalisedObject;
-  price: LocalisedObject;
+  price: number | string;
   priceDescription: LocalisedObject;
   shortDescription: LocalisedObject;
   isDraft?: boolean;

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
-import BackButton from '../../../common/components/backButton/BackButton';
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
@@ -24,24 +23,9 @@ const EditEventButtons: React.FC<Props> = ({
   selectedLanguage,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-
-  const goToEventList = () => {
-    history.push(ROUTES.HOME);
-  };
 
   return (
     <div className={styles.editEventButtons}>
-      <div className={styles.backButtonWrapper}>
-        <BackButton onClick={goToEventList}>
-          {t('editEvent.buttons.buttonBack')}
-        </BackButton>
-        {dirty && (
-          <span className={styles.dirtyText}>
-            {t('editEvent.buttons.textDirty')}
-          </span>
-        )}
-      </div>
       <EventLanguageSelector
         languages={Object.values(SUPPORT_LANGUAGES).map((language) => ({
           isCompleted: !!eventData?.event?.name[language],

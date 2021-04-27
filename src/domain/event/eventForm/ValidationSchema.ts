@@ -1,6 +1,7 @@
+import reduce from 'lodash/reduce';
 import * as Yup from 'yup';
 
-import { SUPPORT_LANGUAGES } from '../../../constants';
+import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 const priceValidation = Yup.string()
@@ -9,25 +10,41 @@ const priceValidation = Yup.string()
   // Price should be required when event is not free
   .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED);
 
+const createMultiLanguageValidation = (
+  languages: string[],
+  rule: Yup.Schema<string | null | undefined>
+) => {
+  return Yup.object().shape(
+    reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
+  );
+};
+
 // TODO: Validate also provideContactInfo.phone field. Sync validation with backend
-const createValidationSchemaYup = (
-  schema?: Yup.ObjectSchemaDefinition<object>
-) =>
+const createValidationSchemaYup = (selectedLanguages: Language[]) =>
   Yup.object().shape({
-    name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    shortDescription: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .max(160, (param) => ({
-        max: param.max,
-        key: VALIDATION_MESSAGE_KEYS.STRING_MAX,
-      })),
-    description: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .max(5000, (param) => ({
-        max: param.max,
-        key: VALIDATION_MESSAGE_KEYS.STRING_MAX,
-      })),
-    infoUrl: Yup.string(),
+    name: createMultiLanguageValidation(
+      selectedLanguages,
+      Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    ),
+    shortDescription: createMultiLanguageValidation(
+      selectedLanguages,
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(160, (param) => ({
+          max: param.max,
+          key: VALIDATION_MESSAGE_KEYS.STRING_MAX,
+        }))
+    ),
+    description: createMultiLanguageValidation(
+      selectedLanguages,
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(5000, (param) => ({
+          max: param.max,
+          key: VALIDATION_MESSAGE_KEYS.STRING_MAX,
+        }))
+    ),
+    infoUrl: createMultiLanguageValidation(selectedLanguages, Yup.string()),
     audience: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(0),
@@ -53,15 +70,17 @@ const createValidationSchemaYup = (
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
     ),
     contactEmail: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
-    price: Yup.object().when('isFree', {
+    price: Yup.string().when('isFree', {
       is: false,
-      then: Yup.object().shape({
-        [SUPPORT_LANGUAGES.FI]: priceValidation,
-        [SUPPORT_LANGUAGES.SV]: priceValidation,
-        [SUPPORT_LANGUAGES.EN]: priceValidation,
-      }),
+      then: priceValidation,
     }),
-    ...schema,
+    priceDescription: Yup.object().when('isFree', {
+      is: false,
+      then: createMultiLanguageValidation(
+        selectedLanguages,
+        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      ),
+    }),
   });
 
 export default createValidationSchemaYup;

@@ -23,7 +23,7 @@ import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
 import OccurrencesTableSummary from '../occurrences/occurrencesTableReadOnly/OccurrencesTableSummary';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { NAVIGATED_FROM } from './EditEventPage';
+import { EDIT_EVENT_QUERY_PARAMS, NAVIGATED_FROM } from './EditEventPage';
 import EventPublish from './eventPublish/EventPublish';
 import styles from './eventSummaryPage.module.scss';
 
@@ -82,6 +82,18 @@ const EventSummaryPage: React.FC = () => {
 
   const goToHome = () => history.push(ROUTES.HOME);
 
+  const getEditLink = () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append(
+      EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
+      NAVIGATED_FROM.EVENT_SUMMARY
+    );
+    return `/${locale}${ROUTES.EDIT_EVENT.replace(
+      ':id',
+      eventId
+    )}?${searchParams.toString()}`;
+  };
+
   return (
     <PageWrapper title="occurrences.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -124,10 +136,7 @@ const EventSummaryPage: React.FC = () => {
                   {isEventDraft && (
                     <EditButton
                       text={t('eventSummary.buttonEditBasicInfo')}
-                      link={`/${locale}${ROUTES.EDIT_EVENT.replace(
-                        ':id',
-                        eventId
-                      )}?navigatedFrom=${NAVIGATED_FROM.EVENT_SUMMARY}`}
+                      link={getEditLink()}
                     />
                   )}
                 </div>

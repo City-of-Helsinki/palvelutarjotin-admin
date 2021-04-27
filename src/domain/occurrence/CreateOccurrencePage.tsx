@@ -3,11 +3,11 @@ import { NetworkStatus } from 'apollo-client';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
+import omit from 'lodash/omit';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import useLocalStorage from 'react-use/esm/useLocalStorage';
 import * as Yup from 'yup';
 
 import BackButton from '../../common/components/backButton/BackButton';
@@ -31,7 +31,10 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
-import { NAVIGATED_FROM } from '../event/EditEventPage';
+import {
+  EDIT_EVENT_QUERY_PARAMS,
+  NAVIGATED_FROM,
+} from '../event/EditEventPage';
 import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSubmitRequests';
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
@@ -57,10 +60,9 @@ const CreateOccurrencePage: React.FC = () => {
     missingEventInfoError,
     setMissingEventInfoError,
   ] = React.useState<Yup.ValidationError | null>(null);
-  const [selectedLanguages, setSelectedLanguages] = useLocalStorage<Language[]>(
-    'formLanguages',
-    ['fi']
-  );
+  const [selectedLanguages, setSelectedLanguages] = React.useState<Language[]>([
+    'fi',
+  ]);
   const { id: eventId } = useParams<Params>();
   const [initialValues, setInitialValues] = React.useState(
     defaultInitialValues
@@ -70,28 +72,26 @@ const CreateOccurrencePage: React.FC = () => {
 
   const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
 
+  const { loading: loadingMyProfile } = useMyProfileQuery();
   const {
     data: eventData,
     refetch: refetchEvent,
     loading: loadingEvent,
-    networkStatus: eventNetworkStatus,
+    networkStatus,
   } = useBaseEventQuery({
     variables: { id: eventId },
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });
 
-  const eventIsRefetching = eventNetworkStatus === NetworkStatus.refetch;
-  const eventIsInitialLoading = !eventIsRefetching && loadingEvent;
-
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  const { loading: loadingMyProfile } = useMyProfileQuery();
+  const isRefethingEvent = networkStatus === NetworkStatus.refetch;
+  const isInitialLoadingEvent = loadingEvent && !isRefethingEvent;
 
   React.useEffect(() => {
     const initializeForm = async () => {
       if (eventData?.event) {
         const event = eventData.event;
-
         const { data } = await apolloClient.query<VenueQuery>({
           query: VenueDocument,
           variables: {
@@ -100,6 +100,13 @@ const CreateOccurrencePage: React.FC = () => {
         });
         const venueData = data.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
+        const eventName = omit(event.name, '__typename');
+
+        const eventLangs = Object.entries(eventName).reduce<string[]>(
+          (prev, [lang, value]) => (value ? [...prev, lang] : prev),
+          []
+        );
+        setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({
           ...defaultInitialValues,
           // If enrolment start time is not defined yet, then user hasn't filled this form yet
@@ -136,11 +143,16 @@ const CreateOccurrencePage: React.FC = () => {
       }
     };
     initializeForm();
-  }, [apolloClient, eventData]);
+  }, [apolloClient, eventData, setSelectedLanguages]);
 
   const goToEventBasicInfo = () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append(
+      EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
+      NAVIGATED_FROM.OCCURRENCES
+    );
     history.push(
-      `/${locale}${ROUTES.EDIT_EVENT}?navigatedFrom=${NAVIGATED_FROM.OCCURRENCES}`.replace(
+      `/${locale}${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(
         ':id',
         eventId
       )
@@ -175,8 +187,7 @@ const CreateOccurrencePage: React.FC = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const requests: Promise<any>[] = compact([
           editEvent({
-            // with fetchPolicy="no-cache" cache is not updated with the result and in turn eventData is
-            // not updated and initialValues are not updated therefore form not reseted
+            // Do not modify cache because not all fields can be returned from api we want
             fetchPolicy: 'no-cache',
             variables: {
               event: {
@@ -206,7 +217,7 @@ const CreateOccurrencePage: React.FC = () => {
         ]);
 
         await Promise.all(requests);
-        formikHelpers.resetForm({ values });
+        // formikHelpers.resetForm({ values });
         refetchEvent();
         toast(t('eventForm.saveSuccesful'), {
           type: toast.TYPE.SUCCESS,
@@ -285,7 +296,7 @@ const CreateOccurrencePage: React.FC = () => {
   return (
     <PageWrapper title="createOccurrence.pageTitle">
       <LoadingSpinner
-        isLoading={eventIsInitialLoading || loadingMyProfile}
+        isLoading={isInitialLoadingEvent || loadingMyProfile}
         hasPadding={false}
       >
         {eventData?.event ? (
@@ -321,6 +332,7 @@ const CreateOccurrencePage: React.FC = () => {
                     selectedLanguages={selectedLanguages ?? []}
                     onSubmit={handleSaveEventInfo}
                     editEventLoading={editEventLoading}
+                    loadingEvent={loadingEvent}
                     onGoToPublishingClick={handleGoToPublishingClick}
                   />
                 </div>
@@ -367,6 +379,7 @@ const OccurrenceInfoForm: React.FC<{
   ) => void | Promise<void>;
   editEventLoading: boolean;
   onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
+  loadingEvent: boolean;
 }> = ({
   pEventId,
   eventId,
@@ -375,6 +388,7 @@ const OccurrenceInfoForm: React.FC<{
   initialValues,
   editEventLoading,
   onGoToPublishingClick,
+  loadingEvent,
 }) => {
   const { t } = useTranslation();
 
@@ -398,7 +412,7 @@ const OccurrenceInfoForm: React.FC<{
             <Button
               variant="secondary"
               type="button"
-              disabled={editEventLoading}
+              disabled={editEventLoading || loadingEvent}
               onClick={onGoToPublishingClick}
             >
               {t('createOccurrence.buttonGoToPublishing')}

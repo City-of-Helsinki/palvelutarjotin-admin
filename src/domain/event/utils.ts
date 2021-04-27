@@ -124,7 +124,11 @@ export const getEventPayload = ({
     offers: [
       {
         isFree: formValues.isFree,
-        price: getLocalisedObject(formValues.price),
+        price: {
+          fi: formValues.price.toString(),
+          en: formValues.price.toString(),
+          sv: formValues.price.toString(),
+        },
         description: getLocalisedObject(formValues.priceDescription),
       },
     ],
@@ -190,7 +194,11 @@ export const getEditEventPayload = ({
     offers: [
       {
         isFree: formValues.isFree,
-        price: getLocalisedObject(formValues.price),
+        price: {
+          fi: formValues.price.toString(),
+          en: formValues.price.toString(),
+          sv: formValues.price.toString(),
+        },
         description: getLocalisedObject(formValues.priceDescription),
       },
     ],
@@ -238,9 +246,17 @@ export const getEditEventPayload = ({
       contactEmail: formValues.contactEmail,
       contactPersonId: formValues.contactPersonId,
       contactPhoneNumber: formValues.contactPhoneNumber,
-      enrolmentEndDays:
-        Number(existingEventValues.pEvent.enrolmentEndDays) ?? 0,
-      // enrolmentStart: formValues.enrolmentStart,
+      ...(existingEventValues.pEvent.enrolmentEndDays
+        ? {
+            enrolmentEndDays:
+              Number(existingEventValues.pEvent.enrolmentEndDays) ?? 0,
+          }
+        : null),
+      ...(existingEventValues.pEvent.enrolmentStart
+        ? {
+            enrolmentStart: existingEventValues.pEvent.enrolmentStart,
+          }
+        : null),
       neededOccurrences:
         Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
       autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
@@ -419,7 +435,7 @@ export const getEventFormValues = (
   keywords:
     getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
   name: getLocalisedObject(eventData.event?.name),
-  price: getLocalisedObject(eventData.event?.offers?.[0]?.price),
+  price: eventData.event?.offers?.[0]?.price?.fi ?? '',
   shortDescription: getLocalisedObject(eventData.event?.shortDescription),
   mandatoryAdditionalInformation:
     eventData.event?.pEvent?.mandatoryAdditionalInformation || false,

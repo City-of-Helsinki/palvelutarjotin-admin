@@ -2161,7 +2161,7 @@ export type EditEventMutation = (
       & Pick<EventMutationResponse, 'statusCode'>
       & { body?: Maybe<(
         { __typename?: 'Event' }
-        & Pick<Event, 'id' | 'internalId'>
+        & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus' | 'datePublished' | 'endTime'>
         & { name: (
           { __typename?: 'LocalisedObject' }
           & LocalisedFieldsFragment
@@ -2174,15 +2174,28 @@ export type EditEventMutation = (
         ), images: Array<(
           { __typename?: 'Image' }
           & ImageFieldsFragment
+        )>, infoUrl?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        )>, pEvent: (
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & PEventFieldsFragment
+        ), inLanguage: Array<(
+          { __typename?: 'InLanguage' }
+          & Pick<InLanguage, 'id' | 'internalId'>
+          & { name?: Maybe<(
+            { __typename?: 'LocalisedObject' }
+            & LocalisedFieldsFragment
+          )> }
+        )>, audience: Array<(
+          { __typename?: 'Keyword' }
+          & KeywordFieldsFragment
+        )>, keywords: Array<(
+          { __typename?: 'Keyword' }
+          & KeywordFieldsFragment
         )>, offers: Array<(
           { __typename?: 'Offer' }
           & OfferFieldsFragment
-        )>, pEvent: (
-          { __typename?: 'PalvelutarjotinEventNode' }
-          & Pick<PalvelutarjotinEventNode, 'id' | 'neededOccurrences' | 'autoAcceptance' | 'enrolmentEndDays' | 'enrolmentStart'>
-        ), infoUrl?: Maybe<(
-          { __typename?: 'LocalisedObject' }
-          & LocalisedFieldsFragment
         )> }
       )> }
     )> }
@@ -3796,19 +3809,31 @@ export const EditEventDocument = gql`
         images {
           ...imageFields
         }
-        offers {
-          ...offerFields
-        }
-        pEvent {
-          id
-          neededOccurrences
-          autoAcceptance
-          enrolmentEndDays
-          enrolmentStart
-          neededOccurrences
-        }
         infoUrl {
           ...localisedFields
+        }
+        pEvent {
+          ...pEventFields
+        }
+        inLanguage {
+          id
+          internalId
+          name {
+            ...localisedFields
+          }
+        }
+        audience {
+          ...keywordFields
+        }
+        keywords {
+          ...keywordFields
+        }
+        startTime
+        publicationStatus
+        datePublished
+        endTime
+        offers {
+          ...offerFields
         }
       }
     }
@@ -3816,6 +3841,8 @@ export const EditEventDocument = gql`
 }
     ${LocalisedFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
+${PEventFieldsFragmentDoc}
+${KeywordFieldsFragmentDoc}
 ${OfferFieldsFragmentDoc}`;
 export type EditEventMutationFn = ApolloReactCommon.MutationFunction<EditEventMutation, EditEventMutationVariables>;
 export type EditEventProps<TChildProps = {}, TDataName extends string = 'mutate'> = {

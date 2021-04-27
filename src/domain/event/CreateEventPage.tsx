@@ -34,15 +34,11 @@ const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const [selectedLanguage, setSelectedLanguage] = useState(locale);
   const updateImageRequestHandler = useUpdateImageRequest();
-
   const [loading, setLoading] = useState(true);
-  const [eventData, setEventData] = useState<EventQuery | null>(null);
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     createEventInitialValues
   );
-
   const [createEvent] = useCreateEventMutation();
 
   const selectedOrganisation = useSelectedOrganisation();
@@ -77,7 +73,7 @@ const CreateEventPage: React.FC = () => {
               include: ['audience', 'in_language', 'keywords', 'location'],
             },
           });
-          setEventData(data);
+          setEventOrganisation(data.event?.pEvent?.organisation);
           setInitialValues(getEventFormValues(data));
         } else {
           setInitialValues(createEventInitialValues);
@@ -90,11 +86,6 @@ const CreateEventPage: React.FC = () => {
     };
     getInitialValues();
   }, [eventIdToCopy, apolloClient, handleError, setInitialValues, setLoading]);
-
-  useEffect(
-    () => setEventOrganisation(eventData?.event?.pEvent?.organisation),
-    [eventData, setEventOrganisation]
-  );
 
   const organisation = eventOrganisation ?? selectedOrganisation;
   const persons = useMemo(() => getPersons(organisation), [organisation]);
@@ -141,6 +132,7 @@ const CreateEventPage: React.FC = () => {
       handleError(e);
     }
   };
+
   return (
     <PageWrapper title="createEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -151,12 +143,11 @@ const CreateEventPage: React.FC = () => {
             </Notification>
             <ActiveOrganisationInfo />
             <EventForm
+              formType={eventIdToCopy ? 'template' : 'new'}
               onCancel={goToEventList}
               onSubmit={handleSubmit}
               persons={persons}
               initialValues={initialValues}
-              selectedLanguage={selectedLanguage}
-              setSelectedLanguage={setSelectedLanguage}
               title={t('createEvent.title')}
             />
           </div>

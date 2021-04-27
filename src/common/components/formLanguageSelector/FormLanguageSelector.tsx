@@ -19,6 +19,9 @@ const FormLanguageSelector: React.FC<{
         {Object.values(SUPPORT_LANGUAGES).map((lang) => (
           <Checkbox
             key={lang}
+            disabled={
+              selectedLanguages.length === 1 && selectedLanguages.includes(lang)
+            }
             id={`lang-checkbox-${lang}`}
             label={capitalize(t(`common.languages.${lang}`))}
             value={lang}
