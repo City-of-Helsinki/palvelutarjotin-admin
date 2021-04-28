@@ -1,7 +1,4 @@
-import {
-  createEmptyLocalizedObject,
-  LINKEDEVENTS_CONTENT_TYPE,
-} from '../constants';
+import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import {
   EditEventDocument,
   EventDocument,
@@ -124,7 +121,7 @@ const editEventVariables = {
     offers: [
       {
         description: createFinnishLocalisedObject('description'),
-        price: createFinnishLocalisedObject('99,9'),
+        price: { fi: '99,9', sv: '99,9', en: '99,9' },
         isFree: true,
       },
     ],
@@ -145,15 +142,17 @@ const editEventVariables = {
       },
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
-    location: { internalId: `/place/${placeId}/` },
+    location: {
+      internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+    },
     pEvent: {
+      autoAcceptance: true,
       contactEmail: contactEmail,
       contactPersonId: contactPersonId,
       contactPhoneNumber: contactPhoneNumber,
       enrolmentEndDays: 3,
       enrolmentStart: '2020-08-13T00:45:00.000Z',
       neededOccurrences: 3,
-      autoAcceptance: true,
       mandatoryAdditionalInformation: false,
     },
     organisationId: organisationId,
@@ -209,7 +208,9 @@ const eventResponse = {
       audience: audienceKeywords.map((k) => fakeKeyword({ id: k.id })),
       keywords: [
         fakeKeyword({ id: keywordId }),
-        ...basicKeywords.map((k) => fakeKeyword({ id: k.id })),
+        ...basicKeywords.map((k) =>
+          fakeKeyword({ id: k.id, internalId: k.id })
+        ),
       ],
       pEvent: fakePEvent({
         organisation: fakeOrganisation({
@@ -316,7 +317,7 @@ export const editMocks = [
     request: {
       query: KeywordDocument,
       variables: {
-        id: keywordId,
+        id: getKeywordId(keywordId),
       },
     },
     result: keywordResponse,

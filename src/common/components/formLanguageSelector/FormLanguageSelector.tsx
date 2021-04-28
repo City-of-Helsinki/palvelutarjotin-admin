@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import styles from './formLanguageSelector.module.scss';
 
+export const formLanguageSelectorTestId = 'formLanguageSelectorTestId';
+
 const FormLanguageSelector: React.FC<{
   selectedLanguages: string[];
   onLanguageClick: React.ChangeEventHandler<HTMLInputElement>;
@@ -13,7 +15,10 @@ const FormLanguageSelector: React.FC<{
   const { t } = useTranslation();
 
   return (
-    <div className={styles.languagesSelectorContainer}>
+    <div
+      className={styles.languagesSelectorContainer}
+      data-testid={formLanguageSelectorTestId}
+    >
       <p>{t('eventForm.formLanguageSelectorTitle')}</p>
       <div className={styles.checkboxContainer}>
         {Object.values(SUPPORT_LANGUAGES).map((lang) => (

@@ -444,3 +444,179 @@ test('occurrence date cannot be before enrolments ending day', async () => {
     screen.queryByText('Päivämäärän on oltava aikaisintaan 03.08.2008')
   ).toBeInTheDocument();
 });
+
+// const venueResponse = {
+//   data: {
+//     venue: fakeVenue({
+//       outdoorActivity: true,
+//       hasClothingStorage: true,
+//       hasSnackEatingPlace: true,
+//       hasToiletNearby: true,
+//       hasAreaForGroupWork: true,
+//       hasIndoorPlayingArea: true,
+//       hasOutdoorPlayingArea: true,
+//       translations: [
+//         {
+//           languageCode: Language.Fi,
+//           description: venueDescription,
+//           __typename: 'VenueTranslationType',
+//         },
+//       ],
+//     }),
+//   },
+// };
+
+// test('virtual event checkbox works correctly', async () => {
+//   const { history } = render(<EditEventPage />, { mocks: editMocks });
+
+//   const goBack = jest.spyOn(history, 'goBack');
+
+//   await waitFor(() => {
+//     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+//   });
+
+//   await screen.findByText(defaultOrganizationName);
+
+//   expect(screen.getAllByText(placeName)).toHaveLength(2);
+
+//   userEvent.click(
+//     screen.getByRole('checkbox', {
+//       name: /tapahtuma järjestetään virtuaalisesti/i,
+//     })
+//   );
+
+//   // Location shouldn't be shown after virtual event checkbox has been clicked
+//   await waitFor(() => {
+//     expect(screen.queryByText(placeName)).not.toBeInTheDocument();
+//   });
+
+//   userEvent.click(
+//     screen.getByRole('button', {
+//       name: 'Tallenna',
+//     })
+//   );
+
+//   await waitFor(() => {
+//     expect(goBack).toHaveBeenCalled();
+//   });
+// });
+
+// test('virtual event checkbox sets internet location correctly', async () => {
+//   advanceTo(new Date(2020, 7, 8));
+//   const pushMock = mockUseHistory();
+//   const { container } = render(<CreateEventPage />, { mocks });
+
+//   Modal.setAppElement(container);
+
+//   await fillForm(defaultFormData);
+
+//   const defaultLocationInput = screen.getByRole('textbox', {
+//     name: /oletustapahtumapaikka/i,
+//   });
+//   expect(defaultLocationInput).not.toBeDisabled();
+
+//   const virtualEventCheckbox = screen.getByRole('checkbox', {
+//     name: /tapahtuma järjestetään virtuaalisesti/i,
+//   });
+//   userEvent.click(virtualEventCheckbox);
+
+//   expect(defaultLocationInput).toBeDisabled();
+
+//   userEvent.click(
+//     screen.getByRole('button', {
+//       name: 'Tallenna ja siirry tapahtuma-aikoihin',
+//     })
+//   );
+
+//   const parsedOccurrenceDate = parseDate(
+//     defaultFormData.firstOccurrenceDate,
+//     'dd.MM.yyyy',
+//     new Date()
+//   );
+
+//   const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
+//   await waitFor(() => {
+//     expect(pushMock).toHaveBeenCalledWith({
+//       pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
+//       search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
+//     });
+//   });
+// });
+
+// expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
+//   venueDescription
+// );
+
+// expect(screen.getAllByText(placeName)).toHaveLength(2);
+
+// expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
+// expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
+
+// const dateInput = screen.getByLabelText(/Päivämäärä/i);
+// // click first so focus is kept
+// userEvent.click(dateInput);
+// userEvent.type(dateInput, eventFormData.firstOccurrenceDate);
+
+// const startsAtInput = screen.getByLabelText(/Alkaa klo/i, {
+//   selector: 'input',
+// });
+// userEvent.type(startsAtInput, eventFormData.startTime);
+// userEvent.click(
+//   screen.getByRole('option', {
+//     name: eventFormData.startTime,
+//   })
+// );
+
+// const endsAtInput = screen.getByLabelText(/Loppuu klo/i, {
+//   selector: 'input',
+// });
+// userEvent.type(endsAtInput, eventFormData.endTime);
+// userEvent.click(
+//   screen.getByRole('option', {
+//     name: eventFormData.endTime,
+//   })
+// );
+
+// const enrolmentStartsAtInput = screen.getByLabelText(
+//   /ilmoittautuminen alkaa/i
+// );
+// userEvent.click(enrolmentStartsAtInput);
+// userEvent.type(enrolmentStartsAtInput, eventFormData.enrolmentStart);
+// userEvent.type(
+//   screen.getByLabelText(/ilmoittautuminen sulkeutuu/i),
+//   eventFormData.enrolmentEndDays
+// );
+
+// const neededOccurrencesInput = screen.getByLabelText(
+//   /tarvittavat käyntikerrat/i
+// );
+
+// userEvent.clear(neededOccurrencesInput);
+// userEvent.type(neededOccurrencesInput, eventFormData.neededOccurrences);
+
+// expect(screen.getByTestId('event-form')).toHaveFormValues({
+//   enrolmentStart: eventFormData.enrolmentStart,
+//   enrolmentEndDays: Number(eventFormData.enrolmentEndDays),
+//   neededOccurrences: Number(eventFormData.neededOccurrences),
+// });
+
+// const placeInput = screen.getByLabelText(/Oletustapahtumapaikka/);
+// userEvent.click(placeInput);
+// userEvent.type(placeInput, 'Sellon');
+
+// jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
+
+// const place = await screen.findByText(/Sellon kirjasto/i);
+// userEvent.click(place);
+
+// await waitFor(() =>
+//   expect(screen.getByLabelText('Tapahtumapaikan kuvaus')).toHaveTextContent(
+//     venueDescription
+//   )
+// );
+
+// expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
+// expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
+
+// // Venue mutation mock
+// jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});

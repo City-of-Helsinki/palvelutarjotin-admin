@@ -148,6 +148,7 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
+
   const organisation = eventData?.event?.pEvent?.organisation;
   const persons = getPersons(organisation);
 
