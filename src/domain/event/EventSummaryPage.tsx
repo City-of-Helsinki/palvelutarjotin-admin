@@ -28,7 +28,6 @@ import EventPublish from './eventPublish/EventPublish';
 import styles from './eventSummaryPage.module.scss';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
-
 interface Params {
   id: string;
 }

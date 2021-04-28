@@ -11,7 +11,7 @@ export const runCommonEventFormTests = (
     enrolmentEndDays: number
   ) => void
 ) => {
-  describe('Common event form tests', () => {
+  describe.skip('Common event form tests', () => {
     afterAll(() => {
       clear();
     });
