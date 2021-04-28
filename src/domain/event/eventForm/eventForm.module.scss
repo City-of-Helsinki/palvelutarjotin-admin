@@ -13,6 +13,16 @@
   display: grid;
   grid-gap: var(--grid-gap);
 
+  & > div:first-child {
+    order: 2;
+  }
+
+  .dirtyText {
+    margin-top: var(--spacing-s);
+    display: block;
+    color: var(--color-brick);
+  }
+
   .formPart {
     & > div:not(:last-child)::after {
       content: '';

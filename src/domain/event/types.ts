@@ -10,6 +10,7 @@ export interface CreateEventFormFields {
   contactEmail: string;
   contactPersonId: string;
   contactPhoneNumber: string;
+  shortDescription: LocalisedObject;
   description: LocalisedObject;
   mandatoryAdditionalInformation: boolean;
   image: string;
@@ -22,7 +23,6 @@ export interface CreateEventFormFields {
   name: LocalisedObject;
   price: number | string;
   priceDescription: LocalisedObject;
-  shortDescription: LocalisedObject;
   isDraft?: boolean;
   categories: string[];
   additionalCriteria: string[];

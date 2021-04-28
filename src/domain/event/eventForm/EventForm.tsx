@@ -62,7 +62,7 @@ type Props<T extends FormFields> = {
   eventData?: EventQuery;
   initialValues: T;
   onCancel: () => void;
-  onSubmit: (values: T) => void;
+  onSubmit: (values: T, selectedLanguages: Language[]) => void;
   persons: PersonFieldsFragment[];
   title: string;
   edit?: boolean;
@@ -151,7 +151,7 @@ const EventForm = <T extends FormFields>({
       enableReinitialize={true}
       initialValues={initialValues}
       validateOnChange
-      onSubmit={onSubmit}
+      onSubmit={(values) => onSubmit(values, selectedLanguages)}
       validationSchema={validationSchema}
     >
       {({
@@ -161,19 +161,26 @@ const EventForm = <T extends FormFields>({
         setFieldValue,
         setFieldTouched,
         touched,
-        errors,
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
         return (
           <>
+            <BackButton onClick={goToEventList}>
+              {t('editEvent.buttons.buttonBack')}
+            </BackButton>
             <FocusToFirstError />
             <div className={styles.eventForm}>
               <div>
+                <div className={styles.languageSelectorContainer}>
+                  <FormLanguageSelector
+                    selectedLanguages={selectedLanguages ?? []}
+                    onLanguageClick={handleSelectedLanguagesChange}
+                  />
+                </div>
+              </div>
+              <div>
                 <div className={styles.backButtonWrapper}>
-                  <BackButton onClick={goToEventList}>
-                    {t('editEvent.buttons.buttonBack')}
-                  </BackButton>
                   {dirty && (
                     <span className={styles.dirtyText}>
                       {t('editEvent.buttons.textDirty')}
@@ -427,14 +434,6 @@ const EventForm = <T extends FormFields>({
                     </Button>
                   </div>
                 </form>
-              </div>
-              <div>
-                <div className={styles.languageSelectorContainer}>
-                  <FormLanguageSelector
-                    selectedLanguages={selectedLanguages ?? []}
-                    onLanguageClick={handleSelectedLanguagesChange}
-                  />
-                </div>
               </div>
             </div>
           </>

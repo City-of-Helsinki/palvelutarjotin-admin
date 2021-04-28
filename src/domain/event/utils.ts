@@ -433,3 +433,15 @@ export const getEventFormValues = (
   mandatoryAdditionalInformation:
     eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
 });
+
+export const omitUnselectedLanguagesFromValues = (
+  values: CreateEventFormFields,
+  unselectedLanguages: Language[]
+) => {
+  return JSON.parse(JSON.stringify(values), (key: string, value: any) => {
+    if (unselectedLanguages.includes(key as Language)) {
+      return '';
+    }
+    return value;
+  });
+};

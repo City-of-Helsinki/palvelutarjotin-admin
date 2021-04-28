@@ -7,6 +7,7 @@ import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventDocument,
   EventQuery,
@@ -14,6 +15,7 @@ import {
   useCreateEventMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
@@ -26,7 +28,11 @@ import EventForm, { createEventInitialValues } from './eventForm/EventForm';
 import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
-import { getEventFormValues, getEventPayload } from './utils';
+import {
+  getEventFormValues,
+  getEventPayload,
+  omitUnselectedLanguagesFromValues,
+} from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { id: eventIdToCopy } = useParams<{ id: string }>();
@@ -94,15 +100,25 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
-  const handleSubmit = async (values: CreateEventFormFields) => {
+  const handleSubmit = async (
+    values: CreateEventFormFields,
+    selectedLanguages: Language[]
+  ) => {
     try {
+      const unselectedLanguages = Object.values(SUPPORT_LANGUAGES).filter(
+        (lang) => !selectedLanguages.includes(lang)
+      );
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = compact([
         createEvent({
           variables: {
             event: {
               ...getEventPayload({
-                formValues: values,
+                formValues: omitUnselectedLanguagesFromValues(
+                  values,
+                  unselectedLanguages
+                ),
                 organisationId: organisation?.id ?? '',
               }),
               // save event always as a draft first
