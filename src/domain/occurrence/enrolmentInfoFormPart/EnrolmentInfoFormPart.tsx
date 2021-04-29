@@ -29,7 +29,8 @@ const EnrolmentInfoFormPart: React.FC = () => {
       <div className={styles.formSectionInnerContainer}>
         <div>
           <h2>{t('eventForm.enrolment.title')}</h2>
-          <div className={styles.formRow}>
+          {/* Uncommment these when API supports them :) */}
+          {/* <div className={styles.formRow}>
             <Field
               label={t('eventForm.enrolment.labelEnrolmentRequired')}
               name="enrolmentNeeded"
@@ -50,7 +51,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
                 component={TextInputField}
               />
             </div>
-          </div>
+          </div> */}
           <div className={styles.formRow}>
             <Field
               required
