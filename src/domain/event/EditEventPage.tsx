@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventQuery,
   useEditEventMutation,
@@ -12,6 +13,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
+import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -28,6 +30,7 @@ import {
   getEditEventPayload,
   getEventFormValues,
   isEditableEvent,
+  omitUnselectedLanguagesFromValues,
 } from './utils';
 
 export enum EDIT_EVENT_QUERY_PARAMS {
@@ -77,8 +80,15 @@ const useEventFormEditSubmit = (
       values.imageAltText !== initialValues.imageAltText ||
       values.imagePhotographerName !== initialValues.imagePhotographerName);
 
-  const submit = async (values: CreateEventFormFields) => {
+  const submit = async (
+    values: CreateEventFormFields,
+    selectedLanguages: Language[]
+  ) => {
     const existingEventValues = eventData?.event;
+
+    const unselectedLanguages = Object.values(SUPPORT_LANGUAGES).filter(
+      (lang) => !selectedLanguages.includes(lang)
+    );
 
     try {
       if (existingEventValues) {
@@ -89,7 +99,10 @@ const useEventFormEditSubmit = (
               event: {
                 id: eventData?.event?.id || '',
                 ...getEditEventPayload({
-                  formValues: values,
+                  formValues: omitUnselectedLanguagesFromValues(
+                    values,
+                    unselectedLanguages
+                  ),
                   existingEventValues,
                   organisationId:
                     eventData?.event?.pEvent?.organisation?.id ?? '',
