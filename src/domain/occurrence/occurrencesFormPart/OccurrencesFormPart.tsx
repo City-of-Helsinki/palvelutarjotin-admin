@@ -114,9 +114,13 @@ const OccurrencesForm: React.FC<{
           input: getOccurrencePayload({
             values,
             pEventId,
+            isVirtual,
           }),
         },
-        optimisticResponse: getOptimisticCreateOccurrenceResponse(values),
+        optimisticResponse: getOptimisticCreateOccurrenceResponse({
+          values,
+          isVirtual,
+        }),
         update: (proxy, { data }) => {
           addOccurrencesToCache({ proxy, data, eventVariables });
         },

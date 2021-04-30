@@ -22,16 +22,18 @@ import {
 export const getOccurrencePayload = ({
   values,
   pEventId,
+  isVirtual,
 }: {
   values: OccurrenceSectionFormFields;
   pEventId: string;
+  isVirtual: boolean;
 }) => {
   return {
     startTime: values.startTime,
     endTime: values.endTime,
     languages: values.languages.map((lang) => ({ id: lang as Language })),
     pEventId,
-    placeId: values.occurrenceLocation,
+    placeId: isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.occurrenceLocation,
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || 0,
     maxGroupSize: Number(values.maxGroupSize) || 0,

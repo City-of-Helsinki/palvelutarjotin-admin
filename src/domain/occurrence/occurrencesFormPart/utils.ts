@@ -18,6 +18,7 @@ import {
   PageInfo,
 } from '../../../generated/graphql';
 import sortFavorably from '../../../utils/sortFavorably';
+import { VIRTUAL_EVENT_LOCATION_ID } from '../../event/constants';
 import { OccurrenceSectionFormFields } from '../types';
 
 export const getOrderedLanguageOptions = (t: TFunction) => {
@@ -43,9 +44,13 @@ export const getOrderedLanguageOptions = (t: TFunction) => {
     );
 };
 
-export const getOptimisticCreateOccurrenceResponse = (
-  values: OccurrenceSectionFormFields
-): AddOccurrenceMutation => {
+export const getOptimisticCreateOccurrenceResponse = ({
+  values,
+  isVirtual,
+}: {
+  values: OccurrenceSectionFormFields;
+  isVirtual?: boolean;
+}): AddOccurrenceMutation => {
   return {
     __typename: 'Mutation',
     addOccurrence: {
@@ -63,7 +68,9 @@ export const getOptimisticCreateOccurrenceResponse = (
             id: lang,
           }))
         ),
-        placeId: values.occurrenceLocation,
+        placeId: isVirtual
+          ? VIRTUAL_EVENT_LOCATION_ID
+          : values.occurrenceLocation,
         remainingSeats: Number(values.amountOfSeats) || 0,
         seatType: values.oneGroupFills
           ? OccurrenceSeatType.EnrolmentCount
