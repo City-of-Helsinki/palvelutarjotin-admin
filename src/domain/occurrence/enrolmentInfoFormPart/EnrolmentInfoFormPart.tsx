@@ -12,7 +12,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
   const { t } = useTranslation();
 
   const {
-    values: { externalEnrolment, neededOccurrences, autoAcceptance },
+    values: { neededOccurrences, autoAcceptance },
     setFieldValue,
   } = useFormikContext<TimeAndLocationFormFields>();
 

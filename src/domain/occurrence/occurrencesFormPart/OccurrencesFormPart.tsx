@@ -63,7 +63,7 @@ const OccurrencesForm: React.FC<{
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const {
-    values: { location },
+    values: { location, isVirtual, enrolmentEndDays, enrolmentStart },
   } = useFormikContext<TimeAndLocationFormFields>();
 
   const initialValues = React.useMemo(() => {
@@ -73,7 +73,10 @@ const OccurrencesForm: React.FC<{
     };
   }, [location]);
 
-  const validationSchema = React.useMemo(() => getValidationSchema(), []);
+  const validationSchema = React.useMemo(
+    () => getValidationSchema({ isVirtual, enrolmentEndDays, enrolmentStart }),
+    [enrolmentEndDays, enrolmentStart, isVirtual]
+  );
 
   const {
     data: eventData,
@@ -177,6 +180,7 @@ const OccurrencesForm: React.FC<{
         <OccurrenceForm
           addOccurrenceLoading={addOccurrenceLoading}
           eventDefaultlocation={location}
+          isVirtualEvent={isVirtual}
         />
       </Formik>
     </div>
@@ -186,7 +190,8 @@ const OccurrencesForm: React.FC<{
 const OccurrenceForm: React.FC<{
   addOccurrenceLoading: boolean;
   eventDefaultlocation: string;
-}> = ({ addOccurrenceLoading, eventDefaultlocation }) => {
+  isVirtualEvent: boolean;
+}> = ({ addOccurrenceLoading, eventDefaultlocation, isVirtualEvent }) => {
   const { t } = useTranslation();
   const {
     handleSubmit,
@@ -205,10 +210,14 @@ const OccurrenceForm: React.FC<{
   }, [oneGroupFills, setFieldValue]);
 
   React.useEffect(() => {
-    eventDefaultlocation
-      ? setFieldValue('occurrenceLocation', eventDefaultlocation)
-      : setFieldValue('occurrenceLocation', '');
-  }, [eventDefaultlocation, setFieldValue]);
+    if (eventDefaultlocation) {
+      setFieldValue('occurrenceLocation', eventDefaultlocation);
+    } else if (isVirtualEvent) {
+      setFieldValue('occurrenceLocation', '');
+    } else {
+      setFieldValue('occurrenceLocation', '');
+    }
+  }, [eventDefaultlocation, isVirtualEvent, setFieldValue]);
 
   React.useEffect(() => {
     // Initialize endTime if not yet given
@@ -229,6 +238,7 @@ const OccurrenceForm: React.FC<{
         <Field
           labelText={t('eventOccurrenceForm.labelEventLocation')}
           name="occurrenceLocation"
+          disabled={isVirtualEvent}
           component={PlaceSelectorField}
         />
         <Field

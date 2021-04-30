@@ -1,3 +1,4 @@
+import addDays from 'date-fns/addDays';
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isValidDate from 'date-fns/isValid';
@@ -24,19 +25,46 @@ const addMaxValidationMessage = (
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
 
-const getValidationSchema = () =>
+const getStartTimeValidation = ({
+  enrolmentEndDays,
+  enrolmentStart,
+}: {
+  enrolmentEndDays?: string | number;
+  enrolmentStart?: Date | null;
+}) => {
+  const schema = Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isInFuture', VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE, isInFuture);
+
+  if (enrolmentEndDays != null && enrolmentStart) {
+    const minDate =
+      enrolmentEndDays > 0
+        ? addDays(enrolmentStart, enrolmentEndDays as number)
+        : enrolmentStart;
+    minDate.setHours(0, 0, 0, 0);
+    return schema.min(minDate, () => ({
+      key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+      min: formatDate(minDate, 'dd.MM yyyy'),
+    }));
+  }
+  return schema;
+};
+
+const getValidationSchema = ({
+  isVirtual,
+  enrolmentEndDays,
+  enrolmentStart,
+}: {
+  isVirtual?: boolean;
+  enrolmentEndDays?: string | number;
+  enrolmentStart?: Date | null;
+}) =>
   Yup.object().shape({
-    occurrenceLocation: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-    startTime: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .test(
-        'isInFuture',
-        VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
-        isInFuture
-      ),
+    occurrenceLocation: isVirtual
+      ? Yup.string()
+      : Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    startTime: getStartTimeValidation({ enrolmentStart, enrolmentEndDays }),
     endTime: Yup.date()
       .typeError(VALIDATION_MESSAGE_KEYS.DATE)
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
