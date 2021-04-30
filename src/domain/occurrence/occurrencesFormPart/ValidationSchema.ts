@@ -45,7 +45,7 @@ const getStartTimeValidation = ({
     minDate.setHours(0, 0, 0, 0);
     return schema.min(minDate, () => ({
       key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-      min: formatDate(minDate, 'dd.MM yyyy'),
+      min: formatDate(minDate, 'dd.MM.yyyy'),
     }));
   }
   return schema;

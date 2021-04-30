@@ -9,7 +9,6 @@ import {
   DATE_FORMAT,
   DATETIME_FORMAT,
 } from '../../../../common/components/datepicker/contants';
-import { runCommonEventFormTests } from '../../../../utils/CommonEventFormTests';
 import {
   act,
   fireEvent,
@@ -45,8 +44,6 @@ const renderForm = () =>
   );
 
 describe('eventForm Tests', () => {
-  runCommonEventFormTests(renderForm);
-
   it.skip('enrolment must start in the future', async () => {
     const currentDay = '08.08.2008';
     const currentTime = '15:00'; // actual time is 12:00 in helsinki timezone

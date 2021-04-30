@@ -107,6 +107,7 @@ const CreateOccurrencePage: React.FC = () => {
           (prev, [lang, value]) => (value ? [...prev, lang] : prev),
           []
         );
+
         setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({
           ...defaultInitialValues,

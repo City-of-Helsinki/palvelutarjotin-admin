@@ -47,14 +47,15 @@ export const getOccurrencePayload = ({
 export const useBaseEventQuery: typeof useEventQuery = ({
   variables,
   ...options
-} = {}) =>
-  useEventQuery({
+} = {}) => {
+  return useEventQuery({
     variables: {
       id: variables?.id ?? '',
       include: ['location', 'keywords', 'audience'],
     },
     ...options,
   });
+};
 
 export const getOccurrenceFields = (
   occurrence: OccurrenceFieldsFragment | undefined | null
