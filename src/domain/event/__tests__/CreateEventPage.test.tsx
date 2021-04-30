@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event';
-import parseDate from 'date-fns/parse';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
@@ -12,13 +11,11 @@ import {
   ImageDocument,
   KeywordsDocument,
   KeywordSetType,
-  Language,
   MyProfileDocument,
   PersonDocument,
   PlaceDocument,
   PlacesDocument,
   UploadSingleImageDocument,
-  VenueDocument,
 } from '../../../generated/graphql';
 import { getKeywordSetsMockResponses } from '../../../test/apollo-mocks/keywordSetMocks';
 import {
@@ -50,7 +47,6 @@ import {
   placeName,
   profileResponse,
   shortDescription,
-  venueDescription,
   venueQueryResponse,
 } from '../../../test/EventPageTestUtil';
 import {
@@ -61,7 +57,6 @@ import {
   fakeLocalizedObject,
   fakePlace,
   fakePlaces,
-  fakeVenue,
 } from '../../../utils/mockDataUtils';
 import {
   configure,
@@ -72,8 +67,9 @@ import {
   within,
 } from '../../../utils/testUtils';
 import apolloClient from '../../app/apollo/apolloClient';
+import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
-import { EventFormFields } from '../types';
+import { CreateEventFormFields } from '../types';
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
 
@@ -121,15 +117,11 @@ const createEventVariables = {
       },
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
-    location: { internalId: `/place/${placeId}/` },
     pEvent: {
       contactEmail: 'testi123@testi123.fi',
       contactPersonId: contactPersonId,
       contactPhoneNumber: '123321123',
-      enrolmentEndDays: 3,
-      enrolmentStart: '2020-08-13T00:45:00.000Z',
-      neededOccurrences: 3,
-      autoAcceptance: true,
+      neededOccurrences: 1,
       mandatoryAdditionalInformation: false,
     },
     organisationId,
@@ -201,27 +193,6 @@ const placesResponse = {
     places: fakePlaces(1, [
       { name: fakeLocalizedObject(placeName), id: placeId },
     ]),
-  },
-};
-
-const venueResponse = {
-  data: {
-    venue: fakeVenue({
-      outdoorActivity: true,
-      hasClothingStorage: true,
-      hasSnackEatingPlace: true,
-      hasToiletNearby: true,
-      hasAreaForGroupWork: true,
-      hasIndoorPlayingArea: true,
-      hasOutdoorPlayingArea: true,
-      translations: [
-        {
-          languageCode: Language.Fi,
-          description: venueDescription,
-          __typename: 'VenueTranslationType',
-        },
-      ],
-    }),
   },
 };
 
@@ -298,12 +269,7 @@ const mocks = [
     request: {
       query: CreateEventDocument,
       variables: {
-        event: {
-          ...createEventVariables.event,
-          location: {
-            internalId: '/place/helsinki:internet/',
-          },
-        },
+        event: createEventVariables,
       },
     },
     result: addEventResponse,
@@ -335,10 +301,6 @@ jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
       },
     };
   }
-
-  if (query === VenueDocument) {
-    return venueResponse;
-  }
 });
 
 const mockUseHistory = () => {
@@ -363,38 +325,6 @@ const mockUseHistory = () => {
 //   expect(result).toHaveNoViolations();
 // });
 
-test('modal opens when trying to change language', async () => {
-  const { container } = render(<CreateEventPage />, { mocks });
-
-  Modal.setAppElement(container);
-
-  await screen.findByText(defaultOrganizationName);
-
-  userEvent.type(
-    screen.getByLabelText(/Tapahtuman nimi/),
-    defaultFormData.name.fi
-  );
-
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': defaultFormData.name.fi,
-  });
-
-  // should open modal when trying to change event language
-  userEvent.click(screen.getByRole('button', { name: 'ruotsi' }));
-  expect(screen.getByRole('dialog')).toHaveTextContent(/vaihda kieli/i);
-
-  const modal = within(screen.getByRole('dialog', {}));
-
-  const cancelButton = modal.getByRole('button', {
-    name: 'Peruuta',
-  });
-  userEvent.click(cancelButton);
-
-  expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-
-  await screen.findByText('Sivulla on tallentamattomia muutoksia');
-});
-
 test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
   const pushMock = mockUseHistory();
@@ -402,7 +332,7 @@ test('event can be created with form', async () => {
 
   Modal.setAppElement(container);
 
-  await fillForm({ ...defaultFormData, startTime: '12:00', endTime: '13:00' });
+  await fillForm({ ...defaultFormData });
 
   await waitFor(() => {
     expect(
@@ -416,17 +346,12 @@ test('event can be created with form', async () => {
     })
   );
 
-  const parsedOccurrenceDate = parseDate(
-    defaultFormData.firstOccurrenceDate,
-    'dd.MM.yyyy',
-    new Date()
-  );
-
-  const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
   await waitFor(() => {
     expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
-      search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
+      pathname: `/fi${ROUTES.CREATE_OCCURRENCE.replace(
+        ':id',
+        'palvelutarjotin:afz52lpyta'
+      )}`,
     });
   });
 }, /* it seems that running test takes over 100 seconds and fails, let's override the default timeout with 150 seconds */ 150_000);
@@ -446,56 +371,7 @@ test('price field is accessible only when isFree field is not checked', async ()
   expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
 });
 
-test('virtual event checkbox sets internet location correctly', async () => {
-  advanceTo(new Date(2020, 7, 8));
-  const pushMock = mockUseHistory();
-  const { container } = render(<CreateEventPage />, { mocks });
-
-  Modal.setAppElement(container);
-
-  await fillForm({ ...defaultFormData, startTime: '12:00', endTime: '13:00' });
-
-  const defaultLocationInput = screen.getByRole('textbox', {
-    name: /oletustapahtumapaikka/i,
-  });
-  expect(defaultLocationInput).not.toBeDisabled();
-
-  const virtualEventCheckbox = screen.getByRole('checkbox', {
-    name: /tapahtuma järjestetään virtuaalisesti/i,
-  });
-  userEvent.click(virtualEventCheckbox);
-
-  expect(defaultLocationInput).toBeDisabled();
-
-  userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
-  );
-
-  const parsedOccurrenceDate = parseDate(
-    defaultFormData.firstOccurrenceDate,
-    'dd.MM.yyyy',
-    new Date()
-  );
-
-  const encodedUrlDate = encodeURIComponent(parsedOccurrenceDate.toISOString());
-  await waitFor(() => {
-    expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/fi/events/palvelutarjotin:afz52lpyta/occurrences/createfirst',
-      search: `date=${encodedUrlDate}&startsAt=12%3A00&endsAt=13%3A00`,
-    });
-  });
-});
-
-const fillForm = async (
-  eventFormData: Omit<Partial<EventFormFields>, 'enrolmentStart'> & {
-    enrolmentStart: string;
-    firstOccurrenceDate: string;
-    startTime: string;
-    endTime: string;
-  }
-) => {
+const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
   await screen.findByText(defaultOrganizationName);
 
   userEvent.type(
@@ -519,7 +395,9 @@ const fillForm = async (
 
   userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description.fi);
   userEvent.type(
-    screen.getByLabelText('WWW-osoite, josta saa lisätietoja tapahtumasta'),
+    screen.getByLabelText(
+      'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
+    ),
     eventFormData.infoUrl.fi
   );
 
@@ -555,54 +433,6 @@ const fillForm = async (
   expect(screen.getByTestId('event-form')).toHaveFormValues({
     contactPhoneNumber: eventFormData.contactPhoneNumber,
     contactEmail: eventFormData.contactEmail,
-  });
-
-  const dateInput = screen.getByLabelText(/Päivämäärä/i);
-  // click first so focus is kept
-  userEvent.click(dateInput);
-  userEvent.type(dateInput, eventFormData.firstOccurrenceDate);
-
-  const startsAtInput = screen.getByLabelText(/Alkaa klo/i, {
-    selector: 'input',
-  });
-  userEvent.type(startsAtInput, eventFormData.startTime);
-  userEvent.click(
-    screen.getByRole('option', {
-      name: eventFormData.startTime,
-    })
-  );
-
-  const endsAtInput = screen.getByLabelText(/Loppuu klo/i, {
-    selector: 'input',
-  });
-  userEvent.type(endsAtInput, eventFormData.endTime);
-  userEvent.click(
-    screen.getByRole('option', {
-      name: eventFormData.endTime,
-    })
-  );
-
-  const enrolmentStartsAtInput = screen.getByLabelText(
-    /ilmoittautuminen alkaa/i
-  );
-  userEvent.click(enrolmentStartsAtInput);
-  userEvent.type(enrolmentStartsAtInput, eventFormData.enrolmentStart);
-  userEvent.type(
-    screen.getByLabelText(/ilmoittautuminen sulkeutuu/i),
-    eventFormData.enrolmentEndDays
-  );
-
-  const neededOccurrencesInput = screen.getByLabelText(
-    /tarvittavat käyntikerrat/i
-  );
-
-  userEvent.clear(neededOccurrencesInput);
-  userEvent.type(neededOccurrencesInput, eventFormData.neededOccurrences);
-
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    enrolmentStart: eventFormData.enrolmentStart,
-    enrolmentEndDays: Number(eventFormData.enrolmentEndDays),
-    neededOccurrences: Number(eventFormData.neededOccurrences),
   });
 
   const contactInfoPart = within(screen.getByTestId('contact-info'));
@@ -649,50 +479,6 @@ const fillForm = async (
 
   const familyCategory = await screen.findByText(/perheet/i);
   userEvent.click(familyCategory);
-
-  const placeInput = screen.getByLabelText(/Oletustapahtumapaikka/);
-  userEvent.click(placeInput);
-  userEvent.type(placeInput, 'Sellon');
-
-  // jest.spyOn(apolloClient, 'query').mockResolvedValue(venueResponse as any);
-
-  const place = await screen.findByText(/Sellon kirjasto/i);
-  userEvent.click(place);
-
-  await waitFor(() =>
-    expect(screen.getByLabelText('Tapahtumapaikan kuvaus')).toHaveTextContent(
-      venueDescription
-    )
-  );
-
-  expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
-  expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
-
-  // Venue mutation mock
-  jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
-};
-
-const testMultiDropdownValues = async ({
-  dropdownTestId,
-  dropdownLabel,
-  values,
-}: {
-  dropdownTestId: string;
-  dropdownLabel: RegExp | string;
-  values: string[];
-}) => {
-  userEvent.click(screen.getByLabelText(dropdownLabel, { selector: 'button' }));
-
-  values.forEach((value) => {
-    userEvent.click(screen.getByRole('option', { name: value }));
-  });
-  userEvent.click(screen.getByLabelText(dropdownLabel, { selector: 'button' }));
-
-  const dropdown = within(screen.getByTestId(dropdownTestId));
-
-  for (const value of values) {
-    await dropdown.findByText(value);
-  }
 };
 
 describe('Copy event', () => {
@@ -735,9 +521,6 @@ describe('Copy event', () => {
     await screen.findByText(keyword);
 
     expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
-    expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
-      venueDescription
-    );
 
     expect(screen.getByTestId('event-form')).toHaveFormValues({
       'name.fi': eventName,
@@ -745,9 +528,6 @@ describe('Copy event', () => {
       'infoUrl.fi': infoUrl,
       contactEmail,
       contactPhoneNumber,
-      enrolmentStart: '',
-      enrolmentEndDays: 3,
-      neededOccurrences: 3,
       imagePhotographerName: photographerName,
       imageAltText: photoAltText,
     });
@@ -762,13 +542,6 @@ describe('Copy event', () => {
       ).toHaveTextContent(eventOrganizationPersonName);
     });
 
-    await waitFor(() => {
-      expect(screen.getAllByText(placeName)).toHaveLength(2);
-    });
-
-    expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
-    expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
-
     userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
     await screen.findByText('Sivulla on tallentamattomia muutoksia');
@@ -777,3 +550,26 @@ describe('Copy event', () => {
     });
   });
 });
+
+const testMultiDropdownValues = async ({
+  dropdownTestId,
+  dropdownLabel,
+  values,
+}: {
+  dropdownTestId: string;
+  dropdownLabel: RegExp | string;
+  values: string[];
+}) => {
+  userEvent.click(screen.getByLabelText(dropdownLabel, { selector: 'button' }));
+
+  values.forEach((value) => {
+    userEvent.click(screen.getByRole('option', { name: value }));
+  });
+  userEvent.click(screen.getByLabelText(dropdownLabel, { selector: 'button' }));
+
+  const dropdown = within(screen.getByTestId(dropdownTestId));
+
+  for (const value of values) {
+    await dropdown.findByText(value);
+  }
+};

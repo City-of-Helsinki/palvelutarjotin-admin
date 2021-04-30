@@ -19,9 +19,7 @@ import {
   personName,
   photoAltText,
   photographerName,
-  placeName,
   shortDescription,
-  venueDescription,
   venueQueryResponse,
 } from '../../../test/EventPageTestUtil';
 import { render, screen, waitFor, within } from '../../../utils/testUtils';
@@ -64,9 +62,6 @@ test('edit event form initializes and submits correctly', async () => {
   await screen.findByText(keyword);
 
   expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);
-  expect(screen.getByLabelText(/Tapahtumapaikan kuvaus/i)).toHaveTextContent(
-    venueDescription
-  );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
     'name.fi': eventName,
@@ -74,9 +69,6 @@ test('edit event form initializes and submits correctly', async () => {
     'infoUrl.fi': infoUrl,
     contactEmail: contactEmail,
     contactPhoneNumber: contactPhoneNumber,
-    enrolmentStart: '13.08.2020 03:45',
-    enrolmentEndDays: 3,
-    neededOccurrences: 3,
     imagePhotographerName: photographerName,
     imageAltText: photoAltText,
   });
@@ -88,53 +80,13 @@ test('edit event form initializes and submits correctly', async () => {
     contactInfo.getByLabelText(/Nimi/, { selector: 'button' })
   ).toHaveTextContent(personName);
 
-  expect(screen.getAllByText(placeName)).toHaveLength(2);
-
-  expect(screen.getByLabelText('Ulkovaatesäilytys')).toBeChecked();
-  expect(screen.getByLabelText('Eväidensyöntipaikka')).toBeChecked();
-
   userEvent.type(screen.getByLabelText(/Tapahtuman nimi/), 'Testinimi');
 
   await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
   userEvent.click(
     screen.getByRole('button', {
-      name: 'Tallenna',
-    })
-  );
-
-  await waitFor(() => {
-    expect(goBack).toHaveBeenCalled();
-  });
-});
-
-test('virtual event checkbox works correctly', async () => {
-  const { history } = render(<EditEventPage />, { mocks: editMocks });
-
-  const goBack = jest.spyOn(history, 'goBack');
-
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
-
-  await screen.findByText(defaultOrganizationName);
-
-  expect(screen.getAllByText(placeName)).toHaveLength(2);
-
-  userEvent.click(
-    screen.getByRole('checkbox', {
-      name: /tapahtuma järjestetään virtuaalisesti/i,
-    })
-  );
-
-  // Location shouldn't be shown after virtual event checkbox has been clicked
-  await waitFor(() => {
-    expect(screen.queryByText(placeName)).not.toBeInTheDocument();
-  });
-
-  userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna',
+      name: 'Tallenna tiedot',
     })
   );
 
@@ -149,7 +101,7 @@ test('returns to create occurrences page when it should after saving', async () 
     .mockResolvedValue(venueQueryResponse as any);
   const { history } = render(<EditEventPage />, {
     mocks: editMocks,
-    routes: [`/moi?navigationFrom=${NAVIGATED_FROM.OCCURRENCES}`],
+    routes: [`/moi?navigatedFrom=${NAVIGATED_FROM.OCCURRENCES}`],
   });
 
   const historyPush = jest.spyOn(history, 'push');
@@ -162,7 +114,7 @@ test('returns to create occurrences page when it should after saving', async () 
 
   userEvent.click(
     screen.getByRole('button', {
-      name: 'Tallenna',
+      name: 'Tallenna tiedot',
     })
   );
 

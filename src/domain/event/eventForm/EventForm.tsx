@@ -161,6 +161,7 @@ const EventForm = <T extends FormFields>({
         setFieldValue,
         setFieldTouched,
         touched,
+        errors,
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
