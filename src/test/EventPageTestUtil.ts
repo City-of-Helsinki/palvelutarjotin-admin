@@ -115,20 +115,20 @@ export const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 const editEventVariables = {
   event: {
     id: eventId,
-    name: createFinnishLocalisedObject('TestitapahtumaTestinimi'),
+    name: createFinnishLocalisedObject('TestitapahtumaTestinimi', true),
     startTime: '2020-08-04T21:00:00.000Z',
     endTime: '',
     offers: [
       {
-        description: createFinnishLocalisedObject('description'),
+        description: createFinnishLocalisedObject('description', true),
         price: { fi: '99,9', sv: '99,9', en: '99,9' },
         isFree: true,
       },
     ],
-    shortDescription: createFinnishLocalisedObject(shortDescription),
-    description: createFinnishLocalisedObject(description),
+    shortDescription: createFinnishLocalisedObject(shortDescription, true),
+    description: createFinnishLocalisedObject(description, true),
     images: [{ internalId: '/image/48598/' }],
-    infoUrl: createFinnishLocalisedObject(infoUrl),
+    infoUrl: createFinnishLocalisedObject(infoUrl, true),
     audience: audienceKeywords.map((k) => ({
       internalId: getKeywordId(k.id),
     })),
