@@ -646,7 +646,7 @@
     "grade": "{{count}}: a klass",
     "grade_plural": "{{count}}: a klass",
     "preschool": "5-6 åldrig",
-    "secondary": "Gymnasieskola",
+    "secondary": "Andra stadiets utbildning",
     "age02": "0-2 åldrig",
     "age34": "3-4 åldrig",
     "other": "Annan grupp"

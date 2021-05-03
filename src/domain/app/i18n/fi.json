@@ -645,7 +645,7 @@
     "grade": "{{count}}. luokka",
     "grade_plural": "{{count}}. luokka",
     "preschool": "5-6 -vuotiaat",
-    "secondary": "Lukio",
+    "secondary": "Toisen asteen opiskelijat",
     "age02": "0-2 -vuotiaat",
     "age34": "3-4 -vuotiaat",
     "other": "Muu ryhmä"

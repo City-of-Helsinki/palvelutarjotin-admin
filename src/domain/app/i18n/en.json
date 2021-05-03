@@ -639,7 +639,7 @@
     "grade_interval": "(1){1st grade};(2){2nd grade};",
     "grade_plural": "{{count}}th grade",
     "preschool": "5-6 aged",
-    "secondary": "Upper secondary school",
+    "secondary": "Secondary level students",
     "age02": "0-2 aged",
     "age34": "3-4 aged",
     "other": "Other group"
