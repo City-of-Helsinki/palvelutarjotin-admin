@@ -1,4 +1,3 @@
-import { supportedLanguages } from '../../constants';
 import {
   CreateVenueDocument,
   CreateVenueMutation,
@@ -9,12 +8,14 @@ import {
   VenueDocument,
   VenueNode,
   VenueQuery,
+  VenueTranslationsInput,
+  VenueTranslationType,
 } from '../../generated/graphql';
-import { getLocalisedObject } from '../../utils/translateUtils';
+import { Language } from '../../types';
 import apolloClient from '../app/apollo/apolloClient';
 import { VenueDataFields } from './types';
 
-const VENUE_AMENITIES = [
+export const VENUE_AMENITIES = [
   'hasClothingStorage',
   'hasSnackEatingPlace',
   'hasToiletNearby',
@@ -35,9 +36,16 @@ export const getVenueDescription = (
     {}
   );
 
+export const getVenueDescriptions = (
+  venueData: VenueQuery | undefined | null
+): Pick<VenueTranslationType, 'languageCode' | 'description'>[] =>
+  venueData?.venue?.translations.map((t) => ({
+    description: t.description,
+    languageCode: t.languageCode,
+  })) ?? [];
+
 export const getVenuePayload = ({
   locationId,
-  venueData,
   formValues: {
     locationDescription,
     hasClothingStorage,
@@ -51,7 +59,6 @@ export const getVenuePayload = ({
 }: {
   formValues: VenueDataFields;
   locationId: string;
-  venueData: VenueQuery;
 }) => {
   return {
     venue: {
@@ -63,10 +70,15 @@ export const getVenuePayload = ({
       hasAreaForGroupWork,
       hasIndoorPlayingArea,
       hasOutdoorPlayingArea,
-      translations: supportedLanguages.map((language) => ({
-        languageCode: language.toUpperCase() as TranslationLanguage,
-        description: locationDescription?.[language] ?? '',
-      })),
+      translations: Object.keys(locationDescription).reduce((acc, lang) => {
+        return [
+          ...acc,
+          {
+            languageCode: lang.toUpperCase() as TranslationLanguage,
+            description: locationDescription[lang as Language],
+          },
+        ] as VenueTranslationsInput[];
+      }, [] as VenueTranslationsInput[]),
     },
   };
 };
@@ -83,6 +95,24 @@ export const hasAmenitiesChanged = (
   return VENUE_AMENITIES.some((field) => a[field] !== b[field]);
 };
 
+// TODO: FIX synonym problem with locationDescription and venueDescription (they are the same thing)
+const hasDescriptionsChanged = (
+  existingVenueDescriptions: Pick<
+    VenueTranslationType,
+    'languageCode' | 'description'
+  >[],
+  formDescriptions: LocalisedObject
+): boolean => {
+  return Object.entries(formDescriptions).some(([lang, formDescription]) => {
+    return (
+      existingVenueDescriptions.find(
+        (description) =>
+          description.languageCode.toLowerCase() === lang.toLowerCase()
+      )?.description !== formDescription
+    );
+  });
+};
+
 export const createOrUpdateVenue = async ({
   venueFormData,
   locationId,
@@ -96,12 +126,14 @@ export const createOrUpdateVenue = async ({
       variables: { id: locationId },
     });
 
-    const existingVenueDescription = getVenueDescription(
-      existingVenueData?.venue
-    );
+    const venueDescription = getVenueDescriptions(existingVenueData);
+
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
-        (venueFormData.locationDescription !== existingVenueDescription ||
+        (hasDescriptionsChanged(
+          venueDescription,
+          venueFormData.locationDescription
+        ) ||
           hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData))
     );
 
@@ -113,7 +145,6 @@ export const createOrUpdateVenue = async ({
     const variables = getVenuePayload({
       formValues: venueFormData,
       locationId,
-      venueData: existingVenueData,
     });
 
     if (venueShouldBeUpdated) {

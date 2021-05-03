@@ -24,7 +24,6 @@ import {
   fakePlace,
   fakeVenue,
 } from '../utils/mockDataUtils';
-import { getKeywordSetsMockResponses } from './apollo-mocks/keywordSetMocks';
 export const keywordId = 'yso:p4363';
 export const placeId = 'tprek:15417';
 export const eventId = 'palvelutarjotin:afz56bfiaq';
@@ -332,18 +331,4 @@ export const editMocks = [
     },
     result: placeResponse,
   },
-  ...getKeywordSetsMockResponses([
-    {
-      setType: KeywordSetType.TargetGroup,
-      keywords: audienceKeywords,
-    },
-    {
-      setType: KeywordSetType.Category,
-      keywords: categoryKeywords,
-    },
-    {
-      setType: KeywordSetType.AdditionalCriteria,
-      keywords: criteriaKeywords,
-    },
-  ]),
 ];

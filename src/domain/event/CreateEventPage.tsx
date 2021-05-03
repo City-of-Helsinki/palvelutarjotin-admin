@@ -7,6 +7,7 @@ import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventDocument,
   EventQuery,
@@ -14,6 +15,7 @@ import {
   useCreateEventMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
@@ -22,20 +24,14 @@ import { ROUTES } from '../app/routes/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { getPersons } from '../organisation/oranisationUtils';
 import { useSelectedOrganisation } from '../organisation/useSelectedOrganisation';
-import EventForm, {
-  createEventInitialValues,
-  eventOccurenceInitialValues,
-} from './eventForm/EventForm';
-import {
-  useCreateOrUpdateVenueRequest,
-  useUpdateImageRequest,
-} from './eventForm/useEventFormSubmitRequests';
+import EventForm, { createEventInitialValues } from './eventForm/EventForm';
+import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
 import { CreateEventFormFields } from './types';
 import {
-  firstOccurrencePrefilledValuesToQuery,
   getEventFormValues,
   getEventPayload,
+  omitUnselectedLanguagesFromValues,
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
@@ -44,16 +40,11 @@ const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const [selectedLanguage, setSelectedLanguage] = useState(locale);
-  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest();
   const updateImageRequestHandler = useUpdateImageRequest();
-
   const [loading, setLoading] = useState(true);
-  const [eventData, setEventData] = useState<EventQuery | null>(null);
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     createEventInitialValues
   );
-
   const [createEvent] = useCreateEventMutation();
 
   const selectedOrganisation = useSelectedOrganisation();
@@ -88,11 +79,8 @@ const CreateEventPage: React.FC = () => {
               include: ['audience', 'in_language', 'keywords', 'location'],
             },
           });
-          setEventData(data);
-          setInitialValues({
-            ...getEventFormValues(data),
-            ...eventOccurenceInitialValues,
-          });
+          setEventOrganisation(data.event?.pEvent?.organisation);
+          setInitialValues(getEventFormValues(data));
         } else {
           setInitialValues(createEventInitialValues);
         }
@@ -105,11 +93,6 @@ const CreateEventPage: React.FC = () => {
     getInitialValues();
   }, [eventIdToCopy, apolloClient, handleError, setInitialValues, setLoading]);
 
-  useEffect(
-    () => setEventOrganisation(eventData?.event?.pEvent?.organisation),
-    [eventData, setEventOrganisation]
-  );
-
   const organisation = eventOrganisation ?? selectedOrganisation;
   const persons = useMemo(() => getPersons(organisation), [organisation]);
 
@@ -117,15 +100,25 @@ const CreateEventPage: React.FC = () => {
     history.push(ROUTES.HOME);
   };
 
-  const handleSubmit = async (values: CreateEventFormFields) => {
+  const handleSubmit = async (
+    values: CreateEventFormFields,
+    selectedLanguages: Language[]
+  ) => {
     try {
+      const unselectedLanguages = Object.values(SUPPORT_LANGUAGES).filter(
+        (lang) => !selectedLanguages.includes(lang)
+      );
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requests: Promise<any>[] = compact([
         createEvent({
           variables: {
             event: {
               ...getEventPayload({
-                values,
+                formValues: omitUnselectedLanguagesFromValues(
+                  values,
+                  unselectedLanguages
+                ),
                 organisationId: organisation?.id ?? '',
               }),
               // save event always as a draft first
@@ -133,7 +126,6 @@ const CreateEventPage: React.FC = () => {
             },
           },
         }),
-        createOrUpdateVenueRequestHandler(values),
         updateImageRequestHandler(values),
       ]);
 
@@ -150,16 +142,13 @@ const CreateEventPage: React.FC = () => {
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
       history.push({
-        pathname: `/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE.replace(
-          ':id',
-          id
-        )}`,
-        search: firstOccurrencePrefilledValuesToQuery(values),
+        pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
       });
     } catch (e) {
       handleError(e);
     }
   };
+
   return (
     <PageWrapper title="createEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -170,12 +159,11 @@ const CreateEventPage: React.FC = () => {
             </Notification>
             <ActiveOrganisationInfo />
             <EventForm
+              formType={eventIdToCopy ? 'template' : 'new'}
               onCancel={goToEventList}
               onSubmit={handleSubmit}
               persons={persons}
               initialValues={initialValues}
-              selectedLanguage={selectedLanguage}
-              setSelectedLanguage={setSelectedLanguage}
               title={t('createEvent.title')}
             />
           </div>

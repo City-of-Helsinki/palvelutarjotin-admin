@@ -21,6 +21,9 @@
     "alertModal": {
       "buttonCancel": "Cancel"
     },
+    "notificationModal": {
+      "buttonClose": "Close"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Clear value",
@@ -297,10 +300,12 @@
       "photographer": "Photographer",
       "title": "Basic information"
     },
+    "formLanguageSelectorTitle": "Select form language versions",
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
     "buttonSaveAndGoToOccurrences": "Save and go to occurrences",
     "buttonSaveDraft": "Save draft",
+    "saveSuccesful": "Data has been saved",
     "occurrenceTime": {
       "titleOccurrenceTime": "Occurrence time",
       "occurrenceTimeHelperText": "First occurrence date. Rest of the occurrences and additional information are entered in step 2."
@@ -336,11 +341,18 @@
       "labelPhone": "Phone",
       "title": "Contact person"
     },
+    "enrolment": {
+      "title": "Enrolment",
+      "labelExternalEnrolment": "Enrolment is done on external site",
+      "labelExternalEnrolmentUrl": "Web address for the registration form",
+      "labelEnrolmentRequired": "Enrolment to event is required"
+    },
     "location": {
       "helperLocation": "The default venue for event times",
       "labelLocation": "Default venue",
       "placeholderLocation": "Search venue...",
-      "title": "Location"
+      "title": "Location",
+      "labelEventIsHeldVirtual": "Event is held virtually"
     },
     "accessibility": {
       "audienceDropdown": {
@@ -359,6 +371,11 @@
         "clearButtonAriaLabel": "Delete all language selections",
         "selectedItemRemoveButtonAriaLabel": "Delete language selection"
       }
+    },
+    "occurrences": {
+      "occurrencesFormSectionTitle": "Occurrences",
+      "labelEventHasNoOccurrences": "This event doesn't have specific occurrence time",
+      "buttonAddNewOccurence": "Add new occurrence"
     }
   },
   "events": {
@@ -402,7 +419,15 @@
     "formTitle": "Add new occurrence",
     "pageTitle": "New occurrence",
     "buttonSaveAndGoToPublishing": "Save and go to publishing",
-    "buttonGoToPublishing": "Go to publishing"
+    "buttonGoToPublishing": "Go to publishing",
+    "missingEventInfo": {
+      "modalTitle": "Event has missing information",
+      "missingInfoTitle": "Missing information",
+      "eventLocation": "Event location",
+      "enrolmentStartTime": "Enrolment start time",
+      "enrolmentEndDays": "Enrolment end days",
+      "occurrences": "Event needs at least one occurrence"
+    }
   },
   "editOccurrence": {
     "buttonBack": "Event times",
@@ -581,7 +606,13 @@
       "columnTime": "Time",
       "labelChooseAllOccurrences": "Select all occurrences",
       "labelChooseOccurrence": "Select occurrence {{info}}",
-      "oneGroup": "1 group"
+      "oneGroup": "1 group",
+      "columnStarts": "Starts",
+      "columnEnds": "Ends",
+      "columnLanguages": "Event language",
+      "columnMaxGroupSize": "Min",
+      "columnMinGroupSize": "Max",
+      "buttonDeleteOccurrence": "Delete occurrence"
     },
     "publishSection": {
       "optionNow": "Now",

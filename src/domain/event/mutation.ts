@@ -81,15 +81,31 @@ export const MUTATION_EVENT = gql`
           images {
             ...imageFields
           }
-          offers {
-            ...offerFields
-          }
-          pEvent {
-            id
-            neededOccurrences
-          }
           infoUrl {
             ...localisedFields
+          }
+          pEvent {
+            ...pEventFields
+          }
+          inLanguage {
+            id
+            internalId
+            name {
+              ...localisedFields
+            }
+          }
+          audience {
+            ...keywordFields
+          }
+          keywords {
+            ...keywordFields
+          }
+          startTime
+          publicationStatus
+          datePublished
+          endTime
+          offers {
+            ...offerFields
           }
         }
       }

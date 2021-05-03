@@ -1,4 +1,4 @@
-import { Field } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,21 +8,28 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import { VenueDocument, VenueQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import sortFavorably from '../../../utils/sortFavorably';
 import apolloClient from '../../app/apollo/apolloClient';
-import { getVenueDescription } from '../utils';
+import { TimeAndLocationFormFields } from '../../occurrence/types';
+import { VENUE_AMENITIES } from '../utils';
 import styles from './venueDataFields.module.scss';
 
 const VenueDataFields: React.FC<{
   locationId: string;
-  selectedLanguage: Language;
+  selectedLanguages: Language[];
   setFieldValue: (
     field: string,
     value: string | boolean,
     shouldValidate?: boolean | undefined
   ) => void;
-}> = ({ locationId, selectedLanguage, setFieldValue }) => {
+}> = ({ locationId, selectedLanguages, setFieldValue }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const sortedLanguages = sortFavorably(selectedLanguages, [locale]);
+  const {
+    values: { locationDescription },
+  } = useFormikContext<TimeAndLocationFormFields>();
+
   React.useEffect(() => {
     const getVenueInfo = async () => {
       if (locationId) {
@@ -32,41 +39,67 @@ const VenueDataFields: React.FC<{
             variables: { id: locationId },
           });
 
-          const description = getVenueDescription(data.venue);
-          setFieldValue(
-            `locationDescription.${selectedLanguage}`,
-            description?.[selectedLanguage] ?? ''
-          );
-          ([
-            'hasSnackEatingPlace',
-            'hasClothingStorage',
-            'outdoorActivity',
-            'hasToiletNearby',
-            'hasAreaForGroupWork',
-            'hasIndoorPlayingArea',
-            'hasOutdoorPlayingArea',
-          ] as const).forEach((v) => {
+          if (data.venue) {
+            // Inititalize all venue description translation fields
+            // (doesn't matter if they are not visible/rendered)
+            data.venue.translations.forEach((t) =>
+              setFieldValue(
+                `locationDescription.${
+                  t.languageCode.toLowerCase() as Language
+                }`,
+                t.description || ''
+              )
+            );
+          } else {
+            // If venue data missing for location, empty all description fields.
+            Object.keys(locationDescription).forEach((key) => {
+              setFieldValue(`locationDescription.${key as Language}`, '');
+            });
+          }
+
+          VENUE_AMENITIES.forEach((v) => {
             setFieldValue(v, data.venue?.[v] || false);
           });
         } catch (err) {
           // clear description when error happens
-          setFieldValue(`locationDescription.${selectedLanguage}`, '');
+          // TODO: fix this to include all languages...
+          setFieldValue('locationDescription.fi', '');
         }
       }
     };
     getVenueInfo();
-  }, [locationId, setFieldValue, selectedLanguage, locale]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationId, setFieldValue]);
 
   return (
     <FormGroup>
-      <Field
-        helperText={t('venue.venueDataFields.helperLocationDescription')}
-        labelText={t('venue.venueDataFields.labelLocationDescription')}
-        name={`locationDescription.${selectedLanguage}`}
-        placeholder={t('venue.venueDataFields.placeholderLocationDescription')}
-        component={TextAreaInputField}
-        rows={5}
-      />
+      <div className={styles.locationDescriptionFieldsContainer}>
+        {sortedLanguages.map((lang, langIndex) => {
+          const showHelperText = langIndex === 0;
+          const labelText = `${t(
+            'venue.venueDataFields.labelLocationDescription'
+          )} (${lang.toUpperCase()})`;
+
+          return (
+            <Field
+              key={lang}
+              helperText={
+                // Do not show description if multiple fields are rendered
+                showHelperText
+                  ? t('venue.venueDataFields.helperLocationDescription')
+                  : null
+              }
+              labelText={labelText}
+              name={`locationDescription.${lang}`}
+              placeholder={t(
+                'venue.venueDataFields.placeholderLocationDescription'
+              )}
+              component={TextAreaInputField}
+              rows={5}
+            />
+          );
+        })}
+      </div>
       <div className={styles.venueCheckboxFields}>
         <Field
           component={CheckboxField}

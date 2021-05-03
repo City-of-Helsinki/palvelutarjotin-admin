@@ -1,42 +1,51 @@
+import { useApolloClient } from '@apollo/react-hooks';
 import { NetworkStatus } from 'apollo-client';
-import { isPast } from 'date-fns';
-import isValidDate from 'date-fns/isValid';
-import { FormikHelpers } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { Button } from 'hds-react';
+import compact from 'lodash/compact';
+import omit from 'lodash/omit';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
+import FocusToFirstError from '../../common/components/form/FocusToFirstError';
+import FormLanguageSelector from '../../common/components/formLanguageSelector/FormLanguageSelector';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import NotificationModal from '../../common/components/modal/NotificationModal';
 import {
-  OccurrenceFieldsFragment,
-  useAddOccurrenceMutation,
-  useDeleteOccurrenceMutation,
-  useEventQuery,
+  useEditEventMutation,
   useMyProfileQuery,
+  VenueDocument,
+  VenueQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import { useSearchParams } from '../../hooks/useQuery';
-import { isValidTime } from '../../utils/dateUtils';
+import { Language } from '../../types';
+import { isTestEnv } from '../../utils/envUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
-import scrollToTop from '../../utils/scrollToTop';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
-import { NAVIGATED_FROM } from '../event/EditEventPage';
+import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
+import {
+  EDIT_EVENT_QUERY_PARAMS,
+  NAVIGATED_FROM,
+} from '../event/EditEventPage';
+import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSubmitRequests';
 import { isEditableEvent } from '../event/utils';
-import OccurrencesTable from '../occurrences/occurrencesTable/OccurrencesTable';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { createOrUpdateVenue } from '../venue/utils';
-import EventOccurrenceForm, {
-  defaultInitialValues,
-} from './eventOccurrenceForm/EventOccurrenceForm';
+import { defaultInitialValues } from './constants';
+import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
-import { OccurrenceFormFields } from './types';
-import { getOccurrencePayload } from './utils';
+import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
+import { LocationDescriptions, TimeAndLocationFormFields } from './types';
+import { getEditEventPayload, useBaseEventQuery } from './utils';
+import ValidationSchema from './ValidationSchema';
 
 interface Params {
   id: string;
@@ -46,153 +55,253 @@ const CreateOccurrencePage: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const locale = useLocale();
-  const isFirstOccurrence = Boolean(
-    useRouteMatch(`/${locale}${ROUTES.CREATE_FIRST_OCCURRENCE}`)
-  );
-
+  const apolloClient = useApolloClient();
+  const [
+    missingEventInfoError,
+    setMissingEventInfoError,
+  ] = React.useState<Yup.ValidationError | null>(null);
+  const [selectedLanguages, setSelectedLanguages] = React.useState<Language[]>([
+    'fi',
+  ]);
   const { id: eventId } = useParams<Params>();
+  const [
+    initialValues,
+    setInitialValues,
+  ] = React.useState<TimeAndLocationFormFields | null>(null);
 
+  const createOrUpdateVenue = useCreateOrUpdateVenueRequest();
+
+  const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
+
+  const { loading: loadingMyProfile } = useMyProfileQuery();
   const {
     data: eventData,
-    loading: loadingEvent,
     refetch: refetchEvent,
-    networkStatus: eventNetworkStatus,
-  } = useEventQuery({
-    variables: { id: eventId, include: ['keywords', 'location'] },
+    loading: loadingEvent,
+    networkStatus,
+  } = useBaseEventQuery({
+    variables: { id: eventId },
+    fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });
 
-  const eventIsRefetching = eventNetworkStatus === NetworkStatus.refetch;
-  const eventIsInitialLoading = !eventIsRefetching && loadingEvent;
-
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  const occurrences =
-    (eventData?.event?.pEvent?.occurrences.edges.map(
-      (edge) => edge?.node
-    ) as OccurrenceFieldsFragment[]) || [];
-  const comingOccurrences = occurrences.filter(
-    (item) => !isPast(new Date(item.startTime))
-  );
+  const isRefethingEvent = networkStatus === NetworkStatus.refetch;
+  const isInitialLoadingEvent = loadingEvent && !isRefethingEvent;
 
-  const initialFormValues = useInitialFormValues(isFirstOccurrence);
-  const { loading: loadingMyProfile } = useMyProfileQuery();
+  React.useEffect(() => {
+    const initializeForm = async () => {
+      if (eventData?.event) {
+        const event = eventData.event;
+        const { data } = await apolloClient.query<VenueQuery>({
+          query: VenueDocument,
+          variables: {
+            id: event.location?.id,
+          },
+        });
+        const venueData = data.venue;
+        const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
+        const eventName = omit(event.name, '__typename');
 
-  const [createOccurrence] = useAddOccurrenceMutation();
-  const [deleteOccurrence] = useDeleteOccurrenceMutation();
+        const eventLangs = Object.entries(eventName).reduce<string[]>(
+          (prev, [lang, value]) => (value ? [...prev, lang] : prev),
+          []
+        );
 
-  const goToEventSummary = () => {
-    history.push(`/${locale}${ROUTES.EVENT_SUMMARY.replace(':id', eventId)}`);
-  };
-
-  const handleGoToPublishing = () => {
-    history.push(`/${locale}${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
-  };
-
-  const goToCreateOccurrencePage = () => {
-    history.replace(
-      `/${locale}${ROUTES.CREATE_OCCURRENCE}`.replace(':id', eventId)
-    );
-  };
+        setSelectedLanguages(eventLangs as Language[]);
+        setInitialValues({
+          ...defaultInitialValues,
+          // If enrolment start time is not defined yet, then user hasn't filled this form yet
+          // and initial value can be set to true as default
+          autoAcceptance: event.pEvent.enrolmentStart
+            ? event.pEvent.autoAcceptance
+            : true,
+          enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
+          enrolmentStart: event.pEvent.enrolmentStart
+            ? new Date(event.pEvent.enrolmentStart)
+            : null,
+          isVirtual: isVirtualEvent,
+          neededOccurrences: event.pEvent.neededOccurrences ?? '',
+          location: isVirtualEvent ? '' : event.location?.id || '',
+          hasAreaForGroupWork: venueData?.hasAreaForGroupWork ?? false,
+          hasClothingStorage: venueData?.hasClothingStorage ?? false,
+          hasIndoorPlayingArea: venueData?.hasIndoorPlayingArea ?? false,
+          hasSnackEatingPlace: venueData?.hasSnackEatingPlace ?? false,
+          hasOutdoorPlayingArea: venueData?.hasOutdoorPlayingArea ?? false,
+          hasToiletNearby: venueData?.hasToiletNearby ?? false,
+          outdoorActivity: venueData?.outdoorActivity ?? false,
+          locationDescription: venueData?.translations
+            ? Object.values(venueData?.translations).reduce(
+                (acc, { description, languageCode }) => {
+                  return {
+                    ...acc,
+                    [languageCode.toLowerCase()]: description,
+                  };
+                },
+                {} as LocationDescriptions
+              )
+            : ({} as LocationDescriptions),
+        });
+      }
+    };
+    // hack to prevent reinitializing form with old values after mutation
+    if (eventData) {
+      initializeForm();
+    }
+  }, [apolloClient, eventData, setSelectedLanguages]);
 
   const goToEventBasicInfo = () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append(
+      EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
+      NAVIGATED_FROM.OCCURRENCES
+    );
     history.push(
-      `/${locale}${ROUTES.EDIT_EVENT}?navigatedFrom=${NAVIGATED_FROM.OCCURRENCES}`.replace(
+      `/${locale}${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(
         ':id',
         eventId
       )
     );
   };
 
-  const getPayload = (values: OccurrenceFormFields) => {
-    return getOccurrencePayload({
-      values,
-      pEventId: eventData?.event?.pEvent?.id || '',
-    });
+  const goToSummaryPage = () => {
+    history.push(`/${locale}${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
   };
 
-  const runSubmitRequests = async (values: OccurrenceFormFields) => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const requests: Promise<any>[] = [];
-
-      requests.push(
-        createOccurrence({
-          variables: {
-            input: getPayload(values),
-          },
-        })
+  const handleSelectedLanguagesChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.checked) {
+      setSelectedLanguages([
+        ...(selectedLanguages ?? []),
+        e.target.value as Language,
+      ]);
+    } else {
+      setSelectedLanguages(
+        (selectedLanguages ?? []).filter((lang) => e.target.value !== lang)
       );
-
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: values,
-        locationId: values.placeId,
-      });
-
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
-      }
-
-      await Promise.all(requests);
-    } catch (e) {
-      throw e;
     }
   };
 
-  const handleSubmit = async (values: OccurrenceFormFields) => {
-    try {
-      await runSubmitRequests(values);
-      handleGoToPublishing();
-    } catch (e) {
-      // TODO: Improve error handling when API returns more informative errors
-      toast.error(t('createOccurrence.error'));
-    }
-  };
-
-  const handleSubmitAndAdd = async (
-    values: OccurrenceFormFields,
-    action: FormikHelpers<OccurrenceFormFields>
+  const handleSaveEventInfo = async (
+    values: TimeAndLocationFormFields,
+    formikHelpers: FormikHelpers<TimeAndLocationFormFields>
   ) => {
     try {
-      await runSubmitRequests(values);
-      refetchEvent();
-      action.resetForm();
-      action.setValues({
-        ...defaultInitialValues,
-        languages: values.languages,
-        amountOfSeats: values.amountOfSeats,
-        minGroupSize: values.minGroupSize,
-        maxGroupSize: values.maxGroupSize,
-        oneGroupFills: values.oneGroupFills,
-      });
-      scrollToTop();
-      if (isFirstOccurrence) {
-        goToCreateOccurrencePage();
+      if (eventData?.event) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const requests: Promise<any>[] = compact([
+          editEvent({
+            // Do not modify cache because not all fields can be returned from api we want
+            fetchPolicy: 'no-cache',
+            variables: {
+              event: {
+                id: eventData?.event?.id || '',
+                ...getEditEventPayload({
+                  event: eventData?.event,
+                  formValues: values,
+                }),
+              },
+            },
+          }),
+          values.location
+            ? createOrUpdateVenue({
+                venueFormData: {
+                  locationDescription: values.locationDescription,
+                  hasAreaForGroupWork: values.hasAreaForGroupWork,
+                  hasClothingStorage: values.hasClothingStorage,
+                  hasIndoorPlayingArea: values.hasIndoorPlayingArea,
+                  hasOutdoorPlayingArea: values.hasOutdoorPlayingArea,
+                  hasSnackEatingPlace: values.hasSnackEatingPlace,
+                  hasToiletNearby: values.hasToiletNearby,
+                  outdoorActivity: values.outdoorActivity,
+                },
+                locationId: values.location,
+              })
+            : null,
+        ]);
+
+        await Promise.all(requests);
+        formikHelpers.resetForm({ values });
+        refetchEvent();
+        toast(t('eventForm.saveSuccesful'), {
+          type: toast.TYPE.SUCCESS,
+        });
+      } else {
+        throw new Error("Can't submit because event wasn't defined");
       }
     } catch (e) {
-      // TODO: Improve error handling when API returns more informative errors
+      if (isTestEnv()) {
+        // eslint-disable-next-line no-console
+        console.log(e);
+      }
+
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
       });
     }
   };
 
-  const handleDeleteOccurrence = async (
-    occurrence: OccurrenceFieldsFragment
-  ) => {
+  const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const {
+      location,
+      pEvent: {
+        neededOccurrences = undefined,
+        occurrences = undefined,
+        enrolmentEndDays = undefined,
+        enrolmentStart = undefined,
+      } = {},
+    } = eventData?.event ?? {};
+
+    const requiredFieldsSchema = Yup.object().shape({
+      location: Yup.string().required(
+        t('createOccurrence.missingEventInfo.eventLocation')
+      ),
+      enrolmentStart: Yup.date()
+        .typeError(t('createOccurrence.missingEventInfo.enrolmentStartTime'))
+        .required(t('createOccurrence.missingEventInfo.enrolmentStartTime')),
+      enrolmentEndDays: Yup.number()
+        .typeError(t('createOccurrence.missingEventInfo.enrolmentEndDays'))
+        .required(t('createOccurrence.missingEventInfo.enrolmentEndDays')),
+      neededOccurrences: Yup.number()
+        .typeError(t('createOccurrence.missingEventInfo.enrolmentEndDays'))
+        .required(t('createOccurrence.missingEventInfo.enrolmentEndDays')),
+      occurrences: Yup.array().min(
+        1,
+        t('createOccurrence.missingEventInfo.occurrences')
+      ),
+    });
+
     try {
-      await deleteOccurrence({ variables: { input: { id: occurrence.id } } });
-      refetchEvent();
+      // Check that that user has already filled and saved required fields in this form before
+      // navigatin to publishing / summary page
+      requiredFieldsSchema.validateSync(
+        {
+          location: location?.id,
+          enrolmentStart,
+          enrolmentEndDays,
+          neededOccurrences,
+          occurrences: occurrences?.edges,
+        },
+        { abortEarly: false }
+      );
+      // All good, redirect user to summary page for publishing
+      goToSummaryPage();
     } catch (e) {
-      toast(t('occurrences.deleteError'), {
-        type: toast.TYPE.ERROR,
-      });
+      if (e instanceof Yup.ValidationError) {
+        setMissingEventInfoError(e);
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.log(e);
+        }
+      }
     }
   };
 
   return (
     <PageWrapper title="createOccurrence.pageTitle">
       <LoadingSpinner
-        isLoading={eventIsInitialLoading || loadingMyProfile}
+        isLoading={isInitialLoadingEvent || loadingMyProfile}
         hasPadding={false}
       >
         {eventData?.event ? (
@@ -205,34 +314,51 @@ const CreateOccurrencePage: React.FC = () => {
                     {t('createOccurrence.buttonBack')}
                   </BackButton>
                   <div className={styles.headerContainer}>
-                    <h1>
-                      {getLocalizedString(eventData?.event?.name || {}, locale)}
-                    </h1>
+                    <div>
+                      <h1>
+                        {getLocalizedString(
+                          eventData?.event?.name || {},
+                          locale
+                        )}
+                      </h1>
+                      <div className={styles.stepsContainer}>
+                        <EventSteps step={2} />
+                      </div>
+                    </div>
+                    <FormLanguageSelector
+                      selectedLanguages={selectedLanguages ?? []}
+                      onLanguageClick={handleSelectedLanguagesChange}
+                    />
                   </div>
-                  <div className={styles.stepsContainer}>
-                    <EventSteps step={2} />
-                  </div>
-                  {!!comingOccurrences.length && (
-                    <OccurrencesTable
-                      eventData={eventData}
-                      id="coming-occurrences"
-                      occurrences={comingOccurrences}
-                      onDelete={handleDeleteOccurrence}
+                  {initialValues && (
+                    <OccurrenceInfoForm
+                      initialValues={initialValues}
+                      pEventId={eventData.event.pEvent.id}
+                      eventId={eventId}
+                      selectedLanguages={selectedLanguages ?? []}
+                      onSubmit={handleSaveEventInfo}
+                      editEventLoading={editEventLoading}
+                      loadingEvent={loadingEvent}
+                      onGoToPublishingClick={handleGoToPublishingClick}
                     />
                   )}
-                  <EventOccurrenceForm
-                    event={eventData.event}
-                    formTitle={t('createOccurrence.formTitle')}
-                    initialValues={initialFormValues}
-                    onCancel={goToEventSummary}
-                    onSubmit={handleSubmit}
-                    onSubmitAndAdd={handleSubmitAndAdd}
-                    refetchEvent={refetchEvent}
-                    showFirstOccurrenceHelperText={isFirstOccurrence}
-                    showGoToPublishingButton={occurrences.length > 0}
-                    onGoToPublishing={handleGoToPublishing}
-                  />
                 </div>
+                <NotificationModal
+                  isOpen={!!missingEventInfoError}
+                  title={t('createOccurrence.missingEventInfo.modalTitle')}
+                  confirmButtonText={t('common.notificationModal.buttonClose')}
+                  toggleModal={() => setMissingEventInfoError(null)}
+                  onConfirm={() => setMissingEventInfoError(null)}
+                >
+                  <p>
+                    {t('createOccurrence.missingEventInfo.missingInfoTitle')}
+                  </p>
+                  <ul>
+                    {missingEventInfoError?.errors.map((error, i) => (
+                      <li key={i}>{error}</li>
+                    ))}
+                  </ul>
+                </NotificationModal>
               </Container>
             ) : (
               <ErrorPage
@@ -249,38 +375,59 @@ const CreateOccurrencePage: React.FC = () => {
   );
 };
 
-// TODO: maybe could just provide enableReinitialize props form parent component
-// to simplify this. We might not need reinitialization here.
-const useInitialFormValues = (isFirstOccurrence: boolean) => {
-  const searcParams = useSearchParams();
+const OccurrenceInfoForm: React.FC<{
+  pEventId: string;
+  eventId: string;
+  selectedLanguages: Language[];
+  initialValues: TimeAndLocationFormFields;
+  onSubmit: (
+    values: TimeAndLocationFormFields,
+    formikHelpers: FormikHelpers<TimeAndLocationFormFields>
+  ) => void | Promise<void>;
+  editEventLoading: boolean;
+  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
+  loadingEvent: boolean;
+}> = ({
+  pEventId,
+  eventId,
+  selectedLanguages,
+  onSubmit,
+  initialValues,
+  editEventLoading,
+  onGoToPublishingClick,
+  loadingEvent,
+}) => {
+  const { t } = useTranslation();
 
-  const getInitialFormValues = () => {
-    // initial pre-filled values from event wizard step 1
-    const initialDate = searcParams.get('date');
-    const initialStartsAt = searcParams.get('startsAt');
-    const initialEndsAt = searcParams.get('endsAt');
-
-    // if is first occurrence, use pre-filled values from event form (query params)
-    if (isFirstOccurrence && initialDate && initialEndsAt && initialStartsAt) {
-      if (
-        isValidDate(new Date(initialDate)) &&
-        isValidTime(initialStartsAt) &&
-        isValidTime(initialEndsAt)
-      ) {
-        return {
-          ...defaultInitialValues,
-          date: new Date(initialDate),
-          startsAt: initialStartsAt,
-          endsAt: initialEndsAt,
-        };
-      }
-    }
-    return defaultInitialValues;
-  };
-
-  // we don't want the initialValues to update because we don't
-  // want form to reset to those on subsequent renders
-  return React.useMemo(getInitialFormValues, []);
+  return (
+    <Formik<TimeAndLocationFormFields>
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={ValidationSchema}
+    >
+      {({ dirty }) => (
+        <Form className={styles.occurrencesForm} noValidate>
+          <FocusToFirstError />
+          <LocationFormPart selectedLanguages={selectedLanguages} />
+          <EnrolmentInfoFormPart />
+          <OccurrencesFormPart pEventId={pEventId} eventId={eventId} />
+          <div className={styles.submitButtons}>
+            <Button disabled={editEventLoading || !dirty} type="submit">
+              {t('eventForm.buttonSave')}
+            </Button>
+            <Button
+              variant="secondary"
+              type="button"
+              disabled={editEventLoading || loadingEvent}
+              onClick={onGoToPublishingClick}
+            >
+              {t('createOccurrence.buttonGoToPublishing')}
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
 };
 
 export default CreateOccurrencePage;

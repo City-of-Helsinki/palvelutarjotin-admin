@@ -17,8 +17,6 @@ export enum SUPPORT_LANGUAGES {
   EN = 'en',
 }
 
-export const supportedLanguages = Object.values(SUPPORT_LANGUAGES);
-
 export enum LINKEDEVENTS_CONTENT_TYPE {
   IMAGE = 'image',
   KEYWORD = 'keyword',

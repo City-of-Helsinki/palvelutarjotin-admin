@@ -32,8 +32,12 @@ const EventCategorisation: React.FC<Props> = ({ eventData, language }) => {
   // Get keywords that are not already included in categories or activities
   const filteredKeywords = keywords?.filter(
     (keyword) =>
-      !categories?.find((category) => category.id === keyword.id) &&
-      !additionalCriteria?.find((activity) => activity.id === keyword.id)
+      !categories?.find(
+        (category) => category.internalId === keyword.internalId
+      ) &&
+      !additionalCriteria?.find(
+        (activity) => activity.internalId === keyword.internalId
+      )
   );
 
   const createLink = (prefix: string, url: string) => (

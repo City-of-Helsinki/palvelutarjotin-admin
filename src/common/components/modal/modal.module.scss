@@ -97,3 +97,8 @@
 .alertModal {
   border-color: var(--border-color-modal-alert);
 }
+
+.notificationButtonWrapper {
+  display: flex;
+  margin-top: var(--spacing-3-xl);
+}

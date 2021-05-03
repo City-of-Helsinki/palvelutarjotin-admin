@@ -1,10 +1,11 @@
 import { compact } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventQuery,
   useEditEventMutation,
@@ -22,19 +23,19 @@ import { PUBLICATION_STATUS } from '../events/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { getPersons } from '../organisation/oranisationUtils';
 import EventForm, { eventInitialValues } from './eventForm/EventForm';
-import {
-  useCreateOrUpdateVenueRequest,
-  useUpdateImageRequest,
-} from './eventForm/useEventFormSubmitRequests';
+import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
-import { EventFormFields } from './types';
+import { CreateEventFormFields } from './types';
 import {
+  getEditEventPayload,
   getEventFormValues,
-  getEventLanguageFromUrl,
-  getEventPayload,
-  getFirstAvailableLanguage,
   isEditableEvent,
+  omitUnselectedLanguagesFromValues,
 } from './utils';
+
+export enum EDIT_EVENT_QUERY_PARAMS {
+  NAVIGATED_FROM = 'navigatedFrom',
+}
 
 export enum NAVIGATED_FROM {
   OCCURRENCES = 'occurrences',
@@ -42,7 +43,7 @@ export enum NAVIGATED_FROM {
 }
 
 const useEventFormEditSubmit = (
-  initialValues: EventFormFields,
+  initialValues: CreateEventFormFields,
   eventData: EventQuery | undefined
 ) => {
   const { id } = useParams<{ id: string }>();
@@ -50,9 +51,10 @@ const useEventFormEditSubmit = (
   const locale = useLocale();
   const history = useHistory();
   const [editEvent] = useEditEventMutation();
-  const createOrUpdateVenueRequestHandler = useCreateOrUpdateVenueRequest();
   const updateImageRequestHandler = useUpdateImageRequest();
-  const navigatedFrom = useSearchParams().get('navigationFrom');
+  const navigatedFrom = useSearchParams().get(
+    EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM
+  );
 
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
@@ -72,43 +74,61 @@ const useEventFormEditSubmit = (
     }
   };
 
-  const shouldSaveImage = (values: EventFormFields): boolean =>
+  const shouldSaveImage = (values: CreateEventFormFields): boolean =>
     !!values.image &&
     (values.image !== initialValues.image ||
       values.imageAltText !== initialValues.imageAltText ||
       values.imagePhotographerName !== initialValues.imagePhotographerName);
 
-  const submit = async (values: EventFormFields) => {
+  const submit = async (
+    values: CreateEventFormFields,
+    selectedLanguages: Language[]
+  ) => {
+    const existingEventValues = eventData?.event;
+
+    const unselectedLanguages = Object.values(SUPPORT_LANGUAGES).filter(
+      (lang) => !selectedLanguages.includes(lang)
+    );
+
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const requests: Promise<any>[] = compact([
-        editEvent({
-          variables: {
-            event: {
-              id: eventData?.event?.id || '',
-              ...getEventPayload({
-                values,
-                organisationId:
-                  eventData?.event?.pEvent?.organisation?.id ?? '',
-              }),
-              // endTime needed
-              // eslint-disable-next-line max-len
-              // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
-              endTime: eventData?.event?.endTime,
-              draft:
-                eventData?.event?.publicationStatus ===
-                PUBLICATION_STATUS.DRAFT,
+      if (existingEventValues) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const requests: Promise<any>[] = compact([
+          editEvent({
+            variables: {
+              event: {
+                id: eventData?.event?.id || '',
+                ...getEditEventPayload({
+                  formValues: omitUnselectedLanguagesFromValues(
+                    values,
+                    unselectedLanguages
+                  ),
+                  existingEventValues,
+                  organisationId:
+                    eventData?.event?.pEvent?.organisation?.id ?? '',
+                }),
+                // endTime needed
+                // eslint-disable-next-line max-len
+                // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
+                endTime: eventData?.event?.endTime,
+                draft:
+                  eventData?.event?.publicationStatus ===
+                  PUBLICATION_STATUS.DRAFT,
+              },
             },
-          },
-        }),
-        createOrUpdateVenueRequestHandler(values),
-        shouldSaveImage(values) ? updateImageRequestHandler(values) : undefined,
-      ]);
+          }),
+          shouldSaveImage(values)
+            ? updateImageRequestHandler(values)
+            : undefined,
+        ]);
 
-      // Run all requests parallel
-      await Promise.all(requests);
+        // Run all requests parallel
+        await Promise.all(requests);
 
-      navigateAfterSave();
+        navigateAfterSave();
+      } else {
+        throw new Error('Existing event values missing!');
+      }
     } catch (e) {
       if (isTestEnv()) {
         // eslint-disable-next-line no-console
@@ -126,14 +146,11 @@ const useEventFormEditSubmit = (
 
 const EditEventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const language = getEventLanguageFromUrl(location.search);
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const [selectedLanguage, setSelectedLanguage] = useState(language || locale);
 
-  const [initialValues, setInitialValues] = useState<EventFormFields>(
+  const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     eventInitialValues
   );
 
@@ -144,6 +161,7 @@ const EditEventPage: React.FC = () => {
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
+
   const organisation = eventData?.event?.pEvent?.organisation;
   const persons = getPersons(organisation);
 
@@ -153,23 +171,9 @@ const EditEventPage: React.FC = () => {
 
   useEffect(() => {
     if (eventData) {
-      setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
-    }
-  }, [eventData, language]);
-
-  useEffect(() => {
-    if (eventData) {
       setInitialValues(getEventFormValues(eventData));
     }
   }, [eventData]);
-
-  const handleLanguageChange = (newLanguage: Language) => {
-    history.push({
-      pathname: `/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
-      search: `?language=${newLanguage}`,
-    });
-    setSelectedLanguage(newLanguage);
-  };
 
   const onSubmit = useEventFormEditSubmit(initialValues, eventData);
 
@@ -185,14 +189,12 @@ const EditEventPage: React.FC = () => {
                     organisationId={organisation?.id ?? ''}
                   />
                   <EventForm
-                    edit
+                    formType="edit"
                     eventData={eventData}
                     initialValues={initialValues}
                     onCancel={goToEventDetailsPage}
                     onSubmit={onSubmit}
                     persons={persons}
-                    selectedLanguage={selectedLanguage}
-                    setSelectedLanguage={handleLanguageChange}
                     title={t('editEvent.title')}
                   />
                 </div>

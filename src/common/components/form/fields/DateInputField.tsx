@@ -10,7 +10,7 @@ import { getErrorText } from '../utils';
 
 type Props = FieldProps & Omit<TextInputProps, 'form'>;
 
-const InputField: React.FC<Props> = (props) => {
+const DateInputField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
     className,
@@ -54,4 +54,4 @@ const InputField: React.FC<Props> = (props) => {
   );
 };
 
-export default InputField;
+export default DateInputField;

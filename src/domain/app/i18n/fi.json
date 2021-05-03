@@ -21,6 +21,9 @@
     "alertModal": {
       "buttonCancel": "Peruuta"
     },
+    "notificationModal": {
+      "buttonClose": "Sulje"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Poista arvo",
@@ -303,10 +306,12 @@
       "photographer": "Valokuvaaja",
       "title": "Tapahtuman perustiedot"
     },
+    "formLanguageSelectorTitle": "Valitse lomakkeen kieliversiot",
     "buttonCancel": "Peruuta",
-    "buttonSave": "Tallenna",
+    "buttonSave": "Tallenna tiedot",
     "buttonSaveAndGoToOccurrences": "Tallenna ja siirry tapahtuma-aikoihin",
     "buttonSaveDraft": "Tallenna luonnos",
+    "saveSuccesful": "Tiedot tallennettu",
     "occurrenceTime": {
       "titleOccurrenceTime": "Tapahtuman ajankohta",
       "occurrenceTimeHelperText": "Ensimmäinen tapahtuma-aika. Loput tapahtuma-ajat ja niiden lisätiedot syötetään vaiheessa 2."
@@ -342,11 +347,18 @@
       "labelPhone": "Puhelinnumero",
       "title": "Yhteyshenkilö"
     },
+    "enrolment": {
+      "title": "Ilmoittautuminen",
+      "labelExternalEnrolment": "Ilmoittautuminen ohjataan eri sivustolle",
+      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle",
+      "labelEnrolmentRequired": "Tapahtuma-aikoihin osallistuminen edellyttää ilmoittautumista"
+    },
     "location": {
       "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
       "labelLocation": "Oletustapahtumapaikka",
       "placeholderLocation": "Etsi tapahtumapaikkaa...",
-      "title": "Tapahtumapaikka"
+      "title": "Tapahtumapaikka",
+      "labelEventIsHeldVirtual": "Tapahtuma järjestetään virtuaalisesti"
     },
     "accessibility": {
       "audienceDropdown": {
@@ -365,6 +377,11 @@
         "clearButtonAriaLabel": "Poista kaikki kielivalinnat",
         "selectedItemRemoveButtonAriaLabel": "Poista kielivalinta"
       }
+    },
+    "occurrences": {
+      "occurrencesFormSectionTitle": "Tapahtuma-aika",
+      "labelEventHasNoOccurrences": "Tapahtumalla ei ole lukittua ajankohtaa",
+      "buttonAddNewOccurence": "Lisää uusi tapahtuma"
     }
   },
   "events": {
@@ -408,7 +425,15 @@
     "formTitle": "Lisää uusi tapahtuma-aika",
     "pageTitle": "Uusi tapahtuma-aika",
     "buttonSaveAndGoToPublishing": "Tallenna ja siirry julkaisuun",
-    "buttonGoToPublishing": "Siirry julkaisuun"
+    "buttonGoToPublishing": "Siirry julkaisuun",
+    "missingEventInfo": {
+      "modalTitle": "Tapahtumasta puuttuu tietoja",
+      "missingInfoTitle": "Puuttuvat tiedot",
+      "eventLocation": "Tapahtuman sijainti",
+      "enrolmentStartTime": "Ilmoittautumisen alkamisaika",
+      "enrolmentEndDays": "Ilmoittautumisen päättyminen",
+      "occurrences": "Tapahtumalla on oltava ainakin yksi tapahtuma-aika"
+    }
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",
@@ -423,13 +448,13 @@
     "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "helpTextFirstOccurrence": "Täydennä ensimmäisen tapahtuma-ajan tiedot",
     "labelDate": "Päivämäärä",
-    "labelStartsAt": "Alkaa klo",
-    "labelEndsAt": "Loppuu klo",
+    "labelStartsAt": "Alkaa",
+    "labelEndsAt": "Päättyy",
     "labelEnrolmentStarts": "Ilmoittautuminen alkaa",
     "labelLanguages": "Tapahtuman kieli",
-    "labelAmountOfSeats": "Paikkoja yhteensä",
-    "labelGroupSizeMin": "Ryhmäkoko min",
-    "labelGroupSizeMax": "Ryhmäkoko max",
+    "labelAmountOfSeats": "Paikkoja",
+    "labelGroupSizeMin": "Min",
+    "labelGroupSizeMax": "Max",
     "labelAutoAcceptance": "Vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa",
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
@@ -587,7 +612,13 @@
       "columnTime": "Kellonaika",
       "labelChooseAllOccurrences": "Valitse kaikki tapahtuma-ajat",
       "labelChooseOccurrence": "Valitse tapahtuma-aika {{info}}",
-      "oneGroup": "1 ryhmä"
+      "oneGroup": "1 ryhmä",
+      "columnStarts": "Alkaa",
+      "columnEnds": "Päättyy",
+      "columnLanguages": "Tapahtuman kieli",
+      "columnMaxGroupSize": "Min",
+      "columnMinGroupSize": "Max",
+      "buttonDeleteOccurrence": "Poista tapahtuma-aika"
     },
     "publishSection": {
       "optionNow": "Heti",
