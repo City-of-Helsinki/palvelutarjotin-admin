@@ -19,13 +19,13 @@ export default function useSelectableEventLanguages(
     'fi',
   ]);
 
-  const setSelectedLanguageVersions = () => {
+  const setSelectedLanguageVersions = React.useCallback(() => {
     const langs = Object.entries(initialValues.name).reduce<string[]>(
       (prev, [lang, value]) => (value ? [...prev, lang] : prev),
       []
     );
     setSelectedLanguages(langs as Language[]);
-  };
+  }, [initialValues]);
 
   const handleSelectedLanguagesChange = (
     e: React.ChangeEvent<HTMLInputElement>
