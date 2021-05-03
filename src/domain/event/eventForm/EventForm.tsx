@@ -87,7 +87,6 @@ const EventForm = <T extends FormFields>({
 
   const {
     selectedLanguages,
-    setSelectedLanguages,
     sortedSelectedLanguages,
     setSelectedLanguageVersions,
     handleSelectedLanguagesChange,
@@ -97,13 +96,7 @@ const EventForm = <T extends FormFields>({
     if (initialValues.name && isPrefilledForm) {
       setSelectedLanguageVersions();
     }
-  }, [
-    formType,
-    initialValues.name,
-    isPrefilledForm,
-    setSelectedLanguageVersions,
-    setSelectedLanguages,
-  ]);
+  }, [initialValues, isPrefilledForm, setSelectedLanguageVersions]);
 
   const validationSchema = React.useMemo(() => {
     return createValidationSchema(selectedLanguages as Language[]);
