@@ -104,10 +104,10 @@ const EditOccurrenceButton: React.FC<{
 
   const goToEditOccurrencePage = () => {
     history.push(
-      `/${locale}${ROUTES.EDIT_OCCURRENCE.replace(':id', eventId || '').replace(
-        ':occurrenceId',
-        occurrenceId
-      )}`
+      `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(
+        ':id',
+        eventId || ''
+      ).replace(':occurrenceId', occurrenceId)}`
     );
   };
 

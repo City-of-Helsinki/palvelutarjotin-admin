@@ -1,20 +1,21 @@
-import omit from 'lodash/omit';
-
 import {
   CreateVenueDocument,
   CreateVenueMutation,
   EditVenueDocument,
   EditVenueMutation,
   Language as TranslationLanguage,
+  LocalisedObject,
   VenueDocument,
   VenueNode,
   VenueQuery,
+  VenueTranslationsInput,
+  VenueTranslationType,
 } from '../../generated/graphql';
 import { Language } from '../../types';
 import apolloClient from '../app/apollo/apolloClient';
 import { VenueDataFields } from './types';
 
-const VENUE_AMENITIES = [
+export const VENUE_AMENITIES = [
   'hasClothingStorage',
   'hasSnackEatingPlace',
   'hasToiletNearby',
@@ -25,17 +26,26 @@ const VENUE_AMENITIES = [
 ] as const;
 
 export const getVenueDescription = (
-  venueData: VenueQuery | undefined | null,
-  selectedLanguage: Language
-): string =>
-  venueData?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
+  venue: VenueNode | undefined | null
+): LocalisedObject | undefined =>
+  venue?.translations?.reduce<LocalisedObject>(
+    (result, { languageCode, description }) => ({
+      ...result,
+      [languageCode.toLowerCase()]: description,
+    }),
+    {}
+  );
+
+export const getVenueDescriptions = (
+  venueData: VenueQuery | undefined | null
+): Pick<VenueTranslationType, 'languageCode' | 'description'>[] =>
+  venueData?.venue?.translations.map((t) => ({
+    description: t.description,
+    languageCode: t.languageCode,
+  })) ?? [];
 
 export const getVenuePayload = ({
   locationId,
-  venueData,
-  language,
   formValues: {
     locationDescription,
     hasClothingStorage,
@@ -48,9 +58,7 @@ export const getVenuePayload = ({
   },
 }: {
   formValues: VenueDataFields;
-  language: Language;
   locationId: string;
-  venueData: VenueQuery;
 }) => {
   return {
     venue: {
@@ -62,15 +70,15 @@ export const getVenuePayload = ({
       hasAreaForGroupWork,
       hasIndoorPlayingArea,
       hasOutdoorPlayingArea,
-      translations: [
-        ...(venueData?.venue?.translations
-          .map((t) => omit(t, ['__typename']))
-          .filter((t) => t.languageCode !== language.toUpperCase()) || []),
-        {
-          languageCode: language.toUpperCase() as TranslationLanguage,
-          description: locationDescription,
-        },
-      ],
+      translations: Object.keys(locationDescription).reduce((acc, lang) => {
+        return [
+          ...acc,
+          {
+            languageCode: lang.toUpperCase() as TranslationLanguage,
+            description: locationDescription[lang as Language],
+          },
+        ] as VenueTranslationsInput[];
+      }, [] as VenueTranslationsInput[]),
     },
   };
 };
@@ -87,13 +95,29 @@ export const hasAmenitiesChanged = (
   return VENUE_AMENITIES.some((field) => a[field] !== b[field]);
 };
 
+// TODO: FIX synonym problem with locationDescription and venueDescription (they are the same thing)
+const hasDescriptionsChanged = (
+  existingVenueDescriptions: Pick<
+    VenueTranslationType,
+    'languageCode' | 'description'
+  >[],
+  formDescriptions: LocalisedObject
+): boolean => {
+  return Object.entries(formDescriptions).some(([lang, formDescription]) => {
+    return (
+      existingVenueDescriptions.find(
+        (description) =>
+          description.languageCode.toLowerCase() === lang.toLowerCase()
+      )?.description !== formDescription
+    );
+  });
+};
+
 export const createOrUpdateVenue = async ({
   venueFormData,
-  language,
   locationId,
 }: {
   venueFormData: VenueDataFields;
-  language: Language;
   locationId: string;
 }) => {
   try {
@@ -102,11 +126,14 @@ export const createOrUpdateVenue = async ({
       variables: { id: locationId },
     });
 
-    const venueDescription = getVenueDescription(existingVenueData, language);
+    const venueDescription = getVenueDescriptions(existingVenueData);
 
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
-        (venueFormData.locationDescription !== venueDescription ||
+        (hasDescriptionsChanged(
+          venueDescription,
+          venueFormData.locationDescription
+        ) ||
           hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData))
     );
 
@@ -117,9 +144,7 @@ export const createOrUpdateVenue = async ({
 
     const variables = getVenuePayload({
       formValues: venueFormData,
-      language,
       locationId,
-      venueData: existingVenueData,
     });
 
     if (venueShouldBeUpdated) {

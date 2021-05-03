@@ -54,7 +54,7 @@ it('navigates correctly from actions', () => {
   userEvent.click(screen.getByRole('menuitem', { name: 'Muokkaa' }));
 
   expect(historyPush).toHaveBeenCalledWith(
-    `/fi${ROUTES.EDIT_OCCURRENCE.replace(':id', eventId).replace(
+    `/fi${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId).replace(
       ':occurrenceId',
       occurrenceId
     )}`

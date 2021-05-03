@@ -1,13 +1,34 @@
-import { VenueDataFields } from '../venue/types';
+import { SUPPORT_LANGUAGES } from '../../constants';
 
-export interface OccurrenceFormFields extends VenueDataFields {
-  date: Date | null;
-  startsAt: string;
-  endsAt: string;
+export interface OccurrenceSectionFormFields {
+  startTime: Date | null;
+  endTime: Date | null;
   languages: string[];
-  placeId: string;
+  occurrenceLocation: string;
   amountOfSeats: string;
   maxGroupSize: string;
   minGroupSize: string;
   oneGroupFills: boolean;
 }
+
+export type LocationDescriptions = { [K in SUPPORT_LANGUAGES]: string };
+
+export type TimeAndLocationFormFields = {
+  location: string;
+  isVirtual: boolean;
+  enrolmentNeeded: boolean;
+  externalEnrolment: boolean;
+  externalEnrolmentUrl: string;
+  enrolmentStart: Date | null;
+  enrolmentEndDays: number | string;
+  neededOccurrences: number | string;
+  autoAcceptance: boolean;
+  locationDescription: LocationDescriptions;
+  hasClothingStorage: boolean;
+  hasSnackEatingPlace: boolean;
+  outdoorActivity: boolean;
+  hasToiletNearby: boolean;
+  hasAreaForGroupWork: boolean;
+  hasIndoorPlayingArea: boolean;
+  hasOutdoorPlayingArea: boolean;
+};

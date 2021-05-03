@@ -22,7 +22,7 @@ export const useKeywordOptions = () => {
 
   const keywordSetToOptions = (keywordSet?: KeywordSet | null) =>
     keywordSet?.keywords.map((k: Keyword) => ({
-      value: k.id,
+      value: k.internalId,
       label: getLocalizedString(k.name || {}, locale),
     })) || [];
 

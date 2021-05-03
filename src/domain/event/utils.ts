@@ -18,13 +18,14 @@ import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
+import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
 } from './constants';
-import { CreateEventFormFields, EventFormFields } from './types';
-
+import { createEventInitialValues } from './eventForm/EventForm';
+import { CreateEventFormFields } from './types';
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -93,10 +94,12 @@ export const getEventLanguageFromUrl = (search: string): Language | null => {
  * @param {object} eventData
  * @return {string}
  */
-export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
-  if (eventData.event?.name.fi) return SUPPORT_LANGUAGES.FI;
-  if (eventData.event?.name.sv) return SUPPORT_LANGUAGES.SV;
-  if (eventData.event?.name.en) return SUPPORT_LANGUAGES.EN;
+export const getFirstAvailableLanguage = (
+  eventData?: EventQuery | null
+): Language => {
+  if (eventData?.event?.name.fi) return SUPPORT_LANGUAGES.FI;
+  if (eventData?.event?.name.sv) return SUPPORT_LANGUAGES.SV;
+  if (eventData?.event?.name.en) return SUPPORT_LANGUAGES.EN;
 
   return SUPPORT_LANGUAGES.FI;
 };
@@ -107,52 +110,45 @@ export const getFirstAvailableLanguage = (eventData: EventQuery): Language => {
  * @return {object}
  */
 export const getEventPayload = ({
-  values,
+  formValues,
   organisationId,
-  selectedLanguage,
 }: {
-  values: EventFormFields;
+  formValues: CreateEventFormFields;
   organisationId: string;
-  selectedLanguage: Language;
 }) => {
-  const { keywords, additionalCriteria, categories } = values;
+  const { keywords, additionalCriteria, categories } = formValues;
   return {
-    name: { [selectedLanguage]: values.name },
+    name: getLocalisedObject(formValues.name),
     // start_date and offers are mandatory on LinkedEvents to use dummy data
     startTime: new Date().toISOString(),
     offers: [
       {
-        isFree: values.isFree,
+        isFree: formValues.isFree,
         price: {
-          [selectedLanguage]: values.price,
+          fi: formValues.price.toString(),
+          en: formValues.price.toString(),
+          sv: formValues.price.toString(),
         },
-        description: {
-          [selectedLanguage]: values.priceDescription,
-        },
+        description: getLocalisedObject(formValues.priceDescription),
       },
     ],
-    shortDescription: {
-      [selectedLanguage]: values.shortDescription,
-    },
-    description: { [selectedLanguage]: values.description },
-    images: values.image
+    shortDescription: getLocalisedObject(formValues.shortDescription),
+    description: getLocalisedObject(formValues.description),
+    images: formValues.image
       ? [
           {
             internalId: getLinkedEventsInternalId(
               LINKEDEVENTS_CONTENT_TYPE.IMAGE,
-              values.image
+              formValues.image
             ),
           },
         ]
       : [],
-    infoUrl: { [selectedLanguage]: values.infoUrl },
-    audience: values.audience.map((keyword) => ({
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-        keyword
-      ),
+    infoUrl: getLocalisedObject(formValues.infoUrl),
+    audience: formValues.audience.map((keyword) => ({
+      internalId: keyword,
     })),
-    inLanguage: values.inLanguage.map((language) => ({
+    inLanguage: formValues.inLanguage.map((language) => ({
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
         language
@@ -161,40 +157,102 @@ export const getEventPayload = ({
     // keywords, additionalCriteria and categories all belond to keywords in linked events
     keywords: [...keywords, ...additionalCriteria, ...categories].map(
       (keyword) => ({
-        internalId: getLinkedEventsInternalId(
-          LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
-          keyword
-        ),
+        internalId: keyword,
       })
     ),
-    location: {
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.PLACE,
-        // If event is virtual, we use location id for internet events
-        values.isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.location
-      ),
-    },
     pEvent: {
-      contactEmail: values.contactEmail,
-      contactPersonId: values.contactPersonId,
-      contactPhoneNumber: values.contactPhoneNumber,
-      enrolmentEndDays: Number(values.enrolmentEndDays),
-      enrolmentStart: values.enrolmentStart,
-      neededOccurrences: Number(values.neededOccurrences),
-      autoAcceptance: values.autoAcceptance,
-      mandatoryAdditionalInformation: values.mandatoryAdditionalInformation,
+      contactEmail: formValues.contactEmail,
+      contactPersonId: formValues.contactPersonId,
+      contactPhoneNumber: formValues.contactPhoneNumber,
+      neededOccurrences: 1,
+      mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
     },
     organisationId,
   };
 };
 
-export const getEventVenueDescription = (
-  eventData: EventQuery | null,
-  selectedLanguage: Language
-): string =>
-  eventData?.event?.venue?.translations.find(
-    (t) => t.languageCode === selectedLanguage.toUpperCase()
-  )?.description || '';
+export const getEditEventPayload = ({
+  formValues,
+  existingEventValues,
+  organisationId,
+}: {
+  formValues: CreateEventFormFields;
+  existingEventValues: EventFieldsFragment;
+  organisationId: string;
+}) => {
+  const { keywords, additionalCriteria, categories } = formValues;
+  return {
+    name: getLocalisedObject(formValues.name),
+    // start_date and offers are mandatory on LinkedEvents to use dummy data
+    startTime: new Date().toISOString(),
+    offers: [
+      {
+        isFree: formValues.isFree,
+        price: {
+          fi: formValues.price.toString(),
+          en: formValues.price.toString(),
+          sv: formValues.price.toString(),
+        },
+        description: getLocalisedObject(formValues.priceDescription),
+      },
+    ],
+    shortDescription: getLocalisedObject(formValues.shortDescription),
+    description: getLocalisedObject(formValues.description),
+    images: formValues.image
+      ? [
+          {
+            internalId: getLinkedEventsInternalId(
+              LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+              formValues.image
+            ),
+          },
+        ]
+      : [],
+    infoUrl: getLocalisedObject(formValues.infoUrl),
+    audience: formValues.audience.map((keyword) => ({
+      internalId: keyword,
+    })),
+    inLanguage: formValues.inLanguage.map((language) => ({
+      internalId: getLinkedEventsInternalId(
+        LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+        language
+      ),
+    })),
+    // keywords, additionalCriteria and categories all belond to keywords in linked events
+    keywords: [...keywords, ...additionalCriteria, ...categories].map(
+      (keyword) => ({
+        internalId: keyword,
+      })
+    ),
+    // Add location to payload if it has been already added previously
+    ...(existingEventValues.location
+      ? {
+          location: { internalId: existingEventValues.location.internalId },
+        }
+      : null),
+    pEvent: {
+      contactEmail: formValues.contactEmail,
+      contactPersonId: formValues.contactPersonId,
+      contactPhoneNumber: formValues.contactPhoneNumber,
+      ...(existingEventValues.pEvent.enrolmentEndDays
+        ? {
+            enrolmentEndDays:
+              Number(existingEventValues.pEvent.enrolmentEndDays) ?? 0,
+          }
+        : null),
+      ...(existingEventValues.pEvent.enrolmentStart
+        ? {
+            enrolmentStart: existingEventValues.pEvent.enrolmentStart,
+          }
+        : null),
+      neededOccurrences:
+        Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
+      autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
+      mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
+    },
+    organisationId,
+  };
+};
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
@@ -289,7 +347,7 @@ export const getPublishEventPayload = ({
   return {
     id: event.id,
     location: {
-      internalId: event.location.internalId,
+      internalId: event.location?.internalId,
     },
     keywords: event.keywords.map((k) => ({ internalId: k.internalId })),
     offers: event.offers,
@@ -305,22 +363,9 @@ export const getPublishEventPayload = ({
   };
 };
 
-export const firstOccurrencePrefilledValuesToQuery = (
-  values: CreateEventFormFields
-) => {
-  const params = new URLSearchParams();
-  if (values.occurrenceDate) {
-    params.append('date', values.occurrenceDate.toISOString());
-  }
-  params.append('startsAt', values.occurrenceStartsAt);
-  params.append('endsAt', values.occurrenceEndsAt);
-
-  return params.toString();
-};
-
 /**
  * Check is event free
- * @param eventData
+ * @param event
  * @return {boolean}
  */
 export const isEventFree = (event: EventFieldsFragment): boolean =>
@@ -332,13 +377,71 @@ export const getRealKeywords = (
   const { additionalCriteria, categories } = eventData.event || {};
   return eventData?.event?.keywords.filter((keyword) => {
     const keywordIsIncludedInCategories = categories?.find(
-      (category) => category.id === keyword.id
+      (category) => category.internalId === keyword.internalId
     );
     const keywordIsIncludedInAdditionalCriteria = additionalCriteria?.find(
-      (additionalCriteria) => additionalCriteria.id === keyword.id
+      (additionalCriteria) =>
+        additionalCriteria.internalId === keyword.internalId
     );
     return !(
       keywordIsIncludedInCategories || keywordIsIncludedInAdditionalCriteria
     );
+  });
+};
+
+export const getLocationId = (
+  locationId: string | undefined | null
+): string => {
+  // If location id is virtual event location, we are not going to show it as location.
+  // Only virtual location checkbox should be checked.
+  if (locationId !== VIRTUAL_EVENT_LOCATION_ID) {
+    return locationId ?? '';
+  }
+  return '';
+};
+
+export const getEventFormValues = (
+  eventData: EventQuery
+): CreateEventFormFields => ({
+  ...createEventInitialValues,
+  additionalCriteria:
+    eventData.event?.additionalCriteria.map((item) => item.internalId || '') ||
+    [],
+  categories:
+    eventData.event?.categories.map((item) => item.internalId || '') || [],
+  audience:
+    eventData.event?.audience.map((item) => item.internalId || '') || [],
+  contactEmail: eventData.event?.pEvent?.contactEmail || '',
+  contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
+  contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
+  description: getLocalisedObject(eventData.event?.description),
+  image: eventData.event?.images[0]?.id || '',
+  imageAltText: eventData.event?.images[0]?.altText || '',
+  imagePhotographerName: eventData.event?.images[0]?.photographerName || '',
+  infoUrl: getLocalisedObject(eventData.event?.infoUrl),
+  inLanguage: eventData.event?.inLanguage.map((item) => item.id || '') || [],
+  isFree: !!eventData.event?.offers?.[0]?.isFree,
+  priceDescription: getLocalisedObject(
+    eventData.event?.offers?.[0]?.description
+  ),
+  keywords:
+    getRealKeywords(eventData)?.map((keyword) => keyword.internalId || '') ||
+    [],
+  name: getLocalisedObject(eventData.event?.name),
+  price: eventData.event?.offers?.[0]?.price?.fi ?? '',
+  shortDescription: getLocalisedObject(eventData.event?.shortDescription),
+  mandatoryAdditionalInformation:
+    eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
+});
+
+export const omitUnselectedLanguagesFromValues = (
+  values: CreateEventFormFields,
+  unselectedLanguages: Language[]
+) => {
+  return JSON.parse(JSON.stringify(values), (key: string, value: any) => {
+    if (unselectedLanguages.includes(key as Language)) {
+      return '';
+    }
+    return value;
   });
 };

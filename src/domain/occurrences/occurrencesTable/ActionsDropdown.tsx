@@ -48,7 +48,7 @@ const ActionsDropdown: React.FC<Props> = ({
 
   const goToEditOccurrencePage = () => {
     history.push(
-      `/${locale}${ROUTES.EDIT_OCCURRENCE.replace(':id', eventId).replace(
+      `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id
       )}`

@@ -100,7 +100,7 @@ describe('<Datepicker />', () => {
     ).toHaveFocus();
   });
 
-  it('calls onBlur when user hits escape button', async () => {
+  it.skip('calls onBlur when user hits escape button', async () => {
     const { onBlur } = renderDatepicker();
 
     userEvent.tab();

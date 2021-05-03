@@ -23,6 +23,12 @@
     left: 2px;
     padding: var(--spacing-xs);
     font-size: var(--fontsize-single-value);
+    background-color: white;
+    width: calc(100% - 30px);
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .multiValueWrapper {

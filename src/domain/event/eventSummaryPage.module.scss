@@ -37,6 +37,10 @@
     }
   }
 
+  .summarySection {
+    margin: var(--spacing-xl) 0;
+  }
+
   .count {
     font-weight: normal;
     margin-left: 0.5rem;
@@ -56,7 +60,7 @@
 
   .titleRow {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     grid-gap: (var(--grid-gap));
     align-items: center;
     margin: 1rem 0 2rem;

@@ -180,7 +180,8 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const ensureCalendarIsClosed = React.useCallback(() => {
     if (isCalendarOpen) {
       setIsCalendarOpen(false);
-      onBlur && onBlur();
+      // Use setTimeout so Formik validation doesn't get confused when onChange and blur happens at the same time.
+      onBlur && setTimeout(onBlur, 0);
     }
   }, [isCalendarOpen, onBlur]);
 

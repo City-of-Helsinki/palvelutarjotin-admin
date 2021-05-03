@@ -1,14 +1,15 @@
-import * as React from 'react';
+import { compact } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { SUPPORT_LANGUAGES } from '../../constants';
 import {
-  PersonFieldsFragment,
+  EventQuery,
   useEditEventMutation,
   useEventQuery,
-  useUpdateSingleImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
@@ -19,63 +20,41 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { getImageName } from '../image/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { createOrUpdateVenue } from '../venue/utils';
-import { VIRTUAL_EVENT_LOCATION_ID } from './constants';
-import EventForm, { defaultInitialValues } from './eventForm/EventForm';
+import { getPersons } from '../organisation/oranisationUtils';
+import EventForm, { eventInitialValues } from './eventForm/EventForm';
+import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
-import { EventFormFields } from './types';
+import { CreateEventFormFields } from './types';
 import {
-  getEventLanguageFromUrl,
-  getEventPayload,
-  getEventVenueDescription,
-  getFirstAvailableLanguage,
-  getRealKeywords,
+  getEditEventPayload,
+  getEventFormValues,
   isEditableEvent,
+  omitUnselectedLanguagesFromValues,
 } from './utils';
+
+export enum EDIT_EVENT_QUERY_PARAMS {
+  NAVIGATED_FROM = 'navigatedFrom',
+}
 
 export enum NAVIGATED_FROM {
   OCCURRENCES = 'occurrences',
   EVENT_SUMMARY = 'eventSummary',
 }
 
-const EditEventPage: React.FC = () => {
+const useEventFormEditSubmit = (
+  initialValues: CreateEventFormFields,
+  eventData: EventQuery | undefined
+) => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const language = getEventLanguageFromUrl(location.search);
-  const navigatedFrom = useSearchParams().get('navigationFrom');
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
-  const [selectedLanguage, setSelectedLanguage] = React.useState(
-    language || locale
-  );
-
-  const [initialValues, setInitialValues] = React.useState<EventFormFields>(
-    defaultInitialValues
-  );
-
-  const { data: eventData, loading } = useEventQuery({
-    fetchPolicy: 'network-only',
-    variables: {
-      id,
-      include: ['audience', 'in_language', 'keywords', 'location'],
-    },
-  });
-
-  const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  const persons =
-    eventData?.event?.pEvent?.organisation?.persons.edges.map(
-      (edge) => edge?.node as PersonFieldsFragment
-    ) || [];
-
   const [editEvent] = useEditEventMutation();
-  const [updateImage] = useUpdateSingleImageMutation();
-
-  const goToEventDetailsPage = () => {
-    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
-  };
+  const updateImageRequestHandler = useUpdateImageRequest();
+  const navigatedFrom = useSearchParams().get(
+    EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM
+  );
 
   const goToOccurrencesPage = () => {
     history.push(`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
@@ -95,76 +74,61 @@ const EditEventPage: React.FC = () => {
     }
   };
 
-  React.useEffect(() => {
-    if (eventData) {
-      setSelectedLanguage(language || getFirstAvailableLanguage(eventData));
-    }
-  }, [eventData, language]);
-
-  const shouldSaveImage = (values: EventFormFields): boolean =>
+  const shouldSaveImage = (values: CreateEventFormFields): boolean =>
     !!values.image &&
     (values.image !== initialValues.image ||
       values.imageAltText !== initialValues.imageAltText ||
       values.imagePhotographerName !== initialValues.imagePhotographerName);
 
-  const submit = async (values: EventFormFields) => {
+  const submit = async (
+    values: CreateEventFormFields,
+    selectedLanguages: Language[]
+  ) => {
+    const existingEventValues = eventData?.event;
+
+    const unselectedLanguages = Object.values(SUPPORT_LANGUAGES).filter(
+      (lang) => !selectedLanguages.includes(lang)
+    );
+
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const requests: Promise<any>[] = [];
-      requests.push(
-        editEvent({
-          variables: {
-            event: {
-              id: eventData?.event?.id || '',
-              ...getEventPayload({
-                values,
-                selectedLanguage,
-                organisationId,
-              }),
-              // endTime needed
-              // eslint-disable-next-line max-len
-              // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
-              endTime: eventData?.event?.endTime,
-              draft:
-                eventData?.event?.publicationStatus ===
-                PUBLICATION_STATUS.DRAFT,
-            },
-          },
-        })
-      );
-
-      const createOrUpdateVenueRequest = createOrUpdateVenue({
-        venueFormData: values,
-        language: selectedLanguage,
-        locationId: values.location,
-      });
-
-      if (createOrUpdateVenueRequest) {
-        requests.push(createOrUpdateVenueRequest);
-      }
-
-      if (shouldSaveImage(values)) {
-        const imageName = getImageName(values.image);
-        if (imageName) {
-          requests.push(
-            updateImage({
-              variables: {
-                image: {
-                  altText: values.imageAltText,
-                  id: values.image,
-                  name: imageName,
-                  photographerName: values.imagePhotographerName,
-                },
+      if (existingEventValues) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const requests: Promise<any>[] = compact([
+          editEvent({
+            variables: {
+              event: {
+                id: eventData?.event?.id || '',
+                ...getEditEventPayload({
+                  formValues: omitUnselectedLanguagesFromValues(
+                    values,
+                    unselectedLanguages
+                  ),
+                  existingEventValues,
+                  organisationId:
+                    eventData?.event?.pEvent?.organisation?.id ?? '',
+                }),
+                // endTime needed
+                // eslint-disable-next-line max-len
+                // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
+                endTime: eventData?.event?.endTime,
+                draft:
+                  eventData?.event?.publicationStatus ===
+                  PUBLICATION_STATUS.DRAFT,
               },
-            })
-          );
-        }
+            },
+          }),
+          shouldSaveImage(values)
+            ? updateImageRequestHandler(values)
+            : undefined,
+        ]);
+
+        // Run all requests parallel
+        await Promise.all(requests);
+
+        navigateAfterSave();
+      } else {
+        throw new Error('Existing event values missing!');
       }
-
-      // Run all requests parallel
-      await Promise.all(requests);
-
-      navigateAfterSave();
     } catch (e) {
       if (isTestEnv()) {
         // eslint-disable-next-line no-console
@@ -177,83 +141,41 @@ const EditEventPage: React.FC = () => {
     }
   };
 
-  const handleLanguageChange = (newLanguage: Language) => {
-    history.push({
-      pathname: `/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
-      search: `?language=${newLanguage}`,
-    });
-    setSelectedLanguage(newLanguage);
+  return submit;
+};
+
+const EditEventPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const history = useHistory();
+
+  const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
+    eventInitialValues
+  );
+
+  const { data: eventData, loading } = useEventQuery({
+    fetchPolicy: 'network-only',
+    variables: {
+      id,
+      include: ['audience', 'in_language', 'keywords', 'location'],
+    },
+  });
+
+  const organisation = eventData?.event?.pEvent?.organisation;
+  const persons = getPersons(organisation);
+
+  const goToEventDetailsPage = () => {
+    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
   };
 
-  const getLocationId = (locationId: string | undefined | null): string => {
-    // If location id is virtual event location, we are not going to show it as location.
-    // Only virtual location checkbox should be checked.
-    if (locationId !== VIRTUAL_EVENT_LOCATION_ID) {
-      return locationId ?? '';
-    }
-    return '';
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (eventData) {
-      setInitialValues({
-        additionalCriteria:
-          eventData.event?.additionalCriteria.map((item) => item.id || '') ||
-          [],
-        categories:
-          eventData.event?.categories.map((item) => item.id || '') || [],
-        audience: eventData.event?.audience.map((item) => item.id || '') || [],
-        contactEmail: eventData.event?.pEvent?.contactEmail || '',
-        contactPersonId: eventData.event?.pEvent?.contactPerson?.id || '',
-        contactPhoneNumber: eventData.event?.pEvent?.contactPhoneNumber || '',
-        description: eventData.event?.description?.[selectedLanguage] || '',
-        enrolmentEndDays:
-          eventData.event?.pEvent?.enrolmentEndDays?.toString() || '',
-        enrolmentStart: eventData.event?.pEvent?.enrolmentStart
-          ? new Date(eventData.event?.pEvent?.enrolmentStart)
-          : null,
-        image: eventData.event?.images[0]?.id || '',
-        imageAltText: eventData.event?.images[0]?.altText || '',
-        imagePhotographerName:
-          eventData.event?.images[0]?.photographerName || '',
-        infoUrl: eventData.event?.infoUrl?.[selectedLanguage] || '',
-        inLanguage:
-          eventData.event?.inLanguage.map((item) => item.id || '') || [],
-        isFree: !!eventData.event?.offers?.[0]?.isFree,
-        priceDescription:
-          eventData.event?.offers?.[0]?.description?.[selectedLanguage] || '',
-        keywords:
-          getRealKeywords(eventData)?.map((keyword) => keyword.id || '') || [],
-        location: getLocationId(eventData.event?.location.id),
-        name: eventData.event?.name[selectedLanguage] || '',
-        neededOccurrences:
-          eventData.event?.pEvent?.neededOccurrences.toString() || '',
-        price: eventData.event?.offers?.[0]?.price?.[selectedLanguage] || '',
-        shortDescription:
-          eventData.event?.shortDescription?.[selectedLanguage] || '',
-        locationDescription: getEventVenueDescription(
-          eventData,
-          selectedLanguage
-        ),
-        hasClothingStorage:
-          eventData?.event?.venue?.hasClothingStorage || false,
-        hasSnackEatingPlace:
-          eventData?.event?.venue?.hasSnackEatingPlace || false,
-        outdoorActivity: eventData?.event?.venue?.outdoorActivity || false,
-        hasToiletNearby: eventData?.event?.venue?.hasToiletNearby || false,
-        hasAreaForGroupWork:
-          eventData?.event?.venue?.hasAreaForGroupWork || false,
-        hasIndoorPlayingArea:
-          eventData?.event?.venue?.hasIndoorPlayingArea || false,
-        hasOutdoorPlayingArea:
-          eventData?.event?.venue?.hasOutdoorPlayingArea || false,
-        autoAcceptance: eventData.event?.pEvent.autoAcceptance,
-        mandatoryAdditionalInformation:
-          eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
-        isVirtual: eventData.event?.location.id === VIRTUAL_EVENT_LOCATION_ID,
-      });
+      setInitialValues(getEventFormValues(eventData));
     }
-  }, [eventData, selectedLanguage]);
+  }, [eventData]);
+
+  const onSubmit = useEventFormEditSubmit(initialValues, eventData);
 
   return (
     <PageWrapper title="editEvent.pageTitle">
@@ -263,16 +185,16 @@ const EditEventPage: React.FC = () => {
             {isEditableEvent(eventData) ? (
               <Container>
                 <div className={styles.eventPage}>
-                  <ActiveOrganisationInfo organisationId={organisationId} />
+                  <ActiveOrganisationInfo
+                    organisationId={organisation?.id ?? ''}
+                  />
                   <EventForm
-                    edit
+                    formType="edit"
                     eventData={eventData}
                     initialValues={initialValues}
                     onCancel={goToEventDetailsPage}
-                    onSubmit={submit}
+                    onSubmit={onSubmit}
                     persons={persons}
-                    selectedLanguage={selectedLanguage}
-                    setSelectedLanguage={handleLanguageChange}
                     title={t('editEvent.title')}
                   />
                 </div>

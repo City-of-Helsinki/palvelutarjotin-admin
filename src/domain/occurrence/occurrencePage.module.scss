@@ -39,8 +39,7 @@
   .headerContainer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 1rem 0 2rem;
+    margin-top: 1rem;
 
     h1 {
       margin: 0;
@@ -83,4 +82,57 @@
     width: 100%;
     margin: var(--spacing-2-xl) 0;
   }
+}
+
+.formSection {
+  grid-template-columns: 5fr 2fr;
+  margin: var(--spacing-xl) 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.formSectionInnerContainer {
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+}
+
+.formRow {
+  margin: var(--spacing-l) 0;
+  display: flex;
+  column-gap: var(--spacing-l);
+  white-space: nowrap;
+
+  & > div {
+    margin-top: 0 !important;
+    width: 100%;
+  }
+}
+
+.placeInfoContainer {
+  margin-bottom: var(--spacing-m);
+}
+
+.locationSection {
+  margin: var(--spacing-l) 0;
+}
+
+.occurrencesForm {
+  > div {
+    &:not(:last-child)::after {
+      content: '';
+      height: 1px;
+      display: block;
+      width: 100%;
+      background-color: lightgray;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.submitButtons {
+  display: flex;
+  justify-content: space-between;
 }

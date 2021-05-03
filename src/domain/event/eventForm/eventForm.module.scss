@@ -13,6 +13,28 @@
   display: grid;
   grid-gap: var(--grid-gap);
 
+  & > div:first-child {
+    order: 2;
+  }
+
+  .dirtyText {
+    margin-top: var(--spacing-s);
+    display: block;
+    color: var(--color-brick);
+  }
+
+  .formPart {
+    & > div:not(:last-child)::after {
+      content: '';
+      height: 1px;
+      display: block;
+      width: 100%;
+      background-color: lightgray;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+  }
+
   @include respond_above(sm) {
     grid-template-columns: 5fr 2fr;
   }
@@ -111,7 +133,7 @@
 }
 
 .formSection {
-  margin: var(--spacing-xl) 0 calc(var(--spacing-xl) * 2) 0;
+  margin: var(--spacing-xl) 0;
 }
 
 .placeInfoContainer {
@@ -129,4 +151,9 @@
   }
 
   margin: 2rem 0;
+}
+
+.languageSelectorContainer {
+  position: sticky;
+  top: 1rem;
 }

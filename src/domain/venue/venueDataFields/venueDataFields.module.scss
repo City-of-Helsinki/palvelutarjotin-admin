@@ -11,3 +11,9 @@
     margin-right: 1rem;
   }
 }
+
+.locationDescriptionFieldsContainer {
+  & > div:not(:first-child) {
+    margin-top: var(--spacing-m);
+  }
+}
