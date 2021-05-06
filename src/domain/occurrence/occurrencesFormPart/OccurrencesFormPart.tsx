@@ -50,6 +50,8 @@ export const defaultInitialValues: OccurrenceSectionFormFields = {
   oneGroupFills: false,
 };
 
+export const occurrencesFormTestId = 'occurrences-form';
+
 const OccurrencesForm: React.FC<{
   pEventId: string;
   eventId: string;
@@ -149,6 +151,7 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
+      refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,
@@ -159,7 +162,10 @@ const OccurrencesForm: React.FC<{
   const { occurrences } = getEventFields(eventData?.event, locale);
 
   return (
-    <div className={styles.occurrencesFormPart}>
+    <div
+      className={styles.occurrencesFormPart}
+      data-testid={occurrencesFormTestId}
+    >
       <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
       <div className={styles.noOccurrencesCheckBox}>
         <Checkbox

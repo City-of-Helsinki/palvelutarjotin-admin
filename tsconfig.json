@@ -17,6 +17,7 @@
   },
   "include": ["src"],
   "exclude": [
+    "**/__mocks__/*",
     "src/**/*.stories.*",
     "**/*.test.*",
     "src/test/**",

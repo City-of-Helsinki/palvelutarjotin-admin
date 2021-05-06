@@ -37,20 +37,25 @@ const testPath = ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
   occurrenceId
 );
 
+const placeMock = fakePlace({
+  id: placeId,
+  name: fakeLocalizedObject('Soukan kirjasto'),
+});
+
 const eventResult = {
   data: {
     event: fakeEvent({
       id: eventId,
       name: fakeLocalizedObject('Tapahtuma 13.7.2020'),
       publicationStatus: PUBLICATION_STATUS.DRAFT,
-      location: fakePlace({ id: placeId }),
+      location: placeMock,
     }),
   },
 };
 
 const placeResult = {
   data: {
-    place: fakePlace({ name: fakeLocalizedObject('Soukan kirjasto') }),
+    place: placeMock,
   },
 };
 
@@ -72,6 +77,7 @@ const venueResult = {
 const occurrenceResult = {
   data: {
     occurrence: fakeOccurrence({
+      placeId,
       amountOfSeats: 30,
       minGroupSize: 10,
       maxGroupSize: 20,
@@ -135,7 +141,7 @@ const mocks = [
     request: {
       query: PlaceDocument,
       variables: {
-        id: 'tprek:15376',
+        id: placeId,
       },
     },
     result: placeResult,
@@ -144,7 +150,7 @@ const mocks = [
     request: {
       query: VenueDocument,
       variables: {
-        id: 'tprek:15376',
+        id: placeId,
       },
     },
     result: venueResult,

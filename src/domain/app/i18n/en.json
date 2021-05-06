@@ -612,8 +612,8 @@
       "columnStarts": "Starts",
       "columnEnds": "Ends",
       "columnLanguages": "Event language",
-      "columnMaxGroupSize": "Min",
-      "columnMinGroupSize": "Max",
+      "columnMaxGroupSize": "Max",
+      "columnMinGroupSize": "Min",
       "buttonDeleteOccurrence": "Delete occurrence"
     },
     "publishSection": {

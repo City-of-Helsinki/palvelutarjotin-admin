@@ -618,8 +618,8 @@
       "columnStarts": "Alkaa",
       "columnEnds": "Päättyy",
       "columnLanguages": "Tapahtuman kieli",
-      "columnMaxGroupSize": "Min",
-      "columnMinGroupSize": "Max",
+      "columnMaxGroupSize": "Max",
+      "columnMinGroupSize": "Min",
       "buttonDeleteOccurrence": "Poista tapahtuma-aika"
     },
     "publishSection": {

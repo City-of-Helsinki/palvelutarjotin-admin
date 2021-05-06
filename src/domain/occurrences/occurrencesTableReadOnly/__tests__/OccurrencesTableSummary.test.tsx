@@ -20,6 +20,7 @@ const mockOccurrence = fakeOccurrence({
   startTime: startTime,
   endTime: endTime,
   amountOfSeats: 240,
+  placeId: null,
 });
 
 const renderComponent = (props?: Partial<Props>) => {

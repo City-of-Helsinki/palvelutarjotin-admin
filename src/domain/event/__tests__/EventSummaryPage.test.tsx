@@ -34,6 +34,7 @@ const eventName = 'Tapahtuma123456';
 const eventDescription = 'Tapahtuman kuvaus';
 const organisationName = 'Testiorganisaatio';
 const organisationId = 'organisationId';
+const placeId = 'placeId';
 
 const seatsApproved = 10;
 
@@ -45,7 +46,10 @@ const eventMock1 = fakeEvent({
   description: fakeLocalizedObject(eventDescription),
   publicationStatus: PUBLICATION_STATUS.DRAFT,
   pEvent: fakePEvent({
-    organisation: fakeOrganisation({ id: organisationId }),
+    organisation: fakeOrganisation({
+      id: organisationId,
+      name: organisationName,
+    }),
     occurrences: fakeOccurrences(3, [
       { startTime: new Date(2020, 11, 11).toISOString() },
       { startTime: new Date(2020, 11, 12).toISOString() },
@@ -65,7 +69,10 @@ const eventMock2 = fakeEvent({
   description: fakeLocalizedObject(eventDescription),
   publicationStatus: PUBLICATION_STATUS.PUBLIC,
   pEvent: fakePEvent({
-    organisation: fakeOrganisation({ id: organisationId }),
+    organisation: fakeOrganisation({
+      id: organisationId,
+      name: organisationName,
+    }),
     occurrences: fakeOccurrences(3, [
       { startTime: new Date(2020, 11, 11).toISOString() },
       { startTime: new Date(2020, 9, 12).toISOString() },
@@ -299,14 +306,18 @@ it('shows full and not full occurrence rows correctly', async () => {
       event1: {
         ...eventMock1,
         pEvent: fakePEvent({
-          organisation: fakeOrganisation({ id: organisationId }),
+          organisation: fakeOrganisation({
+            id: organisationId,
+            name: organisationName,
+          }),
           occurrences: fakeOccurrences(3, [
-            { startTime: new Date(2020, 11, 12).toISOString() },
+            { startTime: new Date(2020, 11, 12).toISOString(), placeId },
             {
               startTime: new Date(2020, 11, 13).toISOString(),
               remainingSeats: 0,
               seatsApproved,
               seatsTaken: 30,
+              placeId,
             },
           ]),
         }),

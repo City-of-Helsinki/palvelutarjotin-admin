@@ -41,7 +41,7 @@ const getStartTimeValidation = ({
     const minDate =
       enrolmentEndDays > 0
         ? addDays(enrolmentStart, enrolmentEndDays as number)
-        : enrolmentStart;
+        : new Date(enrolmentStart);
     minDate.setHours(0, 0, 0, 0);
     return schema.min(minDate, () => ({
       key: VALIDATION_MESSAGE_KEYS.DATE_MIN,

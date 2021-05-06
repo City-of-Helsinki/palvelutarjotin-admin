@@ -23,13 +23,23 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import EventDetailsPage from '../EventDetailsPage';
 
+const personId = 'personId1';
+const personName = 'Nimi niminen';
+
 const eventMock = fakeEvent({
   name: fakeLocalizedObject('Testitapahtuma'),
   description: fakeLocalizedObject('Tapahtuman testikuvaus'),
   images: [fakeImage({ altText: 'moi' })],
-  pEvent: fakePEvent({ contactEmail: 'test@email.com' }),
+  pEvent: fakePEvent({
+    contactEmail: 'test@email.com',
+    contactPerson: fakePerson({ id: personId, name: personName }),
+  }),
 });
-const profileMock = fakePerson({ organisations: fakeOrganisations() });
+const profileMock = fakePerson({
+  id: personId,
+  organisations: fakeOrganisations(),
+  name: 'Nimi niminen',
+});
 const venueMock = fakeVenue({
   hasSnackEatingPlace: true,
   hasClothingStorage: true,
@@ -83,12 +93,12 @@ const apolloMocks: MockedResponse[] = [
     request: {
       query: graphql.PersonDocument,
       variables: {
-        id: eventMock.pEvent.contactPerson?.id,
+        id: personId,
       },
     },
     result: {
       data: {
-        person: fakePerson({ name: 'Nimi niminen' }),
+        person: fakePerson({ name: personName }),
       },
     },
   },
@@ -154,7 +164,11 @@ test('renders correct information and delete works', async () => {
   expect(
     screen.queryByRole('heading', { name: 'Yhteyshenkilö' })
   ).toBeInTheDocument();
-  expect(screen.queryByText('Nimi niminen')).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(screen.queryByText(personName)).toBeInTheDocument();
+  });
+
   expect(screen.queryByText('test@email.com')).toBeInTheDocument();
   expect(screen.queryByText('1233211234')).toBeInTheDocument();
 

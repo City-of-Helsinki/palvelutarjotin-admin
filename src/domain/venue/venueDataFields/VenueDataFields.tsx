@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/react-hooks';
 import { Field, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,6 @@ import { VenueDocument, VenueQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import sortFavorably from '../../../utils/sortFavorably';
-import apolloClient from '../../app/apollo/apolloClient';
 import { TimeAndLocationFormFields } from '../../occurrence/types';
 import { VENUE_AMENITIES } from '../utils';
 import styles from './venueDataFields.module.scss';
@@ -26,6 +26,7 @@ const VenueDataFields: React.FC<{
   const { t } = useTranslation();
   const locale = useLocale();
   const sortedLanguages = sortFavorably(selectedLanguages, [locale]);
+  const apolloClient = useApolloClient();
   const {
     values: { locationDescription },
   } = useFormikContext<TimeAndLocationFormFields>();

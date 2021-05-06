@@ -69,7 +69,7 @@ const CreateOccurrencePage: React.FC = () => {
     setInitialValues,
   ] = React.useState<TimeAndLocationFormFields | null>(null);
 
-  const createOrUpdateVenue = useCreateOrUpdateVenueRequest();
+  const createOrUpdateVenue = useCreateOrUpdateVenueRequest(apolloClient);
 
   const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
 
@@ -99,6 +99,7 @@ const CreateOccurrencePage: React.FC = () => {
             id: event.location?.id,
           },
         });
+
         const venueData = data.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         const eventName = omit(event.name, '__typename');
@@ -113,9 +114,9 @@ const CreateOccurrencePage: React.FC = () => {
           ...defaultInitialValues,
           // If enrolment start time is not defined yet, then user hasn't filled this form yet
           // and initial value can be set to true as default
-          autoAcceptance: event.pEvent.enrolmentStart
+          autoAcceptance: event.pEvent.autoAcceptance
             ? event.pEvent.autoAcceptance
-            : true,
+            : false,
           enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
           enrolmentStart: event.pEvent.enrolmentStart
             ? new Date(event.pEvent.enrolmentStart)
@@ -224,9 +225,7 @@ const CreateOccurrencePage: React.FC = () => {
         await Promise.all(requests);
         formikHelpers.resetForm({ values });
         refetchEvent();
-        toast(t('eventForm.saveSuccesful'), {
-          type: toast.TYPE.SUCCESS,
-        });
+        toast.success(t('eventForm.saveSuccesful'));
       } else {
         throw new Error("Can't submit because event wasn't defined");
       }
@@ -406,7 +405,11 @@ const OccurrenceInfoForm: React.FC<{
       validationSchema={ValidationSchema}
     >
       {({ dirty }) => (
-        <Form className={styles.occurrencesForm} noValidate>
+        <Form
+          className={styles.occurrencesForm}
+          noValidate
+          data-testid="time-and-location-form"
+        >
           <FocusToFirstError />
           <LocationFormPart selectedLanguages={selectedLanguages} />
           <EnrolmentInfoFormPart />

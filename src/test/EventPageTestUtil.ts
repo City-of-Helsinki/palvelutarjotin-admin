@@ -89,17 +89,17 @@ export const venueQueryResponse = {
   },
 };
 
-export const audienceKeywords = [
-  { id: 'targetGroupId1', name: 'Muu ryhmä' },
-  { id: 'targetGroupId2', name: 'Esiopetus' },
-];
-
 export const getKeywordId = (keywordId: string) => {
   return getLinkedEventsInternalId(
     LINKEDEVENTS_CONTENT_TYPE.KEYWORD,
     keywordId
   );
 };
+
+export const audienceKeywords = [
+  { id: 'targetGroupId1', name: 'Muu ryhmä' },
+  { id: 'targetGroupId2', name: 'Esiopetus' },
+];
 
 export const criteriaKeywords = [
   { id: 'criteriaId1', name: 'Työpaja' },

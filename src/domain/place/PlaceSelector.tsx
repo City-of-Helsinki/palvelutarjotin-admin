@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/react-hooks';
 import * as React from 'react';
 
 import AutoSuggest, {
@@ -14,7 +15,6 @@ import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
-import apolloClient from '../app/apollo/apolloClient';
 import PlaceText from './PlaceText';
 
 interface Props {
@@ -31,15 +31,6 @@ interface Props {
   disabled: boolean;
 }
 
-const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
-  const data = apolloClient.readQuery<PlaceQuery>({
-    query: PlaceDocument,
-    variables: { id: option.value },
-  });
-
-  return getLocalizedString(data?.place?.name || {}, locale);
-};
-
 const PlaceSelector: React.FC<Props> = ({
   className,
   helperText,
@@ -55,6 +46,7 @@ const PlaceSelector: React.FC<Props> = ({
 }) => {
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
+  const apolloClient = useApolloClient();
 
   const { data: placesData, loading } = usePlacesQuery({
     skip: !searchValue,
@@ -67,6 +59,15 @@ const PlaceSelector: React.FC<Props> = ({
   });
 
   const locale = useLocale();
+
+  const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
+    const data = apolloClient.readQuery<PlaceQuery>({
+      query: PlaceDocument,
+      variables: { id: option.value },
+    });
+
+    return getLocalizedString(data?.place?.name || {}, locale);
+  };
 
   const getOptionLabel = (place: Place) =>
     `${getLocalizedString(place.name || {}, locale)}, ${getLocalizedString(
