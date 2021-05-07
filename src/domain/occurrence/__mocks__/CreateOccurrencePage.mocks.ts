@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/react-testing';
 import parseDate from 'date-fns/parse';
+import faker from 'faker';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { LINKEDEVENTS_CONTENT_TYPE } from '../../../constants';
@@ -305,6 +306,7 @@ export const getDeleteOccurrenceMockResponse = (
 });
 
 export const getAddOccurrenceMockResponse = ({
+  id = faker.random.uuid(),
   amountOfSeats,
   endTime,
   languages,
@@ -321,6 +323,7 @@ export const getAddOccurrenceMockResponse = ({
   maxGroupSize: number;
   seatType: OccurrenceSeatType;
   placeId?: string;
+  id?: string;
 }): MockedResponse => ({
   request: {
     query: AddOccurrenceDocument,
@@ -342,6 +345,7 @@ export const getAddOccurrenceMockResponse = ({
     data: {
       addOccurrence: {
         occurrence: fakeOccurrence({
+          id,
           pEvent: {
             id: pEventId,
             __typename: 'PalvelutarjotinEventNode',

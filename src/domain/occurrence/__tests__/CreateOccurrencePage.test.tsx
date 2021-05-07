@@ -1,11 +1,9 @@
 import { MockedResponse } from '@apollo/react-testing';
-import { addDays, format, formatISO, parse as parseDate } from 'date-fns';
+import { addDays, format, parse as parseDate } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
-import range from 'lodash/range';
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
+import Modal from 'react-modal';
 import { toast } from 'react-toastify';
-import wait from 'waait';
 
 import {
   editVenueMockResponse,
@@ -16,7 +14,6 @@ import {
   getEventMockedResponse,
   getUpdateEventMockResponse,
   myProfileMockResponse,
-  occurrenceFormData,
   placeId,
   placeMockResponse,
   placeName,
@@ -25,14 +22,9 @@ import {
   venueDescription,
 } from '../__mocks__/CreateOccurrencePage.mocks';
 import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
-import { EventDocument, OccurrenceNode } from '../../../generated/graphql';
+import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
-import {
-  fakeEvent,
-  fakeLanguages,
-  fakeOccurrences,
-  fakePEvent,
-} from '../../../utils/mockDataUtils';
+import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
   configure,
   fireEvent,
@@ -353,6 +345,167 @@ describe('location and enrolment info', () => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
     });
   });
+
+  test('notification modal works correctly when info is not filled', async () => {
+    const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
+    const occurrenceStartTime = '10.05.2021 10:00';
+    const occurrenceEndTime = '10.05.2021 11:00';
+    const formattedEnrolmentStartTime = format(
+      new Date(enrolmentStartDateTimeValue),
+      'dd.MM.yyyy HH:mm'
+    );
+    const occurrenceId = 'occurrenceId';
+    const eventData = {
+      autoAcceptance: true,
+      enrolmentEndDays: 1,
+      enrolmentStart: enrolmentStartDateTimeValue,
+      neededOccurrences: 1,
+    };
+    const occurrenceData1 = {
+      amountOfSeats: 30,
+      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      languages: ['fi', 'en'],
+      minGroupSize: 10,
+      maxGroupSize: 20,
+      endTime: occurrenceEndTime,
+      startTime: occurrenceStartTime,
+    };
+    const addOccurrenceMockResponse = getAddOccurrenceMockResponse({
+      ...occurrenceData1,
+      id: occurrenceId,
+    });
+    const occurrence1: Partial<OccurrenceNode> = {
+      ...occurrenceData1,
+      languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
+      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
+      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      placeId: placeId,
+      // Need matching id here that is is in the addOccurrence response
+      id: occurrenceId,
+    };
+    const eventMockResponse = getEventMockedResponse({
+      occurrences: fakeOccurrences(0),
+    });
+    const updatedEventMockResponse = getEventMockedResponse({
+      occurrences: fakeOccurrences(0),
+      location: true,
+      ...eventData,
+    });
+    const updatedEventWithOccurrenceMockResponse = getEventMockedResponse({
+      ...eventData,
+      location: true,
+      occurrences: fakeOccurrences(1, [occurrence1]),
+    });
+    const updateEventMockResponse = getUpdateEventMockResponse({
+      ...eventData,
+    });
+    const { container, history } = renderComponent({
+      mocks: [
+        // 2 components fetch this and third (3.) is needed for the refetch
+        // 'network-only' is used which might be causing this
+        eventMockResponse,
+        eventMockResponse,
+        // refetch mock after saving
+        updatedEventMockResponse,
+        updatedEventWithOccurrenceMockResponse,
+        updateEventMockResponse,
+        addOccurrenceMockResponse,
+      ],
+    });
+
+    const pushMock = jest.spyOn(history, 'push');
+
+    const toastSuccess = jest.spyOn(toast, 'success');
+    Modal.setAppElement(container);
+
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+
+    const goToPublishButton = screen.getByRole('button', {
+      name: 'Siirry julkaisuun',
+    });
+    userEvent.click(goToPublishButton);
+
+    // Modal should be visible and have all the errors
+    const withinModal = within(screen.getByRole('dialog'));
+    expect(
+      withinModal.getByText(/tapahtumasta puuttuu tietoja/i)
+    ).toBeInTheDocument();
+    const expectedModalTexts = [
+      'Tapahtuman sijainti',
+      'Ilmoittautumisen alkamisaika',
+      'Ilmoittautumisen päättyminen',
+      'Tapahtumalla on oltava ainakin yksi tapahtuma-aika',
+    ];
+    expectedModalTexts.forEach((text) => {
+      expect(withinModal.queryByText(text)).toBeInTheDocument();
+    });
+
+    const closeModalButton = withinModal.getByRole('button', { name: 'Sulje' });
+    userEvent.click(closeModalButton);
+
+    const locationInput = getFormElement('location');
+
+    userEvent.click(locationInput);
+    userEvent.type(locationInput, 'Sellon');
+
+    const place = await screen.findByText(/Sellon kirjasto/i);
+    userEvent.click(place);
+
+    const enrolmentStartDateTimeInput = getFormElement('enrolmentStart');
+    const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
+
+    userEvent.click(enrolmentStartDateTimeInput);
+    userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartTime);
+    fireEvent.blur(enrolmentStartDateTimeInput);
+    userEvent.type(enrolmentEndDaysInput, '1');
+
+    await waitFor(() => {
+      expect(enrolmentStartDateTimeInput).toHaveValue(
+        formattedEnrolmentStartTime
+      );
+    });
+
+    // Save the data
+    userEvent.click(getFormElement('saveButton'));
+    await waitFor(() => {
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+    });
+
+    // Modal should only have complaint about needing at least one occurrence
+    userEvent.click(goToPublishButton);
+    const withinModal2 = within(screen.getByRole('dialog'));
+    const notExpectedModalTexts = [
+      'Tapahtuman sijainti',
+      'Ilmoittautumisen alkamisaika',
+      'Ilmoittautumisen päättyminen',
+    ];
+    notExpectedModalTexts.forEach((text) => {
+      expect(withinModal2.queryByText(text)).not.toBeInTheDocument();
+    });
+    expect(
+      withinModal2.queryByText(
+        'Tapahtumalla on oltava ainakin yksi tapahtuma-aika'
+      )
+    ).toBeInTheDocument();
+
+    // Close modal again
+    userEvent.click(withinModal2.getByRole('button', { name: 'Sulje' }));
+
+    await fillAndSubmitOccurrenceForm({
+      occurrenceStartTime,
+      occurrenceEndTime,
+    });
+
+    // No everything should be ok
+    userEvent.click(goToPublishButton);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith(
+        `/fi${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId)
+      );
+    });
+  });
 });
 
 describe('occurrences form', () => {
@@ -473,85 +626,19 @@ describe('occurrences form', () => {
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
 
-    const locationInput = getOccurrenceFormElement('location');
-
-    userEvent.click(locationInput);
-    userEvent.type(locationInput, 'Sellon');
-
-    const place = await screen.findByText(/Sellon kirjasto/i);
-
-    userEvent.click(place);
-
-    const occurrenceLocationInput = getOccurrenceFormElement('location');
-
-    await waitFor(() => {
-      expect(occurrenceLocationInput.parentElement).toHaveTextContent(
-        'Sellon kirjasto'
-      );
-    });
-
-    const occurrenceStartsAtInput = getOccurrenceFormElement('starts');
-    const occurrenceEndsAtInput = getOccurrenceFormElement('ends');
-
-    userEvent.click(occurrenceStartsAtInput);
-    userEvent.type(occurrenceStartsAtInput, occurrenceStartTime);
-    expect(occurrenceStartsAtInput).toHaveValue(occurrenceStartTime);
-
-    await waitFor(() => {
-      // ends at input should be automatically filled with end time (one hour from start time)
-      expect(occurrenceEndsAtInput).toHaveValue(occurrenceEndTime);
-    });
-
-    userEvent.click(occurrenceEndsAtInput);
-    userEvent.clear(occurrenceEndsAtInput);
-    userEvent.type(occurrenceEndsAtInput, occurrenceEndTime);
-    expect(occurrenceEndsAtInput).toHaveValue(occurrenceEndTime);
-
-    await waitFor(() => {
-      // ends at input should be automatically filled with end time (one hour from start time)
-      expect(occurrenceEndsAtInput).toHaveValue(occurrenceEndTime);
-    });
-
-    const languageSelector = getOccurrenceFormElement('language');
-    userEvent.click(languageSelector);
-    const withinLanguageSelector = within(languageSelector.parentElement);
-
-    const optionFi = withinLanguageSelector.getByRole('option', {
-      name: /suomi/i,
-    });
-    const optionEn = withinLanguageSelector.getByRole('option', {
-      name: /englanti/i,
-    });
-
-    // select languages
-    userEvent.click(optionFi);
-    userEvent.click(optionEn);
-    userEvent.click(languageSelector);
-
-    const seatsInput = getOccurrenceFormElement('seats');
-    const minGroupSizeInput = getOccurrenceFormElement('min');
-    const maxGroupSizeInput = getOccurrenceFormElement('max');
-
-    userEvent.type(seatsInput, '30');
-    userEvent.type(minGroupSizeInput, '10');
-    userEvent.type(maxGroupSizeInput, '20');
-
-    await waitFor(() => {
-      expect(seatsInput).toHaveValue(30);
-    });
-
-    expect(minGroupSizeInput).toHaveValue(10);
-    expect(maxGroupSizeInput).toHaveValue(20);
-
-    const submitButton = getOccurrenceFormElement('submit');
-    userEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(occurrenceStartsAtInput).toHaveValue('');
-      expect(occurrenceEndsAtInput).toHaveValue('');
+    await fillAndSubmitOccurrenceForm({
+      occurrenceStartTime,
+      occurrenceEndTime,
     });
 
     expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
+
+    const occurrenceStartsAtInput = getOccurrenceFormElement('starts');
+    const occurrenceEndsAtInput = getOccurrenceFormElement('ends');
+    const occurrenceLocationInput = getOccurrenceFormElement('location');
+    const seatsInput = getOccurrenceFormElement('seats');
+    const minGroupSizeInput = getOccurrenceFormElement('min');
+    const maxGroupSizeInput = getOccurrenceFormElement('max');
 
     // Only dates should be empty after save
     expect(seatsInput).toHaveValue(30);
@@ -904,4 +991,93 @@ const getFormElement = (
         name: /siirry julkaisuun/i,
       });
   }
+};
+
+const fillAndSubmitOccurrenceForm = async ({
+  occurrenceEndTime,
+  occurrenceStartTime,
+}: {
+  occurrenceStartTime: string;
+  occurrenceEndTime: string;
+}) => {
+  const withinOccurrencesForm = within(
+    screen.getByTestId(occurrencesFormTestId)
+  );
+  const locationInput = getOccurrenceFormElement('location');
+
+  userEvent.click(locationInput);
+  userEvent.type(locationInput, 'Sellon');
+
+  const place = await withinOccurrencesForm.findByText(/Sellon kirjasto/i);
+
+  userEvent.click(place);
+
+  const occurrenceLocationInput = getOccurrenceFormElement('location');
+
+  await waitFor(() => {
+    expect(occurrenceLocationInput.parentElement).toHaveTextContent(
+      'Sellon kirjasto'
+    );
+  });
+
+  const occurrenceStartsAtInput = getOccurrenceFormElement('starts');
+  const occurrenceEndsAtInput = getOccurrenceFormElement('ends');
+
+  userEvent.click(occurrenceStartsAtInput);
+  userEvent.type(occurrenceStartsAtInput, occurrenceStartTime);
+  expect(occurrenceStartsAtInput).toHaveValue(occurrenceStartTime);
+
+  await waitFor(() => {
+    // ends at input should be automatically filled with end time (one hour from start time)
+    expect(occurrenceEndsAtInput).toHaveValue(occurrenceEndTime);
+  });
+
+  userEvent.click(occurrenceEndsAtInput);
+  userEvent.clear(occurrenceEndsAtInput);
+  userEvent.type(occurrenceEndsAtInput, occurrenceEndTime);
+  expect(occurrenceEndsAtInput).toHaveValue(occurrenceEndTime);
+
+  await waitFor(() => {
+    // ends at input should be automatically filled with end time (one hour from start time)
+    expect(occurrenceEndsAtInput).toHaveValue(occurrenceEndTime);
+  });
+
+  const languageSelector = getOccurrenceFormElement('language');
+  userEvent.click(languageSelector);
+  const withinLanguageSelector = within(languageSelector.parentElement);
+
+  const optionFi = withinLanguageSelector.getByRole('option', {
+    name: /suomi/i,
+  });
+  const optionEn = withinLanguageSelector.getByRole('option', {
+    name: /englanti/i,
+  });
+
+  // select languages
+  userEvent.click(optionFi);
+  userEvent.click(optionEn);
+  userEvent.click(languageSelector);
+
+  const seatsInput = getOccurrenceFormElement('seats');
+  const minGroupSizeInput = getOccurrenceFormElement('min');
+  const maxGroupSizeInput = getOccurrenceFormElement('max');
+
+  userEvent.type(seatsInput, '30');
+  userEvent.type(minGroupSizeInput, '10');
+  userEvent.type(maxGroupSizeInput, '20');
+
+  await waitFor(() => {
+    expect(seatsInput).toHaveValue(30);
+  });
+
+  expect(minGroupSizeInput).toHaveValue(10);
+  expect(maxGroupSizeInput).toHaveValue(20);
+
+  const submitButton = getOccurrenceFormElement('submit');
+  userEvent.click(submitButton);
+
+  await waitFor(() => {
+    expect(occurrenceStartsAtInput).toHaveValue('');
+    expect(occurrenceEndsAtInput).toHaveValue('');
+  });
 };
