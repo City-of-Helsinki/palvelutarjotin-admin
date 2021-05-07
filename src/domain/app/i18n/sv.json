@@ -507,7 +507,8 @@
   },
   "footer": {
     "copyrightText": "© Copyright 2020 • Alla rättigheter förbehållna",
-    "privacyPolicy": "Integritetspolicy"
+    "privacyPolicy": "Integritetspolicy",
+    "teacherUI": "För skolor och daghem"
   },
   "header": {
     "ariaButtonCloseMenu": "Stäng menyn",
