@@ -10,10 +10,11 @@ $logoWidth: 5rem;
   color: var(--color-black);
 
   .links {
-    margin: $baseMargin 0;
+    display: flex;
 
     a {
       color: var(--color-black);
+      margin-left: $baseMargin;
     }
   }
 }

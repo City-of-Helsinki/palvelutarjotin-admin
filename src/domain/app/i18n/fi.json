@@ -506,7 +506,8 @@
   },
   "footer": {
     "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään",
-    "privacyPolicy": "Rekisteriseloste"
+    "privacyPolicy": "Rekisteriseloste",
+    "teacherUI": "Kouluille ja päiväkodeille"
   },
   "header": {
     "ariaButtonCloseMenu": "Sulje valikko",

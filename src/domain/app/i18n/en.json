@@ -500,7 +500,8 @@
   },
   "footer": {
     "copyrightText": "© Copyright 2020 • All rights reserved",
-    "privacyPolicy": "Privacy policy"
+    "privacyPolicy": "Privacy policy",
+    "teacherUI": "For daycare and schools"
   },
   "header": {
     "ariaButtonCloseMenu": "Close menu",

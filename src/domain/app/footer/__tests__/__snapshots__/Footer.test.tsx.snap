@@ -50,14 +50,27 @@ exports[`Footer matches snapshot 1`] = `
         <div>
           © Copyright 2020 • Kaikki oikeudet pidätetään
         </div>
-        <div>
-          <a
-            href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Henkil%C3%B6rekisteri%20Palvelutarjotin.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Rekisteriseloste
-          </a>
+        <div
+          class="links"
+        >
+          <div>
+            <a
+              href="https://beta.kultus.fi"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Kouluille ja päiväkodeille
+            </a>
+          </div>
+          <div>
+            <a
+              href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Henkil%C3%B6rekisteri%20Palvelutarjotin.pdf"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Rekisteriseloste
+            </a>
+          </div>
         </div>
       </div>
     </div>
