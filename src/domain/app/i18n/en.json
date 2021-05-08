@@ -61,7 +61,10 @@
       "toggleButton": "Select"
     },
     "buttonClose": "Close",
-    "linkSkipToContent": "Skip to content"
+    "linkSkipToContent": "Skip to content",
+    "openInNewTab": "(opens in a new tab)",
+    "notification": "Notification",
+    "getStaffRightsInstructionsText": "Please fill out this <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"{{openInNewTab}}\">form</a> in order to manage events!"
   },
   "enrolmentForm": {
     "buttonSubmit": "Submit registration",

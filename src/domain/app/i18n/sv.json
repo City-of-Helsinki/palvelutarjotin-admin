@@ -60,7 +60,10 @@
       "toggleButton": "Välj"
     },
     "buttonClose": "Stäng",
-    "linkSkipToContent": "Gå till innehållet"
+    "linkSkipToContent": "Gå till innehållet",
+    "openInNewTab": "(öppnas i en ny flik)",
+    "notification": "Underrättelse",
+    "getStaffRightsInstructionsText": "Skaffa rättighet att publicera evenemang med denna <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"{{openInNewTab}}\">form</a> blankett!"
   },
   "enrolmentForm": {
     "buttonSubmit": "Skicka in registrering",

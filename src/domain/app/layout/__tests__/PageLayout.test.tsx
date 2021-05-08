@@ -86,6 +86,11 @@ it('Pagelayout renders Profile page', async () => {
 
   await act(wait);
 
+  expect(screen.queryByText('Ilmoitus')).not.toBeInTheDocument();
+  expect(
+    screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
+  ).not.toBeInTheDocument();
+
   expect(
     screen.queryByRole('heading', { name: 'Täydennä tietosi' })
   ).toBeInTheDocument();
@@ -100,13 +105,6 @@ it('Pagelayout renders Profile page', async () => {
 
   // wait for organisation to load
   await act(wait);
-
-  // userEvent.click(
-  //   screen.getByLabelText('Organisaatio', { selector: 'button' })
-  // );
-
-  // userEvent.click(screen.getByLabelText('Organisaatio 1'));
-  // userEvent.click(screen.getByLabelText('Organisaatio 2'));
 
   const languageSelectorButton = screen.getByLabelText(/Organisaatio/i, {
     selector: 'button',
@@ -146,4 +144,46 @@ it('Pagelayout renders Profile page', async () => {
       },
     });
   });
+});
+
+it('renders staff notification if user is not staff', async () => {
+  const mocks = [
+    {
+      request: {
+        query: graphql.MyProfileDocument,
+      },
+      result: {
+        data: {
+          myProfile: fakePerson({
+            isStaff: false,
+            organisations: fakeOrganisations(0),
+          }),
+        },
+      },
+    },
+  ];
+
+  jest.spyOn(authSelectors, 'isAuthenticatedSelector').mockReturnValue(true);
+  jest
+    .spyOn(authSelectors, 'userSelector')
+    .mockReturnValue({ profile: { email: 'test@test.fi' } } as any);
+
+  const testText = 'testText';
+  renderWithRoute(<PageLayout>{testText}</PageLayout>, {
+    routes: ['/'],
+    mocks,
+  });
+
+  await screen.findByText(testText);
+
+  // Notification should be visible when user is not staff
+  expect(screen.queryByText('Ilmoitus')).toBeInTheDocument();
+  expect(
+    screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', {
+      name: /lomakkeella \(avataan uudessa välilehdessä\)/i,
+    })
+  ).toBeInTheDocument();
 });

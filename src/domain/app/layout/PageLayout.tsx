@@ -31,7 +31,6 @@ const PageLayout: React.FC = ({ children }) => {
   return (
     <div className={styles.pageLayout}>
       <Header />
-
       <div
         aria-hidden={isMobileMenuOpen}
         className={classNames(styles.pageBody, {
@@ -56,7 +55,6 @@ const PageLayout: React.FC = ({ children }) => {
         {/* Render oidc callback */}
         {pathname === ROUTES.CALLBACK && children}
       </div>
-
       <Footer />
     </div>
   );
