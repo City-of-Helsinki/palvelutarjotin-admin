@@ -267,6 +267,7 @@
       "buttonDelete": "Poista tapahtuma",
       "text1": "Oletko varma että haluat poistaa tapahtuman?",
       "text2": "Poistettua tapahtumaa ei voi palauttaa.",
+      "sendNotificationWarning": "Muista lähettää ilmoittautuneille peruutusviesti, ennen kuin poistat tapahtuman!",
       "title": "Poista tapahtuma",
       "upcomingOccurrences": "Tulevat tapahtuma-ajat",
       "occurrenceTime": "{{date}} klo {{time}}"

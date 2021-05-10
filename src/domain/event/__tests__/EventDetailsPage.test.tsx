@@ -176,6 +176,15 @@ test('renders correct information and delete works', async () => {
     modal.queryByText('Poista tapahtuma', { selector: 'div' })
   ).toBeInTheDocument();
 
+  const modalTexts = [
+    /Muista lähettää ilmoittautuneille peruutusviesti, ennen kuin poistat tapahtuman/i,
+    /Oletko varma että haluat poistaa tapahtuman/i,
+  ];
+
+  modalTexts.forEach((t) => {
+    expect(modal.queryByText(t)).toBeInTheDocument();
+  });
+
   userEvent.click(modal.getByRole('button', { name: 'Poista tapahtuma' }));
 
   expect(deleteMock).toHaveBeenCalledWith({

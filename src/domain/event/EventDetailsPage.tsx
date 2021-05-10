@@ -135,7 +135,7 @@ const EventDetailsPage = () => {
                 toggleModal={toggleModal}
               >
                 <p>{t('eventDetails.deleteModal.text1')}</p>
-                <p>{t('eventDetails.deleteModal.text2')}</p>
+                <p>{t('eventDetails.deleteModal.sendNotificationWarning')}</p>
                 {renderFutureOccurrencesList()}
               </AlertModal>
 
