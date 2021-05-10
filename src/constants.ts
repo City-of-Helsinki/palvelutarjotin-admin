@@ -44,7 +44,7 @@ export const PRIVACY_POLICY_LINKS = {
 
 export const TEACHER_UI_LINKS = {
   fi: 'https://beta.kultus.fi',
-  en: 'hhttps://beta.kultus.fi/en',
+  en: 'https://beta.kultus.fi/en',
   sv: 'https://beta.kultus.fi/sv',
 };
 
