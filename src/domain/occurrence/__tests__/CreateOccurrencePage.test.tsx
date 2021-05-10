@@ -943,7 +943,7 @@ const getOccurrenceFormElement = (
       });
     case 'submit':
       return screen.getByRole('button', {
-        name: /lisää uusi tapahtuma/i,
+        name: /lisää uusi tapahtuma-aika/i,
       });
   }
 };
