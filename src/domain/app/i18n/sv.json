@@ -267,6 +267,7 @@
       "buttonDelete": "Bort evenemang",
       "text1": "Är du säker på att du vill ta bort evenemang?",
       "text2": "En borttagen evenemang kan inte ångras.",
+      "sendNotificationWarning": "Glöm inte att skicka meddelande om avbeställning till de som anmält sig, innan du raderar evenemanget!",
       "title": "Bort evenemang",
       "upcomingOccurrences": "Kommande händelser",
       "occurrenceTime": "{{date}} kl. {{time}}"
