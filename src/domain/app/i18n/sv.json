@@ -295,7 +295,7 @@
       "labelDescription": "Beskrivning",
       "labelMandatoryAdditionalInformation": "Att registrera ytterligare information är obligatoriskt",
       "guidanceTextMandatoryAdditionalInformation": "Skriv på händelse om du behöver mer information om gruppen eller aktiviteter och markera svaret som obligatoriskt...",
-      "labelEnrolmentEndDays": "Registreringen stängs, dagar",
+      "labelEnrolmentEndDays": "Anmälningen stängs x-dagar innan evenemanget",
       "labelEnrolmentStart": "Registrering börjar",
       "labelImage": "Evenemangbild",
       "labelImageAltText": "Bild alt-text",

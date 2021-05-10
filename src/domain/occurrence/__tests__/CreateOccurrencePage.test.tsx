@@ -968,7 +968,7 @@ const getFormElement = (
       });
     case 'enrolmentEndDays':
       return screen.getByRole('spinbutton', {
-        name: /ilmoittautuminen sulkeutuu, päivää/i,
+        name: /ilmoittautuminen sulkeutuu X päivää ennen tapahtuma-aikaa/i,
       });
     case 'neededOccurrences':
       return screen.getByRole('spinbutton', {
