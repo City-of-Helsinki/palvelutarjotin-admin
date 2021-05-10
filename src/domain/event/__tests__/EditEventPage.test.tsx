@@ -18,7 +18,6 @@ import {
   keyword,
   keywordId,
   keywordMockResponse,
-  mandatoryAdditionalInformation,
   personName,
   photoAltText,
   photographerName,
@@ -141,14 +140,14 @@ describe('Event price section', () => {
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
-    expect(screen.getByLabelText(/Lisätiedot/)).toHaveAttribute('disabled');
+    expect(screen.getByLabelText(/Hinta/)).toBeDisabled();
+    expect(screen.getByLabelText(/Lisätiedot/)).toBeDisabled();
 
     userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).not.toHaveAttribute('disabled');
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
+    expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
+    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
   });
 });
 

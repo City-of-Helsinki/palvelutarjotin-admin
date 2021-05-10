@@ -315,25 +315,13 @@ const mockUseHistory = () => {
   return pushMock;
 };
 
-// test('page is accessible', async () => {
-//   const { container } = render(<CreateEventPage />, { mocks });
-
-//   await waitFor(() => {
-//     expect(
-//       screen.queryByText('Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto')
-//     ).toBeInTheDocument();
-//   });
-
-//   const result = await axe(container);
-//   expect(result).toHaveNoViolations();
-// });
-
 test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
-  const pushMock = mockUseHistory();
-  render(<CreateEventPage />, { mocks });
 
-  await fillForm({ ...defaultFormData });
+  const { history } = render(<CreateEventPage />, { mocks });
+  const historyPush = jest.spyOn(history, 'push');
+
+  await fillForm(defaultFormData);
 
   await waitFor(() => {
     expect(
@@ -348,7 +336,7 @@ test('event can be created with form', async () => {
   );
 
   await waitFor(() => {
-    expect(pushMock).toHaveBeenCalledWith({
+    expect(historyPush).toHaveBeenCalledWith({
       pathname: `/fi${ROUTES.CREATE_OCCURRENCE.replace(
         ':id',
         'palvelutarjotin:afz52lpyta'
@@ -357,136 +345,20 @@ test('event can be created with form', async () => {
   });
 }, /* it seems that running test takes over 100 seconds and fails, let's override the default timeout with 150 seconds */ 150_000);
 
-const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
-  await screen.findByText(defaultOrganizationName);
-
-  userEvent.type(
-    screen.getByLabelText(/Tapahtuman nimi/),
-    eventFormData.name.fi
-  );
-
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventFormData.name.fi,
-  });
-
-  userEvent.type(
-    screen.getByLabelText(/lyhyt kuvaus/i),
-    eventFormData.shortDescription.fi
-  );
-
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventFormData.name.fi,
-    'shortDescription.fi': eventFormData.shortDescription.fi,
-  });
-
-  userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description.fi);
-  userEvent.type(
-    screen.getByLabelText(
-      'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
-    ),
-    eventFormData.infoUrl.fi
-  );
-
-  userEvent.click(
-    screen.getByLabelText(
-      /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
-    )
-  );
-
-  // image input should disappear after adding image
-  const imageInput = await screen.findByLabelText('Tapahtuman kuva');
-  await screen.findByRole('button', { name: 'Lisää kuva' });
-
-  fireEvent.change(imageInput, { target: { files: [imageFile] } });
-  await screen.findByAltText(imageAltText);
-
-  expect(
-    screen.queryByRole('button', { name: 'Lisää kuva' })
-  ).not.toBeInTheDocument();
-
-  userEvent.type(
-    screen.getByLabelText(/Valokuvaaja/),
-    eventFormData.imagePhotographerName
-  );
-  userEvent.type(
-    screen.getByLabelText(/Kuvan alt-teksti/),
-    eventFormData.imageAltText
-  );
-
-  userEvent.type(
-    screen.getByLabelText(/Sähköpostiosoite/),
-    eventFormData.contactEmail
-  );
-  userEvent.type(
-    screen.getByLabelText(/Puhelinnumero/),
-    eventFormData.contactPhoneNumber
-  );
-
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    contactPhoneNumber: eventFormData.contactPhoneNumber,
-    contactEmail: eventFormData.contactEmail,
-  });
-
-  const contactInfoPart = within(screen.getByTestId('contact-info'));
-
-  userEvent.click(
-    contactInfoPart.getByLabelText(/Nimi/, {
-      selector: 'button',
-    })
-  );
-
-  userEvent.click(contactInfoPart.getByRole('option', { name: personName }));
-
-  // email and name should automatically populate after choosing name from dropdown
-  await waitFor(() => {
-    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(
-      'testi123@testi123.fi'
-    );
-    expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
-  });
-
-  await testMultiDropdownValues({
-    dropdownLabel: /kategoriat/i,
-    dropdownTestId: 'categories-dropdown',
-    values: categoryKeywords.map((k) => k.name),
-  });
-
-  await testMultiDropdownValues({
-    dropdownLabel: /aktiviteetit/i,
-    dropdownTestId: 'additional-criteria-dropdown',
-    values: criteriaKeywords.map((k) => k.name),
-  });
-
-  await testMultiDropdownValues({
-    dropdownLabel: /kohderyhmät/i,
-    dropdownTestId: 'audience-dropdown',
-    values: audienceKeywords.map((k) => k.name),
-  });
-
-  jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
-
-  const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
-  userEvent.click(keywordsInput);
-  userEvent.type(keywordsInput, 'perheet');
-
-  const familyCategory = await screen.findByText(/perheet/i);
-  userEvent.click(familyCategory);
-};
-
 describe('Event price section', () => {
   test('price field is accessible only when isFree field is not checked', async () => {
     render(<CreateEventPage />, { mocks });
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).toHaveAttribute('disabled');
-    expect(screen.getByLabelText(/Lisätiedot/)).toHaveAttribute('disabled');
+    expect(screen.getByLabelText(/Hinta/)).toBeDisabled();
+    expect(screen.getByLabelText(/Lisätiedot/)).toBeDisabled();
 
     userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).not.toHaveAttribute('disabled');
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toHaveAttribute('disabled');
+    expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
+    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
   });
 });
 
@@ -567,15 +439,15 @@ describe('Language selection', () => {
     ```
   */
   test('filled fields for unselected languages are cleared when submitting the form', async () => {
-    const pushMock = mockUseHistory();
-
     const genericSwedishValue = 'SV translation';
 
-    render(<CreateEventPage />, {
+    const { history } = render(<CreateEventPage />, {
       mocks: mocks,
     });
 
-    await fillForm({ ...defaultFormData });
+    const historyPush = jest.spyOn(history, 'push');
+
+    await fillForm(defaultFormData);
 
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
@@ -604,7 +476,7 @@ describe('Language selection', () => {
     // Test that filling the Swedish fields did not change the posted variables.
     // Unselecting the language after filling should have cleared the input values.
     await waitFor(() => {
-      expect(pushMock).toHaveBeenCalledWith({
+      expect(historyPush).toHaveBeenCalledWith({
         pathname: `/fi${ROUTES.CREATE_OCCURRENCE.replace(
           ':id',
           'palvelutarjotin:afz52lpyta'
@@ -732,4 +604,120 @@ const testMultiDropdownValues = async ({
   for (const value of values) {
     await dropdown.findByText(value);
   }
+};
+
+const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
+  await screen.findByText(defaultOrganizationName);
+
+  userEvent.type(
+    screen.getByLabelText(/Tapahtuman nimi/),
+    eventFormData.name.fi
+  );
+
+  expect(screen.getByTestId('event-form')).toHaveFormValues({
+    'name.fi': eventFormData.name.fi,
+  });
+
+  userEvent.type(
+    screen.getByLabelText(/lyhyt kuvaus/i),
+    eventFormData.shortDescription.fi
+  );
+
+  expect(screen.getByTestId('event-form')).toHaveFormValues({
+    'name.fi': eventFormData.name.fi,
+    'shortDescription.fi': eventFormData.shortDescription.fi,
+  });
+
+  userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description.fi);
+  userEvent.type(
+    screen.getByLabelText(
+      'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
+    ),
+    eventFormData.infoUrl.fi
+  );
+
+  userEvent.click(
+    screen.getByLabelText(
+      /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
+    )
+  );
+
+  // image input should disappear after adding image
+  const imageInput = await screen.findByLabelText('Tapahtuman kuva');
+  await screen.findByRole('button', { name: 'Lisää kuva' });
+
+  fireEvent.change(imageInput, { target: { files: [imageFile] } });
+  await screen.findByAltText(imageAltText);
+
+  expect(
+    screen.queryByRole('button', { name: 'Lisää kuva' })
+  ).not.toBeInTheDocument();
+
+  userEvent.type(
+    screen.getByLabelText(/Valokuvaaja/),
+    eventFormData.imagePhotographerName
+  );
+  userEvent.type(
+    screen.getByLabelText(/Kuvan alt-teksti/),
+    eventFormData.imageAltText
+  );
+
+  userEvent.type(
+    screen.getByLabelText(/Sähköpostiosoite/),
+    eventFormData.contactEmail
+  );
+  userEvent.type(
+    screen.getByLabelText(/Puhelinnumero/),
+    eventFormData.contactPhoneNumber
+  );
+
+  expect(screen.getByTestId('event-form')).toHaveFormValues({
+    contactPhoneNumber: eventFormData.contactPhoneNumber,
+    contactEmail: eventFormData.contactEmail,
+  });
+
+  const contactInfoPart = within(screen.getByTestId('contact-info'));
+
+  userEvent.click(
+    contactInfoPart.getByLabelText(/Nimi/, {
+      selector: 'button',
+    })
+  );
+
+  userEvent.click(contactInfoPart.getByRole('option', { name: personName }));
+
+  // email and name should automatically populate after choosing name from dropdown
+  await waitFor(() => {
+    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(
+      'testi123@testi123.fi'
+    );
+    expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
+  });
+
+  await testMultiDropdownValues({
+    dropdownLabel: /kategoriat/i,
+    dropdownTestId: 'categories-dropdown',
+    values: categoryKeywords.map((k) => k.name),
+  });
+
+  await testMultiDropdownValues({
+    dropdownLabel: /aktiviteetit/i,
+    dropdownTestId: 'additional-criteria-dropdown',
+    values: criteriaKeywords.map((k) => k.name),
+  });
+
+  await testMultiDropdownValues({
+    dropdownLabel: /kohderyhmät/i,
+    dropdownTestId: 'audience-dropdown',
+    values: audienceKeywords.map((k) => k.name),
+  });
+
+  jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
+
+  const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
+  userEvent.click(keywordsInput);
+  userEvent.type(keywordsInput, 'perheet');
+
+  const familyCategory = await screen.findByText(/perheet/i);
+  userEvent.click(familyCategory);
 };
