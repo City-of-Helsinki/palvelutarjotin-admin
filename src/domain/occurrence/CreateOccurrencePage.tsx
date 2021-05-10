@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/react-hooks';
-import { NetworkStatus } from 'apollo-client';
+import { ApolloQueryResult, NetworkStatus } from 'apollo-client';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
@@ -17,6 +17,9 @@ import FormLanguageSelector from '../../common/components/formLanguageSelector/F
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import NotificationModal from '../../common/components/modal/NotificationModal';
 import {
+  EventQuery,
+  EventQueryVariables,
+  useAddOccurrenceMutation,
   useEditEventMutation,
   useMyProfileQuery,
   VenueDocument,
@@ -332,8 +335,8 @@ const CreateOccurrencePage: React.FC = () => {
                   {initialValues && (
                     <OccurrenceInfoForm
                       initialValues={initialValues}
-                      pEventId={eventData.event.pEvent.id}
-                      eventId={eventId}
+                      eventData={eventData}
+                      refetchEvent={refetchEvent}
                       selectedLanguages={selectedLanguages ?? []}
                       onSubmit={handleSaveEventInfo}
                       editEventLoading={editEventLoading}
@@ -375,20 +378,22 @@ const CreateOccurrencePage: React.FC = () => {
 };
 
 const OccurrenceInfoForm: React.FC<{
-  pEventId: string;
-  eventId: string;
+  eventData: EventQuery;
   selectedLanguages: Language[];
   initialValues: TimeAndLocationFormFields;
+  loadingEvent: boolean;
+  editEventLoading: boolean;
+  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
+  refetchEvent: (
+    variables?: EventQueryVariables | undefined
+  ) => Promise<ApolloQueryResult<EventQuery>>;
   onSubmit: (
     values: TimeAndLocationFormFields,
     formikHelpers: FormikHelpers<TimeAndLocationFormFields>
   ) => void | Promise<void>;
-  editEventLoading: boolean;
-  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
-  loadingEvent: boolean;
 }> = ({
-  pEventId,
-  eventId,
+  eventData,
+  refetchEvent,
   selectedLanguages,
   onSubmit,
   initialValues,
@@ -397,6 +402,14 @@ const OccurrenceInfoForm: React.FC<{
   loadingEvent,
 }) => {
   const { t } = useTranslation();
+
+  const [
+    createOccurrence,
+    { loading: addOccurrenceLoading },
+  ] = useAddOccurrenceMutation();
+
+  // Used for disabling form buttons if something is loading
+  const loading = loadingEvent || editEventLoading || addOccurrenceLoading;
 
   return (
     <Formik<TimeAndLocationFormFields>
@@ -413,15 +426,20 @@ const OccurrenceInfoForm: React.FC<{
           <FocusToFirstError />
           <LocationFormPart selectedLanguages={selectedLanguages} />
           <EnrolmentInfoFormPart />
-          <OccurrencesFormPart pEventId={pEventId} eventId={eventId} />
+          <OccurrencesFormPart
+            eventData={eventData}
+            createOccurrence={createOccurrence}
+            refetchEvent={refetchEvent}
+            disabled={loading}
+          />
           <div className={styles.submitButtons}>
-            <Button disabled={editEventLoading || !dirty} type="submit">
+            <Button disabled={loading || !dirty} type="submit">
               {t('eventForm.buttonSave')}
             </Button>
             <Button
               variant="secondary"
               type="button"
-              disabled={editEventLoading || loadingEvent}
+              disabled={loading}
               onClick={onGoToPublishingClick}
             >
               {t('createOccurrence.buttonGoToPublishing')}

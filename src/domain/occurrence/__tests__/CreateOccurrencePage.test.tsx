@@ -96,9 +96,6 @@ describe('location and enrolment info', () => {
     });
     renderComponent({
       mocks: [
-        // 2 components fetch this and third (3.) is needed for the refetch
-        // 'network-only' is used which might be causing this
-        eventWithoutEnrolmentAndLocationInfoMockedResponse,
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
         updateEventMockResponse,
@@ -171,16 +168,20 @@ describe('location and enrolment info', () => {
     userEvent.click(getFormElement('saveButton'));
 
     const goToPublishingButton = getFormElement('goToPublishing');
-    // Button should be disabled during mutation request
+    const addNewOccurrenceButton = getOccurrenceFormElement('submit');
+
+    // Form buttons should be disabled during mutation request
     await waitFor(() => {
       expect(goToPublishingButton).toBeDisabled();
+      expect(addNewOccurrenceButton).toBeDisabled();
     });
 
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
     });
 
-    expect(goToPublishingButton).not.toBeDisabled();
+    expect(goToPublishingButton).toBeEnabled();
+    expect(addNewOccurrenceButton).toBeEnabled();
   });
 
   test('user can edit and save location and enrolment related info', async () => {
@@ -204,9 +205,6 @@ describe('location and enrolment info', () => {
     });
     renderComponent({
       mocks: [
-        // 2 components fetch this and third (3.) is needed for the refetch
-        // 'network-only' is used which might be causing this
-        eventWithEnrolmentAndLocationInfoMockedResponse,
         eventWithEnrolmentAndLocationInfoMockedResponse,
         eventWithEnrolmentAndLocationInfoMockedResponse,
         updateEventMockResponse,
@@ -296,7 +294,6 @@ describe('location and enrolment info', () => {
     );
     renderComponent({
       mocks: [
-        eventWithMultipleLanguagesMockedResponse,
         eventWithMultipleLanguagesMockedResponse,
         eventWithMultipleLanguagesMockedResponse,
         updateEventWithMultipleLanguagesMockResponse,
@@ -401,9 +398,6 @@ describe('location and enrolment info', () => {
     });
     const { container, history } = renderComponent({
       mocks: [
-        // 2 components fetch this and third (3.) is needed for the refetch
-        // 'network-only' is used which might be causing this
-        eventMockResponse,
         eventMockResponse,
         // refetch mock after saving
         updatedEventMockResponse,
@@ -515,9 +509,6 @@ describe('occurrences form', () => {
     );
     renderComponent({
       mocks: [
-        // 2 components fetch this and third (3.) is needed for the refetch
-        // 'network-only' is used which might be causing this
-        eventWithoutEnrolmentAndLocationInfoMockedResponse,
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
       ],
@@ -613,7 +604,6 @@ describe('occurrences form', () => {
     renderComponent({
       mocks: [
         eventMockResponse,
-        eventMockResponse,
         getEventMockedResponse({
           occurrences: fakeOccurrences(1, [occurrence1]),
         }),
@@ -691,7 +681,6 @@ describe('occurrences form', () => {
     );
     renderComponent({
       mocks: [
-        eventMockResponse,
         eventMockResponse,
         deleteOccurrenceMockResponse1,
         eventWithOneDeletedOccurrenceMockResponse,
@@ -815,7 +804,6 @@ describe('venue info', () => {
     renderComponent({
       mocks: [
         editVenueMockResponse,
-        eventWithMultipleLanguagesMockedResponse,
         eventWithMultipleLanguagesMockedResponse,
         eventWithMultipleLanguagesMockedResponse,
         updateEventWithMultipleLanguagesMockResponse,
@@ -1075,6 +1063,17 @@ const fillAndSubmitOccurrenceForm = async ({
 
   const submitButton = getOccurrenceFormElement('submit');
   userEvent.click(submitButton);
+
+  const goToPublishingButton = getFormElement('goToPublishing');
+  const saveEventDataButton = getFormElement('saveButton');
+  const addNewOccurrenceButton = getOccurrenceFormElement('submit');
+
+  // All buttons should be disabled when loading
+  await waitFor(() => {
+    expect(goToPublishingButton).toBeDisabled();
+    expect(addNewOccurrenceButton).toBeDisabled();
+    expect(saveEventDataButton).toBeDisabled();
+  });
 
   await waitFor(() => {
     expect(occurrenceStartsAtInput).toHaveValue('');
