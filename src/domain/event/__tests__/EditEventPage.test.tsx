@@ -257,7 +257,7 @@ describe('Language selection', () => {
 
     userEvent.click(
       screen.getByRole('button', {
-        name: 'Tallenna tiedot',
+        name: 'Päivitä tiedot',
       })
     );
 
