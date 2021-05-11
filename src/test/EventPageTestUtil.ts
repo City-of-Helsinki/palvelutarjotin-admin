@@ -208,10 +208,8 @@ const eventResponse = {
       ],
       audience: audienceKeywords.map((k) => fakeKeyword({ id: k.id })),
       keywords: [
-        fakeKeyword({ id: keywordId }),
-        ...basicKeywords.map((k) =>
-          fakeKeyword({ id: k.id, internalId: k.id })
-        ),
+        fakeKeyword({ id: keywordId, name: fakeLocalizedObject(keyword) }),
+        ...basicKeywords.map((k) => fakeKeyword({ id: k.id })),
       ],
       pEvent: fakePEvent({
         organisation: fakeOrganisation({

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MockedResponse } from '@apollo/react-testing';
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
-import Router from 'react-router';
 
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import * as useLocale from '../../../hooks/useLocale';
@@ -16,45 +16,41 @@ import {
   eventName,
   infoUrl,
   keyword,
-  keywordId,
-  keywordMockResponse,
   personName,
   photoAltText,
   photographerName,
   shortDescription,
-  venueQueryResponse,
 } from '../../../test/EventPageTestUtil';
 import { Language } from '../../../types';
-import { render, screen, waitFor, within } from '../../../utils/testUtils';
-import apolloClient from '../../app/apollo/apolloClient';
+import {
+  renderWithRoute,
+  screen,
+  waitFor,
+  within,
+} from '../../../utils/testUtils';
+import { ROUTES } from '../../app/routes/constants';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useParams').mockReturnValue({
-    id: eventId,
-  });
-});
-
-jest
-  .spyOn(apolloClient, 'readQuery')
-  .mockImplementation(({ variables }: any) => {
-    if (variables.id === keywordId) {
-      return keywordMockResponse;
-    }
-  });
-jest.spyOn(apolloClient, 'query').mockResolvedValue(venueQueryResponse as any);
-
-jest
-  .spyOn(apolloClient, 'readQuery')
-  .mockReturnValue(venueQueryResponse as any);
-
-// Venue mutation mock
-jest.spyOn(apolloClient, 'mutate').mockResolvedValue({});
 
 advanceTo(new Date(2020, 7, 5));
 
+const renderComponent = ({
+  path = `/fi${ROUTES.EDIT_EVENT}`,
+  routes = [`/fi${ROUTES.EDIT_EVENT.replace(':id', eventId)}`],
+  mocks = editMocks,
+}: {
+  mocks?: MockedResponse[];
+  routes?: string[];
+  path?: string;
+} = {}) => {
+  return renderWithRoute(<EditEventPage />, {
+    mocks,
+    routes,
+    path,
+  });
+};
+
 test('edit event form initializes and submits correctly', async () => {
-  const { history } = render(<EditEventPage />, { mocks: editMocks });
+  const { history } = renderComponent();
 
   const goBack = jest.spyOn(history, 'goBack');
 
@@ -108,12 +104,12 @@ test('edit event form initializes and submits correctly', async () => {
 });
 
 test('returns to create occurrences page when it should after saving', async () => {
-  jest
-    .spyOn(apolloClient, 'query')
-    .mockResolvedValue(venueQueryResponse as any);
-  const { history } = render(<EditEventPage />, {
-    mocks: editMocks,
-    routes: [`/moi?navigatedFrom=${NAVIGATED_FROM.OCCURRENCES}`],
+  const { history } = renderComponent({
+    routes: [
+      `/fi${ROUTES.EDIT_EVENT.replace(':id', eventId)}?navigatedFrom=${
+        NAVIGATED_FROM.OCCURRENCES
+      }`,
+    ],
   });
   const historyPush = jest.spyOn(history, 'push');
 
@@ -138,7 +134,8 @@ test('returns to create occurrences page when it should after saving', async () 
 
 describe('Event price section', () => {
   test('price field is accessible only when isFree field is not checked', async () => {
-    render(<EditEventPage />, { mocks: editMocks });
+    renderComponent();
+
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
@@ -166,7 +163,7 @@ describe('Language selection', () => {
     jest.resetModules();
   });
   it('has Finnish, Swedish and English as language options', async () => {
-    render(<EditEventPage />, { mocks: editMocks });
+    renderComponent();
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
@@ -183,7 +180,8 @@ describe('Language selection', () => {
   });
 
   test('transletable fields appears in selected languages', async () => {
-    render(<EditEventPage />, { mocks: editMocks });
+    renderComponent();
+
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
@@ -228,7 +226,7 @@ describe('Language selection', () => {
     NOTE: CreateEventPAge testes this too, but there all the fields are newly filled and not presaved.
   */
   test('filled fields for unselected languages are cleared when submitting the form', async () => {
-    const { history } = render(<EditEventPage />, { mocks: editMocks });
+    const { history } = renderComponent();
     const genericSwedishValue = 'SV translation';
 
     const goBack = jest.spyOn(history, 'goBack');
@@ -280,7 +278,7 @@ describe('Language selection', () => {
     it(`renders current UI language (${locale}) first when translatable fields are rendered`, async () => {
       // mock ui language
       jest.spyOn(useLocale, 'default').mockReturnValue(locale as Language);
-      render(<EditEventPage />, { mocks: editMocks });
+      renderComponent();
       const languageSelector = await screen.findByTestId(
         formLanguageSelectorTestId
       );
