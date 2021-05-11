@@ -61,7 +61,10 @@
       "toggleButton": "Valitse"
     },
     "buttonClose": "Sulje",
-    "linkSkipToContent": "Siirry sisältöön"
+    "linkSkipToContent": "Siirry sisältöön",
+    "openInNewTab": "(avataan uudessa välilehdessä)",
+    "notification": "Ilmoitus",
+    "getStaffRightsInstructionsText": "Hanki oikeus tapahtumien julkaisuun tällä <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"lomakkeella {{openInNewTab}}\">lomakkeella</a>"
   },
   "enrolmentForm": {
     "buttonSubmit": "Lähetä ilmoittautuminen",

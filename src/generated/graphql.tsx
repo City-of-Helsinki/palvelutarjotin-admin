@@ -492,6 +492,7 @@ export type PersonNode = Node & {
   occurrences: OccurrenceNodeConnection;
   studygroupSet: StudyGroupNodeConnection;
   enrolmentSet: EnrolmentNodeConnection;
+  isStaff: Scalars['Boolean'];
 };
 
 
@@ -2512,6 +2513,7 @@ export type UpdateMyProfileMutation = (
 
 export type MyProfileFieldsFragment = (
   { __typename?: 'PersonNode' }
+  & Pick<PersonNode, 'isStaff'>
   & { organisations: (
     { __typename?: 'OrganisationNodeConnection' }
     & { edges: Array<Maybe<(
@@ -3165,6 +3167,7 @@ export const MetaFieldsFragmentDoc = gql`
 export const MyProfileFieldsFragmentDoc = gql`
     fragment myProfileFields on PersonNode {
   ...personFields
+  isStaff
   organisations {
     edges {
       node {

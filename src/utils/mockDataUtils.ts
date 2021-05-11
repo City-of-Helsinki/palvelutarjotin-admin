@@ -451,6 +451,7 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   pEvent: '' as any,
   studygroupSet: '' as any,
   updatedAt: '' as any,
+  isStaff: true,
   ...overrides,
 });
 
