@@ -49,6 +49,7 @@ export const defaultOrganizationName =
   'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto';
 export const eventOrganizationName = 'Kulttuurin ja vapaa-ajan toimiala';
 export const keyword = 'perheet';
+export const mandatoryAdditionalInformation = true;
 
 export const createFinnishLocalisedObject = (
   fiText: string,
@@ -153,7 +154,7 @@ const editEventVariables = {
       enrolmentEndDays: 3,
       enrolmentStart: '2020-08-13T00:45:00.000Z',
       neededOccurrences: 3,
-      mandatoryAdditionalInformation: false,
+      mandatoryAdditionalInformation: mandatoryAdditionalInformation,
     },
     organisationId: organisationId,
     draft: true,
@@ -229,7 +230,7 @@ const eventResponse = {
         enrolmentEndDays: 3,
         enrolmentStart: '2020-08-13T00:45:00.000Z',
         neededOccurrences: 3,
-        mandatoryAdditionalInformation: false,
+        mandatoryAdditionalInformation: mandatoryAdditionalInformation,
         autoAcceptance: true,
         contactPerson: fakePerson({
           id: contactPersonId,

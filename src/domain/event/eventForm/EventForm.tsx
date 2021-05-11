@@ -16,9 +16,7 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import FormLanguageSelector from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import { createEmptyLocalizedObject } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import sortFavorably from '../../../utils/sortFavorably';
 import { ROUTES } from '../../app/routes/constants';
 import { CreateEventFormFields } from '../types';
 import ContactPersonInfoPart from './ContactPersonInfoPart';
@@ -26,6 +24,7 @@ import styles from './eventForm.module.scss';
 import ImageSelectedFormPart from './ImageSelectedFormPart';
 import SelectImageFormPart from './SelectImageFormPart';
 import { useKeywordOptions } from './useKeywordOptions';
+import useSelectableEventLanguages from './useSelectableEventLanguages';
 import createValidationSchema from './ValidationSchema';
 
 export const eventInitialValues: CreateEventFormFields = {
@@ -77,11 +76,7 @@ const EventForm = <T extends FormFields>({
   title,
   formType = 'new',
 }: Props<T>): React.ReactElement => {
-  const [selectedLanguages, setSelectedLanguages] = React.useState<Language[]>([
-    'fi',
-  ]);
   const isPrefilledForm = formType === 'edit' || formType === 'template';
-  const locale = useLocale();
   const history = useHistory();
   const { t } = useTranslation();
   const {
@@ -90,24 +85,18 @@ const EventForm = <T extends FormFields>({
     targetGroups,
   } = useKeywordOptions();
 
-  const sortedSelectedLanguages = sortFavorably(selectedLanguages as string[], [
-    locale,
-    'fi',
-  ]);
+  const {
+    selectedLanguages,
+    sortedSelectedLanguages,
+    setSelectedLanguageVersions,
+    handleSelectedLanguagesChange,
+  } = useSelectableEventLanguages(initialValues);
 
   React.useEffect(() => {
-    const setSelectedLanguageVersions = () => {
-      const langs = Object.entries(initialValues.name).reduce<string[]>(
-        (prev, [lang, value]) => (value ? [...prev, lang] : prev),
-        []
-      );
-      setSelectedLanguages(langs as Language[]);
-    };
-
     if (initialValues.name && isPrefilledForm) {
       setSelectedLanguageVersions();
     }
-  }, [formType, initialValues, isPrefilledForm, setSelectedLanguages]);
+  }, [initialValues, isPrefilledForm, setSelectedLanguageVersions]);
 
   const validationSchema = React.useMemo(() => {
     return createValidationSchema(selectedLanguages as Language[]);
@@ -125,21 +114,6 @@ const EventForm = <T extends FormFields>({
 
   const goToEventList = () => {
     history.push(ROUTES.HOME);
-  };
-
-  const handleSelectedLanguagesChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (e.target.checked) {
-      setSelectedLanguages([
-        ...(selectedLanguages ?? []),
-        e.target.value as Language,
-      ]);
-    } else {
-      setSelectedLanguages(
-        (selectedLanguages ?? []).filter((lang) => e.target.value !== lang)
-      );
-    }
   };
 
   const getLabelWithLanguage = (stringId: string, lang: string) => {
