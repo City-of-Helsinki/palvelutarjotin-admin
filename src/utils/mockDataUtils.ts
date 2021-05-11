@@ -72,15 +72,15 @@ export const fakeEvents = (
 export const fakeOffer = (overrides?: Partial<Offer>): Offer => ({
   isFree: true,
   description: {
-    en: null,
+    en: '',
     fi: 'description',
-    sv: null,
+    sv: '',
     __typename: 'LocalisedObject',
   },
   price: {
-    en: null,
+    en: '',
     fi: '99,9',
-    sv: null,
+    sv: '',
     __typename: 'LocalisedObject',
   },
   infoUrl: null,
@@ -352,7 +352,7 @@ export const fakeOccurrence = (
   ]),
   startTime: '2020-08-03T09:00:00+00:00',
   endTime: '2020-08-03T09:30:00+00:00',
-  placeId: '',
+  placeId: faker.random.uuid(),
   seatsTaken: 0,
   seatsApproved: 0,
   contactPersons: [] as any,
@@ -460,8 +460,8 @@ export const fakeLocalizedObject = (
   localizedObject: { fi?: string; en?: string; sv?: string } = {}
 ): LocalisedObject => ({
   __typename: 'LocalisedObject',
-  en: localizedObject.en ?? null,
-  sv: localizedObject.sv ?? null,
+  en: localizedObject.en ?? '',
+  sv: localizedObject.sv ?? '',
   fi: localizedObject.fi || text || faker.random.words(),
 });
 

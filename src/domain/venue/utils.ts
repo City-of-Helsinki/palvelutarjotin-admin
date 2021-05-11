@@ -1,3 +1,5 @@
+import ApolloClient from 'apollo-client';
+
 import {
   CreateVenueDocument,
   CreateVenueMutation,
@@ -12,7 +14,6 @@ import {
   VenueTranslationType,
 } from '../../generated/graphql';
 import { Language } from '../../types';
-import apolloClient from '../app/apollo/apolloClient';
 import { VenueDataFields } from './types';
 
 export const VENUE_AMENITIES = [
@@ -116,9 +117,11 @@ const hasDescriptionsChanged = (
 export const createOrUpdateVenue = async ({
   venueFormData,
   locationId,
+  apolloClient,
 }: {
   venueFormData: VenueDataFields;
   locationId: string;
+  apolloClient: ApolloClient<object>;
 }) => {
   try {
     const { data: existingVenueData } = await apolloClient.query<VenueQuery>({

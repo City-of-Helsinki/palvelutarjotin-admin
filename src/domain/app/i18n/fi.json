@@ -298,7 +298,7 @@
       "labelDescription": "Kuvaus",
       "labelMandatoryAdditionalInformation": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
       "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskenttä pakolliseksi...",
-      "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
+      "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu X päivää ennen tapahtuma-aikaa",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelImage": "Tapahtuman kuva",
       "labelImageAltText": "Kuvan alt-teksti",
@@ -385,7 +385,7 @@
     "occurrences": {
       "occurrencesFormSectionTitle": "Tapahtuma-aika",
       "labelEventHasNoOccurrences": "Tapahtumalla ei ole lukittua ajankohtaa",
-      "buttonAddNewOccurence": "Lisää uusi tapahtuma"
+      "buttonAddNewOccurence": "Lisää uusi tapahtuma-aika"
     }
   },
   "events": {
@@ -621,8 +621,8 @@
       "columnStarts": "Alkaa",
       "columnEnds": "Päättyy",
       "columnLanguages": "Tapahtuman kieli",
-      "columnMaxGroupSize": "Min",
-      "columnMinGroupSize": "Max",
+      "columnMaxGroupSize": "Max",
+      "columnMinGroupSize": "Min",
       "buttonDeleteOccurrence": "Poista tapahtuma-aika"
     },
     "publishSection": {

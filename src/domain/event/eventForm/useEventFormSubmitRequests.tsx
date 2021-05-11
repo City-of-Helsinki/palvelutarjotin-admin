@@ -1,10 +1,12 @@
+import ApolloClient from 'apollo-client';
+
 import { useUpdateSingleImageMutation } from '../../../generated/graphql';
 import { getImageName } from '../../image/utils';
 import { VenueDataFields } from '../../venue/types';
 import { createOrUpdateVenue } from '../../venue/utils';
 import { CreateEventFormFields } from '../types';
 
-const useCreateOrUpdateVenueRequest = () => {
+const useCreateOrUpdateVenueRequest = (apolloClient: ApolloClient<object>) => {
   return ({
     venueFormData,
     locationId,
@@ -15,6 +17,7 @@ const useCreateOrUpdateVenueRequest = () => {
     return createOrUpdateVenue({
       venueFormData,
       locationId,
+      apolloClient,
     });
   };
 };

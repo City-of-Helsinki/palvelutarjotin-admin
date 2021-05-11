@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from 'apollo-client';
 import addHours from 'date-fns/addHours';
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
@@ -13,6 +14,8 @@ import MultiDropdownField from '../../../common/components/form/fields/MultiDrop
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import {
+  EventQuery,
+  EventQueryVariables,
   OccurrenceFieldsFragment,
   useAddOccurrenceMutation,
   useDeleteOccurrenceMutation,
@@ -24,11 +27,7 @@ import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
 } from '../types';
-import {
-  getOccurrenceFields,
-  getOccurrencePayload,
-  useBaseEventQuery,
-} from '../utils';
+import { getOccurrenceFields, getOccurrencePayload } from '../utils';
 import styles from './occurrencesFormPart.module.scss';
 import {
   addOccurrencesToCache,
@@ -50,21 +49,26 @@ export const defaultInitialValues: OccurrenceSectionFormFields = {
   oneGroupFills: false,
 };
 
+export const occurrencesFormTestId = 'occurrences-form';
+
 const OccurrencesForm: React.FC<{
-  pEventId: string;
-  eventId: string;
-}> = ({ pEventId, eventId }) => {
+  eventData: EventQuery;
+  createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
+  refetchEvent: (
+    variables?: EventQueryVariables | undefined
+  ) => Promise<ApolloQueryResult<EventQuery>>;
+  disabled: boolean;
+}> = ({ disabled, eventData, refetchEvent, createOccurrence }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const [
-    createOccurrence,
-    { loading: addOccurrenceLoading },
-  ] = useAddOccurrenceMutation();
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const {
     values: { location, isVirtual, enrolmentEndDays, enrolmentStart },
   } = useFormikContext<TimeAndLocationFormFields>();
+
+  const { occurrences, id: eventId } = getEventFields(eventData?.event, locale);
+  const pEventId = eventData.event?.pEvent.id as string;
 
   const initialValues = React.useMemo(() => {
     return {
@@ -78,14 +82,10 @@ const OccurrencesForm: React.FC<{
     [enrolmentEndDays, enrolmentStart, isVirtual]
   );
 
-  const {
-    data: eventData,
-    refetch: refetchEvent,
-    variables: eventVariables,
-  } = useBaseEventQuery({
-    variables: { id: eventId },
-    fetchPolicy: 'network-only',
-  });
+  const eventVariables = {
+    id: eventId ?? '',
+    include: ['location', 'keywords', 'audience'],
+  };
 
   const reinitializeForm = (
     values: OccurrenceSectionFormFields,
@@ -122,7 +122,11 @@ const OccurrencesForm: React.FC<{
           isVirtual,
         }),
         update: (proxy, { data }) => {
-          addOccurrencesToCache({ proxy, data, eventVariables });
+          addOccurrencesToCache({
+            proxy,
+            data,
+            eventVariables,
+          });
         },
       });
       refetchEvent();
@@ -149,6 +153,7 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
+      refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,
@@ -156,10 +161,11 @@ const OccurrencesForm: React.FC<{
     }
   };
 
-  const { occurrences } = getEventFields(eventData?.event, locale);
-
   return (
-    <div className={styles.occurrencesFormPart}>
+    <div
+      className={styles.occurrencesFormPart}
+      data-testid={occurrencesFormTestId}
+    >
       <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
       <div className={styles.noOccurrencesCheckBox}>
         <Checkbox
@@ -182,9 +188,9 @@ const OccurrencesForm: React.FC<{
         validateOnChange
       >
         <OccurrenceForm
-          addOccurrenceLoading={addOccurrenceLoading}
           eventDefaultlocation={location}
           isVirtualEvent={isVirtual}
+          disabled={disabled}
         />
       </Formik>
     </div>
@@ -192,10 +198,10 @@ const OccurrencesForm: React.FC<{
 };
 
 const OccurrenceForm: React.FC<{
-  addOccurrenceLoading: boolean;
   eventDefaultlocation: string;
   isVirtualEvent: boolean;
-}> = ({ addOccurrenceLoading, eventDefaultlocation, isVirtualEvent }) => {
+  disabled: boolean;
+}> = ({ eventDefaultlocation, isVirtualEvent, disabled }) => {
   const { t } = useTranslation();
   const {
     handleSubmit,
@@ -302,7 +308,7 @@ const OccurrenceForm: React.FC<{
         />
       </div>
       <div>
-        <Button disabled={addOccurrenceLoading} onClick={() => handleSubmit()}>
+        <Button disabled={disabled} onClick={() => handleSubmit()}>
           {t('eventForm.occurrences.buttonAddNewOccurence')}
         </Button>
       </div>

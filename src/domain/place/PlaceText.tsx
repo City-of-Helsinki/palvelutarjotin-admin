@@ -13,7 +13,6 @@ const PlaceText: React.FC<Props> = ({ id }) => {
   const { data } = usePlaceQuery({
     variables: { id },
   });
-
   return <>{getLocalizedString(data?.place?.name || {}, locale)}</>;
 };
 

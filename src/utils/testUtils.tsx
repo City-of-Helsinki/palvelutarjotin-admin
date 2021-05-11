@@ -6,6 +6,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 
+import { apolloCache } from '../domain/app/apollo/apolloClient';
 import { store as reduxStore } from '../domain/app/store';
 
 export const arrowUpKeyPressHelper = () =>
@@ -53,7 +54,7 @@ const renderWithRoute: CustomRender = (
 ) => {
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={mocks} cache={apolloCache}>
         <Router history={history}>
           <Route exact path={path}>
             {children}

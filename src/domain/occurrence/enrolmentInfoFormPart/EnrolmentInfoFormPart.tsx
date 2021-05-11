@@ -54,6 +54,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
           </div> */}
           <div className={styles.formRow}>
             <Field
+              className={styles.enrolmentStartInput}
               required
               labelText={t('eventForm.basicInfo.labelEnrolmentStart')}
               name="enrolmentStart"

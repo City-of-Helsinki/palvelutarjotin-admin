@@ -22,7 +22,7 @@ const isKeyword = (object: any): object is Keyword => {
   return object.__typename === 'Keyword';
 };
 
-const cache = new InMemoryCache({
+export const apolloCache = new InMemoryCache({
   dataIdFromObject: (object: IdGetterObj & { getCacheKey?: boolean }) => {
     // Hacky way to not store keywords without id to cache
     // This happends when queries are done without include: ['keywords']
@@ -100,7 +100,7 @@ const authLink = setContext((_, { headers }) => {
 
 const apolloClient = new ApolloClient({
   link: ApolloLink.from([errorLink, authLink, httpLink]),
-  cache,
+  cache: apolloCache,
 });
 
 export default apolloClient;

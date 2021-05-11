@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/react-hooks';
-import { NetworkStatus } from 'apollo-client';
+import { ApolloQueryResult, NetworkStatus } from 'apollo-client';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
@@ -17,6 +17,9 @@ import FormLanguageSelector from '../../common/components/formLanguageSelector/F
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import NotificationModal from '../../common/components/modal/NotificationModal';
 import {
+  EventQuery,
+  EventQueryVariables,
+  useAddOccurrenceMutation,
   useEditEventMutation,
   useMyProfileQuery,
   VenueDocument,
@@ -69,7 +72,7 @@ const CreateOccurrencePage: React.FC = () => {
     setInitialValues,
   ] = React.useState<TimeAndLocationFormFields | null>(null);
 
-  const createOrUpdateVenue = useCreateOrUpdateVenueRequest();
+  const createOrUpdateVenue = useCreateOrUpdateVenueRequest(apolloClient);
 
   const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
 
@@ -99,6 +102,7 @@ const CreateOccurrencePage: React.FC = () => {
             id: event.location?.id,
           },
         });
+
         const venueData = data.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         const eventName = omit(event.name, '__typename');
@@ -113,9 +117,9 @@ const CreateOccurrencePage: React.FC = () => {
           ...defaultInitialValues,
           // If enrolment start time is not defined yet, then user hasn't filled this form yet
           // and initial value can be set to true as default
-          autoAcceptance: event.pEvent.enrolmentStart
+          autoAcceptance: event.pEvent.autoAcceptance
             ? event.pEvent.autoAcceptance
-            : true,
+            : false,
           enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
           enrolmentStart: event.pEvent.enrolmentStart
             ? new Date(event.pEvent.enrolmentStart)
@@ -224,9 +228,7 @@ const CreateOccurrencePage: React.FC = () => {
         await Promise.all(requests);
         formikHelpers.resetForm({ values });
         refetchEvent();
-        toast(t('eventForm.saveSuccesful'), {
-          type: toast.TYPE.SUCCESS,
-        });
+        toast.success(t('eventForm.saveSuccesful'));
       } else {
         throw new Error("Can't submit because event wasn't defined");
       }
@@ -333,8 +335,8 @@ const CreateOccurrencePage: React.FC = () => {
                   {initialValues && (
                     <OccurrenceInfoForm
                       initialValues={initialValues}
-                      pEventId={eventData.event.pEvent.id}
-                      eventId={eventId}
+                      eventData={eventData}
+                      refetchEvent={refetchEvent}
                       selectedLanguages={selectedLanguages ?? []}
                       onSubmit={handleSaveEventInfo}
                       editEventLoading={editEventLoading}
@@ -376,20 +378,22 @@ const CreateOccurrencePage: React.FC = () => {
 };
 
 const OccurrenceInfoForm: React.FC<{
-  pEventId: string;
-  eventId: string;
+  eventData: EventQuery;
   selectedLanguages: Language[];
   initialValues: TimeAndLocationFormFields;
+  loadingEvent: boolean;
+  editEventLoading: boolean;
+  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
+  refetchEvent: (
+    variables?: EventQueryVariables | undefined
+  ) => Promise<ApolloQueryResult<EventQuery>>;
   onSubmit: (
     values: TimeAndLocationFormFields,
     formikHelpers: FormikHelpers<TimeAndLocationFormFields>
   ) => void | Promise<void>;
-  editEventLoading: boolean;
-  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
-  loadingEvent: boolean;
 }> = ({
-  pEventId,
-  eventId,
+  eventData,
+  refetchEvent,
   selectedLanguages,
   onSubmit,
   initialValues,
@@ -399,6 +403,14 @@ const OccurrenceInfoForm: React.FC<{
 }) => {
   const { t } = useTranslation();
 
+  const [
+    createOccurrence,
+    { loading: addOccurrenceLoading },
+  ] = useAddOccurrenceMutation();
+
+  // Used for disabling form buttons if something is loading
+  const loading = loadingEvent || editEventLoading || addOccurrenceLoading;
+
   return (
     <Formik<TimeAndLocationFormFields>
       initialValues={initialValues}
@@ -406,19 +418,28 @@ const OccurrenceInfoForm: React.FC<{
       validationSchema={ValidationSchema}
     >
       {({ dirty }) => (
-        <Form className={styles.occurrencesForm} noValidate>
+        <Form
+          className={styles.occurrencesForm}
+          noValidate
+          data-testid="time-and-location-form"
+        >
           <FocusToFirstError />
           <LocationFormPart selectedLanguages={selectedLanguages} />
           <EnrolmentInfoFormPart />
-          <OccurrencesFormPart pEventId={pEventId} eventId={eventId} />
+          <OccurrencesFormPart
+            eventData={eventData}
+            createOccurrence={createOccurrence}
+            refetchEvent={refetchEvent}
+            disabled={loading}
+          />
           <div className={styles.submitButtons}>
-            <Button disabled={editEventLoading || !dirty} type="submit">
+            <Button disabled={loading || !dirty} type="submit">
               {t('eventForm.buttonSave')}
             </Button>
             <Button
               variant="secondary"
               type="button"
-              disabled={editEventLoading || loadingEvent}
+              disabled={loading}
               onClick={onGoToPublishingClick}
             >
               {t('createOccurrence.buttonGoToPublishing')}
