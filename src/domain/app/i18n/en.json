@@ -307,6 +307,7 @@
     "formLanguageSelectorTitle": "Select form language versions",
     "buttonCancel": "Cancel",
     "buttonSave": "Save",
+    "buttonUpdate": "Update",
     "buttonSaveAndGoToOccurrences": "Save and go to occurrences",
     "buttonSaveDraft": "Save draft",
     "saveSuccesful": "Data has been saved",

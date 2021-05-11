@@ -1,5 +1,5 @@
 import { format as formatDate } from 'date-fns';
-import { Button, IconCrossCircle } from 'hds-react';
+import { Button, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
@@ -20,6 +20,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import { EDIT_EVENT_QUERY_PARAMS, NAVIGATED_FROM } from './EditEventPage';
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
 import EventCategorisation from './eventCategorisation/EventCategorisation';
 import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
@@ -122,6 +123,20 @@ const EventDetailsPage = () => {
     return null;
   };
 
+  const handleEditEventClick = () => {
+    const searchParams = new URLSearchParams();
+    searchParams.append(
+      EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
+      NAVIGATED_FROM.EVENT_DETAILS
+    );
+    history.push(
+      `/${locale}${ROUTES.EDIT_EVENT.replace(
+        ':id',
+        id
+      )}?${searchParams.toString()}`
+    );
+  };
+
   return (
     <PageWrapper title="eventDetails.title">
       <LoadingSpinner isLoading={loading}>
@@ -168,14 +183,23 @@ const EventDetailsPage = () => {
                   <EventContactPersonInfo eventData={eventData} />
                 </div>
               </div>
-              <Button
-                className={styles.deleteButton}
-                iconLeft={<IconCrossCircle />}
-                onClick={openDeleteModal}
-                variant="secondary"
-              >
-                {t('eventDetails.buttons.buttonDelete')}
-              </Button>
+              <div className={styles.actionButtonsContainer}>
+                <Button
+                  iconLeft={<IconPen />}
+                  onClick={handleEditEventClick}
+                  variant="secondary"
+                >
+                  {t('eventDetails.buttons.buttonEdit')}
+                </Button>
+                <Button
+                  className={styles.deleteButton}
+                  iconLeft={<IconCrossCircle />}
+                  onClick={openDeleteModal}
+                  variant="secondary"
+                >
+                  {t('eventDetails.buttons.buttonDelete')}
+                </Button>
+              </div>
             </div>
           ) : (
             <ErrorPage />

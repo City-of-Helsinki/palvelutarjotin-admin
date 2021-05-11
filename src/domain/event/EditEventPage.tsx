@@ -29,7 +29,6 @@ import { CreateEventFormFields } from './types';
 import {
   getEditEventPayload,
   getEventFormValues,
-  isEditableEvent,
   omitUnselectedLanguagesFromValues,
 } from './utils';
 
@@ -40,6 +39,7 @@ export enum EDIT_EVENT_QUERY_PARAMS {
 export enum NAVIGATED_FROM {
   OCCURRENCES = 'occurrences',
   EVENT_SUMMARY = 'eventSummary',
+  EVENT_DETAILS = 'eventDetails',
 }
 
 const useEventFormEditSubmit = (
@@ -63,11 +63,17 @@ const useEventFormEditSubmit = (
     history.pushWithLocale(`${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
   };
 
+  const goToEventDetailsPage = () => {
+    history.replace(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+  };
+
   const navigateAfterSave = () => {
     if (navigatedFrom === NAVIGATED_FROM.OCCURRENCES) {
       goToOccurrencesPage();
     } else if (navigatedFrom === NAVIGATED_FROM.EVENT_SUMMARY) {
       goToEventSummary();
+    } else if (navigatedFrom === NAVIGATED_FROM.EVENT_DETAILS) {
+      goToEventDetailsPage();
     } else {
       history.goBack();
     }
@@ -179,29 +185,22 @@ const EditEventPage: React.FC = () => {
       <LoadingSpinner isLoading={loading}>
         {!!eventData ? (
           <>
-            {isEditableEvent(eventData) ? (
-              <Container>
-                <div className={styles.eventPage}>
-                  <ActiveOrganisationInfo
-                    organisationId={organisation?.id ?? ''}
-                  />
-                  <EventForm
-                    formType="edit"
-                    eventData={eventData}
-                    initialValues={initialValues}
-                    onCancel={goToEventDetailsPage}
-                    onSubmit={onSubmit}
-                    persons={persons}
-                    title={t('editEvent.title')}
-                  />
-                </div>
-              </Container>
-            ) : (
-              <ErrorPage
-                title={t('editEvent.errorEventIsPublished')}
-                description={t('editEvent.errorEventIsPublishedDescription')}
-              />
-            )}
+            <Container>
+              <div className={styles.eventPage}>
+                <ActiveOrganisationInfo
+                  organisationId={organisation?.id ?? ''}
+                />
+                <EventForm
+                  formType="edit"
+                  eventData={eventData}
+                  initialValues={initialValues}
+                  onCancel={goToEventDetailsPage}
+                  onSubmit={onSubmit}
+                  persons={persons}
+                  title={t('editEvent.title')}
+                />
+              </div>
+            </Container>
           </>
         ) : (
           <ErrorPage />

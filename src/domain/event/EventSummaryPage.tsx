@@ -142,12 +142,10 @@ const EventSummaryPage: React.FC = () => {
                       text={t('eventSummary.titleEventSummaryHelper')}
                     />
                   </div>
-                  {isEventDraft && (
-                    <EditButton
-                      text={t('eventSummary.buttonEditBasicInfo')}
-                      link={getEditLink()}
-                    />
-                  )}
+                  <EditButton
+                    text={t('eventSummary.buttonEditBasicInfo')}
+                    link={getEditLink()}
+                  />
                 </div>
                 <EventPreviewCard
                   event={eventData.event}

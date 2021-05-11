@@ -95,7 +95,7 @@ test('edit event form initializes and submits correctly', async () => {
 
   userEvent.click(
     screen.getByRole('button', {
-      name: 'Tallenna tiedot',
+      name: 'Päivitä tiedot',
     })
   );
 
@@ -125,7 +125,7 @@ test('returns to create occurrences page when it should after saving', async () 
 
   userEvent.click(
     screen.getByRole('button', {
-      name: 'Tallenna tiedot',
+      name: 'Päivitä tiedot',
     })
   );
 

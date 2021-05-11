@@ -18,6 +18,7 @@ import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import { CreateEventFormFields } from '../types';
 import ContactPersonInfoPart from './ContactPersonInfoPart';
 import styles from './eventForm.module.scss';
@@ -75,6 +76,7 @@ const EventForm = <T extends FormFields>({
   persons,
   title,
   formType = 'new',
+  eventData,
 }: Props<T>): React.ReactElement => {
   const isPrefilledForm = formType === 'edit' || formType === 'template';
   const history = useHistory();
@@ -84,6 +86,8 @@ const EventForm = <T extends FormFields>({
     categoryKeywords,
     targetGroups,
   } = useKeywordOptions();
+  const isPublished =
+    eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
 
   const {
     selectedLanguages,
@@ -135,7 +139,6 @@ const EventForm = <T extends FormFields>({
         setFieldValue,
         setFieldTouched,
         touched,
-        errors,
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
@@ -215,6 +218,7 @@ const EventForm = <T extends FormFields>({
                       </p>
                       <FormGroup>
                         <Field
+                          disabled={isPublished}
                           labelText={t(
                             'eventForm.basicInfo.labelMandatoryAdditionalInformation'
                           )}
@@ -404,7 +408,7 @@ const EventForm = <T extends FormFields>({
                     </Button>
                     <Button type="submit">
                       {formType === 'edit'
-                        ? t('eventForm.buttonSave')
+                        ? t('eventForm.buttonUpdate')
                         : t('eventForm.buttonSaveAndGoToOccurrences')}
                     </Button>
                   </div>
