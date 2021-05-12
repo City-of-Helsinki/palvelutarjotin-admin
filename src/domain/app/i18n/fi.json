@@ -420,7 +420,11 @@
     "titleEventSummary": "Tapahtuman esikatselu",
     "titleEventSummaryHelper": "Klikkaa koko tapahtuman esikatseluun",
     "buttonEditBasicInfo": "Muokkaa perustietoja",
-    "buttonEditOccurrences": "Muokkaa tapahtuma-aikoja"
+    "buttonEditOccurrences": "Muokkaa tapahtuma-aikoja",
+    "buttonExportEnrolments": "Lataa ilmoittautumiset (CSV)"
+  },
+  "eventEnrolmentsReport": {
+    "downloadError": "Virhe ladattaessa CSV-tiedostoa."
   },
   "createOccurrence": {
     "buttonBack": "Takaisin perustietoihin",
