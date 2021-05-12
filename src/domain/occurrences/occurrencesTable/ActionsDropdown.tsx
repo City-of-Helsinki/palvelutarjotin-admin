@@ -14,8 +14,8 @@ import CancelOccurrenceModal from './CancelOccurrenceModal';
 
 export interface Props {
   eventId: string;
-  isEventDraft: boolean;
-  onDelete: (row: OccurrenceFieldsFragment) => void;
+  isEventDraft?: boolean;
+  onDelete?: (row: OccurrenceFieldsFragment) => void;
   onCancel?: (row: OccurrenceFieldsFragment, message?: string) => void;
   row: OccurrenceFieldsFragment;
 }
@@ -62,7 +62,7 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const handleDelete = () => {
-    onDelete(row);
+    onDelete?.(row);
     toggleModal();
   };
 

@@ -605,12 +605,16 @@
       "title": "Poista tapahtuma-aika"
     },
     "cancelModal": {
-      "title": "Cancel occurrence",
+      "title": "Peruuta tapahtuma-aika",
       "note1": "Oletko varma, että haluat poistaa valitun tapahtuma-ajan?",
       "note2": "Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti"
     },
     "cancelError": "Tapahtuma-ajan peruminen epäonnistui",
+    "cancelErrorSuccess": "Tapahtuma-aika peruutettu",
     "pageTitle": "Tapahtuma-ajat",
+    "status": {
+      "cancelled": "Peruttu"
+    },
     "table": {
       "columnActions": "Toiminnot",
       "columnAmountOfSeats": "Paikkoja",

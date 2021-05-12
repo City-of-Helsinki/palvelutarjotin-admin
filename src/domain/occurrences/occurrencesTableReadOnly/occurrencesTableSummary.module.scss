@@ -6,3 +6,9 @@
 .enrolmentsInfoText {
   font-size: var(--fontsize-body-s);
 }
+
+.cancelledText {
+  background-color: var(--color-engel);
+  padding: var(--spacing-3-xs) var(--spacing-xs);
+  display: inline-block;
+}

@@ -604,7 +604,11 @@
       "note2": "Enrolments to this occurrence will be canceled and a message will be sent to enrollees."
     },
     "cancelError": "Canceling occurrence failed",
+    "cancelErrorSuccess": "Occurrence canceled",
     "pageTitle": "Event times",
+    "status": {
+      "cancelled": "Cancelled"
+    },
     "table": {
       "columnActions": "Actions",
       "columnAmountOfSeats": "Seats",
