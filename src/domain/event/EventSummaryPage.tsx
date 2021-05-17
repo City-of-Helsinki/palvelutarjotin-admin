@@ -3,6 +3,7 @@ import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 import { useDownloadEventsEnrolmentsCsvQuery } from '../../clients/apiReportClient/useReportClientQuery';
 import BackButton from '../../common/components/backButton/BackButton';
@@ -12,6 +13,7 @@ import FormHelperText from '../../common/components/FormHelperText/FormHelperTex
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   OccurrenceFieldsFragment,
+  useCancelOccurrenceMutation,
   useEventQuery,
 } from '../../generated/graphql';
 import useHistory from '../../hooks/useHistory';
@@ -41,13 +43,16 @@ const EventSummaryPage: React.FC = () => {
   const locale = useLocale();
   const lang = i18n.language;
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
-  const { data: eventData, loading } = useEventQuery({
-    fetchPolicy: 'network-only',
-    variables: { id: eventId, include: ['location', 'keywords'] },
-  });
+  const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
+    {
+      fetchPolicy: 'network-only',
+      variables: { id: eventId, include: ['location', 'keywords'] },
+    }
+  );
   const downloadEnrolmentsQuery = useDownloadEventsEnrolmentsCsvQuery(
     eventData?.event?.pEvent?.id
   );
+  const [cancelOccurrence] = useCancelOccurrenceMutation();
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const isEventDraft =
@@ -101,6 +106,21 @@ const EventSummaryPage: React.FC = () => {
       ':id',
       eventId
     )}?${searchParams.toString()}`;
+  };
+
+  const handleCancelOccurrence = async (
+    occurrence: OccurrenceFieldsFragment,
+    message?: string
+  ) => {
+    try {
+      await cancelOccurrence({
+        variables: { input: { id: occurrence.id, reason: message } },
+      });
+      await refetchEventData();
+      toast.success(t('occurrences.cancelErrorSuccess'));
+    } catch (e) {
+      toast.error(t('occurrences.cancelError'));
+    }
   };
 
   return (
@@ -184,11 +204,11 @@ const EventSummaryPage: React.FC = () => {
                   <OccurrencesTableSummary
                     eventData={eventData}
                     occurrences={comingOccurrences}
+                    onCancel={handleCancelOccurrence}
                   />
                 ) : (
                   <div>{t('occurrences.textNoComingOccurrences')}</div>
                 )}
-
                 {!!pastOccurrences.length && (
                   <>
                     <h2>

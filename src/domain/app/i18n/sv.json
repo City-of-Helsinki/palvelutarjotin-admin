@@ -606,12 +606,16 @@
       "title": "Bort evenemangtid"
     },
     "cancelModal": {
-      "title": "Cancel occurrence",
+      "title": "Avbryt förekomst",
       "note1": "Är du säker på att du vill ta bort den valda förekomsten?",
       "note2": "Anmälningar till denna händelse avbryts och ett meddelande skickas till anmälda."
     },
     "cancelError": "Det gick inte att avbryta förekomsten",
+    "cancelErrorSuccess": "Tiden för händelsen avbröts",
     "pageTitle": "Evenemangtider",
+    "status": {
+      "cancelled": "Inställt"
+    },
     "table": {
       "columnActions": "Funktioner",
       "columnAmountOfSeats": "Platser",

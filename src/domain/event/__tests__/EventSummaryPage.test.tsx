@@ -1,10 +1,14 @@
+import { MockedResponse } from '@apollo/react-testing';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
+import { toast } from 'react-toastify';
 
 import {
+  CancelOccurrenceDocument,
   Event,
   EventDocument,
   MyProfileDocument,
+  PalvelutarjotinEventNode,
 } from '../../../generated/graphql';
 import {
   fakeEvent,
@@ -16,7 +20,9 @@ import {
   fakePEvent,
 } from '../../../utils/mockDataUtils';
 import {
+  BoundFunctions,
   configure,
+  queries,
   renderWithRoute,
   screen,
   userEvent,
@@ -30,6 +36,7 @@ import EventSummaryPage from '../EventSummaryPage';
 configure({ defaultHidden: true });
 
 const eventId1 = 'eventMockId';
+const eventId2 = 'eventMockId2';
 const eventName = 'Tapahtuma123456';
 const eventDescription = 'Tapahtuman kuvaus';
 const organisationName = 'Testiorganisaatio';
@@ -37,49 +44,78 @@ const organisationId = 'organisationId';
 const placeId = 'placeId';
 
 const seatsApproved = 10;
+const occurrenceId1 = 'occurrenceId1';
+const occurrenceId2 = 'occurrenceId2';
+const occurrenceId3 = 'occurrenceId3';
 
-const eventId2 = 'eventMockId2';
+const cancelReasonMessageText = '';
 
-const eventMock1 = fakeEvent({
-  id: eventId1,
-  name: fakeLocalizedObject(eventName),
-  description: fakeLocalizedObject(eventDescription),
-  publicationStatus: PUBLICATION_STATUS.DRAFT,
-  pEvent: fakePEvent({
-    organisation: fakeOrganisation({
-      id: organisationId,
-      name: organisationName,
+const occurrences = fakeOccurrences(3, [
+  { startTime: new Date(2020, 11, 11).toISOString(), id: occurrenceId1 },
+  { startTime: new Date(2020, 11, 12).toISOString(), id: occurrenceId2 },
+  {
+    startTime: new Date(2020, 11, 13).toISOString(),
+    remainingSeats: 0,
+    seatsApproved,
+    seatsTaken: 30,
+    id: occurrenceId3,
+  },
+]);
+
+const occurrencesOneCancelled = fakeOccurrences(3, [
+  {
+    startTime: new Date(2020, 11, 11).toISOString(),
+    id: occurrenceId1,
+    cancelled: true,
+  },
+  {
+    startTime: new Date(2020, 11, 12).toISOString(),
+    id: occurrenceId2,
+  },
+  {
+    startTime: new Date(2020, 11, 13).toISOString(),
+    remainingSeats: 0,
+    seatsApproved,
+    seatsTaken: 30,
+    id: occurrenceId3,
+  },
+]);
+
+const getFakeEvent = (
+  eventOverrides: Partial<Event> = {},
+  pEventOverrides: Partial<PalvelutarjotinEventNode> = {}
+) =>
+  fakeEvent({
+    id: eventId1,
+    name: fakeLocalizedObject(eventName),
+    description: fakeLocalizedObject(eventDescription),
+    publicationStatus: PUBLICATION_STATUS.DRAFT,
+    pEvent: fakePEvent({
+      organisation: fakeOrganisation({
+        id: organisationId,
+        name: organisationName,
+      }),
+      occurrences,
+      ...pEventOverrides,
     }),
-    occurrences: fakeOccurrences(3, [
-      { startTime: new Date(2020, 11, 11).toISOString() },
-      { startTime: new Date(2020, 11, 12).toISOString() },
-      {
-        startTime: new Date(2020, 11, 13).toISOString(),
-        remainingSeats: 0,
-        seatsApproved,
-        seatsTaken: 30,
-      },
-    ]),
-  }),
-});
+    ...eventOverrides,
+  });
 
-const eventMock2 = fakeEvent({
-  id: eventId2,
-  name: fakeLocalizedObject(eventName),
-  description: fakeLocalizedObject(eventDescription),
-  publicationStatus: PUBLICATION_STATUS.PUBLIC,
-  pEvent: fakePEvent({
-    organisation: fakeOrganisation({
-      id: organisationId,
-      name: organisationName,
-    }),
+const eventMock1 = getFakeEvent();
+
+const eventMock2 = getFakeEvent(
+  {
+    id: eventId2,
+    publicationStatus: PUBLICATION_STATUS.PUBLIC,
+  },
+  {
     occurrences: fakeOccurrences(3, [
       { startTime: new Date(2020, 11, 11).toISOString() },
       { startTime: new Date(2020, 9, 12).toISOString() },
       { startTime: new Date(2020, 8, 13).toISOString() },
     ]),
-  }),
-});
+  }
+);
 
 const profileMock = fakePerson({
   organisations: fakeOrganisations(1, [
@@ -90,10 +126,32 @@ const profileMock = fakePerson({
   ]),
 });
 
+const eventResponseWithOneCancelledOccurrence = {
+  request: {
+    query: EventDocument,
+    variables: {
+      id: eventId1,
+      include: ['location', 'keywords'],
+    },
+  },
+  result: {
+    data: {
+      event: getFakeEvent(
+        {
+          id: eventId1,
+          publicationStatus: PUBLICATION_STATUS.PUBLIC,
+        },
+        { occurrences: occurrencesOneCancelled }
+      ),
+    },
+  },
+};
+
 const getMocks = ({
   event1,
   event2,
-}: { event1?: Event; event2?: Event } = {}) => [
+  mocks = [],
+}: { event1?: Event; event2?: Event; mocks?: MockedResponse[] } = {}) => [
   {
     request: {
       query: EventDocument,
@@ -133,7 +191,40 @@ const getMocks = ({
       },
     },
   },
+  {
+    request: {
+      query: CancelOccurrenceDocument,
+      variables: {
+        input: {
+          id: occurrenceId1,
+          reason: cancelReasonMessageText,
+        },
+      },
+    },
+    result: {
+      data: {
+        cancelOccurrence: {
+          clientMutationId: null,
+          __typename: 'CancelOccurrenceMutationPayload',
+        },
+      },
+    },
+  },
+  ...mocks,
 ];
+
+const renderComponent = (
+  mocks: {
+    event1?: Event;
+    event2?: Event;
+    mocks?: MockedResponse[];
+  } = {}
+) =>
+  renderWithRoute(<EventSummaryPage />, {
+    mocks: getMocks(mocks),
+    path: ROUTES.EVENT_SUMMARY,
+    routes: [`/events/${eventId1}/summary`],
+  });
 
 advanceTo(new Date(2020, 10, 10));
 
@@ -296,32 +387,23 @@ it('shows upcoming and past occurrences', async () => {
 });
 
 it('shows full and not full occurrence rows correctly', async () => {
-  const fullOccurrenceRowText =
-    '13.12.2020 00:00 – 12:30 30 13.07.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä';
-  const notFullOccurrenceRowText =
-    '12.12.2020 00:00 – 12:30 30 13.07.2020 0 hyväksytty 0 hyväksymättä';
+  const fullOccurrenceRowText = /13\.12\.2020 00:00 – 12:30 30 13\.07\.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä/i;
+  const notFullOccurrenceRowText = /12\.12\.2020 00:00 – 12:30 30 13\.07\.2020 0 hyväksytty 0 hyväksymättä/i;
   const seatsApproved = 10;
   renderWithRoute(<EventSummaryPage />, {
     mocks: getMocks({
-      event1: {
-        ...eventMock1,
-        pEvent: fakePEvent({
-          organisation: fakeOrganisation({
-            id: organisationId,
-            name: organisationName,
-          }),
-          occurrences: fakeOccurrences(3, [
-            { startTime: new Date(2020, 11, 12).toISOString(), placeId },
-            {
-              startTime: new Date(2020, 11, 13).toISOString(),
-              remainingSeats: 0,
-              seatsApproved,
-              seatsTaken: 30,
-              placeId,
-            },
-          ]),
-        }),
-      },
+      event1: getFakeEvent(undefined, {
+        occurrences: fakeOccurrences(3, [
+          { startTime: new Date(2020, 11, 12).toISOString(), placeId },
+          {
+            startTime: new Date(2020, 11, 13).toISOString(),
+            remainingSeats: 0,
+            seatsApproved,
+            seatsTaken: 30,
+            placeId,
+          },
+        ]),
+      }),
     }),
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId1}/summary`],
@@ -357,4 +439,95 @@ it('shows full and not full occurrence rows correctly', async () => {
   expect(acceptedEnrolments2.parentElement).not.toHaveTextContent(
     /Tapahtuma on täynnä/i
   );
+});
+
+it('can cancel occurrences from occurrence table actions', async () => {
+  let occurrenceRow: BoundFunctions<typeof queries>;
+  let cancelDialog: BoundFunctions<typeof queries>;
+  renderComponent({ mocks: [eventResponseWithOneCancelledOccurrence] });
+
+  const toastSuccessSpy = jest.spyOn(toast, 'success');
+
+  await getOccurrenceRow();
+  await clickOccurrenceDropdownCancelAction();
+  await checkThatCancelDialogRendersCorrectly();
+  await addMessageToTextarea();
+  await confirmOccurrenceCancelation();
+  await checkThatOccurrenHasUpdated();
+
+  // *** Only helper function below this comment *** //
+  async function getOccurrenceRow() {
+    await waitFor(() => {
+      expect(screen.queryByText(organisationName)).toBeInTheDocument();
+    });
+    occurrenceRow = within(screen.getAllByRole('row')[1]);
+  }
+
+  async function clickOccurrenceDropdownCancelAction() {
+    const actionsDropdown = occurrenceRow.getByRole('button', {
+      name: /valitse/i,
+    });
+    userEvent.click(actionsDropdown);
+
+    const cancelButton = occurrenceRow.getByRole('menuitem', {
+      name: /peruuta/i,
+    });
+    userEvent.click(cancelButton);
+  }
+
+  async function checkThatCancelDialogRendersCorrectly() {
+    // Cancel occurrence modal should be rendered
+    const dialog = within(await screen.findByRole('dialog'));
+    const expectedTextsToBeVisible = [
+      'Peruuta tapahtuma-aika',
+      'Oletko varma, että haluat poistaa valitun tapahtuma-ajan?',
+      'Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti',
+    ];
+    expectedTextsToBeVisible.forEach((text) => {
+      expect(dialog.queryByText(text)).toBeInTheDocument();
+    });
+    cancelDialog = dialog;
+  }
+
+  async function addMessageToTextarea() {
+    // Add message to the occurrence cancelation
+    const addMessageCheckbox = cancelDialog.getByRole('checkbox', {
+      name: 'Lisää viesti',
+    });
+    userEvent.click(addMessageCheckbox);
+
+    const textArea = cancelDialog.getByRole('textbox', {
+      name: 'Viesti osallistujille',
+    });
+    userEvent.type(textArea, cancelReasonMessageText);
+  }
+
+  async function confirmOccurrenceCancelation() {
+    const sendButton = cancelDialog.getByRole('button', { name: 'Lähetä' });
+    userEvent.click(sendButton);
+
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(toastSuccessSpy).toHaveBeenCalled();
+    });
+  }
+
+  async function checkThatOccurrenHasUpdated() {
+    expect(occurrenceRow.queryByText('Peruttu')).toBeInTheDocument();
+
+    const actionsButton = occurrenceRow.getByRole('button', {
+      name: 'Valitse',
+    });
+    userEvent.click(actionsButton);
+
+    expect(
+      occurrenceRow.queryByRole('menuitem', { name: 'Ilmoittautuneet' })
+    ).toBeInTheDocument();
+    // Peruuta action should be no longer visible
+    expect(
+      occurrenceRow.queryByRole('menuitem', { name: 'Peruuta' })
+    ).not.toBeInTheDocument();
+  }
 });

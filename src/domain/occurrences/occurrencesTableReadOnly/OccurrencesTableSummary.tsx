@@ -15,16 +15,19 @@ import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
+import ActionsDropdown from '../occurrencesTable/ActionsDropdown';
 import styles from './occurrencesTableSummary.module.scss';
 
 export interface Props {
   eventData?: EventQuery;
   occurrences: OccurrenceFieldsFragment[];
+  onCancel?: (occurrence: OccurrenceFieldsFragment, message?: string) => void;
 }
 
 const OccurrencesTableSummary: React.FC<Props> = ({
   eventData,
   occurrences,
+  onCancel,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -92,6 +95,13 @@ const OccurrencesTableSummary: React.FC<Props> = ({
         </>
       ),
       accessor: (row: OccurrenceFieldsFragment) => {
+        if (row.cancelled) {
+          return (
+            <span className={styles.cancelledText}>
+              {t('occurrences.status.cancelled')}
+            </span>
+          );
+        }
         if (row.seatsTaken != null && row.seatsApproved != null) {
           return (
             <EnrolmentsBadge
@@ -104,6 +114,14 @@ const OccurrencesTableSummary: React.FC<Props> = ({
         return null;
       },
       id: 'enrolments',
+    },
+    {
+      Header: t('occurrences.table.columnActions'),
+      accessor: (row: OccurrenceFieldsFragment) => (
+        <ActionsDropdown eventId={eventId} onCancel={onCancel} row={row} />
+      ),
+      id: 'actions',
+      rowClickDisabled: true,
     },
   ];
 

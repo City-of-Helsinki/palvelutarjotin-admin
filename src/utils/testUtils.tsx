@@ -3,6 +3,7 @@ import { AnyAction, Store } from '@reduxjs/toolkit';
 import { fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import * as React from 'react';
+import Modal from 'react-modal';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 
@@ -65,6 +66,7 @@ const renderWithRoute: CustomRender = (
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
+  Modal.setAppElement(renderResult.container);
   return { ...renderResult, history };
 };
 
