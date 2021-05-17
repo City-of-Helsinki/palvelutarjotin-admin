@@ -356,7 +356,7 @@ it('hides edit buttons when event has been published', async () => {
     screen.queryByRole('link', {
       name: 'Muokkaa perustietoja',
     })
-  ).not.toBeInTheDocument();
+  ).toBeInTheDocument();
 
   expect(
     screen.queryByRole('button', {

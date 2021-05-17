@@ -313,6 +313,7 @@
     "formLanguageSelectorTitle": "Valitse lomakkeen kieliversiot",
     "buttonCancel": "Peruuta",
     "buttonSave": "Tallenna tiedot",
+    "buttonUpdate": "Päivitä tiedot",
     "buttonSaveAndGoToOccurrences": "Tallenna ja siirry tapahtuma-aikoihin",
     "buttonSaveDraft": "Tallenna luonnos",
     "saveSuccesful": "Tiedot tallennettu",
