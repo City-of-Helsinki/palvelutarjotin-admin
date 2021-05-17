@@ -13,7 +13,7 @@ test('it matches snapshot', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('it renders correct texts and handle back button click', () => {
+test('it renders correct texts and handle back button click', async () => {
   const { history } = render(<NotFoundPage />);
   const pushSpy = jest.spyOn(history, 'push');
 

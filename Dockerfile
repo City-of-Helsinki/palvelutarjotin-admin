@@ -36,6 +36,9 @@ ARG REACT_APP_API_URI
 # Linkedevents api url
 ARG REACT_APP_LINKEDEVENTS_API_URI
 
+# CIMODE Language button visibility
+ARG REACT_APP_LANGUAGE_CIMODE_VISIBLE
+
 USER root
 RUN apt-install.sh build-essential
 

@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import intervalPlural from 'i18next-intervalplural-postprocessor';
 import { initReactI18next } from 'react-i18next';
 
-import { SUPPORT_LANGUAGES } from '../../../constants';
+import { ROUTER_LANGUAGES } from '../../../constants';
 import en from './en.json';
 import fi from './fi.json';
 import sv from './sv.json';
@@ -28,11 +28,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    whitelist: [
-      SUPPORT_LANGUAGES.EN,
-      SUPPORT_LANGUAGES.FI,
-      SUPPORT_LANGUAGES.SV,
-    ],
+    whitelist: Object.values(ROUTER_LANGUAGES),
     resources: {
       en: {
         translation: en,

@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import { Checkbox, IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
@@ -11,7 +10,7 @@ import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
 } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
+import useHistory from '../../../hooks/useHistory';
 import formatDate from '../../../utils/formatDate';
 import { ROUTES } from '../../app/routes/constants';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
@@ -41,7 +40,6 @@ const EnrolmentTable: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
 
   const [selectedEnrolments, setSelectedEnrolments] = React.useState<string[]>(
     []
@@ -62,13 +60,10 @@ const EnrolmentTable: React.FC<Props> = ({
 
   const goToEnrolmentDetailsPage = (row: Row<EnrolmentFieldsFragment>) => {
     if (eventId && occurrenceId) {
-      history.push(
-        `/${locale}${ROUTES.ENROLMENT_DETAILS.replace(
-          ':enrolmentId',
-          row.original.id
-        )
+      history.pushWithLocale(
+        ROUTES.ENROLMENT_DETAILS.replace(':enrolmentId', row.original.id)
           .replace(':id', eventId)
-          .replace(':occurrenceId', occurrenceId)}`
+          .replace(':occurrenceId', occurrenceId)
       );
     }
   };

@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -11,7 +11,7 @@ import {
   useEditEventMutation,
   useEventQuery,
 } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
+import useHistory from '../../hooks/useHistory';
 import { useSearchParams } from '../../hooks/useQuery';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
@@ -48,7 +48,6 @@ const useEventFormEditSubmit = (
 ) => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
-  const locale = useLocale();
   const history = useHistory();
   const [editEvent] = useEditEventMutation();
   const updateImageRequestHandler = useUpdateImageRequest();
@@ -57,11 +56,11 @@ const useEventFormEditSubmit = (
   );
 
   const goToOccurrencesPage = () => {
-    history.push(`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
+    history.pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
   };
 
   const goToEventSummary = () => {
-    history.push(`/${locale}${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
+    history.pushWithLocale(`${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
   };
 
   const navigateAfterSave = () => {
@@ -147,9 +146,7 @@ const useEventFormEditSubmit = (
 const EditEventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
-  const locale = useLocale();
   const history = useHistory();
-
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     eventInitialValues
   );
@@ -166,7 +163,7 @@ const EditEventPage: React.FC = () => {
   const persons = getPersons(organisation);
 
   const goToEventDetailsPage = () => {
-    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+    history.pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
   };
 
   useEffect(() => {

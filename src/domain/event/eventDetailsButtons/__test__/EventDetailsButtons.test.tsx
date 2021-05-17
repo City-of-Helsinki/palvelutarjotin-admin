@@ -53,7 +53,7 @@ test('it renders correct texts and click events work', () => {
   userEvent.click(backButton);
 
   expect(pushSpy).toHaveBeenCalledTimes(1);
-  expect(pushSpy).toHaveBeenCalledWith('/');
+  expect(pushSpy).toHaveBeenCalledWith('/fi');
 
   const editButton = screen.getByRole('button', { name: 'Muokkaa tapahtumaa' });
   userEvent.click(editButton);

@@ -2,7 +2,6 @@ import { Button, TextInput } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -10,6 +9,7 @@ import {
   useMyProfileQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
+import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -27,7 +27,6 @@ const EventsPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
   const { t } = useTranslation();
-  const locale = useLocale();
   const history = useHistory();
 
   const { data: myProfileData } = useMyProfileQuery();
@@ -92,11 +91,11 @@ const EventsPage: React.FC = () => {
   });
 
   const goToCreateEventPage = () => {
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    history.pushWithLocale(ROUTES.CREATE_EVENT);
   };
 
   const goToEventSummaryPage = (id: string) => {
-    history.push(`/${locale}${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
+    history.pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', id));
   };
 
   const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];

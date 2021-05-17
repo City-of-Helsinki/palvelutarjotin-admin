@@ -2,7 +2,7 @@ import { isPast } from 'date-fns';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import EditButton from '../../common/components/editButton/EditButton';
@@ -13,6 +13,7 @@ import {
   OccurrenceFieldsFragment,
   useEventQuery,
 } from '../../generated/graphql';
+import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
@@ -33,10 +34,11 @@ interface Params {
 }
 
 const EventSummaryPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const { id: eventId } = useParams<Params>();
   const locale = useLocale();
+  const lang = i18n.language;
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
 
   const { data: eventData, loading } = useEventQuery({
@@ -60,26 +62,26 @@ const EventSummaryPage: React.FC = () => {
     isPast(new Date(item.startTime))
   );
 
-  const eventPreviewLink = `/${locale}${ROUTES.EVENT_PREVIEW.replace(
+  const eventPreviewLink = `/${lang}${ROUTES.EVENT_PREVIEW.replace(
     ':id',
     eventId
   )}`;
 
   const goToEventDetailsPage = () => {
-    history.push(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
+    history.pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
   };
 
   const goToCreateOccurrence = () => {
-    history.push(
-      `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
+    history.pushWithLocale(
+      `${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
     );
   };
 
   const copyEventToNewTemplate = () => {
-    history.push(`/${locale}${ROUTES.COPY_EVENT.replace(':id', eventId)}`);
+    history.pushWithLocale(`${ROUTES.COPY_EVENT.replace(':id', eventId)}`);
   };
 
-  const goToHome = () => history.push(ROUTES.HOME);
+  const goToHome = () => history.pushWithLocale(ROUTES.HOME);
 
   const getEditLink = () => {
     const searchParams = new URLSearchParams();
@@ -87,7 +89,7 @@ const EventSummaryPage: React.FC = () => {
       EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
       NAVIGATED_FROM.EVENT_SUMMARY
     );
-    return `/${locale}${ROUTES.EDIT_EVENT.replace(
+    return `/${lang}${ROUTES.EDIT_EVENT.replace(
       ':id',
       eventId
     )}?${searchParams.toString()}`;

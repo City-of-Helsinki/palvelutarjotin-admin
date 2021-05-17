@@ -3,7 +3,7 @@ import { IconAngleRight, IconArrowRight, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { SUPPORT_LANGUAGES } from '../../../constants';
@@ -11,6 +11,7 @@ import {
   OrganisationNodeFieldsFragment,
   useMyProfileQuery,
 } from '../../../generated/graphql';
+import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
@@ -83,7 +84,7 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   };
 
   const goToEditMyProfile = () => {
-    history.push(`/${locale}${ROUTES.MY_PROFILE}`);
+    history.pushWithLocale(ROUTES.MY_PROFILE);
     onClose();
   };
 

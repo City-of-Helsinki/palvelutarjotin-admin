@@ -11,7 +11,6 @@ import {
 } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -26,7 +25,7 @@ import {
   useDeleteEnrolmentMutation,
   useEnrolmentQuery,
 } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
+import useHistory from '../../../hooks/useHistory';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { joinStudyLevelLabels } from '../../studyLevel/utils';
@@ -55,7 +54,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   refetchOccurrence,
 }) => {
   const history = useHistory();
-  const locale = useLocale();
   const { t } = useTranslation();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
   const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
@@ -155,10 +153,11 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   };
 
   const handleEditEnrolment = () => {
-    history.push(
-      `/${locale}${ROUTES.EDIT_ENROLMENT}`
-        .replace(':eventId', eventId)
-        .replace(':enrolmentId', enrolmentId)
+    history.pushWithLocale(
+      ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
+        ':enrolmentId',
+        enrolmentId
+      )
     );
   };
 

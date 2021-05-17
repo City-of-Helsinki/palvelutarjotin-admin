@@ -1,14 +1,13 @@
 import { IconCross, IconCrossCircle, IconPenLine, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 
 import AlertModal from '../../../common/components/modal/AlertModal';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../common/components/tableDropdown/TableDropdown';
 import { OccurrenceFieldsFragment } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
+import useHistory from '../../../hooks/useHistory';
 import { ROUTES } from '../../app/routes/constants';
 import styles from './actionsDropdown.module.scss';
 import CancelOccurrenceModal from './CancelOccurrenceModal';
@@ -29,7 +28,6 @@ const ActionsDropdown: React.FC<Props> = ({
   row,
 }) => {
   const { t } = useTranslation();
-  const locale = useLocale();
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = React.useState(false);
@@ -38,20 +36,20 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const goToOccurrenceDetailsPage = () => {
-    history.push(
-      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+    history.pushWithLocale(
+      ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id
-      )}`
+      )
     );
   };
 
   const goToEditOccurrencePage = () => {
-    history.push(
-      `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId).replace(
+    history.pushWithLocale(
+      ROUTES.CREATE_OCCURRENCE.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id
-      )}`
+      )
     );
   };
 
