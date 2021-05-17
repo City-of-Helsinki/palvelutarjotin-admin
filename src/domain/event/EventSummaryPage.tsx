@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 
+import { useDownloadEventsEnrolmentsCsvQuery } from '../../clients/apiReportClient/useReportClientQuery';
 import BackButton from '../../common/components/backButton/BackButton';
 import EditButton from '../../common/components/editButton/EditButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
@@ -38,11 +39,13 @@ const EventSummaryPage: React.FC = () => {
   const { id: eventId } = useParams<Params>();
   const locale = useLocale();
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
-
   const { data: eventData, loading } = useEventQuery({
     fetchPolicy: 'network-only',
     variables: { id: eventId, include: ['location', 'keywords'] },
   });
+  const downloadEnrolmentsQuery = useDownloadEventsEnrolmentsCsvQuery(
+    eventData?.event?.pEvent?.id
+  );
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const isEventDraft =
@@ -80,6 +83,11 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const goToHome = () => history.push(ROUTES.HOME);
+
+  // Export CSV file from API reports view
+  const downloadEnrolments = () => {
+    downloadEnrolmentsQuery && downloadEnrolmentsQuery();
+  };
 
   const getEditLink = () => {
     const searchParams = new URLSearchParams();
@@ -155,6 +163,11 @@ const EventSummaryPage: React.FC = () => {
                       })}
                     </span>
                   </h2>
+                  {!isEventDraft && (
+                    <Button onClick={downloadEnrolments} variant="secondary">
+                      {t('eventSummary.buttonExportEnrolments')}
+                    </Button>
+                  )}
                   {isEventDraft && (
                     <EditButton
                       text={t('eventSummary.buttonEditOccurrences')}

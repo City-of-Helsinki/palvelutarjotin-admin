@@ -414,7 +414,11 @@
     "titleEventSummary": "Event summary",
     "titleEventSummaryHelper": "Click to go to event preview",
     "buttonEditBasicInfo": "Edit basic info",
-    "buttonEditOccurrences": "Edit occurrences"
+    "buttonEditOccurrences": "Edit occurrences",
+    "buttonExportEnrolments": "Download enrolments (CSV)"
+  },
+  "eventEnrolmentsReport": {
+    "downloadError": "Error while downloading the CSV file."
   },
   "createOccurrence": {
     "buttonBack": "Back to basic info",

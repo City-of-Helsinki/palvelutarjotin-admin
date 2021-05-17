@@ -421,7 +421,11 @@
     "titleEventSummary": "Sammanfattning av händelser",
     "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
     "buttonEditBasicInfo": "Edit basic info",
-    "buttonEditOccurrences": "Redigera förekomster"
+    "buttonEditOccurrences": "Redigera förekomster",
+    "buttonExportEnrolments": "Ladda ner registreringar (CSV)"
+  },
+  "eventEnrolmentsReport": {
+    "downloadError": "Ett fel uppstod när filen laddades."
   },
   "createOccurrence": {
     "buttonBack": "Tillbaka till grundläggande information",
