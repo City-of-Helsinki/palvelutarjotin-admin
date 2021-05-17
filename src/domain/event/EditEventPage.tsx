@@ -12,6 +12,7 @@ import {
   useEventQuery,
 } from '../../generated/graphql';
 import useHistory from '../../hooks/useHistory';
+import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
@@ -49,6 +50,7 @@ const useEventFormEditSubmit = (
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const history = useHistory();
+  const locale = useLocale();
   const [editEvent] = useEditEventMutation();
   const updateImageRequestHandler = useUpdateImageRequest();
   const navigatedFrom = useSearchParams().get(

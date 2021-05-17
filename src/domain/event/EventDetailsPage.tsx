@@ -129,11 +129,8 @@ const EventDetailsPage = () => {
       EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
       NAVIGATED_FROM.EVENT_DETAILS
     );
-    history.push(
-      `/${locale}${ROUTES.EDIT_EVENT.replace(
-        ':id',
-        id
-      )}?${searchParams.toString()}`
+    history.pushWithLocale(
+      `${ROUTES.EDIT_EVENT.replace(':id', id)}?${searchParams.toString()}`
     );
   };
 
