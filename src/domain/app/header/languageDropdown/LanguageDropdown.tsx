@@ -1,31 +1,37 @@
 import { IconGlobe } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import MenuDropdown, {
   MenuItem,
 } from '../../../../common/components/menuDropdown/MenuDropdown';
-import { SUPPORT_LANGUAGES } from '../../../../constants';
-import useLocale from '../../../../hooks/useLocale';
-import { Language } from '../../../../types';
+import { ROUTER_LANGUAGES, SUPPORT_LANGUAGES } from '../../../../constants';
+import useHistory from '../../../../hooks/useHistory';
+import { LanguageSelectorLanguage } from '../../../../types';
 import updateLocaleParam from '../../../../utils/updateLocaleParam';
 
 const LanguageDropdown: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const { pathname, search } = useLocation();
-  const locale = useLocale();
+  const locale = i18n.language;
 
-  const languageOptions = Object.values(SUPPORT_LANGUAGES).map((language) => {
-    return {
-      language,
-      text: t(`header.languages.${language}`),
-      value: language,
-    };
-  });
+  const getLanguageOptions = (): MenuItem[] => {
+    const createOptions = (languages: LanguageSelectorLanguage[]) =>
+      languages.map((language) => ({
+        language,
+        text: t(`header.languages.${language}`),
+        value: language,
+      }));
 
-  const changeLanguage = (newLanguage: Language) => {
+    if (process.env.REACT_APP_LANGUAGE_CIMODE_VISIBLE === 'true') {
+      return createOptions(Object.values(ROUTER_LANGUAGES));
+    }
+    return createOptions(Object.values(SUPPORT_LANGUAGES));
+  };
+
+  const changeLanguage = (newLanguage: LanguageSelectorLanguage) => {
     history.push({
       pathname: updateLocaleParam(pathname, locale, newLanguage),
       search,
@@ -41,7 +47,7 @@ const LanguageDropdown: React.FC = () => {
       buttonAriaLabel={t('header.changeLanguage')}
       buttonText={locale.toUpperCase()}
       icon={<IconGlobe />}
-      items={languageOptions}
+      items={getLanguageOptions()}
       onMenuItemClick={handleMenuItemClick}
       value={locale}
     />

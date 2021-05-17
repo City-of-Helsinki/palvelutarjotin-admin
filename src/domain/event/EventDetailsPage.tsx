@@ -2,7 +2,7 @@ import { format as formatDate } from 'date-fns';
 import { Button, IconCrossCircle } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import AlertModal from '../../common/components/modal/AlertModal';
@@ -10,6 +10,7 @@ import {
   useDeleteSingleEventMutation,
   useEventQuery,
 } from '../../generated/graphql';
+import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
@@ -65,8 +66,8 @@ const EventDetailsPage = () => {
   }, [eventData, language]);
 
   const handleLanguageChange = (newLanguage: Language) => {
-    history.push({
-      pathname: `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`,
+    history.pushWithLocale({
+      pathname: ROUTES.EVENT_DETAILS.replace(':id', id),
       search: `?language=${newLanguage}`,
     });
     setSelectedLanguage(newLanguage);

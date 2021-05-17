@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 
-import { SUPPORT_LANGUAGES } from '../../../constants';
+import { ROUTER_LANGUAGES } from '../../../constants';
 import { resetApiTokenData } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { userSelector } from '../../auth/selectors';
@@ -22,7 +22,7 @@ import PageLayout from '../layout/PageLayout';
 import { ROUTES } from './constants';
 
 const LocaleRoutes: React.FC<RouteComponentProps<{
-  locale: SUPPORT_LANGUAGES;
+  locale: ROUTER_LANGUAGES;
 }>> = ({
   match: {
     params: { locale },

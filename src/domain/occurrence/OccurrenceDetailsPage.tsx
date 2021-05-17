@@ -1,7 +1,7 @@
 import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -10,7 +10,7 @@ import {
   useEventQuery,
   useOccurrenceQuery,
 } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
+import useHistory from '../../hooks/useHistory';
 import { useSearchParams } from '../../hooks/useQuery';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -32,7 +32,6 @@ interface Params {
 const OccurrenceDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
   const { id, occurrenceId, enrolmentId } = useParams<Params>();
   const searchParams = useSearchParams();
   const enrolmentUpdated = Boolean(
@@ -54,11 +53,11 @@ const OccurrenceDetailsPage: React.FC = () => {
   const occurrence = occurrenceData?.occurrence;
 
   const goToOccurrenceDetails = () => {
-    history.push({
-      pathname: `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(
-        ':id',
-        id
-      ).replace(':occurrenceId', occurrenceId)}`,
+    history.pushWithLocale({
+      pathname: ROUTES.OCCURRENCE_DETAILS.replace(':id', id).replace(
+        ':occurrenceId',
+        occurrenceId
+      ),
     });
   };
 

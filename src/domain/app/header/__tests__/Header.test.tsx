@@ -30,3 +30,28 @@ it('focuses skip link first', () => {
   userEvent.tab();
   expect(screen.getByText('Siirry sisältöön')).toHaveFocus();
 });
+
+describe('cimode in language selector', () => {
+  const OLD_ENV = process.env;
+
+  beforeEach(() => {
+    jest.resetModules(); // Most important - it clears the cache
+    process.env = { ...OLD_ENV }; // Make a copy
+  });
+
+  afterAll(() => {
+    process.env = OLD_ENV; // Restore old environment
+  });
+
+  test('cimode is rendered in a list of languages when feature flag is on', async () => {
+    process.env.REACT_APP_LANGUAGE_CIMODE_VISIBLE = 'true';
+    render(<Header />);
+    await screen.findAllByText(/CIMODE/);
+  });
+
+  test('cimode is not rendered in a list of languages when feature flag is off', async () => {
+    process.env.REACT_APP_LANGUAGE_CIMODE_VISIBLE = 'false';
+    render(<Header />);
+    expect(screen.queryAllByText(/CIMODE/).length).toBe(0);
+  });
+});

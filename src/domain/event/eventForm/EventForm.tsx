@@ -2,7 +2,6 @@ import { Field, Formik } from 'formik';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 
 import BackButton from '../../../common/components/backButton/BackButton';
 import EventSteps from '../../../common/components/EventSteps/EventSteps';
@@ -16,6 +15,7 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import FormLanguageSelector from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import { createEmptyLocalizedObject } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
+import useHistory from '../../../hooks/useHistory';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import { CreateEventFormFields } from '../types';
@@ -113,7 +113,7 @@ const EventForm = <T extends FormFields>({
   );
 
   const goToEventList = () => {
-    history.push(ROUTES.HOME);
+    history.pushWithLocale(ROUTES.HOME);
   };
 
   const getLabelWithLanguage = (stringId: string, lang: string) => {

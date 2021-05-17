@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
@@ -9,6 +8,7 @@ import {
   OccurrenceFieldsFragment,
   OccurrenceSeatType,
 } from '../../../generated/graphql';
+import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
@@ -33,11 +33,11 @@ const OccurrencesTableSummary: React.FC<Props> = ({
   const eventLocationId = eventData?.event?.location?.id || '';
 
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
-    history.push(
-      `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+    history.pushWithLocale(
+      ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.original.id
-      )}`
+      )
     );
   };
 

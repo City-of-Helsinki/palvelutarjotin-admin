@@ -6,7 +6,7 @@ import compact from 'lodash/compact';
 import omit from 'lodash/omit';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
@@ -25,6 +25,7 @@ import {
   VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
+import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
@@ -160,16 +161,13 @@ const CreateOccurrencePage: React.FC = () => {
       EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
       NAVIGATED_FROM.OCCURRENCES
     );
-    history.push(
-      `/${locale}${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(
-        ':id',
-        eventId
-      )
+    history.pushWithLocale(
+      `${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(':id', eventId)
     );
   };
 
   const goToSummaryPage = () => {
-    history.push(`/${locale}${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
+    history.pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
   };
 
   const handleSelectedLanguagesChange = (

@@ -3,7 +3,7 @@ import { Notification } from 'hds-react';
 import compact from 'lodash/compact';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -14,7 +14,7 @@ import {
   OrganisationNodeFieldsFragment,
   useCreateEventMutation,
 } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
+import useHistory from '../../hooks/useHistory';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import { clearApolloCache } from '../app/apollo/utils';
@@ -39,7 +39,6 @@ const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
   const updateImageRequestHandler = useUpdateImageRequest();
   const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
@@ -97,7 +96,7 @@ const CreateEventPage: React.FC = () => {
   const persons = useMemo(() => getPersons(organisation), [organisation]);
 
   const goToEventList = () => {
-    history.push(ROUTES.HOME);
+    history.pushWithLocale(ROUTES.HOME);
   };
 
   const handleSubmit = async (
@@ -141,8 +140,8 @@ const CreateEventPage: React.FC = () => {
       // https://github.com/apollographql/apollo-client/blob/v3.0.0-rc.0/CHANGELOG.md
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
-      history.push({
-        pathname: `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`,
+      history.pushWithLocale({
+        pathname: ROUTES.CREATE_OCCURRENCE.replace(':id', id),
       });
     } catch (e) {
       handleError(e);

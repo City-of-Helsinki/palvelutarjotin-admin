@@ -99,9 +99,12 @@ test('edit event form initializes and submits correctly', async () => {
     })
   );
 
-  await waitFor(() => {
-    expect(goBack).toHaveBeenCalled();
-  });
+  await waitFor(
+    () => {
+      expect(goBack).toHaveBeenCalled();
+    },
+    { timeout: 5000 }
+  );
 });
 
 test('returns to create occurrences page when it should after saving', async () => {
@@ -112,7 +115,6 @@ test('returns to create occurrences page when it should after saving', async () 
     mocks: editMocks,
     routes: [`/moi?navigatedFrom=${NAVIGATED_FROM.OCCURRENCES}`],
   });
-
   const historyPush = jest.spyOn(history, 'push');
 
   await screen.findByText(defaultOrganizationName);
@@ -170,9 +172,7 @@ describe('Language selection', () => {
     );
     within(languageSelector).getByText(/Valitse lomakkeen kieliversiot/i);
     // Finnish should be selected by default
-    expect(
-      await within(languageSelector).getByLabelText(/suomi/i)
-    ).toBeChecked();
+    expect(within(languageSelector).getByLabelText(/suomi/i)).toBeChecked();
     // Rest of the langauges should be unchecked by default
     expect(
       within(languageSelector).getByLabelText(/ruotsi/i)
@@ -264,9 +264,12 @@ describe('Language selection', () => {
     // Test against mocked return value
     // that filling the Swedish fields did not change the posted variables.
     // Unselecting the language after filling should have cleared the input values.
-    await waitFor(() => {
-      expect(goBack).toHaveBeenCalled();
-    });
+    await waitFor(
+      () => {
+        expect(goBack).toHaveBeenCalled();
+      },
+      { timeout: 5000 }
+    );
   });
 
   Object.entries({

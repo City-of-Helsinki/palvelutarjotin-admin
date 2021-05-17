@@ -1,7 +1,7 @@
 import { IconCheck, IconCross, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import TableDropdown, {
@@ -16,7 +16,7 @@ import {
   useDeclineEnrolmentMutation,
   useDeleteEnrolmentMutation,
 } from '../../../../generated/graphql';
-import useLocale from '../../../../hooks/useLocale';
+import useHistory from '../../../../hooks/useHistory';
 import { ROUTES } from '../../../app/routes/constants';
 import ApproveEnrolmentModal from '../enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentModals/DeclineEnrolmentModal';
@@ -35,9 +35,8 @@ const ActionsDropdown: React.FC<Props> = ({
   onEnrolmentsModified,
 }) => {
   const { t } = useTranslation();
-  const { occurrenceId } = useParams();
+  const { occurrenceId } = useParams<{ occurrenceId: string }>();
   const history = useHistory();
-  const locale = useLocale();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
   const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
@@ -149,10 +148,11 @@ const ActionsDropdown: React.FC<Props> = ({
 
   const handleEdit = () => {
     if (eventId) {
-      history.push(
-        `/${locale}${ROUTES.EDIT_ENROLMENT}`
-          .replace(':enrolmentId', row.id)
-          .replace(':eventId', eventId)
+      history.pushWithLocale(
+        ROUTES.EDIT_ENROLMENT.replace(':enrolmentId', row.id).replace(
+          ':eventId',
+          eventId
+        )
       );
     }
   };

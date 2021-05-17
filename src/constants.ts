@@ -17,6 +17,14 @@ export enum SUPPORT_LANGUAGES {
   EN = 'en',
 }
 
+export enum DEV_LANGUAGES {
+  CIMODE = 'cimode',
+}
+
+// ROUTER_LANGUAGES are used to set cimode language without breaking locales related to datepickers etc.
+export const ROUTER_LANGUAGES = { ...SUPPORT_LANGUAGES, ...DEV_LANGUAGES };
+export type ROUTER_LANGUAGES = SUPPORT_LANGUAGES | DEV_LANGUAGES;
+
 export enum LINKEDEVENTS_CONTENT_TYPE {
   IMAGE = 'image',
   KEYWORD = 'keyword',
@@ -35,10 +43,13 @@ export enum EVENT_LANGUAGES {
 
 export const PRIVACY_POLICY_LINKS = {
   fi:
+    // eslint-disable-next-line max-len
     'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Henkil%C3%B6rekisteri%20Palvelutarjotin.pdf',
   en:
+    // eslint-disable-next-line max-len
     'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personal%20data%20file%20Palvelutarjotin.pdf',
   sv:
+    // eslint-disable-next-line max-len
     'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personregister%20Tj%C3%A4nstepalett.pdf',
 };
 

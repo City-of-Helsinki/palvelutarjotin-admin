@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
@@ -11,6 +11,7 @@ import {
   useEnrolmentQuery,
   useUpdateEnrolmentMutation,
 } from '../../generated/graphql';
+import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -79,11 +80,11 @@ const EditorEnrolmentPage: React.FC = () => {
       if (enrolmentUpdated) {
         search.append(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED, 'true');
       }
-      history.push({
-        pathname: `/${locale}${ROUTES.OCCURRENCE_DETAILS.replace(
-          ':id',
-          eventId
-        ).replace(':occurrenceId', occurrenceId)}`,
+      history.pushWithLocale({
+        pathname: `${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
+          ':occurrenceId',
+          occurrenceId
+        )}`,
         search: search.toString(),
       });
     }

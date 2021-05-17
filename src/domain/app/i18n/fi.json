@@ -525,7 +525,8 @@
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
-      "sv": "På svenska"
+      "sv": "På svenska",
+      "cimode": "CIMODE"
     },
     "logout": "Kirjaudu ulos",
     "userMenu": {

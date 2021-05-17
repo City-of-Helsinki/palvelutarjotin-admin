@@ -2,14 +2,13 @@ import { IconAngleRight, IconArrowRight, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 
 import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdown';
 import {
   MyProfileQuery,
   OrganisationNodeFieldsFragment,
 } from '../../../../generated/graphql';
-import useLocale from '../../../../hooks/useLocale';
+import useHistory from '../../../../hooks/useHistory';
 import { logoutTunnistamo } from '../../../auth/authenticate';
 import { setActiveOrganisation } from '../../../organisation/actions';
 import { activeOrganisationSelector } from '../../../organisation/selector';
@@ -30,7 +29,6 @@ const UserDropdown: React.FC<Props> = ({ myProfileData }) => {
   const activeOrganisation = useSelector(activeOrganisationSelector);
   const dispatch = useDispatch();
   const history = useHistory();
-  const locale = useLocale();
 
   const organisations: OrganisationNodeFieldsFragment[] =
     myProfileData.myProfile?.organisations.edges.map((edge) => ({
@@ -38,7 +36,7 @@ const UserDropdown: React.FC<Props> = ({ myProfileData }) => {
     })) || [];
 
   const goToEditMyProfile = () => {
-    history.push(`/${locale}${ROUTES.MY_PROFILE}`);
+    history.pushWithLocale(ROUTES.MY_PROFILE);
   };
 
   const logout = () => {

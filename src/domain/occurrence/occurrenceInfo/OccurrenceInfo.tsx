@@ -1,12 +1,12 @@
 import { Button, IconLocation, IconPen, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 
 import {
   EventFieldsFragment,
   OccurrenceFieldsFragment,
 } from '../../../generated/graphql';
+import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
 import IconClock from '../../../icons/IconClock';
 import formatDate from '../../../utils/formatDate';
@@ -40,9 +40,7 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
   const placeId = occurrence.placeId || event.location?.id;
 
   const goToEventDetailsPage = () => {
-    history.push(
-      `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId || '')}`
-    );
+    history.pushWithLocale(ROUTES.EVENT_DETAILS.replace(':id', eventId || ''));
   };
 
   return (
@@ -98,16 +96,15 @@ const EditOccurrenceButton: React.FC<{
   eventId?: string;
   occurrenceId: string;
 }> = ({ occurrenceId, eventId }) => {
-  const locale = useLocale();
   const history = useHistory();
   const { t } = useTranslation();
 
   const goToEditOccurrencePage = () => {
-    history.push(
-      `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(
-        ':id',
-        eventId || ''
-      ).replace(':occurrenceId', occurrenceId)}`
+    history.pushWithLocale(
+      ROUTES.CREATE_OCCURRENCE.replace(':id', eventId || '').replace(
+        ':occurrenceId',
+        occurrenceId
+      )
     );
   };
 
