@@ -264,7 +264,7 @@ const Events: React.FC<{
     <div className={styles.eventsContainer}>
       {events?.map((event) => {
         const {
-          description,
+          shortDescription,
           eventName = '',
           id,
           imageUrl,
@@ -275,7 +275,7 @@ const Events: React.FC<{
         return (
           <EventCard
             key={id || ''}
-            description={description}
+            description={shortDescription}
             enrolmentsCount={totalSeatsTakes}
             id={id || ''}
             image={imageUrl}

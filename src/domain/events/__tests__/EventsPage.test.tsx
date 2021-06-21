@@ -23,12 +23,30 @@ import { EVENT_SORT_KEYS, PAGE_SIZE } from '../constants';
 import EventsPage from '../EventsPage';
 
 const eventOverrides: Partial<Event>[] = [
-  { name: fakeLocalizedObject('Tapahtuma 1') },
-  { name: fakeLocalizedObject('Tapahtuma 2') },
-  { name: fakeLocalizedObject('Tapahtuma 3') },
-  { name: fakeLocalizedObject('Tapahtuma 4') },
+  {
+    name: fakeLocalizedObject('Tapahtuma 1'),
+    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 1'),
+    description: fakeLocalizedObject('Pitkä kuvaus 1'),
+  },
+  {
+    name: fakeLocalizedObject('Tapahtuma 2'),
+    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 2'),
+    description: fakeLocalizedObject('Pitkä kuvaus 2'),
+  },
+  {
+    name: fakeLocalizedObject('Tapahtuma 3'),
+    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 3'),
+    description: fakeLocalizedObject('Pitkä kuvaus 3'),
+  },
+  {
+    name: fakeLocalizedObject('Tapahtuma 4'),
+    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 4'),
+    description: fakeLocalizedObject('Pitkä kuvaus 4'),
+  },
   {
     name: fakeLocalizedObject('Tapahtuma 5'),
+    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 5'),
+    description: fakeLocalizedObject('Pitkä kuvaus 5'),
     pEvent: {
       ...fakePEvent(),
       // this override mock won't appear in the test atm
@@ -92,10 +110,11 @@ test('renders without errors', async () => {
       screen.queryByRole('heading', { name: `Tapahtumat 5 kpl` })
     ).toBeInTheDocument();
   });
+  const [t1, t2, t3, t4, t5] = eventOverrides;
 
-  expect(screen.queryByText('Tapahtuma 1')).toBeInTheDocument();
-  expect(screen.queryByText('Tapahtuma 2')).toBeInTheDocument();
-  expect(screen.queryByText('Tapahtuma 3')).toBeInTheDocument();
-  expect(screen.queryByText('Tapahtuma 4')).toBeInTheDocument();
-  expect(screen.queryByText('Tapahtuma 5')).toBeInTheDocument();
+  [t1, t2, t3, t4, t5].forEach((event) => {
+    expect(screen.queryByText(event.name.fi)).toBeInTheDocument();
+  });
+  expect(screen.queryByText(t1.shortDescription.fi)).toBeInTheDocument();
+  expect(screen.queryByText(t1.description.fi)).not.toBeInTheDocument();
 });
