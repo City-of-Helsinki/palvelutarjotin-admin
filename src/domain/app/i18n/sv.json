@@ -199,11 +199,11 @@
     }
   },
   "createEvent": {
-    "pageTitle": "Ny evenemang",
-    "title": "Ny evenemang",
+    "pageTitle": "Nytt evenemang",
+    "title": "Nytt evenemang",
     "error": "Det gick inte att spara händelsen",
     "threeStepNotification": {
-      "title": "Händelsen skapas i tre stegHändelsen skapas i tre steg.",
+      "title": "Evenemanget skapas stegvis.",
       "description": "Nödvändig information måste anges innan du går vidare till nästa steg"
     },
     "stepTitles": {
@@ -238,7 +238,7 @@
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
-      "labelName": "Evenemang namn",
+      "labelName": "Evenemangets namn",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
       "title": "Grundläggande information",
@@ -253,7 +253,7 @@
       "eventIsFree": "Evenemanget är gratis",
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
-      "labelKeywords": "Evenemangs nyckelord",
+      "labelKeywords": "Evenemangets nyckelord",
       "labelCategories": "Kategorier",
       "labelActivities": "Aktiviteter",
       "labelNeededOccurrences": "Nödvändiga besök",
@@ -276,7 +276,7 @@
       "occurrenceTime": "{{date}} kl. {{time}}"
     },
     "location": {
-      "labelLocation": "Standard venue",
+      "labelLocation": "Evenemangets plats",
       "labelLocationDescription": "Beskrivning av arenan",
       "snackEatingPlace": "Snack äta plats",
       "clothingStorage": "Klädförvaring",
@@ -293,19 +293,19 @@
     "basicInfo": {
       "addImage": "Lägg till bild",
       "deleteImage": "Ta bort bild",
-      "descriptionAddImage": "Lägg till bild för händelsen. Du behöver också namnet på fotografen och publiceringslicensen. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
+      "descriptionAddImage": "Lägg till bild av evenemanget. Ange fotografens namn. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning",
       "labelMandatoryAdditionalInformation": "Att registrera ytterligare information är obligatoriskt",
-      "guidanceTextMandatoryAdditionalInformation": "Skriv på händelse om du behöver mer information om gruppen eller aktiviteter och markera svaret som obligatoriskt...",
+      "guidanceTextMandatoryAdditionalInformation": "I fall du vill ha tilläggs information om gruppen, i samband med bokingen meddela om detta i beskrivingen av evenemanget.",
       "labelEnrolmentEndDays": "Anmälningen stängs x-dagar innan evenemanget",
       "labelEnrolmentStart": "Registrering börjar",
-      "labelImage": "Evenemangbild",
+      "labelImage": "Bild av evenemanget",
       "labelImageAltText": "Bild alt-text",
       "labelImagePhotographer": "Fotograf",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
-      "labelName": "Evenemang namn",
-      "labelShortDescription": "Kort beskrivning",
+      "labelName": "Evenemangets namn",
+      "labelShortDescription": "Kort beskrivning (Max 160 märken)",
       "labelTargetGroup": "Målgrupper",
       "helperEnrolmentEndDays": "Välj hur många dagar innan händelsetiden anmälan slutar",
       "photographer": "Fotograf",
@@ -315,7 +315,7 @@
     "buttonCancel": "Avbryt",
     "buttonUpdate": "Uppdatera",
     "buttonSave": "Spara",
-    "buttonSaveAndGoToOccurrences": "Spara och gå till förekomster",
+    "buttonSaveAndGoToOccurrences": "Spara och gå till tidpunkter",
     "buttonSaveDraft": "Spara utkast",
     "saveSuccesful": "Data har sparats",
     "occurrenceTime": {
@@ -323,12 +323,12 @@
       "occurrenceTimeHelperText": "Första förekomstdatum. Resten av händelserna och ytterligare information anges i steg 2."
     },
     "categorisation": {
-      "helperKeywords": "Skriv ett nyckelord och välj bland de alternativen",
+      "helperKeywords": "Skriv ett nyckelord och välj bland alternativen",
       "labelCategories": "Kategorier",
       "labelActivities": "Aktiviteter",
       "labelAudience": "Målgrupper",
       "labelInLanguage": "Evenemangspråk",
-      "labelKeywords": "Evenemangs nyckelord",
+      "labelKeywords": "Evenemangets nyckelord",
       "labelNeededOccurrences": "Nödvändiga besök",
       "placeholderKeywords": "Lägg nyckelord...",
       "placeholderCategories": "Välj lämpligt",
@@ -385,9 +385,9 @@
       }
     },
     "occurrences": {
-      "occurrencesFormSectionTitle": "Förekomster",
+      "occurrencesFormSectionTitle": "Evenemangets tidpunkt",
       "labelEventHasNoOccurrences": "Den här händelsen har ingen specifik förekomsttid",
-      "buttonAddNewOccurence": "Lägg till ny förekomst"
+      "buttonAddNewOccurence": "Läg till ny tidpunkt"
     }
   },
   "events": {
@@ -419,9 +419,9 @@
   "eventSummary": {
     "buttonBack": "Tillbaka till evenemangstiderna",
     "eventHasBeenPublished": "Händelsen har publicerats",
-    "titleEventSummary": "Sammanfattning av händelser",
+    "titleEventSummary": "Sammanfattning av evenemang",
     "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
-    "buttonEditBasicInfo": "Edit basic info",
+    "buttonEditBasicInfo": "Redigera information",
     "buttonEditOccurrences": "Redigera förekomster",
     "buttonExportEnrolments": "Ladda ner registreringar (CSV)"
   },
@@ -461,12 +461,12 @@
     "labelStartsAt": "Börjar kl",
     "labelEndsAt": "Slutar kl",
     "labelEnrolmentStarts": "Anmälan börjar",
-    "labelLanguages": "Event språk",
+    "labelLanguages": "Evenemangets språk",
     "labelAmountOfSeats": "Totala fläckar",
     "columnMaxGroupSize": "Max",
     "columnMinGroupSize": "Min",
     "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
-    "labelEventLocation": "Eventplats",
+    "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",
     "titleParticipantRow": "Deltagarantal"
@@ -476,26 +476,26 @@
       "number": {
         "max": "Maxvärdet är {{max}}",
         "min": "Värdet måste vara minst {{min}}",
-        "required": "Detta fält krävs"
+        "required": "Obligatorikst att fylla detta fält"
       },
       "string": {
         "email": "Detta fält måste vara en giltig e-postmeddelande",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
-        "required": "Detta fält krävs",
+        "required": "Obligatorikst att fylla detta fält",
         "url": "Detta fält måste vara en giltig URL",
         "date": "Detta fält måste vara en giltig datum",
         "time": "Tid måste ges i följande format hh:mm",
         "positiveNumber": "Detta fält måste vara ett giltigt nummer"
       },
       "date": {
-        "required": "Detta fält krävs",
+        "required": "Obligatorikst att fylla detta fält",
         "mustNotInThePast": "Detta datum kan inte vara i förr",
         "min": "Detta datum måste vara tidigast {{min}}",
         "max": "Detta datum måste vara senast {{max}}"
       },
       "time": {
-        "required": "Detta fält krävs",
+        "required": "Obligatorikst att fylla detta fält",
         "min": "Den här tiden måste vara tidigast {{min}}",
         "max": "Den här tiden måste vara senast {{max}}"
       }
@@ -539,7 +539,7 @@
   },
   "image": {
     "labelAltText": "Bild alt-text",
-    "labelImage": "Evenemangbild",
+    "labelImage": "Bild av evenemanget",
     "labelPhotographerName": "Fotograf"
   },
   "login": {
