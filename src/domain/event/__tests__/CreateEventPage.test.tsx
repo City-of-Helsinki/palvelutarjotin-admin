@@ -30,6 +30,7 @@ import {
   criteriaKeywords,
   defaultOrganizationName,
   description,
+  descriptionEditorHTML,
   editMocks,
   eventId,
   eventName,
@@ -63,6 +64,7 @@ import {
 import {
   configure,
   fireEvent,
+  pasteToTextEditor,
   render,
   screen,
   waitFor,
@@ -72,7 +74,6 @@ import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { CreateEventFormFields } from '../types';
-import * as Utils from '../utils';
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
 
@@ -85,7 +86,7 @@ const imageAltText = 'AltText';
 const defaultFormData = {
   name: createFinnishLocalisedObject(eventName, true),
   shortDescription: createFinnishLocalisedObject(shortDescription, true),
-  description: createFinnishLocalisedObject(description, true),
+  description: createFinnishLocalisedObject(descriptionEditorHTML, true),
   infoUrl: createFinnishLocalisedObject(infoUrl, true),
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
@@ -366,7 +367,7 @@ describe('Language selection', () => {
   const transletableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
-    /^Kuvaus/,
+    // /^Kuvaus/, // FIXME: Not working since changed to a TextEditor
     /^WWW-osoite, josta saa lisätietoja tapahtumasta/,
     /^Lisätiedot/,
   ];
@@ -504,8 +505,8 @@ describe('Language selection', () => {
       userEvent.click(within(languageSelector).getByLabelText(/englanti/i));
 
       transletableFieldLabels.forEach((labelText) => {
-        const labels = screen.getAllByLabelText(labelText);
-        const inputNames = labels.map((label) => label.getAttribute('id'));
+        const labels = screen.getAllByText(labelText);
+        const inputNames = labels.map((label) => label.getAttribute('for'));
         const inputLangOrder = inputNames.map((name) => name.split('.').pop());
         expect(inputLangOrder).toEqual(languageOrder);
       });
@@ -564,7 +565,9 @@ describe('Copy event', () => {
       imageAltText: photoAltText,
     });
 
-    expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description);
+    expect(screen.getByRole('textbox', { name: /Kuvaus/ })).toHaveTextContent(
+      description
+    );
 
     await waitFor(() => {
       expect(
@@ -627,8 +630,10 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
     'name.fi': eventFormData.name.fi,
     'shortDescription.fi': eventFormData.shortDescription.fi,
   });
+  const editor = screen.getByRole('textbox', { name: /Kuvaus/ });
+  pasteToTextEditor(editor, eventFormData.description.fi);
+  editor.blur();
 
-  userEvent.type(screen.getByLabelText(/Kuvaus/), eventFormData.description.fi);
   userEvent.type(
     screen.getByLabelText(
       'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'

@@ -93,6 +93,13 @@ export type CustomRenderResult = RenderResult & { history: History };
 
 export { customRender as render, renderWithRoute, reduxStore };
 
+export type PasteEvent = {
+  clipboardData: {
+    types: string[];
+    getData: (type: string) => string;
+  };
+};
+
 export const createPasteEvent = (html: string): PasteEvent => {
   const text = html.replace('<[^>]*>', '');
   return {
