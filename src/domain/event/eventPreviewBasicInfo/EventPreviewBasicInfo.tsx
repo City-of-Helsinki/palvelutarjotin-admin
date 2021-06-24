@@ -32,12 +32,17 @@ const EventPreviewBasicInfo: React.FC<EventPreviewBasicInfoProps> = ({
     infoUrl,
   } = getEventFields(event, locale);
 
+  const createMarkup = (markup: string) => ({ __html: markup });
+
   return (
     <section className={styles.eventBasicInfo}>
       <div className={styles.descriptionPart}>
         <h1>{eventName}</h1>
         <p className={styles.shortDescription}>{shortDescription}</p>
-        <p>{description}</p>
+        <div
+          className={styles.description}
+          dangerouslySetInnerHTML={createMarkup(description ?? '')}
+        />
         <EventKeywords event={event} />
       </div>
       <div className={styles.infoRight}>

@@ -45,6 +45,8 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       })
     : '';
 
+  const createMarkup = (markup: string) => ({ __html: markup });
+
   return (
     <div className={styles.eventBasicInfo}>
       <h2>{t('eventDetails.basicInfo.title')}</h2>
@@ -67,9 +69,9 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       {description && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelDescription')}</TextTitle>
-          <TextWithLineBreaks
-            text={description}
+          <div
             className={styles.description}
+            dangerouslySetInnerHTML={createMarkup(description ?? '')}
           />
         </>
       )}
