@@ -482,6 +482,9 @@
       "occurrences": "Händelsen behöver minst en förekomst"
     }
   },
+  "eventPreview": {
+    "buttonGoToPublishing": "Tillbaka till publicering"
+  },
   "editOccurrence": {
     "buttonBack": "Evenemangtider",
     "buttonShowEventInfo": "Visa information om evenemang",

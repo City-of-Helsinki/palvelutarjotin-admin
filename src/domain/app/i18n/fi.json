@@ -481,6 +481,9 @@
       "occurrences": "Tapahtumalla on oltava ainakin yksi tapahtuma-aika"
     }
   },
+  "eventPreview": {
+    "buttonGoToPublishing": "Takaisin tapahtuman julkaisuun"
+  },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",
     "buttonShowEventInfo": "Näytä tapahtuman tiedot",

@@ -475,6 +475,9 @@
       "occurrences": "Event needs at least one occurrence"
     }
   },
+  "eventPreview": {
+    "buttonGoToPublishing": "Back to publishing"
+  },
   "editOccurrence": {
     "buttonBack": "Event times",
     "buttonShowEventInfo": "Show event details",
