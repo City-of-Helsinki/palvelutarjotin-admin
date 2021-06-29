@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import TextWithLineBreaks from '../../../common/components/textWithLineBreaks/TextWithLineBreaks';
+import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import formatDate from '../../../utils/formatDate';
@@ -45,8 +45,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       })
     : '';
 
-  const createMarkup = (markup: string) => ({ __html: markup });
-
   return (
     <div className={styles.eventBasicInfo}>
       <h2>{t('eventDetails.basicInfo.title')}</h2>
@@ -69,9 +67,9 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       {description && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelDescription')}</TextTitle>
-          <div
+          <TextWithHTMLOrLineBreaks
+            text={description}
             className={styles.description}
-            dangerouslySetInnerHTML={createMarkup(description ?? '')}
           />
         </>
       )}

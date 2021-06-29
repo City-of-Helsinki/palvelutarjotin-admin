@@ -2,6 +2,7 @@ import { IconFaceSmile, IconInfoCircle } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import IconTicket from '../../../icons/IconTicket';
@@ -32,16 +33,14 @@ const EventPreviewBasicInfo: React.FC<EventPreviewBasicInfoProps> = ({
     infoUrl,
   } = getEventFields(event, locale);
 
-  const createMarkup = (markup: string) => ({ __html: markup });
-
   return (
     <section className={styles.eventBasicInfo}>
       <div className={styles.descriptionPart}>
         <h1>{eventName}</h1>
         <p className={styles.shortDescription}>{shortDescription}</p>
-        <div
+        <TextWithHTMLOrLineBreaks
+          text={description}
           className={styles.description}
-          dangerouslySetInnerHTML={createMarkup(description ?? '')}
         />
         <EventKeywords event={event} />
       </div>
