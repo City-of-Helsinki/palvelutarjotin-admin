@@ -12,7 +12,7 @@ interface Props {
  * The fact is that every string is HTML,
  * but not every HTML contains element nodes (or HTML-tags).
  */
-const containsHTMLTags = (text: string) => {
+const containsHTMLTags = (text: string): boolean => {
   return /<\/?[a-z][\s\S]*>/i.test(text);
 };
 
