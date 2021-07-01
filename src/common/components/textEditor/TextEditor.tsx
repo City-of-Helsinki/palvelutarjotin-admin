@@ -13,7 +13,7 @@ import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 import { getTextEditorLocalization, toolbarOptions } from './constants';
 import styles from './textEditor.module.scss';
 
-const covertHtmlToEditorState = (html: string) => {
+const convertHtmlToEditorState = (html: string) => {
   const blocksFromHtml = htmlToDraft(html);
   const { contentBlocks, entityMap } = blocksFromHtml;
   const contentState = ContentState.createFromBlockArray(
@@ -61,7 +61,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const { t } = useTranslation();
 
   const [editorState, setEditorState] = React.useState(
-    covertHtmlToEditorState(value)
+    convertHtmlToEditorState(value)
   );
 
   const onEditorStateChange = (editorState: EditorState) => {
@@ -80,7 +80,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
         !containerRef.current?.contains(document.activeElement) &&
         sanitizeAfterChange
       ) {
-        setEditorState(covertHtmlToEditorState(sanitizeAfterChange(value)));
+        setEditorState(convertHtmlToEditorState(sanitizeAfterChange(value)));
       }
     },
     [isMounted, sanitizeAfterChange]
