@@ -1,9 +1,16 @@
+@import 'layout';
+@import 'mixins';
+@import 'variables';
+
 .textEditor {
-  --text-editor-border-width: 1px;
+  --text-editor-border-width: 2px;
   --text-editor-border-color: var(--color-black-50);
   --text-editor-editor-max-height: 20rem;
   --text-editor-editor-min-height: var(--spacing-layout-2-xl);
-  --text-editor-toolbar-border-color: var(--color-black-20);
+  --text-editor-editor-background-color: white;
+  --text-editor-toolbar-border-width: 1px;
+  --text-editor-toolbar-border-color: var(--text-editor-border-color);
+  --text-editor-toolbar-background-color: lightgray;
 }
 
 .inputWrapper > div {
@@ -11,13 +18,15 @@
 }
 
 .toolbar {
-  border: var(--text-editor-border-width) solid
+  border: var(--text-editor-toolbar-border-width) solid
     var(--text-editor-toolbar-border-color);
   margin-bottom: 0;
   border-bottom: none;
+  background-color: var(--text-editor-toolbar-background-color);
 }
 
 .editor {
+  background-color: var(--text-editor-editor-background-color);
   border: var(--text-editor-border-width) solid var(--text-editor-border-color);
   padding: 0 var(--spacing-s);
   min-height: var(--text-editor-editor-min-height);

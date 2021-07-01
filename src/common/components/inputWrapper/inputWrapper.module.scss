@@ -13,6 +13,7 @@
 
 .errorText {
   composes: hds-text-input__error-text from '~hds-core/lib/components/text-input/text-input.css';
+  color: var(--color-error);
 }
 
 .helperText {
