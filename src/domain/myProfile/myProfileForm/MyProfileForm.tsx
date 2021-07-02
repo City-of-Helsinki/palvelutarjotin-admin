@@ -25,6 +25,7 @@ export type MyProfileFormFields = {
   isTermsOfServiceRead: boolean;
   name: string;
   organisations: string[];
+  organisationProposals: string;
   phoneNumber: string;
 };
 
@@ -34,6 +35,7 @@ const defaultInitialValues = {
   isTermsOfServiceRead: false,
   name: '',
   organisations: [],
+  organisationProposals: '',
   phoneNumber: '',
 };
 
@@ -103,6 +105,18 @@ const MyProfileForm: React.FC<Props> = ({
                 placeholder={t('myProfileForm.placeholderOrganisations')}
                 component={MultiDropdownField}
                 options={organisationOptions}
+              />
+              <p className={styles.separator}>
+                {t('myProfileForm.textOrganisationSeparator')}
+              </p>
+              <Field
+                name="organisationProposals"
+                labelText={t('myProfileForm.labelOrganisationProposals')}
+                helperText={t('myProfileForm.helperOrganisationProposals')}
+                placeholder={t(
+                  'myProfileForm.placeholderOrganisationProposals'
+                )}
+                component={TextInputField}
               />
             </FormGroup>
             {showCheckboxes && (

@@ -2,7 +2,11 @@ import { MockedResponse } from '@apollo/react-testing';
 import * as React from 'react';
 
 import * as graphql from '../../../generated/graphql';
-import { fakeOrganisations, fakePerson } from '../../../utils/mockDataUtils';
+import {
+  fakeOrganisationProposals,
+  fakeOrganisations,
+  fakePerson,
+} from '../../../utils/mockDataUtils';
 import {
   renderWithRoute,
   screen,
@@ -36,6 +40,7 @@ const apolloMocks: MockedResponse[] = [
           name: 'Testi Testaaja',
           emailAddress: 'testi@testaaja.com',
           phoneNumber: '123321123',
+          organisationproposalSet: fakeOrganisationProposals(),
         }),
       },
     },
@@ -131,6 +136,7 @@ test('profile can be edited', async () => {
           emailAddress: '',
           name: 'Changed Name',
           organisations: ['organisation1', 'organisation3'],
+          organisationProposals: [],
           phoneNumber: '321123321',
         },
       },

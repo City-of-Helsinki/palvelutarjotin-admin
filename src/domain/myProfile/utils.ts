@@ -1,6 +1,7 @@
 import {
   MyProfileFieldsFragment,
   OrganisationNodeFieldsFragment,
+  OrganisationProposalNodeInput,
 } from '../../generated/graphql';
 import { MyProfileFormFields } from './myProfileForm/MyProfileForm';
 
@@ -9,6 +10,9 @@ export const getMyProfilePayload = (values: MyProfileFormFields) => ({
   phoneNumber: values.phoneNumber,
   emailAddress: values.emailAddress,
   organisations: values.organisations,
+  organisationProposals: values.organisationProposals
+    ? [{ name: values.organisationProposals } as OrganisationProposalNodeInput]
+    : [],
 });
 
 export const getSelectedOrganisation = (

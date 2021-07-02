@@ -142,6 +142,10 @@
     "labelOrganisations": "Organisaatio",
     "labelPhoneNumber": "Puhelinnumero",
     "placeholderOrganisations": "Valitse organisaatio",
+    "labelOrganisationProposals": "Pyydä uusi organisaatio",
+    "helperOrganisationProposals": "Pyyntö uuden hallitsemasi organisaation lisäykselle",
+    "placeholderOrganisationProposals": "Organisaation nimi",
+    "textOrganisationSeparator": "Tai",
     "validation": {
       "isPrivacyPolicyAccepted": "Tietosuojakäytäntö on hyväksyttävä",
       "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"

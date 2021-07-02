@@ -139,6 +139,7 @@ it('Pagelayout renders Profile page', async () => {
           emailAddress: 'test@test.fi',
           name: 'Testi Testaaja',
           organisations: ['organisation1', 'organisation2'],
+          organisationProposals: [],
           phoneNumber: '123321123',
         },
       },

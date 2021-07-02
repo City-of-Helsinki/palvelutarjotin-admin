@@ -28,15 +28,16 @@ const MyProfilePage: React.FC = () => {
     () =>
       myProfileData?.myProfile
         ? {
-            emailAddress: myProfileData.myProfile.emailAddress,
-            isPrivacyPolicyAccepted: true,
-            isTermsOfServiceRead: true,
             name: myProfileData.myProfile.name,
+            emailAddress: myProfileData.myProfile.emailAddress,
+            phoneNumber: myProfileData.myProfile.phoneNumber,
             organisations:
               myProfileData.myProfile.organisations.edges.map(
                 (edge) => edge?.node?.id || ''
               ) || [],
-            phoneNumber: myProfileData.myProfile.phoneNumber,
+            organisationProposals: '',
+            isPrivacyPolicyAccepted: true,
+            isTermsOfServiceRead: true,
           }
         : undefined,
     [myProfileData]

@@ -11,6 +11,13 @@ export const QUERY_KEYWORD = gql`
         }
       }
     }
+    organisationproposalSet {
+      edges {
+        node {
+          name
+        }
+      }
+    }
   }
 
   query MyProfile {
