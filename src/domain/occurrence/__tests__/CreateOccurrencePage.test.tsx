@@ -25,6 +25,7 @@ import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
+  actWait,
   configure,
   fireEvent,
   renderWithRoute,
@@ -57,7 +58,6 @@ const baseApolloMocks = [
   placeMockResponse,
 
   // mocked when place is selected and venue data fetched
-  selloVenueMockResponse,
   selloVenueMockResponse,
 ];
 
@@ -464,6 +464,8 @@ describe('location and enrolment info', () => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
     });
 
+    await actWait();
+
     // Modal should only have complaint about needing at least one occurrence
     userEvent.click(goToPublishButton);
     const withinModal2 = within(screen.getByRole('dialog'));
@@ -574,7 +576,7 @@ describe('occurrences form', () => {
     expect(oneGroupFillsCheckbox).not.toBeChecked();
   });
 
-  test.only('can create new occurrence and it is added to occurrences table', async () => {
+  test('can create new occurrence and it is added to occurrences table', async () => {
     const occurrenceStartTime = '10.05.2021 10:00';
     const occurrenceEndTime = '10.05.2021 11:00';
     const occurrenceData1 = {

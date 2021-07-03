@@ -1,13 +1,14 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
-import { fireEvent, render, RenderResult } from '@testing-library/react';
+import { act, fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import * as React from 'react';
 import Modal from 'react-modal';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
+import wait from 'waait';
 
-import { apolloCache } from '../domain/app/apollo/apolloClient';
+import { createApolloCache } from '../domain/app/apollo/apolloClient';
 import { store as reduxStore } from '../domain/app/store';
 
 export const arrowUpKeyPressHelper = () =>
@@ -33,7 +34,7 @@ const customRender: CustomRender = (
 ) => {
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
-      <MockedProvider mocks={mocks} cache={apolloCache}>
+      <MockedProvider mocks={mocks} cache={createApolloCache()}>
         <Router history={history}>{children}</Router>
       </MockedProvider>
     </Provider>
@@ -55,7 +56,7 @@ const renderWithRoute: CustomRender = (
 ) => {
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
-      <MockedProvider mocks={mocks} cache={apolloCache}>
+      <MockedProvider mocks={mocks} cache={createApolloCache()}>
         <Router history={history}>
           <Route exact path={path}>
             {children}
@@ -86,7 +87,9 @@ type CustomRender = {
 
 export type CustomRenderResult = RenderResult & { history: History };
 
-export { customRender as render, renderWithRoute, reduxStore };
+const actWait = (amount?: number) => act(() => wait(amount));
+
+export { customRender as render, renderWithRoute, reduxStore, actWait };
 
 // re-export everything
 export * from '@testing-library/react';

@@ -130,6 +130,7 @@ export const selloVenueMockResponse: MockedResponse = {
   result: {
     data: {
       venue: fakeVenue({
+        id: placeId,
         outdoorActivity: true,
         hasClothingStorage: true,
         hasSnackEatingPlace: true,

@@ -16,51 +16,52 @@ import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store';
 
-export const apolloCache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        keyword(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Keyword',
-            id: args?.id,
-          });
-        },
-        person(_, { args, toReference }) {
-          return toReference({
-            __typename: 'PersonNode',
-            id: args?.id,
-          });
-        },
-        place(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Place',
-            id: args?.id,
-          });
-        },
-        venue(_, { args, toReference }) {
-          return toReference({
-            __typename: 'VenueNode',
-            id: args?.id,
-          });
+export const createApolloCache = () =>
+  new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          keyword(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Keyword',
+              id: args?.id,
+            });
+          },
+          person(_, { args, toReference }) {
+            return toReference({
+              __typename: 'PersonNode',
+              id: args?.id,
+            });
+          },
+          place(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Place',
+              id: args?.id,
+            });
+          },
+          venue(_, { args, toReference }) {
+            return toReference({
+              __typename: 'VenueNode',
+              id: args?.id,
+            });
+          },
         },
       },
-    },
-    Keyword: {
-      keyFields: (object: Readonly<StoreObject>, { selectionSet }) => {
-        // Hacky way to not store keywords without id to cache (then name is missing also)
-        // This happends when queries are done without include: ['keywords']
-        if (selectionSet) {
-          return object.id ? `Keyword:${object.internalId}` : false;
-        }
+      Keyword: {
+        keyFields: (object: Readonly<StoreObject>, { selectionSet }) => {
+          // Hacky way to not store keywords without id to cache (then name is missing also)
+          // This happends when queries are done without include: ['keywords']
+          if (selectionSet) {
+            return object.id ? `Keyword:${object.internalId}` : false;
+          }
 
-        // if selectionSet is not defined, it means that toReference function calls keyfields
-        // then we want to return cache id normally.
-        return defaultDataIdFromObject(object);
+          // if selectionSet is not defined, it means that toReference function calls keyfields
+          // then we want to return cache id normally.
+          return defaultDataIdFromObject(object);
+        },
       },
     },
-  },
-});
+  });
 
 const httpLink = createUploadLink({
   uri: process.env.REACT_APP_API_URI,
@@ -110,7 +111,7 @@ const authLink = setContext((_, { headers }) => {
 
 const apolloClient = new ApolloClient({
   link: ApolloLink.from([errorLink, authLink, httpLink as any]),
-  cache: apolloCache,
+  cache: createApolloCache(),
 });
 
 export default apolloClient;
