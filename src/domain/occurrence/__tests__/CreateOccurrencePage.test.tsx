@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import { addDays, format, parse as parseDate } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 
 import {
   editVenueMockResponse,
-  emptyVenueMockResponse,
   eventId,
   getAddOccurrenceMockResponse,
   getDeleteOccurrenceMockResponse,
@@ -59,9 +58,7 @@ const baseApolloMocks = [
 
   // mocked when place is selected and venue data fetched
   selloVenueMockResponse,
-
-  // empty call is done when component mounts and no place is still selected
-  emptyVenueMockResponse,
+  selloVenueMockResponse,
 ];
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -86,6 +83,7 @@ describe('location and enrolment info', () => {
         enrolmentEndDays: null,
         enrolmentStart: null,
         neededOccurrences: 1,
+        occurrences: fakeOccurrences(0),
       }
     );
     const updateEventMockResponse = getUpdateEventMockResponse({
@@ -576,7 +574,7 @@ describe('occurrences form', () => {
     expect(oneGroupFillsCheckbox).not.toBeChecked();
   });
 
-  test('can create new occurrence and it is added to occurrences table', async () => {
+  test.only('can create new occurrence and it is added to occurrences table', async () => {
     const occurrenceStartTime = '10.05.2021 10:00';
     const occurrenceEndTime = '10.05.2021 11:00';
     const occurrenceData1 = {
@@ -631,12 +629,14 @@ describe('occurrences form', () => {
     const maxGroupSizeInput = getOccurrenceFormElement('max');
 
     // Only dates should be empty after save
+
     expect(seatsInput).toHaveValue(30);
     expect(minGroupSizeInput).toHaveValue(10);
     expect(maxGroupSizeInput).toHaveValue(20);
     expect(occurrenceLocationInput.parentElement).toHaveTextContent(
       'Sellon kirjasto'
     );
+
     await waitFor(() => {
       expect(occurrenceStartsAtInput).toHaveValue('');
       expect(occurrenceEndsAtInput).toHaveValue('');

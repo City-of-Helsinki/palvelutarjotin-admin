@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';

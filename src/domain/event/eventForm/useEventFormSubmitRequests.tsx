@@ -1,4 +1,4 @@
-import ApolloClient from 'apollo-client';
+import { ApolloClient } from '@apollo/client';
 
 import { useUpdateSingleImageMutation } from '../../../generated/graphql';
 import { getImageName } from '../../image/utils';

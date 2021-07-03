@@ -89,6 +89,10 @@ export const getEditEventPayload = ({
     name: eventData.name,
     // start_date and offers are mandatory on LinkedEvents to use dummy data
     startTime: eventData.startTime || '',
+    // endTime needed
+    // eslint-disable-next-line max-len
+    // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
+    endTime: eventData.endTime,
     offers: eventData.offers,
     shortDescription: eventData.shortDescription,
     description: eventData.description,
@@ -123,9 +127,5 @@ export const getEditEventPayload = ({
       mandatoryAdditionalInformation:
         eventData.pEvent.mandatoryAdditionalInformation,
     },
-    // endTime needed
-    // eslint-disable-next-line max-len
-    // see ticket: https://helsinkisolutionoffice.atlassian.net/secure/RapidBoard.jspa?rapidView=40&projectKey=PT&modal=detail&selectedIssue=PT-437&assignee=557058%3A7f7be94a-c144-45ca-950c-6091dd896255
-    endTime: eventData.endTime,
   };
 };

@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/react-testing';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import { fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
@@ -33,7 +33,7 @@ const customRender: CustomRender = (
 ) => {
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={mocks} cache={apolloCache}>
         <Router history={history}>{children}</Router>
       </MockedProvider>
     </Provider>

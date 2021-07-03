@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const QUERY_TEMPLATE_CONTEXT = gql`
   query enrolmentTemplateContext($enrolmentId: ID!) {

@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';

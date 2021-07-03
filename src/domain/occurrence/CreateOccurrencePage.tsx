@@ -1,5 +1,8 @@
-import { useApolloClient } from '@apollo/react-hooks';
-import { ApolloQueryResult, NetworkStatus } from 'apollo-client';
+import {
+  ApolloQueryResult,
+  NetworkStatus,
+  useApolloClient,
+} from '@apollo/client';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
@@ -97,14 +100,17 @@ const CreateOccurrencePage: React.FC = () => {
     const initializeForm = async () => {
       if (eventData?.event) {
         const event = eventData.event;
-        const { data } = await apolloClient.query<VenueQuery>({
-          query: VenueDocument,
-          variables: {
-            id: event.location?.id,
-          },
-        });
+        let data;
+        if (event.location?.id) {
+          ({ data } = await apolloClient.query<VenueQuery>({
+            query: VenueDocument,
+            variables: {
+              id: event.location?.id,
+            },
+          }));
+        }
 
-        const venueData = data.venue;
+        const venueData = data?.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         const eventName = omit(event.name, '__typename');
 

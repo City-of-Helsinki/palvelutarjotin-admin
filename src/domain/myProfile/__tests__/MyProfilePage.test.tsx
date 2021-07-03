@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 
 import * as graphql from '../../../generated/graphql';

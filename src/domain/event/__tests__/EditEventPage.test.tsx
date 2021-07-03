@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';

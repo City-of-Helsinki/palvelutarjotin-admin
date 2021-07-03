@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const QUERY_ENROLMENT = gql`
   fragment studyGroupFields on StudyGroupNode {

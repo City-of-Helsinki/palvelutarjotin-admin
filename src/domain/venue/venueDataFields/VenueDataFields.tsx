@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import { Field, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';

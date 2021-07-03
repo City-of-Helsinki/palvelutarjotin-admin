@@ -1,4 +1,4 @@
-import { QueryHookOptions } from '@apollo/react-hooks';
+import { QueryHookOptions } from '@apollo/client';
 import * as React from 'react';
 
 import {

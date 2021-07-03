@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import parseDate from 'date-fns/parse';
 import faker from 'faker';
 
@@ -100,7 +100,7 @@ export const getKeywordId = (keywordId: string) => {
 };
 
 const fakeLanguagesObject = (name: string, languages: Languages[]) => {
-  const languagesArray: Languages[] = ['fi', 'en', 'sv'];
+  const languagesArray: Languages[] = ['en', 'fi', 'sv'];
   return languagesArray.reduce<LanguagesObject>((prev, next) => {
     return {
       ...prev,
@@ -119,20 +119,6 @@ const fakeLocalizedObjectWithMultipleLanguages = (
 export const placeMock = fakePlace({
   streetAddress: fakeLocalizedObject('Testikatu'),
 });
-
-export const emptyVenueMockResponse: MockedResponse = {
-  request: {
-    query: VenueDocument,
-    variables: {
-      id: undefined,
-    },
-  },
-  result: {
-    data: {
-      venue: null,
-    },
-  },
-};
 
 export const selloVenueMockResponse: MockedResponse = {
   request: {
@@ -388,7 +374,7 @@ export const getUpdateEventMockResponse = ({
     query: EditEventDocument,
     variables: getEditEventVariables({
       languages,
-      placeId: placeId,
+      placeId,
       autoAcceptance,
       neededOccurrences,
       enrolmentEndDays,
@@ -558,9 +544,9 @@ const getEditEventVariables = ({
     offers: [
       {
         description: fakeLanguagesObject('description', languages),
-        price: fakeLanguagesObject('99,9', languages),
-        isFree: true,
         infoUrl: null,
+        isFree: true,
+        price: fakeLanguagesObject('99,9', languages),
       },
     ],
     shortDescription: fakeLanguagesObject(shortDescription, languages),
@@ -583,17 +569,17 @@ const getEditEventVariables = ({
         placeId
       ),
     },
+    draft: true,
+    organisationId: organisationId,
     pEvent: {
-      mandatoryAdditionalInformation: false,
       contactEmail: contactEmail,
       contactPersonId: contactPersonId,
       contactPhoneNumber: contactPhoneNumber,
       enrolmentEndDays,
-      enrolmentStart,
+      enrolmentStart: new Date(enrolmentStart),
       neededOccurrences,
       autoAcceptance,
+      mandatoryAdditionalInformation: false,
     },
-    organisationId: organisationId,
-    draft: true,
   },
 });

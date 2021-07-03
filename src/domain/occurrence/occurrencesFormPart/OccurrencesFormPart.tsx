@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import addHours from 'date-fns/addHours';
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';

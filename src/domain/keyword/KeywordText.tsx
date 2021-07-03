@@ -10,6 +10,7 @@ interface Props {
 
 const KeywordText: React.FC<Props> = ({ id }) => {
   const locale = useLocale();
+  console.log(id);
   const { data } = useKeywordQuery({
     variables: { id },
   });
