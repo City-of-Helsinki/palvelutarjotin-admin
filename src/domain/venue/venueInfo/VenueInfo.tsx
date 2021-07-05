@@ -20,7 +20,7 @@ interface Props {
 
 const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
   const { t } = useTranslation();
-  const { data: venueData } = useVenueQuery({
+  const { data: venueData, error } = useVenueQuery({
     fetchPolicy: 'network-only',
     variables: { id: placeId },
   });

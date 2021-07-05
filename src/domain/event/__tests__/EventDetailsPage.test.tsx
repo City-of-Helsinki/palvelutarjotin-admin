@@ -41,6 +41,7 @@ const profileMock = fakePerson({
   name: 'Nimi niminen',
 });
 const venueMock = fakeVenue({
+  id: eventMock.location.id,
   hasSnackEatingPlace: true,
   hasClothingStorage: true,
   outdoorActivity: true,

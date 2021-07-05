@@ -45,10 +45,11 @@ const EventSummaryPage: React.FC = () => {
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
   const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
     {
-      fetchPolicy: 'network-only',
+      // fetchPolicy: 'network-only',
       variables: { id: eventId, include: ['location', 'keywords'] },
     }
   );
+
   const downloadEnrolmentsQuery = useDownloadEventsEnrolmentsCsvQuery(
     eventData?.event?.pEvent?.id
   );

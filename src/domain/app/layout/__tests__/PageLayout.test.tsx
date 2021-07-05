@@ -68,7 +68,11 @@ it('Pagelayout renders Profile page', async () => {
       request: {
         query: graphql.MyProfileDocument,
       },
-      result: {},
+      result: {
+        data: {
+          myProfile: null,
+        },
+      },
     },
     {
       request: {
