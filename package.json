@@ -73,10 +73,7 @@
     "test:staged": "yarn test:nowatch --findRelatedTests",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
     "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report testcafe/e2e/",
-    "codegen": "DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml",
-    "storybook": "start-storybook -p 9009 -s public",
-    "deploy-storybook": "storybook-to-ghpages",
-    "build-storybook": "build-storybook -s public"
+    "codegen": "DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -98,7 +95,6 @@
       "scrollToTop.ts",
       "App.tsx",
       "apolloClient.ts",
-      ".*stories.tsx",
       "graphql.tsx",
       "OidcCallback.tsx",
       "SilentRenew.tsx"
@@ -123,16 +119,6 @@
     "@graphql-codegen/typescript": "^1.22.1",
     "@graphql-codegen/typescript-operations": "^1.18.0",
     "@graphql-codegen/typescript-react-apollo": "^2.2.7",
-    "@storybook/addon-a11y": "^5.3.18",
-    "@storybook/addon-actions": "^5.3.18",
-    "@storybook/addon-knobs": "^5.3.18",
-    "@storybook/addon-links": "^5.3.18",
-    "@storybook/addon-storysource": "^5.3.18",
-    "@storybook/addons": "^5.3.18",
-    "@storybook/preset-create-react-app": "^2.1.1",
-    "@storybook/preset-scss": "^1.0.2",
-    "@storybook/react": "^5.3.18",
-    "@storybook/storybook-deployer": "^2.8.6",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
     "@testing-library/react-hooks": "^3.2.1",
