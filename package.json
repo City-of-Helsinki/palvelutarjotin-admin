@@ -163,11 +163,6 @@
     "pretty": "^2.0.0",
     "waait": "^1.0.5"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "src/**/*.{tsx,ts}": [
       "eslint --fix",
