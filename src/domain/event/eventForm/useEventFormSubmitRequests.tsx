@@ -47,4 +47,4 @@ const useUpdateImageRequest = () => {
   };
 };
 
-export { useUpdateImageRequest, useCreateOrUpdateVenueRequest };
+export { useCreateOrUpdateVenueRequest, useUpdateImageRequest };

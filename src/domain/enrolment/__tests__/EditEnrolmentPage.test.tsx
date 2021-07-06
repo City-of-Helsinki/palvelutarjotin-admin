@@ -19,7 +19,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import { apolloCache } from '../../app/apollo/apolloClient';
 import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';
@@ -192,7 +191,8 @@ it('shows notification type checkbox correctly', async () => {
     },
   ];
 
-  enrolmentMockData.data.enrolment.notificationType = 'SMS';
+  enrolmentMockData.data.enrolment.notificationType =
+    graphqlFns.NotificationType.Sms;
 
   renderPage({ mocks: apolloMocks });
 

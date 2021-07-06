@@ -9,17 +9,16 @@ import DropdownField, {
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { PersonDocument, PersonQuery } from '../../../generated/graphql';
+import { isTestEnv } from '../../../utils/envUtils';
 
 const ContactPersonInfoPart: React.FC<{
   contactPersonId: string;
   personOptions: Option[];
   setFieldValue: (
     field: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
     shouldValidate?: boolean | undefined
   ) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   touched: FormikTouched<any>;
 }> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
@@ -36,7 +35,10 @@ const ContactPersonInfoPart: React.FC<{
         setFieldValue('contactEmail', data.person?.emailAddress || '');
         setFieldValue('contactPhoneNumber', data.person?.phoneNumber || '');
       } catch (err) {
-        console.log(err);
+        if (isTestEnv()) {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        }
         // clear description when error happens
         setFieldValue('contactEmail', '');
         setFieldValue('contactPhoneNumber', '');

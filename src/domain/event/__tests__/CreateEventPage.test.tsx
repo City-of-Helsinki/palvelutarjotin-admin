@@ -358,9 +358,7 @@ describe('Language selection', () => {
     );
     within(languageSelector).getByText(/Valitse lomakkeen kieliversiot/i);
     // Finnish should be selected by default
-    expect(
-      await within(languageSelector).getByLabelText(/suomi/i)
-    ).toBeChecked();
+    expect(within(languageSelector).getByLabelText(/suomi/i)).toBeChecked();
     // Rest of the langauges should be unchecked by default
     expect(
       within(languageSelector).getByLabelText(/ruotsi/i)

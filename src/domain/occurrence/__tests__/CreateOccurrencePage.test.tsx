@@ -5,6 +5,9 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 
+import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
+import { OccurrenceNode } from '../../../generated/graphql';
+import * as graphql from '../../../generated/graphql';
 import {
   editVenueMockResponse,
   eventId,
@@ -19,10 +22,7 @@ import {
   placesMockResponse,
   selloVenueMockResponse,
   venueDescription,
-} from '../__mocks__/CreateOccurrencePage.mocks';
-import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
-import { OccurrenceNode } from '../../../generated/graphql';
-import * as graphql from '../../../generated/graphql';
+} from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
   actWait,

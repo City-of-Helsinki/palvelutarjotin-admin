@@ -89,7 +89,7 @@ export type CustomRenderResult = RenderResult & { history: History };
 
 const actWait = (amount?: number) => act(() => wait(amount));
 
-export { customRender as render, renderWithRoute, reduxStore, actWait };
+export { actWait, reduxStore, customRender as render, renderWithRoute };
 
 // re-export everything
 export * from '@testing-library/react';

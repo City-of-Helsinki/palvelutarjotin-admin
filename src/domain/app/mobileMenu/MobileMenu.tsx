@@ -21,13 +21,13 @@ import { activeOrganisationSelector } from '../../organisation/selector';
 import { ROUTES } from '../routes/constants';
 import styles from './mobileMenu.module.scss';
 
-interface MobileMenuContext {
+interface MobileMenuContextProps {
   closeMobileMenu: () => void;
   isMobileMenuOpen: boolean;
   openMobileMenu: () => void;
 }
 
-export const MobileMenuContext = React.createContext<MobileMenuContext>({
+export const MobileMenuContext = React.createContext<MobileMenuContextProps>({
   closeMobileMenu: () => null,
   isMobileMenuOpen: false,
   openMobileMenu: () => null,
@@ -59,7 +59,7 @@ export const MobileMenuProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useMobileMenuContext = (): MobileMenuContext =>
+export const useMobileMenuContext = (): MobileMenuContextProps =>
   React.useContext(MobileMenuContext);
 
 interface Props {

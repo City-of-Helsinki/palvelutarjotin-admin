@@ -2,11 +2,11 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import wait from 'waait';
 
-import persons from '../__mocks__/persons';
 import messages from '../../../../../domain/app/i18n/fi.json';
 import { act, configure, render, screen } from '../../../../../utils/testUtils';
 import DeclineEnrolmentModal from '../DeclineEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
+import persons from '../mocks/persons';
 
 configure({ defaultHidden: true });
 
@@ -31,7 +31,6 @@ it('renders correctly and calls decline enrolment handler', async () => {
   render(
     <DeclineEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
       appElement={document.body}
@@ -62,7 +61,6 @@ it('calls close handle when close button is clicked', async () => {
   render(
     <DeclineEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
       appElement={document.body}
@@ -84,7 +82,6 @@ it('renders enrollees list correctly', async () => {
   render(
     <DeclineEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={jest.fn()}
       declineEnrolment={jest.fn()}
       appElement={document.body}

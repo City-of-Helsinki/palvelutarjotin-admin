@@ -2,7 +2,7 @@ import * as React from 'react';
 
 type Props = { className?: string };
 
-export default ({ className = '' }: Props) => (
+const IconCalendar = ({ className = '' }: Props) => (
   <svg
     width="24px"
     height="24px"
@@ -24,3 +24,5 @@ export default ({ className = '' }: Props) => (
     </g>
   </svg>
 );
+
+export default IconCalendar;

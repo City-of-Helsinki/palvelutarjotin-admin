@@ -1,35 +1,21 @@
 {
   "extends": [
     "react-app",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
+    "react-app/jest",
+    "plugin:testcafe/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:testcafe/recommended"
+    "plugin:import/typescript"
   ],
   "plugins": ["simple-import-sort", "testcafe", "no-only-tests"],
   "rules": {
-    "@typescript-eslint/brace-style": [
-      "error",
-      "1tbs",
-      { "allowSingleLine": true }
-    ],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/func-call-spacing": ["error"],
-    "@typescript-eslint/member-ordering": ["warn"],
-    "@typescript-eslint/no-require-imports": ["error"],
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "react/no-unused-prop-types": ["warn", { "skipShapeProps": true }],
-    "array-bracket-spacing": ["warn", "never"],
-    "max-len": ["warn", { "code": 120 }],
     "no-console": "warn",
     "no-plusplus": "error",
     "no-undef": "warn",
+    "no-unused-expressions": "off",
     "object-curly-spacing": ["warn", "always"],
-    "sort-imports": "off",
-    "import/order": "off",
-    "simple-import-sort/sort": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "import/named": "off",
     "no-only-tests/no-only-tests": "error"
   },

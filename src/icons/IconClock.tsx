@@ -2,7 +2,7 @@ import * as React from 'react';
 
 type Props = { className?: string };
 
-export default ({ className = '' }: Props) => (
+const IconClock = ({ className = '' }: Props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"
@@ -16,3 +16,5 @@ export default ({ className = '' }: Props) => (
     </g>
   </svg>
 );
+
+export default IconClock;
