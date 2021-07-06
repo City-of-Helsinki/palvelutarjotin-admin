@@ -1,7 +1,7 @@
 export type ApiTokenData = {
   isFetchingToken: boolean;
   apiToken: string | null;
-  errors: object;
+  errors: Record<string, unknown>;
 };
 
 export type ApiTokenResponse = {

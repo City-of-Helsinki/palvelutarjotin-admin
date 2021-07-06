@@ -101,7 +101,10 @@ const CreateOccurrencePage: React.FC = () => {
               },
             }));
           } catch (e) {
-            console.log(e);
+            if (isTestEnv()) {
+              // eslint-disable-next-line no-console
+              console.log(e);
+            }
           }
         }
 
