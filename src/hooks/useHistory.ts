@@ -13,7 +13,7 @@ const useHistory = () => {
 
   const pushWithLocale = (
     pathOrLocationObject: string | LocationDescriptorObject<LocationState>,
-    state?: History.PoorMansUnknown
+    state?: History
   ) => {
     if (typeof pathOrLocationObject === 'string') {
       const isHome = pathOrLocationObject === ROUTES.HOME;
