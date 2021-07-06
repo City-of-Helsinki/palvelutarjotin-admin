@@ -6,6 +6,7 @@ import { VenueDataFields } from '../../venue/types';
 import { createOrUpdateVenue } from '../../venue/utils';
 import { CreateEventFormFields } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const useCreateOrUpdateVenueRequest = (apolloClient: ApolloClient<object>) => {
   return ({
     venueFormData,

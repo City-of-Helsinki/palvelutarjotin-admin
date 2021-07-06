@@ -248,7 +248,9 @@ export const profileResponse = {
             {
               organisations: [] as never,
               name: personName,
+              emailAddress: contactEmail,
               id: contactPersonId,
+              phoneNumber: contactPhoneNumber,
             },
           ]),
           name: defaultOrganizationName,

@@ -913,7 +913,7 @@ const getOccurrenceFormElement = (
       });
     case 'language':
       return occurrencesForm.getByRole('button', {
-        name: /tapahtuman kieli valitse\.\.\./i,
+        name: 'Tapahtuman kieli',
       });
     case 'seats':
       return occurrencesForm.getByRole('spinbutton', {

@@ -12,7 +12,6 @@ import {
   KeywordsDocument,
   KeywordSetType,
   MyProfileDocument,
-  PersonDocument,
   PlaceDocument,
   PlacesDocument,
   UploadSingleImageDocument,
@@ -72,7 +71,6 @@ import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { CreateEventFormFields } from '../types';
-import * as Utils from '../utils';
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
 
@@ -121,9 +119,9 @@ const createEventVariables = {
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
     pEvent: {
-      contactEmail: 'testi123@testi123.fi',
+      contactEmail: defaultFormData.contactEmail,
       contactPersonId: contactPersonId,
-      contactPhoneNumber: '123321123',
+      contactPhoneNumber: contactPhoneNumber,
       neededOccurrences: 1,
       mandatoryAdditionalInformation: true,
     },
@@ -292,28 +290,6 @@ const mocks = [
     },
   ]),
 ];
-
-jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
-  if (query === PersonDocument) {
-    return {
-      data: {
-        person: {
-          emailAddress: 'testi123@testi123.fi',
-          phoneNumber: '123321123',
-        },
-      },
-    };
-  }
-});
-
-const mockUseHistory = () => {
-  const pushMock = jest.fn();
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
-  return pushMock;
-};
 
 test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
@@ -661,7 +637,6 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
     screen.getByLabelText(/Kuvan alt-teksti/),
     eventFormData.imageAltText
   );
-
   userEvent.type(
     screen.getByLabelText(/Sähköpostiosoite/),
     eventFormData.contactEmail
@@ -688,10 +663,10 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
 
   // email and name should automatically populate after choosing name from dropdown
   await waitFor(() => {
-    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(
-      'testi123@testi123.fi'
+    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(contactEmail);
+    expect(screen.getByLabelText('Puhelinnumero')).toHaveValue(
+      contactPhoneNumber
     );
-    expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
   });
 
   await testMultiDropdownValues({

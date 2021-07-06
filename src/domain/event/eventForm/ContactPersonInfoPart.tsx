@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client';
 import { Field, FormikTouched } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,6 @@ import DropdownField, {
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { PersonDocument, PersonQuery } from '../../../generated/graphql';
-import apolloClient from '../../app/apollo/apolloClient';
 
 const ContactPersonInfoPart: React.FC<{
   contactPersonId: string;
@@ -23,6 +23,7 @@ const ContactPersonInfoPart: React.FC<{
   touched: FormikTouched<any>;
 }> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
+  const apolloClient = useApolloClient();
 
   const setContactPersonId = async (name: string, value: string) => {
     setFieldValue(name, value);
@@ -35,6 +36,7 @@ const ContactPersonInfoPart: React.FC<{
         setFieldValue('contactEmail', data.person?.emailAddress || '');
         setFieldValue('contactPhoneNumber', data.person?.phoneNumber || '');
       } catch (err) {
+        console.log(err);
         // clear description when error happens
         setFieldValue('contactEmail', '');
         setFieldValue('contactPhoneNumber', '');

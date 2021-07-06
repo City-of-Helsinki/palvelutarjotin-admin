@@ -48,7 +48,7 @@ const occurrenceId1 = 'occurrenceId1';
 const occurrenceId2 = 'occurrenceId2';
 const occurrenceId3 = 'occurrenceId3';
 
-const cancelReasonMessageText = '';
+const cancelReasonMessageText = 'testmessage';
 
 const occurrences = fakeOccurrences(3, [
   { startTime: new Date(2020, 11, 11).toISOString(), id: occurrenceId1 },

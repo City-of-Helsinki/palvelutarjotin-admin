@@ -10,8 +10,8 @@ interface KeyboardNavigationProps {
 interface DropdownKeyboardNavigationState {
   focusedIndex: number;
   setFocusedIndex: (index: number) => void;
-  setup: Function;
-  teardown: Function;
+  setup: () => void;
+  teardown: () => void;
 }
 
 const useDropdownKeyboardNavigation = ({
