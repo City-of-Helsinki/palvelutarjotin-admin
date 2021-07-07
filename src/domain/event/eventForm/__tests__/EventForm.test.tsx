@@ -1,14 +1,7 @@
-import { format } from 'date-fns';
-import parseDate from 'date-fns/parse';
 import { axe } from 'jest-axe';
-import { advanceTo, clear } from 'jest-date-mock';
+import { clear } from 'jest-date-mock';
 import * as React from 'react';
-import wait from 'waait';
 
-import {
-  DATE_FORMAT,
-  DATETIME_FORMAT,
-} from '../../../../common/components/datepicker/contants';
 import { actWait, render } from '../../../../utils/testUtils';
 import EventForm, { createEventInitialValues } from '../EventForm';
 
