@@ -85,7 +85,7 @@ const getValidationSchema = ({
       }) as any),
     languages: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(1),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     amountOfSeats: Yup.number()
       .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
       .min(1, addMinValidationMessage),

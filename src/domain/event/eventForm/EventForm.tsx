@@ -136,6 +136,7 @@ const EventForm = <T extends FormFields>({
         setFieldValue,
         setFieldTouched,
         touched,
+        errors,
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
@@ -164,7 +165,11 @@ const EventForm = <T extends FormFields>({
                 </div>
                 <h1>{title}</h1>
                 <EventSteps step={1} />
-                <form onSubmit={handleSubmit} data-testid="event-form">
+                <form
+                  onSubmit={handleSubmit}
+                  data-testid="event-form"
+                  noValidate
+                >
                   <div className={styles.formPart}>
                     <div className={styles.formSection}>
                       <h2>{t('eventForm.basicInfo.title')}</h2>

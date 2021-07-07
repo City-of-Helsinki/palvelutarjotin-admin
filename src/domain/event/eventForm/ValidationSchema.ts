@@ -47,13 +47,13 @@ const createValidationSchemaYup = (selectedLanguages: Language[]) =>
     infoUrl: createMultiLanguageValidation(selectedLanguages, Yup.string()),
     audience: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(0),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     categories: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(0),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     additionalCriteria: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(0),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     keywords: Yup.array().min(0),
     image: Yup.string(),
     imagePhotographerName: Yup.string().when('image', {

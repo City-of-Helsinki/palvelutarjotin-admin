@@ -71,8 +71,9 @@ const DropdownField: React.FC<Props> = ({
     <Select
       {...rest}
       {...field}
-      helper={errorText || helper}
+      helper={helper}
       invalid={Boolean(errorText)}
+      error={errorText}
       optionLabelField={'label'}
       // closeMenuOnSelect={!multiselect}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -14,6 +14,6 @@ export default Yup.object().shape({
   name: Yup.string().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
   organisations: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .min(1),
+    .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   phoneNumber: Yup.string().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
 });
