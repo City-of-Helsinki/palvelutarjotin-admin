@@ -100,6 +100,7 @@ const Timepicker: React.FC<Props> = ({
     <InputWrapper
       className={classNames(styles.wrapper, className)}
       helperText={invalidText || helperText}
+      errorText={invalidText}
       invalid={!!invalidText}
       labelText={labelText}
       {...labelProps}
