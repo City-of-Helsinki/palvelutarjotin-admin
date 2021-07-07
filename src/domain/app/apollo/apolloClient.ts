@@ -16,6 +16,16 @@ import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store';
 
+const excludeArgs =
+  (excludedArgs: string[]) =>
+  (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    args: Record<string, any> | null
+  ) =>
+    args
+      ? Object.keys(args).filter((key: string) => !excludedArgs.includes(key))
+      : false;
+
 export const createApolloCache = () =>
   new InMemoryCache({
     typePolicies: {
@@ -44,6 +54,19 @@ export const createApolloCache = () =>
               __typename: 'VenueNode',
               id: args?.id,
             });
+          },
+          events: {
+            // Only ignore page argument in caching to get fetchMore pagination working correctly
+            // Other args are needed to separate different serch queries to separate caches
+            // Docs: https://www.apollographql.com/docs/react/pagination/key-args/
+            keyArgs: excludeArgs(['page']),
+            merge(existing, incoming) {
+              if (!incoming) return null;
+              return {
+                data: [...(existing?.data ?? []), ...incoming.data],
+                meta: incoming.meta,
+              };
+            },
           },
         },
       },

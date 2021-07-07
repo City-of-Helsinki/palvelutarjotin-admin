@@ -13,7 +13,11 @@ export const useEventsQueryHelper = ({
 }: QueryHookOptions<EventsQuery, EventsQueryVariables>) => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
 
-  const { fetchMore: fetchMoreEvents, data, ...helpers } = useEventsQuery({
+  const {
+    fetchMore: fetchMoreEvents,
+    data,
+    ...helpers
+  } = useEventsQuery({
     errorPolicy: 'ignore',
     variables: variables,
   });
@@ -30,17 +34,6 @@ export const useEventsQueryHelper = ({
       try {
         setIsLoadingMore(true);
         await fetchMoreEvents({
-          updateQuery: (prev: EventsQuery, { fetchMoreResult }) => {
-            if (!fetchMoreResult?.events) {
-              return prev;
-            }
-
-            const prevEvents = prev.events?.data || [];
-            const newEvents = fetchMoreResult.events?.data || [];
-            fetchMoreResult.events.data = [...prevEvents, ...newEvents];
-
-            return fetchMoreResult;
-          },
           variables: {
             page: nextPage,
           },
