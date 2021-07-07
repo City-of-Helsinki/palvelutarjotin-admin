@@ -57,6 +57,11 @@ const MyProfileForm: React.FC<Props> = ({
   const { data: organisationsData } = useOrganisationsQuery();
   const user = useSelector(userSelector);
 
+  const [
+    organisationInputDisabled,
+    setOrganisationsInputDisabled,
+  ] = React.useState(false);
+
   const organisationOptions =
     organisationsData?.organisations?.edges.map((edge) => ({
       label: edge?.node?.name || '',
@@ -72,7 +77,20 @@ const MyProfileForm: React.FC<Props> = ({
       }}
       validationSchema={ValidationSchema}
     >
-      {({ errors, handleSubmit, touched, values }) => {
+      {({ errors, handleSubmit, touched, values, setFieldValue }) => {
+        const handleOnChangeOrganisationProposals = (
+          e: React.ChangeEvent<HTMLInputElement>
+        ) => {
+          const value = e.target.value;
+          setFieldValue('organisationProposals', value);
+          if (value) {
+            setFieldValue('organisations', [], false);
+            setOrganisationsInputDisabled(true);
+          } else {
+            setOrganisationsInputDisabled(false);
+          }
+        };
+
         return (
           <form onSubmit={handleSubmit}>
             <FocusToFirstError />
@@ -105,6 +123,7 @@ const MyProfileForm: React.FC<Props> = ({
                 placeholder={t('myProfileForm.placeholderOrganisations')}
                 component={MultiDropdownField}
                 options={organisationOptions}
+                disabled={organisationInputDisabled}
               />
               <p className={styles.separator}>
                 {t('myProfileForm.textOrganisationSeparator')}
@@ -116,6 +135,7 @@ const MyProfileForm: React.FC<Props> = ({
                 placeholder={t(
                   'myProfileForm.placeholderOrganisationProposals'
                 )}
+                onChange={handleOnChangeOrganisationProposals}
                 component={TextInputField}
               />
             </FormGroup>

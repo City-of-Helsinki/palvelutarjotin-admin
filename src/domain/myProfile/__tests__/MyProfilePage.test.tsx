@@ -149,3 +149,71 @@ test('profile can be edited', async () => {
     ).toBeVisible();
   });
 });
+
+test('create profile with organisation proposal', async () => {
+  const createProfileMock = jest.fn();
+  jest
+    .spyOn(graphql, 'useUpdateMyProfileMutation')
+    .mockReturnValue([createProfileMock] as any);
+  renderWithRoute(<MyProfilePage />, {
+    mocks: apolloMocks,
+    path: ROUTES.MY_PROFILE,
+    routes: ['/profile'],
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.getByText('Organisaatio 1', { selector: 'span' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Organisaatio 2', { selector: 'span' })
+    ).toBeInTheDocument();
+  });
+
+  userEvent.type(
+    screen.getByLabelText('Lähetä uusi organisaatio pyyntö'),
+    'Org1'
+  );
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Organisaatio 1', { selector: 'span' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Organisaatio 2', { selector: 'span' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: /organisaatio organisaatio, jonka tapahtumia hallinnoit valitse organisaatio/i,
+      })
+    ).toBeDisabled();
+  });
+
+  userEvent.click(
+    screen.getByRole('button', { name: 'Tallenna päivitetyt tiedot' })
+  );
+
+  await waitFor(() => {
+    expect(createProfileMock).toHaveBeenCalledWith({
+      variables: {
+        myProfile: {
+          name: 'Testi Testaaja',
+          emailAddress: '',
+          phoneNumber: '123321123',
+          organisations: [],
+          organisationProposals: [{ name: 'Org1' }],
+        },
+      },
+    });
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Omat tiedot tallennettu onnistuneesti')
+    ).toBeVisible();
+  });
+});
