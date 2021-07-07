@@ -411,7 +411,6 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
   return (
     <div className={styles.autoSuggest} ref={container}>
       {liveRegion}
-
       <InputWrapper
         id={id}
         helperText={invalidText || helperText}

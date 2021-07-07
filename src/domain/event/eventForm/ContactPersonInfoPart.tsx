@@ -62,14 +62,14 @@ const ContactPersonInfoPart: React.FC<{
       </FormGroup>
       <FormGroup>
         <Field
-          labelText={t('eventForm.contactPerson.labelEmail')}
+          label={t('eventForm.contactPerson.labelEmail')}
           name="contactEmail"
           component={TextInputField}
         />
       </FormGroup>
       <FormGroup>
         <Field
-          labelText={t('eventForm.contactPerson.labelPhone')}
+          label={t('eventForm.contactPerson.labelPhone')}
           name="contactPhoneNumber"
           component={TextInputField}
         />

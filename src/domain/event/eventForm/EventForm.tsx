@@ -81,11 +81,8 @@ const EventForm = <T extends FormFields>({
   const isPrefilledForm = formType === 'edit' || formType === 'template';
   const history = useHistory();
   const { t } = useTranslation();
-  const {
-    additionalCriteriaKeywords,
-    categoryKeywords,
-    targetGroups,
-  } = useKeywordOptions();
+  const { additionalCriteriaKeywords, categoryKeywords, targetGroups } =
+    useKeywordOptions();
   const isPublished =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
 
@@ -174,7 +171,7 @@ const EventForm = <T extends FormFields>({
                       {sortedSelectedLanguages?.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelName',
                               lang
                             )}
@@ -187,7 +184,7 @@ const EventForm = <T extends FormFields>({
                       {sortedSelectedLanguages?.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelShortDescription',
                               lang
                             )}
@@ -200,7 +197,7 @@ const EventForm = <T extends FormFields>({
                       {sortedSelectedLanguages?.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelDescription',
                               lang
                             )}
@@ -219,7 +216,7 @@ const EventForm = <T extends FormFields>({
                       <FormGroup>
                         <Field
                           disabled={isPublished}
-                          labelText={t(
+                          label={t(
                             'eventForm.basicInfo.labelMandatoryAdditionalInformation'
                           )}
                           name="mandatoryAdditionalInformation"
@@ -239,7 +236,7 @@ const EventForm = <T extends FormFields>({
                       {sortedSelectedLanguages.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelInfoUrl',
                               lang
                             )}
@@ -351,14 +348,14 @@ const EventForm = <T extends FormFields>({
                         <div>
                           <Field
                             disabled={isFree}
-                            labelText={t('eventForm.offers.labelPrice')}
+                            label={t('eventForm.offers.labelPrice')}
                             name="price"
                             component={TextInputField}
                           />
                         </div>
                         <div className={styles.isFreeWrapper}>
                           <Field
-                            labelText={t('eventForm.offers.labelIsFree')}
+                            label={t('eventForm.offers.labelIsFree')}
                             name="isFree"
                             component={CheckboxField}
                           />
@@ -368,7 +365,7 @@ const EventForm = <T extends FormFields>({
                         <FormGroup key={lang}>
                           <Field
                             disabled={isFree}
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.offers.labelPriceDescription',
                               lang
                             )}

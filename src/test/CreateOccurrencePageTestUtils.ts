@@ -293,7 +293,7 @@ export const getDeleteOccurrenceMockResponse = (
 });
 
 export const getAddOccurrenceMockResponse = ({
-  id = faker.random.uuid(),
+  id = faker.datatype.uuid(),
   amountOfSeats,
   endTime,
   languages,

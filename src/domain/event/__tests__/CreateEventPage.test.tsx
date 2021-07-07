@@ -60,6 +60,7 @@ import {
   fakePlaces,
 } from '../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   fireEvent,
   render,
@@ -305,10 +306,12 @@ test('event can be created with form', async () => {
     ).toBeInTheDocument();
   });
 
-  userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
+  act(() =>
+    userEvent.click(
+      screen.getByRole('button', {
+        name: 'Tallenna ja siirry tapahtuma-aikoihin',
+      })
+    )
   );
 
   await waitFor(() => {
@@ -335,6 +338,9 @@ describe('Event price section', () => {
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
     expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
     expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+
+    // to avoid "An update to Formik inside a test was not wrapped in act(...).""
+    await screen.findByLabelText(/Tapahtuma on ilmainen/);
   });
 });
 
@@ -427,7 +433,9 @@ describe('Language selection', () => {
       formLanguageSelectorTestId
     );
     // Select Swedish (with Finnish that is already selected)
-    userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
+    act(() =>
+      userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i))
+    );
 
     // Populate Swedish fields
     transletableFieldLabels.forEach((labelText) => {
@@ -688,7 +696,7 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
   jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
 
   const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
-  userEvent.click(keywordsInput);
+  act(() => userEvent.click(keywordsInput));
   userEvent.type(keywordsInput, 'perheet');
 
   const familyCategory = await screen.findByText(/perheet/i);

@@ -144,9 +144,11 @@ describe('Event price section', () => {
 
     userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
 
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+      expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
+      expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+    });
   });
 });
 

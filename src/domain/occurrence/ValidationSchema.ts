@@ -19,31 +19,32 @@ const ValidationSchema = Yup.object().shape({
   enrolmentStart: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE, isFuture)
-    .when(
-      ['occurrenceDate', 'occurrenceStartsAt'],
-      (
-        occurrenceDate: Date,
-        occurrenceStartsAt: string,
-        schema: Yup.DateSchema
-      ) => {
-        if (isValidDate(occurrenceDate)) {
-          const isValid = isValidTime(occurrenceStartsAt);
-          const occurrenceStart = isValid
-            ? parseDate(occurrenceStartsAt, 'HH:mm', occurrenceDate)
-            : occurrenceDate;
-          return schema.test(
-            'isBefore',
-            () => ({
-              key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
-              max: formatDate(occurrenceStart, DATETIME_FORMAT),
-            }),
-            (enrolmentStart: Date) => enrolmentStart < occurrenceStart
-          );
-        }
-        return schema;
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
+      isFuture as any
+    )
+    .when(['occurrenceDate', 'occurrenceStartsAt'], ((
+      occurrenceDate: Date,
+      occurrenceStartsAt: string,
+      schema: Yup.DateSchema
+    ) => {
+      if (isValidDate(occurrenceDate)) {
+        const isValid = isValidTime(occurrenceStartsAt);
+        const occurrenceStart = isValid
+          ? parseDate(occurrenceStartsAt, 'HH:mm', occurrenceDate)
+          : occurrenceDate;
+        return schema.test(
+          'isBefore',
+          () => ({
+            key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
+            max: formatDate(occurrenceStart, DATETIME_FORMAT),
+          }),
+          ((enrolmentStart: Date) => enrolmentStart < occurrenceStart) as any
+        );
       }
-    ),
+      return schema;
+    }) as any),
   externalEnrolment: Yup.boolean(),
   externalEnrolmentUrl: Yup.string().when('externalEnrolment', {
     is: true,

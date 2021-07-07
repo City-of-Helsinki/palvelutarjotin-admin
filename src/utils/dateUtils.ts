@@ -4,8 +4,8 @@ export const isTodayOrLater = (date: Date) => {
   return isToday(date) || isFuture(date);
 };
 
-export const isInFuture = (date: Date) => {
-  return isFuture(date);
+export const isInFuture = (date?: Date) => {
+  return date ? isFuture(date) : false;
 };
 
 export const isValidTime = (time: string) =>

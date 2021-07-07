@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
@@ -63,7 +63,7 @@ describe('<AutoSuggest />', () => {
 
     const input = screen.getByLabelText(labelText);
 
-    userEvent.type(input, 'testi');
+    act(() => userEvent.type(input, 'testi'));
 
     expect(setInputValue.mock.calls).toEqual([
       ['t'],
@@ -77,7 +77,7 @@ describe('<AutoSuggest />', () => {
   it('shows autocomplete list when using arrow key', async () => {
     renderAutoSuggest({ options });
 
-    userEvent.tab();
+    act(() => userEvent.tab());
 
     fireEvent.keyDown(document.activeElement || document.body, {
       key: 'ArrowDown',
@@ -93,7 +93,7 @@ describe('<AutoSuggest />', () => {
   it('show focused autocomplete item correctly and calls onChange when item selected', () => {
     const { onChange } = renderAutoSuggest({ options });
 
-    userEvent.tab();
+    act(() => userEvent.tab());
 
     keyDown('ArrowDown');
 
@@ -139,7 +139,7 @@ describe('<AutoSuggest />', () => {
 
     const input = screen.getByLabelText(labelText);
 
-    userEvent.click(input);
+    act(() => userEvent.click(input));
 
     const selectedOption = screen.getByRole('option', {
       name: options[2].label,

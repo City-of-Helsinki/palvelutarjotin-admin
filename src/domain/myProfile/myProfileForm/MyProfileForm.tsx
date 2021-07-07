@@ -81,7 +81,7 @@ const MyProfileForm: React.FC<Props> = ({
             </FormGroup>
             <FormGroup>
               <Field
-                labelText={t('myProfileForm.labelName')}
+                label={t('myProfileForm.labelName')}
                 name="name"
                 helperText={t('myProfileForm.helperName')}
                 component={TextInputField}
@@ -89,7 +89,7 @@ const MyProfileForm: React.FC<Props> = ({
             </FormGroup>
             <FormGroup>
               <Field
-                labelText={t('myProfileForm.labelPhoneNumber')}
+                label={t('myProfileForm.labelPhoneNumber')}
                 name="phoneNumber"
                 helperText={t('myProfileForm.helperPhoneNumber')}
                 component={TextInputField}
@@ -109,7 +109,7 @@ const MyProfileForm: React.FC<Props> = ({
               <>
                 <FormGroup>
                   <Field
-                    labelText={
+                    label={
                       <span
                         dangerouslySetInnerHTML={{
                           __html: t('myProfileForm.checkboxTermsOfService'),
@@ -128,7 +128,7 @@ const MyProfileForm: React.FC<Props> = ({
                 </FormGroup>
                 <FormGroup>
                   <Field
-                    labelText={
+                    label={
                       <span
                         dangerouslySetInnerHTML={{
                           __html: t('myProfileForm.checkboxPrivacyPolicy', {

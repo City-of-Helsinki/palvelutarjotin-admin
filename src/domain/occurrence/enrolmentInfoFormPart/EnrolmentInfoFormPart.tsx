@@ -64,7 +64,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
             <div>
               <Field
                 required
-                labelText={t('eventForm.basicInfo.labelEnrolmentEndDays')}
+                label={t('eventForm.basicInfo.labelEnrolmentEndDays')}
                 name="enrolmentEndDays"
                 component={TextInputField}
                 min={0}
@@ -73,7 +73,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
             </div>
             <div>
               <Field
-                labelText={t('eventForm.categorisation.labelNeededOccurrences')}
+                label={t('eventForm.categorisation.labelNeededOccurrences')}
                 name="neededOccurrences"
                 required
                 component={TextInputField}

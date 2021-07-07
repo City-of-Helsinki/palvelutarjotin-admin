@@ -91,9 +91,11 @@ const apolloMocks = [
   },
 ];
 
+// TODO: Use normal ApolloMockProvider mock
 afterEach(() => {
   // copy the original back so we can modify it in the tests
-  (graphqlFns.useUpdateEnrolmentMutation as any) = originalUseUpdateEnrolmentMutation;
+  (graphqlFns.useUpdateEnrolmentMutation as any) =
+    originalUseUpdateEnrolmentMutation;
   jest.clearAllMocks();
 });
 
@@ -206,6 +208,7 @@ it('shows notification type checkbox correctly', async () => {
 });
 
 it('calls update enrolment function with correct parameters when form is submitted', async () => {
+  // TODO: Use normal ApolloMockProvider mock
   const updateEnrolmentMock = jest.fn();
   (graphqlFns.useUpdateEnrolmentMutation as any) = jest.fn(() => [
     updateEnrolmentMock,

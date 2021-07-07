@@ -12,7 +12,7 @@ const priceValidation = Yup.string()
 
 const createMultiLanguageValidation = (
   languages: string[],
-  rule: Yup.Schema<string | null | undefined>
+  rule: Yup.AnySchema
 ) => {
   return Yup.object().shape(
     reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
@@ -57,12 +57,12 @@ const createValidationSchemaYup = (selectedLanguages: Language[]) =>
     keywords: Yup.array().min(0),
     image: Yup.string(),
     imagePhotographerName: Yup.string().when('image', {
-      is: (image) => image,
+      is: (image: string) => image,
       then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       otherwise: Yup.string(),
     }),
     imageAltText: Yup.string().when('image', {
-      is: (image) => image,
+      is: (image: string) => image,
       then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       otherwise: Yup.string(),
     }),

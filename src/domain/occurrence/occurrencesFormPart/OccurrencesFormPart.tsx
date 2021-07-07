@@ -202,9 +202,10 @@ const OccurrenceForm: React.FC<{
     values: { startTime, endTime, oneGroupFills },
   } = useFormikContext<OccurrenceSectionFormFields>();
 
-  const languageOptions = React.useMemo(() => getOrderedLanguageOptions(t), [
-    t,
-  ]);
+  const languageOptions = React.useMemo(
+    () => getOrderedLanguageOptions(t),
+    [t]
+  );
 
   React.useEffect(() => {
     oneGroupFills
@@ -265,7 +266,7 @@ const OccurrenceForm: React.FC<{
         {/* divs are here to avoid styling problem with HDS */}
         <div>
           <Field
-            labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
+            label={t('eventOccurrenceForm.labelAmountOfSeats')}
             name="amountOfSeats"
             disabled={oneGroupFills}
             component={TextInputField}
@@ -275,7 +276,7 @@ const OccurrenceForm: React.FC<{
         </div>
         <div>
           <Field
-            labelText={t('eventOccurrenceForm.labelGroupSizeMin')}
+            label={t('eventOccurrenceForm.labelGroupSizeMin')}
             name="minGroupSize"
             component={TextInputField}
             min={0}
@@ -284,7 +285,7 @@ const OccurrenceForm: React.FC<{
         </div>
         <div>
           <Field
-            labelText={t('eventOccurrenceForm.labelGroupSizeMax')}
+            label={t('eventOccurrenceForm.labelGroupSizeMax')}
             name="maxGroupSize"
             component={TextInputField}
             min={0}
