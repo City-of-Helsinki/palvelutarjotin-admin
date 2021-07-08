@@ -89,24 +89,12 @@ test('render profile page correctly', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  // wait for organisations
-  // await wait();
-
   expect(
     screen.queryByRole('heading', { name: 'Omat tiedot' })
   ).toBeInTheDocument();
 
   expect(screen.getByLabelText('Nimi')).toHaveValue('Testi Testaaja');
   expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
-
-  await waitFor(() => {
-    expect(
-      screen.getByText('Organisaatio 1', { selector: 'span' })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Organisaatio 2', { selector: 'span' })
-    ).toBeInTheDocument();
-  });
 });
 
 test('profile can be edited', async () => {
@@ -133,18 +121,6 @@ test('profile can be edited', async () => {
   userEvent.clear(screen.getByLabelText('Puhelinnumero'));
   userEvent.type(screen.getByLabelText('Puhelinnumero'), '321123321');
 
-  const dropdownButton = screen.getByLabelText('Organisaatio', {
-    selector: 'button',
-  });
-
-  userEvent.click(dropdownButton);
-  const org1 = await screen.findByText('Organisaatio 3', { selector: 'li' });
-  const org2 = await screen.findByText('Organisaatio 2', { selector: 'li' });
-  userEvent.click(org1);
-  userEvent.click(org2);
-
-  userEvent.click(dropdownButton);
-
   userEvent.click(
     screen.getByRole('button', { name: 'Tallenna päivitetyt tiedot' })
   );
@@ -155,77 +131,7 @@ test('profile can be edited', async () => {
         myProfile: {
           emailAddress: '',
           name: 'Changed Name',
-          organisations: ['organisation1', 'organisation3'],
-          organisationProposals: [],
           phoneNumber: '321123321',
-        },
-      },
-    });
-  });
-
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Omat tiedot tallennettu onnistuneesti')
-    ).toBeVisible();
-  });
-});
-
-test('create profile with organisation proposal', async () => {
-  const createProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useUpdateMyProfileMutation')
-    .mockReturnValue([createProfileMock] as any);
-  renderWithRoute(<MyProfilePage />, {
-    mocks: apolloMocks,
-    path: ROUTES.MY_PROFILE,
-    routes: ['/profile'],
-  });
-
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
-
-  await waitFor(() => {
-    expect(
-      screen.getByText('Organisaatio 1', { selector: 'span' })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Organisaatio 2', { selector: 'span' })
-    ).toBeInTheDocument();
-  });
-
-  userEvent.type(
-    screen.getByLabelText('Lähetä uusi organisaatio pyyntö'),
-    'Org1'
-  );
-
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Organisaatio 1', { selector: 'span' })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText('Organisaatio 2', { selector: 'span' })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole('button', {
-        name: /organisaatio organisaatio, jonka tapahtumia hallinnoit valitse organisaatio/i,
-      })
-    ).toBeDisabled();
-  });
-
-  userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna päivitetyt tiedot' })
-  );
-
-  await waitFor(() => {
-    expect(createProfileMock).toHaveBeenCalledWith({
-      variables: {
-        myProfile: {
-          name: 'Testi Testaaja',
-          emailAddress: '',
-          phoneNumber: '123321123',
-          organisations: [],
-          organisationProposals: [{ name: 'Org1' }],
         },
       },
     });

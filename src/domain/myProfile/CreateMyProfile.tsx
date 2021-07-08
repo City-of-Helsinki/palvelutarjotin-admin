@@ -8,9 +8,9 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import styles from './myProfile.module.scss';
 import MyProfileForm, {
-  MyProfileFormFields,
+  MyProfileCreateFormFields,
 } from './myProfileForm/MyProfileForm';
-import { getMyProfilePayload } from './utils';
+import { getMyProfileCreatePayload } from './utils';
 
 interface Props {
   refetch: () => void;
@@ -20,11 +20,11 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
   const { t } = useTranslation();
   const [createMyProfile] = useCreateMyProfileMutation();
 
-  const submit = async (values: MyProfileFormFields) => {
+  const submit = async (values: MyProfileCreateFormFields) => {
     try {
       await createMyProfile({
         variables: {
-          myProfile: getMyProfilePayload(values),
+          myProfile: getMyProfileCreatePayload(values),
         },
       });
       await refetch();
@@ -48,6 +48,7 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
             buttonText={t('createMyProfile.buttonSubmit')}
             onSubmit={submit}
             showCheckboxes={true}
+            type={'create'}
           />
         </div>
       </Container>

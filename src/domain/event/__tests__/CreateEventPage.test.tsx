@@ -72,7 +72,6 @@ import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { CreateEventFormFields } from '../types';
-import * as Utils from '../utils';
 configure({ defaultHidden: true });
 advanceTo(new Date(2020, 7, 8));
 

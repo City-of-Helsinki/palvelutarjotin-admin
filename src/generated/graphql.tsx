@@ -1652,8 +1652,6 @@ export type UpdateMyProfileMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
-  /** If present, should include all organisation ids of user */
-  organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Default `fi` */
   language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
