@@ -13,7 +13,10 @@ import FormGroup from '../../../common/components/form/FormGroup';
 import HelperText from '../../../common/components/form/HelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { PRIVACY_POLICY_LINKS } from '../../../constants';
-import { useOrganisationsQuery } from '../../../generated/graphql';
+import {
+  OrganisationType,
+  useOrganisationsQuery,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { userSelector } from '../../auth/selectors';
 import styles from './myProfileForm.module.scss';
@@ -175,7 +178,9 @@ const OrganisationsField: React.FC<{
 }> = ({ name, label, helper, placeholder }) => {
   const { values, setFieldValue } = useFormikContext<MyProfileFormFields>();
   const { organisationProposals } = values;
-  const { data: organisationsData } = useOrganisationsQuery();
+  const { data: organisationsData } = useOrganisationsQuery({
+    variables: { type: OrganisationType.Provider.toLowerCase() },
+  });
   const organisationOptions =
     organisationsData?.organisations?.edges.map((edge) => ({
       label: edge?.node?.name || '',

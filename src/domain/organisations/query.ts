@@ -13,8 +13,15 @@ export const QUERY_ORGANISATIONS = gql`
     $before: String
     $first: Int
     $last: Int
+    $type: String
   ) {
-    organisations(after: $after, before: $before, first: $first, last: $last) {
+    organisations(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      type: $type
+    ) {
       pageInfo {
         ...pageInfoFields
       }

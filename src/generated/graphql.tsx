@@ -203,6 +203,7 @@ export type QueryOrganisationsArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 
@@ -502,6 +503,7 @@ export type PersonNodeOrganisationsArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 
@@ -2788,6 +2790,7 @@ export type OrganisationsQueryVariables = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 
@@ -4909,8 +4912,8 @@ export type OrganisationQueryHookResult = ReturnType<typeof useOrganisationQuery
 export type OrganisationLazyQueryHookResult = ReturnType<typeof useOrganisationLazyQuery>;
 export type OrganisationQueryResult = ApolloReactCommon.QueryResult<OrganisationQuery, OrganisationQueryVariables>;
 export const OrganisationsDocument = gql`
-    query Organisations($after: String, $before: String, $first: Int, $last: Int) {
-  organisations(after: $after, before: $before, first: $first, last: $last) {
+    query Organisations($after: String, $before: String, $first: Int, $last: Int, $type: String) {
+  organisations(after: $after, before: $before, first: $first, last: $last, type: $type) {
     pageInfo {
       ...pageInfoFields
     }
@@ -4953,6 +4956,7 @@ export function withOrganisations<TProps, TChildProps = {}, TDataName extends st
  *      before: // value for 'before'
  *      first: // value for 'first'
  *      last: // value for 'last'
+ *      type: // value for 'type'
  *   },
  * });
  */

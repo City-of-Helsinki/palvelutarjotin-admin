@@ -17,14 +17,34 @@ import { ROUTES } from '../../app/routes/constants';
 import MyProfilePage from '../MyProfilePage';
 
 const organisationMocks1 = fakeOrganisations(2, [
-  { name: 'Organisaatio 1', id: 'organisation1' },
-  { name: 'Organisaatio 2', id: 'organisation2' },
+  {
+    name: 'Organisaatio 1',
+    id: 'organisation1',
+    type: graphql.OrganisationType.Provider,
+  },
+  {
+    name: 'Organisaatio 2',
+    id: 'organisation2',
+    type: graphql.OrganisationType.Provider,
+  },
 ]);
 
 const organisationMocks2 = fakeOrganisations(3, [
-  { name: 'Organisaatio 1', id: 'organisation1' },
-  { name: 'Organisaatio 2', id: 'organisation2' },
-  { name: 'Organisaatio 3', id: 'organisation3' },
+  {
+    name: 'Organisaatio 1',
+    id: 'organisation1',
+    type: graphql.OrganisationType.Provider,
+  },
+  {
+    name: 'Organisaatio 2',
+    id: 'organisation2',
+    type: graphql.OrganisationType.Provider,
+  },
+  {
+    name: 'Organisaatio 3',
+    id: 'organisation3',
+    type: graphql.OrganisationType.Provider,
+  },
 ]);
 
 const apolloMocks: MockedResponse[] = [
@@ -48,7 +68,7 @@ const apolloMocks: MockedResponse[] = [
   {
     request: {
       query: graphql.OrganisationsDocument,
-      variables: {},
+      variables: { type: 'provider' },
     },
     result: {
       data: {
