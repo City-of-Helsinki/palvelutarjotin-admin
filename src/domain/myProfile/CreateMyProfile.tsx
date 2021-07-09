@@ -48,7 +48,7 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
             buttonText={t('createMyProfile.buttonSubmit')}
             onSubmit={submit}
             showCheckboxes={true}
-            type={'create'}
+            type="create"
           />
         </div>
       </Container>

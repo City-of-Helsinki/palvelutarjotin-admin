@@ -61,7 +61,6 @@ const MyProfilePage: React.FC = () => {
             {isSaved && (
               <Notification label={t('editMyProfile.success')} type="success" />
             )}
-
             <div>
               <h1>{t('editMyProfile.title')}</h1>
 
@@ -70,7 +69,7 @@ const MyProfilePage: React.FC = () => {
                 initialValues={initialValues}
                 onSubmit={submit}
                 showCheckboxes={false}
-                type={'edit'}
+                type="edit"
               />
             </div>
           </Container>

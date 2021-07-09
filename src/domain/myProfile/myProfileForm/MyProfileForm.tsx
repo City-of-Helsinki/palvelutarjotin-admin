@@ -50,96 +50,103 @@ const defaultCreateInitialValues: MyProfileCreateFormFields = {
   organisationProposals: '',
   phoneNumber: '',
 };
-interface Props {
+
+type FormType = 'create' | 'edit';
+type FormFields<T> = T extends 'create'
+  ? MyProfileCreateFormFields
+  : MyProfileEditFormFields;
+
+interface Props<T extends FormType> {
   buttonText: string;
-  initialValues?: MyProfileCreateFormFields | MyProfileEditFormFields;
-  onSubmit: (values: any) => Promise<void>;
-  type: 'create' | 'edit';
+  initialValues?: FormFields<T>;
+  onSubmit: (values: FormFields<T>) => Promise<void>;
+  type: T;
   showCheckboxes?: boolean;
 }
 
-const MyProfileForm: React.FC<Props> = ({
+function MyProfileForm<T extends FormType>({
   buttonText,
-  initialValues,
+  initialValues = defaultCreateInitialValues,
   onSubmit,
   showCheckboxes = false,
-  type = 'create',
-}) => {
+  type,
+}: Props<T>) {
   const { t } = useTranslation();
   const locale = useLocale();
   const user = useSelector(userSelector);
 
-  initialValues = initialValues ?? defaultCreateInitialValues;
-
   const getCreateFields = (
     errors: FormikErrors<MyProfileCreateFormFields>,
-    handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void,
     touched: FormikTouched<MyProfileCreateFormFields>
-  ) => (
-    <>
-      <FormGroup>
-        <OrganisationsField
-          name="organisations"
-          label={t('myProfileForm.labelOrganisations')}
-          helper={t('myProfileForm.helperOrganisations')}
-          placeholder={t('myProfileForm.placeholderOrganisations')}
-        />
-        <p className={styles.separator}>
-          {t('myProfileForm.textOrganisationSeparator')}
-        </p>
-        <Field
-          name="organisationProposals"
-          labelText={t('myProfileForm.labelOrganisationProposals')}
-          helperText={t('myProfileForm.helperOrganisationProposals')}
-          placeholder={t('myProfileForm.placeholderOrganisationProposals')}
-          component={TextInputField}
-        />
-      </FormGroup>
-      {showCheckboxes && (
-        <>
-          <FormGroup>
-            <Field
-              labelText={
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: t('myProfileForm.checkboxTermsOfService'),
-                  }}
-                />
-              }
-              name="isTermsOfServiceRead"
-              component={CheckboxField}
-            />
-            {errors.isTermsOfServiceRead && touched.isTermsOfServiceRead && (
-              <ErrorMessage>{t(errors.isTermsOfServiceRead)}</ErrorMessage>
-            )}
-          </FormGroup>
-          <FormGroup>
-            <Field
-              labelText={
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: t('myProfileForm.checkboxPrivacyPolicy', {
-                      url: PRIVACY_POLICY_LINKS[locale],
-                    }),
-                  }}
-                />
-              }
-              name="isPrivacyPolicyAccepted"
-              component={CheckboxField}
-            />
-            {errors.isPrivacyPolicyAccepted &&
-              touched.isPrivacyPolicyAccepted && (
-                <ErrorMessage>{t(errors.isPrivacyPolicyAccepted)}</ErrorMessage>
+  ) => {
+    return (
+      <>
+        <FormGroup>
+          <OrganisationsField
+            name="organisations"
+            label={t('myProfileForm.labelOrganisations')}
+            helper={t('myProfileForm.helperOrganisations')}
+            placeholder={t('myProfileForm.placeholderOrganisations')}
+          />
+          <p className={styles.separator}>
+            {t('myProfileForm.textOrganisationSeparator')}
+          </p>
+          <Field
+            name="organisationProposals"
+            labelText={t('myProfileForm.labelOrganisationProposals')}
+            helperText={t('myProfileForm.helperOrganisationProposals')}
+            placeholder={t('myProfileForm.placeholderOrganisationProposals')}
+            component={TextInputField}
+          />
+        </FormGroup>
+        {showCheckboxes && (
+          <>
+            <FormGroup>
+              <Field
+                labelText={
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: t('myProfileForm.checkboxTermsOfService'),
+                    }}
+                  />
+                }
+                name="isTermsOfServiceRead"
+                component={CheckboxField}
+              />
+              {errors.isTermsOfServiceRead && touched.isTermsOfServiceRead && (
+                <ErrorMessage>{t(errors.isTermsOfServiceRead)}</ErrorMessage>
               )}
-          </FormGroup>
-        </>
-      )}
-    </>
-  );
+            </FormGroup>
+            <FormGroup>
+              <Field
+                labelText={
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: t('myProfileForm.checkboxPrivacyPolicy', {
+                        url: PRIVACY_POLICY_LINKS[locale],
+                      }),
+                    }}
+                  />
+                }
+                name="isPrivacyPolicyAccepted"
+                component={CheckboxField}
+              />
+              {errors.isPrivacyPolicyAccepted &&
+                touched.isPrivacyPolicyAccepted && (
+                  <ErrorMessage>
+                    {t(errors.isPrivacyPolicyAccepted)}
+                  </ErrorMessage>
+                )}
+            </FormGroup>
+          </>
+        )}
+      </>
+    );
+  };
 
-  const handleOnSubmit = (values: any, e: any) => {
+  const handleOnSubmit = (values: FormFields<T>) => {
     onSubmit({
-      ...(values as MyProfileEditFormFields),
+      ...values,
       emailAddress: user?.profile.email || '',
     });
   };
@@ -178,7 +185,10 @@ const MyProfileForm: React.FC<Props> = ({
             </FormGroup>
 
             {type === 'create' &&
-              getCreateFields(errors, handleSubmit, touched)}
+              getCreateFields(
+                errors as FormikErrors<MyProfileCreateFormFields>,
+                touched as FormikTouched<MyProfileCreateFormFields>
+              )}
 
             <div className={styles.buttonWrapper}>
               <Button fullWidth={true} type="submit">
@@ -190,7 +200,7 @@ const MyProfileForm: React.FC<Props> = ({
       }}
     </Formik>
   );
-};
+}
 
 const OrganisationsField: React.FC<{
   name: string;
