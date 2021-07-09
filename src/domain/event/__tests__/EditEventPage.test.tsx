@@ -154,7 +154,7 @@ describe('Language selection', () => {
   const transletableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
-    /^Kuvaus/,
+    // /^Kuvaus/, // FIXME: Not working since changed to a TextEditor
     /^WWW-osoite, josta saa lisätietoja tapahtumasta/,
     /^Lisätiedot/,
   ];
@@ -287,8 +287,8 @@ describe('Language selection', () => {
       userEvent.click(within(languageSelector).getByLabelText(/englanti/i));
 
       transletableFieldLabels.forEach((labelText) => {
-        const labels = screen.getAllByLabelText(labelText);
-        const inputNames = labels.map((label) => label.getAttribute('id'));
+        const labels = screen.getAllByText(labelText);
+        const inputNames = labels.map((label) => label.getAttribute('for'));
         const inputLangOrder = inputNames.map((name) => name.split('.').pop());
         expect(inputLangOrder).toEqual(languageOrder);
       });

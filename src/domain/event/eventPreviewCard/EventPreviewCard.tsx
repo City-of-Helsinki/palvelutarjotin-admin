@@ -25,7 +25,7 @@ const EventCard: React.FC<Props> = ({ event, link }) => {
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const { id, eventName, description, imageUrl } = getEventFields(
+  const { id, eventName, shortDescription, imageUrl } = getEventFields(
     event,
     locale
   );
@@ -44,7 +44,7 @@ const EventCard: React.FC<Props> = ({ event, link }) => {
       <div className={styles.contentWrapper}>
         <div className={styles.titleWrapper}>
           <div className={styles.title}>{eventName}</div>
-          <div className={styles.description}>{description}</div>
+          <div className={styles.description}>{shortDescription}</div>
         </div>
         <div className={styles.occurrenceInfoWrapper}>
           <div className={styles.textWithIcon}>

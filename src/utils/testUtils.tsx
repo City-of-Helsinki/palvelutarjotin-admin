@@ -1,6 +1,11 @@
 import { MockedProvider, MockedResponse } from '@apollo/react-testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
-import { fireEvent, render, RenderResult } from '@testing-library/react';
+import {
+  createEvent,
+  fireEvent,
+  render,
+  RenderResult,
+} from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import * as React from 'react';
 import Modal from 'react-modal';
@@ -87,6 +92,32 @@ type CustomRender = {
 export type CustomRenderResult = RenderResult & { history: History };
 
 export { customRender as render, renderWithRoute, reduxStore };
+
+export type PasteEvent = {
+  clipboardData: {
+    types: string[];
+    getData: (type: string) => string;
+  };
+};
+
+export const createPasteEvent = (html: string): PasteEvent => {
+  const text = html.replace('<[^>]*>', '');
+  return {
+    clipboardData: {
+      types: ['text/plain', 'text/html'],
+      getData: (type) => (type === 'text/plain' ? text : html),
+    },
+  };
+};
+
+export const pasteToTextEditor = (
+  editor: Element | Node | Document | Window,
+  text: string
+): void => {
+  const eventProperties = createPasteEvent(text);
+  const pasteEvent = createEvent.paste(editor, eventProperties);
+  fireEvent(editor, pasteEvent);
+};
 
 // re-export everything
 export * from '@testing-library/react';
