@@ -66,10 +66,11 @@ interface Props<T extends FormType> {
 
 function MyProfileForm<T extends FormType>({
   buttonText,
-  initialValues = defaultCreateInitialValues,
+  type,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  initialValues = defaultCreateInitialValues as any,
   onSubmit,
   showCheckboxes = false,
-  type,
 }: Props<T>) {
   const { t } = useTranslation();
   const locale = useLocale();
