@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { AnyAction, Store } from '@reduxjs/toolkit';
+import { AnyAction, configureStore, Store } from '@reduxjs/toolkit';
 import { act, fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import * as React from 'react';
@@ -9,6 +9,7 @@ import { Route, Router } from 'react-router-dom';
 import wait from 'waait';
 
 import { createApolloCache } from '../domain/app/apollo/apolloClient';
+import reducers from '../domain/app/reducers';
 import { store as reduxStore } from '../domain/app/store';
 
 export const arrowUpKeyPressHelper = () =>
@@ -29,7 +30,11 @@ const customRender: CustomRender = (
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
     mocks = [],
-    store = reduxStore,
+    initialState = {},
+    store = configureStore({
+      reducer: reducers,
+      preloadedState: initialState,
+    }),
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
@@ -50,7 +55,11 @@ const renderWithRoute: CustomRender = (
     routes = ['/'],
     path = '/',
     history = createMemoryHistory({ initialEntries: routes }),
-    store = reduxStore,
+    initialState = {},
+    store = configureStore({
+      reducer: reducers,
+      preloadedState: initialState,
+    }),
     mocks = [],
   } = {}
 ) => {
@@ -79,6 +88,7 @@ type CustomRender = {
       path?: string;
       history?: History;
       mocks?: MockedResponse[];
+      initialState?: Record<string, any>;
       /* eslint-disable @typescript-eslint/no-explicit-any */
       store?: Store<any, AnyAction>;
     }

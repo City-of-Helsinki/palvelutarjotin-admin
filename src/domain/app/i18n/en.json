@@ -142,6 +142,10 @@
       "isTermsOfServiceRead": "The terms of use must be accepted"
     }
   },
+  "registrationPendingPage": {
+    "title1": "Kiitos rekisteröitymisestä",
+    "title2": "Rekisteröitymisesi odottaa käsittelyä"
+  },
   "createEvent": {
     "pageTitle": "New event",
     "title": "New event",

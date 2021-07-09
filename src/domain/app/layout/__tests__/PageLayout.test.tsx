@@ -24,6 +24,19 @@ const profileResponse = {
   },
 };
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
+const authenticatedInitialState = {
+  authentication: {
+    tunnistamo: {
+      user: { profile: { email: 'test@test.fi' } },
+    },
+    token: { apiToken: 'token' },
+  },
+};
+
 const organisationMocks = fakeOrganisations(3, [
   { name: 'Organisaatio 1', id: 'organisation1' },
   { name: 'Organisaatio 2', id: 'organisation2' },
@@ -54,15 +67,7 @@ it('PageLayout matches snapshot', () => {
   expect(container.firstChild).toMatchSnapshot();
 });
 
-it('Pagelayout renders Profile page', async () => {
-  const createProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useCreateMyProfileMutation')
-    .mockReturnValue([createProfileMock] as any);
-  jest.spyOn(authSelectors, 'isAuthenticatedSelector').mockReturnValue(true);
-  jest
-    .spyOn(authSelectors, 'userSelector')
-    .mockReturnValue({ profile: { email: 'test@test.fi' } } as any);
+it('Pagelayout renders profile page and registration pending page after submitting (for 3rd party providers)', async () => {
   const mocks = [
     {
       request: {
@@ -71,6 +76,19 @@ it('Pagelayout renders Profile page', async () => {
       result: {
         data: {
           myProfile: null,
+        },
+      },
+    },
+    {
+      request: {
+        query: graphql.MyProfileDocument,
+      },
+      result: {
+        data: {
+          myProfile: fakePerson({
+            organisations: fakeOrganisations(0),
+            isStaff: false,
+          }),
         },
       },
     },
@@ -85,8 +103,33 @@ it('Pagelayout renders Profile page', async () => {
         },
       },
     },
+    {
+      request: {
+        query: graphql.CreateMyProfileDocument,
+        variables: {
+          myProfile: {
+            emailAddress: 'test@test.fi',
+            name: 'Testi Testaaja',
+            organisations: ['organisation1', 'organisation2'],
+            phoneNumber: '123321123',
+          },
+        },
+      },
+      result: {
+        data: {
+          createMyProfile: {
+            myProfile: fakePerson(),
+          },
+        },
+      },
+    },
   ];
-  renderWithRoute(<PageLayout>Test</PageLayout>, { routes: ['/'], mocks });
+
+  renderWithRoute(<PageLayout>Test</PageLayout>, {
+    routes: ['/'],
+    mocks,
+    initialState: authenticatedInitialState,
+  });
 
   await act(wait);
 
@@ -104,6 +147,90 @@ it('Pagelayout renders Profile page', async () => {
 
   expect(screen.queryByText('test@test.fi')).toBeInTheDocument();
 
+  await fillAndSubmitProfileForm();
+
+  await act(wait);
+  screen.logTestingPlaygroundURL();
+
+  await screen.findByRole('heading', { name: 'Kiitos rekisteröitymisestä' });
+  expect(
+    screen.queryByRole('heading', {
+      name: 'Rekisteröitymisesi odottaa käsittelyä',
+    })
+  ).toBeInTheDocument();
+});
+
+it('Pagelayout renders children when user has profile, organisations and has staff role', async () => {
+  const mocks = [
+    {
+      request: {
+        query: graphql.MyProfileDocument,
+      },
+      result: {
+        data: {
+          myProfile: fakePerson({
+            organisations: fakeOrganisations(1),
+            isStaff: true,
+          }),
+        },
+      },
+    },
+  ];
+
+  renderWithRoute(<PageLayout>TextChildren</PageLayout>, {
+    routes: ['/'],
+    mocks,
+    initialState: authenticatedInitialState,
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByText('TextChildren')).toBeInTheDocument();
+  });
+});
+
+it('render registration pending page', async () => {
+  const mocks = [
+    {
+      request: {
+        query: graphql.MyProfileDocument,
+      },
+      result: {
+        data: {
+          myProfile: fakePerson({
+            isStaff: false,
+            organisations: fakeOrganisations(0),
+          }),
+        },
+      },
+    },
+  ];
+
+  const testText = 'testText';
+  renderWithRoute(<PageLayout>{testText}</PageLayout>, {
+    routes: ['/'],
+    mocks,
+    initialState: {
+      authentication: {
+        tunnistamo: {
+          user: {},
+        },
+        token: { apiToken: 'token' },
+      },
+    },
+  });
+
+  await screen.findByRole('heading', { name: 'Kiitos rekisteröitymisestä' });
+
+  expect(
+    screen.queryByRole('heading', {
+      name: 'Rekisteröitymisesi odottaa käsittelyä',
+    })
+  ).toBeInTheDocument();
+
+  expect(screen.queryByText(testText)).not.toBeInTheDocument();
+});
+
+async function fillAndSubmitProfileForm() {
   userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
   userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
 
@@ -135,59 +262,4 @@ it('Pagelayout renders Profile page', async () => {
   );
 
   userEvent.click(screen.getByRole('button', { name: 'Tallenna ja jatka' }));
-
-  await waitFor(() => {
-    expect(createProfileMock).toHaveBeenCalledWith({
-      variables: {
-        myProfile: {
-          emailAddress: 'test@test.fi',
-          name: 'Testi Testaaja',
-          organisations: ['organisation1', 'organisation2'],
-          phoneNumber: '123321123',
-        },
-      },
-    });
-  });
-});
-
-it('renders staff notification if user is not staff', async () => {
-  const mocks = [
-    {
-      request: {
-        query: graphql.MyProfileDocument,
-      },
-      result: {
-        data: {
-          myProfile: fakePerson({
-            isStaff: false,
-            organisations: fakeOrganisations(0),
-          }),
-        },
-      },
-    },
-  ];
-
-  jest.spyOn(authSelectors, 'isAuthenticatedSelector').mockReturnValue(true);
-  jest
-    .spyOn(authSelectors, 'userSelector')
-    .mockReturnValue({ profile: { email: 'test@test.fi' } } as any);
-
-  const testText = 'testText';
-  renderWithRoute(<PageLayout>{testText}</PageLayout>, {
-    routes: ['/'],
-    mocks,
-  });
-
-  await screen.findByText(testText);
-
-  // Notification should be visible when user is not staff
-  expect(screen.queryByText('Ilmoitus')).toBeInTheDocument();
-  expect(
-    screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
-  ).toBeInTheDocument();
-  expect(
-    screen.queryByRole('link', {
-      name: /lomakkeella \(avataan uudessa välilehdessä\)/i,
-    })
-  ).toBeInTheDocument();
-});
+}
