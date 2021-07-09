@@ -260,6 +260,10 @@ export const profileResponse = {
         },
       ]),
     }),
+    organisationproposalSet: {
+      edges: [],
+      __typename: 'OrganisationProposalNodeConnection',
+    },
   },
 };
 

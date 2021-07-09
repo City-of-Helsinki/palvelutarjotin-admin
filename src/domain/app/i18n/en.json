@@ -174,6 +174,10 @@
     "labelOrganisations": "Organisation",
     "labelPhoneNumber": "Phone number",
     "placeholderOrganisations": "Select organisation",
+    "labelOrganisationProposals": "Request for a new organisation",
+    "helperOrganisationProposals": "Request to add a new organization you manage",
+    "placeholderOrganisationProposals": "Organisation name",
+    "textOrganisationSeparator": "Or",
     "validation": {
       "isPrivacyPolicyAccepted": "Privacy policy must be accepted",
       "isTermsOfServiceRead": "The terms of use must be accepted"

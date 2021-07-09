@@ -27,6 +27,9 @@ import {
   OrganisationNode,
   OrganisationNodeConnection,
   OrganisationNodeEdge,
+  OrganisationProposalNode,
+  OrganisationProposalNodeConnection,
+  OrganisationProposalNodeEdge,
   OrganisationType,
   PageInfo,
   PalvelutarjotinEventNode,
@@ -452,7 +455,39 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   studygroupSet: '' as any,
   updatedAt: '' as any,
   isStaff: true,
+  organisationproposalSet: fakeOrganisationProposals(),
   ...overrides,
+});
+
+export const fakeOrganisationProposals = (
+  count = 0,
+  organisationProposals?: Partial<OrganisationProposalNode>[]
+): OrganisationProposalNodeConnection => ({
+  edges: generateNodeArray(
+    (i) => fakeOrganisationProposalEdge(organisationProposals?.[i]),
+    count
+  ),
+  pageInfo: PageInfoMock,
+  __typename: 'OrganisationProposalNodeConnection',
+});
+
+export const fakeOrganisationProposal = (
+  overrides?: Partial<OrganisationProposalNode>
+): OrganisationProposalNode => ({
+  __typename: 'OrganisationProposalNode',
+  id: faker.random.uuid(),
+  name: '3rd party org',
+  description: 'Organisation description',
+  phoneNumber: '',
+  applicant: fakePerson(),
+});
+
+export const fakeOrganisationProposalEdge = (
+  overrides?: Partial<OrganisationProposalNode>
+): OrganisationProposalNodeEdge => ({
+  cursor: '',
+  __typename: 'OrganisationProposalNodeEdge',
+  node: fakeOrganisationProposal(overrides),
 });
 
 export const fakeLocalizedObject = (

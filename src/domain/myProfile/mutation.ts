@@ -5,6 +5,13 @@ export const MUTATION_MY_PROFILE = gql`
     createMyProfile(input: $myProfile) {
       myProfile {
         ...personFields
+        organisationproposalSet {
+          edges {
+            node {
+              name
+            }
+          }
+        }
       }
     }
   }
@@ -12,6 +19,20 @@ export const MUTATION_MY_PROFILE = gql`
     updateMyProfile(input: $myProfile) {
       myProfile {
         ...personFields
+        organisations {
+          edges {
+            node {
+              ...organisationNodeFields
+            }
+          }
+        }
+        organisationproposalSet {
+          edges {
+            node {
+              name
+            }
+          }
+        }
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Field, Formik } from 'formik';
+import { Field, Formik, useFormikContext } from 'formik';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ export type MyProfileFormFields = {
   isTermsOfServiceRead: boolean;
   name: string;
   organisations: string[];
+  organisationProposals: string;
   phoneNumber: string;
 };
 
@@ -34,6 +35,7 @@ const defaultInitialValues = {
   isTermsOfServiceRead: false,
   name: '',
   organisations: [],
+  organisationProposals: '',
   phoneNumber: '',
 };
 
@@ -52,14 +54,7 @@ const MyProfileForm: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const { data: organisationsData } = useOrganisationsQuery();
   const user = useSelector(userSelector);
-
-  const organisationOptions =
-    organisationsData?.organisations?.edges.map((edge) => ({
-      label: edge?.node?.name || '',
-      value: edge?.node?.id || '',
-    })) || [];
 
   return (
     <Formik
@@ -70,7 +65,7 @@ const MyProfileForm: React.FC<Props> = ({
       }}
       validationSchema={ValidationSchema}
     >
-      {({ errors, handleSubmit, touched, values }) => {
+      {({ errors, handleSubmit, touched }) => {
         return (
           <form onSubmit={handleSubmit}>
             <FocusToFirstError />
@@ -96,13 +91,23 @@ const MyProfileForm: React.FC<Props> = ({
               />
             </FormGroup>
             <FormGroup>
-              <Field
+              <OrganisationsField
                 name="organisations"
                 label={t('myProfileForm.labelOrganisations')}
                 helper={t('myProfileForm.helperOrganisations')}
                 placeholder={t('myProfileForm.placeholderOrganisations')}
-                component={MultiDropdownField}
-                options={organisationOptions}
+              />
+              <p className={styles.separator}>
+                {t('myProfileForm.textOrganisationSeparator')}
+              </p>
+              <Field
+                name="organisationProposals"
+                labelText={t('myProfileForm.labelOrganisationProposals')}
+                helperText={t('myProfileForm.helperOrganisationProposals')}
+                placeholder={t(
+                  'myProfileForm.placeholderOrganisationProposals'
+                )}
+                component={TextInputField}
               />
             </FormGroup>
             {showCheckboxes && (
@@ -159,6 +164,40 @@ const MyProfileForm: React.FC<Props> = ({
         );
       }}
     </Formik>
+  );
+};
+
+const OrganisationsField: React.FC<{
+  name: string;
+  label: string;
+  helper: string;
+  placeholder: string;
+}> = ({ name, label, helper, placeholder }) => {
+  const { values, setFieldValue } = useFormikContext<MyProfileFormFields>();
+  const { organisationProposals } = values;
+  const { data: organisationsData } = useOrganisationsQuery();
+  const organisationOptions =
+    organisationsData?.organisations?.edges.map((edge) => ({
+      label: edge?.node?.name || '',
+      value: edge?.node?.id || '',
+    })) || [];
+
+  React.useEffect(() => {
+    if (!!organisationProposals) {
+      setFieldValue(name, []);
+    }
+  }, [name, organisationProposals, setFieldValue]);
+
+  return (
+    <Field
+      name={name}
+      label={label}
+      helper={helper}
+      placeholder={placeholder}
+      component={MultiDropdownField}
+      options={organisationOptions}
+      disabled={!!organisationProposals}
+    />
   );
 };
 

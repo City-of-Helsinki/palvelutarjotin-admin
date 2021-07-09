@@ -178,6 +178,10 @@
     "labelOrganisations": "Organisation",
     "labelPhoneNumber": "Telefonnummer",
     "placeholderOrganisations": "Välj organisation",
+    "labelOrganisationProposals": "Begäran om en ny organisation",
+    "helperOrganisationProposals": "Begär att lägga till en ny organisation som du hanterar",
+    "placeholderOrganisationProposals": "Organisations namn",
+    "textOrganisationSeparator": "Eller",
     "validation": {
       "isPrivacyPolicyAccepted": "Integritetspolicy måste accepteras",
       "isTermsOfUsageServiceRead": "Användarvillkoren måste accepteras"

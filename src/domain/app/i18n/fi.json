@@ -179,6 +179,10 @@
     "labelOrganisations": "Organisaatio",
     "labelPhoneNumber": "Puhelinnumero",
     "placeholderOrganisations": "Valitse organisaatio",
+    "labelOrganisationProposals": "Lähetä uusi organisaatio pyyntö",
+    "helperOrganisationProposals": "Pyyntö uuden hallitsemasi organisaation lisäykselle",
+    "placeholderOrganisationProposals": "Organisaation nimi",
+    "textOrganisationSeparator": "Tai",
     "validation": {
       "isPrivacyPolicyAccepted": "Tietosuojakäytäntö on hyväksyttävä",
       "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"

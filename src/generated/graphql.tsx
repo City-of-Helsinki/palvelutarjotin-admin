@@ -488,6 +488,7 @@ export type PersonNode = Node & {
   emailAddress: Scalars['String'];
   language: Language;
   organisations: OrganisationNodeConnection;
+  organisationproposalSet: OrganisationProposalNodeConnection;
   pEvent: PalvelutarjotinEventNodeConnection;
   occurrences: OccurrenceNodeConnection;
   studygroupSet: StudyGroupNodeConnection;
@@ -497,6 +498,14 @@ export type PersonNode = Node & {
 
 
 export type PersonNodeOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodeOrganisationproposalSetArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -561,6 +570,33 @@ export type OrganisationNodeEdge = {
   node?: Maybe<OrganisationNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type OrganisationProposalNodeConnection = {
+   __typename?: 'OrganisationProposalNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<OrganisationProposalNodeEdge>>;
+};
+
+/** A Relay edge containing a `OrganisationProposalNode` and its cursor. */
+export type OrganisationProposalNodeEdge = {
+   __typename?: 'OrganisationProposalNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<OrganisationProposalNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type OrganisationProposalNode = Node & {
+   __typename?: 'OrganisationProposalNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  applicant: PersonNode;
 };
 
 export type PalvelutarjotinEventNodeConnection = {
@@ -1591,9 +1627,17 @@ export type CreateMyProfileMutationInput = {
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress: Scalars['String'];
   organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Propose a new organisation being added. Used with 3rd party organisations */
+  organisationProposals?: Maybe<Array<Maybe<OrganisationProposalNodeInput>>>;
   /** Default `fi` */
   language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type OrganisationProposalNodeInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
 };
 
 export type UpdateMyProfileMutationPayload = {
@@ -2490,6 +2534,16 @@ export type CreateMyProfileMutation = (
     { __typename?: 'CreateMyProfileMutationPayload' }
     & { myProfile?: Maybe<(
       { __typename?: 'PersonNode' }
+      & { organisationproposalSet: (
+        { __typename?: 'OrganisationProposalNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationProposalNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationProposalNode' }
+            & Pick<OrganisationProposalNode, 'name'>
+          )> }
+        )>> }
+      ) }
       & PersonFieldsFragment
     )> }
   )> }
@@ -2506,6 +2560,25 @@ export type UpdateMyProfileMutation = (
     { __typename?: 'UpdateMyProfileMutationPayload' }
     & { myProfile?: Maybe<(
       { __typename?: 'PersonNode' }
+      & { organisations: (
+        { __typename?: 'OrganisationNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationNode' }
+            & OrganisationNodeFieldsFragment
+          )> }
+        )>> }
+      ), organisationproposalSet: (
+        { __typename?: 'OrganisationProposalNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationProposalNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationProposalNode' }
+            & Pick<OrganisationProposalNode, 'name'>
+          )> }
+        )>> }
+      ) }
       & PersonFieldsFragment
     )> }
   )> }
@@ -2521,6 +2594,15 @@ export type MyProfileFieldsFragment = (
       & { node?: Maybe<(
         { __typename?: 'OrganisationNode' }
         & OrganisationNodeFieldsFragment
+      )> }
+    )>> }
+  ), organisationproposalSet: (
+    { __typename?: 'OrganisationProposalNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OrganisationProposalNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationProposalNode' }
+        & Pick<OrganisationProposalNode, 'name'>
       )> }
     )>> }
   ) }
@@ -3172,6 +3254,13 @@ export const MyProfileFieldsFragmentDoc = gql`
     edges {
       node {
         ...organisationNodeFields
+      }
+    }
+  }
+  organisationproposalSet {
+    edges {
+      node {
+        name
       }
     }
   }
@@ -4319,6 +4408,13 @@ export const CreateMyProfileDocument = gql`
   createMyProfile(input: $myProfile) {
     myProfile {
       ...personFields
+      organisationproposalSet {
+        edges {
+          node {
+            name
+          }
+        }
+      }
     }
   }
 }
@@ -4366,10 +4462,25 @@ export const UpdateMyProfileDocument = gql`
   updateMyProfile(input: $myProfile) {
     myProfile {
       ...personFields
+      organisations {
+        edges {
+          node {
+            ...organisationNodeFields
+          }
+        }
+      }
+      organisationproposalSet {
+        edges {
+          node {
+            name
+          }
+        }
+      }
     }
   }
 }
-    ${PersonFieldsFragmentDoc}`;
+    ${PersonFieldsFragmentDoc}
+${OrganisationNodeFieldsFragmentDoc}`;
 export type UpdateMyProfileMutationFn = ApolloReactCommon.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
 export type UpdateMyProfileProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
       [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>

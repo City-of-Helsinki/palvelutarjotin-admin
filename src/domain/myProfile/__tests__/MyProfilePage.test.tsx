@@ -2,7 +2,11 @@ import { MockedResponse } from '@apollo/react-testing';
 import * as React from 'react';
 
 import * as graphql from '../../../generated/graphql';
-import { fakeOrganisations, fakePerson } from '../../../utils/mockDataUtils';
+import {
+  fakeOrganisationProposals,
+  fakeOrganisations,
+  fakePerson,
+} from '../../../utils/mockDataUtils';
 import {
   renderWithRoute,
   screen,
@@ -36,6 +40,7 @@ const apolloMocks: MockedResponse[] = [
           name: 'Testi Testaaja',
           emailAddress: 'testi@testaaja.com',
           phoneNumber: '123321123',
+          organisationproposalSet: fakeOrganisationProposals(),
         }),
       },
     },
@@ -131,7 +136,76 @@ test('profile can be edited', async () => {
           emailAddress: '',
           name: 'Changed Name',
           organisations: ['organisation1', 'organisation3'],
+          organisationProposals: [],
           phoneNumber: '321123321',
+        },
+      },
+    });
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Omat tiedot tallennettu onnistuneesti')
+    ).toBeVisible();
+  });
+});
+
+test('create profile with organisation proposal', async () => {
+  const createProfileMock = jest.fn();
+  jest
+    .spyOn(graphql, 'useUpdateMyProfileMutation')
+    .mockReturnValue([createProfileMock] as any);
+  renderWithRoute(<MyProfilePage />, {
+    mocks: apolloMocks,
+    path: ROUTES.MY_PROFILE,
+    routes: ['/profile'],
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.getByText('Organisaatio 1', { selector: 'span' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Organisaatio 2', { selector: 'span' })
+    ).toBeInTheDocument();
+  });
+
+  userEvent.type(
+    screen.getByLabelText('Lähetä uusi organisaatio pyyntö'),
+    'Org1'
+  );
+
+  await waitFor(() => {
+    expect(
+      screen.queryByText('Organisaatio 1', { selector: 'span' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Organisaatio 2', { selector: 'span' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: /organisaatio organisaatio, jonka tapahtumia hallinnoit valitse organisaatio/i,
+      })
+    ).toBeDisabled();
+  });
+
+  userEvent.click(
+    screen.getByRole('button', { name: 'Tallenna päivitetyt tiedot' })
+  );
+
+  await waitFor(() => {
+    expect(createProfileMock).toHaveBeenCalledWith({
+      variables: {
+        myProfile: {
+          name: 'Testi Testaaja',
+          emailAddress: '',
+          phoneNumber: '123321123',
+          organisations: [],
+          organisationProposals: [{ name: 'Org1' }],
         },
       },
     });
