@@ -149,9 +149,6 @@ it('Pagelayout renders profile page and registration pending page after submitti
 
   await fillAndSubmitProfileForm();
 
-  await act(wait);
-  screen.logTestingPlaygroundURL();
-
   await screen.findByRole('heading', { name: 'Kiitos rekisteröitymisestä' });
   expect(
     screen.queryByRole('heading', {
