@@ -31,8 +31,8 @@ it('displays correct texts and handles click', () => {
 
   expect(screen.queryByRole('button')).toBeInTheDocument();
   expect(screen.queryByText(/^8 tapahtuma-aikaa$/i)).toBeInTheDocument();
-  expect(screen.queryByText(/^2 ilmoittautunutta$/i));
-  expect(screen.queryByText(/^julkaistu$/i));
+  expect(screen.queryByText(/^2 ilmoittautunutta$/i)).toBeInTheDocument();
+  expect(screen.queryByText(/^julkaistu$/i)).toBeInTheDocument();
 
   rerender(
     <EventCard

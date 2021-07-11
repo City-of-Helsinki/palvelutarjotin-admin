@@ -82,11 +82,8 @@ const EventForm = <T extends FormFields>({
   const isPrefilledForm = formType === 'edit' || formType === 'template';
   const history = useHistory();
   const { t } = useTranslation();
-  const {
-    additionalCriteriaKeywords,
-    categoryKeywords,
-    targetGroups,
-  } = useKeywordOptions();
+  const { additionalCriteriaKeywords, categoryKeywords, targetGroups } =
+    useKeywordOptions();
   const isPublished =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
 
@@ -140,6 +137,7 @@ const EventForm = <T extends FormFields>({
         setFieldValue,
         setFieldTouched,
         touched,
+        errors,
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
@@ -168,14 +166,18 @@ const EventForm = <T extends FormFields>({
                 </div>
                 <h1>{title}</h1>
                 <EventSteps step={1} />
-                <form onSubmit={handleSubmit} data-testid="event-form">
+                <form
+                  onSubmit={handleSubmit}
+                  data-testid="event-form"
+                  noValidate
+                >
                   <div className={styles.formPart}>
                     <div className={styles.formSection}>
                       <h2>{t('eventForm.basicInfo.title')}</h2>
                       {sortedSelectedLanguages?.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelName',
                               lang
                             )}
@@ -188,7 +190,7 @@ const EventForm = <T extends FormFields>({
                       {sortedSelectedLanguages?.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelShortDescription',
                               lang
                             )}
@@ -220,7 +222,7 @@ const EventForm = <T extends FormFields>({
                       <FormGroup>
                         <Field
                           disabled={isPublished}
-                          labelText={t(
+                          label={t(
                             'eventForm.basicInfo.labelMandatoryAdditionalInformation'
                           )}
                           name="mandatoryAdditionalInformation"
@@ -240,7 +242,7 @@ const EventForm = <T extends FormFields>({
                       {sortedSelectedLanguages.map((lang) => (
                         <FormGroup key={lang}>
                           <Field
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.basicInfo.labelInfoUrl',
                               lang
                             )}
@@ -352,14 +354,14 @@ const EventForm = <T extends FormFields>({
                         <div>
                           <Field
                             disabled={isFree}
-                            labelText={t('eventForm.offers.labelPrice')}
+                            label={t('eventForm.offers.labelPrice')}
                             name="price"
                             component={TextInputField}
                           />
                         </div>
                         <div className={styles.isFreeWrapper}>
                           <Field
-                            labelText={t('eventForm.offers.labelIsFree')}
+                            label={t('eventForm.offers.labelIsFree')}
                             name="isFree"
                             component={CheckboxField}
                           />
@@ -369,7 +371,7 @@ const EventForm = <T extends FormFields>({
                         <FormGroup key={lang}>
                           <Field
                             disabled={isFree}
-                            labelText={getLabelWithLanguage(
+                            label={getLabelWithLanguage(
                               'eventForm.offers.labelPriceDescription',
                               lang
                             )}

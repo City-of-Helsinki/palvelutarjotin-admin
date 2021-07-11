@@ -62,6 +62,7 @@ const placeResult = {
 const venueResult = {
   data: {
     venue: fakeVenue({
+      id: placeId,
       hasClothingStorage: true,
       translations: [
         {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
@@ -144,9 +144,11 @@ describe('Event price section', () => {
 
     userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
 
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+      expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
+      expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+    });
   });
 });
 

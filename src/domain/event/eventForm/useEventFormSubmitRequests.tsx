@@ -1,4 +1,4 @@
-import ApolloClient from 'apollo-client';
+import { ApolloClient } from '@apollo/client';
 
 import { useUpdateSingleImageMutation } from '../../../generated/graphql';
 import { getImageName } from '../../image/utils';
@@ -6,6 +6,7 @@ import { VenueDataFields } from '../../venue/types';
 import { createOrUpdateVenue } from '../../venue/utils';
 import { CreateEventFormFields } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const useCreateOrUpdateVenueRequest = (apolloClient: ApolloClient<object>) => {
   return ({
     venueFormData,
@@ -46,4 +47,4 @@ const useUpdateImageRequest = () => {
   };
 };
 
-export { useUpdateImageRequest, useCreateOrUpdateVenueRequest };
+export { useCreateOrUpdateVenueRequest, useUpdateImageRequest };

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { IS_CLIENT } from '../constants';
 
-export default () => {
+const useWindowSize = () => {
   const getSize = React.useCallback(() => {
     return {
       width: IS_CLIENT ? window.innerWidth : undefined,
@@ -27,3 +27,5 @@ export default () => {
 
   return windowSize;
 };
+
+export default useWindowSize;

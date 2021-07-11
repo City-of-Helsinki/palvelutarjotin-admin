@@ -12,7 +12,7 @@ it('matches snapshot', () => {
   expect(container).toMatchSnapshot();
 });
 
-it('render correct text and calls onClick callback when clicked ', () => {
+it('render correct text and calls onClick callback when clicked', () => {
   const onClickMock = jest.fn();
   render(<DeleteButton onClick={onClickMock}>Delete</DeleteButton>);
 

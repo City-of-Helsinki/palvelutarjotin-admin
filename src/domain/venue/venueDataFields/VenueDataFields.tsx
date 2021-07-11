@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 import { Field, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -90,7 +90,7 @@ const VenueDataFields: React.FC<{
                   ? t('venue.venueDataFields.helperLocationDescription')
                   : null
               }
-              labelText={labelText}
+              label={labelText}
               name={`locationDescription.${lang}`}
               placeholder={t(
                 'venue.venueDataFields.placeholderLocationDescription'
@@ -105,37 +105,37 @@ const VenueDataFields: React.FC<{
         <Field
           component={CheckboxField}
           name="hasClothingStorage"
-          labelText={t('venue.venueDataFields.labelHasClothingStorage')}
+          label={t('venue.venueDataFields.labelHasClothingStorage')}
         />
         <Field
           component={CheckboxField}
           name="hasSnackEatingPlace"
-          labelText={t('venue.venueDataFields.labelHasSnackEatingPlace')}
+          label={t('venue.venueDataFields.labelHasSnackEatingPlace')}
         />
         <Field
           component={CheckboxField}
           name="outdoorActivity"
-          labelText={t('venue.venueDataFields.labelOutdoorActivity')}
+          label={t('venue.venueDataFields.labelOutdoorActivity')}
         />
         <Field
           component={CheckboxField}
           name="hasToiletNearby"
-          labelText={t('venue.venueDataFields.labelHasToiletNearby')}
+          label={t('venue.venueDataFields.labelHasToiletNearby')}
         />
         <Field
           component={CheckboxField}
           name="hasAreaForGroupWork"
-          labelText={t('venue.venueDataFields.labelHasAreaForGroupWork')}
+          label={t('venue.venueDataFields.labelHasAreaForGroupWork')}
         />
         <Field
           component={CheckboxField}
           name="hasIndoorPlayingArea"
-          labelText={t('venue.venueDataFields.labelHasIndoorPlayingArea')}
+          label={t('venue.venueDataFields.labelHasIndoorPlayingArea')}
         />
         <Field
           component={CheckboxField}
           name="hasOutdoorPlayingArea"
-          labelText={t('venue.venueDataFields.labelHasOutdoorPlayingArea')}
+          label={t('venue.venueDataFields.labelHasOutdoorPlayingArea')}
         />
       </div>
     </FormGroup>

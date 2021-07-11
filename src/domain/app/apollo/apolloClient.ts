@@ -1,56 +1,90 @@
-import * as Sentry from '@sentry/browser';
 import {
+  ApolloClient,
+  ApolloLink,
   defaultDataIdFromObject,
-  IdGetterObj,
   InMemoryCache,
-} from 'apollo-cache-inmemory';
-import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
-import { onError } from 'apollo-link-error';
+  StoreObject,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import * as Sentry from '@sentry/browser';
 import { createUploadLink } from 'apollo-upload-client';
 import { ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 
-import { Keyword } from '../../../generated/graphql';
 import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isKeyword = (object: any): object is Keyword => {
-  return object.__typename === 'Keyword';
-};
+const excludeArgs =
+  (excludedArgs: string[]) =>
+  (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    args: Record<string, any> | null
+  ) =>
+    args
+      ? Object.keys(args).filter((key: string) => !excludedArgs.includes(key))
+      : false;
 
-export const apolloCache = new InMemoryCache({
-  dataIdFromObject: (object: IdGetterObj & { getCacheKey?: boolean }) => {
-    // Hacky way to not store keywords without id to cache
-    // This happends when queries are done without include: ['keywords']
-    if (isKeyword(object)) {
-      // Also getCacheKey uses this so we need to also check if we are fetching from cache
-      return object.id || object.getCacheKey
-        ? `${object.__typename}:${object.internalId}`
-        : null;
-    }
-    return defaultDataIdFromObject(object);
-  },
-  cacheRedirects: {
-    Query: {
-      keyword: (_, args, { getCacheKey }) =>
-        getCacheKey({
-          __typename: 'Keyword',
-          internalId: args.id,
-          getCacheKey: true,
-        }),
-      person: (_, args, { getCacheKey }) =>
-        getCacheKey({ __typename: 'PersonNode', id: args.id }),
-      place: (_, args, { getCacheKey }) =>
-        getCacheKey({ __typename: 'Place', id: args.id }),
-      venue: (_, args, { getCacheKey }) =>
-        getCacheKey({ __typename: 'VenueNode', id: args.id }),
+export const createApolloCache = () =>
+  new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          keyword(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Keyword',
+              id: args?.id,
+            });
+          },
+          person(_, { args, toReference }) {
+            return toReference({
+              __typename: 'PersonNode',
+              id: args?.id,
+            });
+          },
+          place(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Place',
+              id: args?.id,
+            });
+          },
+          venue(_, { args, toReference }) {
+            return toReference({
+              __typename: 'VenueNode',
+              id: args?.id,
+            });
+          },
+          events: {
+            // Only ignore page argument in caching to get fetchMore pagination working correctly
+            // Other args are needed to separate different serch queries to separate caches
+            // Docs: https://www.apollographql.com/docs/react/pagination/key-args/
+            keyArgs: excludeArgs(['page']),
+            merge(existing, incoming) {
+              if (!incoming) return null;
+              return {
+                data: [...(existing?.data ?? []), ...incoming.data],
+                meta: incoming.meta,
+              };
+            },
+          },
+        },
+      },
+      Keyword: {
+        keyFields: (object: Readonly<StoreObject>, { selectionSet }) => {
+          // Hacky way to not store keywords without id to cache (then name is missing also)
+          // This happends when queries are done without include: ['keywords']
+          if (selectionSet) {
+            return object.id ? `Keyword:${object.internalId}` : false;
+          }
+
+          // if selectionSet is not defined, it means that toReference function calls keyfields
+          // then we want to return cache id normally.
+          return defaultDataIdFromObject(object);
+        },
+      },
     },
-  },
-});
+  });
 
 const httpLink = createUploadLink({
   uri: process.env.REACT_APP_API_URI,
@@ -99,8 +133,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const apolloClient = new ApolloClient({
-  link: ApolloLink.from([errorLink, authLink, httpLink]),
-  cache: apolloCache,
+  link: ApolloLink.from([errorLink, authLink, httpLink as any]),
+  cache: createApolloCache(),
 });
 
 export default apolloClient;

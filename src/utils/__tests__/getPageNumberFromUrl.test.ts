@@ -9,7 +9,7 @@ describe('getPageNumberFromUrl function', () => {
       )
     ).toBe(6);
   });
-  it("should return 0 when page number doesn't found ", () => {
+  it("should return 0 when page number doesn't found", () => {
     expect(getPageNumberFromUrl('https://localhost:3000')).toBe(0);
   });
 });

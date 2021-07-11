@@ -12,7 +12,7 @@ const priceValidation = Yup.string()
 
 const createMultiLanguageValidation = (
   languages: string[],
-  rule: Yup.Schema<string | null | undefined>
+  rule: Yup.AnySchema
 ) => {
   return Yup.object().shape(
     reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
@@ -47,22 +47,22 @@ const createValidationSchemaYup = (selectedLanguages: Language[]) =>
     infoUrl: createMultiLanguageValidation(selectedLanguages, Yup.string()),
     audience: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(0),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     categories: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(0),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     additionalCriteria: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(0),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     keywords: Yup.array().min(0),
     image: Yup.string(),
     imagePhotographerName: Yup.string().when('image', {
-      is: (image) => image,
+      is: (image: string) => image,
       then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       otherwise: Yup.string(),
     }),
     imageAltText: Yup.string().when('image', {
-      is: (image) => image,
+      is: (image: string) => image,
       then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       otherwise: Yup.string(),
     }),

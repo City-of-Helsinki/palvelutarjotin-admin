@@ -2,17 +2,16 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import wait from 'waait';
 
-import persons from '../__mocks__/persons';
 import messages from '../../../../../domain/app/i18n/fi.json';
 import { act, render, screen } from '../../../../../utils/testUtils';
 import ApproveEnrolmentModal from '../ApproveEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
+import persons from '../mocks/persons';
 
 it('matches snapshot', async () => {
   const { baseElement } = render(
     <ApproveEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={jest.fn()}
       approveEnrolment={jest.fn()}
       appElement={document.body}
@@ -30,7 +29,6 @@ it('renders correctly and calls approve enrolment handler', async () => {
   render(
     <ApproveEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={onCloseHandler}
       approveEnrolment={approveEnrolmentHandler}
       appElement={document.body}
@@ -59,7 +57,6 @@ it('opens message section when checkbox is clicked and text can be written', asy
   render(
     <ApproveEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={jest.fn()}
       approveEnrolment={jest.fn()}
       appElement={document.body}
@@ -86,7 +83,6 @@ it('renders enrollees list correctly', async () => {
   render(
     <ApproveEnrolmentModal
       enrolmentId="123"
-      isOpen
       onClose={jest.fn()}
       approveEnrolment={jest.fn()}
       appElement={document.body}

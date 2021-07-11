@@ -1,24 +1,28 @@
+/* eslint-disable no-console */
 import './test/testi18nInit';
 import '@testing-library/jest-dom/extend-expect';
 
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';
-
-import { apolloCache } from './domain/app/apollo/apolloClient';
 
 expect.extend(toHaveNoViolations);
 
 jest.setTimeout(50000);
 
-React.useLayoutEffect = React.useEffect;
+(React.useLayoutEffect as any) = React.useEffect;
 
 // Mock scrollTo function
 window.scrollTo = jest.fn();
 
-afterEach(() => {
-  apolloCache.reset();
-});
-
 configure({ adapter: new Adapter() });
+
+const originalWarn = console.warn.bind(console.warn);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+console.warn = (msg: any, ...optionalParams: any[]) =>
+  !msg
+    .toString()
+    .includes(
+      'Using ReactElement as a label is against good usability and accessibility practices.'
+    ) && originalWarn(msg, ...optionalParams);

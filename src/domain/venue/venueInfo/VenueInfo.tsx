@@ -24,6 +24,7 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
     fetchPolicy: 'network-only',
     variables: { id: placeId },
   });
+
   const venueDescription = getVenueDescription(venueData?.venue);
   const {
     hasClothingStorage,

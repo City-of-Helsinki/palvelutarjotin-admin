@@ -94,7 +94,7 @@ function MyProfileForm<T extends FormType>({
           </p>
           <Field
             name="organisationProposals"
-            labelText={t('myProfileForm.labelOrganisationProposals')}
+            label={t('myProfileForm.labelOrganisationProposals')}
             helperText={t('myProfileForm.helperOrganisationProposals')}
             placeholder={t('myProfileForm.placeholderOrganisationProposals')}
             component={TextInputField}
@@ -104,7 +104,7 @@ function MyProfileForm<T extends FormType>({
           <>
             <FormGroup>
               <Field
-                labelText={
+                label={
                   <span
                     dangerouslySetInnerHTML={{
                       __html: t('myProfileForm.checkboxTermsOfService'),
@@ -120,7 +120,7 @@ function MyProfileForm<T extends FormType>({
             </FormGroup>
             <FormGroup>
               <Field
-                labelText={
+                label={
                   <span
                     dangerouslySetInnerHTML={{
                       __html: t('myProfileForm.checkboxPrivacyPolicy', {
@@ -170,7 +170,7 @@ function MyProfileForm<T extends FormType>({
             </FormGroup>
             <FormGroup>
               <Field
-                labelText={t('myProfileForm.labelName')}
+                label={t('myProfileForm.labelName')}
                 name="name"
                 helperText={t('myProfileForm.helperName')}
                 component={TextInputField}
@@ -178,7 +178,7 @@ function MyProfileForm<T extends FormType>({
             </FormGroup>
             <FormGroup>
               <Field
-                labelText={t('myProfileForm.labelPhoneNumber')}
+                label={t('myProfileForm.labelPhoneNumber')}
                 name="phoneNumber"
                 helperText={t('myProfileForm.helperPhoneNumber')}
                 component={TextInputField}
@@ -209,9 +209,8 @@ const OrganisationsField: React.FC<{
   helper: string;
   placeholder: string;
 }> = ({ name, label, helper, placeholder }) => {
-  const { values, setFieldValue } = useFormikContext<
-    MyProfileCreateFormFields
-  >();
+  const { values, setFieldValue } =
+    useFormikContext<MyProfileCreateFormFields>();
   const { organisationProposals } = values;
   const { data: organisationsData } = useOrganisationsQuery({
     variables: { type: OrganisationType.Provider.toLowerCase() },

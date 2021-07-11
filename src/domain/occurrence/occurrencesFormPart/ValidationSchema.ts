@@ -3,6 +3,7 @@ import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isValidDate from 'date-fns/isValid';
 import * as Yup from 'yup';
+import { MessageParams } from 'yup/lib/types';
 
 import { isInFuture } from '../../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -10,7 +11,7 @@ import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 const addMinValidationMessage = (
   param: {
     min: number;
-  } & Partial<Yup.TestMessageParams>
+  } & Partial<MessageParams>
 ) => ({
   min: param.min,
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
@@ -19,7 +20,7 @@ const addMinValidationMessage = (
 const addMaxValidationMessage = (
   param: {
     max: number;
-  } & Partial<Yup.TestMessageParams>
+  } & Partial<MessageParams>
 ) => ({
   max: param.max,
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
@@ -68,7 +69,7 @@ const getValidationSchema = ({
     endTime: Yup.date()
       .typeError(VALIDATION_MESSAGE_KEYS.DATE)
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .when('startTime', (startTime: Date, schema: Yup.DateSchema) => {
+      .when('startTime', ((startTime: Date, schema: Yup.DateSchema) => {
         if (isValidDate(startTime)) {
           return schema.test(
             'isAfterStartTime',
@@ -76,15 +77,15 @@ const getValidationSchema = ({
               key: VALIDATION_MESSAGE_KEYS.TIME_MIN,
               min: formatDate(startTime, 'dd.MM.yyyy HH:mm'),
             }),
-            (endTime: Date) => {
+            ((endTime: Date) => {
               return isBefore(startTime, endTime);
-            }
+            }) as any
           );
         }
-      }),
+      }) as any),
     languages: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(1),
+      .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     amountOfSeats: Yup.number()
       .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
       .min(1, addMinValidationMessage),
@@ -99,17 +100,14 @@ const getValidationSchema = ({
       ),
     maxGroupSize: Yup.number()
       .min(1, addMinValidationMessage)
-      .when(
-        ['amountOfSeats', 'oneGroupFills'],
-        (
-          amountOfSeats: number,
-          oneGroupFills: boolean,
-          schema: Yup.NumberSchema
-        ) =>
-          amountOfSeats && !oneGroupFills
-            ? schema.max(amountOfSeats, addMaxValidationMessage)
-            : schema
-      ),
+      .when(['amountOfSeats', 'oneGroupFills'], ((
+        amountOfSeats: number,
+        oneGroupFills: boolean,
+        schema: Yup.NumberSchema
+      ) =>
+        amountOfSeats && !oneGroupFills
+          ? schema.max(amountOfSeats, addMaxValidationMessage)
+          : schema) as any),
   });
 
 export default getValidationSchema;

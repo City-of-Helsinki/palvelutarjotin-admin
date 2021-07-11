@@ -27,7 +27,8 @@ const TextAreaField: React.FC<Props> = (props) => {
       {...rest}
       id={name}
       rows={rows}
-      helperText={errorText || helperText}
+      helperText={helperText}
+      errorText={errorText}
       invalid={!!errorText}
       className={classNames(className, { [invalidFieldClass]: errorText })}
     />

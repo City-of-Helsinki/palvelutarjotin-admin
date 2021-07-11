@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const MUTATION_MY_PROFILE = gql`
   mutation CreateMyProfile($myProfile: CreateMyProfileMutationInput!) {

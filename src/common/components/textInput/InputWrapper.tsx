@@ -9,6 +9,7 @@ export type InputWrapperProps = {
   className?: string;
   hasIcon?: boolean;
   helperText?: string;
+  errorText?: string;
   hideLabel?: boolean;
   id: string;
   invalid?: boolean;
@@ -32,6 +33,7 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
       className = '',
       hasIcon = false,
       helperText,
+      errorText,
       hideLabel = false,
       id,
       invalid = false,
@@ -41,7 +43,6 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
       tooltipLabel,
       tooltipText,
       tooltipOpenButtonLabelText,
-      tooltipCloseButtonLabelText,
       required,
     },
     ref
@@ -69,13 +70,17 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
       {tooltipText && (
         <Tooltip
           tooltipLabel={tooltipLabel || ''}
-          // closeButtonLabelText={tooltipCloseButtonLabelText || ''}
           buttonLabel={tooltipOpenButtonLabelText || ''}
         >
           {tooltipText}
         </Tooltip>
       )}
       <div className={classNames(styles.inputWrapper)}>{children}</div>
+      {errorText && (
+        <div className={styles.errorText} id={`${id}-error`}>
+          {errorText}
+        </div>
+      )}
       {helperText && (
         <div className={styles.helperText} id={`${id}-helper`} role="alert">
           {helperText}

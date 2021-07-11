@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client';
 import { Field, FormikTouched } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,21 +9,20 @@ import DropdownField, {
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { PersonDocument, PersonQuery } from '../../../generated/graphql';
-import apolloClient from '../../app/apollo/apolloClient';
+import { isTestEnv } from '../../../utils/envUtils';
 
 const ContactPersonInfoPart: React.FC<{
   contactPersonId: string;
   personOptions: Option[];
   setFieldValue: (
     field: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
     shouldValidate?: boolean | undefined
   ) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   touched: FormikTouched<any>;
 }> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
+  const apolloClient = useApolloClient();
 
   const setContactPersonId = async (name: string, value: string) => {
     setFieldValue(name, value);
@@ -35,6 +35,10 @@ const ContactPersonInfoPart: React.FC<{
         setFieldValue('contactEmail', data.person?.emailAddress || '');
         setFieldValue('contactPhoneNumber', data.person?.phoneNumber || '');
       } catch (err) {
+        if (isTestEnv()) {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        }
         // clear description when error happens
         setFieldValue('contactEmail', '');
         setFieldValue('contactPhoneNumber', '');
@@ -58,14 +62,14 @@ const ContactPersonInfoPart: React.FC<{
       </FormGroup>
       <FormGroup>
         <Field
-          labelText={t('eventForm.contactPerson.labelEmail')}
+          label={t('eventForm.contactPerson.labelEmail')}
           name="contactEmail"
           component={TextInputField}
         />
       </FormGroup>
       <FormGroup>
         <Field
-          labelText={t('eventForm.contactPerson.labelPhone')}
+          label={t('eventForm.contactPerson.labelPhone')}
           name="contactPhoneNumber"
           component={TextInputField}
         />

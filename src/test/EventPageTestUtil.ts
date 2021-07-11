@@ -1,4 +1,4 @@
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import { ContentState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
@@ -253,7 +253,9 @@ export const profileResponse = {
             {
               organisations: [] as never,
               name: personName,
+              emailAddress: contactEmail,
               id: contactPersonId,
+              phoneNumber: contactPhoneNumber,
             },
           ]),
           name: defaultOrganizationName,

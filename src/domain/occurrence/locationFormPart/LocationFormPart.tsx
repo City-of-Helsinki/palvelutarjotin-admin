@@ -44,7 +44,7 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
           <h2>{t('eventForm.location.title')}</h2>
           <div className={styles.locationSection}>
             <Field
-              labelText={t('eventForm.location.labelEventIsHeldVirtual')}
+              label={t('eventForm.location.labelEventIsHeldVirtual')}
               name="isVirtual"
               component={VirtualEventCheckboxField}
             />

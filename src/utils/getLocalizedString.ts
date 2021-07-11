@@ -2,7 +2,7 @@ import { SUPPORT_LANGUAGES } from '../constants';
 import { LocalisedObject } from '../generated/graphql';
 import { Language } from '../types';
 
-export default (
+const getLocalizedString = (
   obj: LocalisedObject | undefined | null = {},
   language: Language
 ): string => {
@@ -19,3 +19,5 @@ export default (
   // Return value in correct language
   return (locale && obj[locale]) || '';
 };
+
+export default getLocalizedString;

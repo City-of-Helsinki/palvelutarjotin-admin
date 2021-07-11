@@ -16,11 +16,10 @@ import {
 import { ApiTokenResponse } from './types';
 import userManager from './userManager';
 
-export const loginTunnistamo = (path?: string) => {
+export const loginTunnistamo = (path?: string): void => {
   userManager
     .signinRedirect({
       data: { path: path || '/' },
-      // eslint-disable-next-line @typescript-eslint/camelcase
       ui_locales: i18n.language,
     })
     .catch((error) => {
@@ -37,7 +36,7 @@ export const loginTunnistamo = (path?: string) => {
     });
 };
 
-export const logoutTunnistamo = async () => {
+export const logoutTunnistamo = async (): Promise<void> => {
   try {
     await clearAllState();
     await userManager.signoutRedirect();
@@ -47,7 +46,7 @@ export const logoutTunnistamo = async () => {
 };
 
 export const getApiToken = (accessToken: string): StoreThunk => async (
-  dispatch: Function
+  dispatch
 ) => {
   try {
     dispatch(startFetchingToken());
@@ -70,7 +69,7 @@ export const getApiToken = (accessToken: string): StoreThunk => async (
   }
 };
 
-export const clearAllState = async () => {
+export const clearAllState = async (): Promise<void> => {
   await Promise.all([
     // Clear backend auth data
     store.dispatch(resetApiTokenData()),

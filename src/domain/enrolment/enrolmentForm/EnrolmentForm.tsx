@@ -79,32 +79,28 @@ const EnrolmentForm: React.FC<Props> = ({
               <h2>{t('enrolmentForm.studyGroup.titleNotifier')}</h2>
               <FormGroup>
                 <Field
-                  labelText={t('enrolmentForm.studyGroup.person.labelName')}
+                  label={t('enrolmentForm.studyGroup.person.labelName')}
                   component={TextInputField}
                   name="studyGroup.person.name"
                 />
               </FormGroup>
               <FormGroup>
                 <Field
-                  labelText={t(
-                    'enrolmentForm.studyGroup.person.labelEmailAddress'
-                  )}
+                  label={t('enrolmentForm.studyGroup.person.labelEmailAddress')}
                   component={TextInputField}
                   name="studyGroup.person.emailAddress"
                 />
               </FormGroup>
               <FormGroup>
                 <Field
-                  labelText={t(
-                    'enrolmentForm.studyGroup.person.labelPhoneNumber'
-                  )}
+                  label={t('enrolmentForm.studyGroup.person.labelPhoneNumber')}
                   component={TextInputField}
                   name="studyGroup.person.phoneNumber"
                 />
               </FormGroup>
               <FormGroup>
                 <Field
-                  labelText={t('enrolmentForm.studyGroup.labelName')}
+                  label={t('enrolmentForm.studyGroup.labelName')}
                   component={TextInputField}
                   name="studyGroup.name"
                 />
@@ -113,7 +109,7 @@ const EnrolmentForm: React.FC<Props> = ({
                 <FormGroup>
                   <Field
                     helperText={t('enrolmentForm.studyGroup.helperGroupName')}
-                    labelText={t('enrolmentForm.studyGroup.labelGroupName')}
+                    label={t('enrolmentForm.studyGroup.labelGroupName')}
                     component={TextInputField}
                     name="studyGroup.groupName"
                   />
@@ -131,7 +127,7 @@ const EnrolmentForm: React.FC<Props> = ({
               <div className={styles.rowWith2Columns}>
                 <FormGroup>
                   <Field
-                    labelText={t('enrolmentForm.studyGroup.labelGroupSize')}
+                    label={t('enrolmentForm.studyGroup.labelGroupSize')}
                     component={TextInputField}
                     min={0}
                     name="studyGroup.groupSize"
@@ -140,7 +136,7 @@ const EnrolmentForm: React.FC<Props> = ({
                 </FormGroup>
                 <FormGroup>
                   <Field
-                    labelText={t('enrolmentForm.studyGroup.labelAmountOfAdult')}
+                    label={t('enrolmentForm.studyGroup.labelAmountOfAdult')}
                     component={TextInputField}
                     min={0}
                     name="studyGroup.amountOfAdult"
@@ -162,21 +158,21 @@ const EnrolmentForm: React.FC<Props> = ({
                 <div data-testid="person-info">
                   <FormGroup>
                     <Field
-                      labelText={t('enrolmentForm.person.labelName')}
+                      label={t('enrolmentForm.person.labelName')}
                       component={TextInputField}
                       name="person.name"
                     />
                   </FormGroup>
                   <FormGroup>
                     <Field
-                      labelText={t('enrolmentForm.person.labelEmailAddress')}
+                      label={t('enrolmentForm.person.labelEmailAddress')}
                       component={TextInputField}
                       name="person.emailAddress"
                     />
                   </FormGroup>
                   <FormGroup>
                     <Field
-                      labelText={t('enrolmentForm.person.labelPhoneNumber')}
+                      label={t('enrolmentForm.person.labelPhoneNumber')}
                       component={TextInputField}
                       name="person.phoneNumber"
                     />
@@ -219,7 +215,7 @@ const EnrolmentForm: React.FC<Props> = ({
               <FormGroup>
                 <Field
                   helperText={t('enrolmentForm.studyGroup.helperExtraNeeds')}
-                  labelText={t('enrolmentForm.studyGroup.labelExtraNeeds')}
+                  label={t('enrolmentForm.studyGroup.labelExtraNeeds')}
                   component={TextAreaInputField}
                   name="studyGroup.extraNeeds"
                 />

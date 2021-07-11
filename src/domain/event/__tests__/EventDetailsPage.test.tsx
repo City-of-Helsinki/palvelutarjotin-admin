@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
@@ -41,6 +41,7 @@ const profileMock = fakePerson({
   name: 'Nimi niminen',
 });
 const venueMock = fakeVenue({
+  id: eventMock.location.id,
   hasSnackEatingPlace: true,
   hasClothingStorage: true,
   outdoorActivity: true,

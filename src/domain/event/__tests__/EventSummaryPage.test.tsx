@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
@@ -49,7 +49,7 @@ const occurrenceId1 = 'occurrenceId1';
 const occurrenceId2 = 'occurrenceId2';
 const occurrenceId3 = 'occurrenceId3';
 
-const cancelReasonMessageText = '';
+const cancelReasonMessageText = 'testmessage';
 
 const occurrences = fakeOccurrences(3, [
   { startTime: new Date(2020, 11, 11).toISOString(), id: occurrenceId1 },
@@ -389,8 +389,10 @@ it('shows upcoming and past occurrences', async () => {
 });
 
 it('shows full and not full occurrence rows correctly', async () => {
-  const fullOccurrenceRowText = /13\.12\.2020 00:00 – 12:30 30 13\.07\.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä/i;
-  const notFullOccurrenceRowText = /12\.12\.2020 00:00 – 12:30 30 13\.07\.2020 0 hyväksytty 0 hyväksymättä/i;
+  const fullOccurrenceRowText =
+    /13\.12\.2020 00:00 – 12:30 30 13\.07\.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä/i;
+  const notFullOccurrenceRowText =
+    /12\.12\.2020 00:00 – 12:30 30 13\.07\.2020 0 hyväksytty 0 hyväksymättä/i;
   const seatsApproved = 10;
   renderWithRoute(<EventSummaryPage />, {
     mocks: getMocks({

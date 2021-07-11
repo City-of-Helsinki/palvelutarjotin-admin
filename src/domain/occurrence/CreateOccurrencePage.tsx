@@ -1,5 +1,4 @@
-import { useApolloClient } from '@apollo/react-hooks';
-import { ApolloQueryResult, NetworkStatus } from 'apollo-client';
+import { useApolloClient } from '@apollo/client';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
@@ -18,7 +17,6 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import NotificationModal from '../../common/components/modal/NotificationModal';
 import {
   EventQuery,
-  EventQueryVariables,
   useAddOccurrenceMutation,
   useEditEventMutation,
   useMyProfileQuery,
@@ -82,29 +80,35 @@ const CreateOccurrencePage: React.FC = () => {
     data: eventData,
     refetch: refetchEvent,
     loading: loadingEvent,
-    networkStatus,
   } = useBaseEventQuery({
     variables: { id: eventId },
     fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
   });
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
-  const isRefethingEvent = networkStatus === NetworkStatus.refetch;
-  const isInitialLoadingEvent = loadingEvent && !isRefethingEvent;
 
   React.useEffect(() => {
     const initializeForm = async () => {
       if (eventData?.event) {
         const event = eventData.event;
-        const { data } = await apolloClient.query<VenueQuery>({
-          query: VenueDocument,
-          variables: {
-            id: event.location?.id,
-          },
-        });
+        let data;
+        if (event.location?.id) {
+          try {
+            ({ data } = await apolloClient.query<VenueQuery>({
+              query: VenueDocument,
+              variables: {
+                id: event.location?.id,
+              },
+            }));
+          } catch (e) {
+            if (isTestEnv()) {
+              // eslint-disable-next-line no-console
+              console.log(e);
+            }
+          }
+        }
 
-        const venueData = data.venue;
+        const venueData = data?.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         const eventName = omit(event.name, '__typename');
 
@@ -301,7 +305,7 @@ const CreateOccurrencePage: React.FC = () => {
   return (
     <PageWrapper title="createOccurrence.pageTitle">
       <LoadingSpinner
-        isLoading={isInitialLoadingEvent || loadingMyProfile}
+        isLoading={loadingEvent || loadingMyProfile}
         hasPadding={false}
       >
         {eventData?.event ? (
@@ -334,7 +338,6 @@ const CreateOccurrencePage: React.FC = () => {
                     <OccurrenceInfoForm
                       initialValues={initialValues}
                       eventData={eventData}
-                      refetchEvent={refetchEvent}
                       selectedLanguages={selectedLanguages ?? []}
                       onSubmit={handleSaveEventInfo}
                       editEventLoading={editEventLoading}
@@ -382,16 +385,12 @@ const OccurrenceInfoForm: React.FC<{
   loadingEvent: boolean;
   editEventLoading: boolean;
   onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
-  refetchEvent: (
-    variables?: EventQueryVariables | undefined
-  ) => Promise<ApolloQueryResult<EventQuery>>;
   onSubmit: (
     values: TimeAndLocationFormFields,
     formikHelpers: FormikHelpers<TimeAndLocationFormFields>
   ) => void | Promise<void>;
 }> = ({
   eventData,
-  refetchEvent,
   selectedLanguages,
   onSubmit,
   initialValues,
@@ -427,7 +426,6 @@ const OccurrenceInfoForm: React.FC<{
           <OccurrencesFormPart
             eventData={eventData}
             createOccurrence={createOccurrence}
-            refetchEvent={refetchEvent}
             disabled={loading}
           />
           <div className={styles.submitButtons}>

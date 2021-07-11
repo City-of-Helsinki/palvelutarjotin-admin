@@ -1,4 +1,4 @@
-export default [
+const persons = [
   {
     personName: 'Nimi Niminen',
   },
@@ -9,3 +9,5 @@ export default [
     personName: 'Kolme Kolmonen',
   },
 ];
+
+export default persons;

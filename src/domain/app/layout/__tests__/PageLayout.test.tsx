@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { render } from '@testing-library/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
@@ -80,7 +80,11 @@ it('Pagelayout renders Profile page', async () => {
       request: {
         query: graphql.MyProfileDocument,
       },
-      result: {},
+      result: {
+        data: {
+          myProfile: null,
+        },
+      },
     },
     {
       request: {

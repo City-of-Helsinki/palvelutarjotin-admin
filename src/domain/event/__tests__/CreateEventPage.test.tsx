@@ -12,7 +12,6 @@ import {
   KeywordsDocument,
   KeywordSetType,
   MyProfileDocument,
-  PersonDocument,
   PlaceDocument,
   PlacesDocument,
   UploadSingleImageDocument,
@@ -62,6 +61,7 @@ import {
   fakePlaces,
 } from '../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   fireEvent,
   pasteToTextEditor,
@@ -122,9 +122,9 @@ const createEventVariables = {
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
     pEvent: {
-      contactEmail: 'testi123@testi123.fi',
+      contactEmail: defaultFormData.contactEmail,
       contactPersonId: contactPersonId,
-      contactPhoneNumber: '123321123',
+      contactPhoneNumber: contactPhoneNumber,
       neededOccurrences: 1,
       mandatoryAdditionalInformation: true,
     },
@@ -294,28 +294,6 @@ const mocks = [
   ]),
 ];
 
-jest.spyOn(apolloClient, 'query').mockImplementation(({ query }): any => {
-  if (query === PersonDocument) {
-    return {
-      data: {
-        person: {
-          emailAddress: 'testi123@testi123.fi',
-          phoneNumber: '123321123',
-        },
-      },
-    };
-  }
-});
-
-const mockUseHistory = () => {
-  const pushMock = jest.fn();
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  jest.spyOn(Router, 'useHistory').mockReturnValue({
-    push: pushMock,
-  } as any);
-  return pushMock;
-};
-
 test('event can be created with form', async () => {
   advanceTo(new Date(2020, 7, 8));
 
@@ -330,10 +308,12 @@ test('event can be created with form', async () => {
     ).toBeInTheDocument();
   });
 
-  userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
+  act(() =>
+    userEvent.click(
+      screen.getByRole('button', {
+        name: 'Tallenna ja siirry tapahtuma-aikoihin',
+      })
+    )
   );
 
   await waitFor(() => {
@@ -360,6 +340,9 @@ describe('Event price section', () => {
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
     expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
     expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+
+    // to avoid "An update to Formik inside a test was not wrapped in act(...).""
+    await screen.findByLabelText(/Tapahtuma on ilmainen/);
   });
 });
 
@@ -383,9 +366,7 @@ describe('Language selection', () => {
     );
     within(languageSelector).getByText(/Valitse lomakkeen kieliversiot/i);
     // Finnish should be selected by default
-    expect(
-      await within(languageSelector).getByLabelText(/suomi/i)
-    ).toBeChecked();
+    expect(within(languageSelector).getByLabelText(/suomi/i)).toBeChecked();
     // Rest of the langauges should be unchecked by default
     expect(
       within(languageSelector).getByLabelText(/ruotsi/i)
@@ -454,7 +435,9 @@ describe('Language selection', () => {
       formLanguageSelectorTestId
     );
     // Select Swedish (with Finnish that is already selected)
-    userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
+    act(() =>
+      userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i))
+    );
 
     // Populate Swedish fields
     transletableFieldLabels.forEach((labelText) => {
@@ -666,7 +649,6 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
     screen.getByLabelText(/Kuvan alt-teksti/),
     eventFormData.imageAltText
   );
-
   userEvent.type(
     screen.getByLabelText(/Sähköpostiosoite/),
     eventFormData.contactEmail
@@ -693,10 +675,10 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
 
   // email and name should automatically populate after choosing name from dropdown
   await waitFor(() => {
-    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(
-      'testi123@testi123.fi'
+    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(contactEmail);
+    expect(screen.getByLabelText('Puhelinnumero')).toHaveValue(
+      contactPhoneNumber
     );
-    expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
   });
 
   await testMultiDropdownValues({
@@ -720,7 +702,7 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
   jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
 
   const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
-  userEvent.click(keywordsInput);
+  act(() => userEvent.click(keywordsInput));
   userEvent.type(keywordsInput, 'perheet');
 
   const familyCategory = await screen.findByText(/perheet/i);

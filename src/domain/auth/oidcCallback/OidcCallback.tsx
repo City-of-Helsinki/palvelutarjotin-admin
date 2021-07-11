@@ -8,7 +8,7 @@ import { CallbackComponent } from 'redux-oidc';
 
 import userManager from '../userManager';
 
-function OidcCallback(props: RouteChildrenProps) {
+function OidcCallback(props: RouteChildrenProps): JSX.Element {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -16,7 +16,7 @@ function OidcCallback(props: RouteChildrenProps) {
     if (user.state.path) props.history.push(user.state.path);
     else props.history.replace('/');
   };
-  const onError = (error: object) => {
+  const onError = (error: Error) => {
     // In case used denies the access
     if (new URLSearchParams(location.hash.replace('#', '?')).get('error')) {
       // TODO: Store url where user clicked log in to session storage and navigate to that url

@@ -1,13 +1,15 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import { addDays, format, parse as parseDate } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 
+import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
+import { OccurrenceNode } from '../../../generated/graphql';
+import * as graphql from '../../../generated/graphql';
 import {
   editVenueMockResponse,
-  emptyVenueMockResponse,
   eventId,
   getAddOccurrenceMockResponse,
   getDeleteOccurrenceMockResponse,
@@ -20,12 +22,11 @@ import {
   placesMockResponse,
   selloVenueMockResponse,
   venueDescription,
-} from '../__mocks__/CreateOccurrencePage.mocks';
-import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
-import { OccurrenceNode } from '../../../generated/graphql';
-import * as graphql from '../../../generated/graphql';
+} from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
+  act,
+  actWait,
   configure,
   fireEvent,
   renderWithRoute,
@@ -59,9 +60,6 @@ const baseApolloMocks = [
 
   // mocked when place is selected and venue data fetched
   selloVenueMockResponse,
-
-  // empty call is done when component mounts and no place is still selected
-  emptyVenueMockResponse,
 ];
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -79,15 +77,15 @@ describe('location and enrolment info', () => {
     // Mocked event response when user goes to time and location form for the first time
     // this mean that event data is fetched but fields in this form are still empty
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
-    const eventWithoutEnrolmentAndLocationInfoMockedResponse = getEventMockedResponse(
-      {
+    const eventWithoutEnrolmentAndLocationInfoMockedResponse =
+      getEventMockedResponse({
         location: false,
         autoAcceptance: true,
         enrolmentEndDays: null,
         enrolmentStart: null,
         neededOccurrences: 1,
-      }
-    );
+        occurrences: fakeOccurrences(0),
+      });
     const updateEventMockResponse = getUpdateEventMockResponse({
       autoAcceptance: false,
       enrolmentEndDays: 1,
@@ -119,11 +117,11 @@ describe('location and enrolment info', () => {
     const locationInput = getFormElement('location');
     expect(locationInput.parentElement).toHaveTextContent('');
 
-    userEvent.click(locationInput);
+    act(() => userEvent.click(locationInput));
     userEvent.type(locationInput, 'Sellon');
 
     const place = await screen.findByText(/Sellon kirjasto/i);
-    userEvent.click(place);
+    act(() => userEvent.click(place));
 
     await waitFor(() => {
       expect(
@@ -149,7 +147,7 @@ describe('location and enrolment info', () => {
     const enrolmentStartDateTimeInput = getFormElement('enrolmentStart');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
 
-    userEvent.click(enrolmentStartDateTimeInput);
+    act(() => userEvent.click(enrolmentStartDateTimeInput));
     userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartTime);
     fireEvent.blur(enrolmentStartDateTimeInput);
     userEvent.type(enrolmentEndDaysInput, '1');
@@ -188,15 +186,14 @@ describe('location and enrolment info', () => {
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
-    const eventWithEnrolmentAndLocationInfoMockedResponse = getEventMockedResponse(
-      {
+    const eventWithEnrolmentAndLocationInfoMockedResponse =
+      getEventMockedResponse({
         location: true,
         autoAcceptance: true,
         enrolmentEndDays,
         enrolmentStart: enrolmentStartDateTimeValue,
         neededOccurrences,
-      }
-    );
+      });
     const updateEventMockResponse = getUpdateEventMockResponse({
       autoAcceptance: true,
       enrolmentEndDays: 2,
@@ -283,15 +280,14 @@ describe('location and enrolment info', () => {
       enrolmentStart: enrolmentStartDateTimeValue,
       neededOccurrences,
     });
-    const updateEventWithMultipleLanguagesMockResponse = getUpdateEventMockResponse(
-      {
+    const updateEventWithMultipleLanguagesMockResponse =
+      getUpdateEventMockResponse({
         languages: ['fi', 'sv', 'en'],
         autoAcceptance: true,
         enrolmentEndDays: 2,
         enrolmentStart: enrolmentStartDateTimeValue,
         neededOccurrences,
-      }
-    );
+      });
     renderComponent({
       mocks: [
         eventWithMultipleLanguagesMockedResponse,
@@ -440,16 +436,16 @@ describe('location and enrolment info', () => {
 
     const locationInput = getFormElement('location');
 
-    userEvent.click(locationInput);
+    act(() => userEvent.click(locationInput));
     userEvent.type(locationInput, 'Sellon');
 
     const place = await screen.findByText(/Sellon kirjasto/i);
-    userEvent.click(place);
+    act(() => userEvent.click(place));
 
     const enrolmentStartDateTimeInput = getFormElement('enrolmentStart');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
 
-    userEvent.click(enrolmentStartDateTimeInput);
+    act(() => userEvent.click(enrolmentStartDateTimeInput));
     userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartTime);
     fireEvent.blur(enrolmentStartDateTimeInput);
     userEvent.type(enrolmentEndDaysInput, '1');
@@ -465,6 +461,8 @@ describe('location and enrolment info', () => {
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
     });
+
+    await actWait();
 
     // Modal should only have complaint about needing at least one occurrence
     userEvent.click(goToPublishButton);
@@ -504,9 +502,8 @@ describe('location and enrolment info', () => {
 
 describe('occurrences form', () => {
   test('location input is prefilled when default location has been selected', async () => {
-    const eventWithoutEnrolmentAndLocationInfoMockedResponse = getEventMockedResponse(
-      {}
-    );
+    const eventWithoutEnrolmentAndLocationInfoMockedResponse =
+      getEventMockedResponse({});
     renderComponent({
       mocks: [
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
@@ -518,7 +515,7 @@ describe('occurrences form', () => {
     await screen.findByTestId('time-and-location-form');
     const locationInput = getFormElement('location');
 
-    userEvent.click(locationInput);
+    act(() => userEvent.click(locationInput));
     userEvent.type(locationInput, 'Sellon');
 
     const place = await screen.findByText(/Sellon kirjasto/i);
@@ -551,7 +548,13 @@ describe('occurrences form', () => {
     expect(occurrenceLocationInput).toBeDisabled();
 
     userEvent.click(virtualEventCheckbox);
-    expect(occurrenceLocationInput).toBeEnabled();
+
+    // await to get rid of act warnings
+    await waitFor(() => {
+      expect(occurrenceLocationInput).toBeEnabled();
+      expect(placeInput).toBeEnabled();
+      expect(virtualEventCheckbox).not.toBeChecked();
+    });
   });
 
   test('seats input is disabled and has value 1 when one group fills checkbox is checked', async () => {
@@ -572,8 +575,11 @@ describe('occurrences form', () => {
     expect(seatsInput).toHaveValue(1);
 
     userEvent.click(oneGroupFillsCheckbox);
-    expect(seatsInput).toBeEnabled();
-    expect(oneGroupFillsCheckbox).not.toBeChecked();
+
+    await waitFor(() => {
+      expect(seatsInput).toBeEnabled();
+      expect(oneGroupFillsCheckbox).not.toBeChecked();
+    });
   });
 
   test('can create new occurrence and it is added to occurrences table', async () => {
@@ -591,9 +597,8 @@ describe('occurrences form', () => {
     const eventMockResponse = getEventMockedResponse({
       occurrences: fakeOccurrences(0),
     });
-    const addOccurrenceMockResponse = getAddOccurrenceMockResponse(
-      occurrenceData1
-    );
+    const addOccurrenceMockResponse =
+      getAddOccurrenceMockResponse(occurrenceData1);
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
@@ -631,12 +636,14 @@ describe('occurrences form', () => {
     const maxGroupSizeInput = getOccurrenceFormElement('max');
 
     // Only dates should be empty after save
+
     expect(seatsInput).toHaveValue(30);
     expect(minGroupSizeInput).toHaveValue(10);
     expect(maxGroupSizeInput).toHaveValue(20);
     expect(occurrenceLocationInput.parentElement).toHaveTextContent(
       'Sellon kirjasto'
     );
+
     await waitFor(() => {
       expect(occurrenceStartsAtInput).toHaveValue('');
       expect(occurrenceEndsAtInput).toHaveValue('');
@@ -673,12 +680,10 @@ describe('occurrences form', () => {
     const eventWithTwoDeletedOccurrenceMockResponse = getEventMockedResponse({
       occurrences: fakeOccurrences(0),
     });
-    const deleteOccurrenceMockResponse1 = getDeleteOccurrenceMockResponse(
-      occurrenceId1
-    );
-    const deleteOccurrenceMockResponse2 = getDeleteOccurrenceMockResponse(
-      occurrenceId2
-    );
+    const deleteOccurrenceMockResponse1 =
+      getDeleteOccurrenceMockResponse(occurrenceId1);
+    const deleteOccurrenceMockResponse2 =
+      getDeleteOccurrenceMockResponse(occurrenceId2);
     renderComponent({
       mocks: [
         eventMockResponse,
@@ -792,15 +797,14 @@ describe('venue info', () => {
       enrolmentStart: enrolmentStartDateTimeValue,
       neededOccurrences,
     });
-    const updateEventWithMultipleLanguagesMockResponse = getUpdateEventMockResponse(
-      {
+    const updateEventWithMultipleLanguagesMockResponse =
+      getUpdateEventMockResponse({
         languages: ['fi', 'sv', 'en'],
         autoAcceptance: true,
         enrolmentEndDays,
         enrolmentStart: enrolmentStartDateTimeValue,
         neededOccurrences,
-      }
-    );
+      });
     renderComponent({
       mocks: [
         editVenueMockResponse,
@@ -911,7 +915,7 @@ const getOccurrenceFormElement = (
       });
     case 'language':
       return occurrencesForm.getByRole('button', {
-        name: /tapahtuman kieli valitse\.\.\./i,
+        name: 'Tapahtuman kieli',
       });
     case 'seats':
       return occurrencesForm.getByRole('spinbutton', {
@@ -993,11 +997,10 @@ const fillAndSubmitOccurrenceForm = async ({
   );
   const locationInput = getOccurrenceFormElement('location');
 
-  userEvent.click(locationInput);
+  act(() => userEvent.click(locationInput));
   userEvent.type(locationInput, 'Sellon');
 
   const place = await withinOccurrencesForm.findByText(/Sellon kirjasto/i);
-
   userEvent.click(place);
 
   const occurrenceLocationInput = getOccurrenceFormElement('location');
@@ -1011,7 +1014,7 @@ const fillAndSubmitOccurrenceForm = async ({
   const occurrenceStartsAtInput = getOccurrenceFormElement('starts');
   const occurrenceEndsAtInput = getOccurrenceFormElement('ends');
 
-  userEvent.click(occurrenceStartsAtInput);
+  act(() => userEvent.click(occurrenceStartsAtInput));
   userEvent.type(occurrenceStartsAtInput, occurrenceStartTime);
   expect(occurrenceStartsAtInput).toHaveValue(occurrenceStartTime);
 

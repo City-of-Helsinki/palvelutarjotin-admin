@@ -20,10 +20,11 @@ exports[`matches snapshot 1`] = `
     class="ReactModalPortal"
   >
     <div
-      class="ReactModal__Overlay ReactModal__Overlay--after-open overlay"
+      class="ReactModal__Overlay overlay"
     >
       <div
-        class="ReactModal__Content ReactModal__Content--after-open modal"
+        aria-modal="true"
+        class="ReactModal__Content modal"
         role="dialog"
         tabindex="-1"
       >

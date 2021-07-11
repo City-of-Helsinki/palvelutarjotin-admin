@@ -14,7 +14,7 @@ type Props<D extends Record<string, unknown>> = {
   tableHeaderRowClassName?: string;
 };
 
-export default function Table<D extends Record<string, unknown>, T>({
+export default function Table<D extends Record<string, unknown>>({
   columns,
   data,
   expandedAreaOffset = 0,

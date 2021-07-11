@@ -27,12 +27,8 @@ const EventPage: React.FC = () => {
     variables: { id: eventId as string, include: ['keywords', 'location'] },
   });
 
-  const {
-    eventName,
-    imageUrl,
-    imageAltText,
-    photographerName,
-  } = getEventFields(eventData?.event, locale);
+  const { eventName, imageUrl, imageAltText, photographerName } =
+    getEventFields(eventData?.event, locale);
 
   const goToSummaryPage = () => {
     history.pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));

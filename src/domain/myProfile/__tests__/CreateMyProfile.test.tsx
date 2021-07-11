@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 
 import * as graphql from '../../../generated/graphql';
@@ -191,7 +191,7 @@ test('create profile with organisation proposal', async () => {
     ).not.toBeInTheDocument();
     expect(
       screen.getByRole('button', {
-        name: /organisaatio organisaatio, jonka tapahtumia hallinnoit valitse organisaatio/i,
+        name: /Organisaatio Organisaatio, jonka tapahtumia hallinnoit/i,
       })
     ).toBeDisabled();
   });

@@ -15,7 +15,7 @@ export type MenuItem = {
   value: string;
 };
 
-const MenuItem: React.FC<{
+const MenuItemComponent: React.FC<{
   item: MenuItem;
   isFocused: boolean;
   isSelected: boolean;
@@ -214,7 +214,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
       >
         {items.map((item, index) => {
           return (
-            <MenuItem
+            <MenuItemComponent
               key={item.value}
               item={item}
               isFocused={focusedIndex === index}

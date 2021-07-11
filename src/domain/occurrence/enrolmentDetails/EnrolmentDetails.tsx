@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import {

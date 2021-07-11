@@ -1,4 +1,3 @@
-import { ApolloQueryResult } from 'apollo-client';
 import addHours from 'date-fns/addHours';
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
@@ -15,7 +14,6 @@ import PlaceSelectorField from '../../../common/components/form/fields/PlaceSele
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import {
   EventQuery,
-  EventQueryVariables,
   OccurrenceFieldsFragment,
   useAddOccurrenceMutation,
   useDeleteOccurrenceMutation,
@@ -54,11 +52,8 @@ export const occurrencesFormTestId = 'occurrences-form';
 const OccurrencesForm: React.FC<{
   eventData: EventQuery;
   createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
-  refetchEvent: (
-    variables?: EventQueryVariables | undefined
-  ) => Promise<ApolloQueryResult<EventQuery>>;
   disabled: boolean;
-}> = ({ disabled, eventData, refetchEvent, createOccurrence }) => {
+}> = ({ disabled, eventData, createOccurrence }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
@@ -129,7 +124,6 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
-      refetchEvent();
     } catch (e) {
       // Put form values back if mutation happens to fail.
       action.setValues(values);
@@ -153,7 +147,6 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
-      refetchEvent();
     } catch (e) {
       toast(t('occurrences.deleteError'), {
         type: toast.TYPE.ERROR,
@@ -209,9 +202,10 @@ const OccurrenceForm: React.FC<{
     values: { startTime, endTime, oneGroupFills },
   } = useFormikContext<OccurrenceSectionFormFields>();
 
-  const languageOptions = React.useMemo(() => getOrderedLanguageOptions(t), [
-    t,
-  ]);
+  const languageOptions = React.useMemo(
+    () => getOrderedLanguageOptions(t),
+    [t]
+  );
 
   React.useEffect(() => {
     oneGroupFills
@@ -272,7 +266,7 @@ const OccurrenceForm: React.FC<{
         {/* divs are here to avoid styling problem with HDS */}
         <div>
           <Field
-            labelText={t('eventOccurrenceForm.labelAmountOfSeats')}
+            label={t('eventOccurrenceForm.labelAmountOfSeats')}
             name="amountOfSeats"
             disabled={oneGroupFills}
             component={TextInputField}
@@ -282,7 +276,7 @@ const OccurrenceForm: React.FC<{
         </div>
         <div>
           <Field
-            labelText={t('eventOccurrenceForm.labelGroupSizeMin')}
+            label={t('eventOccurrenceForm.labelGroupSizeMin')}
             name="minGroupSize"
             component={TextInputField}
             min={0}
@@ -291,7 +285,7 @@ const OccurrenceForm: React.FC<{
         </div>
         <div>
           <Field
-            labelText={t('eventOccurrenceForm.labelGroupSizeMax')}
+            label={t('eventOccurrenceForm.labelGroupSizeMax')}
             name="maxGroupSize"
             component={TextInputField}
             min={0}

@@ -12,24 +12,30 @@ import EventLocation from '../EventLocation';
 
 const streetAddress = 'Soukantie 4';
 const placeName = 'Soukan kirjasto';
+const placeId = 'tprek:15376';
 
 const event = fakeEvent({
   location: fakePlace({
     streetAddress: fakeLocalizedObject(streetAddress),
     name: fakeLocalizedObject(placeName),
-    id: 'tprek:15376',
+    id: placeId,
   }),
 });
 
 const venueResponse = {
   data: {
-    venue: fakeVenue({ hasSnackEatingPlace: true, hasClothingStorage: true }),
+    venue: fakeVenue({
+      hasSnackEatingPlace: true,
+      hasClothingStorage: true,
+      id: placeId,
+    }),
   },
 };
 
 const placeResponse = {
   data: {
     place: fakePlace({
+      id: event.location.id,
       streetAddress: fakeLocalizedObject(streetAddress),
       name: fakeLocalizedObject(placeName),
     }),
@@ -41,7 +47,7 @@ const mocks = [
     request: {
       query: PlaceDocument,
       variables: {
-        id: event.location.id,
+        id: placeId,
       },
     },
     result: placeResponse,
@@ -50,7 +56,7 @@ const mocks = [
     request: {
       query: VenueDocument,
       variables: {
-        id: event.location.id,
+        id: placeId,
       },
     },
     result: venueResponse,
