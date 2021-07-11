@@ -106,4 +106,8 @@ it('renders correct information', async () => {
   expect(screen.queryByText(contactPersonEmail)).toBeInTheDocument();
   expect(screen.queryByText(contactPersonName)).toBeInTheDocument();
   expect(screen.queryByText(contactPersonPhoneNumber)).toBeInTheDocument();
+
+  expect(
+    screen.queryByRole('button', { name: 'Takaisin tapahtuman julkaisuun' })
+  ).toBeInTheDocument();
 });

@@ -38,6 +38,43 @@
     "dropdown": {
       "placeholder": "Select..."
     },
+    "textEditor": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "blocktype": {
+        "blocktype": "Text type",
+        "blockquote": "Blockquote",
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6",
+        "normal": "Normal"
+      },
+      "history": {
+        "history": "History",
+        "redo": "Redo",
+        "undo": "Undo"
+      },
+      "inline": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "underline": "Underline"
+      },
+      "link": {
+        "link": "Link",
+        "linkTarget": "Link target",
+        "linkTargetOption": "Open link in a new window",
+        "linkTitle": "Link title",
+        "unlink": "Remove link"
+      },
+      "list": {
+        "list": "List",
+        "ordered": "Ordered",
+        "unordered": "Unordered"
+      }
+    },
     "datepicker": {
       "accessibility": {
         "selectDate": "Choose {{value}}",
@@ -137,6 +174,10 @@
     "labelOrganisations": "Organisation",
     "labelPhoneNumber": "Phone number",
     "placeholderOrganisations": "Select organisation",
+    "labelOrganisationProposals": "Request for a new organisation",
+    "helperOrganisationProposals": "Request to add a new organization you manage",
+    "placeholderOrganisationProposals": "Organisation name",
+    "textOrganisationSeparator": "Or",
     "validation": {
       "isPrivacyPolicyAccepted": "Privacy policy must be accepted",
       "isTermsOfServiceRead": "The terms of use must be accepted"
@@ -437,6 +478,9 @@
       "enrolmentEndDays": "Enrolment end days",
       "occurrences": "Event needs at least one occurrence"
     }
+  },
+  "eventPreview": {
+    "buttonGoToPublishing": "Back to publishing"
   },
   "editOccurrence": {
     "buttonBack": "Event times",

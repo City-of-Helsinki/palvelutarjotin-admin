@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextWithHTMLOrLineBreaks matches snapshot 1`] = `
+<div
+  class="textWithHTMLOrLineBreaks"
+>
+  Line 1
+  <br />
+    Line 2
+</div>
+`;
+
+exports[`TextWithHTMLOrLineBreaks matches snapshot 2`] = `
+<div
+  class="textWithHTMLOrLineBreaks"
+>
+  <p>
+    Line1
+  </p>
+  
+  
+  <p>
+    Line2
+  </p>
+</div>
+`;

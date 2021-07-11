@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import TextWithLineBreaks from '../../../common/components/textWithLineBreaks/TextWithLineBreaks';
+import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import formatDate from '../../../utils/formatDate';
@@ -67,7 +67,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
       {description && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelDescription')}</TextTitle>
-          <TextWithLineBreaks
+          <TextWithHTMLOrLineBreaks
             text={description}
             className={styles.description}
           />

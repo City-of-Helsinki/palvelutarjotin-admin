@@ -1,3 +1,6 @@
+import { ContentState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import {
   EditEventDocument,
@@ -30,6 +33,9 @@ export const placeId = 'tprek:15417';
 export const eventId = 'palvelutarjotin:afz56bfiaq';
 export const shortDescription = 'Testitapahtuman kuvaus';
 export const description = 'Pidempi kuvaus';
+export const descriptionEditorHTML = draftToHtml(
+  convertToRaw(ContentState.createFromText(description))
+);
 export const eventName = 'Testitapahtuma';
 export const photographerName = 'Valo Valokuvaaja';
 export const photoAltText = 'Vaihtoehtoinen kuvateksti';
@@ -50,7 +56,6 @@ export const defaultOrganizationName =
 export const eventOrganizationName = 'Kulttuurin ja vapaa-ajan toimiala';
 export const keyword = 'perheet';
 export const mandatoryAdditionalInformation = true;
-
 export const createFinnishLocalisedObject = (
   fiText: string,
   emptyString?: boolean
@@ -127,7 +132,7 @@ const editEventVariables = {
       },
     ],
     shortDescription: createFinnishLocalisedObject(shortDescription, true),
-    description: createFinnishLocalisedObject(description, true),
+    description: createFinnishLocalisedObject(descriptionEditorHTML, true),
     images: [{ internalId: '/image/48598/' }],
     infoUrl: createFinnishLocalisedObject(infoUrl, true),
     audience: audienceKeywords.map((k) => ({
@@ -181,7 +186,7 @@ const eventResponse = {
     event: fakeEvent({
       id: eventId,
       shortDescription: fakeLocalizedObject(shortDescription),
-      description: fakeLocalizedObject(description),
+      description: fakeLocalizedObject(descriptionEditorHTML),
       name: fakeLocalizedObject(eventName),
       startTime: '2020-08-04T21:00:00.000Z',
       endTime: '',
@@ -257,6 +262,10 @@ export const profileResponse = {
         },
       ]),
     }),
+    organisationproposalSet: {
+      edges: [],
+      __typename: 'OrganisationProposalNodeConnection',
+    },
   },
 };
 

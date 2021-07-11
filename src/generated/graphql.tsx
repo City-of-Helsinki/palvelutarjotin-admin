@@ -197,6 +197,8 @@ export type CreateMyProfileMutationInput = {
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress: Scalars['String'];
   organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Propose a new organisation being added. Used with 3rd party organisations */
+  organisationProposals?: Maybe<Array<Maybe<OrganisationProposalNodeInput>>>;
   /** Default `fi` */
   language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
@@ -797,6 +799,8 @@ export type NotificationTemplateNode = Node & {
 
 /** An enumeration. */
 export enum NotificationTemplateType {
+  PersonMyprofileCreation = 'PERSON_MYPROFILE_CREATION',
+  PersonMyprofileAccepted = 'PERSON_MYPROFILE_ACCEPTED',
   OccurrenceEnrolment = 'OCCURRENCE_ENROLMENT',
   OccurrenceUnenrolment = 'OCCURRENCE_UNENROLMENT',
   EnrolmentApproved = 'ENROLMENT_APPROVED',
@@ -980,6 +984,39 @@ export type OrganisationNodeEdge = {
   cursor: Scalars['String'];
 };
 
+export type OrganisationProposalNode = Node & {
+  __typename?: 'OrganisationProposalNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  applicant: PersonNode;
+};
+
+export type OrganisationProposalNodeConnection = {
+  __typename?: 'OrganisationProposalNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<OrganisationProposalNodeEdge>>;
+};
+
+/** A Relay edge containing a `OrganisationProposalNode` and its cursor. */
+export type OrganisationProposalNodeEdge = {
+  __typename?: 'OrganisationProposalNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<OrganisationProposalNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type OrganisationProposalNodeInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
 /** An enumeration. */
 export enum OrganisationType {
   /** Käyttäjä */
@@ -1077,6 +1114,7 @@ export type PersonNode = Node & {
   emailAddress: Scalars['String'];
   language: Language;
   organisations: OrganisationNodeConnection;
+  organisationproposalSet: OrganisationProposalNodeConnection;
   pEvent: PalvelutarjotinEventNodeConnection;
   occurrences: OccurrenceNodeConnection;
   studygroupSet: StudyGroupNodeConnection;
@@ -1086,6 +1124,15 @@ export type PersonNode = Node & {
 
 
 export type PersonNodeOrganisationsArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+
+export type PersonNodeOrganisationproposalSetArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1403,6 +1450,7 @@ export type QueryOrganisationsArgs = {
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 
@@ -1706,8 +1754,6 @@ export type UpdateMyProfileMutationInput = {
   name?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
-  /** If present, should include all organisation ids of user */
-  organisations?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Default `fi` */
   language?: Maybe<Language>;
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2492,6 +2538,16 @@ export type CreateMyProfileMutation = (
     { __typename?: 'CreateMyProfileMutationPayload' }
     & { myProfile?: Maybe<(
       { __typename?: 'PersonNode' }
+      & { organisationproposalSet: (
+        { __typename?: 'OrganisationProposalNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationProposalNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationProposalNode' }
+            & Pick<OrganisationProposalNode, 'name'>
+          )> }
+        )>> }
+      ) }
       & PersonFieldsFragment
     )> }
   )> }
@@ -2508,6 +2564,25 @@ export type UpdateMyProfileMutation = (
     { __typename?: 'UpdateMyProfileMutationPayload' }
     & { myProfile?: Maybe<(
       { __typename?: 'PersonNode' }
+      & { organisations: (
+        { __typename?: 'OrganisationNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationNode' }
+            & OrganisationNodeFieldsFragment
+          )> }
+        )>> }
+      ), organisationproposalSet: (
+        { __typename?: 'OrganisationProposalNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationProposalNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationProposalNode' }
+            & Pick<OrganisationProposalNode, 'name'>
+          )> }
+        )>> }
+      ) }
       & PersonFieldsFragment
     )> }
   )> }
@@ -2523,6 +2598,15 @@ export type MyProfileFieldsFragment = (
       & { node?: Maybe<(
         { __typename?: 'OrganisationNode' }
         & OrganisationNodeFieldsFragment
+      )> }
+    )>> }
+  ), organisationproposalSet: (
+    { __typename?: 'OrganisationProposalNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OrganisationProposalNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationProposalNode' }
+        & Pick<OrganisationProposalNode, 'name'>
       )> }
     )>> }
   ) }
@@ -2708,6 +2792,7 @@ export type OrganisationsQueryVariables = Exact<{
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -3177,6 +3262,13 @@ export const MyProfileFieldsFragmentDoc = gql`
       }
     }
   }
+  organisationproposalSet {
+    edges {
+      node {
+        name
+      }
+    }
+  }
 }
     ${PersonFieldsFragmentDoc}
 ${OrganisationNodeFieldsFragmentDoc}`;
@@ -3474,7 +3566,11 @@ export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQue
 export type EnrolmentQueryResult = Apollo.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
 export const NotificationTemplateDocument = gql`
     query notificationTemplate($templateType: NotificationTemplateType, $context: JSONString!, $language: Language!) {
-  notificationTemplate(templateType: $templateType, context: $context, language: $language) {
+  notificationTemplate(
+    templateType: $templateType
+    context: $context
+    language: $language
+  ) {
     template {
       id
       type
@@ -3792,7 +3888,29 @@ export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
     query Events($division: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean, $publicationStatus: String) {
-  events(division: $division, end: $end, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation, showAll: $showAll, publicationStatus: $publicationStatus) {
+  events(
+    division: $division
+    end: $end
+    include: $include
+    inLanguage: $inLanguage
+    isFree: $isFree
+    keyword: $keyword
+    keywordAnd: $keywordAnd
+    keywordNot: $keywordNot
+    language: $language
+    location: $location
+    page: $page
+    pageSize: $pageSize
+    publisher: $publisher
+    sort: $sort
+    start: $start
+    superEvent: $superEvent
+    superEventType: $superEventType
+    text: $text
+    translation: $translation
+    showAll: $showAll
+    publicationStatus: $publicationStatus
+  ) {
     meta {
       ...metaFields
     }
@@ -3999,7 +4117,14 @@ export type KeywordLazyQueryHookResult = ReturnType<typeof useKeywordLazyQuery>;
 export type KeywordQueryResult = Apollo.QueryResult<KeywordQuery, KeywordQueryVariables>;
 export const KeywordsDocument = gql`
     query Keywords($dataSource: String, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String) {
-  keywords(dataSource: $dataSource, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) {
+  keywords(
+    dataSource: $dataSource
+    page: $page
+    pageSize: $pageSize
+    showAllKeywords: $showAllKeywords
+    sort: $sort
+    text: $text
+  ) {
     meta {
       count
       next
@@ -4091,6 +4216,13 @@ export const CreateMyProfileDocument = gql`
   createMyProfile(input: $myProfile) {
     myProfile {
       ...personFields
+      organisationproposalSet {
+        edges {
+          node {
+            name
+          }
+        }
+      }
     }
   }
 }
@@ -4126,10 +4258,25 @@ export const UpdateMyProfileDocument = gql`
   updateMyProfile(input: $myProfile) {
     myProfile {
       ...personFields
+      organisations {
+        edges {
+          node {
+            ...organisationNodeFields
+          }
+        }
+      }
+      organisationproposalSet {
+        edges {
+          node {
+            name
+          }
+        }
+      }
     }
   }
 }
-    ${PersonFieldsFragmentDoc}`;
+    ${PersonFieldsFragmentDoc}
+${OrganisationNodeFieldsFragmentDoc}`;
 export type UpdateMyProfileMutationFn = Apollo.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
 
 /**
@@ -4454,8 +4601,14 @@ export type OrganisationQueryHookResult = ReturnType<typeof useOrganisationQuery
 export type OrganisationLazyQueryHookResult = ReturnType<typeof useOrganisationLazyQuery>;
 export type OrganisationQueryResult = Apollo.QueryResult<OrganisationQuery, OrganisationQueryVariables>;
 export const OrganisationsDocument = gql`
-    query Organisations($after: String, $before: String, $first: Int, $last: Int) {
-  organisations(after: $after, before: $before, first: $first, last: $last) {
+    query Organisations($after: String, $before: String, $first: Int, $last: Int, $type: String) {
+  organisations(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    type: $type
+  ) {
     pageInfo {
       ...pageInfoFields
     }
@@ -4485,6 +4638,7 @@ ${OrganisationNodeFieldsFragmentDoc}`;
  *      before: // value for 'before'
  *      first: // value for 'first'
  *      last: // value for 'last'
+ *      type: // value for 'type'
  *   },
  * });
  */
@@ -4571,7 +4725,15 @@ export type PlaceLazyQueryHookResult = ReturnType<typeof usePlaceLazyQuery>;
 export type PlaceQueryResult = Apollo.QueryResult<PlaceQuery, PlaceQueryVariables>;
 export const PlacesDocument = gql`
     query Places($dataSource: String, $divisions: [String], $page: Int, $pageSize: Int, $showAllPlaces: Boolean, $sort: String, $text: String) {
-  places(dataSource: $dataSource, divisions: $divisions, page: $page, pageSize: $pageSize, showAllPlaces: $showAllPlaces, sort: $sort, text: $text) {
+  places(
+    dataSource: $dataSource
+    divisions: $divisions
+    page: $page
+    pageSize: $pageSize
+    showAllPlaces: $showAllPlaces
+    sort: $sort
+    text: $text
+  ) {
     meta {
       count
       next
