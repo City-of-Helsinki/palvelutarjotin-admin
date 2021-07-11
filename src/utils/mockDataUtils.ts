@@ -417,7 +417,7 @@ export const fakeOrganisation = (
   persons: overrides.persons || fakePersons(5),
   phoneNumber: faker.phone.phoneNumber(),
   publisherId: faker.random.uuid(),
-  type: 'USER' as OrganisationType,
+  type: OrganisationType.Provider,
   pEvent: null as any,
   __typename: 'OrganisationNode',
   ...overrides,
