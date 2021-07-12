@@ -10,19 +10,6 @@
     font-size: var(--fontsize-heading-l);
   }
 
-  .bannerHeroContainer {
-    position: absolute;
-    width: 100%;
-    background-position: 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-top: var(--spacing-layout-m);
-  }
-
-  .koros {
-    fill: var(--background-color-body);
-  }
-
   .contentContainer {
     position: relative;
     margin-bottom: 150px;
