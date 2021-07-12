@@ -13,6 +13,7 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import FormLanguageSelector from '../../../common/components/formLanguageSelector/FormLanguageSelector';
+import TextEditorField from '../../../common/components/textEditorField/TextEditorField';
 import { createEmptyLocalizedObject } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
@@ -208,7 +209,7 @@ const EventForm = <T extends FormFields>({
                             )}
                             name={`description.${lang}`}
                             required
-                            component={TextAreaInputField}
+                            component={TextEditorField}
                             rows={20}
                           />
                         </FormGroup>

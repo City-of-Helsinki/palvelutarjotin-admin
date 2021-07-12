@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matched snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="root success"
+  >
+    <label
+      class="label "
+      for="test"
+    >
+      label text
+    </label>
+    <div
+      class="inputWrapper"
+    >
+      <input
+        id="test"
+      />
+    </div>
+    <div
+      class="successText"
+      id="test-success"
+    >
+      Success
+    </div>
+    <div
+      class="helperText"
+      id="test-helper"
+    >
+      helper text
+    </div>
+  </div>
+</DocumentFragment>
+`;

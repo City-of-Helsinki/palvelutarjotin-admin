@@ -39,6 +39,7 @@ const eventId1 = 'eventMockId';
 const eventId2 = 'eventMockId2';
 const eventName = 'Tapahtuma123456';
 const eventDescription = 'Tapahtuman kuvaus';
+const eventShortDescription = 'Tapahtuman lyhyt kuvaus';
 const organisationName = 'Testiorganisaatio';
 const organisationId = 'organisationId';
 const placeId = 'placeId';
@@ -89,6 +90,7 @@ const getFakeEvent = (
     id: eventId1,
     name: fakeLocalizedObject(eventName),
     description: fakeLocalizedObject(eventDescription),
+    shortDescription: fakeLocalizedObject(eventShortDescription),
     publicationStatus: PUBLICATION_STATUS.DRAFT,
     pEvent: fakePEvent({
       organisation: fakeOrganisation({
@@ -247,7 +249,7 @@ it('displays event and occurrences correctly', async () => {
     screen.queryByText(/klikkaa koko tapahtuman esikatseluun/i)
   ).toBeInTheDocument();
 
-  expect(screen.queryByText(eventDescription)).toBeInTheDocument();
+  expect(screen.queryByText(eventShortDescription)).toBeInTheDocument();
 
   expect(
     screen.queryByRole('button', { name: 'Takaisin tapahtuma-aikoihin' })
@@ -387,8 +389,10 @@ it('shows upcoming and past occurrences', async () => {
 });
 
 it('shows full and not full occurrence rows correctly', async () => {
-  const fullOccurrenceRowText = /13\.12\.2020 00:00 – 12:30 30 13\.07\.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä/i;
-  const notFullOccurrenceRowText = /12\.12\.2020 00:00 – 12:30 30 13\.07\.2020 0 hyväksytty 0 hyväksymättä/i;
+  const fullOccurrenceRowText =
+    /13\.12\.2020 00:00 – 12:30 30 13\.07\.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä/i;
+  const notFullOccurrenceRowText =
+    /12\.12\.2020 00:00 – 12:30 30 13\.07\.2020 0 hyväksytty 0 hyväksymättä/i;
   const seatsApproved = 10;
   renderWithRoute(<EventSummaryPage />, {
     mocks: getMocks({

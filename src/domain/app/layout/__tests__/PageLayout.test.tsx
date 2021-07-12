@@ -14,7 +14,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import * as authSelectors from '../../../auth/selectors';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
 
@@ -38,9 +37,21 @@ const authenticatedInitialState = {
 };
 
 const organisationMocks = fakeOrganisations(3, [
-  { name: 'Organisaatio 1', id: 'organisation1' },
-  { name: 'Organisaatio 2', id: 'organisation2' },
-  { name: 'Organisaatio 3', id: 'organisation3' },
+  {
+    name: 'Organisaatio 1',
+    id: 'organisation1',
+    type: graphql.OrganisationType.Provider,
+  },
+  {
+    name: 'Organisaatio 2',
+    id: 'organisation2',
+    type: graphql.OrganisationType.Provider,
+  },
+  {
+    name: 'Organisaatio 3',
+    id: 'organisation3',
+    type: graphql.OrganisationType.Provider,
+  },
 ]);
 
 const mocks = [
@@ -95,7 +106,9 @@ it('Pagelayout renders profile page and registration pending page after submitti
     {
       request: {
         query: graphql.OrganisationsDocument,
-        variables: {},
+        variables: {
+          type: 'provider',
+        },
       },
       result: {
         data: {
@@ -112,6 +125,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
             name: 'Testi Testaaja',
             organisations: ['organisation1', 'organisation2'],
             phoneNumber: '123321123',
+            organisationProposals: [],
           },
         },
       },

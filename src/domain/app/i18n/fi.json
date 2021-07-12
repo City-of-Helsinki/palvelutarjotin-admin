@@ -38,6 +38,43 @@
     "dropdown": {
       "placeholder": "Valitse..."
     },
+    "textEditor": {
+      "add": "Lisää",
+      "cancel": "Peruuta",
+      "blocktype": {
+        "blocktype": "Tekstityyppi",
+        "blockquote": "Lohkolainaus",
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6",
+        "normal": "Normaali"
+      },
+      "history": {
+        "history": "Historia",
+        "redo": "Tee uudelleen",
+        "undo": "Peruuta"
+      },
+      "inline": {
+        "bold": "Lihavoitu",
+        "italic": "Kursivoitu",
+        "underline": "Alleviivattu"
+      },
+      "link": {
+        "link": "Linkki",
+        "linkTarget": "Linkin kohde",
+        "linkTargetOption": "Avaa linkki uudessa ikkunassa",
+        "linkTitle": "Linkin otsikko",
+        "unlink": "Poista linkitys"
+      },
+      "list": {
+        "list": "Lista",
+        "ordered": "Järjestetty",
+        "unordered": "Järjestämätön"
+      }
+    },
     "datepicker": {
       "accessibility": {
         "selectDate": "Valitse {{value}}",
@@ -142,6 +179,10 @@
     "labelOrganisations": "Organisaatio",
     "labelPhoneNumber": "Puhelinnumero",
     "placeholderOrganisations": "Valitse organisaatio",
+    "labelOrganisationProposals": "Lähetä uusi organisaatio pyyntö",
+    "helperOrganisationProposals": "Pyyntö uuden hallitsemasi organisaation lisäykselle",
+    "placeholderOrganisationProposals": "Organisaation nimi",
+    "textOrganisationSeparator": "Tai",
     "validation": {
       "isPrivacyPolicyAccepted": "Tietosuojakäytäntö on hyväksyttävä",
       "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"
@@ -447,6 +488,9 @@
       "enrolmentEndDays": "Ilmoittautumisen päättyminen",
       "occurrences": "Tapahtumalla on oltava ainakin yksi tapahtuma-aika"
     }
+  },
+  "eventPreview": {
+    "buttonGoToPublishing": "Takaisin tapahtuman julkaisuun"
   },
   "editOccurrence": {
     "buttonBack": "Tapahtuma-ajat",

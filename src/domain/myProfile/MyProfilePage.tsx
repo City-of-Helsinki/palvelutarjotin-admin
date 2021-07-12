@@ -14,9 +14,9 @@ import PageWrapper from '../app/layout/PageWrapper';
 import ErrorPage from '../errorPage/ErrorPage';
 import styles from './myProfile.module.scss';
 import MyProfileForm, {
-  MyProfileFormFields,
+  MyProfileEditFormFields,
 } from './myProfileForm/MyProfileForm';
-import { getMyProfilePayload } from './utils';
+import { getMyProfileEditPayload } from './utils';
 
 const MyProfilePage: React.FC = () => {
   const { t } = useTranslation();
@@ -28,25 +28,19 @@ const MyProfilePage: React.FC = () => {
     () =>
       myProfileData?.myProfile
         ? {
-            emailAddress: myProfileData.myProfile.emailAddress,
-            isPrivacyPolicyAccepted: true,
-            isTermsOfServiceRead: true,
             name: myProfileData.myProfile.name,
-            organisations:
-              myProfileData.myProfile.organisations.edges.map(
-                (edge) => edge?.node?.id || ''
-              ) || [],
+            emailAddress: myProfileData.myProfile.emailAddress,
             phoneNumber: myProfileData.myProfile.phoneNumber,
           }
         : undefined,
     [myProfileData]
   );
 
-  const submit = async (values: MyProfileFormFields) => {
+  const submit = async (values: MyProfileEditFormFields) => {
     try {
       await updateMyProfile({
         variables: {
-          myProfile: getMyProfilePayload(values),
+          myProfile: getMyProfileEditPayload(values),
         },
       });
       scrollToTop();
@@ -67,7 +61,6 @@ const MyProfilePage: React.FC = () => {
             {isSaved && (
               <Notification label={t('editMyProfile.success')} type="success" />
             )}
-
             <div>
               <h1>{t('editMyProfile.title')}</h1>
 
@@ -76,6 +69,7 @@ const MyProfilePage: React.FC = () => {
                 initialValues={initialValues}
                 onSubmit={submit}
                 showCheckboxes={false}
+                type="edit"
               />
             </div>
           </Container>

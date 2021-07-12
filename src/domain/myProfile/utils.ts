@@ -1,14 +1,29 @@
 import {
   MyProfileFieldsFragment,
   OrganisationNodeFieldsFragment,
+  OrganisationProposalNodeInput,
 } from '../../generated/graphql';
-import { MyProfileFormFields } from './myProfileForm/MyProfileForm';
+import {
+  MyProfileCreateFormFields,
+  MyProfileEditFormFields,
+} from './myProfileForm/MyProfileForm';
 
-export const getMyProfilePayload = (values: MyProfileFormFields) => ({
+export const getMyProfileCreatePayload = (
+  values: MyProfileCreateFormFields
+) => ({
   name: values.name,
   phoneNumber: values.phoneNumber,
   emailAddress: values.emailAddress,
   organisations: values.organisations,
+  organisationProposals: values.organisationProposals
+    ? [{ name: values.organisationProposals } as OrganisationProposalNodeInput]
+    : [],
+});
+
+export const getMyProfileEditPayload = (values: MyProfileEditFormFields) => ({
+  name: values.name,
+  phoneNumber: values.phoneNumber,
+  emailAddress: values.emailAddress,
 });
 
 export const getSelectedOrganisation = (
