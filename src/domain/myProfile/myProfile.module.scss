@@ -5,10 +5,20 @@
 
   h1 {
     font-size: var(--fontsize-heading-l);
+    color: white;
   }
 
   p {
     font-size: var(--fontsize-body-l);
     line-height: var(--lineheight-l);
+  }
+
+  .content {
+    position: relative;
+  }
+
+  .formContainer {
+    background-color: white;
+    padding: var(--spacing-m);
   }
 }

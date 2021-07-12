@@ -9,6 +9,7 @@ import {
   useUpdateMyProfileMutation,
 } from '../../generated/graphql';
 import scrollToTop from '../../utils/scrollToTop';
+import HeroBackground from '../app/heroBackground/HeroBackground';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import ErrorPage from '../errorPage/ErrorPage';
@@ -56,21 +57,23 @@ const MyProfilePage: React.FC = () => {
   return (
     <PageWrapper className={styles.myProfile} title="editMyProfile.pageTitle">
       <LoadingSpinner isLoading={loading}>
+        <HeroBackground height={400} />
         {myProfileData?.myProfile ? (
-          <Container size="xsmall">
+          <Container size="xsmall" className={styles.content}>
             {isSaved && (
               <Notification label={t('editMyProfile.success')} type="success" />
             )}
             <div>
               <h1>{t('editMyProfile.title')}</h1>
-
-              <MyProfileForm
-                buttonText={t('editMyProfile.buttonSubmit')}
-                initialValues={initialValues}
-                onSubmit={submit}
-                showCheckboxes={false}
-                type="edit"
-              />
+              <div className={styles.formContainer}>
+                <MyProfileForm
+                  buttonText={t('editMyProfile.buttonSubmit')}
+                  initialValues={initialValues}
+                  onSubmit={submit}
+                  showCheckboxes={false}
+                  type="edit"
+                />
+              </div>
             </div>
           </Container>
         ) : (

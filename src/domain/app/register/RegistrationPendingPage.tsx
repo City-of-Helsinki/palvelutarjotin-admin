@@ -1,12 +1,10 @@
-import { Koros } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import HeroBackground from '../heroBackground/HeroBackground';
 import Container from '../layout/Container';
 import PageWrapper from '../layout/PageWrapper';
 import styles from './RegistrationPendingPage.module.scss';
-
-const BANNER_IMAGE = '/images/Paperboat.png';
 
 const RegistrationPendingPage: React.FC = () => {
   const { t } = useTranslation();
@@ -16,16 +14,7 @@ const RegistrationPendingPage: React.FC = () => {
       className={styles.registerNotificationPage}
       title="registrationPendingPage.title1"
     >
-      <div
-        className={styles.bannerHeroContainer}
-        test-id="banner-hero-image"
-        style={{
-          backgroundImage: `url(${BANNER_IMAGE})`,
-        }}
-      >
-        <div style={{ height: '300px' }} />
-        <Koros className={styles.koros} />
-      </div>
+      <HeroBackground />
       <Container className={styles.contentContainer}>
         <h1>{t('registrationPendingPage.title1')}</h1>
         <div className={styles.content}>

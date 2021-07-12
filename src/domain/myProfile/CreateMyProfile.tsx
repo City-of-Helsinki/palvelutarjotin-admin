@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import { useCreateMyProfileMutation } from '../../generated/graphql';
 import scrollToTop from '../../utils/scrollToTop';
+import HeroBackground from '../app/heroBackground/HeroBackground';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import styles from './myProfile.module.scss';
@@ -38,18 +39,20 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
 
   return (
     <PageWrapper className={styles.myProfile} title="createMyProfile.pageTitle">
-      <Container size="xsmall">
+      <HeroBackground height={400} />
+      <Container size="xsmall" className={styles.content}>
         <div>
           <h1>{t('createMyProfile.title')}</h1>
-          <p>{t('createMyProfile.infoText1')}</p>
-          <p>{t('createMyProfile.infoText2')}</p>
-
-          <MyProfileForm
-            buttonText={t('createMyProfile.buttonSubmit')}
-            onSubmit={submit}
-            showCheckboxes={true}
-            type="create"
-          />
+          <div className={styles.formContainer}>
+            <p>{t('createMyProfile.infoText1')}</p>
+            <p>{t('createMyProfile.infoText2')}</p>
+            <MyProfileForm
+              buttonText={t('createMyProfile.buttonSubmit')}
+              onSubmit={submit}
+              showCheckboxes={true}
+              type="create"
+            />
+          </div>
         </div>
       </Container>
     </PageWrapper>
