@@ -187,6 +187,10 @@
       "isTermsOfUsageServiceRead": "Användarvillkoren måste accepteras"
     }
   },
+  "registrationPendingPage": {
+    "title1": "Kiitos rekisteröitymisestä",
+    "title2": "Rekisteröitymisesi odottaa käsittelyä"
+  },
   "enrolment": {
     "approveEnrolmentError": "Godkännande av registreringen misslyckades",
     "declineEnrolmentError": "Avslag på registrering misslyckades",

@@ -1,0 +1,41 @@
+.registerNotificationPage {
+  h1 {
+    font-size: var(--fontsize-heading-xl);
+    font-weight: bold;
+    color: var(--color-white);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--fontsize-heading-l);
+  }
+
+  .bannerHeroContainer {
+    position: absolute;
+    width: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: var(--spacing-layout-m);
+  }
+
+  .koros {
+    fill: var(--background-color-body);
+  }
+
+  .contentContainer {
+    position: relative;
+    margin-bottom: 150px;
+  }
+
+  .content {
+    position: relative;
+    display: grid;
+    margin-top: var(--spacing-xl);
+    grid-template-columns: 5fr 3fr;
+    grid-gap: var(--spacing-2-xl);
+    background-color: white;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+    padding: var(--spacing-xl);
+  }
+}

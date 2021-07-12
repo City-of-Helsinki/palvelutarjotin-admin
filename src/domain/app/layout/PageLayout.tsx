@@ -9,13 +9,13 @@ import {
   isAuthenticatedSelector,
   isLoadingUserSelector,
 } from '../../auth/selectors';
-import MyProfileWrapper from '../../myProfile/MyProfileWrapper';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import LoginPage from '../login/LoginPage';
 import { useMobileMenuContext } from '../mobileMenu/MobileMenu';
 import { ROUTES } from '../routes/constants';
 import styles from './pageLayout.module.scss';
+import ProtectedPageWrapper from './ProtectedPageWrapper';
 
 export const MAIN_CONTENT_ID = 'main-content';
 
@@ -47,7 +47,7 @@ const PageLayout: React.FC = ({ children }) => {
           }
         >
           {isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
-            <MyProfileWrapper>{children}</MyProfileWrapper>
+            <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
           ) : (
             <LoginPage />
           )}

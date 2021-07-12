@@ -188,6 +188,10 @@
       "isTermsOfServiceRead": "Käyttöehtojen tulee olla hyväksyttynä"
     }
   },
+  "registrationPendingPage": {
+    "title1": "Kiitos rekisteröitymisestä",
+    "title2": "Rekisteröitymisesi odottaa käsittelyä"
+  },
   "enrolment": {
     "approveEnrolmentError": "Ilmoittautumisen hyväksyminen epäonnistui",
     "declineEnrolmentError": "Ilmoittautumisen hylkääminen epäonnistui",

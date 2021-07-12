@@ -17,8 +17,9 @@ test('focuses and scrolls to top when route changes', async () => {
   const scrollSpy = jest.spyOn(window, 'scrollTo');
   const { history } = render(<TestComponent />, { routes: ['/fi'] });
 
-  const loginButton = screen.queryByRole('button', { name: 'Kirjaudu sisään' });
-  expect(loginButton).toBeVisible();
+  const loginButton = await screen.findByRole('button', {
+    name: 'Kirjaudu sisään',
+  });
 
   loginButton.focus();
   expect(loginButton).toHaveFocus();
