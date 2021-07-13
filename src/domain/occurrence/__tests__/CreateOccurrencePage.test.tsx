@@ -26,7 +26,6 @@ import {
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
   act,
-  actWait,
   configure,
   fireEvent,
   renderWithRoute,
@@ -416,23 +415,13 @@ describe('location and enrolment info', () => {
     });
     userEvent.click(goToPublishButton);
 
-    // Modal should be visible and have all the errors
-    const withinModal = within(screen.getByRole('dialog'));
+    // form should be validated and errors should appear
     expect(
-      withinModal.getByText(/tapahtumasta puuttuu tietoja/i)
-    ).toBeInTheDocument();
-    const expectedModalTexts = [
-      'Tapahtuman sijainti',
-      'Ilmoittautumisen alkamisaika',
-      'Ilmoittautumisen päättyminen',
-      'Tapahtumalla on oltava ainakin yksi tapahtuma-aika',
-    ];
-    expectedModalTexts.forEach((text) => {
-      expect(withinModal.queryByText(text)).toBeInTheDocument();
-    });
+      await screen.findAllByText(/Tämä kenttä on pakollinen/i)
+    ).toHaveLength(2);
 
-    const closeModalButton = withinModal.getByRole('button', { name: 'Sulje' });
-    userEvent.click(closeModalButton);
+    // Modal should not appear at this point
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     const locationInput = getFormElement('location');
 
@@ -456,16 +445,13 @@ describe('location and enrolment info', () => {
       );
     });
 
-    // Save the data
-    userEvent.click(getFormElement('saveButton'));
+    // Try to go to publish page
+    userEvent.click(goToPublishButton);
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
     });
 
-    await actWait();
-
     // Modal should only have complaint about needing at least one occurrence
-    userEvent.click(goToPublishButton);
     const withinModal2 = within(screen.getByRole('dialog'));
     const notExpectedModalTexts = [
       'Tapahtuman sijainti',
@@ -489,7 +475,7 @@ describe('location and enrolment info', () => {
       occurrenceEndTime,
     });
 
-    // No everything should be ok
+    // Now everything should be ok
     userEvent.click(goToPublishButton);
 
     await waitFor(() => {

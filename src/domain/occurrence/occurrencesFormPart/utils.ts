@@ -26,11 +26,9 @@ export const getOrderedLanguageOptions = (t: TFunction) => {
     Object.values(EVENT_LANGUAGES).map((language) =>
       t(`common.languages.${language.toLowerCase()}`)
     ),
-    [
-      EVENT_LANGUAGES.FI,
-      EVENT_LANGUAGES.SV,
-      EVENT_LANGUAGES.EN,
-    ].map((language) => t(`common.languages.${language.toLowerCase()}`))
+    [EVENT_LANGUAGES.FI, EVENT_LANGUAGES.SV, EVENT_LANGUAGES.EN].map(
+      (language) => t(`common.languages.${language.toLowerCase()}`)
+    )
   );
 
   return Object.values(EVENT_LANGUAGES)
@@ -88,15 +86,16 @@ export const getOptimisticCreateOccurrenceResponse = ({
   };
 };
 
-export const getOptimisticDeleteOccurrenceResponse = (): DeleteOccurrenceMutation => {
-  return {
-    __typename: 'Mutation',
-    deleteOccurrence: {
-      __typename: 'DeleteOccurrenceMutationPayload',
-      clientMutationId: null,
-    },
+export const getOptimisticDeleteOccurrenceResponse =
+  (): DeleteOccurrenceMutation => {
+    return {
+      __typename: 'Mutation',
+      deleteOccurrence: {
+        __typename: 'DeleteOccurrenceMutationPayload',
+        clientMutationId: null,
+      },
+    };
   };
-};
 
 export const addOccurrencesToCache = ({
   data,
