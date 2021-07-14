@@ -334,7 +334,6 @@ const OccurrencesTable: React.FC<{
       <tbody>
         {occurrences.map((occurrence) => {
           const { languages } = getOccurrenceFields(occurrence);
-
           const formattedLanguages = languages
             ?.map((language) => {
               return t(`common.languages.${language}`);

@@ -58,18 +58,14 @@ const CreateOccurrencePage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const apolloClient = useApolloClient();
-  const [
-    missingEventInfoError,
-    setMissingEventInfoError,
-  ] = React.useState<Yup.ValidationError | null>(null);
+  const [missingEventInfoError, setMissingEventInfoError] =
+    React.useState<Yup.ValidationError | null>(null);
   const [selectedLanguages, setSelectedLanguages] = React.useState<Language[]>([
     'fi',
   ]);
   const { id: eventId } = useParams<Params>();
-  const [
-    initialValues,
-    setInitialValues,
-  ] = React.useState<TimeAndLocationFormFields | null>(null);
+  const [initialValues, setInitialValues] =
+    React.useState<TimeAndLocationFormFields | null>(null);
 
   const createOrUpdateVenue = useCreateOrUpdateVenueRequest(apolloClient);
 
@@ -153,6 +149,7 @@ const CreateOccurrencePage: React.FC = () => {
         });
       }
     };
+
     // hack to prevent reinitializing form with old values after mutation
     if (eventData) {
       initializeForm();
@@ -243,69 +240,49 @@ const CreateOccurrencePage: React.FC = () => {
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
       });
+
+      return Promise.reject(e);
     }
   };
 
-  const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const {
-      location,
-      pEvent: {
-        neededOccurrences = undefined,
-        occurrences = undefined,
-        enrolmentEndDays = undefined,
-        enrolmentStart = undefined,
-      } = {},
-    } = eventData?.event ?? {};
+  const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
+    () => {
+      const { pEvent: { occurrences = undefined } = {} } =
+        eventData?.event ?? {};
 
-    const requiredFieldsSchema = Yup.object().shape({
-      location: Yup.string().required(
-        t('createOccurrence.missingEventInfo.eventLocation')
-      ),
-      enrolmentStart: Yup.date()
-        .typeError(t('createOccurrence.missingEventInfo.enrolmentStartTime'))
-        .required(t('createOccurrence.missingEventInfo.enrolmentStartTime')),
-      enrolmentEndDays: Yup.number()
-        .typeError(t('createOccurrence.missingEventInfo.enrolmentEndDays'))
-        .required(t('createOccurrence.missingEventInfo.enrolmentEndDays')),
-      neededOccurrences: Yup.number()
-        .typeError(t('createOccurrence.missingEventInfo.enrolmentEndDays'))
-        .required(t('createOccurrence.missingEventInfo.enrolmentEndDays')),
-      occurrences: Yup.array().min(
-        1,
-        t('createOccurrence.missingEventInfo.occurrences')
-      ),
-    });
+      const requiredFieldsSchema = Yup.object().shape({
+        occurrences: Yup.array().min(
+          1,
+          t('createOccurrence.missingEventInfo.occurrences')
+        ),
+      });
 
-    try {
-      // Check that that user has already filled and saved required fields in this form before
-      // navigatin to publishing / summary page
-      requiredFieldsSchema.validateSync(
-        {
-          location: location?.id,
-          enrolmentStart,
-          enrolmentEndDays,
-          neededOccurrences,
-          occurrences: occurrences?.edges,
-        },
-        { abortEarly: false }
-      );
-      // All good, redirect user to summary page for publishing
-      goToSummaryPage();
-    } catch (e) {
-      if (e instanceof Yup.ValidationError) {
-        setMissingEventInfoError(e);
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.log(e);
+      try {
+        // Check that that user has already filled and saved required fields in this form before
+        // navigatin to publishing / summary page
+        requiredFieldsSchema.validateSync(
+          {
+            occurrences: occurrences?.edges,
+          },
+          { abortEarly: false }
+        );
+        // All good, redirect user to summary page for publishing
+        goToSummaryPage();
+      } catch (e) {
+        if (e instanceof Yup.ValidationError) {
+          setMissingEventInfoError(e);
+          if (process.env.NODE_ENV === 'development') {
+            // eslint-disable-next-line no-console
+            console.log(e);
+          }
         }
       }
-    }
-  };
+    };
 
   return (
     <PageWrapper title="createOccurrence.pageTitle">
       <LoadingSpinner
-        isLoading={loadingEvent || loadingMyProfile}
+        isLoading={loadingEvent || loadingMyProfile || !initialValues}
         hasPadding={false}
       >
         {eventData?.event ? (
@@ -400,10 +377,8 @@ const OccurrenceInfoForm: React.FC<{
 }) => {
   const { t } = useTranslation();
 
-  const [
-    createOccurrence,
-    { loading: addOccurrenceLoading },
-  ] = useAddOccurrenceMutation();
+  const [createOccurrence, { loading: addOccurrenceLoading }] =
+    useAddOccurrenceMutation();
 
   // Used for disabling form buttons if something is loading
   const loading = loadingEvent || editEventLoading || addOccurrenceLoading;
@@ -414,35 +389,50 @@ const OccurrenceInfoForm: React.FC<{
       onSubmit={onSubmit}
       validationSchema={ValidationSchema}
     >
-      {({ dirty }) => (
-        <Form
-          className={styles.occurrencesForm}
-          noValidate
-          data-testid="time-and-location-form"
-        >
-          <FocusToFirstError />
-          <LocationFormPart selectedLanguages={selectedLanguages} />
-          <EnrolmentInfoFormPart />
-          <OccurrencesFormPart
-            eventData={eventData}
-            createOccurrence={createOccurrence}
-            disabled={loading}
-          />
-          <div className={styles.submitButtons}>
-            <Button disabled={loading || !dirty} type="submit">
-              {t('eventForm.buttonSave')}
-            </Button>
-            <Button
-              variant="secondary"
-              type="button"
+      {({ dirty, submitForm, isValid }) => {
+        const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
+          async (e) => {
+            try {
+              const hasBeenSubmitted = isValid && !dirty;
+              if (!hasBeenSubmitted) {
+                await submitForm();
+              }
+              if (isValid) {
+                onGoToPublishingClick(e);
+              }
+            } catch {}
+          };
+
+        return (
+          <Form
+            className={styles.occurrencesForm}
+            noValidate
+            data-testid="time-and-location-form"
+          >
+            <FocusToFirstError />
+            <LocationFormPart selectedLanguages={selectedLanguages} />
+            <EnrolmentInfoFormPart />
+            <OccurrencesFormPart
+              eventData={eventData}
+              createOccurrence={createOccurrence}
               disabled={loading}
-              onClick={onGoToPublishingClick}
-            >
-              {t('createOccurrence.buttonGoToPublishing')}
-            </Button>
-          </div>
-        </Form>
-      )}
+            />
+            <div className={styles.submitButtons}>
+              <Button disabled={loading || !dirty} type="submit">
+                {t('eventForm.buttonSave')}
+              </Button>
+              <Button
+                variant="secondary"
+                type="button"
+                disabled={loading}
+                onClick={handleGoToPublishingClick}
+              >
+                {t('createOccurrence.buttonGoToPublishing')}
+              </Button>
+            </div>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };
