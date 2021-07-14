@@ -24,9 +24,10 @@ const useCreateOrUpdateVenueRequest = (apolloClient: ApolloClient<object>) => {
 };
 
 const useUpdateImageRequest = () => {
-  const [updateImage] = useUpdateSingleImageMutation();
+  const [updateImage, { loading: updateImageLoading }] =
+    useUpdateSingleImageMutation();
 
-  return (values: CreateEventFormFields) => {
+  const updateImageRequest = (values: CreateEventFormFields) => {
     const imageId = values.image;
     if (imageId) {
       const imageName = getImageName(imageId);
@@ -45,6 +46,8 @@ const useUpdateImageRequest = () => {
       }
     }
   };
+
+  return [updateImageRequest, updateImageLoading] as const;
 };
 
 export { useCreateOrUpdateVenueRequest, useUpdateImageRequest };

@@ -51,8 +51,9 @@ const useEventFormEditSubmit = (
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const [editEvent] = useEditEventMutation();
-  const updateImageRequestHandler = useUpdateImageRequest();
+  const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
+  const [updateImageRequestHandler, updateImageLoading] =
+    useUpdateImageRequest();
   const navigatedFrom = useSearchParams().get(
     EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM
   );
@@ -148,16 +149,17 @@ const useEventFormEditSubmit = (
     }
   };
 
-  return submit;
+  const isLoading = editEventLoading || updateImageLoading;
+
+  return [submit, isLoading] as const;
 };
 
 const EditEventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const history = useHistory();
-  const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
-    eventInitialValues
-  );
+  const [initialValues, setInitialValues] =
+    useState<CreateEventFormFields>(eventInitialValues);
 
   const { data: eventData, loading } = useEventQuery({
     fetchPolicy: 'network-only',
@@ -180,7 +182,10 @@ const EditEventPage: React.FC = () => {
     }
   }, [eventData]);
 
-  const onSubmit = useEventFormEditSubmit(initialValues, eventData);
+  const [onSubmit, editEventLoading] = useEventFormEditSubmit(
+    initialValues,
+    eventData
+  );
 
   return (
     <PageWrapper title="editEvent.pageTitle">
@@ -199,6 +204,7 @@ const EditEventPage: React.FC = () => {
                   onCancel={goToEventDetailsPage}
                   onSubmit={onSubmit}
                   persons={persons}
+                  eventMutationLoading={editEventLoading}
                   title={t('editEvent.title')}
                 />
               </div>

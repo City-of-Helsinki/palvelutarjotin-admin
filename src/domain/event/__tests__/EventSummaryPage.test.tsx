@@ -33,6 +33,8 @@ import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import EventSummaryPage from '../EventSummaryPage';
 
+const includeArray = ['location', 'keywords', 'in_language'];
+
 configure({ defaultHidden: true });
 
 const eventId1 = 'eventMockId';
@@ -133,7 +135,7 @@ const eventResponseWithOneCancelledOccurrence = {
     query: EventDocument,
     variables: {
       id: eventId1,
-      include: ['location', 'keywords'],
+      include: includeArray,
     },
   },
   result: {
@@ -159,7 +161,7 @@ const getMocks = ({
       query: EventDocument,
       variables: {
         id: eventId1,
-        include: ['location', 'keywords'],
+        include: includeArray,
       },
     },
     result: {
@@ -173,7 +175,7 @@ const getMocks = ({
       query: EventDocument,
       variables: {
         id: eventId2,
-        include: ['location', 'keywords'],
+        include: includeArray,
       },
     },
     result: {

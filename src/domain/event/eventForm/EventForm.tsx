@@ -68,6 +68,7 @@ type Props<T extends FormFields> = {
   title: string;
   edit?: boolean;
   formType?: FormType;
+  eventMutationLoading: boolean;
 };
 
 const EventForm = <T extends FormFields>({
@@ -78,6 +79,7 @@ const EventForm = <T extends FormFields>({
   title,
   formType = 'new',
   eventData,
+  eventMutationLoading,
 }: Props<T>): React.ReactElement => {
   const isPrefilledForm = formType === 'edit' || formType === 'template';
   const history = useHistory();
@@ -409,7 +411,7 @@ const EventForm = <T extends FormFields>({
                     >
                       {t('eventForm.buttonCancel')}
                     </Button>
-                    <Button type="submit">
+                    <Button type="submit" disabled={eventMutationLoading}>
                       {formType === 'edit'
                         ? t('eventForm.buttonUpdate')
                         : t('eventForm.buttonSaveAndGoToOccurrences')}

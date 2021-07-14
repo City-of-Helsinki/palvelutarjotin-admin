@@ -419,7 +419,7 @@ export const getEventMockedResponse = ({
     query: EventDocument,
     variables: {
       id: eventId,
-      include: ['location', 'keywords', 'audience'],
+      include: ['location', 'keywords', 'audience', 'in_language'],
     },
   },
   result: getEventResponse({

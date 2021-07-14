@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Form, Formik, FormikContextType, FormikHelpers } from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
 import omit from 'lodash/omit';
@@ -44,8 +44,13 @@ import { defaultInitialValues } from './constants';
 import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
+import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';
 import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
-import { LocationDescriptions, TimeAndLocationFormFields } from './types';
+import {
+  LocationDescriptions,
+  OccurrenceSectionFormFields,
+  TimeAndLocationFormFields,
+} from './types';
 import { getEditEventPayload, useBaseEventQuery } from './utils';
 import ValidationSchema from './ValidationSchema';
 
@@ -66,6 +71,7 @@ const CreateOccurrencePage: React.FC = () => {
   const { id: eventId } = useParams<Params>();
   const [initialValues, setInitialValues] =
     React.useState<TimeAndLocationFormFields | null>(null);
+  const eventDataRef = React.useRef<EventQuery>();
 
   const createOrUpdateVenue = useCreateOrUpdateVenueRequest(apolloClient);
 
@@ -80,6 +86,10 @@ const CreateOccurrencePage: React.FC = () => {
     variables: { id: eventId },
     fetchPolicy: 'network-only',
   });
+
+  // Get access to latest eventData in handleGoToPublishingClick when it is called
+  // from child component
+  eventDataRef.current = eventData;
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 
@@ -248,7 +258,7 @@ const CreateOccurrencePage: React.FC = () => {
   const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
     () => {
       const { pEvent: { occurrences = undefined } = {} } =
-        eventData?.event ?? {};
+        eventDataRef.current?.event ?? {};
 
       const requiredFieldsSchema = Yup.object().shape({
         occurrences: Yup.array().min(
@@ -376,6 +386,9 @@ const OccurrenceInfoForm: React.FC<{
   loadingEvent,
 }) => {
   const { t } = useTranslation();
+  const context = React.useRef<
+    FormikContextType<OccurrenceSectionFormFields> | {}
+  >({});
 
   const [createOccurrence, { loading: addOccurrenceLoading }] =
     useAddOccurrenceMutation();
@@ -383,57 +396,86 @@ const OccurrenceInfoForm: React.FC<{
   // Used for disabling form buttons if something is loading
   const loading = loadingEvent || editEventLoading || addOccurrenceLoading;
 
-  return (
-    <Formik<TimeAndLocationFormFields>
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={ValidationSchema}
-    >
-      {({ dirty, submitForm, isValid }) => {
-        const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
-          async (e) => {
-            try {
-              const hasBeenSubmitted = isValid && !dirty;
-              if (!hasBeenSubmitted) {
-                await submitForm();
-              }
-              if (isValid) {
-                onGoToPublishingClick(e);
-              }
-            } catch {}
-          };
+  const submitOccurrenceFormIfNeeded = async () => {
+    if ('submitForm' in context.current) {
+      const {
+        submitForm: submitOccurrenceForm,
+        isValid: occurrenceFormIsValid,
+      } = context.current;
 
-        return (
-          <Form
-            className={styles.occurrencesForm}
-            noValidate
-            data-testid="time-and-location-form"
-          >
-            <FocusToFirstError />
-            <LocationFormPart selectedLanguages={selectedLanguages} />
-            <EnrolmentInfoFormPart />
-            <OccurrencesFormPart
-              eventData={eventData}
-              createOccurrence={createOccurrence}
-              disabled={loading}
-            />
-            <div className={styles.submitButtons}>
-              <Button disabled={loading || !dirty} type="submit">
-                {t('eventForm.buttonSave')}
-              </Button>
-              <Button
-                variant="secondary"
-                type="button"
+      if (occurrenceFormIsValid) {
+        await submitOccurrenceForm();
+      }
+    }
+  };
+
+  return (
+    <OccurrencesFormHandleContext.Provider value={context}>
+      <Formik<TimeAndLocationFormFields>
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={ValidationSchema}
+      >
+        {({ dirty, submitForm, isValid }) => {
+          // Handle submitting both event info and occurrence form
+          const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
+            async (e) => {
+              await submitOccurrenceFormIfNeeded();
+              try {
+                const hasBeenSubmitted = isValid && !dirty;
+                if (!hasBeenSubmitted) {
+                  await submitForm();
+                }
+                if (isValid) {
+                  onGoToPublishingClick(e);
+                }
+              } catch {}
+            };
+
+          // Custom submit handler to also submit occurrence form if it is filled
+          const handleSaveClick: React.MouseEventHandler<HTMLButtonElement> =
+            async (e) => {
+              e.preventDefault();
+              await submitOccurrenceFormIfNeeded();
+              await submitForm();
+            };
+
+          return (
+            <Form
+              className={styles.occurrencesForm}
+              noValidate
+              data-testid="time-and-location-form"
+            >
+              <FocusToFirstError />
+              <LocationFormPart selectedLanguages={selectedLanguages} />
+              <EnrolmentInfoFormPart />
+              <OccurrencesFormPart
+                eventData={eventData}
+                createOccurrence={createOccurrence}
                 disabled={loading}
-                onClick={handleGoToPublishingClick}
-              >
-                {t('createOccurrence.buttonGoToPublishing')}
-              </Button>
-            </div>
-          </Form>
-        );
-      }}
-    </Formik>
+              />
+              <div className={styles.submitButtons}>
+                <Button
+                  disabled={loading || !dirty}
+                  type="submit"
+                  onClick={handleSaveClick}
+                >
+                  {t('eventForm.buttonSave')}
+                </Button>
+                <Button
+                  variant="secondary"
+                  type="button"
+                  disabled={loading}
+                  onClick={handleGoToPublishingClick}
+                >
+                  {t('createOccurrence.buttonGoToPublishing')}
+                </Button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+    </OccurrencesFormHandleContext.Provider>
   );
 };
 

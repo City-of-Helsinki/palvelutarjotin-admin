@@ -43,16 +43,18 @@ export const getOccurrencePayload = ({
   };
 };
 
+export const getEventQueryVariables = (id: string) => ({
+  id,
+  include: ['location', 'keywords', 'audience', 'in_language'],
+});
+
 // Reused query, helps with refetching
 export const useBaseEventQuery: typeof useEventQuery = ({
   variables,
   ...options
 } = {}) => {
   return useEventQuery({
-    variables: {
-      id: variables?.id ?? '',
-      include: ['location', 'keywords', 'audience'],
-    },
+    variables: getEventQueryVariables(variables?.id ?? ''),
     ...options,
   });
 };

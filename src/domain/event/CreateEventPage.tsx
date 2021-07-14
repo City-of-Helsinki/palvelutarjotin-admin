@@ -39,12 +39,14 @@ const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
   const history = useHistory();
-  const updateImageRequestHandler = useUpdateImageRequest();
+  const [updateImageRequestHandler, updateImageLoading] =
+    useUpdateImageRequest();
   const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState<CreateEventFormFields>(
     createEventInitialValues
   );
-  const [createEvent] = useCreateEventMutation();
+  const [createEvent, { loading: createEventLoading }] =
+    useCreateEventMutation();
 
   const selectedOrganisation = useSelectedOrganisation();
 
@@ -161,6 +163,7 @@ const CreateEventPage: React.FC = () => {
               formType={eventIdToCopy ? 'template' : 'new'}
               onCancel={goToEventList}
               onSubmit={handleSubmit}
+              eventMutationLoading={createEventLoading || updateImageLoading}
               persons={persons}
               initialValues={initialValues}
               title={t('createEvent.title')}
