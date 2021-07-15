@@ -409,8 +409,8 @@ export const getEventMockedResponse = ({
 }: {
   location?: boolean;
   autoAcceptance?: boolean;
-  enrolmentEndDays?: number;
-  enrolmentStart?: string;
+  enrolmentEndDays?: number | null;
+  enrolmentStart?: string | null;
   neededOccurrences?: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;

@@ -125,6 +125,7 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
+      toast.success(t('eventForm.occurrences.saveSuccesful'));
     } catch (e) {
       // Put form values back if mutation happens to fail.
       action.setValues(values);
