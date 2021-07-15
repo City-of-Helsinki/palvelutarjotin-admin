@@ -79,7 +79,8 @@
     "test:staged": "yarn test:nowatch --findRelatedTests",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
     "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report testcafe/e2e/",
-    "codegen": "DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml"
+    "codegen": "DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml",
+    "release": "standard-version"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -119,6 +120,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@graphql-codegen/cli": "^1.21.5",
     "@graphql-codegen/typescript": "^1.22.1",
@@ -159,6 +162,7 @@
     "lint-staged": "^11.0.0",
     "prettier": "^2.0.5",
     "pretty": "^2.0.0",
+    "standard-version": "^9.3.1",
     "waait": "^1.0.5"
   },
   "lint-staged": {
