@@ -420,15 +420,16 @@ const OccurrenceInfoForm: React.FC<{
           // Handle submitting both event info and occurrence form
           const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
             async (e) => {
-              await submitOccurrenceFormIfNeeded();
               try {
                 const hasBeenSubmitted = isValid && !dirty;
                 if (!hasBeenSubmitted) {
                   await submitForm();
                 }
+                await submitOccurrenceFormIfNeeded();
                 if (isValid) {
                   onGoToPublishingClick(e);
                 }
+                // async funcs in try block already handle errors
               } catch {}
             };
 
@@ -436,8 +437,11 @@ const OccurrenceInfoForm: React.FC<{
           const handleSaveClick: React.MouseEventHandler<HTMLButtonElement> =
             async (e) => {
               e.preventDefault();
-              await submitOccurrenceFormIfNeeded();
-              await submitForm();
+              try {
+                await submitForm();
+                await submitOccurrenceFormIfNeeded();
+                // async funcs in try block already handle errors
+              } catch {}
             };
 
           return (

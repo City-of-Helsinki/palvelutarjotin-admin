@@ -133,6 +133,7 @@ const OccurrencesForm: React.FC<{
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
       });
+      return Promise.reject(e);
     }
   };
 
