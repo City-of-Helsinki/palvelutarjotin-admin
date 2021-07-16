@@ -696,7 +696,7 @@
       "confirmText2": "Förekomster kan inte läggas till eller ändras efter att evenemanget har publicerats."
     },
     "textNoComingOccurrences": "Inga framtida evenemangtider",
-    "titleOccurrences": "Evenemangtider",
+    "titleOccurrences": "Evenemangens tider",
     "titleComingOccurrences": "Framtida evenemangtider",
     "titlePastOccurrences": "Tidigare evenemangtider",
     "titleEventPublishment": "Händelsepublikation",
