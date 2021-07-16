@@ -91,6 +91,14 @@ Deploys a new version of Storybook. Storybook is used for development and there'
 
 To verify deployment, open [https://city-of-helsinki.github.io/palvelutarjotin-admin/](https://city-of-helsinki.github.io/palvelutarjotin-admin/) and check that everything is looking ok.
 
+## Versioning
+
+This project uses [Standard Version](https://github.com/conventional-changelog/standard-version) with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+
+To make a new release, run:
+
+`yarn release`
+
 ## Browser tests
 
 Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
