@@ -425,7 +425,8 @@
     "occurrences": {
       "occurrencesFormSectionTitle": "Occurrences",
       "labelEventHasNoOccurrences": "This event doesn't have specific occurrence time",
-      "buttonAddNewOccurence": "Add new occurrence"
+      "buttonAddNewOccurence": "Add new occurrence",
+      "saveSuccesful": "Occurrence saved"
     }
   },
   "events": {

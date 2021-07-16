@@ -20,12 +20,17 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
+import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
 import PlaceText from '../../place/PlaceText';
 import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
 } from '../types';
-import { getOccurrenceFields, getOccurrencePayload } from '../utils';
+import {
+  getEventQueryVariables,
+  getOccurrenceFields,
+  getOccurrencePayload,
+} from '../utils';
 import styles from './occurrencesFormPart.module.scss';
 import {
   addOccurrencesToCache,
@@ -76,11 +81,7 @@ const OccurrencesForm: React.FC<{
     () => getValidationSchema({ isVirtual, enrolmentEndDays, enrolmentStart }),
     [enrolmentEndDays, enrolmentStart, isVirtual]
   );
-
-  const eventVariables = {
-    id: eventId ?? '',
-    include: ['location', 'keywords', 'audience'],
-  };
+  const eventVariables = getEventQueryVariables(eventId ?? '');
 
   const reinitializeForm = (
     values: OccurrenceSectionFormFields,
@@ -124,6 +125,7 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
+      toast.success(t('eventForm.occurrences.saveSuccesful'));
     } catch (e) {
       // Put form values back if mutation happens to fail.
       action.setValues(values);
@@ -131,6 +133,7 @@ const OccurrencesForm: React.FC<{
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
       });
+      return Promise.reject(e);
     }
   };
 
@@ -239,6 +242,7 @@ const OccurrenceForm: React.FC<{
   return (
     <div className={styles.eventOccurrenceForm}>
       <div className={styles.occurrenceFormRow}>
+        <OccurrenceFormContextSetter />
         <Field
           labelText={t('eventOccurrenceForm.labelEventLocation')}
           name="occurrenceLocation"

@@ -43,12 +43,17 @@ const EventSummaryPage: React.FC = () => {
   const locale = useLocale();
   const lang = i18n.language;
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
-  const { data: eventData, loading, refetch: refetchEventData } = useEventQuery(
-    {
-      // fetchPolicy: 'network-only',
-      variables: { id: eventId, include: ['location', 'keywords'] },
-    }
-  );
+  const {
+    data: eventData,
+    loading,
+    refetch: refetchEventData,
+  } = useEventQuery({
+    // fetchPolicy: 'network-only',
+    variables: {
+      id: eventId,
+      include: ['location', 'keywords', 'in_language'],
+    },
+  });
 
   const downloadEnrolmentsQuery = useDownloadEventsEnrolmentsCsvQuery(
     eventData?.event?.pEvent?.id

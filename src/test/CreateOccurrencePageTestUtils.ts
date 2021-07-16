@@ -409,8 +409,8 @@ export const getEventMockedResponse = ({
 }: {
   location?: boolean;
   autoAcceptance?: boolean;
-  enrolmentEndDays?: number;
-  enrolmentStart?: string;
+  enrolmentEndDays?: number | null;
+  enrolmentStart?: string | null;
   neededOccurrences?: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;
@@ -419,7 +419,7 @@ export const getEventMockedResponse = ({
     query: EventDocument,
     variables: {
       id: eventId,
-      include: ['location', 'keywords', 'audience'],
+      include: ['location', 'keywords', 'audience', 'in_language'],
     },
   },
   result: getEventResponse({
