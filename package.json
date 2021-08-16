@@ -16,7 +16,7 @@
     "@types/draft-js": "^0.11.3",
     "@types/draftjs-to-html": "^0.8.0",
     "@types/html-to-draftjs": "^1.4.0",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.150",
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.13",
@@ -120,8 +120,8 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@graphql-codegen/cli": "^2.0.1",
     "@graphql-codegen/typescript": "^2.0.0",
