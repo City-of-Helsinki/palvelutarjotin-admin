@@ -163,7 +163,11 @@ it('Pagelayout renders profile page and registration pending page after submitti
 
   await fillAndSubmitProfileForm();
 
-  await screen.findByRole('heading', { name: 'Kiitos rekisteröitymisestä' });
+  await screen.findByRole(
+    'heading',
+    { name: 'Kiitos rekisteröitymisestä' },
+    { timeout: 20000 }
+  );
   expect(
     screen.queryByRole('heading', {
       name: 'Rekisteröitymisesi odottaa käsittelyä',
