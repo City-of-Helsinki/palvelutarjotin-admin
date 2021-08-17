@@ -105,6 +105,7 @@ export type CustomRenderResult = RenderResult & { history: History };
 
 const actWait = (amount?: number) => act(() => wait(amount));
 
+// eslint-disable-next-line import/export
 export { actWait, reduxStore, customRender as render, renderWithRoute };
 
 export type PasteEvent = {
@@ -134,6 +135,7 @@ export const pasteToTextEditor = (
 };
 
 // re-export everything
+// eslint-disable-next-line import/export
 export * from '@testing-library/react';
 export { render as defaultRender } from '@testing-library/react';
 export { default as userEvent } from '@testing-library/user-event';
