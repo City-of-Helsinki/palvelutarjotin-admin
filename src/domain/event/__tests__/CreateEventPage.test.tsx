@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
+// eslint-disable-next-line import/default
 import Router from 'react-router';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';

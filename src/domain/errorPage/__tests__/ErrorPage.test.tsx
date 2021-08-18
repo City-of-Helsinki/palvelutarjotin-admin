@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+// eslint-disable-next-line import/default
 import Router from 'react-router';
 
 import messages from '../../app/i18n/fi.json';
 import ErrorPage from '../ErrorPage';
 
 beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({});
+  jest.spyOn(Router, 'useHistory').mockReturnValue({} as any);
 });
 
 it('matches snapshot', () => {
@@ -27,7 +28,7 @@ it('renders correct texts when props are provided', () => {
 
 it('render correct default texts', () => {
   const pushMock = jest.fn();
-  jest.spyOn(Router, 'useHistory').mockReturnValue({ push: pushMock });
+  jest.spyOn(Router, 'useHistory').mockReturnValue({ push: pushMock } as any);
   render(<ErrorPage />);
 
   expect(screen.queryByText(messages.errorPage.description)).toBeVisible();
