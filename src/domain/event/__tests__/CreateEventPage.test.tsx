@@ -87,7 +87,7 @@ const imageAltText = 'AltText';
 const defaultFormData = {
   name: createFinnishLocalisedObject(eventName, true),
   shortDescription: createFinnishLocalisedObject(shortDescription, true),
-  description: createFinnishLocalisedObject(descriptionEditorHTML, true),
+  description: createFinnishLocalisedObject(description, true),
   infoUrl: createFinnishLocalisedObject(infoUrl, true),
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
@@ -111,7 +111,7 @@ const createEventVariables = {
       },
     ],
     shortDescription: defaultFormData.shortDescription,
-    description: defaultFormData.description,
+    description: createFinnishLocalisedObject(descriptionEditorHTML, true),
     images: [{ internalId: '/image/48584/' }],
     infoUrl: defaultFormData.infoUrl,
     audience: audienceKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
