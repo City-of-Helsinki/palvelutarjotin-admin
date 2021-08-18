@@ -129,6 +129,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
             handleChange(value);
             setFocused(false);
           }}
+          stripPastedStyles
           onFocus={() => setFocused(true)}
           editorClassName={classNames(styles.editor, {
             [styles.focused]: focused,
