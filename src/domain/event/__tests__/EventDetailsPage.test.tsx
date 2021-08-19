@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
+import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
 
@@ -8,6 +9,7 @@ import {
   fakeEvent,
   fakeImage,
   fakeLocalizedObject,
+  fakeOccurrences,
   fakeOrganisations,
   fakePerson,
   fakePEvent,
@@ -23,8 +25,21 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import EventDetailsPage from '../EventDetailsPage';
 
+beforeEach(() => {
+  advanceTo(new Date(2021, 7, 20));
+});
+
 const personId = 'personId1';
 const personName = 'Nimi niminen';
+
+const occurrenceTimes = [
+  '2021-08-25T21:00:00+00:00',
+  '2021-08-26T21:00:00+00:00',
+  '2021-08-27T21:00:00+00:00',
+  '2021-08-28T21:00:00+00:00',
+  '2021-08-29T21:00:00+00:00',
+  '2021-08-30T21:00:00+00:00',
+];
 
 const eventMock = fakeEvent({
   name: fakeLocalizedObject('Testitapahtuma'),
@@ -33,6 +48,10 @@ const eventMock = fakeEvent({
   pEvent: fakePEvent({
     contactEmail: 'test@email.com',
     contactPerson: fakePerson({ id: personId, name: personName }),
+    occurrences: fakeOccurrences(
+      6,
+      occurrenceTimes.map((startTime) => ({ startTime }))
+    ),
   }),
 });
 const profileMock = fakePerson({
@@ -194,11 +213,16 @@ test('renders correct information and delete works', async () => {
   const modalTexts = [
     /Muista lähettää ilmoittautuneille peruutusviesti, ennen kuin poistat tapahtuman/i,
     /Oletko varma että haluat poistaa tapahtuman/i,
+    /Tulevat tapahtuma-ajat \(6\)/i,
   ];
 
   modalTexts.forEach((t) => {
     expect(modal.queryByText(t)).toBeInTheDocument();
   });
+
+  expect(modal.queryByText('26.08.2021 klo 00:00')).toBeInTheDocument();
+  expect(modal.queryByTestId('dots')).toBeInTheDocument();
+  expect(modal.queryByText('31.08.2021 klo 00:00')).toBeInTheDocument();
 
   userEvent.click(modal.getByRole('button', { name: 'Poista tapahtuma' }));
 
