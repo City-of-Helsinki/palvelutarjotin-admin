@@ -2,6 +2,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
+import { toast } from 'react-toastify';
 import wait from 'waait';
 
 import {
@@ -12,76 +13,96 @@ import {
 import {
   fakeEvents,
   fakeLocalizedObject,
-  fakeOccurrences,
   fakeOrganisations,
   fakePerson,
-  fakePEvent,
 } from '../../../utils/mockDataUtils';
-import { act, render, screen, waitFor } from '../../../utils/testUtils';
+import {
+  act,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../utils/testUtils';
 import * as organisationSelectors from '../../organisation/selector';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from '../constants';
 import EventsPage from '../EventsPage';
 
-const eventOverrides: Partial<Event>[] = [
-  {
-    name: fakeLocalizedObject('Tapahtuma 1'),
-    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 1'),
-    description: fakeLocalizedObject('Pitkä kuvaus 1'),
-  },
-  {
-    name: fakeLocalizedObject('Tapahtuma 2'),
-    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 2'),
-    description: fakeLocalizedObject('Pitkä kuvaus 2'),
-  },
-  {
-    name: fakeLocalizedObject('Tapahtuma 3'),
-    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 3'),
-    description: fakeLocalizedObject('Pitkä kuvaus 3'),
-  },
-  {
-    name: fakeLocalizedObject('Tapahtuma 4'),
-    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 4'),
-    description: fakeLocalizedObject('Pitkä kuvaus 4'),
-  },
-  {
-    name: fakeLocalizedObject('Tapahtuma 5'),
-    shortDescription: fakeLocalizedObject('Lyhyt kuvaus 5'),
-    description: fakeLocalizedObject('Pitkä kuvaus 5'),
-    pEvent: {
-      ...fakePEvent(),
-      // this override mock won't appear in the test atm
-      // TODO: investigate
-      occurrences: fakeOccurrences(1, [
-        {
-          startTime: '2020-04-03T09:00:00+00:00',
-          endTime: '2020-04-03T09:30:00+00:00',
-        },
-      ]),
-    },
-  },
-];
+const eventOverrides: Partial<Event>[] = Array.from({ length: 10 }).map(
+  (_, i) => {
+    const number = i + 1;
+    return {
+      name: fakeLocalizedObject(`Tapahtuma ${number}`),
+      shortDescription: fakeLocalizedObject(`Lyhyt kuvaus ${number}`),
+      description: fakeLocalizedObject(`Pitkä kuvaus ${number}`),
+      // pEvent: {
+      //   ...fakePEvent(),
+      //   // this override mock won't appear in the test atm
+      //   // TODO: investigate
+      //   occurrences: fakeOccurrences(1, [
+      //     {
+      //       startTime: '2020-04-03T09:00:00+00:00',
+      //       endTime: '2020-04-03T09:30:00+00:00',
+      //     },
+      //   ]),
+      // },
+    };
+  }
+);
 
 const organisationsMock = fakeOrganisations();
-const eventsMock = fakeEvents(5, eventOverrides);
+const eventsMock1 = fakeEvents(5, eventOverrides.slice(0, 5));
+const eventsMock2 = fakeEvents(5, eventOverrides.slice(5));
+
+eventsMock1.meta.next = 'https://test.fi?page=2';
+eventsMock2.meta.next = 'https://test.fi?page=3';
+
+const baseVariables = {
+  pageSize: PAGE_SIZE,
+  publisher: organisationsMock.edges[0]?.node?.publisherId,
+  sort: EVENT_SORT_KEYS.START_TIME,
+  text: '',
+  showAll: true,
+  start: 'now',
+};
 
 const apolloMocks: MockedResponse[] = [
   {
     request: {
       query: EventsDocument,
       variables: {
-        pageSize: PAGE_SIZE,
-        publisher: organisationsMock.edges[0]?.node?.publisherId,
-        sort: EVENT_SORT_KEYS.START_TIME,
-        text: '',
-        showAll: true,
-        start: 'now',
+        ...baseVariables,
       },
     },
     result: {
       data: {
-        events: eventsMock,
+        events: eventsMock1,
       },
     },
+  },
+  // load more mock
+  {
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        page: 2,
+      },
+    },
+    result: {
+      data: {
+        events: eventsMock2,
+      },
+    },
+  },
+  {
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        page: 3,
+      },
+    },
+    error: new Error('Error!'),
   },
   {
     request: {
@@ -96,11 +117,13 @@ const apolloMocks: MockedResponse[] = [
   },
 ];
 
-test('renders without errors', async () => {
+test('renders events list and load more events button works', async () => {
   advanceTo(new Date(2020, 5, 20));
   jest
     .spyOn(organisationSelectors, 'activeOrganisationSelector')
     .mockReturnValue(organisationsMock.edges[0]?.node?.id as any);
+  const toastErrorSpy = jest.spyOn(toast, 'error');
+
   render(<EventsPage />, { mocks: apolloMocks, routes: ['/'] });
 
   await act(wait);
@@ -110,11 +133,40 @@ test('renders without errors', async () => {
       screen.queryByRole('heading', { name: `Tapahtumat 5 kpl` })
     ).toBeInTheDocument();
   });
-  const [t1, t2, t3, t4, t5] = eventOverrides;
 
-  [t1, t2, t3, t4, t5].forEach((event) => {
+  eventOverrides.slice(0, 5).forEach((event) => {
+    expect(screen.queryByText(event.name.fi)).toBeInTheDocument();
+    expect(screen.queryByText(event.shortDescription.fi)).toBeInTheDocument();
+    expect(screen.queryByText(event.description.fi)).not.toBeInTheDocument();
+  });
+
+  // shouldn't be in the document before fetching more event
+  expect(
+    screen.queryByText(eventOverrides[6].shortDescription.fi)
+  ).not.toBeInTheDocument();
+
+  userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
+
+  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  eventOverrides.slice(5, 11).forEach((event) => {
     expect(screen.queryByText(event.name.fi)).toBeInTheDocument();
   });
-  expect(screen.queryByText(t1.shortDescription.fi)).toBeInTheDocument();
-  expect(screen.queryByText(t1.description.fi)).not.toBeInTheDocument();
+
+  userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
+
+  await waitFor(() => {
+    expect(toastErrorSpy).toHaveBeenCalled();
+  });
+
+  expect(toastErrorSpy.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "Tapahtumien lataaminen epäonnistui",
+      ],
+    ]
+  `);
 });

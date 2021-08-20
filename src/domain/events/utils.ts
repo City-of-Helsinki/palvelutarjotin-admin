@@ -21,7 +21,6 @@ export const useEventsQueryHelper = ({
     data,
     ...helpers
   } = useEventsQuery({
-    errorPolicy: 'ignore',
     variables: variables,
   });
 
@@ -43,9 +42,7 @@ export const useEventsQueryHelper = ({
         });
         setIsLoadingMore(false);
       } catch (e) {
-        toast(t('events.errorFetchMoreEvents'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('events.errorFetchMoreEvents'));
         setIsLoadingMore(false);
       }
     }
