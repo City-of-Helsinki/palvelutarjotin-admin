@@ -1,5 +1,7 @@
 import { QueryHookOptions } from '@apollo/client';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import {
   EventsQuery,
@@ -12,6 +14,7 @@ export const useEventsQueryHelper = ({
   variables,
 }: QueryHookOptions<EventsQuery, EventsQueryVariables>) => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const { t } = useTranslation();
 
   const {
     fetchMore: fetchMoreEvents,
@@ -40,6 +43,9 @@ export const useEventsQueryHelper = ({
         });
         setIsLoadingMore(false);
       } catch (e) {
+        toast(t('events.errorFetchMoreEvents'), {
+          type: toast.TYPE.ERROR,
+        });
         setIsLoadingMore(false);
       }
     }

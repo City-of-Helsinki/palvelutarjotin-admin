@@ -460,7 +460,8 @@
     "title": "Evenemang",
     "titleComingEvents": "Evenemang",
     "titleEventsWithPastOccurrences": "Tidigare evenemang",
-    "titleEventsWithoutOccurrences": "Evenemang utan evenemangtider"
+    "titleEventsWithoutOccurrences": "Evenemang utan evenemangtider",
+    "errorFetchMoreEvents": "Det gick inte att ladda evenemangen"
   },
   "eventSummary": {
     "buttonBack": "Tillbaka till evenemangstiderna",

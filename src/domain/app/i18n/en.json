@@ -453,7 +453,8 @@
     "title": "Events",
     "titleComingEvents": "Events",
     "titleEventsWithPastOccurrences": "Past events",
-    "titleEventsWithoutOccurrences": "Events without event times"
+    "titleEventsWithoutOccurrences": "Events without event times",
+    "errorFetchMoreEvents": "Failed to load more events"
   },
   "eventSummary": {
     "buttonBack": "Back to occurrences",

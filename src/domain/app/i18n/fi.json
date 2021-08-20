@@ -459,7 +459,8 @@
     "title": "Tapahtumat",
     "titleComingEvents": "Tapahtumat",
     "titleEventsWithPastOccurrences": "Menneet tapahtumat",
-    "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja"
+    "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja",
+    "errorFetchMoreEvents": "Tapahtumien lataaminen epäonnistui"
   },
   "eventSummary": {
     "buttonBack": "Takaisin tapahtuma-aikoihin",
