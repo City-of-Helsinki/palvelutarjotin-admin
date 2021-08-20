@@ -96,6 +96,7 @@
 
 .alertModal {
   border-color: var(--border-color-modal-alert);
+  overflow-y: auto;
 }
 
 .notificationButtonWrapper {

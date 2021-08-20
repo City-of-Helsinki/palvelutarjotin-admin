@@ -99,23 +99,41 @@ const EventDetailsPage = () => {
   };
 
   const renderFutureOccurrencesList = () => {
+    const getOccurrenceTime = (time: string) =>
+      t('eventDetails.deleteModal.occurrenceTime', {
+        date: formatDate(new Date(time), 'dd.MM.yyyy'),
+        time: formatDate(new Date(time), 'HH:mm'),
+      });
+
     if (eventHasUpcomingOccurrences) {
       return (
         <div className={styles.futureOccurrencesList}>
-          <p>{t('eventDetails.deleteModal.upcomingOccurrences')}:</p>
-          <ul>
-            {upcomingOccurrences.map((o) => {
-              const startTime = o?.node?.startTime;
-              return (
+          <p style={{ fontWeight: 'bold' }}>
+            {t('eventDetails.deleteModal.upcomingOccurrences')} (
+            {upcomingOccurrences.length}):
+          </p>
+          {upcomingOccurrences.length <= 5 ? (
+            <ul>
+              {upcomingOccurrences.map((o) => (
                 <li key={o?.node?.id}>
-                  {t('eventDetails.deleteModal.occurrenceTime', {
-                    date: formatDate(new Date(startTime), 'dd.MM.yyyy'),
-                    time: formatDate(new Date(startTime), 'HH:mm'),
-                  })}
+                  {getOccurrenceTime(o?.node?.startTime)}
                 </li>
-              );
-            })}
-          </ul>
+              ))}
+            </ul>
+          ) : (
+            <div>
+              <div>
+                {getOccurrenceTime(upcomingOccurrences[0]?.node?.startTime)}
+              </div>
+              <Dots />
+              <div>
+                {getOccurrenceTime(
+                  upcomingOccurrences[upcomingOccurrences.length - 1]?.node
+                    ?.startTime
+                )}
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -204,6 +222,16 @@ const EventDetailsPage = () => {
         </Container>
       </LoadingSpinner>
     </PageWrapper>
+  );
+};
+
+const Dots = () => {
+  return (
+    <div className={styles.dots} data-testid="dots">
+      <div />
+      <div />
+      <div />
+    </div>
   );
 };
 
