@@ -48,3 +48,12 @@ $logoWidth: 5.5rem;
     width: 1.25rem;
   }
 }
+
+.navigationItem {
+  color: var(--navigation-item-color) !important;
+}
+
+.navigationItemLabel {
+  display: flex;
+  align-items: center;
+}

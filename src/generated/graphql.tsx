@@ -843,10 +843,10 @@ export enum NotificationType {
 
 export type OccurrenceNode = Node & {
   __typename?: 'OccurrenceNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   /** The ID of the object. */
   id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   pEvent?: Maybe<PalvelutarjotinEventNode>;
   minGroupSize?: Maybe<Scalars['Int']>;
   maxGroupSize?: Maybe<Scalars['Int']>;
@@ -863,11 +863,13 @@ export type OccurrenceNode = Node & {
   remainingSeats: Scalars['Int'];
   seatsTaken: Scalars['Int'];
   seatsApproved: Scalars['Int'];
+  /** Only use this field in single event query for best performance. */
   linkedEvent?: Maybe<Event>;
 };
 
 
 export type OccurrenceNodeContactPersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -876,6 +878,7 @@ export type OccurrenceNodeContactPersonsArgs = {
 
 
 export type OccurrenceNodeStudyGroupsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -884,6 +887,7 @@ export type OccurrenceNodeStudyGroupsArgs = {
 
 
 export type OccurrenceNodeLanguagesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -892,6 +896,7 @@ export type OccurrenceNodeLanguagesArgs = {
 
 
 export type OccurrenceNodeEnrolmentsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -953,6 +958,7 @@ export type OrganisationNode = Node & {
 
 
 export type OrganisationNodePersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -961,6 +967,7 @@ export type OrganisationNodePersonsArgs = {
 
 
 export type OrganisationNodePEventArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1056,10 +1063,10 @@ export type PalvelutarjotinEventInput = {
 
 export type PalvelutarjotinEventNode = Node & {
   __typename?: 'PalvelutarjotinEventNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   /** The ID of the object. */
   id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   linkedEventId: Scalars['String'];
   enrolmentStart?: Maybe<Scalars['DateTime']>;
   enrolmentEndDays?: Maybe<Scalars['Int']>;
@@ -1077,6 +1084,7 @@ export type PalvelutarjotinEventNode = Node & {
 
 
 export type PalvelutarjotinEventNodeOccurrencesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1126,6 +1134,7 @@ export type PersonNode = Node & {
 
 
 export type PersonNodeOrganisationsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1135,6 +1144,7 @@ export type PersonNodeOrganisationsArgs = {
 
 
 export type PersonNodeOrganisationproposalSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1143,6 +1153,7 @@ export type PersonNodeOrganisationproposalSetArgs = {
 
 
 export type PersonNodePEventArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1151,6 +1162,7 @@ export type PersonNodePEventArgs = {
 
 
 export type PersonNodeOccurrencesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1164,6 +1176,7 @@ export type PersonNodeOccurrencesArgs = {
 
 
 export type PersonNodeStudygroupSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1172,6 +1185,7 @@ export type PersonNodeStudygroupSetArgs = {
 
 
 export type PersonNodeEnrolmentSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1337,6 +1351,7 @@ export type Query = {
 
 export type QueryOccurrencesArgs = {
   orderBy?: Maybe<Array<Maybe<Scalars['String']>>>;
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1355,6 +1370,7 @@ export type QueryOccurrenceArgs = {
 
 
 export type QueryStudyGroupsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1368,6 +1384,7 @@ export type QueryStudyGroupArgs = {
 
 
 export type QueryStudyLevelsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1381,6 +1398,7 @@ export type QueryStudyLevelArgs = {
 
 
 export type QueryVenuesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1399,6 +1417,7 @@ export type QueryCancellingEnrolmentArgs = {
 
 
 export type QueryLanguagesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1412,6 +1431,7 @@ export type QueryLanguageArgs = {
 
 
 export type QueryEnrolmentsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1427,6 +1447,7 @@ export type QueryEnrolmentArgs = {
 export type QueryEnrolmentSummaryArgs = {
   organisationId: Scalars['ID'];
   status?: Maybe<EnrolmentStatus>;
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1440,6 +1461,7 @@ export type QueryPersonArgs = {
 
 
 export type QueryPersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1453,6 +1475,7 @@ export type QueryOrganisationArgs = {
 
 
 export type QueryOrganisationsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1571,10 +1594,10 @@ export type StudyGroupInput = {
 
 export type StudyGroupNode = Node & {
   __typename?: 'StudyGroupNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   /** The ID of the object. */
   id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   person: PersonNode;
   name: Scalars['String'];
   groupSize: Scalars['Int'];
@@ -1588,6 +1611,7 @@ export type StudyGroupNode = Node & {
 
 
 export type StudyGroupNodeStudyLevelsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1596,6 +1620,7 @@ export type StudyGroupNodeStudyLevelsArgs = {
 
 
 export type StudyGroupNodeOccurrencesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1609,6 +1634,7 @@ export type StudyGroupNodeOccurrencesArgs = {
 
 
 export type StudyGroupNodeEnrolmentsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1930,53 +1956,175 @@ export type EnrolmentTemplateContextQueryVariables = Exact<{
 }>;
 
 
-export type EnrolmentTemplateContextQuery = { __typename?: 'Query', enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, studyGroup: { __typename?: 'StudyGroupNode', id: string, name: string, person: { __typename?: 'PersonNode', id: string, emailAddress: string } }, occurrence: { __typename?: 'OccurrenceNode', id: string, startTime: any, linkedEvent?: Maybe<{ __typename?: 'Event', id: string, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> } }> } }> };
+export type EnrolmentTemplateContextQuery = (
+  { __typename?: 'Query' }
+  & { enrolment?: Maybe<(
+    { __typename?: 'EnrolmentNode' }
+    & Pick<EnrolmentNode, 'id'>
+    & { studyGroup: (
+      { __typename?: 'StudyGroupNode' }
+      & Pick<StudyGroupNode, 'id' | 'name'>
+      & { person: (
+        { __typename?: 'PersonNode' }
+        & Pick<PersonNode, 'id' | 'emailAddress'>
+      ) }
+    ), occurrence: (
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id' | 'startTime'>
+      & { linkedEvent?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id'>
+        & { name: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ) }
+      )> }
+    ) }
+  )> }
+);
 
 export type EventNameQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type EventNameQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'Event', id: string, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> } }> };
+export type EventNameQuery = (
+  { __typename?: 'Query' }
+  & { event?: Maybe<(
+    { __typename?: 'Event' }
+    & Pick<Event, 'id'>
+    & { name: (
+      { __typename?: 'LocalisedObject' }
+      & LocalisedFieldsFragment
+    ) }
+  )> }
+);
 
 export type ApproveEnrolmentMutationVariables = Exact<{
   input: ApproveEnrolmentMutationInput;
 }>;
 
 
-export type ApproveEnrolmentMutation = { __typename?: 'Mutation', approveEnrolment?: Maybe<{ __typename?: 'ApproveEnrolmentMutationPayload', clientMutationId?: Maybe<string>, enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } } }> }> };
+export type ApproveEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { approveEnrolment?: Maybe<(
+    { __typename?: 'ApproveEnrolmentMutationPayload' }
+    & Pick<ApproveEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & EnrolmentFieldsFragment
+    )> }
+  )> }
+);
 
 export type DeclineEnrolmentMutationVariables = Exact<{
   input: DeclineEnrolmentMutationInput;
 }>;
 
 
-export type DeclineEnrolmentMutation = { __typename?: 'Mutation', declineEnrolment?: Maybe<{ __typename?: 'DeclineEnrolmentMutationPayload', clientMutationId?: Maybe<string>, enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } } }> }> };
+export type DeclineEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { declineEnrolment?: Maybe<(
+    { __typename?: 'DeclineEnrolmentMutationPayload' }
+    & Pick<DeclineEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & EnrolmentFieldsFragment
+    )> }
+  )> }
+);
 
 export type DeleteEnrolmentMutationVariables = Exact<{
   input: UnenrolOccurrenceMutationInput;
 }>;
 
 
-export type DeleteEnrolmentMutation = { __typename?: 'Mutation', unenrolOccurrence?: Maybe<{ __typename?: 'UnenrolOccurrenceMutationPayload', clientMutationId?: Maybe<string>, occurrence?: Maybe<{ __typename?: 'OccurrenceNode', id: string }>, studyGroup?: Maybe<{ __typename?: 'StudyGroupNode', id: string }> }> };
+export type DeleteEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { unenrolOccurrence?: Maybe<(
+    { __typename?: 'UnenrolOccurrenceMutationPayload' }
+    & Pick<UnenrolOccurrenceMutationPayload, 'clientMutationId'>
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id'>
+    )>, studyGroup?: Maybe<(
+      { __typename?: 'StudyGroupNode' }
+      & Pick<StudyGroupNode, 'id'>
+    )> }
+  )> }
+);
 
 export type UpdateEnrolmentMutationVariables = Exact<{
   input: UpdateEnrolmentMutationInput;
 }>;
 
 
-export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment?: Maybe<{ __typename?: 'UpdateEnrolmentMutationPayload', clientMutationId?: Maybe<string>, enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } } }> }> };
+export type UpdateEnrolmentMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEnrolment?: Maybe<(
+    { __typename?: 'UpdateEnrolmentMutationPayload' }
+    & Pick<UpdateEnrolmentMutationPayload, 'clientMutationId'>
+    & { enrolment?: Maybe<(
+      { __typename?: 'EnrolmentNode' }
+      & EnrolmentFieldsFragment
+    )> }
+  )> }
+);
 
-export type StudyGroupFieldsFragment = { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } };
+export type StudyGroupFieldsFragment = (
+  { __typename?: 'StudyGroupNode' }
+  & Pick<StudyGroupNode, 'id' | 'groupSize' | 'amountOfAdult' | 'name' | 'groupName' | 'extraNeeds'>
+  & { studyLevels: (
+    { __typename?: 'StudyLevelNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'StudyLevelNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'StudyLevelNode' }
+        & StudyLevelFieldsFragment
+      )> }
+    )>> }
+  ), person: (
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  ) }
+);
 
-export type EnrolmentFieldsFragment = { __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } } };
+export type EnrolmentFieldsFragment = (
+  { __typename?: 'EnrolmentNode' }
+  & Pick<EnrolmentNode, 'id' | 'notificationType' | 'enrolmentTime' | 'status'>
+  & { person?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  )>, studyGroup: (
+    { __typename?: 'StudyGroupNode' }
+    & StudyGroupFieldsFragment
+  ) }
+);
 
 export type EnrolmentQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type EnrolmentQuery = { __typename?: 'Query', enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, occurrence: { __typename?: 'OccurrenceNode', id: string, maxGroupSize?: Maybe<number>, minGroupSize?: Maybe<number>, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string }> }> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } } }> };
+export type EnrolmentQuery = (
+  { __typename?: 'Query' }
+  & { enrolment?: Maybe<(
+    { __typename?: 'EnrolmentNode' }
+    & { occurrence: (
+      { __typename?: 'OccurrenceNode' }
+      & Pick<OccurrenceNode, 'id' | 'maxGroupSize' | 'minGroupSize'>
+      & { pEvent?: Maybe<(
+        { __typename?: 'PalvelutarjotinEventNode' }
+        & Pick<PalvelutarjotinEventNode, 'id'>
+        & { organisation?: Maybe<(
+          { __typename?: 'OrganisationNode' }
+          & Pick<OrganisationNode, 'id'>
+        )> }
+      )> }
+    ) }
+    & EnrolmentFieldsFragment
+  )> }
+);
 
 export type NotificationTemplateQueryVariables = Exact<{
   templateType?: Maybe<NotificationTemplateType>;
@@ -1985,43 +2133,245 @@ export type NotificationTemplateQueryVariables = Exact<{
 }>;
 
 
-export type NotificationTemplateQuery = { __typename?: 'Query', notificationTemplate?: Maybe<{ __typename?: 'NotificationTemplateWithContext', customContextPreviewHtml?: Maybe<string>, customContextPreviewText?: Maybe<string>, template?: Maybe<{ __typename?: 'NotificationTemplateNode', id: string, type: string, preview?: Maybe<string>, translations: Array<Maybe<{ __typename?: 'NotificationTranslationType', languageCode: NotificationTemplateLanguage, subject?: Maybe<string>, bodyHtml?: Maybe<string>, bodyText?: Maybe<string>, preview?: Maybe<string> }>> }> }> };
+export type NotificationTemplateQuery = (
+  { __typename?: 'Query' }
+  & { notificationTemplate?: Maybe<(
+    { __typename?: 'NotificationTemplateWithContext' }
+    & Pick<NotificationTemplateWithContext, 'customContextPreviewHtml' | 'customContextPreviewText'>
+    & { template?: Maybe<(
+      { __typename?: 'NotificationTemplateNode' }
+      & Pick<NotificationTemplateNode, 'id' | 'type' | 'preview'>
+      & { translations: Array<Maybe<(
+        { __typename?: 'NotificationTranslationType' }
+        & Pick<NotificationTranslationType, 'languageCode' | 'subject' | 'bodyHtml' | 'bodyText' | 'preview'>
+      )>> }
+    )> }
+  )> }
+);
 
 export type CreateEventMutationVariables = Exact<{
   event: AddEventMutationInput;
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', addEventMutation?: Maybe<{ __typename?: 'AddEventMutation', response?: Maybe<{ __typename?: 'EventMutationResponse', statusCode: number, body?: Maybe<{ __typename?: 'Event', id: string, internalId: string, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, shortDescription: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, description: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, images: Array<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }>, offers: Array<{ __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string, neededOccurrences: number, autoAcceptance: boolean }, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> }> };
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { addEventMutation?: Maybe<(
+    { __typename?: 'AddEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId'>
+        & { name: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ), shortDescription: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ), description: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ), images: Array<(
+          { __typename?: 'Image' }
+          & ImageFieldsFragment
+        )>, offers: Array<(
+          { __typename?: 'Offer' }
+          & OfferFieldsFragment
+        )>, pEvent: (
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & Pick<PalvelutarjotinEventNode, 'id' | 'neededOccurrences' | 'autoAcceptance'>
+        ), infoUrl?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        )> }
+      )> }
+    )> }
+  )> }
+);
 
 export type DeleteSingleEventMutationVariables = Exact<{
   eventId: Scalars['String'];
 }>;
 
 
-export type DeleteSingleEventMutation = { __typename?: 'Mutation', deleteEventMutation?: Maybe<{ __typename?: 'DeleteEventMutation', response?: Maybe<{ __typename?: 'EventMutationResponse', statusCode: number, body?: Maybe<{ __typename?: 'Event', id: string, internalId: string }> }> }> };
+export type DeleteSingleEventMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteEventMutation?: Maybe<(
+    { __typename?: 'DeleteEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId'>
+      )> }
+    )> }
+  )> }
+);
 
 export type PublishSingleEventMutationVariables = Exact<{
   event: PublishEventMutationInput;
 }>;
 
 
-export type PublishSingleEventMutation = { __typename?: 'Mutation', publishEventMutation?: Maybe<{ __typename?: 'PublishEventMutation', response?: Maybe<{ __typename?: 'EventMutationResponse', statusCode: number, resultText?: Maybe<string>, body?: Maybe<{ __typename?: 'Event', id: string, internalId: string, publicationStatus?: Maybe<string> }> }> }> };
+export type PublishSingleEventMutation = (
+  { __typename?: 'Mutation' }
+  & { publishEventMutation?: Maybe<(
+    { __typename?: 'PublishEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode' | 'resultText'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId' | 'publicationStatus'>
+      )> }
+    )> }
+  )> }
+);
 
 export type EditEventMutationVariables = Exact<{
   event: UpdateEventMutationInput;
 }>;
 
 
-export type EditEventMutation = { __typename?: 'Mutation', updateEventMutation?: Maybe<{ __typename?: 'UpdateEventMutation', response?: Maybe<{ __typename?: 'EventMutationResponse', statusCode: number, body?: Maybe<{ __typename?: 'Event', id: string, internalId: string, startTime?: Maybe<string>, publicationStatus?: Maybe<string>, datePublished?: Maybe<string>, endTime?: Maybe<string>, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, shortDescription: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, description: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, images: Array<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string, nextOccurrenceDatetime?: Maybe<any>, autoAcceptance: boolean, contactEmail: string, contactPhoneNumber: string, enrolmentEndDays?: Maybe<number>, enrolmentStart?: Maybe<any>, neededOccurrences: number, mandatoryAdditionalInformation: boolean, contactPerson?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }>, occurrences: { __typename?: 'OccurrenceNodeConnection', edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> } }, inLanguage: Array<{ __typename?: 'InLanguage', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, audience: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, keywords: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, offers: Array<{ __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> }> }> };
+export type EditEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEventMutation?: Maybe<(
+    { __typename?: 'UpdateEventMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'EventMutationResponse' }
+      & Pick<EventMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus' | 'datePublished' | 'endTime'>
+        & { name: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ), shortDescription: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ), description: (
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        ), images: Array<(
+          { __typename?: 'Image' }
+          & ImageFieldsFragment
+        )>, infoUrl?: Maybe<(
+          { __typename?: 'LocalisedObject' }
+          & LocalisedFieldsFragment
+        )>, pEvent: (
+          { __typename?: 'PalvelutarjotinEventNode' }
+          & PEventFieldsFragment
+        ), inLanguage: Array<(
+          { __typename?: 'InLanguage' }
+          & Pick<InLanguage, 'id' | 'internalId'>
+          & { name?: Maybe<(
+            { __typename?: 'LocalisedObject' }
+            & LocalisedFieldsFragment
+          )> }
+        )>, audience: Array<(
+          { __typename?: 'Keyword' }
+          & KeywordFieldsFragment
+        )>, keywords: Array<(
+          { __typename?: 'Keyword' }
+          & KeywordFieldsFragment
+        )>, offers: Array<(
+          { __typename?: 'Offer' }
+          & OfferFieldsFragment
+        )> }
+      )> }
+    )> }
+  )> }
+);
 
-export type PEventFieldsFragment = { __typename?: 'PalvelutarjotinEventNode', id: string, nextOccurrenceDatetime?: Maybe<any>, autoAcceptance: boolean, contactEmail: string, contactPhoneNumber: string, enrolmentEndDays?: Maybe<number>, enrolmentStart?: Maybe<any>, neededOccurrences: number, mandatoryAdditionalInformation: boolean, contactPerson?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }>, occurrences: { __typename?: 'OccurrenceNodeConnection', edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> } };
+export type PEventFieldsFragment = (
+  { __typename?: 'PalvelutarjotinEventNode' }
+  & Pick<PalvelutarjotinEventNode, 'id' | 'nextOccurrenceDatetime' | 'autoAcceptance' | 'contactEmail' | 'contactPhoneNumber' | 'enrolmentEndDays' | 'enrolmentStart' | 'neededOccurrences' | 'mandatoryAdditionalInformation'>
+  & { contactPerson?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  )>, organisation?: Maybe<(
+    { __typename?: 'OrganisationNode' }
+    & OrganisationNodeFieldsFragment
+  )>, occurrences: (
+    { __typename?: 'OccurrenceNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OccurrenceNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OccurrenceNode' }
+        & OccurrenceFieldsFragment
+      )> }
+    )>> }
+  ) }
+);
 
-export type LocalisedFieldsFragment = { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> };
+export type LocalisedFieldsFragment = (
+  { __typename?: 'LocalisedObject' }
+  & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+);
 
-export type OfferFieldsFragment = { __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> };
+export type OfferFieldsFragment = (
+  { __typename?: 'Offer' }
+  & Pick<Offer, 'isFree'>
+  & { description?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, price?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, infoUrl?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )> }
+);
 
-export type EventFieldsFragment = { __typename?: 'Event', id: string, internalId: string, startTime?: Maybe<string>, publicationStatus?: Maybe<string>, datePublished?: Maybe<string>, endTime?: Maybe<string>, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, shortDescription: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, description: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, images: Array<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string, nextOccurrenceDatetime?: Maybe<any>, autoAcceptance: boolean, contactEmail: string, contactPhoneNumber: string, enrolmentEndDays?: Maybe<number>, enrolmentStart?: Maybe<any>, neededOccurrences: number, mandatoryAdditionalInformation: boolean, contactPerson?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }>, occurrences: { __typename?: 'OccurrenceNodeConnection', edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> } }, inLanguage: Array<{ __typename?: 'InLanguage', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, audience: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, keywords: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, location?: Maybe<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }>, offers: Array<{ __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> };
+export type EventFieldsFragment = (
+  { __typename?: 'Event' }
+  & Pick<Event, 'id' | 'internalId' | 'startTime' | 'publicationStatus' | 'datePublished' | 'endTime'>
+  & { name: (
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  ), shortDescription: (
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  ), description: (
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  ), images: Array<(
+    { __typename?: 'Image' }
+    & ImageFieldsFragment
+  )>, infoUrl?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, pEvent: (
+    { __typename?: 'PalvelutarjotinEventNode' }
+    & PEventFieldsFragment
+  ), inLanguage: Array<(
+    { __typename?: 'InLanguage' }
+    & Pick<InLanguage, 'id' | 'internalId'>
+    & { name?: Maybe<(
+      { __typename?: 'LocalisedObject' }
+      & LocalisedFieldsFragment
+    )> }
+  )>, audience: Array<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>, keywords: Array<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>, location?: Maybe<(
+    { __typename?: 'Place' }
+    & PlaceFieldsFragment
+  )>, venue?: Maybe<(
+    { __typename?: 'VenueNode' }
+    & VenueFieldsFragment
+  )>, offers: Array<(
+    { __typename?: 'Offer' }
+    & OfferFieldsFragment
+  )> }
+);
 
 export type EventQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2029,9 +2379,25 @@ export type EventQueryVariables = Exact<{
 }>;
 
 
-export type EventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'Event', id: string, internalId: string, startTime?: Maybe<string>, publicationStatus?: Maybe<string>, datePublished?: Maybe<string>, endTime?: Maybe<string>, additionalCriteria: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, categories: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, shortDescription: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, description: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, images: Array<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string, nextOccurrenceDatetime?: Maybe<any>, autoAcceptance: boolean, contactEmail: string, contactPhoneNumber: string, enrolmentEndDays?: Maybe<number>, enrolmentStart?: Maybe<any>, neededOccurrences: number, mandatoryAdditionalInformation: boolean, contactPerson?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }>, occurrences: { __typename?: 'OccurrenceNodeConnection', edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> } }, inLanguage: Array<{ __typename?: 'InLanguage', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, audience: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, keywords: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, location?: Maybe<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }>, offers: Array<{ __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> };
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event?: Maybe<(
+    { __typename?: 'Event' }
+    & { additionalCriteria: Array<(
+      { __typename?: 'Keyword' }
+      & KeywordFieldsFragment
+    )>, categories: Array<(
+      { __typename?: 'Keyword' }
+      & KeywordFieldsFragment
+    )> }
+    & EventFieldsFragment
+  )> }
+);
 
-export type MetaFieldsFragment = { __typename?: 'Meta', count?: Maybe<number>, next?: Maybe<string>, previous?: Maybe<string> };
+export type MetaFieldsFragment = (
+  { __typename?: 'Meta' }
+  & Pick<Meta, 'count' | 'next' | 'previous'>
+);
 
 export type EventsQueryVariables = Exact<{
   division?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
@@ -2058,39 +2424,99 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: Maybe<{ __typename?: 'EventListResponse', meta: { __typename?: 'Meta', count?: Maybe<number>, next?: Maybe<string>, previous?: Maybe<string> }, data: Array<{ __typename?: 'Event', id: string, internalId: string, startTime?: Maybe<string>, publicationStatus?: Maybe<string>, datePublished?: Maybe<string>, endTime?: Maybe<string>, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, shortDescription: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, description: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, images: Array<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string, nextOccurrenceDatetime?: Maybe<any>, autoAcceptance: boolean, contactEmail: string, contactPhoneNumber: string, enrolmentEndDays?: Maybe<number>, enrolmentStart?: Maybe<any>, neededOccurrences: number, mandatoryAdditionalInformation: boolean, contactPerson?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }>, occurrences: { __typename?: 'OccurrenceNodeConnection', edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> } }, inLanguage: Array<{ __typename?: 'InLanguage', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, audience: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, keywords: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, location?: Maybe<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }>, offers: Array<{ __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> }> };
+export type EventsQuery = (
+  { __typename?: 'Query' }
+  & { events?: Maybe<(
+    { __typename?: 'EventListResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<(
+      { __typename?: 'Event' }
+      & EventFieldsFragment
+    )> }
+  )> }
+);
 
 export type UploadSingleImageMutationVariables = Exact<{
   image: UploadImageMutationInput;
 }>;
 
 
-export type UploadSingleImageMutation = { __typename?: 'Mutation', uploadImageMutation?: Maybe<{ __typename?: 'UploadImageMutation', response?: Maybe<{ __typename?: 'ImageMutationResponse', statusCode: number, body?: Maybe<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }> }> }> };
+export type UploadSingleImageMutation = (
+  { __typename?: 'Mutation' }
+  & { uploadImageMutation?: Maybe<(
+    { __typename?: 'UploadImageMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'ImageMutationResponse' }
+      & Pick<ImageMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Image' }
+        & ImageFieldsFragment
+      )> }
+    )> }
+  )> }
+);
 
 export type UpdateSingleImageMutationVariables = Exact<{
   image: UpdateImageMutationInput;
 }>;
 
 
-export type UpdateSingleImageMutation = { __typename?: 'Mutation', updateImageMutation?: Maybe<{ __typename?: 'UpdateImageMutation', response?: Maybe<{ __typename?: 'ImageMutationResponse', statusCode: number, body?: Maybe<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }> }> }> };
+export type UpdateSingleImageMutation = (
+  { __typename?: 'Mutation' }
+  & { updateImageMutation?: Maybe<(
+    { __typename?: 'UpdateImageMutation' }
+    & { response?: Maybe<(
+      { __typename?: 'ImageMutationResponse' }
+      & Pick<ImageMutationResponse, 'statusCode'>
+      & { body?: Maybe<(
+        { __typename?: 'Image' }
+        & ImageFieldsFragment
+      )> }
+    )> }
+  )> }
+);
 
-export type ImageFieldsFragment = { __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> };
+export type ImageFieldsFragment = (
+  { __typename?: 'Image' }
+  & Pick<Image, 'id' | 'internalId' | 'license' | 'name' | 'url' | 'cropping' | 'photographerName' | 'altText'>
+);
 
 export type ImageQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type ImageQuery = { __typename?: 'Query', image?: Maybe<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }> };
+export type ImageQuery = (
+  { __typename?: 'Query' }
+  & { image?: Maybe<(
+    { __typename?: 'Image' }
+    & ImageFieldsFragment
+  )> }
+);
 
-export type KeywordFieldsFragment = { __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> };
+export type KeywordFieldsFragment = (
+  { __typename?: 'Keyword' }
+  & Pick<Keyword, 'id' | 'internalId'>
+  & { name?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )> }
+);
 
 export type KeywordQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type KeywordQuery = { __typename?: 'Query', keyword?: Maybe<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> };
+export type KeywordQuery = (
+  { __typename?: 'Query' }
+  & { keyword?: Maybe<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )> }
+);
 
 export type KeywordsQueryVariables = Exact<{
   dataSource?: Maybe<Scalars['String']>;
@@ -2102,74 +2528,240 @@ export type KeywordsQueryVariables = Exact<{
 }>;
 
 
-export type KeywordsQuery = { __typename?: 'Query', keywords?: Maybe<{ __typename?: 'KeywordListResponse', meta: { __typename?: 'Meta', count?: Maybe<number>, next?: Maybe<string>, previous?: Maybe<string> }, data: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> };
+export type KeywordsQuery = (
+  { __typename?: 'Query' }
+  & { keywords?: Maybe<(
+    { __typename?: 'KeywordListResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & Pick<Meta, 'count' | 'next' | 'previous'>
+    ), data: Array<(
+      { __typename?: 'Keyword' }
+      & KeywordFieldsFragment
+    )> }
+  )> }
+);
 
 export type KeywordSetQueryVariables = Exact<{
   setType: KeywordSetType;
 }>;
 
 
-export type KeywordSetQuery = { __typename?: 'Query', keywordSet?: Maybe<{ __typename?: 'KeywordSet', internalId: string, keywords: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> };
+export type KeywordSetQuery = (
+  { __typename?: 'Query' }
+  & { keywordSet?: Maybe<(
+    { __typename?: 'KeywordSet' }
+    & Pick<KeywordSet, 'internalId'>
+    & { keywords: Array<(
+      { __typename?: 'Keyword' }
+      & KeywordFieldsFragment
+    )>, name?: Maybe<(
+      { __typename?: 'LocalisedObject' }
+      & LocalisedFieldsFragment
+    )> }
+  )> }
+);
 
 export type CreateMyProfileMutationVariables = Exact<{
   myProfile: CreateMyProfileMutationInput;
 }>;
 
 
-export type CreateMyProfileMutation = { __typename?: 'Mutation', createMyProfile?: Maybe<{ __typename?: 'CreateMyProfileMutationPayload', myProfile?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, organisationproposalSet: { __typename?: 'OrganisationProposalNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationProposalNodeEdge', node?: Maybe<{ __typename?: 'OrganisationProposalNode', name: string }> }>> } }> }> };
+export type CreateMyProfileMutation = (
+  { __typename?: 'Mutation' }
+  & { createMyProfile?: Maybe<(
+    { __typename?: 'CreateMyProfileMutationPayload' }
+    & { myProfile?: Maybe<(
+      { __typename?: 'PersonNode' }
+      & { organisationproposalSet: (
+        { __typename?: 'OrganisationProposalNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationProposalNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationProposalNode' }
+            & Pick<OrganisationProposalNode, 'name'>
+          )> }
+        )>> }
+      ) }
+      & PersonFieldsFragment
+    )> }
+  )> }
+);
 
 export type UpdateMyProfileMutationVariables = Exact<{
   myProfile: UpdateMyProfileMutationInput;
 }>;
 
 
-export type UpdateMyProfileMutation = { __typename?: 'Mutation', updateMyProfile?: Maybe<{ __typename?: 'UpdateMyProfileMutationPayload', myProfile?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, organisations: { __typename?: 'OrganisationNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationNodeEdge', node?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }> }>> }, organisationproposalSet: { __typename?: 'OrganisationProposalNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationProposalNodeEdge', node?: Maybe<{ __typename?: 'OrganisationProposalNode', name: string }> }>> } }> }> };
+export type UpdateMyProfileMutation = (
+  { __typename?: 'Mutation' }
+  & { updateMyProfile?: Maybe<(
+    { __typename?: 'UpdateMyProfileMutationPayload' }
+    & { myProfile?: Maybe<(
+      { __typename?: 'PersonNode' }
+      & { organisations: (
+        { __typename?: 'OrganisationNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationNode' }
+            & OrganisationNodeFieldsFragment
+          )> }
+        )>> }
+      ), organisationproposalSet: (
+        { __typename?: 'OrganisationProposalNodeConnection' }
+        & { edges: Array<Maybe<(
+          { __typename?: 'OrganisationProposalNodeEdge' }
+          & { node?: Maybe<(
+            { __typename?: 'OrganisationProposalNode' }
+            & Pick<OrganisationProposalNode, 'name'>
+          )> }
+        )>> }
+      ) }
+      & PersonFieldsFragment
+    )> }
+  )> }
+);
 
-export type MyProfileFieldsFragment = { __typename?: 'PersonNode', isStaff: boolean, id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, organisations: { __typename?: 'OrganisationNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationNodeEdge', node?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }> }>> }, organisationproposalSet: { __typename?: 'OrganisationProposalNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationProposalNodeEdge', node?: Maybe<{ __typename?: 'OrganisationProposalNode', name: string }> }>> } };
+export type MyProfileFieldsFragment = (
+  { __typename?: 'PersonNode' }
+  & Pick<PersonNode, 'isStaff'>
+  & { organisations: (
+    { __typename?: 'OrganisationNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OrganisationNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationNode' }
+        & OrganisationNodeFieldsFragment
+      )> }
+    )>> }
+  ), organisationproposalSet: (
+    { __typename?: 'OrganisationProposalNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'OrganisationProposalNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationProposalNode' }
+        & Pick<OrganisationProposalNode, 'name'>
+      )> }
+    )>> }
+  ) }
+  & PersonFieldsFragment
+);
 
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyProfileQuery = { __typename?: 'Query', myProfile?: Maybe<{ __typename?: 'PersonNode', isStaff: boolean, id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, organisations: { __typename?: 'OrganisationNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationNodeEdge', node?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }> }>> }, organisationproposalSet: { __typename?: 'OrganisationProposalNodeConnection', edges: Array<Maybe<{ __typename?: 'OrganisationProposalNodeEdge', node?: Maybe<{ __typename?: 'OrganisationProposalNode', name: string }> }>> } }> };
+export type MyProfileQuery = (
+  { __typename?: 'Query' }
+  & { myProfile?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & MyProfileFieldsFragment
+  )> }
+);
 
 export type AddOccurrenceMutationVariables = Exact<{
   input: AddOccurrenceMutationInput;
 }>;
 
 
-export type AddOccurrenceMutation = { __typename?: 'Mutation', addOccurrence?: Maybe<{ __typename?: 'AddOccurrenceMutationPayload', occurrence?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }> };
+export type AddOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { addOccurrence?: Maybe<(
+    { __typename?: 'AddOccurrenceMutationPayload' }
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & OccurrenceFieldsFragment
+    )> }
+  )> }
+);
 
 export type EditOccurrenceMutationVariables = Exact<{
   input: UpdateOccurrenceMutationInput;
 }>;
 
 
-export type EditOccurrenceMutation = { __typename?: 'Mutation', updateOccurrence?: Maybe<{ __typename?: 'UpdateOccurrenceMutationPayload', occurrence?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }> };
+export type EditOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOccurrence?: Maybe<(
+    { __typename?: 'UpdateOccurrenceMutationPayload' }
+    & { occurrence?: Maybe<(
+      { __typename?: 'OccurrenceNode' }
+      & OccurrenceFieldsFragment
+    )> }
+  )> }
+);
 
-export type LanguageFieldsFragment = { __typename?: 'LanguageNode', id: string, name: string };
+export type LanguageFieldsFragment = (
+  { __typename?: 'LanguageNode' }
+  & Pick<LanguageNode, 'id' | 'name'>
+);
 
-export type OccurrenceFieldsFragment = { __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } };
+export type OccurrenceFieldsFragment = (
+  { __typename?: 'OccurrenceNode' }
+  & Pick<OccurrenceNode, 'id' | 'amountOfSeats' | 'minGroupSize' | 'maxGroupSize' | 'seatsTaken' | 'seatsApproved' | 'seatType' | 'remainingSeats' | 'startTime' | 'endTime' | 'placeId' | 'cancelled'>
+  & { pEvent?: Maybe<(
+    { __typename?: 'PalvelutarjotinEventNode' }
+    & Pick<PalvelutarjotinEventNode, 'id'>
+  )>, languages: (
+    { __typename?: 'LanguageNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'LanguageNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'LanguageNode' }
+        & LanguageFieldsFragment
+      )> }
+    )>> }
+  ) }
+);
 
 export type OccurrenceQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OccurrenceQuery = { __typename?: 'Query', occurrence?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, enrolments: { __typename?: 'EnrolmentNodeConnection', edges: Array<Maybe<{ __typename?: 'EnrolmentNodeEdge', node?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, name: string, groupName: string, extraNeeds: string, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language } } }> }>> }, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> };
+export type OccurrenceQuery = (
+  { __typename?: 'Query' }
+  & { occurrence?: Maybe<(
+    { __typename?: 'OccurrenceNode' }
+    & { enrolments: (
+      { __typename?: 'EnrolmentNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'EnrolmentNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'EnrolmentNode' }
+          & EnrolmentFieldsFragment
+        )> }
+      )>> }
+    ) }
+    & OccurrenceFieldsFragment
+  )> }
+);
 
 export type DeleteOccurrenceMutationVariables = Exact<{
   input: DeleteOccurrenceMutationInput;
 }>;
 
 
-export type DeleteOccurrenceMutation = { __typename?: 'Mutation', deleteOccurrence?: Maybe<{ __typename?: 'DeleteOccurrenceMutationPayload', clientMutationId?: Maybe<string> }> };
+export type DeleteOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOccurrence?: Maybe<(
+    { __typename?: 'DeleteOccurrenceMutationPayload' }
+    & Pick<DeleteOccurrenceMutationPayload, 'clientMutationId'>
+  )> }
+);
 
 export type CancelOccurrenceMutationVariables = Exact<{
   input: CancelOccurrenceMutationInput;
 }>;
 
 
-export type CancelOccurrenceMutation = { __typename?: 'Mutation', cancelOccurrence?: Maybe<{ __typename?: 'CancelOccurrenceMutationPayload', clientMutationId?: Maybe<string> }> };
+export type CancelOccurrenceMutation = (
+  { __typename?: 'Mutation' }
+  & { cancelOccurrence?: Maybe<(
+    { __typename?: 'CancelOccurrenceMutationPayload' }
+    & Pick<CancelOccurrenceMutationPayload, 'clientMutationId'>
+  )> }
+);
 
 export type OccurrencesQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
@@ -2182,18 +2774,56 @@ export type OccurrencesQueryVariables = Exact<{
 }>;
 
 
-export type OccurrencesQuery = { __typename?: 'Query', occurrences?: Maybe<{ __typename?: 'OccurrenceNodeConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: Maybe<string>, endCursor?: Maybe<string> }, edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', cursor: string, node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> }> };
+export type OccurrencesQuery = (
+  { __typename?: 'Query' }
+  & { occurrences?: Maybe<(
+    { __typename?: 'OccurrenceNodeConnection' }
+    & { pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+    ), edges: Array<Maybe<(
+      { __typename?: 'OccurrenceNodeEdge' }
+      & Pick<OccurrenceNodeEdge, 'cursor'>
+      & { node?: Maybe<(
+        { __typename?: 'OccurrenceNode' }
+        & OccurrenceFieldsFragment
+      )> }
+    )>> }
+  )> }
+);
 
-export type OrganisationNodeFieldsFragment = { __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } };
+export type OrganisationNodeFieldsFragment = (
+  { __typename?: 'OrganisationNode' }
+  & Pick<OrganisationNode, 'id' | 'name' | 'phoneNumber' | 'publisherId' | 'type'>
+  & { persons: (
+    { __typename?: 'PersonNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'PersonNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'PersonNode' }
+        & PersonFieldsFragment
+      )> }
+    )>> }
+  ) }
+);
 
 export type OrganisationQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OrganisationQuery = { __typename?: 'Query', organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }> };
+export type OrganisationQuery = (
+  { __typename?: 'Query' }
+  & { organisation?: Maybe<(
+    { __typename?: 'OrganisationNode' }
+    & OrganisationNodeFieldsFragment
+  )> }
+);
 
-export type PageInfoFieldsFragment = { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: Maybe<string>, endCursor?: Maybe<string> };
+export type PageInfoFieldsFragment = (
+  { __typename?: 'PageInfo' }
+  & Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>
+);
 
 export type OrganisationsQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
@@ -2204,25 +2834,71 @@ export type OrganisationsQueryVariables = Exact<{
 }>;
 
 
-export type OrganisationsQuery = { __typename?: 'Query', organisations?: Maybe<{ __typename?: 'OrganisationNodeConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: Maybe<string>, endCursor?: Maybe<string> }, edges: Array<Maybe<{ __typename?: 'OrganisationNodeEdge', node?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> }>> } }> }>> }> };
+export type OrganisationsQuery = (
+  { __typename?: 'Query' }
+  & { organisations?: Maybe<(
+    { __typename?: 'OrganisationNodeConnection' }
+    & { pageInfo: (
+      { __typename?: 'PageInfo' }
+      & PageInfoFieldsFragment
+    ), edges: Array<Maybe<(
+      { __typename?: 'OrganisationNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'OrganisationNode' }
+        & OrganisationNodeFieldsFragment
+      )> }
+    )>> }
+  )> }
+);
 
-export type PersonFieldsFragment = { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language };
+export type PersonFieldsFragment = (
+  { __typename?: 'PersonNode' }
+  & Pick<PersonNode, 'id' | 'emailAddress' | 'name' | 'phoneNumber' | 'language'>
+);
 
 export type PersonQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PersonQuery = { __typename?: 'Query', person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language }> };
+export type PersonQuery = (
+  { __typename?: 'Query' }
+  & { person?: Maybe<(
+    { __typename?: 'PersonNode' }
+    & PersonFieldsFragment
+  )> }
+);
 
-export type PlaceFieldsFragment = { __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> };
+export type PlaceFieldsFragment = (
+  { __typename?: 'Place' }
+  & Pick<Place, 'id' | 'internalId'>
+  & { name?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, streetAddress?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, addressLocality?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )>, telephone?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )> }
+);
 
 export type PlaceQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaceQuery = { __typename?: 'Query', place?: Maybe<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> };
+export type PlaceQuery = (
+  { __typename?: 'Query' }
+  & { place?: Maybe<(
+    { __typename?: 'Place' }
+    & PlaceFieldsFragment
+  )> }
+);
 
 export type PlacesQueryVariables = Exact<{
   dataSource?: Maybe<Scalars['String']>;
@@ -2235,44 +2911,112 @@ export type PlacesQueryVariables = Exact<{
 }>;
 
 
-export type PlacesQuery = { __typename?: 'Query', places?: Maybe<{ __typename?: 'PlaceListResponse', meta: { __typename?: 'Meta', count?: Maybe<number>, next?: Maybe<string>, previous?: Maybe<string> }, data: Array<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> };
+export type PlacesQuery = (
+  { __typename?: 'Query' }
+  & { places?: Maybe<(
+    { __typename?: 'PlaceListResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & Pick<Meta, 'count' | 'next' | 'previous'>
+    ), data: Array<(
+      { __typename?: 'Place' }
+      & PlaceFieldsFragment
+    )> }
+  )> }
+);
 
-export type StudyLevelFieldsFragment = { __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> };
+export type StudyLevelFieldsFragment = (
+  { __typename?: 'StudyLevelNode' }
+  & Pick<StudyLevelNode, 'id' | 'label' | 'level'>
+  & { translations: Array<(
+    { __typename?: 'StudyLevelTranslationType' }
+    & Pick<StudyLevelTranslationType, 'languageCode' | 'label'>
+  )> }
+);
 
 export type StudyLevelsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StudyLevelsQuery = { __typename?: 'Query', studyLevels?: Maybe<{ __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }> };
+export type StudyLevelsQuery = (
+  { __typename?: 'Query' }
+  & { studyLevels?: Maybe<(
+    { __typename?: 'StudyLevelNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'StudyLevelNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'StudyLevelNode' }
+        & StudyLevelFieldsFragment
+      )> }
+    )>> }
+  )> }
+);
 
 export type StudyLevelQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StudyLevelQuery = { __typename?: 'Query', studyLevel?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> };
+export type StudyLevelQuery = (
+  { __typename?: 'Query' }
+  & { studyLevel?: Maybe<(
+    { __typename?: 'StudyLevelNode' }
+    & StudyLevelFieldsFragment
+  )> }
+);
 
 export type CreateVenueMutationVariables = Exact<{
   venue: AddVenueMutationInput;
 }>;
 
 
-export type CreateVenueMutation = { __typename?: 'Mutation', addVenue?: Maybe<{ __typename?: 'AddVenueMutationPayload', venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }> }> };
+export type CreateVenueMutation = (
+  { __typename?: 'Mutation' }
+  & { addVenue?: Maybe<(
+    { __typename?: 'AddVenueMutationPayload' }
+    & { venue?: Maybe<(
+      { __typename?: 'VenueNode' }
+      & VenueFieldsFragment
+    )> }
+  )> }
+);
 
 export type EditVenueMutationVariables = Exact<{
   venue: UpdateVenueMutationInput;
 }>;
 
 
-export type EditVenueMutation = { __typename?: 'Mutation', updateVenue?: Maybe<{ __typename?: 'UpdateVenueMutationPayload', venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }> }> };
+export type EditVenueMutation = (
+  { __typename?: 'Mutation' }
+  & { updateVenue?: Maybe<(
+    { __typename?: 'UpdateVenueMutationPayload' }
+    & { venue?: Maybe<(
+      { __typename?: 'VenueNode' }
+      & VenueFieldsFragment
+    )> }
+  )> }
+);
 
-export type VenueFieldsFragment = { __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> };
+export type VenueFieldsFragment = (
+  { __typename?: 'VenueNode' }
+  & Pick<VenueNode, 'id' | 'hasClothingStorage' | 'hasSnackEatingPlace' | 'outdoorActivity' | 'hasToiletNearby' | 'hasAreaForGroupWork' | 'hasIndoorPlayingArea' | 'hasOutdoorPlayingArea'>
+  & { translations: Array<(
+    { __typename?: 'VenueTranslationType' }
+    & Pick<VenueTranslationType, 'languageCode' | 'description'>
+  )> }
+);
 
 export type VenueQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type VenueQuery = { __typename?: 'Query', venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }> };
+export type VenueQuery = (
+  { __typename?: 'Query' }
+  & { venue?: Maybe<(
+    { __typename?: 'VenueNode' }
+    & VenueFieldsFragment
+  )> }
+);
 
 export const PersonFieldsFragmentDoc = gql`
     fragment personFields on PersonNode {
