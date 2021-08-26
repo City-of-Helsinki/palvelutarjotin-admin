@@ -12,10 +12,10 @@ import apolloClient from '../client';
 import CmsPageContent from './CmsPageContent';
 import CmsPageNavigation from './CmsPageNavigation';
 
-const CmsPage = (): JSX.Element => {
+const CmsPage: React.FC = () => {
   const locale = useLocale();
   const { id: pageId } = useParams<{ id: string }>();
-  const { data: page, loading } = usePageQuery({
+  const { data: pageData, loading } = usePageQuery({
     client: apolloClient,
     variables: {
       id: pageId,
@@ -25,8 +25,8 @@ const CmsPage = (): JSX.Element => {
 
   return (
     <LoadingSpinner isLoading={loading}>
-      <CmsPageNavigation page={page?.page as Page} />
-      <CmsPageContent page={page?.page as Page} />
+      <CmsPageNavigation page={pageData?.page as Page} />
+      <CmsPageContent page={pageData?.page as Page} />
     </LoadingSpinner>
   );
 };

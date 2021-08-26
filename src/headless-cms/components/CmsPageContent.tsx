@@ -14,12 +14,6 @@ const CmsPageContent: React.FC<{
 
   return (
     <div>
-      <p>
-        CmsPageContent {page.translation?.id}
-        <br />
-        slug: {page.translation?.slug}
-        <br /> uri: {page.translation?.uri}
-      </p>
       <h1>{page.translation?.title}</h1>
       <div
         dangerouslySetInnerHTML={{
