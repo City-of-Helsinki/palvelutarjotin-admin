@@ -1,5 +1,4 @@
-import { Navigation } from 'hds-react/components/Navigation';
-import { IconAngleRight, IconGlobe, IconSignout } from 'hds-react/icons';
+import { IconAngleRight, IconSignout, IconUser, Navigation } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,42 +32,19 @@ import styles from './header.module.scss';
 const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
-  const { pathname, search } = useLocation();
   const locale = i18n.language;
-
-  const changeLanguage = (newLanguage: LanguageSelectorLanguage) => {
-    history.push({
-      pathname: updateLocaleParam(pathname, locale, newLanguage),
-      search,
-    });
-  };
-
-  const getLanguageOptions = (): MenuItem[] => {
-    const createOptions = (languages: LanguageSelectorLanguage[]) =>
-      languages.map((language) => ({
-        language,
-        text: t(`header.languages.${language}`),
-        value: language,
-      }));
-
-    if (process.env.REACT_APP_LANGUAGE_CIMODE_VISIBLE === 'true') {
-      return createOptions(Object.values(ROUTER_LANGUAGES));
-    }
-    return createOptions(Object.values(SUPPORT_LANGUAGES));
-  };
-
-  const handleMenuItemClick = (item: MenuItem) => {
-    changeLanguage(item.language || 'fi');
-  };
-
   const [menuOpen, setMenuOpen] = React.useState(false);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
   const closeMenu = () => setMenuOpen(false);
 
   const isTabActive = (pathname: string): boolean => {
     return (
       typeof window !== 'undefined' &&
-      window.location.pathname.startsWith(pathname)
+      window.location.pathname.includes(
+        `${ROUTES.CMS_PAGE.replace(':id', pathname)}`
+      )
     );
   };
 
@@ -80,38 +56,24 @@ const Header: React.FC = () => {
       closeMenu();
     };
 
-  const logoLang = locale === 'sv' ? 'sv' : 'fi';
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
+
+  const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
+
+  const organisations: OrganisationNodeFieldsFragment[] =
+    myProfileData?.myProfile?.organisations.edges.map((edge) => ({
+      ...(edge?.node as OrganisationNodeFieldsFragment),
+    })) || [];
 
   const { data: navigationItems, loading: cmsMenuLoading } = useMenuQuery({
     client: apolloClient,
-    skip: !locale,
+    skip: !locale || !myProfileData,
     variables: {
       id: MENU_NAME.Header,
       idType: MenuNodeIdTypeEnum.Name,
       language: locale.toString().toUpperCase() as LanguageCodeEnum,
     },
   });
-  const isAuthenticated = useSelector(isAuthenticatedSelector);
-  const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
-
-  const activeOrganisation = useSelector(activeOrganisationSelector);
-  const dispatch = useDispatch();
-
-  const organisations: OrganisationNodeFieldsFragment[] =
-    myProfileData?.myProfile?.organisations.edges.map((edge) => ({
-      ...(edge?.node as OrganisationNodeFieldsFragment),
-    })) || [];
-  const goToEditMyProfile = () => {
-    history.pushWithLocale(ROUTES.MY_PROFILE);
-  };
-
-  const logout = () => {
-    logoutTunnistamo();
-  };
-
-  const changeActiveOrganisation = (id: string) => {
-    dispatch(setActiveOrganisation(id));
-  };
 
   return (
     <Navigation
@@ -120,9 +82,8 @@ const Header: React.FC = () => {
       menuToggleAriaLabel={t('header.menuToggleAriaLabel')}
       skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('common.linkSkipToContent')}
-      className={styles.navigation}
       onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
-      logoLanguage={logoLang}
+      logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
       title={t('appName')}
     >
       {!cmsMenuLoading && navigationItems && (
@@ -137,7 +98,6 @@ const Header: React.FC = () => {
                 <Navigation.Item
                   key={index}
                   active={isTabActive(item.id)}
-                  className={styles.navigationItem}
                   label={item.title}
                   onClick={goToPage(
                     `${ROUTES.CMS_PAGE.replace(':id', translatedPageId)}`
@@ -148,55 +108,123 @@ const Header: React.FC = () => {
             .filter((item) => item != null)}
         </Navigation.Row>
       )}
+
       <Navigation.Actions>
         {isAuthenticated && (
-          <Navigation.User
-            buttonAriaLabel={t('header.userMenu.ariaLabelButton')}
-            label={myProfileData?.myProfile?.name || ''}
-            userName={myProfileData?.myProfile?.name || ''}
-            authenticated={isAuthenticated}
-          >
-            {organisations?.map((organisation) => (
-              <Navigation.Item
-                className={
-                  activeOrganisation === organisation.id
-                    ? styles.activeOrganisation
-                    : undefined
-                }
-                icon={<IconAngleRight />}
-                label={organisation.name || ''}
-                onClick={() => changeActiveOrganisation(organisation.id)}
-                variant="supplementary"
-              />
-            ))}
-            <Navigation.Item
-              href="#"
-              icon={<IconSignout aria-hidden />}
-              label={t('header.userMenu.logout')}
-              onClick={logout}
-              variant="supplementary"
-            />
-          </Navigation.User>
+          <UserNavigation
+            organisations={organisations}
+            userLabel={myProfileData?.myProfile?.name || ''}
+          />
         )}
-
-        <Navigation.LanguageSelector
-          buttonAriaLabel={t('header.changeLanguage')}
-          className={styles.languageSelector}
-          label={t(`header.languages:${locale}`)}
-          icon={<IconGlobe />}
-          closeOnItemClick
-        >
-          {getLanguageOptions().map((option) => (
-            <Navigation.Item
-              key={option.value}
-              lang={option.value}
-              label={option.text}
-              onClick={() => handleMenuItemClick(option)}
-            />
-          ))}
-        </Navigation.LanguageSelector>
+        <LanguageNavigation />
       </Navigation.Actions>
     </Navigation>
+  );
+};
+
+const UserNavigation: React.FC<{
+  organisations: OrganisationNodeFieldsFragment[];
+  userLabel: string;
+}> = ({ organisations, userLabel }) => {
+  const { t } = useTranslation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const goToEditMyProfile = () => {
+    history.pushWithLocale(ROUTES.MY_PROFILE);
+  };
+
+  const logout = () => {
+    logoutTunnistamo();
+  };
+
+  const activeOrganisation = useSelector(activeOrganisationSelector);
+
+  const changeActiveOrganisation = (id: string) => {
+    dispatch(setActiveOrganisation(id));
+  };
+
+  return (
+    <Navigation.User
+      buttonAriaLabel={t('header.userMenu.ariaLabelButton')}
+      label={userLabel}
+      userName={userLabel}
+      authenticated={true}
+    >
+      <Navigation.Item
+        key={`edit-profile`}
+        icon={<IconUser />}
+        label={t('header.userMenu.openMyProfile')}
+        onClick={goToEditMyProfile}
+        variant="supplementary"
+      />
+      {organisations?.map((organisation) => (
+        <Navigation.Item
+          key={`organisation-${organisation.id}`}
+          className={
+            activeOrganisation === organisation.id
+              ? styles.activeOrganisation
+              : undefined
+          }
+          icon={<IconAngleRight />}
+          label={organisation.name || ''}
+          onClick={() => changeActiveOrganisation(organisation.id)}
+          variant="supplementary"
+        />
+      ))}
+      <Navigation.Item
+        key={`sign-out`}
+        icon={<IconSignout aria-hidden />}
+        label={t('header.userMenu.logout')}
+        onClick={logout}
+        variant="supplementary"
+      />
+    </Navigation.User>
+  );
+};
+
+const LanguageNavigation: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const { pathname, search } = useLocation();
+  const history = useHistory();
+  const changeLanguage = (newLanguage: LanguageSelectorLanguage) => {
+    history.push({
+      pathname: updateLocaleParam(pathname, locale, newLanguage),
+      search,
+    });
+  };
+  const getLanguageOptions = (): MenuItem[] => {
+    const createOptions = (languages: LanguageSelectorLanguage[]) =>
+      languages.map((language) => ({
+        language,
+        text: t(`header.languages.${language}`),
+        value: language,
+      }));
+
+    if (process.env.REACT_APP_LANGUAGE_CIMODE_VISIBLE === 'true') {
+      return createOptions(Object.values(ROUTER_LANGUAGES));
+    }
+    return createOptions(Object.values(SUPPORT_LANGUAGES));
+  };
+  const handleLanguageChange = (item: MenuItem) => {
+    changeLanguage(item.language || 'fi');
+  };
+  return (
+    <Navigation.LanguageSelector
+      buttonAriaLabel={t('header.changeLanguage')}
+      label={locale.toUpperCase()}
+      closeOnItemClick
+    >
+      {getLanguageOptions().map((option) => (
+        <Navigation.Item
+          key={option.value}
+          lang={option.value}
+          label={option.text}
+          onClick={() => handleLanguageChange(option)}
+        />
+      ))}
+    </Navigation.LanguageSelector>
   );
 };
 

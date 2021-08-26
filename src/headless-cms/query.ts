@@ -57,6 +57,7 @@ export const PAGE_QUERY = gql`
   fragment pageFields on Page {
     id
     content
+    title
   }
 `;
 

@@ -1,10 +1,14 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -50,67 +54,71 @@ export enum AvatarRatingEnum {
   /** Indicates an R level avatar rating level. */
   R = 'R',
   /** Indicates an X level avatar rating level. */
-  X = 'X'
+  X = 'X',
 }
 
 /** The category type */
-export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & HierarchicalTermNode & MenuItemLinkable & {
-  __typename?: 'Category';
-  /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  categoryId?: Maybe<Scalars['Int']>;
-  /** Connection between the category type and the category type */
-  children?: Maybe<CategoryToCategoryConnection>;
-  /** Connection between the category type and the ContentNode type */
-  contentNodes?: Maybe<CategoryToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
-  databaseId: Scalars['Int'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The unique resource identifier path */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** List available translations for this post */
-  language?: Maybe<Language>;
-  /** The link to the term */
-  link?: Maybe<Scalars['String']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']>;
-  /** Connection between the category type and the category type */
-  parent?: Maybe<CategoryToParentCategoryConnectionEdge>;
-  /** Database id of the parent node */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the parent node. */
-  parentId?: Maybe<Scalars['ID']>;
-  /** Connection between the category type and the post type */
-  posts?: Maybe<CategoryToPostConnection>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']>;
-  /** Connection between the category type and the Taxonomy type */
-  taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Category>;
-  /** List all translated versions of this term */
-  translations?: Maybe<Array<Maybe<Category>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Category = Node &
+  TermNode &
+  DatabaseIdentifier &
+  UniformResourceIdentifiable &
+  HierarchicalTermNode &
+  MenuItemLinkable & {
+    __typename?: 'Category';
+    /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
+    ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    categoryId?: Maybe<Scalars['Int']>;
+    /** Connection between the category type and the category type */
+    children?: Maybe<CategoryToCategoryConnection>;
+    /** Connection between the category type and the ContentNode type */
+    contentNodes?: Maybe<CategoryToContentNodeConnection>;
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']>;
+    /** The unique resource identifier path */
+    databaseId: Scalars['Int'];
+    /** The description of the object */
+    description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+    /** The unique resource identifier path */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** List available translations for this post */
+    language?: Maybe<Language>;
+    /** The link to the term */
+    link?: Maybe<Scalars['String']>;
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']>;
+    /** Connection between the category type and the category type */
+    parent?: Maybe<CategoryToParentCategoryConnectionEdge>;
+    /** Database id of the parent node */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent node. */
+    parentId?: Maybe<Scalars['ID']>;
+    /** Connection between the category type and the post type */
+    posts?: Maybe<CategoryToPostConnection>;
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']>;
+    /** Connection between the category type and the Taxonomy type */
+    taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']>;
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Category>;
+    /** List all translated versions of this term */
+    translations?: Maybe<Array<Maybe<Category>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The category type */
 export type CategoryAncestorsArgs = {
@@ -119,7 +127,6 @@ export type CategoryAncestorsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The category type */
 export type CategoryChildrenArgs = {
@@ -130,7 +137,6 @@ export type CategoryChildrenArgs = {
   where?: Maybe<CategoryToCategoryConnectionWhereArgs>;
 };
 
-
 /** The category type */
 export type CategoryContentNodesArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -140,7 +146,6 @@ export type CategoryContentNodesArgs = {
   where?: Maybe<CategoryToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The category type */
 export type CategoryEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -148,7 +153,6 @@ export type CategoryEnqueuedScriptsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The category type */
 export type CategoryEnqueuedStylesheetsArgs = {
@@ -158,7 +162,6 @@ export type CategoryEnqueuedStylesheetsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The category type */
 export type CategoryPostsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -167,7 +170,6 @@ export type CategoryPostsArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<CategoryToPostConnectionWhereArgs>;
 };
-
 
 /** The category type */
 export type CategoryTranslationArgs = {
@@ -185,7 +187,7 @@ export enum CategoryIdType {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the category type and the category type */
@@ -431,93 +433,98 @@ export type CategoryToTaxonomyConnectionEdge = {
 };
 
 /** The collection type */
-export type Collection = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithRevisions & {
-  __typename?: 'Collection';
-  /** Background Color */
-  backgroundColor?: Maybe<Scalars['String']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  collectionId: Scalars['Int'];
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** Description */
-  description?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the collection-cpt object. */
-  id: Scalars['ID'];
-  /** Image */
-  image?: Maybe<Scalars['String']>;
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** List of modules */
-  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Connection between the collection type and the collection type */
-  preview?: Maybe<CollectionToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the collection type and the collection type */
-  revisions?: Maybe<CollectionToRevisionConnection>;
-  /** The SEO Framework data of the collection */
-  seo?: Maybe<Seo>;
-  /** Show on front page */
-  showOnFrontPage?: Maybe<Scalars['Boolean']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the collection type and the TermNode type */
-  terms?: Maybe<CollectionToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Collection>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Collection>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Collection = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithRevisions & {
+    __typename?: 'Collection';
+    /** Background Color */
+    backgroundColor?: Maybe<Scalars['String']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    collectionId: Scalars['Int'];
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** Description */
+    description?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the collection-cpt object. */
+    id: Scalars['ID'];
+    /** Image */
+    image?: Maybe<Scalars['String']>;
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+    /** Connection between the collection type and the collection type */
+    preview?: Maybe<CollectionToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the collection type and the collection type */
+    revisions?: Maybe<CollectionToRevisionConnection>;
+    /** The SEO Framework data of the collection */
+    seo?: Maybe<Seo>;
+    /** Show on front page */
+    showOnFrontPage?: Maybe<Scalars['Boolean']>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the collection type and the TermNode type */
+    terms?: Maybe<CollectionToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Collection>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Collection>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The collection type */
 export type CollectionEnqueuedScriptsArgs = {
@@ -527,7 +534,6 @@ export type CollectionEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The collection type */
 export type CollectionEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -535,7 +541,6 @@ export type CollectionEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The collection type */
 export type CollectionRevisionsArgs = {
@@ -546,7 +551,6 @@ export type CollectionRevisionsArgs = {
   where?: Maybe<CollectionToRevisionConnectionWhereArgs>;
 };
 
-
 /** The collection type */
 export type CollectionTermsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -556,12 +560,10 @@ export type CollectionTermsArgs = {
   where?: Maybe<CollectionToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The collection type */
 export type CollectionTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The collection type */
 export type CollectionTranslationArgs = {
@@ -577,7 +579,7 @@ export enum CollectionIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 export type CollectionModulesUnionType = EventSearch | EventSelected;
@@ -714,61 +716,59 @@ export type CollectionToTermNodeConnectionWhereArgs = {
 };
 
 /** A Comment object */
-export type Comment = Node & DatabaseIdentifier & {
-  __typename?: 'Comment';
-  /** User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL. */
-  agent?: Maybe<Scalars['String']>;
-  /** The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL. */
-  approved?: Maybe<Scalars['Boolean']>;
-  /** The author of the comment */
-  author?: Maybe<CommentToCommenterConnectionEdge>;
-  /** IP address for the author. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL. */
-  authorIp?: Maybe<Scalars['String']>;
-  /**
-   * ID for the comment, unique among comments.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  commentId?: Maybe<Scalars['Int']>;
-  /** Connection between the Comment type and the ContentNode type */
-  commentedOn?: Maybe<CommentToContentNodeConnectionEdge>;
-  /** Content of the comment. This field is equivalent to WP_Comment-&gt;comment_content and the value matching the &quot;comment_content&quot; column in SQL. */
-  content?: Maybe<Scalars['String']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Date the comment was posted in local time. This field is equivalent to WP_Comment-&gt;date and the value matching the &quot;date&quot; column in SQL. */
-  date?: Maybe<Scalars['String']>;
-  /** Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the comment object */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** Karma value for the comment. This field is equivalent to WP_Comment-&gt;comment_karma and the value matching the &quot;comment_karma&quot; column in SQL. */
-  karma?: Maybe<Scalars['Int']>;
-  /** Connection between the Comment type and the Comment type */
-  parent?: Maybe<CommentToParentCommentConnectionEdge>;
-  /** The database id of the parent comment node or null if it is the root comment */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the parent comment node. */
-  parentId?: Maybe<Scalars['ID']>;
-  /** Connection between the Comment type and the Comment type */
-  replies?: Maybe<CommentToCommentConnection>;
-  /** Type of comment. This field is equivalent to WP_Comment-&gt;comment_type and the value matching the &quot;comment_type&quot; column in SQL. */
-  type?: Maybe<Scalars['String']>;
-};
-
+export type Comment = Node &
+  DatabaseIdentifier & {
+    __typename?: 'Comment';
+    /** User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL. */
+    agent?: Maybe<Scalars['String']>;
+    /** The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL. */
+    approved?: Maybe<Scalars['Boolean']>;
+    /** The author of the comment */
+    author?: Maybe<CommentToCommenterConnectionEdge>;
+    /** IP address for the author. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL. */
+    authorIp?: Maybe<Scalars['String']>;
+    /**
+     * ID for the comment, unique among comments.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    commentId?: Maybe<Scalars['Int']>;
+    /** Connection between the Comment type and the ContentNode type */
+    commentedOn?: Maybe<CommentToContentNodeConnectionEdge>;
+    /** Content of the comment. This field is equivalent to WP_Comment-&gt;comment_content and the value matching the &quot;comment_content&quot; column in SQL. */
+    content?: Maybe<Scalars['String']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Date the comment was posted in local time. This field is equivalent to WP_Comment-&gt;date and the value matching the &quot;date&quot; column in SQL. */
+    date?: Maybe<Scalars['String']>;
+    /** Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** The globally unique identifier for the comment object */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** Karma value for the comment. This field is equivalent to WP_Comment-&gt;comment_karma and the value matching the &quot;comment_karma&quot; column in SQL. */
+    karma?: Maybe<Scalars['Int']>;
+    /** Connection between the Comment type and the Comment type */
+    parent?: Maybe<CommentToParentCommentConnectionEdge>;
+    /** The database id of the parent comment node or null if it is the root comment */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent comment node. */
+    parentId?: Maybe<Scalars['ID']>;
+    /** Connection between the Comment type and the Comment type */
+    replies?: Maybe<CommentToCommentConnection>;
+    /** Type of comment. This field is equivalent to WP_Comment-&gt;comment_type and the value matching the &quot;comment_type&quot; column in SQL. */
+    type?: Maybe<Scalars['String']>;
+  };
 
 /** A Comment object */
 export type CommentContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
 
-
 /** A Comment object */
 export type CommentParentArgs = {
   where?: Maybe<CommentToParentCommentConnectionWhereArgs>;
 };
-
 
 /** A Comment object */
 export type CommentRepliesArgs = {
@@ -780,21 +780,22 @@ export type CommentRepliesArgs = {
 };
 
 /** A Comment Author object */
-export type CommentAuthor = Node & Commenter & {
-  __typename?: 'CommentAuthor';
-  /** Identifies the primary key from the database. */
-  databaseId: Scalars['Int'];
-  /** The email for the comment author */
-  email?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the comment author object */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** The name for the comment author. */
-  name?: Maybe<Scalars['String']>;
-  /** The url the comment author. */
-  url?: Maybe<Scalars['String']>;
-};
+export type CommentAuthor = Node &
+  Commenter & {
+    __typename?: 'CommentAuthor';
+    /** Identifies the primary key from the database. */
+    databaseId: Scalars['Int'];
+    /** The email for the comment author */
+    email?: Maybe<Scalars['String']>;
+    /** The globally unique identifier for the comment author object */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** The name for the comment author. */
+    name?: Maybe<Scalars['String']>;
+    /** The url the comment author. */
+    url?: Maybe<Scalars['String']>;
+  };
 
 /** Connection between the Comment type and the Comment type */
 export type CommentToCommentConnection = {
@@ -1010,99 +1011,105 @@ export enum CommentsConnectionOrderbyEnum {
   /** Order by the the type of comment, such as 'comment', 'pingback', or 'trackback'. */
   CommentType = 'COMMENT_TYPE',
   /** Order by the user ID. */
-  UserId = 'USER_ID'
+  UserId = 'USER_ID',
 }
 
 /** The contact type */
-export type Contact = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithFeaturedImage & NodeWithRevisions & {
-  __typename?: 'Contact';
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  contactId: Scalars['Int'];
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** Description */
-  description?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-  /** The database identifier for the featured image node assigned to the content node */
-  featuredImageDatabaseId?: Maybe<Scalars['Int']>;
-  /** Globally unique ID of the featured image assigned to the node */
-  featuredImageId?: Maybe<Scalars['ID']>;
-  /** First name */
-  firstName?: Maybe<Scalars['String']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the contact-cpt object. */
-  id: Scalars['ID'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /** Job Title */
-  jobTitle?: Maybe<Scalars['String']>;
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Last name */
-  lastName?: Maybe<Scalars['String']>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** Connection between the contact type and the contact type */
-  preview?: Maybe<ContactToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the contact type and the contact type */
-  revisions?: Maybe<ContactToRevisionConnection>;
-  /** The SEO Framework data of the contact */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the contact type and the TermNode type */
-  terms?: Maybe<ContactToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Contact>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Contact>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Contact = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithFeaturedImage &
+  NodeWithRevisions & {
+    __typename?: 'Contact';
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    contactId: Scalars['Int'];
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** Description */
+    description?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars['ID']>;
+    /** First name */
+    firstName?: Maybe<Scalars['String']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the contact-cpt object. */
+    id: Scalars['ID'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /** Job Title */
+    jobTitle?: Maybe<Scalars['String']>;
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Last name */
+    lastName?: Maybe<Scalars['String']>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** Connection between the contact type and the contact type */
+    preview?: Maybe<ContactToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the contact type and the contact type */
+    revisions?: Maybe<ContactToRevisionConnection>;
+    /** The SEO Framework data of the contact */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the contact type and the TermNode type */
+    terms?: Maybe<ContactToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Contact>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Contact>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The contact type */
 export type ContactEnqueuedScriptsArgs = {
@@ -1112,7 +1119,6 @@ export type ContactEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The contact type */
 export type ContactEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1120,7 +1126,6 @@ export type ContactEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The contact type */
 export type ContactRevisionsArgs = {
@@ -1131,7 +1136,6 @@ export type ContactRevisionsArgs = {
   where?: Maybe<ContactToRevisionConnectionWhereArgs>;
 };
 
-
 /** The contact type */
 export type ContactTermsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1141,12 +1145,10 @@ export type ContactTermsArgs = {
   where?: Maybe<ContactToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The contact type */
 export type ContactTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The contact type */
 export type ContactTranslationArgs = {
@@ -1162,7 +1164,7 @@ export enum ContactIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the contact type and the contact type */
@@ -1346,7 +1348,6 @@ export type ContentNode = {
   uri?: Maybe<Scalars['String']>;
 };
 
-
 /** Nodes used to manage content */
 export type ContentNodeEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1354,7 +1355,6 @@ export type ContentNodeEnqueuedScriptsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** Nodes used to manage content */
 export type ContentNodeEnqueuedStylesheetsArgs = {
@@ -1371,7 +1371,7 @@ export enum ContentNodeIdTypeEnum {
   /** Identify a resource by the (hashed) Global ID. */
   Id = 'ID',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the ContentNode type and the ContentType type */
@@ -1438,7 +1438,14 @@ export type ContentNodeToEnqueuedStylesheetConnectionEdge = {
 };
 
 /** A union of Content Node Types that support revisions */
-export type ContentRevisionUnion = Post | Page | Collection | Contact | LandingPage | Release | Translation;
+export type ContentRevisionUnion =
+  | Post
+  | Page
+  | Collection
+  | Contact
+  | LandingPage
+  | Release
+  | Translation;
 
 /** The template assigned to a node of content */
 export type ContentTemplate = {
@@ -1447,70 +1454,70 @@ export type ContentTemplate = {
 };
 
 /** An Post Type object */
-export type ContentType = Node & UniformResourceIdentifiable & {
-  __typename?: 'ContentType';
-  /** Whether this content type should can be exported. */
-  canExport?: Maybe<Scalars['Boolean']>;
-  /** Connection between the ContentType type and the Taxonomy type */
-  connectedTaxonomies?: Maybe<ContentTypeToTaxonomyConnection>;
-  /** Connection between the ContentType type and the ContentNode type */
-  contentNodes?: Maybe<ContentTypeToContentNodeConnection>;
-  /** Whether content of this type should be deleted when the author of it is deleted from the system. */
-  deleteWithUser?: Maybe<Scalars['Boolean']>;
-  /** Description of the content type. */
-  description?: Maybe<Scalars['String']>;
-  /** Whether to exclude nodes of this content type from front end search results. */
-  excludeFromSearch?: Maybe<Scalars['Boolean']>;
-  /** The plural name of the content type within the GraphQL Schema. */
-  graphqlPluralName?: Maybe<Scalars['String']>;
-  /** The singular name of the content type within the GraphQL Schema. */
-  graphqlSingleName?: Maybe<Scalars['String']>;
-  /** Whether this content type should have archives. Content archives are generated by type and by date. */
-  hasArchive?: Maybe<Scalars['Boolean']>;
-  /** Whether the content type is hierarchical, for example pages. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier of the post-type object. */
-  id: Scalars['ID'];
-  /** Whether this page is set to the static front page. */
-  isFrontPage: Scalars['Boolean'];
-  /** Whether this page is set to the blog posts page. */
-  isPostsPage: Scalars['Boolean'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** Display name of the content type. */
-  label?: Maybe<Scalars['String']>;
-  /** Details about the content type labels. */
-  labels?: Maybe<PostTypeLabelDetails>;
-  /** The name of the icon file to display as a menu icon. */
-  menuIcon?: Maybe<Scalars['String']>;
-  /** The position of this post type in the menu. Only applies if show_in_menu is true. */
-  menuPosition?: Maybe<Scalars['Int']>;
-  /** The internal name of the post type. This should not be used for display purposes. */
-  name?: Maybe<Scalars['String']>;
-  /** Whether a content type is intended for use publicly either via the admin interface or by front-end users. While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are inherited from public, each does not rely on this relationship and controls a very specific intention. */
-  public?: Maybe<Scalars['Boolean']>;
-  /** Whether queries can be performed on the front end for the content type as part of parse_request(). */
-  publiclyQueryable?: Maybe<Scalars['Boolean']>;
-  /** Name of content type to display in REST API &quot;wp/v2&quot; namespace. */
-  restBase?: Maybe<Scalars['String']>;
-  /** The REST Controller class assigned to handling this content type. */
-  restControllerClass?: Maybe<Scalars['String']>;
-  /** Makes this content type available via the admin bar. */
-  showInAdminBar?: Maybe<Scalars['Boolean']>;
-  /** Whether to add the content type to the GraphQL Schema. */
-  showInGraphql?: Maybe<Scalars['Boolean']>;
-  /** Where to show the content type in the admin menu. To work, $show_ui must be true. If true, the post type is shown in its own top level menu. If false, no menu is shown. If a string of an existing top level menu (eg. &quot;tools.php&quot; or &quot;edit.php?post_type=page&quot;), the post type will be placed as a sub-menu of that. */
-  showInMenu?: Maybe<Scalars['Boolean']>;
-  /** Makes this content type available for selection in navigation menus. */
-  showInNavMenus?: Maybe<Scalars['Boolean']>;
-  /** Whether the content type is associated with a route under the the REST API &quot;wp/v2&quot; namespace. */
-  showInRest?: Maybe<Scalars['Boolean']>;
-  /** Whether to generate and allow a UI for managing this content type in the admin. */
-  showUi?: Maybe<Scalars['Boolean']>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type ContentType = Node &
+  UniformResourceIdentifiable & {
+    __typename?: 'ContentType';
+    /** Whether this content type should can be exported. */
+    canExport?: Maybe<Scalars['Boolean']>;
+    /** Connection between the ContentType type and the Taxonomy type */
+    connectedTaxonomies?: Maybe<ContentTypeToTaxonomyConnection>;
+    /** Connection between the ContentType type and the ContentNode type */
+    contentNodes?: Maybe<ContentTypeToContentNodeConnection>;
+    /** Whether content of this type should be deleted when the author of it is deleted from the system. */
+    deleteWithUser?: Maybe<Scalars['Boolean']>;
+    /** Description of the content type. */
+    description?: Maybe<Scalars['String']>;
+    /** Whether to exclude nodes of this content type from front end search results. */
+    excludeFromSearch?: Maybe<Scalars['Boolean']>;
+    /** The plural name of the content type within the GraphQL Schema. */
+    graphqlPluralName?: Maybe<Scalars['String']>;
+    /** The singular name of the content type within the GraphQL Schema. */
+    graphqlSingleName?: Maybe<Scalars['String']>;
+    /** Whether this content type should have archives. Content archives are generated by type and by date. */
+    hasArchive?: Maybe<Scalars['Boolean']>;
+    /** Whether the content type is hierarchical, for example pages. */
+    hierarchical?: Maybe<Scalars['Boolean']>;
+    /** The globally unique identifier of the post-type object. */
+    id: Scalars['ID'];
+    /** Whether this page is set to the static front page. */
+    isFrontPage: Scalars['Boolean'];
+    /** Whether this page is set to the blog posts page. */
+    isPostsPage: Scalars['Boolean'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** Display name of the content type. */
+    label?: Maybe<Scalars['String']>;
+    /** Details about the content type labels. */
+    labels?: Maybe<PostTypeLabelDetails>;
+    /** The name of the icon file to display as a menu icon. */
+    menuIcon?: Maybe<Scalars['String']>;
+    /** The position of this post type in the menu. Only applies if show_in_menu is true. */
+    menuPosition?: Maybe<Scalars['Int']>;
+    /** The internal name of the post type. This should not be used for display purposes. */
+    name?: Maybe<Scalars['String']>;
+    /** Whether a content type is intended for use publicly either via the admin interface or by front-end users. While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are inherited from public, each does not rely on this relationship and controls a very specific intention. */
+    public?: Maybe<Scalars['Boolean']>;
+    /** Whether queries can be performed on the front end for the content type as part of parse_request(). */
+    publiclyQueryable?: Maybe<Scalars['Boolean']>;
+    /** Name of content type to display in REST API &quot;wp/v2&quot; namespace. */
+    restBase?: Maybe<Scalars['String']>;
+    /** The REST Controller class assigned to handling this content type. */
+    restControllerClass?: Maybe<Scalars['String']>;
+    /** Makes this content type available via the admin bar. */
+    showInAdminBar?: Maybe<Scalars['Boolean']>;
+    /** Whether to add the content type to the GraphQL Schema. */
+    showInGraphql?: Maybe<Scalars['Boolean']>;
+    /** Where to show the content type in the admin menu. To work, $show_ui must be true. If true, the post type is shown in its own top level menu. If false, no menu is shown. If a string of an existing top level menu (eg. &quot;tools.php&quot; or &quot;edit.php?post_type=page&quot;), the post type will be placed as a sub-menu of that. */
+    showInMenu?: Maybe<Scalars['Boolean']>;
+    /** Makes this content type available for selection in navigation menus. */
+    showInNavMenus?: Maybe<Scalars['Boolean']>;
+    /** Whether the content type is associated with a route under the the REST API &quot;wp/v2&quot; namespace. */
+    showInRest?: Maybe<Scalars['Boolean']>;
+    /** Whether to generate and allow a UI for managing this content type in the admin. */
+    showUi?: Maybe<Scalars['Boolean']>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** An Post Type object */
 export type ContentTypeConnectedTaxonomiesArgs = {
@@ -1519,7 +1526,6 @@ export type ContentTypeConnectedTaxonomiesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** An Post Type object */
 export type ContentTypeContentNodesArgs = {
@@ -1547,7 +1553,7 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   ReleaseCpt = 'RELEASE_CPT',
   /** The Type of Content object */
-  TranslationCpt = 'TRANSLATION_CPT'
+  TranslationCpt = 'TRANSLATION_CPT',
 }
 
 /** The Type of Identifier used to fetch a single Content Type node. To be used along with the "id" field. Default is "ID". */
@@ -1555,7 +1561,7 @@ export enum ContentTypeIdTypeEnum {
   /** The globally unique ID */
   Id = 'ID',
   /** The name of the content type. */
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 /** Connection between the ContentType type and the ContentNode type */
@@ -2398,42 +2404,44 @@ export type EnqueuedAsset = {
 };
 
 /** Script enqueued by the CMS */
-export type EnqueuedScript = Node & EnqueuedAsset & {
-  __typename?: 'EnqueuedScript';
-  /** @todo */
-  args?: Maybe<Scalars['Boolean']>;
-  /** Dependencies needed to use this asset */
-  dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-  /** Extra information needed for the script */
-  extra?: Maybe<Scalars['String']>;
-  /** The handle of the enqueued asset */
-  handle?: Maybe<Scalars['String']>;
-  /** The ID of the enqueued asset */
-  id: Scalars['ID'];
-  /** The source of the asset */
-  src?: Maybe<Scalars['String']>;
-  /** The version of the enqueued asset */
-  version?: Maybe<Scalars['String']>;
-};
+export type EnqueuedScript = Node &
+  EnqueuedAsset & {
+    __typename?: 'EnqueuedScript';
+    /** @todo */
+    args?: Maybe<Scalars['Boolean']>;
+    /** Dependencies needed to use this asset */
+    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+    /** Extra information needed for the script */
+    extra?: Maybe<Scalars['String']>;
+    /** The handle of the enqueued asset */
+    handle?: Maybe<Scalars['String']>;
+    /** The ID of the enqueued asset */
+    id: Scalars['ID'];
+    /** The source of the asset */
+    src?: Maybe<Scalars['String']>;
+    /** The version of the enqueued asset */
+    version?: Maybe<Scalars['String']>;
+  };
 
 /** Stylesheet enqueued by the CMS */
-export type EnqueuedStylesheet = Node & EnqueuedAsset & {
-  __typename?: 'EnqueuedStylesheet';
-  /** @todo */
-  args?: Maybe<Scalars['Boolean']>;
-  /** Dependencies needed to use this asset */
-  dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-  /** Extra information needed for the script */
-  extra?: Maybe<Scalars['String']>;
-  /** The handle of the enqueued asset */
-  handle?: Maybe<Scalars['String']>;
-  /** The ID of the enqueued asset */
-  id: Scalars['ID'];
-  /** The source of the asset */
-  src?: Maybe<Scalars['String']>;
-  /** The version of the enqueued asset */
-  version?: Maybe<Scalars['String']>;
-};
+export type EnqueuedStylesheet = Node &
+  EnqueuedAsset & {
+    __typename?: 'EnqueuedStylesheet';
+    /** @todo */
+    args?: Maybe<Scalars['Boolean']>;
+    /** Dependencies needed to use this asset */
+    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+    /** Extra information needed for the script */
+    extra?: Maybe<Scalars['String']>;
+    /** The handle of the enqueued asset */
+    handle?: Maybe<Scalars['String']>;
+    /** The ID of the enqueued asset */
+    id: Scalars['ID'];
+    /** The source of the asset */
+    src?: Maybe<Scalars['String']>;
+    /** The version of the enqueued asset */
+    version?: Maybe<Scalars['String']>;
+  };
 
 /** Collection Module: EventSearch */
 export type EventSearch = {
@@ -2496,7 +2504,6 @@ export type HierarchicalContentNode = {
   parentId?: Maybe<Scalars['ID']>;
 };
 
-
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeAncestorsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -2505,7 +2512,6 @@ export type HierarchicalContentNodeAncestorsArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
-
 
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeChildrenArgs = {
@@ -2520,7 +2526,9 @@ export type HierarchicalContentNodeChildrenArgs = {
 export type HierarchicalContentNodeToContentNodeAncestorsConnection = {
   __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnection';
   /** Edges for the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
-  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>>>;
+  edges?: Maybe<
+    Array<Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>>
+  >;
   /** The nodes of the connection, without the edges */
   nodes?: Maybe<Array<Maybe<ContentNode>>>;
   /** Information about pagination in a connection. */
@@ -2578,7 +2586,9 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
 export type HierarchicalContentNodeToContentNodeChildrenConnection = {
   __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
   /** Edges for the HierarchicalContentNodeToContentNodeChildrenConnection connection */
-  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>>>;
+  edges?: Maybe<
+    Array<Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>>
+  >;
   /** The nodes of the connection, without the edges */
   nodes?: Maybe<Array<Maybe<ContentNode>>>;
   /** Information about pagination in a connection. */
@@ -2648,97 +2658,102 @@ export type HierarchicalTermNode = {
 };
 
 /** The landingPage type */
-export type LandingPage = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithRevisions & {
-  __typename?: 'LandingPage';
-  /** Background Color */
-  backgroundColor?: Maybe<Scalars['String']>;
-  /** Box Color */
-  boxColor?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** Description */
-  description?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** Desktop Image */
-  desktopImage?: Maybe<LandingPageToMediaItemConnection>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Float Image */
-  floatImage?: Maybe<LandingPageToFloatImageConnection>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** Link */
-  heroLink?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The globally unique identifier of the landing-page-cpt object. */
-  id: Scalars['ID'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  landingPageId: Scalars['Int'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** Mobile Image */
-  mobileImage?: Maybe<LandingPageToMobileImageConnection>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** List of modules */
-  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Connection between the landingPage type and the landingPage type */
-  preview?: Maybe<LandingPageToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the landingPage type and the landingPage type */
-  revisions?: Maybe<LandingPageToRevisionConnection>;
-  /** The SEO Framework data of the landingPage */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the landingPage type and the TermNode type */
-  terms?: Maybe<LandingPageToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<LandingPage>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<LandingPage>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type LandingPage = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithRevisions & {
+    __typename?: 'LandingPage';
+    /** Background Color */
+    backgroundColor?: Maybe<Scalars['String']>;
+    /** Box Color */
+    boxColor?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** Description */
+    description?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** Desktop Image */
+    desktopImage?: Maybe<LandingPageToMediaItemConnection>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Float Image */
+    floatImage?: Maybe<LandingPageToFloatImageConnection>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** Link */
+    heroLink?: Maybe<Array<Maybe<Scalars['String']>>>;
+    /** The globally unique identifier of the landing-page-cpt object. */
+    id: Scalars['ID'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    landingPageId: Scalars['Int'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** Mobile Image */
+    mobileImage?: Maybe<LandingPageToMobileImageConnection>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+    /** Connection between the landingPage type and the landingPage type */
+    preview?: Maybe<LandingPageToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the landingPage type and the landingPage type */
+    revisions?: Maybe<LandingPageToRevisionConnection>;
+    /** The SEO Framework data of the landingPage */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the landingPage type and the TermNode type */
+    terms?: Maybe<LandingPageToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<LandingPage>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<LandingPage>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The landingPage type */
 export type LandingPageDesktopImageArgs = {
@@ -2749,7 +2764,6 @@ export type LandingPageDesktopImageArgs = {
   where?: Maybe<LandingPageToMediaItemConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -2758,7 +2772,6 @@ export type LandingPageEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The landingPage type */
 export type LandingPageEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -2766,7 +2779,6 @@ export type LandingPageEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The landingPage type */
 export type LandingPageFloatImageArgs = {
@@ -2777,7 +2789,6 @@ export type LandingPageFloatImageArgs = {
   where?: Maybe<LandingPageToFloatImageConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageMobileImageArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -2786,7 +2797,6 @@ export type LandingPageMobileImageArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<LandingPageToMobileImageConnectionWhereArgs>;
 };
-
 
 /** The landingPage type */
 export type LandingPageRevisionsArgs = {
@@ -2797,7 +2807,6 @@ export type LandingPageRevisionsArgs = {
   where?: Maybe<LandingPageToRevisionConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageTermsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -2807,12 +2816,10 @@ export type LandingPageTermsArgs = {
   where?: Maybe<LandingPageToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The landingPage type */
 export type LandingPageTranslationArgs = {
@@ -2828,7 +2835,7 @@ export enum LandingPageIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the landingPage type and the MediaItem type */
@@ -3156,7 +3163,7 @@ export enum LanguageCodeEnum {
   En = 'EN',
   /** The default locale of the site */
   Fi = 'FI',
-  Sv = 'SV'
+  Sv = 'SV',
 }
 
 /** Filter item by specific language, default language or list all languages */
@@ -3166,7 +3173,7 @@ export enum LanguageCodeFilterEnum {
   En = 'EN',
   /** The default locale of the site */
   Fi = 'FI',
-  Sv = 'SV'
+  Sv = 'SV',
 }
 
 /** Layout: LayoutArticles */
@@ -3237,113 +3244,119 @@ export type MediaDetails = {
 };
 
 /** The mediaItem type */
-export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithAuthor & HierarchicalContentNode & {
-  __typename?: 'MediaItem';
-  /** Alternative text to display when resource is not displayed */
-  altText?: Maybe<Scalars['String']>;
-  /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
-  /** Connection between the NodeWithAuthor type and the User type */
-  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
-  /** The database identifier of the author of the node */
-  authorDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the author of the node */
-  authorId?: Maybe<Scalars['ID']>;
-  /** The caption for the resource */
-  caption?: Maybe<Scalars['String']>;
-  /** Connection between the HierarchicalContentNode type and the ContentNode type */
-  children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** Description of the image (stored as post_content) */
-  description?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** The filesize in bytes of the resource */
-  fileSize?: Maybe<Scalars['Int']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the attachment object. */
-  id: Scalars['ID'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** Details about the mediaItem */
-  mediaDetails?: Maybe<MediaDetails>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  mediaItemId: Scalars['Int'];
-  /** Url of the mediaItem */
-  mediaItemUrl?: Maybe<Scalars['String']>;
-  /** Type of resource */
-  mediaType?: Maybe<Scalars['String']>;
-  /** The mime type of the mediaItem */
-  mimeType?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** The parent of the node. The parent object can be of various types */
-  parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
-  /** Database id of the parent node */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the parent node. */
-  parentId?: Maybe<Scalars['ID']>;
-  /** Valokuvaajan tiedot */
-  photographerName?: Maybe<Scalars['String']>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** The SEO Framework data of the mediaItem */
-  seo?: Maybe<Seo>;
-  /** The sizes attribute value for an image. */
-  sizes?: Maybe<Scalars['String']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** Url of the mediaItem */
-  sourceUrl?: Maybe<Scalars['String']>;
-  /** The srcset attribute specifies the URL of the image to use in different situations. It is a comma separated string of urls and their widths. */
-  srcSet?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the mediaItem type and the TermNode type */
-  terms?: Maybe<MediaItemToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<MediaItem>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<MediaItem>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type MediaItem = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithAuthor &
+  HierarchicalContentNode & {
+    __typename?: 'MediaItem';
+    /** Alternative text to display when resource is not displayed */
+    altText?: Maybe<Scalars['String']>;
+    /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
+    ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']>;
+    /** The caption for the resource */
+    caption?: Maybe<Scalars['String']>;
+    /** Connection between the HierarchicalContentNode type and the ContentNode type */
+    children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** Description of the image (stored as post_content) */
+    description?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** The filesize in bytes of the resource */
+    fileSize?: Maybe<Scalars['Int']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the attachment object. */
+    id: Scalars['ID'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** Details about the mediaItem */
+    mediaDetails?: Maybe<MediaDetails>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    mediaItemId: Scalars['Int'];
+    /** Url of the mediaItem */
+    mediaItemUrl?: Maybe<Scalars['String']>;
+    /** Type of resource */
+    mediaType?: Maybe<Scalars['String']>;
+    /** The mime type of the mediaItem */
+    mimeType?: Maybe<Scalars['String']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** The parent of the node. The parent object can be of various types */
+    parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
+    /** Database id of the parent node */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent node. */
+    parentId?: Maybe<Scalars['ID']>;
+    /** Valokuvaajan tiedot */
+    photographerName?: Maybe<Scalars['String']>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** The SEO Framework data of the mediaItem */
+    seo?: Maybe<Seo>;
+    /** The sizes attribute value for an image. */
+    sizes?: Maybe<Scalars['String']>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** Url of the mediaItem */
+    sourceUrl?: Maybe<Scalars['String']>;
+    /** The srcset attribute specifies the URL of the image to use in different situations. It is a comma separated string of urls and their widths. */
+    srcSet?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the mediaItem type and the TermNode type */
+    terms?: Maybe<MediaItemToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<MediaItem>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<MediaItem>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The mediaItem type */
 export type MediaItemAncestorsArgs = {
@@ -3354,12 +3367,10 @@ export type MediaItemAncestorsArgs = {
   where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemCaptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemChildrenArgs = {
@@ -3370,12 +3381,10 @@ export type MediaItemChildrenArgs = {
   where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemDescriptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemEnqueuedScriptsArgs = {
@@ -3385,7 +3394,6 @@ export type MediaItemEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -3394,30 +3402,25 @@ export type MediaItemEnqueuedStylesheetsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemFileSizeArgs = {
   size?: Maybe<MediaItemSizeEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemSizesArgs = {
   size?: Maybe<MediaItemSizeEnum>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemSourceUrlArgs = {
   size?: Maybe<MediaItemSizeEnum>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemSrcSetArgs = {
   size?: Maybe<MediaItemSizeEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemTermsArgs = {
@@ -3428,12 +3431,10 @@ export type MediaItemTermsArgs = {
   where?: Maybe<MediaItemToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemTranslationArgs = {
@@ -3451,7 +3452,7 @@ export enum MediaItemIdType {
   /** Identify a media item by its source url */
   SourceUrl = 'SOURCE_URL',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Meta connected to a MediaItem */
@@ -3496,7 +3497,7 @@ export enum MediaItemSizeEnum {
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
   /** MediaItem with the 2048x2048 size */
-  '2048X2048' = '_2048X2048'
+  '2048X2048' = '_2048X2048',
 }
 
 /** The status of the media item object. */
@@ -3508,7 +3509,7 @@ export enum MediaItemStatusEnum {
   /** Objects with the private status */
   Private = 'PRIVATE',
   /** Objects with the trash status */
-  Trash = 'TRASH'
+  Trash = 'TRASH',
 }
 
 /** Connection between the mediaItem type and the TermNode type */
@@ -3597,31 +3598,31 @@ export type MediaSize = {
 };
 
 /** Menus are the containers for navigation items. Menus can be assigned to menu locations, which are typically registered by the active theme. */
-export type Menu = Node & DatabaseIdentifier & {
-  __typename?: 'Menu';
-  /** The number of items in the menu */
-  count?: Maybe<Scalars['Int']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** The globally unique identifier of the nav menu object. */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** The locations a menu is assigned to */
-  locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
-  /**
-   * WP ID of the nav menu.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  menuId?: Maybe<Scalars['Int']>;
-  /** Connection between the Menu type and the MenuItem type */
-  menuItems?: Maybe<MenuToMenuItemConnection>;
-  /** Display name of the menu. Equivalent to WP_Term-&gt;name. */
-  name?: Maybe<Scalars['String']>;
-  /** The url friendly name of the menu. Equivalent to WP_Term-&gt;slug */
-  slug?: Maybe<Scalars['String']>;
-};
-
+export type Menu = Node &
+  DatabaseIdentifier & {
+    __typename?: 'Menu';
+    /** The number of items in the menu */
+    count?: Maybe<Scalars['Int']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** The globally unique identifier of the nav menu object. */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** The locations a menu is assigned to */
+    locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
+    /**
+     * WP ID of the nav menu.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    menuId?: Maybe<Scalars['Int']>;
+    /** Connection between the Menu type and the MenuItem type */
+    menuItems?: Maybe<MenuToMenuItemConnection>;
+    /** Display name of the menu. Equivalent to WP_Term-&gt;name. */
+    name?: Maybe<Scalars['String']>;
+    /** The url friendly name of the menu. Equivalent to WP_Term-&gt;slug */
+    slug?: Maybe<Scalars['String']>;
+  };
 
 /** Menus are the containers for navigation items. Menus can be assigned to menu locations, which are typically registered by the active theme. */
 export type MenuMenuItemsArgs = {
@@ -3633,56 +3634,56 @@ export type MenuMenuItemsArgs = {
 };
 
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
-export type MenuItem = Node & DatabaseIdentifier & {
-  __typename?: 'MenuItem';
-  /** Connection between the MenuItem type and the MenuItem type */
-  childItems?: Maybe<MenuItemToMenuItemConnection>;
-  /** Connection from MenuItem to it&#039;s connected node */
-  connectedNode?: Maybe<MenuItemToMenuItemLinkableConnectionEdge>;
-  /**
-   * The object connected to this menu item.
-   * @deprecated Deprecated in favor of the connectedNode field
-   */
-  connectedObject?: Maybe<MenuItemObjectUnion>;
-  /** Class attribute for the menu item link */
-  cssClasses?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Description of the menu item. */
-  description?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the nav menu item object. */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** Label or title of the menu item. */
-  label?: Maybe<Scalars['String']>;
-  /** Link relationship (XFN) of the menu item. */
-  linkRelationship?: Maybe<Scalars['String']>;
-  /** The locations the menu item&#039;s Menu is assigned to */
-  locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
-  /** The Menu a MenuItem is part of */
-  menu?: Maybe<MenuItemToMenuConnectionEdge>;
-  /**
-   * WP ID of the menu item.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  menuItemId?: Maybe<Scalars['Int']>;
-  /** Menu item order */
-  order?: Maybe<Scalars['Int']>;
-  /** The database id of the parent menu item or null if it is the root */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the parent nav menu item object. */
-  parentId?: Maybe<Scalars['ID']>;
-  /** Path for the resource. Relative path for internal resources. Absolute path for external resources. */
-  path: Scalars['String'];
-  /** Target attribute for the menu item link. */
-  target?: Maybe<Scalars['String']>;
-  /** Title attribute for the menu item link */
-  title?: Maybe<Scalars['String']>;
-  /** URL or destination of the menu item. */
-  url?: Maybe<Scalars['String']>;
-};
-
+export type MenuItem = Node &
+  DatabaseIdentifier & {
+    __typename?: 'MenuItem';
+    /** Connection between the MenuItem type and the MenuItem type */
+    childItems?: Maybe<MenuItemToMenuItemConnection>;
+    /** Connection from MenuItem to it&#039;s connected node */
+    connectedNode?: Maybe<MenuItemToMenuItemLinkableConnectionEdge>;
+    /**
+     * The object connected to this menu item.
+     * @deprecated Deprecated in favor of the connectedNode field
+     */
+    connectedObject?: Maybe<MenuItemObjectUnion>;
+    /** Class attribute for the menu item link */
+    cssClasses?: Maybe<Array<Maybe<Scalars['String']>>>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Description of the menu item. */
+    description?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the nav menu item object. */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** Label or title of the menu item. */
+    label?: Maybe<Scalars['String']>;
+    /** Link relationship (XFN) of the menu item. */
+    linkRelationship?: Maybe<Scalars['String']>;
+    /** The locations the menu item&#039;s Menu is assigned to */
+    locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
+    /** The Menu a MenuItem is part of */
+    menu?: Maybe<MenuItemToMenuConnectionEdge>;
+    /**
+     * WP ID of the menu item.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    menuItemId?: Maybe<Scalars['Int']>;
+    /** Menu item order */
+    order?: Maybe<Scalars['Int']>;
+    /** The database id of the parent menu item or null if it is the root */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent nav menu item object. */
+    parentId?: Maybe<Scalars['ID']>;
+    /** Path for the resource. Relative path for internal resources. Absolute path for external resources. */
+    path: Scalars['String'];
+    /** Target attribute for the menu item link. */
+    target?: Maybe<Scalars['String']>;
+    /** Title attribute for the menu item link */
+    title?: Maybe<Scalars['String']>;
+    /** URL or destination of the menu item. */
+    url?: Maybe<Scalars['String']>;
+  };
 
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
 export type MenuItemChildItemsArgs = {
@@ -3708,7 +3709,7 @@ export enum MenuItemNodeIdTypeEnum {
   /** Identify a resource by the Database ID. */
   DatabaseId = 'DATABASE_ID',
   /** Identify a resource by the (hashed) Global ID. */
-  Id = 'ID'
+  Id = 'ID',
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
@@ -3775,7 +3776,7 @@ export enum MenuLocationEnum {
   /** Put the menu in the primary___en location */
   PrimaryEn = 'PRIMARY___EN',
   /** Put the menu in the primary___sv location */
-  PrimarySv = 'PRIMARY___SV'
+  PrimarySv = 'PRIMARY___SV',
 }
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -3785,7 +3786,7 @@ export enum MenuNodeIdTypeEnum {
   /** Identify a menu node by the (hashed) Global ID. */
   Id = 'ID',
   /** Identify a menu node by it's name */
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 /** Connection between the Menu type and the MenuItem type */
@@ -3885,7 +3886,7 @@ export enum MimeTypeEnum {
   /** MimeType video/webm */
   VideoWebm = 'VIDEO_WEBM',
   /** MimeType video/x-flv */
-  VideoXFlv = 'VIDEO_X_FLV'
+  VideoXFlv = 'VIDEO_X_FLV',
 }
 
 /** An object with an ID */
@@ -3925,7 +3926,6 @@ export type NodeWithContentEditor = {
   content?: Maybe<Scalars['String']>;
 };
 
-
 /** A node that supports the content editor */
 export type NodeWithContentEditorContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
@@ -3936,7 +3936,6 @@ export type NodeWithExcerpt = {
   /** The excerpt of the post. */
   excerpt?: Maybe<Scalars['String']>;
 };
-
 
 /** A node that can have an excerpt */
 export type NodeWithExcerptExcerptArgs = {
@@ -3993,7 +3992,6 @@ export type NodeWithTitle = {
   title?: Maybe<Scalars['String']>;
 };
 
-
 /** A node that NodeWith a title */
 export type NodeWithTitleTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
@@ -4033,125 +4031,136 @@ export enum OrderEnum {
   /** Sort the query result set in an ascending order */
   Asc = 'ASC',
   /** Sort the query result set in a descending order */
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 /** The page type */
-export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & {
-  __typename?: 'Page';
-  /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
-  /** Connection between the NodeWithAuthor type and the User type */
-  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
-  /** The database identifier of the author of the node */
-  authorDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the author of the node */
-  authorId?: Maybe<Scalars['ID']>;
-  /** Connection between the HierarchicalContentNode type and the ContentNode type */
-  children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
-  /** The content of the post. */
-  content?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique resource identifier path */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']>;
-  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-  /** The database identifier for the featured image node assigned to the content node */
-  featuredImageDatabaseId?: Maybe<Scalars['Int']>;
-  /** Globally unique ID of the featured image assigned to the node */
-  featuredImageId?: Maybe<Scalars['ID']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the page object. */
-  id: Scalars['ID'];
-  /** Whether this page is set to the static front page. */
-  isFrontPage: Scalars['Boolean'];
-  /** Whether this page is set to the blog posts page. */
-  isPostsPage: Scalars['Boolean'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether this page is set to the privacy page. */
-  isPrivacyPage: Scalars['Boolean'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Ingressi */
-  lead?: Maybe<Scalars['String']>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** List of modules */
-  modules?: Maybe<Array<Maybe<PageModulesUnionType>>>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  pageId: Scalars['Int'];
-  /** The parent of the node. The parent object can be of various types */
-  parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
-  /** Database id of the parent node */
-  parentDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the parent node. */
-  parentId?: Maybe<Scalars['ID']>;
-  /** Connection between the page type and the page type */
-  preview?: Maybe<PageToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the page type and the page type */
-  revisions?: Maybe<PageToRevisionConnection>;
-  /** The SEO Framework data of the page */
-  seo?: Maybe<Seo>;
-  /** Näytä alisivut */
-  showChildPages?: Maybe<Scalars['Boolean']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the page type and the TermNode type */
-  terms?: Maybe<PageToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Page>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Page>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Page = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithContentEditor &
+  NodeWithAuthor &
+  NodeWithFeaturedImage &
+  NodeWithRevisions &
+  NodeWithPageAttributes &
+  HierarchicalContentNode &
+  MenuItemLinkable & {
+    __typename?: 'Page';
+    /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
+    ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']>;
+    /** Connection between the HierarchicalContentNode type and the ContentNode type */
+    children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique resource identifier path */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars['ID']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the page object. */
+    id: Scalars['ID'];
+    /** Whether this page is set to the static front page. */
+    isFrontPage: Scalars['Boolean'];
+    /** Whether this page is set to the blog posts page. */
+    isPostsPage: Scalars['Boolean'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether this page is set to the privacy page. */
+    isPrivacyPage: Scalars['Boolean'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Ingressi */
+    lead?: Maybe<Scalars['String']>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+    menuOrder?: Maybe<Scalars['Int']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<PageModulesUnionType>>>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    pageId: Scalars['Int'];
+    /** The parent of the node. The parent object can be of various types */
+    parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
+    /** Database id of the parent node */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent node. */
+    parentId?: Maybe<Scalars['ID']>;
+    /** Connection between the page type and the page type */
+    preview?: Maybe<PageToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the page type and the page type */
+    revisions?: Maybe<PageToRevisionConnection>;
+    /** The SEO Framework data of the page */
+    seo?: Maybe<Seo>;
+    /** Näytä alisivut */
+    showChildPages?: Maybe<Scalars['Boolean']>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the page type and the TermNode type */
+    terms?: Maybe<PageToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Page>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Page>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The page type */
 export type PageAncestorsArgs = {
@@ -4162,7 +4171,6 @@ export type PageAncestorsArgs = {
   where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageChildrenArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4172,12 +4180,10 @@ export type PageChildrenArgs = {
   where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The page type */
 export type PageEnqueuedScriptsArgs = {
@@ -4187,7 +4193,6 @@ export type PageEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The page type */
 export type PageEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4195,7 +4200,6 @@ export type PageEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The page type */
 export type PageRevisionsArgs = {
@@ -4206,7 +4210,6 @@ export type PageRevisionsArgs = {
   where?: Maybe<PageToRevisionConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageTermsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4216,12 +4219,10 @@ export type PageTermsArgs = {
   where?: Maybe<PageToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The page type */
 export type PageTranslationArgs = {
@@ -4235,10 +4236,16 @@ export enum PageIdType {
   /** Identify a resource by the (hashed) Global ID. */
   Id = 'ID',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
-export type PageModulesUnionType = EventSearch | EventSelected | LayoutCollection | LayoutContact | LayoutArticles | LayoutPages;
+export type PageModulesUnionType =
+  | EventSearch
+  | EventSelected
+  | LayoutCollection
+  | LayoutContact
+  | LayoutArticles
+  | LayoutPages;
 
 /** Connection between the page type and the page type */
 export type PageToPreviewConnectionEdge = {
@@ -4403,111 +4410,120 @@ export type Plugin = Node & {
 };
 
 /** The post type */
-export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithRevisions & MenuItemLinkable & {
-  __typename?: 'Post';
-  /** Connection between the NodeWithAuthor type and the User type */
-  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
-  /** The database identifier of the author of the node */
-  authorDatabaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier of the author of the node */
-  authorId?: Maybe<Scalars['ID']>;
-  /** Connection between the post type and the category type */
-  categories?: Maybe<PostToCategoryConnection>;
-  /** The content of the post. */
-  content?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique resource identifier path */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']>;
-  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-  /** The database identifier for the featured image node assigned to the content node */
-  featuredImageDatabaseId?: Maybe<Scalars['Int']>;
-  /** Globally unique ID of the featured image assigned to the node */
-  featuredImageId?: Maybe<Scalars['ID']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** Hide Published Date */
-  hidePublishedDate?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier of the post object. */
-  id: Scalars['ID'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /** Whether this page is sticky */
-  isSticky: Scalars['Boolean'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Ingressi */
-  lead?: Maybe<Scalars['String']>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** List of modules */
-  modules?: Maybe<Array<Maybe<PostModulesUnionType>>>;
-  /** Connection between the post type and the postFormat type */
-  postFormats?: Maybe<PostToPostFormatConnection>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  postId: Scalars['Int'];
-  /** Connection between the post type and the post type */
-  preview?: Maybe<PostToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the post type and the post type */
-  revisions?: Maybe<PostToRevisionConnection>;
-  /** The SEO Framework data of the post */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** Connection between the post type and the tag type */
-  tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the post type and the TermNode type */
-  terms?: Maybe<PostToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Post>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Post>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Post = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithContentEditor &
+  NodeWithAuthor &
+  NodeWithFeaturedImage &
+  NodeWithRevisions &
+  MenuItemLinkable & {
+    __typename?: 'Post';
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']>;
+    /** Connection between the post type and the category type */
+    categories?: Maybe<PostToCategoryConnection>;
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique resource identifier path */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars['ID']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** Hide Published Date */
+    hidePublishedDate?: Maybe<Scalars['Boolean']>;
+    /** The globally unique identifier of the post object. */
+    id: Scalars['ID'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /** Whether this page is sticky */
+    isSticky: Scalars['Boolean'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Ingressi */
+    lead?: Maybe<Scalars['String']>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<PostModulesUnionType>>>;
+    /** Connection between the post type and the postFormat type */
+    postFormats?: Maybe<PostToPostFormatConnection>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    postId: Scalars['Int'];
+    /** Connection between the post type and the post type */
+    preview?: Maybe<PostToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the post type and the post type */
+    revisions?: Maybe<PostToRevisionConnection>;
+    /** The SEO Framework data of the post */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** Connection between the post type and the tag type */
+    tags?: Maybe<PostToTagConnection>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the post type and the TermNode type */
+    terms?: Maybe<PostToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Post>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Post>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The post type */
 export type PostCategoriesArgs = {
@@ -4518,12 +4534,10 @@ export type PostCategoriesArgs = {
   where?: Maybe<PostToCategoryConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The post type */
 export type PostEnqueuedScriptsArgs = {
@@ -4533,7 +4547,6 @@ export type PostEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The post type */
 export type PostEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4541,7 +4554,6 @@ export type PostEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The post type */
 export type PostPostFormatsArgs = {
@@ -4552,7 +4564,6 @@ export type PostPostFormatsArgs = {
   where?: Maybe<PostToPostFormatConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostRevisionsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4561,7 +4572,6 @@ export type PostRevisionsArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PostToRevisionConnectionWhereArgs>;
 };
-
 
 /** The post type */
 export type PostTagsArgs = {
@@ -4572,7 +4582,6 @@ export type PostTagsArgs = {
   where?: Maybe<PostToTagConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostTermsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4582,12 +4591,10 @@ export type PostTermsArgs = {
   where?: Maybe<PostToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The post type */
 export type PostTranslationArgs = {
@@ -4615,47 +4622,49 @@ export type PostCategoriesNodeInput = {
 };
 
 /** The postFormat type */
-export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & {
-  __typename?: 'PostFormat';
-  /** Connection between the postFormat type and the ContentNode type */
-  contentNodes?: Maybe<PostFormatToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The unique resource identifier path */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** The link to the term */
-  link?: Maybe<Scalars['String']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  postFormatId?: Maybe<Scalars['Int']>;
-  /** Connection between the postFormat type and the post type */
-  posts?: Maybe<PostFormatToPostConnection>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']>;
-  /** Connection between the postFormat type and the Taxonomy type */
-  taxonomy?: Maybe<PostFormatToTaxonomyConnectionEdge>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type PostFormat = Node &
+  TermNode &
+  DatabaseIdentifier &
+  UniformResourceIdentifiable & {
+    __typename?: 'PostFormat';
+    /** Connection between the postFormat type and the ContentNode type */
+    contentNodes?: Maybe<PostFormatToContentNodeConnection>;
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** The description of the object */
+    description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+    /** The unique resource identifier path */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** The link to the term */
+    link?: Maybe<Scalars['String']>;
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    postFormatId?: Maybe<Scalars['Int']>;
+    /** Connection between the postFormat type and the post type */
+    posts?: Maybe<PostFormatToPostConnection>;
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']>;
+    /** Connection between the postFormat type and the Taxonomy type */
+    taxonomy?: Maybe<PostFormatToTaxonomyConnectionEdge>;
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']>;
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The postFormat type */
 export type PostFormatContentNodesArgs = {
@@ -4666,7 +4675,6 @@ export type PostFormatContentNodesArgs = {
   where?: Maybe<PostFormatToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The postFormat type */
 export type PostFormatEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4675,7 +4683,6 @@ export type PostFormatEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The postFormat type */
 export type PostFormatEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -4683,7 +4690,6 @@ export type PostFormatEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The postFormat type */
 export type PostFormatPostsArgs = {
@@ -4705,7 +4711,7 @@ export enum PostFormatIdType {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the postFormat type and the ContentNode type */
@@ -4868,28 +4874,42 @@ export enum PostIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
-export type PostModulesUnionType = EventSearch | EventSelected | LayoutCollection | LayoutContact | LayoutArticles | LayoutPages;
+export type PostModulesUnionType =
+  | EventSearch
+  | EventSelected
+  | LayoutCollection
+  | LayoutContact
+  | LayoutArticles
+  | LayoutPages;
 
 /** The format of post field data. */
 export enum PostObjectFieldFormatEnum {
   /** Provide the field value directly from database */
   Raw = 'RAW',
   /** Apply the default WordPress rendering */
-  Rendered = 'RENDERED'
+  Rendered = 'RENDERED',
 }
 
 /** Union between the post, page and media item types */
-export type PostObjectUnion = Post | Page | MediaItem | Collection | Contact | LandingPage | Release | Translation;
+export type PostObjectUnion =
+  | Post
+  | Page
+  | MediaItem
+  | Collection
+  | Contact
+  | LandingPage
+  | Release
+  | Translation;
 
 /** The column to use when filtering by date */
 export enum PostObjectsConnectionDateColumnEnum {
   /** The date the comment was created in local time. */
   Date = 'DATE',
   /** The most recent modification date of the comment. */
-  Modified = 'MODIFIED'
+  Modified = 'MODIFIED',
 }
 
 /** Field to order the connection by */
@@ -4913,7 +4933,7 @@ export enum PostObjectsConnectionOrderbyEnum {
   /** Order by slug */
   Slug = 'SLUG',
   /** Order by title */
-  Title = 'TITLE'
+  Title = 'TITLE',
 }
 
 /** Options for ordering the connection */
@@ -4975,7 +4995,7 @@ export enum PostStatusEnum {
   /** Objects with the wp_stream_disabled status */
   WpStreamDisabled = 'WP_STREAM_DISABLED',
   /** Objects with the wp_stream_enabled status */
-  WpStreamEnabled = 'WP_STREAM_ENABLED'
+  WpStreamEnabled = 'WP_STREAM_ENABLED',
 }
 
 /** Set relationships between the post to tags */
@@ -5463,95 +5483,100 @@ export enum RelationEnum {
   /** The logical AND condition returns true if both operands are true, otherwise, it returns false. */
   And = 'AND',
   /** The logical OR condition returns false if both operands are false, otherwise, it returns true. */
-  Or = 'OR'
+  Or = 'OR',
 }
 
 /** The release type */
-export type Release = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithRevisions & {
-  __typename?: 'Release';
-  /** The content of the post. */
-  content?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the release-cpt object. */
-  id: Scalars['ID'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** Connection between the release type and the release type */
-  preview?: Maybe<ReleaseToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  releaseId: Scalars['Int'];
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the release type and the release type */
-  revisions?: Maybe<ReleaseToRevisionConnection>;
-  /** The SEO Framework data of the release */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the release type and the TermNode type */
-  terms?: Maybe<ReleaseToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Release>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Release>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Release = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithContentEditor &
+  NodeWithRevisions & {
+    __typename?: 'Release';
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the release-cpt object. */
+    id: Scalars['ID'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** Connection between the release type and the release type */
+    preview?: Maybe<ReleaseToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    releaseId: Scalars['Int'];
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the release type and the release type */
+    revisions?: Maybe<ReleaseToRevisionConnection>;
+    /** The SEO Framework data of the release */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the release type and the TermNode type */
+    terms?: Maybe<ReleaseToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Release>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Release>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The release type */
 export type ReleaseContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The release type */
 export type ReleaseEnqueuedScriptsArgs = {
@@ -5561,7 +5586,6 @@ export type ReleaseEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The release type */
 export type ReleaseEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -5569,7 +5593,6 @@ export type ReleaseEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The release type */
 export type ReleaseRevisionsArgs = {
@@ -5580,7 +5603,6 @@ export type ReleaseRevisionsArgs = {
   where?: Maybe<ReleaseToRevisionConnectionWhereArgs>;
 };
 
-
 /** The release type */
 export type ReleaseTermsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -5590,12 +5612,10 @@ export type ReleaseTermsArgs = {
   where?: Maybe<ReleaseToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The release type */
 export type ReleaseTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The release type */
 export type ReleaseTranslationArgs = {
@@ -5611,7 +5631,7 @@ export enum ReleaseIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the release type and the release type */
@@ -5880,270 +5900,225 @@ export type RootMutation = {
   updateUser?: Maybe<UpdateUserPayload>;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateCategoryArgs = {
   input: CreateCategoryInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateCollectionArgs = {
   input: CreateCollectionInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateCommentArgs = {
   input: CreateCommentInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateContactArgs = {
   input: CreateContactInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateLandingPageArgs = {
   input: CreateLandingPageInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateMediaItemArgs = {
   input: CreateMediaItemInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreatePageArgs = {
   input: CreatePageInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreatePostArgs = {
   input: CreatePostInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreatePostFormatArgs = {
   input: CreatePostFormatInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateReleaseArgs = {
   input: CreateReleaseInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateTagArgs = {
   input: CreateTagInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateTranslationArgs = {
   input: CreateTranslationInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateUserArgs = {
   input: CreateUserInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteCategoryArgs = {
   input: DeleteCategoryInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteCollectionArgs = {
   input: DeleteCollectionInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteCommentArgs = {
   input: DeleteCommentInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteContactArgs = {
   input: DeleteContactInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteLandingPageArgs = {
   input: DeleteLandingPageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteMediaItemArgs = {
   input: DeleteMediaItemInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeletePageArgs = {
   input: DeletePageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeletePostArgs = {
   input: DeletePostInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeletePostFormatArgs = {
   input: DeletePostFormatInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteReleaseArgs = {
   input: DeleteReleaseInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteTagArgs = {
   input: DeleteTagInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteTranslationArgs = {
   input: DeleteTranslationInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteUserArgs = {
   input: DeleteUserInput;
 };
 
-
 /** The root mutation */
 export type RootMutationIncreaseCountArgs = {
   count?: Maybe<Scalars['Int']>;
 };
-
 
 /** The root mutation */
 export type RootMutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
 
-
 /** The root mutation */
 export type RootMutationResetUserPasswordArgs = {
   input: ResetUserPasswordInput;
 };
-
 
 /** The root mutation */
 export type RootMutationRestoreCommentArgs = {
   input: RestoreCommentInput;
 };
 
-
 /** The root mutation */
 export type RootMutationSendPasswordResetEmailArgs = {
   input: SendPasswordResetEmailInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateCategoryArgs = {
   input: UpdateCategoryInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateCollectionArgs = {
   input: UpdateCollectionInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateCommentArgs = {
   input: UpdateCommentInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateContactArgs = {
   input: UpdateContactInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateLandingPageArgs = {
   input: UpdateLandingPageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateMediaItemArgs = {
   input: UpdateMediaItemInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdatePageArgs = {
   input: UpdatePageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdatePostArgs = {
   input: UpdatePostInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdatePostFormatArgs = {
   input: UpdatePostFormatInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateReleaseArgs = {
   input: UpdateReleaseInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateSettingsArgs = {
   input: UpdateSettingsInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateTagArgs = {
   input: UpdateTagInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateTranslationArgs = {
   input: UpdateTranslationInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateUserArgs = {
@@ -6316,7 +6291,6 @@ export type RootQuery = {
   writingSettings?: Maybe<WritingSettings>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCategoriesArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -6326,13 +6300,11 @@ export type RootQueryCategoriesArgs = {
   where?: Maybe<RootQueryToCategoryConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCategoryArgs = {
   id: Scalars['ID'];
   idType?: Maybe<CategoryIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryCollectionArgs = {
@@ -6341,7 +6313,6 @@ export type RootQueryCollectionArgs = {
   asPreview?: Maybe<Scalars['Boolean']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCollectionByArgs = {
   id?: Maybe<Scalars['ID']>;
@@ -6349,7 +6320,6 @@ export type RootQueryCollectionByArgs = {
   uri?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryCollectionsArgs = {
@@ -6360,12 +6330,10 @@ export type RootQueryCollectionsArgs = {
   where?: Maybe<RootQueryToCollectionConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCommentArgs = {
   id: Scalars['ID'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryCommentsArgs = {
@@ -6376,14 +6344,12 @@ export type RootQueryCommentsArgs = {
   where?: Maybe<RootQueryToCommentConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryContactArgs = {
   id: Scalars['ID'];
   idType?: Maybe<ContactIdType>;
   asPreview?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContactByArgs = {
@@ -6392,7 +6358,6 @@ export type RootQueryContactByArgs = {
   uri?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContactsArgs = {
@@ -6403,7 +6368,6 @@ export type RootQueryContactsArgs = {
   where?: Maybe<RootQueryToContactConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryContentNodeArgs = {
   id: Scalars['ID'];
@@ -6411,7 +6375,6 @@ export type RootQueryContentNodeArgs = {
   contentType?: Maybe<ContentTypeEnum>;
   asPreview?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContentNodesArgs = {
@@ -6422,13 +6385,11 @@ export type RootQueryContentNodesArgs = {
   where?: Maybe<RootQueryToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryContentTypeArgs = {
   id: Scalars['ID'];
   idType?: Maybe<ContentTypeIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContentTypesArgs = {
@@ -6438,14 +6399,12 @@ export type RootQueryContentTypesArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryLandingPageArgs = {
   id: Scalars['ID'];
   idType?: Maybe<LandingPageIdType>;
   asPreview?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryLandingPageByArgs = {
@@ -6454,7 +6413,6 @@ export type RootQueryLandingPageByArgs = {
   uri?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryLandingPagesArgs = {
@@ -6465,14 +6423,12 @@ export type RootQueryLandingPagesArgs = {
   where?: Maybe<RootQueryToLandingPageConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMediaItemArgs = {
   id: Scalars['ID'];
   idType?: Maybe<MediaItemIdType>;
   asPreview?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemByArgs = {
@@ -6481,7 +6437,6 @@ export type RootQueryMediaItemByArgs = {
   uri?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemsArgs = {
@@ -6492,20 +6447,17 @@ export type RootQueryMediaItemsArgs = {
   where?: Maybe<RootQueryToMediaItemConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMenuArgs = {
   id: Scalars['ID'];
   idType?: Maybe<MenuNodeIdTypeEnum>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMenuItemArgs = {
   id: Scalars['ID'];
   idType?: Maybe<MenuItemNodeIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryMenuItemsArgs = {
@@ -6516,7 +6468,6 @@ export type RootQueryMenuItemsArgs = {
   where?: Maybe<RootQueryToMenuItemConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMenusArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -6526,24 +6477,20 @@ export type RootQueryMenusArgs = {
   where?: Maybe<RootQueryToMenuConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryNodeArgs = {
   id?: Maybe<Scalars['ID']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryNodeByUriArgs = {
   uri: Scalars['String'];
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryNotificationArgs = {
   language: Scalars['String'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPageArgs = {
@@ -6552,14 +6499,12 @@ export type RootQueryPageArgs = {
   asPreview?: Maybe<Scalars['Boolean']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPageByArgs = {
   id?: Maybe<Scalars['ID']>;
   pageId?: Maybe<Scalars['Int']>;
   uri?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPagesArgs = {
@@ -6570,12 +6515,10 @@ export type RootQueryPagesArgs = {
   where?: Maybe<RootQueryToPageConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPluginArgs = {
   id: Scalars['ID'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPluginsArgs = {
@@ -6585,14 +6528,12 @@ export type RootQueryPluginsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPostArgs = {
   id: Scalars['ID'];
   idType?: Maybe<PostIdType>;
   asPreview?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPostByArgs = {
@@ -6602,13 +6543,11 @@ export type RootQueryPostByArgs = {
   slug?: Maybe<Scalars['String']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPostFormatArgs = {
   id: Scalars['ID'];
   idType?: Maybe<PostFormatIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPostFormatsArgs = {
@@ -6619,7 +6558,6 @@ export type RootQueryPostFormatsArgs = {
   where?: Maybe<RootQueryToPostFormatConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPostsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -6629,7 +6567,6 @@ export type RootQueryPostsArgs = {
   where?: Maybe<RootQueryToPostConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryRegisteredScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -6637,7 +6574,6 @@ export type RootQueryRegisteredScriptsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryRegisteredStylesheetsArgs = {
@@ -6647,14 +6583,12 @@ export type RootQueryRegisteredStylesheetsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryReleaseArgs = {
   id: Scalars['ID'];
   idType?: Maybe<ReleaseIdType>;
   asPreview?: Maybe<Scalars['Boolean']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryReleaseByArgs = {
@@ -6663,7 +6597,6 @@ export type RootQueryReleaseByArgs = {
   uri?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryReleasesArgs = {
@@ -6674,7 +6607,6 @@ export type RootQueryReleasesArgs = {
   where?: Maybe<RootQueryToReleaseConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryRevisionsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -6684,19 +6616,16 @@ export type RootQueryRevisionsArgs = {
   where?: Maybe<RootQueryToContentRevisionUnionConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQuerySiteSettingsArgs = {
   language: Scalars['String'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTagArgs = {
   id: Scalars['ID'];
   idType?: Maybe<TagIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTagsArgs = {
@@ -6707,7 +6636,6 @@ export type RootQueryTagsArgs = {
   where?: Maybe<RootQueryToTagConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTaxonomiesArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -6716,13 +6644,11 @@ export type RootQueryTaxonomiesArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTaxonomyArgs = {
   id: Scalars['ID'];
   idType?: Maybe<TaxonomyIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTermNodeArgs = {
@@ -6730,7 +6656,6 @@ export type RootQueryTermNodeArgs = {
   idType?: Maybe<TermNodeIdTypeEnum>;
   taxonomy?: Maybe<TaxonomyEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTermsArgs = {
@@ -6741,12 +6666,10 @@ export type RootQueryTermsArgs = {
   where?: Maybe<RootQueryToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryThemeArgs = {
   id: Scalars['ID'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryThemesArgs = {
@@ -6756,13 +6679,11 @@ export type RootQueryThemesArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTranslateStringArgs = {
   string: Scalars['String'];
   language: LanguageCodeEnum;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTranslationArgs = {
@@ -6771,7 +6692,6 @@ export type RootQueryTranslationArgs = {
   asPreview?: Maybe<Scalars['Boolean']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTranslationByArgs = {
   id?: Maybe<Scalars['ID']>;
@@ -6779,7 +6699,6 @@ export type RootQueryTranslationByArgs = {
   uri?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTranslationsArgs = {
@@ -6790,19 +6709,16 @@ export type RootQueryTranslationsArgs = {
   where?: Maybe<RootQueryToTranslationConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryUserArgs = {
   id: Scalars['ID'];
   idType?: Maybe<UserNodeIdTypeEnum>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryUserRoleArgs = {
   id: Scalars['ID'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryUserRolesArgs = {
@@ -6811,7 +6727,6 @@ export type RootQueryUserRolesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryUsersArgs = {
@@ -8163,53 +8078,56 @@ export type SiteSettings = {
 };
 
 /** The tag type */
-export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
-  __typename?: 'Tag';
-  /** Connection between the tag type and the ContentNode type */
-  contentNodes?: Maybe<TagToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
-  databaseId: Scalars['Int'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The unique resource identifier path */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** List available translations for this post */
-  language?: Maybe<Language>;
-  /** The link to the term */
-  link?: Maybe<Scalars['String']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']>;
-  /** Connection between the tag type and the post type */
-  posts?: Maybe<TagToPostConnection>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  tagId?: Maybe<Scalars['Int']>;
-  /** Connection between the tag type and the Taxonomy type */
-  taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Tag>;
-  /** List all translated versions of this term */
-  translations?: Maybe<Array<Maybe<Tag>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Tag = Node &
+  TermNode &
+  DatabaseIdentifier &
+  UniformResourceIdentifiable &
+  MenuItemLinkable & {
+    __typename?: 'Tag';
+    /** Connection between the tag type and the ContentNode type */
+    contentNodes?: Maybe<TagToContentNodeConnection>;
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']>;
+    /** The unique resource identifier path */
+    databaseId: Scalars['Int'];
+    /** The description of the object */
+    description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+    /** The unique resource identifier path */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** List available translations for this post */
+    language?: Maybe<Language>;
+    /** The link to the term */
+    link?: Maybe<Scalars['String']>;
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']>;
+    /** Connection between the tag type and the post type */
+    posts?: Maybe<TagToPostConnection>;
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    tagId?: Maybe<Scalars['Int']>;
+    /** Connection between the tag type and the Taxonomy type */
+    taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']>;
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Tag>;
+    /** List all translated versions of this term */
+    translations?: Maybe<Array<Maybe<Tag>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The tag type */
 export type TagContentNodesArgs = {
@@ -8220,7 +8138,6 @@ export type TagContentNodesArgs = {
   where?: Maybe<TagToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The tag type */
 export type TagEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -8228,7 +8145,6 @@ export type TagEnqueuedScriptsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The tag type */
 export type TagEnqueuedStylesheetsArgs = {
@@ -8238,7 +8154,6 @@ export type TagEnqueuedStylesheetsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The tag type */
 export type TagPostsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -8247,7 +8162,6 @@ export type TagPostsArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<TagToPostConnectionWhereArgs>;
 };
-
 
 /** The tag type */
 export type TagTranslationArgs = {
@@ -8265,7 +8179,7 @@ export enum TagIdType {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the tag type and the ContentNode type */
@@ -8464,7 +8378,6 @@ export type Taxonomy = Node & {
   showUi?: Maybe<Scalars['Boolean']>;
 };
 
-
 /** A taxonomy object */
 export type TaxonomyConnectedContentTypesArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -8480,7 +8393,7 @@ export enum TaxonomyEnum {
   /** Taxonomy enum post_format */
   Postformat = 'POSTFORMAT',
   /** Taxonomy enum post_tag */
-  Tag = 'TAG'
+  Tag = 'TAG',
 }
 
 /** The Type of Identifier used to fetch a single Taxonomy node. To be used along with the "id" field. Default is "ID". */
@@ -8488,7 +8401,7 @@ export enum TaxonomyIdTypeEnum {
   /** The globally unique ID */
   Id = 'ID',
   /** The name of the taxonomy */
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 /** Connection between the Taxonomy type and the ContentType type */
@@ -8541,7 +8454,6 @@ export type TermNode = {
   uri?: Maybe<Scalars['String']>;
 };
 
-
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNodeEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -8549,7 +8461,6 @@ export type TermNodeEnqueuedScriptsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNodeEnqueuedStylesheetsArgs = {
@@ -8570,7 +8481,7 @@ export enum TermNodeIdTypeEnum {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the TermNode type and the EnqueuedScript type */
@@ -8631,7 +8542,7 @@ export enum TermObjectsConnectionOrderbyEnum {
   /** Order the connection by term id. */
   TermId = 'TERM_ID',
   /** Order the connection by term order. */
-  TermOrder = 'TERM_ORDER'
+  TermOrder = 'TERM_ORDER',
 }
 
 /** A theme object */
@@ -9574,79 +9485,84 @@ export enum TimezoneEnum {
   /** UTC offset: UTC+9 */
   Utc_9 = 'UTC_9',
   /** UTC offset: UTC+9:30 */
-  Utc_9_30 = 'UTC_9_30'
+  Utc_9_30 = 'UTC_9_30',
 }
 
 /** The translation type */
-export type Translation = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithRevisions & {
-  __typename?: 'Translation';
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the translation-cpt object. */
-  id: Scalars['ID'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** Connection between the translation type and the translation type */
-  preview?: Maybe<TranslationToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the translation type and the translation type */
-  revisions?: Maybe<TranslationToRevisionConnection>;
-  /** The SEO Framework data of the translation */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  translationId: Scalars['Int'];
-  /** Translations */
-  translations?: Maybe<Array<Maybe<TranslationResponse>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
+export type Translation = Node &
+  ContentNode &
+  DatabaseIdentifier &
+  NodeWithTemplate &
+  UniformResourceIdentifiable &
+  NodeWithTitle &
+  NodeWithRevisions & {
+    __typename?: 'Translation';
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']>;
+    /** The globally unique identifier of the translation-cpt object. */
+    id: Scalars['ID'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /** Connection between the translation type and the translation type */
+    preview?: Maybe<TranslationToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the translation type and the translation type */
+    revisions?: Maybe<TranslationToRevisionConnection>;
+    /** The SEO Framework data of the translation */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    translationId: Scalars['Int'];
+    /** Translations */
+    translations?: Maybe<Array<Maybe<TranslationResponse>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+  };
 
 /** The translation type */
 export type TranslationEnqueuedScriptsArgs = {
@@ -9656,7 +9572,6 @@ export type TranslationEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** The translation type */
 export type TranslationEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -9664,7 +9579,6 @@ export type TranslationEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** The translation type */
 export type TranslationRevisionsArgs = {
@@ -9674,7 +9588,6 @@ export type TranslationRevisionsArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<TranslationToRevisionConnectionWhereArgs>;
 };
-
 
 /** The translation type */
 export type TranslationTitleArgs = {
@@ -9690,7 +9603,7 @@ export enum TranslationIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Translation with language/value pairs */
@@ -10274,71 +10187,73 @@ export type UpdateUserPayload = {
 };
 
 /** A User object */
-export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIdentifier & {
-  __typename?: 'User';
-  /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
-  avatar?: Maybe<Avatar>;
-  /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
-  capKey?: Maybe<Scalars['String']>;
-  /** A list of capabilities (permissions) granted to the user */
-  capabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Connection between the User type and the Comment type */
-  comments?: Maybe<UserToCommentConnection>;
-  /** Identifies the primary key from the database. */
-  databaseId: Scalars['Int'];
-  /** Description of the user. */
-  description?: Maybe<Scalars['String']>;
-  /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
-  email?: Maybe<Scalars['String']>;
-  /** Connection between the User type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
-  /** Connection between the User type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<UserToEnqueuedStylesheetConnection>;
-  /** A complete list of capabilities including capabilities inherited from a role. This is equivalent to the array keys of WP_User-&gt;allcaps. */
-  extraCapabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
-  firstName?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the user object. */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
-  lastName?: Maybe<Scalars['String']>;
-  /** The preferred language locale set for the user. Value derived from get_user_locale(). */
-  locale?: Maybe<Scalars['String']>;
-  /** Connection between the User type and the mediaItem type */
-  mediaItems?: Maybe<UserToMediaItemConnection>;
-  /** Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property. */
-  name?: Maybe<Scalars['String']>;
-  /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
-  nicename?: Maybe<Scalars['String']>;
-  /** Nickname of the user. */
-  nickname?: Maybe<Scalars['String']>;
-  /** Connection between the User type and the page type */
-  pages?: Maybe<UserToPageConnection>;
-  /** Connection between the User type and the post type */
-  posts?: Maybe<UserToPostConnection>;
-  /** The date the user registered or was created. The field follows a full ISO8601 date string format. */
-  registeredDate?: Maybe<Scalars['String']>;
-  /** Connection between the User and Revisions authored by the user */
-  revisions?: Maybe<UserToContentRevisionUnionConnection>;
-  /** Connection between the User type and the UserRole type */
-  roles?: Maybe<UserToUserRoleConnection>;
-  /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
-  slug?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-  /** A website url that is associated with the user. */
-  url?: Maybe<Scalars['String']>;
-  /**
-   * The Id of the user. Equivalent to WP_User-&gt;ID
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  userId?: Maybe<Scalars['Int']>;
-  /** Username for the user. This field is equivalent to WP_User-&gt;user_login. */
-  username?: Maybe<Scalars['String']>;
-};
-
+export type User = Node &
+  UniformResourceIdentifiable &
+  Commenter &
+  DatabaseIdentifier & {
+    __typename?: 'User';
+    /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
+    avatar?: Maybe<Avatar>;
+    /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
+    capKey?: Maybe<Scalars['String']>;
+    /** A list of capabilities (permissions) granted to the user */
+    capabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
+    /** Connection between the User type and the Comment type */
+    comments?: Maybe<UserToCommentConnection>;
+    /** Identifies the primary key from the database. */
+    databaseId: Scalars['Int'];
+    /** Description of the user. */
+    description?: Maybe<Scalars['String']>;
+    /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
+    email?: Maybe<Scalars['String']>;
+    /** Connection between the User type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
+    /** Connection between the User type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<UserToEnqueuedStylesheetConnection>;
+    /** A complete list of capabilities including capabilities inherited from a role. This is equivalent to the array keys of WP_User-&gt;allcaps. */
+    extraCapabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
+    /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
+    firstName?: Maybe<Scalars['String']>;
+    /** The globally unique identifier for the user object. */
+    id: Scalars['ID'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
+    lastName?: Maybe<Scalars['String']>;
+    /** The preferred language locale set for the user. Value derived from get_user_locale(). */
+    locale?: Maybe<Scalars['String']>;
+    /** Connection between the User type and the mediaItem type */
+    mediaItems?: Maybe<UserToMediaItemConnection>;
+    /** Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property. */
+    name?: Maybe<Scalars['String']>;
+    /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
+    nicename?: Maybe<Scalars['String']>;
+    /** Nickname of the user. */
+    nickname?: Maybe<Scalars['String']>;
+    /** Connection between the User type and the page type */
+    pages?: Maybe<UserToPageConnection>;
+    /** Connection between the User type and the post type */
+    posts?: Maybe<UserToPostConnection>;
+    /** The date the user registered or was created. The field follows a full ISO8601 date string format. */
+    registeredDate?: Maybe<Scalars['String']>;
+    /** Connection between the User and Revisions authored by the user */
+    revisions?: Maybe<UserToContentRevisionUnionConnection>;
+    /** Connection between the User type and the UserRole type */
+    roles?: Maybe<UserToUserRoleConnection>;
+    /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
+    slug?: Maybe<Scalars['String']>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']>;
+    /** A website url that is associated with the user. */
+    url?: Maybe<Scalars['String']>;
+    /**
+     * The Id of the user. Equivalent to WP_User-&gt;ID
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    userId?: Maybe<Scalars['Int']>;
+    /** Username for the user. This field is equivalent to WP_User-&gt;user_login. */
+    username?: Maybe<Scalars['String']>;
+  };
 
 /** A User object */
 export type UserAvatarArgs = {
@@ -10346,7 +10261,6 @@ export type UserAvatarArgs = {
   forceDefault?: Maybe<Scalars['Boolean']>;
   rating?: Maybe<AvatarRatingEnum>;
 };
-
 
 /** A User object */
 export type UserCommentsArgs = {
@@ -10357,7 +10271,6 @@ export type UserCommentsArgs = {
   where?: Maybe<UserToCommentConnectionWhereArgs>;
 };
 
-
 /** A User object */
 export type UserEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -10366,7 +10279,6 @@ export type UserEnqueuedScriptsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-
 /** A User object */
 export type UserEnqueuedStylesheetsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -10374,7 +10286,6 @@ export type UserEnqueuedStylesheetsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
 };
-
 
 /** A User object */
 export type UserMediaItemsArgs = {
@@ -10385,7 +10296,6 @@ export type UserMediaItemsArgs = {
   where?: Maybe<UserToMediaItemConnectionWhereArgs>;
 };
 
-
 /** A User object */
 export type UserPagesArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -10394,7 +10304,6 @@ export type UserPagesArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<UserToPageConnectionWhereArgs>;
 };
-
 
 /** A User object */
 export type UserPostsArgs = {
@@ -10405,7 +10314,6 @@ export type UserPostsArgs = {
   where?: Maybe<UserToPostConnectionWhereArgs>;
 };
 
-
 /** A User object */
 export type UserRevisionsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -10414,7 +10322,6 @@ export type UserRevisionsArgs = {
   before?: Maybe<Scalars['String']>;
   where?: Maybe<UserToContentRevisionUnionConnectionWhereArgs>;
 };
-
 
 /** A User object */
 export type UserRolesArgs = {
@@ -10437,7 +10344,7 @@ export enum UserNodeIdTypeEnum {
   /** The URI for the node */
   Uri = 'URI',
   /** The username the User uses to login with */
-  Username = 'USERNAME'
+  Username = 'USERNAME',
 }
 
 /** A user role object */
@@ -10474,7 +10381,7 @@ export enum UserRoleEnum {
   /** User role with specific capabilities */
   HeadlessCmsViewer = 'HEADLESS_CMS_VIEWER',
   /** User role with specific capabilities */
-  Subscriber = 'SUBSCRIBER'
+  Subscriber = 'SUBSCRIBER',
 }
 
 /** Connection between the User type and the Comment type */
@@ -10912,7 +10819,7 @@ export enum UsersConnectionOrderbyEnum {
   /** Order by registration date */
   Registered = 'REGISTERED',
   /** Order by URL */
-  Url = 'URL'
+  Url = 'URL',
 }
 
 /** Options for ordering the connection */
@@ -10934,7 +10841,7 @@ export enum UsersConnectionSearchColumnEnum {
   /** A URL-friendly name for the user. The default is the user's username. */
   Nicename = 'NICENAME',
   /** The URL of the user\s website. */
-  Url = 'URL'
+  Url = 'URL',
 }
 
 /** Information about pagination in a connection. */
@@ -10967,109 +10874,146 @@ export type MenuQueryVariables = Exact<{
   language: LanguageCodeEnum;
 }>;
 
+export type MenuQuery = {
+  __typename?: 'RootQuery';
+  menu?: Maybe<{
+    __typename?: 'Menu';
+    id: string;
+    name?: Maybe<string>;
+    slug?: Maybe<string>;
+    menuId?: Maybe<number>;
+    menuItems?: Maybe<{
+      __typename?: 'MenuToMenuItemConnection';
+      nodes?: Maybe<
+        Array<
+          Maybe<{
+            __typename?: 'MenuItem';
+            connectedNode?: Maybe<{
+              __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
+              node?: Maybe<
+                | { __typename?: 'Category' }
+                | {
+                    __typename?: 'Page';
+                    id: string;
+                    translation?: Maybe<{
+                      __typename?: 'Page';
+                      title?: Maybe<string>;
+                      uri?: Maybe<string>;
+                      link?: Maybe<string>;
+                      id: string;
+                      guid?: Maybe<string>;
+                      pageId: number;
+                      slug?: Maybe<string>;
+                    }>;
+                  }
+                | { __typename?: 'Post' }
+                | { __typename?: 'Tag' }
+              >;
+            }>;
+          }>
+        >
+      >;
+    }>;
+  }>;
+};
 
-export type MenuQuery = (
-  { __typename?: 'RootQuery' }
-  & { menu?: Maybe<(
-    { __typename?: 'Menu' }
-    & Pick<Menu, 'id' | 'name' | 'slug' | 'menuId'>
-    & { menuItems?: Maybe<(
-      { __typename?: 'MenuToMenuItemConnection' }
-      & { nodes?: Maybe<Array<Maybe<(
-        { __typename?: 'MenuItem' }
-        & { connectedNode?: Maybe<(
-          { __typename?: 'MenuItemToMenuItemLinkableConnectionEdge' }
-          & { node?: Maybe<{ __typename?: 'Category' } | (
-            { __typename?: 'Page' }
-            & Pick<Page, 'id'>
-            & { translation?: Maybe<(
-              { __typename?: 'Page' }
-              & Pick<Page, 'title' | 'uri' | 'link' | 'id' | 'guid' | 'pageId' | 'slug'>
-            )> }
-          ) | { __typename?: 'Post' } | { __typename?: 'Tag' }> }
-        )> }
-      )>>> }
-    )> }
-  )> }
-);
+export type MenusQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MenusQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MenusQuery = (
-  { __typename?: 'RootQuery' }
-  & { menus?: Maybe<(
-    { __typename?: 'RootQueryToMenuConnection' }
-    & { nodes?: Maybe<Array<Maybe<(
-      { __typename?: 'Menu' }
-      & Pick<Menu, 'id' | 'name' | 'slug' | 'menuId'>
-    )>>> }
-  )> }
-);
+export type MenusQuery = {
+  __typename?: 'RootQuery';
+  menus?: Maybe<{
+    __typename?: 'RootQueryToMenuConnection';
+    nodes?: Maybe<
+      Array<
+        Maybe<{
+          __typename?: 'Menu';
+          id: string;
+          name?: Maybe<string>;
+          slug?: Maybe<string>;
+          menuId?: Maybe<number>;
+        }>
+      >
+    >;
+  }>;
+};
 
 export type PageQueryVariables = Exact<{
   id: Scalars['ID'];
   idType?: Maybe<PageIdType>;
 }>;
 
+export type PageQuery = {
+  __typename?: 'RootQuery';
+  page?: Maybe<{
+    __typename?: 'Page';
+    id: string;
+    content?: Maybe<string>;
+    title?: Maybe<string>;
+  }>;
+};
 
-export type PageQuery = (
-  { __typename?: 'RootQuery' }
-  & { page?: Maybe<(
-    { __typename?: 'Page' }
-    & PageFieldsFragment
-  )> }
-);
+export type PageFieldsFragment = {
+  __typename?: 'Page';
+  id: string;
+  content?: Maybe<string>;
+  title?: Maybe<string>;
+};
 
-export type PageFieldsFragment = (
-  { __typename?: 'Page' }
-  & Pick<Page, 'id' | 'content'>
-);
+export type PagesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PagesQuery = (
-  { __typename?: 'RootQuery' }
-  & { pages?: Maybe<(
-    { __typename?: 'RootQueryToPageConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'RootQueryToPageConnectionEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'Page' }
-        & PageFieldsFragment
-      )> }
-    )>>> }
-  )> }
-);
+export type PagesQuery = {
+  __typename?: 'RootQuery';
+  pages?: Maybe<{
+    __typename?: 'RootQueryToPageConnection';
+    edges?: Maybe<
+      Array<
+        Maybe<{
+          __typename?: 'RootQueryToPageConnectionEdge';
+          node?: Maybe<{
+            __typename?: 'Page';
+            id: string;
+            content?: Maybe<string>;
+            title?: Maybe<string>;
+          }>;
+        }>
+      >
+    >;
+  }>;
+};
 
 export const PageFieldsFragmentDoc = gql`
-    fragment pageFields on Page {
-  id
-  content
-}
-    `;
-export const MenuDocument = gql`
-    query Menu($id: ID!, $idType: MenuNodeIdTypeEnum, $language: LanguageCodeEnum!) {
-  menu(id: $id, idType: $idType) {
+  fragment pageFields on Page {
     id
-    name
-    slug
-    menuId
-    menuItems {
-      nodes {
-        connectedNode {
-          node {
-            ... on Page {
-              id
-              translation(language: $language) {
-                title
-                uri
-                link
+    content
+    title
+  }
+`;
+export const MenuDocument = gql`
+  query Menu(
+    $id: ID!
+    $idType: MenuNodeIdTypeEnum
+    $language: LanguageCodeEnum!
+  ) {
+    menu(id: $id, idType: $idType) {
+      id
+      name
+      slug
+      menuId
+      menuItems {
+        nodes {
+          connectedNode {
+            node {
+              ... on Page {
                 id
-                guid
-                pageId
-                slug
+                translation(language: $language) {
+                  title
+                  uri
+                  link
+                  id
+                  guid
+                  pageId
+                  slug
+                }
               }
             }
           }
@@ -11077,8 +11021,7 @@ export const MenuDocument = gql`
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useMenuQuery__
@@ -11098,29 +11041,36 @@ export const MenuDocument = gql`
  *   },
  * });
  */
-export function useMenuQuery(baseOptions: Apollo.QueryHookOptions<MenuQuery, MenuQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
-      }
-export function useMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MenuQuery, MenuQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
-        }
+export function useMenuQuery(
+  baseOptions: Apollo.QueryHookOptions<MenuQuery, MenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
+}
+export function useMenuLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MenuQuery, MenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(
+    MenuDocument,
+    options
+  );
+}
 export type MenuQueryHookResult = ReturnType<typeof useMenuQuery>;
 export type MenuLazyQueryHookResult = ReturnType<typeof useMenuLazyQuery>;
 export type MenuQueryResult = Apollo.QueryResult<MenuQuery, MenuQueryVariables>;
 export const MenusDocument = gql`
-    query Menus {
-  menus {
-    nodes {
-      id
-      name
-      slug
-      menuId
+  query Menus {
+    menus {
+      nodes {
+        id
+        name
+        slug
+        menuId
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useMenusQuery__
@@ -11137,24 +11087,38 @@ export const MenusDocument = gql`
  *   },
  * });
  */
-export function useMenusQuery(baseOptions?: Apollo.QueryHookOptions<MenusQuery, MenusQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MenusQuery, MenusQueryVariables>(MenusDocument, options);
-      }
-export function useMenusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MenusQuery, MenusQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MenusQuery, MenusQueryVariables>(MenusDocument, options);
-        }
+export function useMenusQuery(
+  baseOptions?: Apollo.QueryHookOptions<MenusQuery, MenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MenusQuery, MenusQueryVariables>(
+    MenusDocument,
+    options
+  );
+}
+export function useMenusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MenusQuery, MenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MenusQuery, MenusQueryVariables>(
+    MenusDocument,
+    options
+  );
+}
 export type MenusQueryHookResult = ReturnType<typeof useMenusQuery>;
 export type MenusLazyQueryHookResult = ReturnType<typeof useMenusLazyQuery>;
-export type MenusQueryResult = Apollo.QueryResult<MenusQuery, MenusQueryVariables>;
+export type MenusQueryResult = Apollo.QueryResult<
+  MenusQuery,
+  MenusQueryVariables
+>;
 export const PageDocument = gql`
-    query Page($id: ID!, $idType: PageIdType) {
-  page(id: $id, idType: $idType) {
-    ...pageFields
+  query Page($id: ID!, $idType: PageIdType) {
+    page(id: $id, idType: $idType) {
+      ...pageFields
+    }
   }
-}
-    ${PageFieldsFragmentDoc}`;
+  ${PageFieldsFragmentDoc}
+`;
 
 /**
  * __usePageQuery__
@@ -11173,28 +11137,36 @@ export const PageDocument = gql`
  *   },
  * });
  */
-export function usePageQuery(baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
-      }
-export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(PageDocument, options);
-        }
+export function usePageQuery(
+  baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
+}
+export function usePageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(
+    PageDocument,
+    options
+  );
+}
 export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
 export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
 export type PageQueryResult = Apollo.QueryResult<PageQuery, PageQueryVariables>;
 export const PagesDocument = gql`
-    query Pages {
-  pages {
-    edges {
-      node {
-        ...pageFields
+  query Pages {
+    pages {
+      edges {
+        node {
+          ...pageFields
+        }
       }
     }
   }
-}
-    ${PageFieldsFragmentDoc}`;
+  ${PageFieldsFragmentDoc}
+`;
 
 /**
  * __usePagesQuery__
@@ -11211,14 +11183,27 @@ export const PagesDocument = gql`
  *   },
  * });
  */
-export function usePagesQuery(baseOptions?: Apollo.QueryHookOptions<PagesQuery, PagesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
-      }
-export function usePagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PagesQuery, PagesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
-        }
+export function usePagesQuery(
+  baseOptions?: Apollo.QueryHookOptions<PagesQuery, PagesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PagesQuery, PagesQueryVariables>(
+    PagesDocument,
+    options
+  );
+}
+export function usePagesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PagesQuery, PagesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(
+    PagesDocument,
+    options
+  );
+}
 export type PagesQueryHookResult = ReturnType<typeof usePagesQuery>;
 export type PagesLazyQueryHookResult = ReturnType<typeof usePagesLazyQuery>;
-export type PagesQueryResult = Apollo.QueryResult<PagesQuery, PagesQueryVariables>;
+export type PagesQueryResult = Apollo.QueryResult<
+  PagesQuery,
+  PagesQueryVariables
+>;

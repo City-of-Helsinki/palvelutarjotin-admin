@@ -17,6 +17,7 @@ const CmsPageContent = (): JSX.Element => {
       {!loading && !!page?.page && (
         <div>
           <p>CmsPageContent {pageId}</p>
+          <h1>{page?.page?.title}</h1>
           <div
             dangerouslySetInnerHTML={{
               __html: page?.page?.content ?? '',
