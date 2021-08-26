@@ -6,25 +6,18 @@ export const MENU_QUERY = gql`
     $idType: MenuNodeIdTypeEnum
     $language: LanguageCodeEnum!
   ) {
-    menu(id: $id, idType: $idType) {
-      id
-      name
-      slug
-      menuId
-      menuItems {
-        nodes {
-          connectedNode {
-            node {
+      menu(id: $id, idType: $idType) {
+        id
+        name
+        slug
+        menuId
+        menuItems {
+          nodes {
+            connectedNode {
+              node {
               ... on Page {
-                id
                 translation(language: $language) {
-                  title
-                  uri
-                  link
-                  id
-                  guid
-                  pageId
-                  slug
+                  ...pageFields
                 }
               }
             }
@@ -35,29 +28,49 @@ export const MENU_QUERY = gql`
   }
 `;
 
-export const MENUS_QUERY = gql`
-  query Menus {
-    menus {
-      nodes {
-        id
-        name
-        slug
-        menuId
+export const PAGE_QUERY = gql`
+  query Page(
+    $id: ID!, 
+    $idType: PageIdType, 
+    $language: LanguageCodeEnum! 
+  ) {
+    page(id: $id, idType: $idType) {
+      translation(language: $language) {
+        ...pageFields
+      }
+      parent {
+        node {
+          ... on Page {
+            translation(language: $language) {
+              ...pageFields
+            }
+          }
+        }
+      }
+      children {
+        nodes {
+          ... on Page {
+            translation(language: $language) {
+              ...pageFields
+            }
+          }
+        }
       }
     }
   }
-`;
 
-export const PAGE_QUERY = gql`
-  query Page($id: ID!, $idType: PageIdType) {
-    page(id: $id, idType: $idType) {
-      ...pageFields
-    }
-  }
   fragment pageFields on Page {
     id
     content
+    slug
     title
+    uri
+    language {
+      code
+      slug
+      locale
+      name
+    }
   }
 `;
 

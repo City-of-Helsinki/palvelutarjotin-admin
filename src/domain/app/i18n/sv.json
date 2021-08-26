@@ -729,5 +729,8 @@
       "labelLocationDescription": "Beskrivning av arenan",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
     }
+  },
+  "cmspage": {
+    "notFound": "Det gick inte att läsa in sidan!"
   }
 }

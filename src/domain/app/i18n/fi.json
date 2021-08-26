@@ -728,5 +728,8 @@
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
       "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
     }
+  },
+  "cmspage": {
+    "notFound": "Sivun lataamisessa ilmeni ongelma!"
   }
 }

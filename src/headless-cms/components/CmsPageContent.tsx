@@ -1,30 +1,31 @@
 import React from 'react';
-import { useParams } from 'react-router';
 
-import { usePageQuery } from '../../generated/graphql-cms';
-import apolloClient from '../client';
+import { Page } from '../../generated/graphql-cms';
 
-const CmsPageContent = (): JSX.Element => {
-  const { id: pageId } = useParams<{ id: string }>();
-  const { data: page, loading } = usePageQuery({
-    client: apolloClient,
-    variables: {
-      id: pageId,
-    },
-  });
+const CmsPageContent: React.FC<{
+  page: Page | undefined | null;
+}> = ({ page }): JSX.Element => {
+  if (!page) {
+    // toast(t('cmspage.notFound'), {
+    //   type: toast.TYPE.ERROR,
+    // });
+    return <div></div>;
+  }
+
   return (
     <div>
-      {!loading && !!page?.page && (
-        <div>
-          <p>CmsPageContent {pageId}</p>
-          <h1>{page?.page?.title}</h1>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: page?.page?.content ?? '',
-            }}
-          />
-        </div>
-      )}
+      <p>
+        CmsPageContent {page.translation?.id}
+        <br />
+        slug: {page.translation?.slug}
+        <br /> uri: {page.translation?.uri}
+      </p>
+      <h1>{page.translation?.title}</h1>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: page?.translation?.content ?? '',
+        }}
+      />
     </div>
   );
 };
