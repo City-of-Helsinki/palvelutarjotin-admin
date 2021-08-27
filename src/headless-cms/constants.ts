@@ -1,3 +1,3 @@
 export enum MENU_NAME {
-  Header = 'Palvelutarjotin-ui Header', 
+  Header = 'Palvelutarjotin-admin Header', 
 }

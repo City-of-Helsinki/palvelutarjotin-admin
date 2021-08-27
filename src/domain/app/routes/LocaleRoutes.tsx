@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 
 import { ROUTER_LANGUAGES } from '../../../constants';
-import CmsPageContent from '../../../headless-cms/components/CmsPageContent';
+import CmsPage from '../../../headless-cms/components/CmsPage';
 import { resetApiTokenData } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { userSelector } from '../../auth/selectors';
@@ -108,7 +108,7 @@ const LocaleRoutes: React.FC<
         <Route
           exact
           path={`/${locale}${ROUTES.CMS_PAGE}`}
-          component={CmsPageContent}
+          component={CmsPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

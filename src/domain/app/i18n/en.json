@@ -722,5 +722,8 @@
       "labelLocationDescription": "Description of the venue",
       "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ..."
     }
+  },
+  "cmspage": {
+    "notFound": "Could not load the page!"
   }
 }
