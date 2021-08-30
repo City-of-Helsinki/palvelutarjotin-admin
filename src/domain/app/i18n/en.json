@@ -380,7 +380,7 @@
       "placeholderPriceDescription": "price per child / group,\nhow to pay (billing or debit card),\nperuutusehdot"
     },
     "changeLanguageModal": {
-      "buttonChangeLanguage": "Change language",
+      "buttonChangeLanguage": "Change language. Vaihda kieli. Ändra språk.",
       "text1": "Are you sure you want to change language?",
       "text2": "Unsaved changes can not be restored.",
       "title": "Change language"
@@ -722,5 +722,8 @@
       "labelLocationDescription": "Description of the venue",
       "placeholderLocationDescription": "For example, how can a group change clothes, where you can eat snacks ..."
     }
+  },
+  "cmspage": {
+    "notFound": "Could not load the page!"
   }
 }

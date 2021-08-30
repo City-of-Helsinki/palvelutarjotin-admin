@@ -843,10 +843,10 @@ export enum NotificationType {
 
 export type OccurrenceNode = Node & {
   __typename?: 'OccurrenceNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   /** The ID of the object. */
   id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   pEvent?: Maybe<PalvelutarjotinEventNode>;
   minGroupSize?: Maybe<Scalars['Int']>;
   maxGroupSize?: Maybe<Scalars['Int']>;
@@ -863,11 +863,13 @@ export type OccurrenceNode = Node & {
   remainingSeats: Scalars['Int'];
   seatsTaken: Scalars['Int'];
   seatsApproved: Scalars['Int'];
+  /** Only use this field in single event query for best performance. */
   linkedEvent?: Maybe<Event>;
 };
 
 
 export type OccurrenceNodeContactPersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -876,6 +878,7 @@ export type OccurrenceNodeContactPersonsArgs = {
 
 
 export type OccurrenceNodeStudyGroupsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -884,6 +887,7 @@ export type OccurrenceNodeStudyGroupsArgs = {
 
 
 export type OccurrenceNodeLanguagesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -892,6 +896,7 @@ export type OccurrenceNodeLanguagesArgs = {
 
 
 export type OccurrenceNodeEnrolmentsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -953,6 +958,7 @@ export type OrganisationNode = Node & {
 
 
 export type OrganisationNodePersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -961,6 +967,7 @@ export type OrganisationNodePersonsArgs = {
 
 
 export type OrganisationNodePEventArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1056,10 +1063,10 @@ export type PalvelutarjotinEventInput = {
 
 export type PalvelutarjotinEventNode = Node & {
   __typename?: 'PalvelutarjotinEventNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   /** The ID of the object. */
   id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   linkedEventId: Scalars['String'];
   enrolmentStart?: Maybe<Scalars['DateTime']>;
   enrolmentEndDays?: Maybe<Scalars['Int']>;
@@ -1077,6 +1084,7 @@ export type PalvelutarjotinEventNode = Node & {
 
 
 export type PalvelutarjotinEventNodeOccurrencesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1126,6 +1134,7 @@ export type PersonNode = Node & {
 
 
 export type PersonNodeOrganisationsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1135,6 +1144,7 @@ export type PersonNodeOrganisationsArgs = {
 
 
 export type PersonNodeOrganisationproposalSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1143,6 +1153,7 @@ export type PersonNodeOrganisationproposalSetArgs = {
 
 
 export type PersonNodePEventArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1151,6 +1162,7 @@ export type PersonNodePEventArgs = {
 
 
 export type PersonNodeOccurrencesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1164,6 +1176,7 @@ export type PersonNodeOccurrencesArgs = {
 
 
 export type PersonNodeStudygroupSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1172,6 +1185,7 @@ export type PersonNodeStudygroupSetArgs = {
 
 
 export type PersonNodeEnrolmentSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1337,6 +1351,7 @@ export type Query = {
 
 export type QueryOccurrencesArgs = {
   orderBy?: Maybe<Array<Maybe<Scalars['String']>>>;
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1355,6 +1370,7 @@ export type QueryOccurrenceArgs = {
 
 
 export type QueryStudyGroupsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1368,6 +1384,7 @@ export type QueryStudyGroupArgs = {
 
 
 export type QueryStudyLevelsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1381,6 +1398,7 @@ export type QueryStudyLevelArgs = {
 
 
 export type QueryVenuesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1399,6 +1417,7 @@ export type QueryCancellingEnrolmentArgs = {
 
 
 export type QueryLanguagesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1412,6 +1431,7 @@ export type QueryLanguageArgs = {
 
 
 export type QueryEnrolmentsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1427,6 +1447,7 @@ export type QueryEnrolmentArgs = {
 export type QueryEnrolmentSummaryArgs = {
   organisationId: Scalars['ID'];
   status?: Maybe<EnrolmentStatus>;
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1440,6 +1461,7 @@ export type QueryPersonArgs = {
 
 
 export type QueryPersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1453,6 +1475,7 @@ export type QueryOrganisationArgs = {
 
 
 export type QueryOrganisationsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1571,10 +1594,10 @@ export type StudyGroupInput = {
 
 export type StudyGroupNode = Node & {
   __typename?: 'StudyGroupNode';
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   /** The ID of the object. */
   id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   person: PersonNode;
   name: Scalars['String'];
   groupSize: Scalars['Int'];
@@ -1588,6 +1611,7 @@ export type StudyGroupNode = Node & {
 
 
 export type StudyGroupNodeStudyLevelsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1596,6 +1620,7 @@ export type StudyGroupNodeStudyLevelsArgs = {
 
 
 export type StudyGroupNodeOccurrencesArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -1609,6 +1634,7 @@ export type StudyGroupNodeOccurrencesArgs = {
 
 
 export type StudyGroupNodeEnrolmentsArgs = {
+  offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;

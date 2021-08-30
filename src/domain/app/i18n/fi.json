@@ -386,7 +386,7 @@
       "placeholderPriceDescription": "hinta lasta/ryhmää kohden,\nmiten maksetaan (laskutus vai pankkikortti),\nperuutusehdot"
     },
     "changeLanguageModal": {
-      "buttonChangeLanguage": "Vaihda kieli",
+      "buttonChangeLanguage": "Vaihda kieli. Change language. Ändra språk.",
       "text1": "Haluatko varmasti vaihtaa kielen?",
       "text2": "Tallentamattomia muutoksia ei voi palauttaa.",
       "title": "Vaihda kieli"
@@ -728,5 +728,8 @@
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
       "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
     }
+  },
+  "cmspage": {
+    "notFound": "Sivun lataamisessa ilmeni ongelma!"
   }
 }

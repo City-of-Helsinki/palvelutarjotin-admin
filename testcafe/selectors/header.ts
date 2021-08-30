@@ -6,7 +6,7 @@ export const header = {
   languageSelector: screen.getByRole('button', {
     name: /fi kielivalikko/i,
   }),
-  languageSelectorItemEn: screen.getByRole('menuitem', { name: /in english/i }),
-  languageSelectorItemFi: screen.getByRole('menuitem', { name: /suomeksi/i }),
-  languageSelectorItemSv: screen.getByRole('menuitem', { name: /på svenska/i }),
+  languageSelectorItemEn: screen.getByText(/in english/i),
+  languageSelectorItemFi: screen.getByText(/suomeksi/i),
+  languageSelectorItemSv: screen.getByText(/på svenska/i),
 };

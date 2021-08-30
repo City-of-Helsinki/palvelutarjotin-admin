@@ -16,6 +16,7 @@ export enum ROUTES {
   OCCURRENCE_DETAILS = '/events/:id/occurrences/:occurrenceId',
   SILENT_CALLBACK = '/silent-callback',
   ENROLMENT_REPORT = '/events/:id/export-enrolments',
+  CMS_PAGE = '/cms-page/:id',
 }
 
 export const IGNORE_SCROLL_TO_TOP = [

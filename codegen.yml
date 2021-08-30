@@ -1,8 +1,18 @@
 overwrite: true
-schema: ${REACT_APP_API_URI}
-documents: ['./src/**/mutation.ts', './src/**/query.ts']
 generates:
   src/generated/graphql.tsx:
+    schema: ${REACT_APP_API_URI}
+    documents: ['./src/!(headless-cms)/**/mutation.ts', './src/!(headless-cms)/**/query.ts']
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withComponent: false
+  src/generated/graphql-cms.tsx:
+    documents: ['./src/headless-cms/query.ts']
+    schema: ${REACT_APP_CMS_URI}
     plugins:
       - 'typescript'
       - 'typescript-operations'

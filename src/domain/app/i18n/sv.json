@@ -387,7 +387,7 @@
       "placeholderPriceDescription": "pris per barn / grupp,\nhur man ska betala (fakturering eller betalkort),\navbokningsregler"
     },
     "changeLanguageModal": {
-      "buttonChangeLanguage": "Ändra språk",
+      "buttonChangeLanguage": "Ändra språk. Vaihda kieli. Change language.",
       "text1": "Är du säker på att du vill ändra språk?",
       "text2": "Ändrade sparade ändringar kan inte ångras.",
       "title": "Ändra språk"
@@ -729,5 +729,8 @@
       "labelLocationDescription": "Beskrivning av arenan",
       "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
     }
+  },
+  "cmspage": {
+    "notFound": "Det gick inte att läsa in sidan!"
   }
 }

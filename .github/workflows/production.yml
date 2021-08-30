@@ -36,6 +36,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'kultus-provider'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/kultusapi'
           DOCKER_BUILD_ARG_REACT_APP_API_URI: 'https://palvelutarjotin-api.prod.kuva.hel.ninja/graphql'
+          DOCKER_BUILD_ARG_REACT_APP_CMS_URI: 'https://kultus.content.api.hel.fi/graphql'
           DOCKER_BUILD_ARG_REACT_APP_API_REPORT_URI: 'https://palvelutarjotin-api.prod.kuva.hel.ninja/reports'
           DOCKER_BUILD_ARG_REACT_APP_LINKEDEVENTS_API_URI: 'https://api.hel.fi/linkedevents/v1'
           DOCKER_BUILD_ARG_REACT_APP_LANGUAGE_CIMODE_VISIBLE: 'false'
