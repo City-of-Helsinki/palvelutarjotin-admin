@@ -41,6 +41,9 @@ ARG REACT_APP_LINKEDEVENTS_API_URI
 # CIMODE Language button visibility
 ARG REACT_APP_LANGUAGE_CIMODE_VISIBLE
 
+# Headless CMS features
+ARG REACT_APP_HEADLESS_CMS_ENABLED
+
 USER root
 RUN apt-install.sh build-essential
 
