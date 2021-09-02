@@ -20,6 +20,7 @@ import apolloClient from '../../../headless-cms/client';
 import { MENU_NAME } from '../../../headless-cms/constants';
 import useHistory from '../../../hooks/useHistory';
 import { LanguageSelectorLanguage } from '../../../types';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
@@ -67,7 +68,7 @@ const Header: React.FC = () => {
 
   const { data: navigationItems, loading: cmsMenuLoading } = useMenuQuery({
     client: apolloClient,
-    skip: !locale || !myProfileData,
+    skip: !isFeatureEnabled('HEADLESS_CMS') || !locale || !myProfileData,
     variables: {
       id: MENU_NAME.Header,
       idType: MenuNodeIdTypeEnum.Name,
