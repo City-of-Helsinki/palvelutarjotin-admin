@@ -361,12 +361,6 @@ it('hides edit buttons when event has been published', async () => {
       name: 'Muokkaa perustietoja',
     })
   ).toBeInTheDocument();
-
-  expect(
-    screen.queryByRole('button', {
-      name: 'Peru julkaisu',
-    })
-  ).toBeInTheDocument();
 });
 
 it('shows upcoming and past occurrences', async () => {

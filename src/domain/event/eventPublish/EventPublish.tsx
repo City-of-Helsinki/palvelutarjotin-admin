@@ -77,12 +77,13 @@ const EventPublish: React.FC<Props> = ({ event }) => {
               {t('occurrences.publishSection.textPublishedTime')}{' '}
               {getEventPublishedTime(event)}
             </div>
-            <Button
+            {/*TODO: Implement unpublish*/}
+            {/* <Button
               className={styles.publishButton}
               onClick={() => alert('TODO: implement unpublish')}
             >
               {t('occurrences.publishSection.buttonCancelPublishment')}
-            </Button>
+            </Button> */}
           </>
         ) : (
           <>
