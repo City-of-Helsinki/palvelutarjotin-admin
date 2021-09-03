@@ -125,6 +125,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
             name: 'Testi Testaaja',
             organisations: ['organisation1', 'organisation2'],
             phoneNumber: '123321123',
+            language: 'FI',
             organisationProposals: [],
           },
         },

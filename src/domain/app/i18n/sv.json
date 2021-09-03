@@ -177,6 +177,8 @@
     "labelName": "Namn",
     "labelOrganisations": "Organisation",
     "labelPhoneNumber": "Telefonnummer",
+    "labelLanguage": "Språk",
+    "helperLanguage": "Språket som används för kommunikation",
     "placeholderOrganisations": "Välj organisation",
     "labelOrganisationProposals": "Begäran om en ny organisation",
     "helperOrganisationProposals": "Begär att lägga till en ny organisation som du hanterar",

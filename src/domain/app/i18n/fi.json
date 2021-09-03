@@ -178,6 +178,8 @@
     "labelName": "Nimi",
     "labelOrganisations": "Organisaatio",
     "labelPhoneNumber": "Puhelinnumero",
+    "labelLanguage": "Kieli",
+    "helperLanguage": "Viestinnässä käytettävä kieli",
     "placeholderOrganisations": "Valitse organisaatio",
     "labelOrganisationProposals": "Lähetä uusi organisaatio pyyntö",
     "helperOrganisationProposals": "Pyyntö uuden hallitsemasi organisaation lisäykselle",

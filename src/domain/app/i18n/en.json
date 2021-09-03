@@ -173,6 +173,8 @@
     "labelName": "Name",
     "labelOrganisations": "Organisation",
     "labelPhoneNumber": "Phone number",
+    "labelLanguage": "Language",
+    "helperLanguage": "The language used in communication",
     "placeholderOrganisations": "Select organisation",
     "labelOrganisationProposals": "Request for a new organisation",
     "helperOrganisationProposals": "Request to add a new organization you manage",

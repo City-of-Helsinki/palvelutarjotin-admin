@@ -12,6 +12,9 @@ import { useSelector } from 'react-redux';
 
 import ErrorMessage from '../../../common/components/form/ErrorMessage';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
+import DropdownField, {
+  Option,
+} from '../../../common/components/form/fields/DropdownField';
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
@@ -20,9 +23,11 @@ import HelperText from '../../../common/components/form/HelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { PRIVACY_POLICY_LINKS } from '../../../constants';
 import {
+  Language,
   OrganisationType,
   useOrganisationsQuery,
 } from '../../../generated/graphql';
+import { LanguageCodeEnum } from '../../../generated/graphql-cms';
 import useLocale from '../../../hooks/useLocale';
 import { userSelector } from '../../auth/selectors';
 import styles from './myProfileForm.module.scss';
@@ -32,6 +37,7 @@ export type MyProfileEditFormFields = {
   emailAddress: string;
   name: string;
   phoneNumber: string;
+  language: Language;
 };
 
 export type MyProfileCreateFormFields = MyProfileEditFormFields & {
@@ -49,6 +55,7 @@ const defaultCreateInitialValues: MyProfileCreateFormFields = {
   organisations: [],
   organisationProposals: '',
   phoneNumber: '',
+  language: Language.Fi,
 };
 
 type FormType = 'create' | 'edit';
@@ -75,6 +82,12 @@ function MyProfileForm<T extends FormType>({
   const { t } = useTranslation();
   const locale = useLocale();
   const user = useSelector(userSelector);
+  const languages: Option[] = Object.values(LanguageCodeEnum)?.map(
+    (language) => ({
+      label: t(`common.languages.${language.toLowerCase()}`),
+      value: language as string,
+    })
+  );
 
   const getCreateFields = (
     errors: FormikErrors<MyProfileCreateFormFields>,
@@ -182,6 +195,16 @@ function MyProfileForm<T extends FormType>({
                 name="phoneNumber"
                 helperText={t('myProfileForm.helperPhoneNumber')}
                 component={TextInputField}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Field
+                name="language"
+                label={t('myProfileForm.labelLanguage')}
+                helper={t('myProfileForm.helperLanguage')}
+                component={DropdownField}
+                options={languages}
               />
             </FormGroup>
 

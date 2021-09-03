@@ -60,6 +60,7 @@ const apolloMocks: MockedResponse[] = [
           name: 'Testi Testaaja',
           emailAddress: 'testi@testaaja.com',
           phoneNumber: '123321123',
+          language: 'FI',
           organisationproposalSet: fakeOrganisationProposals(),
         }),
       },
@@ -95,6 +96,7 @@ test('render profile page correctly', async () => {
 
   expect(screen.getByLabelText('Nimi')).toHaveValue('Testi Testaaja');
   expect(screen.getByLabelText('Puhelinnumero')).toHaveValue('123321123');
+  expect(screen.getByText(/suomi/i)).toBeInTheDocument();
 });
 
 test('profile can be edited', async () => {
@@ -120,6 +122,8 @@ test('profile can be edited', async () => {
   userEvent.type(screen.getByLabelText('Nimi'), 'Changed Name');
   userEvent.clear(screen.getByLabelText('Puhelinnumero'));
   userEvent.type(screen.getByLabelText('Puhelinnumero'), '321123321');
+  userEvent.click(screen.getByText(/suomi/i));
+  userEvent.click(screen.getByText(/englanti/i));
 
   userEvent.click(
     screen.getByRole('button', { name: 'Tallenna päivitetyt tiedot' })
@@ -132,6 +136,7 @@ test('profile can be edited', async () => {
           emailAddress: '',
           name: 'Changed Name',
           phoneNumber: '321123321',
+          language: 'EN',
         },
       },
     });

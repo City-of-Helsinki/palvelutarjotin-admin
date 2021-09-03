@@ -8,6 +8,7 @@ import {
   useMyProfileQuery,
   useUpdateMyProfileMutation,
 } from '../../generated/graphql';
+import useLocale from '../../hooks/useLocale';
 import scrollToTop from '../../utils/scrollToTop';
 import HeroBackground from '../app/heroBackground/HeroBackground';
 import Container from '../app/layout/Container';
@@ -21,6 +22,7 @@ import { getMyProfileEditPayload } from './utils';
 
 const MyProfilePage: React.FC = () => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const { data: myProfileData, loading } = useMyProfileQuery();
   const [updateMyProfile] = useUpdateMyProfileMutation();
   const [isSaved, setIsSaved] = React.useState(false);
@@ -32,9 +34,10 @@ const MyProfilePage: React.FC = () => {
             name: myProfileData.myProfile.name,
             emailAddress: myProfileData.myProfile.emailAddress,
             phoneNumber: myProfileData.myProfile.phoneNumber,
+            language: myProfileData.myProfile.language ?? locale,
           }
         : undefined,
-    [myProfileData]
+    [myProfileData, locale]
   );
 
   const submit = async (values: MyProfileEditFormFields) => {
