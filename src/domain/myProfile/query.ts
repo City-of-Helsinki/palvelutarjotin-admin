@@ -18,6 +18,7 @@ export const QUERY_KEYWORD = gql`
         }
       }
     }
+    language
   }
 
   query MyProfile {

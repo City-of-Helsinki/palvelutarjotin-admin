@@ -54,6 +54,7 @@ const myProfile = fakePerson({
   name: 'Testi Testaaja',
   emailAddress: 'testi@testaaja.com',
   phoneNumber: '123321123',
+  language: 'FI',
   organisationproposalSet: fakeOrganisationProposals(),
 });
 
@@ -111,6 +112,7 @@ test('render profile page correctly', async () => {
   const phone = screen.getByLabelText('Puhelinnumero');
   expect(name).toHaveValue('');
   expect(phone).toHaveValue('');
+  expect(screen.getByText(/suomi/i)).toBeInTheDocument();
 
   userEvent.type(name, 'Testi Testaaja');
   userEvent.type(phone, '123321123');
@@ -153,6 +155,7 @@ test('render profile page correctly', async () => {
           name: 'Testi Testaaja',
           emailAddress: '',
           phoneNumber: '123321123',
+          language: 'FI',
           organisations: ['organisation1', 'organisation2'],
           organisationProposals: [],
         },
@@ -219,6 +222,7 @@ test('create profile with organisation proposal', async () => {
         myProfile: {
           name: 'Testi Testaaja',
           emailAddress: '',
+          language: 'FI',
           phoneNumber: '123321123',
           organisations: [],
           organisationProposals: [{ name: 'Org1' }],
