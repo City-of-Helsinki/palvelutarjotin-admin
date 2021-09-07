@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.2...v0.3.3) (2021-09-07)
+
+
+### Features
+
+* **cms:** added a feature flag for headless cms implementation. ([b0a1174](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b0a11745e00a18174f2a09016fd4410057bbc35d))
+* **cms:** CMS page navigation. ([7ea9a0a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/7ea9a0a6463b1e231e8ebeffdc8dec90986e9027))
+* **cms:** CMS page navigation. ([29689fd](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/29689fd6b5e87f1a4cf5abcc1e494fd1dba56f5e))
+* **cms:** integrated the headless cms to render a language specific page menu ([fcf3a6a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fcf3a6a01be667e8861119cc7b2fed7bbbaabc82))
+* **navigation:** refactored header to use HDS navigation. ([5b36974](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5b3697422a8027f78828a9074504dd61c2b4fd1c))
+* **profile:** added a language selector to my profile form. ([278bf48](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/278bf484338b8ffd490e050122090a00e9c13d67))
+
+
+### Bug Fixes
+
+* event pagination error and improve tests ([46d3dc2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/46d3dc21fe2d48f84d5a47f2acc0f8dbfe5a4865))
+* **occurrence:** removed the unpublish event button ([31ac36d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/31ac36d6643d1f12751efa87ac2627ca6f2f6910))
+
 ### [0.3.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.1...v0.3.2) (2021-08-20)
 
 
