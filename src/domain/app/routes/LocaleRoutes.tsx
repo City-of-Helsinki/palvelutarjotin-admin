@@ -107,7 +107,7 @@ const LocaleRoutes: React.FC<
         />
         <Route
           exact
-          path={`/${locale}${ROUTES.CMS_PAGE}`}
+          path={`/${locale}${ROUTES.CMS_PAGE}+`}
           component={CmsPage}
         />
         <Route component={NotFoundPage} />

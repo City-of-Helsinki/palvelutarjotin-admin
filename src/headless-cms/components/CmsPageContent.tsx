@@ -1,26 +1,20 @@
 import React from 'react';
 
-import { Page } from '../../generated/graphql-cms';
+import HtmlToReact from '../../common/components/htmlToReact/HtmlToReact';
+import Container from '../../domain/app/layout/Container';
+import { PageFieldsFragment } from '../../generated/graphql-cms';
 
 const CmsPageContent: React.FC<{
-  page: Page | undefined | null;
-}> = ({ page }): JSX.Element => {
-  if (!page) {
-    // toast(t('cmspage.notFound'), {
-    //   type: toast.TYPE.ERROR,
-    // });
-    return <div></div>;
-  }
+  page?: PageFieldsFragment | null;
+}> = ({ page }) => {
+  const title = page?.title || '';
+  const content = page?.content || '';
 
   return (
-    <div>
-      <h1>{page.translation?.title}</h1>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: page?.translation?.content ?? '',
-        }}
-      />
-    </div>
+    <Container>
+      <h1>{title}</h1>
+      <HtmlToReact>{content}</HtmlToReact>
+    </Container>
   );
 };
 

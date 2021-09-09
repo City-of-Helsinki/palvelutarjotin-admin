@@ -10976,20 +10976,18 @@ export type WritingSettings = {
 export type MenuQueryVariables = Exact<{
   id: Scalars['ID'];
   idType?: Maybe<MenuNodeIdTypeEnum>;
-  language: LanguageCodeEnum;
 }>;
 
 
-export type MenuQuery = { __typename?: 'RootQuery', menu?: Maybe<{ __typename?: 'Menu', id: string, name?: Maybe<string>, slug?: Maybe<string>, menuId?: Maybe<number>, menuItems?: Maybe<{ __typename?: 'MenuToMenuItemConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'MenuItem', connectedNode?: Maybe<{ __typename?: 'MenuItemToMenuItemLinkableConnectionEdge', node?: Maybe<{ __typename?: 'Category' } | { __typename?: 'Page', translation?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }> } | { __typename?: 'Post' } | { __typename?: 'Tag' }> }> }>>> }> }> };
+export type MenuQuery = { __typename?: 'RootQuery', menu?: Maybe<{ __typename?: 'Menu', id: string, name?: Maybe<string>, slug?: Maybe<string>, menuId?: Maybe<number>, menuItems?: Maybe<{ __typename?: 'MenuToMenuItemConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'MenuItem', connectedNode?: Maybe<{ __typename?: 'MenuItemToMenuItemLinkableConnectionEdge', node?: Maybe<{ __typename?: 'Category' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }>>>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> } | { __typename?: 'Post' } | { __typename?: 'Tag' }> }> }>>> }> }> };
 
 export type PageQueryVariables = Exact<{
   id: Scalars['ID'];
   idType?: Maybe<PageIdType>;
-  language: LanguageCodeEnum;
 }>;
 
 
-export type PageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', translation?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }>, parent?: Maybe<{ __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge', node?: Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', translation?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> }>, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', translation?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }>>> }> }> };
+export type PageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, parent?: Maybe<{ __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge', node?: Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }>>>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> }>, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }>>>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }>>> }>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }>>>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> }> };
 
 export type PageFieldsFragment = { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }> };
 
@@ -11014,7 +11012,7 @@ export const PageFieldsFragmentDoc = gql`
 }
     `;
 export const MenuDocument = gql`
-    query Menu($id: ID!, $idType: MenuNodeIdTypeEnum, $language: LanguageCodeEnum!) {
+    query Menu($id: ID!, $idType: MenuNodeIdTypeEnum) {
   menu(id: $id, idType: $idType) {
     id
     name
@@ -11025,7 +11023,8 @@ export const MenuDocument = gql`
         connectedNode {
           node {
             ... on Page {
-              translation(language: $language) {
+              ...pageFields
+              translations {
                 ...pageFields
               }
             }
@@ -11051,31 +11050,29 @@ export const MenuDocument = gql`
  *   variables: {
  *      id: // value for 'id'
  *      idType: // value for 'idType'
- *      language: // value for 'language'
  *   },
  * });
  */
 export function useMenuQuery(baseOptions: Apollo.QueryHookOptions<MenuQuery, MenuQueryVariables>) {
-        const options = { ...defaultOptions, ...baseOptions }
+        const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
       }
 export function useMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MenuQuery, MenuQueryVariables>) {
-          const options = { ...defaultOptions, ...baseOptions }
+          const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
         }
 export type MenuQueryHookResult = ReturnType<typeof useMenuQuery>;
 export type MenuLazyQueryHookResult = ReturnType<typeof useMenuLazyQuery>;
 export type MenuQueryResult = Apollo.QueryResult<MenuQuery, MenuQueryVariables>;
 export const PageDocument = gql`
-    query Page($id: ID!, $idType: PageIdType, $language: LanguageCodeEnum!) {
+    query Page($id: ID!, $idType: PageIdType) {
   page(id: $id, idType: $idType) {
-    translation(language: $language) {
-      ...pageFields
-    }
+    ...pageFields
     parent {
       node {
         ... on Page {
-          translation(language: $language) {
+          ...pageFields
+          translations {
             ...pageFields
           }
         }
@@ -11084,11 +11081,15 @@ export const PageDocument = gql`
     children {
       nodes {
         ... on Page {
-          translation(language: $language) {
+          ...pageFields
+          translations {
             ...pageFields
           }
         }
       }
+    }
+    translations {
+      ...pageFields
     }
   }
 }
@@ -11108,16 +11109,15 @@ export const PageDocument = gql`
  *   variables: {
  *      id: // value for 'id'
  *      idType: // value for 'idType'
- *      language: // value for 'language'
  *   },
  * });
  */
 export function usePageQuery(baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
-        const options = { ...defaultOptions, ...baseOptions }
+        const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
       }
 export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>) {
-          const options = { ...defaultOptions, ...baseOptions }
+          const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(PageDocument, options);
         }
 export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
@@ -11151,11 +11151,11 @@ export const PagesDocument = gql`
  * });
  */
 export function usePagesQuery(baseOptions?: Apollo.QueryHookOptions<PagesQuery, PagesQueryVariables>) {
-        const options = { ...defaultOptions, ...baseOptions }
+        const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
       }
 export function usePagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PagesQuery, PagesQueryVariables>) {
-          const options = { ...defaultOptions, ...baseOptions }
+          const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
         }
 export type PagesQueryHookResult = ReturnType<typeof usePagesQuery>;
