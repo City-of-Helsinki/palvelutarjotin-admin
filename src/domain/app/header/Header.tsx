@@ -24,6 +24,7 @@ import { setActiveOrganisation } from '../../organisation/actions';
 import { activeOrganisationSelector } from '../../organisation/selector';
 import { MAIN_CONTENT_ID } from '../layout/PageLayout';
 import { ROUTES } from '../routes/constants';
+import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
 
 const Header: React.FC = () => {
@@ -40,9 +41,7 @@ const Header: React.FC = () => {
     const pathWithoutTrailingSlash = path.replace(/\/$/, '');
     return (
       typeof window !== 'undefined' &&
-      window.location.pathname.includes(
-        `${ROUTES.CMS_PAGE.replace('/:slug', pathWithoutTrailingSlash)}`
-      )
+      window.location.pathname.includes(getCmsPath(pathWithoutTrailingSlash))
     );
   };
 
@@ -182,8 +181,7 @@ const LanguageNavigation: React.FC = () => {
       return languageOption.locale?.toLowerCase() === lang;
     });
 
-    return `/${lang}${ROUTES.CMS_PAGE.replace(
-      '/:slug',
+    return `/${lang}${getCmsPath(
       nav?.uri ? stripLocaleFromUri(nav?.uri) : ''
     )}`;
   };

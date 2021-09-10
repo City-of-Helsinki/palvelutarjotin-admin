@@ -103,6 +103,11 @@
     "notification": "Notification",
     "getStaffRightsInstructionsText": "Please fill out this <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"{{openInNewTab}}\">form</a> in order to manage events!"
   },
+  "cmsPageSearch": {
+    "searchLabel": "Search",
+    "searchHelperText": "Search from {{title}} page's subpages...",
+    "loadMore": "Load more"
+  },
   "enrolmentForm": {
     "buttonSubmit": "Submit registration",
     "buttonUpdateEnrolment": "Update enrolment",

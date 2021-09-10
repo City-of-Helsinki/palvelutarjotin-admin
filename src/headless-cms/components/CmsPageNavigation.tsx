@@ -4,7 +4,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Container from '../../domain/app/layout/Container';
-import { ROUTES } from '../../domain/app/routes/constants';
+import { getCmsPath } from '../../domain/app/routes/utils';
 import useLocale from '../../hooks/useLocale';
 import { uriToBreadcrumbs } from '../utils';
 import { NavigationObject } from './CmsPage';
@@ -32,7 +32,7 @@ const CmsPageNavigation: React.FC<{
                   {navigationArray
                     ?.sort((a, b) => a.title.localeCompare(b.title))
                     .map((n) => {
-                      const uri = ROUTES.CMS_PAGE.replace('/:slug', n.uri);
+                      const uri = getCmsPath(n.uri);
                       return (
                         <Link
                           key={n.uri}

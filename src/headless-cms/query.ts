@@ -61,12 +61,36 @@ export const PAGE_QUERY = gql`
     slug
     title
     uri
+    lead
+    seo {
+      ...seoFields
+    }
     language {
       code
       slug
       locale
       name
     }
+    featuredImage {
+      node {
+        mediaItemUrl
+        link
+        altText
+        mimeType
+        title
+        uri
+      }
+    }
+  }
+
+  fragment seoFields on SEO {
+    title
+    description
+    openGraphTitle
+    openGraphDescription
+    openGraphType
+    twitterTitle
+    twitterDescription
   }
 `;
 
@@ -76,6 +100,37 @@ export const PAGES_QUERY = gql`
       edges {
         node {
           ...pageFields
+        }
+      }
+    }
+  }
+`;
+
+export const SUBPAGES_SEARCH_QUERY = gql`
+  query SubPagesSearch(
+    $id: ID!
+    $idType: PageIdType
+    $search: String!
+    $first: Int
+    $after: String
+  ) {
+    page(id: $id, idType: $idType) {
+      id
+      children(where: { search: $search }, first: $first, after: $after) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
+            ... on Page {
+              ...pageFields
+              translations {
+                ...pageFields
+              }
+            }
+          }
         }
       }
     }
