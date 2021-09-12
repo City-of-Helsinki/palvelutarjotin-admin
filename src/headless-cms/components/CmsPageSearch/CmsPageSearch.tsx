@@ -95,9 +95,9 @@ const CmsPageSearchForm: React.FC<{
     <div className={styles.searchForm}>
       <TextInput
         id="page-search"
-        label={t('cmsPageSearch.searchLabel')}
+        label={t('cms.pageSearch.searchLabel')}
         value={searchTerm}
-        helperText={t('cmsPageSearch.searchHelperText', { title: page.title })}
+        helperText={t('cms.pageSearch.searchHelperText', { title: page.title })}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
     </div>
@@ -148,7 +148,7 @@ const CmsPageSearchList: React.FC<{
       {isLoadingMore ? (
         <LoadingSpinner isLoading hasPadding={false} />
       ) : hasMoreToLoad ? (
-        <Button onClick={fetchMore}>{t('cmsPageSearch.loadMore')}</Button>
+        <Button onClick={fetchMore}>{t('cms.pageSearch.loadMore')}</Button>
       ) : null}
     </div>
   );

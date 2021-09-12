@@ -4,21 +4,17 @@ import { useLocation, useParams } from 'react-router';
 import {
   MenuNodeIdTypeEnum,
   Page,
-  PageDocument,
-  PageIdType,
-  PageQuery,
-  PageQueryVariables,
   useMenuQuery,
 } from '../generated/graphql-cms';
 import useIsMounted from '../hooks/useIsMounted';
 import useLocale from '../hooks/useLocale';
 import { isFeatureEnabled } from '../utils/featureFlags';
 import cmsClient from './client';
-import { NavigationObject } from './components/CmsPage';
+import { NavigationObject, SEARCH_PANEL_TRESHOLD } from './components/CmsPage';
 import { MENU_NAME } from './constants';
 import { usePageQuery } from './usePageQuery';
 import {
-  removeSurroundingSlashes,
+  queryPageWithUri,
   stripLocaleFromUri,
   uriToBreadcrumbs,
 } from './utils';
@@ -100,11 +96,16 @@ export const useCmsLanguageOptions = () => {
   ];
 };
 
+export type Breadcrumb = { title: string; uri: string };
+
 export const useCmsNavigation = (slug: string) => {
   const [loading, setLoading] = React.useState(true);
   const [navigation, setNavigation] = React.useState<
     NavigationObject[][] | null
   >(null);
+  const [breadcrumbs, setBreadcrumbs] = React.useState<Breadcrumb[] | null>(
+    null
+  );
   const isMounted = useIsMounted();
   const locale = useLocale();
 
@@ -115,17 +116,17 @@ export const useCmsNavigation = (slug: string) => {
       setLoading(true);
       try {
         const promises = uriSegments.map((uriSegment) =>
-          cmsClient.query<PageQuery, PageQueryVariables>({
-            query: PageDocument,
-            variables: {
-              id: removeSurroundingSlashes(uriSegment),
-              idType: PageIdType.Uri,
-            },
-          })
+          queryPageWithUri(uriSegment)
         );
-
         const pagesResults = await Promise.all(promises);
         const pages = pagesResults.map((m) => m.data.page);
+
+        const breadcrumbs = pages.map((page) => ({
+          uri: page?.uri ?? '',
+          title: page?.title ?? '',
+        }));
+
+        setBreadcrumbs(breadcrumbs);
 
         // Makes navigating to children pages faster (no loading spinner)
         fetchPageChildrenToApolloCache(pages[pages.length - 1] as Page);
@@ -145,7 +146,7 @@ export const useCmsNavigation = (slug: string) => {
             });
             return navigationItems;
           })
-          .filter((i) => !!i.length);
+          .filter((i) => !!i.length && i.length < SEARCH_PANEL_TRESHOLD);
 
         if (isMounted.current) {
           setNavigation(navigationLevels);
@@ -161,18 +162,14 @@ export const useCmsNavigation = (slug: string) => {
 
   // TODO: Fetch locale specific pages also, only finnish works correctly atm
   const fetchPageChildrenToApolloCache = (page: Page) => {
-    page?.children?.nodes?.forEach((child) => {
-      if (child && 'uri' in child) {
-        cmsClient.query<PageQuery, PageQueryVariables>({
-          query: PageDocument,
-          variables: {
-            id: removeSurroundingSlashes(child.uri!),
-            idType: PageIdType.Uri,
-          },
-        });
-      }
-    });
+    if ((page.children?.nodes?.length ?? 0) < SEARCH_PANEL_TRESHOLD) {
+      page?.children?.nodes?.forEach((child) => {
+        if (child && 'uri' in child && child.uri) {
+          queryPageWithUri(child.uri);
+        }
+      });
+    }
   };
 
-  return { navigation, loading };
+  return { navigation, breadcrumbs, loading };
 };

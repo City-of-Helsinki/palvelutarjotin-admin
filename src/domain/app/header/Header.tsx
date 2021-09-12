@@ -26,6 +26,7 @@ import { MAIN_CONTENT_ID } from '../layout/PageLayout';
 import { ROUTES } from '../routes/constants';
 import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
+import HeaderLink from './HeaderLink';
 
 const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -78,15 +79,14 @@ const Header: React.FC = () => {
           {menuItems
             ?.map((item, index) => {
               if (!item?.id) return null;
-              const translatedPageUri = item.slug as string;
+              const translatedPageUri = `/${item.slug}` as string;
               return (
                 <Navigation.Item
                   key={index}
                   active={isTabActive(item.uri)}
+                  as={HeaderLink}
                   label={item.title}
-                  onClick={goToPage(
-                    `${ROUTES.CMS_PAGE.replace(':slug', translatedPageUri)}`
-                  )}
+                  to={`/${locale}${getCmsPath(translatedPageUri)}`}
                 />
               );
             })

@@ -102,10 +102,13 @@
     "notification": "Underrättelse",
     "getStaffRightsInstructionsText": "Skaffa rättighet att publicera evenemang med denna <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"{{openInNewTab}}\">form</a> blankett!"
   },
-  "cmsPageSearch": {
-    "searchLabel": "Sök",
-    "searchHelperText": "Sök från {{title}} sidas undersidor ...",
-    "loadMore": "Ladda mer"
+  "cms": {
+    "linkFrontPage": "Hemsidan",
+    "pageSearch": {
+      "searchLabel": "Sök",
+      "searchHelperText": "Sök från {{title}} sidas undersidor ...",
+      "loadMore": "Ladda mer"
+    }
   },
   "enrolmentForm": {
     "buttonSubmit": "Skicka in registrering",

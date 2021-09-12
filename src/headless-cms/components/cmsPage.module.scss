@@ -1,5 +1,5 @@
 .container {
-  padding: 0;
+  padding: 0 !important;
 }
 
 .navigationRowContainer {
@@ -30,5 +30,17 @@
     align-items: center;
     text-decoration: none;
     margin-right: 1rem;
+  }
+}
+
+.breadcrumbList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  margin-bottom: 0;
+
+  li + li:before {
+    content: '\0002f';
+    margin: 0 0.5rem;
   }
 }

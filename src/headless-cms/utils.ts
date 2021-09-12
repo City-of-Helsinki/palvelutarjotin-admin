@@ -1,3 +1,11 @@
+import {
+  PageDocument,
+  PageIdType,
+  PageQuery,
+  PageQueryVariables,
+} from '../generated/graphql-cms';
+import cmsClient from './client';
+
 // '/segment1/segment2/' -> ['/segment1/', '/segment1/segment2/']
 // current implementation required both leading and trailing slashes
 // to include all breadcrumbs
@@ -26,4 +34,19 @@ export const getCmsUriFromPath = (path: string) => {
 
 export const removeSurroundingSlashes = (path: string) => {
   return path.replace(/^\/|\/$/g, '');
+};
+
+export const normalizeCmsUri = (uri: string) => {
+  return removeSurroundingSlashes(stripLocaleFromUri(uri));
+};
+
+export const queryPageWithUri = (uri: string) => {
+  return cmsClient.query<PageQuery, PageQueryVariables>({
+    query: PageDocument,
+    variables: {
+      // normalize uri so cache matches event different uri variations
+      id: normalizeCmsUri(uri),
+      idType: PageIdType.Uri,
+    },
+  });
 };
