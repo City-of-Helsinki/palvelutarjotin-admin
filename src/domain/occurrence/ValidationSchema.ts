@@ -7,23 +7,40 @@ import * as Yup from 'yup';
 import { DATETIME_FORMAT } from '../../common/components/datepicker/contants';
 import { isValidTime } from '../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { EnrolmentType } from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 
 const ValidationSchema = Yup.object().shape({
   // infoUrl: Yup.string(),
   enrolmentEndDays: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-    .min(0, (param) => ({
-      min: param.min,
-      key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
-    })),
+    .when(['enrolmentType'], ((enrolmentType: EnrolmentType, schema: Yup.NumberSchema) => {
+      if (enrolmentType !== EnrolmentType.Internal) {
+        return schema
+      }
+      return schema
+            .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+            .min(0, (param) => ({
+              min: param.min,
+              key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
+            }))
+    } )),
   enrolmentStart: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
-      isFuture as any
-    )
+    .when(['enrolmentType'], ((
+      enrolmentType: EnrolmentType,
+      schema: Yup.DateSchema
+    ) => {
+      if (enrolmentType !== EnrolmentType.Internal) {
+        return schema
+      }
+      schema
+        .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+        .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+        .test(
+          'isInTheFuture',
+          VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
+          isFuture as any
+        )
+      return schema
+    }))
     .when(['occurrenceDate', 'occurrenceStartsAt'], ((
       occurrenceDate: Date,
       occurrenceStartsAt: string,
