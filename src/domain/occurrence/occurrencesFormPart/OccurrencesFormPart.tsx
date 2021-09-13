@@ -281,6 +281,7 @@ const OccurrenceForm: React.FC<{
         <div>
           <Field
             label={t('eventOccurrenceForm.labelGroupSizeMin')}
+            aria-label={t('eventOccurrenceForm.ariaLabelGroupSizeMin')}
             name="minGroupSize"
             component={TextInputField}
             min={0}
@@ -290,6 +291,7 @@ const OccurrenceForm: React.FC<{
         <div>
           <Field
             label={t('eventOccurrenceForm.labelGroupSizeMax')}
+            aria-label={t('eventOccurrenceForm.ariaLabelGroupSizeMax')}
             name="maxGroupSize"
             component={TextInputField}
             min={0}

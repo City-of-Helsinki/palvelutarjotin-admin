@@ -1028,11 +1028,11 @@ const getOccurrenceFormElement = (
       });
     case 'min':
       return screen.getByRole('spinbutton', {
-        name: 'Min',
+        name: /minimi henkilömäärä/i,
       });
     case 'max':
       return screen.getByRole('spinbutton', {
-        name: 'Max',
+        name: /maksimi henkilömäärä/i,
       });
     case 'oneGroupFills':
       return screen.getByRole('checkbox', {
