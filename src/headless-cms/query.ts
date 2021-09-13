@@ -1,22 +1,19 @@
 import { gql } from '@apollo/client/core';
 
 export const MENU_QUERY = gql`
-  query Menu(
-    $id: ID!
-    $idType: MenuNodeIdTypeEnum
-    $language: LanguageCodeEnum!
-  ) {
-      menu(id: $id, idType: $idType) {
-        id
-        name
-        slug
-        menuId
-        menuItems {
-          nodes {
-            connectedNode {
-              node {
+  query Menu($id: ID!, $idType: MenuNodeIdTypeEnum) {
+    menu(id: $id, idType: $idType) {
+      id
+      name
+      slug
+      menuId
+      menuItems {
+        nodes {
+          connectedNode {
+            node {
               ... on Page {
-                translation(language: $language) {
+                ...pageFields
+                translations {
                   ...pageFields
                 }
               }
@@ -29,19 +26,14 @@ export const MENU_QUERY = gql`
 `;
 
 export const PAGE_QUERY = gql`
-  query Page(
-    $id: ID!, 
-    $idType: PageIdType, 
-    $language: LanguageCodeEnum! 
-  ) {
+  query Page($id: ID!, $idType: PageIdType) {
     page(id: $id, idType: $idType) {
-      translation(language: $language) {
-        ...pageFields
-      }
+      ...pageFields
       parent {
         node {
           ... on Page {
-            translation(language: $language) {
+            ...pageFields
+            translations {
               ...pageFields
             }
           }
@@ -50,11 +42,15 @@ export const PAGE_QUERY = gql`
       children {
         nodes {
           ... on Page {
-            translation(language: $language) {
+            ...pageFields
+            translations {
               ...pageFields
             }
           }
         }
+      }
+      translations {
+        ...pageFields
       }
     }
   }
@@ -65,12 +61,36 @@ export const PAGE_QUERY = gql`
     slug
     title
     uri
+    lead
+    seo {
+      ...seoFields
+    }
     language {
       code
       slug
       locale
       name
     }
+    featuredImage {
+      node {
+        mediaItemUrl
+        link
+        altText
+        mimeType
+        title
+        uri
+      }
+    }
+  }
+
+  fragment seoFields on SEO {
+    title
+    description
+    openGraphTitle
+    openGraphDescription
+    openGraphType
+    twitterTitle
+    twitterDescription
   }
 `;
 
@@ -80,6 +100,37 @@ export const PAGES_QUERY = gql`
       edges {
         node {
           ...pageFields
+        }
+      }
+    }
+  }
+`;
+
+export const SUBPAGES_SEARCH_QUERY = gql`
+  query SubPagesSearch(
+    $id: ID!
+    $idType: PageIdType
+    $search: String!
+    $first: Int
+    $after: String
+  ) {
+    page(id: $id, idType: $idType) {
+      id
+      children(where: { search: $search }, first: $first, after: $after) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
+            ... on Page {
+              ...pageFields
+              translations {
+                ...pageFields
+              }
+            }
+          }
         }
       }
     }

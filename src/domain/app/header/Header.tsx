@@ -2,7 +2,7 @@ import { IconAngleRight, IconSignout, IconUser, Navigation } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 
 import { MenuItem } from '../../../common/components/menuDropdown/MenuDropdown';
 import { ROUTER_LANGUAGES, SUPPORT_LANGUAGES } from '../../../constants';
@@ -11,16 +11,12 @@ import {
   useMyProfileQuery,
 } from '../../../generated/graphql';
 import {
-  LanguageCodeEnum,
-  MenuNodeIdTypeEnum,
-  Page,
-  useMenuQuery,
-} from '../../../generated/graphql-cms';
-import apolloClient from '../../../headless-cms/client';
-import { MENU_NAME } from '../../../headless-cms/constants';
+  useCmsLanguageOptions,
+  useCmsMenuItems,
+} from '../../../headless-cms/hooks';
+import { stripLocaleFromUri } from '../../../headless-cms/utils';
 import useHistory from '../../../hooks/useHistory';
 import { LanguageSelectorLanguage } from '../../../types';
-import { isFeatureEnabled } from '../../../utils/featureFlags';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
@@ -28,24 +24,25 @@ import { setActiveOrganisation } from '../../organisation/actions';
 import { activeOrganisationSelector } from '../../organisation/selector';
 import { MAIN_CONTENT_ID } from '../layout/PageLayout';
 import { ROUTES } from '../routes/constants';
+import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
+import HeaderLink from './HeaderLink';
 
 const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
   const locale = i18n.language;
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const { cmsMenuLoading, menuItems } = useCmsMenuItems();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-
   const closeMenu = () => setMenuOpen(false);
 
-  const isTabActive = (pathname: string): boolean => {
+  const isTabActive = (path: string): boolean => {
+    const pathWithoutTrailingSlash = path.replace(/\/$/, '');
     return (
       typeof window !== 'undefined' &&
-      window.location.pathname.includes(
-        `${ROUTES.CMS_PAGE.replace(':id', pathname)}`
-      )
+      window.location.pathname.includes(getCmsPath(pathWithoutTrailingSlash))
     );
   };
 
@@ -53,7 +50,7 @@ const Header: React.FC = () => {
     (pathname: string) =>
     (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
       event?.preventDefault();
-      history.push(pathname);
+      history.pushWithLocale(pathname);
       closeMenu();
     };
 
@@ -66,16 +63,6 @@ const Header: React.FC = () => {
       ...(edge?.node as OrganisationNodeFieldsFragment),
     })) || [];
 
-  const { data: navigationItems, loading: cmsMenuLoading } = useMenuQuery({
-    client: apolloClient,
-    skip: !isFeatureEnabled('HEADLESS_CMS') || !locale || !myProfileData,
-    variables: {
-      id: MENU_NAME.Header,
-      idType: MenuNodeIdTypeEnum.Name,
-      language: locale.toString().toUpperCase() as LanguageCodeEnum,
-    },
-  });
-
   return (
     <Navigation
       menuOpen={menuOpen}
@@ -83,26 +70,23 @@ const Header: React.FC = () => {
       menuToggleAriaLabel={t('header.menuToggleAriaLabel')}
       skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('common.linkSkipToContent')}
-      onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
+      onTitleClick={goToPage(ROUTES.HOME)}
       logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
       title={t('appName')}
     >
-      {!cmsMenuLoading && navigationItems && (
+      {!cmsMenuLoading && menuItems && (
         <Navigation.Row variant="inline">
-          {navigationItems?.menu?.menuItems?.nodes
-            ?.map((node, index) => {
-              const page = node?.connectedNode?.node as Page;
-              const item = page?.translation;
-              if (!item) return null;
-              const translatedPageId = item.id as string;
+          {menuItems
+            ?.map((item, index) => {
+              if (!item?.id) return null;
+              const translatedPageUri = `/${item.slug}` as string;
               return (
                 <Navigation.Item
                   key={index}
-                  active={isTabActive(item.id)}
+                  active={isTabActive(item.uri)}
+                  as={HeaderLink}
                   label={item.title}
-                  onClick={goToPage(
-                    `${ROUTES.CMS_PAGE.replace(':id', translatedPageId)}`
-                  )}
+                  to={`/${locale}${getCmsPath(translatedPageUri)}`}
                 />
               );
             })
@@ -189,6 +173,19 @@ const LanguageNavigation: React.FC = () => {
   const locale = i18n.language;
   const { pathname, search } = useLocation();
   const history = useHistory();
+  const languageOptions = useCmsLanguageOptions();
+  const isCmsPage = !!useRouteMatch(`/${locale}${ROUTES.CMS_PAGE}`);
+
+  const getCmsHref = (lang: string) => {
+    const nav = languageOptions?.find((languageOption) => {
+      return languageOption.locale?.toLowerCase() === lang;
+    });
+
+    return `/${lang}${getCmsPath(
+      nav?.uri ? stripLocaleFromUri(nav?.uri) : ''
+    )}`;
+  };
+
   const changeLanguage = (newLanguage: LanguageSelectorLanguage) => {
     history.push({
       pathname: updateLocaleParam(pathname, locale, newLanguage),
@@ -217,14 +214,19 @@ const LanguageNavigation: React.FC = () => {
       label={locale.toUpperCase()}
       closeOnItemClick
     >
-      {getLanguageOptions().map((option) => (
-        <Navigation.Item
-          key={option.value}
-          lang={option.value}
-          label={option.text}
-          onClick={() => handleLanguageChange(option)}
-        />
-      ))}
+      {getLanguageOptions().map((option) => {
+        const handleOnClick = isCmsPage
+          ? () => history.push(getCmsHref(option.value))
+          : () => handleLanguageChange(option);
+        return (
+          <Navigation.Item
+            key={option.value}
+            lang={option.value}
+            label={option.text}
+            onClick={handleOnClick}
+          />
+        );
+      })}
     </Navigation.LanguageSelector>
   );
 };

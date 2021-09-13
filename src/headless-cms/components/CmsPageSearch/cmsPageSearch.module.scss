@@ -1,0 +1,27 @@
+.searchForm {
+  margin-bottom: 30px;
+}
+
+.cardLink {
+  text-decoration: none;
+}
+
+.card {
+  > div {
+    margin-left: 120px;
+  }
+  margin: 10px 0 20px 0;
+  cursor: pointer;
+  height: 100px;
+}
+
+.cardImage {
+  width: 100px;
+  height: 100px;
+  margin-top: -110px;
+  display: block;
+}
+
+.pageList {
+  padding-bottom: var(--spacing-xl);
+}

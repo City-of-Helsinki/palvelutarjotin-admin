@@ -103,6 +103,14 @@
     "notification": "Ilmoitus",
     "getStaffRightsInstructionsText": "Hanki oikeus tapahtumien julkaisuun tällä <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"lomakkeella {{openInNewTab}}\">lomakkeella</a>"
   },
+  "cms": {
+    "linkFrontPage": "Kotisivu",
+    "pageSearch": {
+      "searchLabel": "Haku",
+      "searchHelperText": "Hae sivun {{title}} alisivuja...",
+      "loadMore": "Lataa lisää"
+    }
+  },
   "enrolmentForm": {
     "buttonSubmit": "Lähetä ilmoittautuminen",
     "buttonUpdateEnrolment": "Päivitä ilmoittautuminen",
