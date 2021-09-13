@@ -409,9 +409,12 @@
     },
     "enrolment": {
       "title": "Ilmoittautuminen",
-      "labelExternalEnrolment": "Ilmoittautuminen ohjataan eri sivustolle",
-      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle",
-      "labelEnrolmentRequired": "Tapahtuma-aikoihin osallistuminen edellyttää ilmoittautumista"
+      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle"
+    },
+    "enrolmentType": {
+      "labelInternal": "Ilmoittautuminen Kultuksessa",
+      "labelExternal": "Ilmoittautuminen muulla sivustolla",
+      "labelUnenrollable": "Ei ilmoittautumista"
     },
     "location": {
       "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",

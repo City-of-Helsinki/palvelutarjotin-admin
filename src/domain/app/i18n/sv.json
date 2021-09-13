@@ -410,9 +410,12 @@
     },
     "enrolment": {
       "title": "Inskrivning",
-      "labelExternalEnrolment": "Registrering sker på extern webbplats",
-      "labelExternalEnrolmentUrl": "Webbadress för registreringsformuläret",
-      "labelEnrolmentRequired": "Anmälan till evenemang krävs"
+      "labelExternalEnrolmentUrl": "Webbadress för registreringsformuläret"
+    },
+    "enrolmentType": {
+      "labelInternal": "Interna registreringar på Kultus",
+      "labelExternal": "Anmälningar på en annan webbplats",
+      "labelUnenrollable": "Inga anmälningar"
     },
     "location": {
       "helperLocation": "Standardplats för evenemangtider",
