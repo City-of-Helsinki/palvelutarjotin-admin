@@ -443,7 +443,6 @@
     },
     "occurrences": {
       "occurrencesFormSectionTitle": "Tapahtuma-aika",
-      "labelEventHasNoOccurrences": "Tapahtumalla ei ole lukittua ajankohtaa",
       "buttonAddNewOccurence": "Lisää uusi tapahtuma-aika",
       "saveSuccesful": "Tapahtuma-aika tallennettu"
     }

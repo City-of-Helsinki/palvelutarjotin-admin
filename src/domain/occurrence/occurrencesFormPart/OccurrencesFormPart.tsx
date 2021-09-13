@@ -163,14 +163,6 @@ const OccurrencesForm: React.FC<{
       data-testid={occurrencesFormTestId}
     >
       <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
-      <div className={styles.noOccurrencesCheckBox}>
-        <Checkbox
-          disabled
-          id="no-locked-occurrence"
-          label={t('eventForm.occurrences.labelEventHasNoOccurrences')}
-          checked={false}
-        />
-      </div>
       {!!occurrences?.length && (
         <OccurrencesTable
           occurrences={occurrences}

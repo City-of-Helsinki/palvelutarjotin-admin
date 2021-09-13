@@ -444,7 +444,6 @@
     },
     "occurrences": {
       "occurrencesFormSectionTitle": "Evenemangets tidpunkt",
-      "labelEventHasNoOccurrences": "Den här händelsen har ingen specifik förekomsttid",
       "buttonAddNewOccurence": "Läg till ny tidpunkt",
       "saveSuccesful": "Tidpunkt har sparats"
     }
