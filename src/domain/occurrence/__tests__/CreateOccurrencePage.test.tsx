@@ -4,6 +4,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
+import wait from 'waait';
 
 import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import { OccurrenceNode } from '../../../generated/graphql';
@@ -36,6 +37,7 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
+import { EnrolmentType } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import { occurrencesFormTestId } from '../occurrencesFormPart/OccurrencesFormPart';
 
 configure({ defaultHidden: true });
@@ -1192,3 +1194,71 @@ const fillAndSubmitOccurrenceForm = async ({
     });
   }
 };
+
+describe('enrolment type selector', () => {
+  const radiosByType = {
+    [EnrolmentType.Internal]: /ilmoittautuminen kultuksessa/i,
+    [EnrolmentType.External]: /ilmoittautuminen muulla sivustolla/i,
+    [EnrolmentType.Unenrollable]: /ei ilmoittautumista/i,
+  };
+
+  const fieldSetsByType = {
+    [EnrolmentType.Internal]: [
+      /ilmoittautuminen alkaa/i,
+      /ilmoittautuminen sulkeutuu x päivää ennen tapahtuma\-aikaa/i,
+      /tarvittavat käyntikerrat/i,
+      /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
+    ],
+    [EnrolmentType.External]: [/www\-osoite ilmoittautumislomakkeelle/i],
+    [EnrolmentType.Unenrollable]: [] as RegExp[],
+  };
+
+  it('renders proper event types', async () => {
+    renderComponent({
+      mocks: [getEventMockedResponse({})],
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', {
+          name: /ilmoittautuminen/i,
+        })
+      ).toBeInTheDocument();
+    });
+
+    Object.values(radiosByType)
+      .flat()
+      .forEach((label) => {
+        expect(screen.getByText(label)).toBeInTheDocument();
+      });
+  });
+
+  it.each((Object.keys(fieldSetsByType) as EnrolmentType[]).reverse())(
+    'renders a proper fieldset when a type is changed to %s',
+    async (type) => {
+      renderComponent({
+        mocks: [getEventMockedResponse({})],
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText(radiosByType[type])).toBeInTheDocument();
+      });
+
+      userEvent.click(screen.getByText(radiosByType[type]));
+
+      const visibleFieldLabels = fieldSetsByType[type];
+      const hiddenFieldLabels = Object.values(
+        Object.assign({}, fieldSetsByType, {
+          [type]: [],
+        })
+      ).flat();
+
+      visibleFieldLabels.forEach((label) => {
+        expect(screen.getByText(label)).toBeInTheDocument();
+      });
+
+      hiddenFieldLabels.forEach((label) => {
+        expect(screen.queryByText(label)).not.toBeInTheDocument();
+      });
+    }
+  );
+});

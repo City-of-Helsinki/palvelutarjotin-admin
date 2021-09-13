@@ -406,9 +406,12 @@
     },
     "enrolment": {
       "title": "Enrolment",
-      "labelExternalEnrolment": "Enrolment is done on external site",
-      "labelExternalEnrolmentUrl": "Web address for the registration form",
-      "labelEnrolmentRequired": "Enrolment to event is required"
+      "labelExternalEnrolmentUrl": "Web address for the registration form"
+    },
+    "enrolmentType": {
+      "labelInternal": "Internal enrolments at Kultus",
+      "labelExternal": "Enrolments on another site",
+      "labelUnenrollable": "No enrolments"
     },
     "location": {
       "helperLocation": "The default venue for event times",
