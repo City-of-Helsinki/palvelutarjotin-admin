@@ -120,13 +120,10 @@ export const useCmsNavigation = (slug: string) => {
         );
         const pagesResults = await Promise.all(promises);
         const pages = pagesResults.map((m) => m.data.page);
-
         const breadcrumbs = pages.map((page) => ({
           uri: page?.uri ?? '',
           title: page?.title ?? '',
         }));
-
-        setBreadcrumbs(breadcrumbs);
 
         // Makes navigating to children pages faster (no loading spinner)
         fetchPageChildrenToApolloCache(pages[pages.length - 1] as Page);
@@ -150,6 +147,7 @@ export const useCmsNavigation = (slug: string) => {
 
         if (isMounted.current) {
           setNavigation(navigationLevels);
+          setBreadcrumbs(breadcrumbs);
           setLoading(false);
         }
       } catch (error) {
