@@ -10,6 +10,7 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
 import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { EnrolmentType } from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
@@ -84,8 +85,34 @@ export const getEditEventPayload = ({
     enrolmentStart,
     isVirtual,
     neededOccurrences,
+    externalEnrolmentUrl,
+    enrolmentType
   } = formValues;
   const eventData = omitTypenames(event);
+
+  const pEventEnrolmentFields = {
+    [EnrolmentType.Internal]: {
+      enrolmentEndDays: Number(enrolmentEndDays) || 0,
+      enrolmentStart,
+      neededOccurrences: Number(neededOccurrences) || 0,
+      autoAcceptance,
+      // externalEnrolmentUrl: ''
+    },
+    [EnrolmentType.External]: {
+      enrolmentEndDays: 0,
+      enrolmentStart: null,
+      neededOccurrences: 0,
+      autoAcceptance: false,
+      // externalEnrolmentUrl,
+    },
+    [EnrolmentType.Unenrollable]: {
+      enrolmentEndDays: 0,
+      enrolmentStart: null,
+      neededOccurrences: 0,
+      autoAcceptance: false,
+      // externalEnrolmentUrl: '',
+    },
+  }
 
   return {
     name: eventData.name,
@@ -122,12 +149,9 @@ export const getEditEventPayload = ({
       contactEmail: eventData.pEvent.contactEmail,
       contactPersonId: eventData.pEvent.contactPerson?.id,
       contactPhoneNumber: eventData.pEvent.contactPhoneNumber,
-      enrolmentEndDays: Number(enrolmentEndDays) || 0,
-      enrolmentStart,
-      neededOccurrences: Number(neededOccurrences) || 0,
-      autoAcceptance,
       mandatoryAdditionalInformation:
         eventData.pEvent.mandatoryAdditionalInformation,
+      ...pEventEnrolmentFields[enrolmentType]
     },
   };
 };

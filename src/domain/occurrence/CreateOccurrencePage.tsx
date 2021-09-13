@@ -41,7 +41,9 @@ import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSu
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { defaultInitialValues } from './constants';
-import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import EnrolmentInfoFormPart, {
+  EnrolmentType,
+} from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
 import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';
@@ -122,10 +124,17 @@ const CreateOccurrencePage: React.FC = () => {
           (prev, [lang, value]) => (value ? [...prev, lang] : prev),
           []
         );
+        // TODO: Fetch externalEnrolmentUrl from API
+        const externalEnrolmentUrl = '';
+        // TODO: Unenrolalble enrolment type should be handled also!
+        const enrolmentType = externalEnrolmentUrl
+          ? EnrolmentType.External
+          : EnrolmentType.Internal;
 
         setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({
           ...defaultInitialValues,
+          enrolmentType,
           // If enrolment start time is not defined yet, then user hasn't filled this form yet
           // and initial value can be set to true as default
           autoAcceptance: event.pEvent.autoAcceptance

@@ -1,4 +1,5 @@
 import { SUPPORT_LANGUAGES } from '../../constants';
+import { EnrolmentType } from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 
 export interface OccurrenceSectionFormFields {
   startTime: Date | null;
@@ -31,4 +32,5 @@ export type TimeAndLocationFormFields = {
   hasAreaForGroupWork: boolean;
   hasIndoorPlayingArea: boolean;
   hasOutdoorPlayingArea: boolean;
+  enrolmentType: EnrolmentType
 };

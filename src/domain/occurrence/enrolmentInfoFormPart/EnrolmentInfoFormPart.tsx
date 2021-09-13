@@ -18,19 +18,16 @@ export enum EnrolmentType {
 
 const EnrolmentInfoFormPart: React.FC = () => {
   const { t } = useTranslation();
-  const [enrolmentType, setEnrolmentType] = React.useState<EnrolmentType>(
-    EnrolmentType.Internal
-  );
 
   const {
-    values: { neededOccurrences, autoAcceptance },
+    values: { neededOccurrences, autoAcceptance, enrolmentType },
     setFieldValue,
   } = useFormikContext<TimeAndLocationFormFields>();
 
   // Enrolments cannot be manually accepted if more than one occurrence is needed
   // So we se autoAcceptance to true id neededOccurrences is more than 1
   React.useEffect(() => {
-    if (neededOccurrences > 1 && !autoAcceptance) {
+    if (neededOccurrences != null && neededOccurrences > 1 && !autoAcceptance) {
       setFieldValue('autoAcceptance', true);
     }
   }, [autoAcceptance, neededOccurrences, setFieldValue]);
@@ -52,7 +49,9 @@ const EnrolmentInfoFormPart: React.FC = () => {
           <h2>{t('eventForm.enrolment.title')}</h2>
           <EnrolmentTypeSelector
             enrolmentType={enrolmentType}
-            setEnrolmentType={setEnrolmentType}
+            setEnrolmentType={(enrolmentTypeValue: EnrolmentType) =>
+              setFieldValue('enrolmentType', enrolmentTypeValue)
+            }
           />
           {enrolmentFieldSetComponentByType[enrolmentType]}
         </div>
@@ -63,7 +62,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
 
 export const EnrolmentTypeSelector: React.FC<{
   enrolmentType: EnrolmentType;
-  setEnrolmentType: React.Dispatch<React.SetStateAction<EnrolmentType>>;
+  setEnrolmentType: (enrolmentTypeValue: EnrolmentType) => void;
 }> = ({ enrolmentType, setEnrolmentType }) => {
   const { t } = useTranslation();
 
