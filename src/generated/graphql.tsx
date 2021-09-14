@@ -775,6 +775,18 @@ export type MutationDeleteImageMutationArgs = {
   imageId: Scalars['String'];
 };
 
+export type Neighborhood = {
+  __typename?: 'Neighborhood';
+  id: Scalars['ID'];
+  name?: Maybe<LocalisedObject>;
+};
+
+export type NeighborhoodListResponse = {
+  __typename?: 'NeighborhoodListResponse';
+  meta: Meta;
+  data: Array<Neighborhood>;
+};
+
 /** An object with an ID */
 export type Node = {
   /** The ID of the object. */
@@ -1334,6 +1346,7 @@ export type Query = {
   /** The ID of the object */
   organisation?: Maybe<OrganisationNode>;
   organisations?: Maybe<OrganisationNodeConnection>;
+  neighborhoodList?: Maybe<NeighborhoodListResponse>;
   events?: Maybe<EventListResponse>;
   event?: Maybe<Event>;
   places?: Maybe<PlaceListResponse>;
