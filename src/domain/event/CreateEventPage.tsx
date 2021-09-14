@@ -85,7 +85,7 @@ const CreateEventPage: React.FC = () => {
         } else {
           setInitialValues(createEventInitialValues);
         }
-      } catch (err) {
+      } catch (err: any) {
         handleError(err);
       } finally {
         setLoading(false);
@@ -145,7 +145,7 @@ const CreateEventPage: React.FC = () => {
       history.pushWithLocale({
         pathname: ROUTES.CREATE_OCCURRENCE.replace(':id', id),
       });
-    } catch (e) {
+    } catch (e: any) {
       handleError(e);
     }
   };

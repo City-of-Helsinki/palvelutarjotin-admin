@@ -1,11 +1,12 @@
 import { Field, useFormikContext } from 'formik';
-import { RadioButton, SelectionGroup } from 'hds-react';
+import { SelectionGroup } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
+import RadiobuttonField from '../../../common/components/form/fields/RadiobuttonField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import styles from '../occurrencePage.module.scss';
 import { TimeAndLocationFormFields } from '../types';
@@ -39,7 +40,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
       />
     ),
     [EnrolmentType.External]: <ExternalEnrolmentFields />,
-    [EnrolmentType.Unenrollable]: <div></div>,
+    [EnrolmentType.Unenrollable]: null,
   };
 
   return (
@@ -66,12 +67,6 @@ export const EnrolmentTypeSelector: React.FC<{
 }> = ({ enrolmentType, setEnrolmentType }) => {
   const { t } = useTranslation();
 
-  const onChangeEnrolmentType = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setEnrolmentType(event.target.value as EnrolmentType);
-  };
-
   const isActiveEnrolmentType = (type: EnrolmentType) => {
     return enrolmentType === type;
   };
@@ -82,14 +77,13 @@ export const EnrolmentTypeSelector: React.FC<{
       className={styles.enrolmentTypeSelector}
     >
       {Object.values(EnrolmentType).map((type) => (
-        <RadioButton
+        <Field
           key={`enrolmentType-${type}`}
-          id={`enrolmentType-${type}`}
+          type="radio"
           name="enrolmentType"
+          component={RadiobuttonField}
           value={type}
           label={t(`eventForm.enrolmentType.label${capitalize(type)}`)}
-          checked={isActiveEnrolmentType(type)}
-          onChange={onChangeEnrolmentType}
           className={`${styles.enrolmentTypeSelectorItem} ${
             isActiveEnrolmentType(type) &&
             styles.enrolmentTypeSelectorItemActive
