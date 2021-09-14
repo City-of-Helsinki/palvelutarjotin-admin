@@ -41,9 +41,7 @@ import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSu
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { defaultInitialValues } from './constants';
-import EnrolmentInfoFormPart, {
-  EnrolmentType,
-} from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
 import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';
@@ -53,7 +51,11 @@ import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
 } from './types';
-import { getEditEventPayload, useBaseEventQuery } from './utils';
+import {
+  getEditEventPayload,
+  getEnrolmentType,
+  useBaseEventQuery,
+} from './utils';
 import ValidationSchema from './ValidationSchema';
 
 interface Params {
@@ -119,17 +121,12 @@ const CreateOccurrencePage: React.FC = () => {
         const venueData = data?.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         const eventName = omit(event.name, '__typename');
-
         const eventLangs = Object.entries(eventName).reduce<string[]>(
           (prev, [lang, value]) => (value ? [...prev, lang] : prev),
           []
         );
-        // TODO: Fetch externalEnrolmentUrl from API
-        const externalEnrolmentUrl = '';
-        // TODO: Unenrolalble enrolment type should be handled also!
-        const enrolmentType = externalEnrolmentUrl
-          ? EnrolmentType.External
-          : EnrolmentType.Internal;
+
+        const enrolmentType = getEnrolmentType(event);
 
         setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({

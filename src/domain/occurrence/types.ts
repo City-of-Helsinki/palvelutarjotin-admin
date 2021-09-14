@@ -18,7 +18,6 @@ export type TimeAndLocationFormFields = {
   location: string;
   isVirtual: boolean;
   enrolmentNeeded: boolean;
-  externalEnrolment: boolean;
   externalEnrolmentUrl: string;
   enrolmentStart: Date | null;
   enrolmentEndDays: number | string;
@@ -32,5 +31,5 @@ export type TimeAndLocationFormFields = {
   hasAreaForGroupWork: boolean;
   hasIndoorPlayingArea: boolean;
   hasOutdoorPlayingArea: boolean;
-  enrolmentType: EnrolmentType
+  enrolmentType: EnrolmentType;
 };

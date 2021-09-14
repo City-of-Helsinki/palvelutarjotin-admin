@@ -10,7 +10,6 @@ export const defaultInitialValues: TimeAndLocationFormFields = {
   isVirtual: false,
   enrolmentType: EnrolmentType.Internal,
   enrolmentNeeded: false,
-  externalEnrolment: false,
   externalEnrolmentUrl: '',
   enrolmentStart: null,
   enrolmentEndDays: '',
