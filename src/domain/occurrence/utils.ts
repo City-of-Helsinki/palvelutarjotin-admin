@@ -36,8 +36,8 @@ export const getOccurrencePayload = ({
     pEventId,
     placeId: isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.occurrenceLocation,
     amountOfSeats: Number(values.amountOfSeats) || 0,
-    minGroupSize: Number(values.minGroupSize) || 0,
-    maxGroupSize: Number(values.maxGroupSize) || 0,
+    minGroupSize: Number(values.minGroupSize) || null,
+    maxGroupSize: Number(values.maxGroupSize) || null,
     seatType: values.oneGroupFills
       ? SeatType.EnrolmentCount
       : SeatType.ChildrenCount,

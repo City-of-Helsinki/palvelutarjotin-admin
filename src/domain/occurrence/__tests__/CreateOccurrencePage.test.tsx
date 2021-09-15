@@ -553,10 +553,18 @@ describe('location and enrolment info', () => {
     await selectLocation();
     await screen.findByText('Test venue description');
 
+    // should be found in the document before clking externalEnrolment radio button
+    expect(getOccurrenceFormElement('min')).toBeInTheDocument();
+    expect(getOccurrenceFormElement('max')).toBeInTheDocument();
+
     act(() => userEvent.click(getFormElement('externalEnrolmentButton')));
 
     const enrolmentUrlInput = await getFormElement('enrolmentUrl');
     userEvent.type(enrolmentUrlInput, 'https://beta.kultus.fi/');
+
+    // should be hidden when external enrolment is selected
+    expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
+    expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
 
     userEvent.click(getFormElement('saveButton'));
 
@@ -1173,11 +1181,11 @@ const getOccurrenceFormElement = (
         name: 'Paikkoja',
       });
     case 'min':
-      return screen.getByRole('spinbutton', {
+      return screen.queryByRole('spinbutton', {
         name: /minimi henkilömäärä/i,
       });
     case 'max':
-      return screen.getByRole('spinbutton', {
+      return screen.queryByRole('spinbutton', {
         name: /maksimi henkilömäärä/i,
       });
     case 'oneGroupFills':
