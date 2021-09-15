@@ -448,6 +448,8 @@
       "ariaLabelOpenOccurrences": "Go to event times of {{eventName}}",
       "textEnrolments": "{{count}} enrolments",
       "textEnrolments_plural": "{{count}} enrolments",
+      "textExternalEnrolments": "Enrolments on another site",
+      "textUnenrollable": "No enrolments",
       "textOccurrences": "{{count}} occurrence",
       "textOccurrences_plural": "{{count}} occurrences",
       "statusPublished": "Published",

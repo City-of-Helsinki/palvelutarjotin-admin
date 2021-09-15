@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 import IconClock from '../../../icons/IconClock';
 import { PUBLICATION_STATUS } from '../../events/constants';
+import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import { getEventPlaceholderImage } from '../utils';
 import styles from './eventCard.module.scss';
 
 interface Props {
   description?: string;
   enrolmentsCount: number;
+  enrolmentType: EnrolmentType;
   id: string;
   image?: string;
   name: string;
@@ -21,6 +23,7 @@ interface Props {
 const EventCard: React.FC<Props> = ({
   description,
   enrolmentsCount,
+  enrolmentType,
   id,
   image,
   name,
@@ -49,6 +52,18 @@ const EventCard: React.FC<Props> = ({
 
     if (publicationStatus === PUBLICATION_STATUS.DRAFT) {
       return t('events.eventCard.statusNotPublished');
+    }
+  };
+
+  const getEnrolmentText = () => {
+    if (enrolmentType === EnrolmentType.Internal) {
+      return t('events.eventCard.textEnrolments', {
+        count: enrolmentsCount || 0,
+      });
+    } else if (enrolmentType === EnrolmentType.External) {
+      return t('events.eventCard.textExternalEnrolments');
+    } else if (enrolmentType === EnrolmentType.Unenrollable) {
+      return t('events.eventCard.textUnenrollable');
     }
   };
 
@@ -84,9 +99,7 @@ const EventCard: React.FC<Props> = ({
           </div>
           <div className={styles.textWithIcon}>
             <IconUser />
-            {t('events.eventCard.textEnrolments', {
-              count: enrolmentsCount || 0,
-            })}
+            {getEnrolmentText()}
           </div>
           {/* TODO: Handle rest of the cases when there API support */}
           <div className={styles.textWithIcon}>

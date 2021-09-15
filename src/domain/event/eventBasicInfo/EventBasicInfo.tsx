@@ -9,6 +9,8 @@ import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import getTimeFormat from '../../../utils/getTimeFormat';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
+import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { getEnrolmentType } from '../../occurrence/utils';
 import styles from './eventBasicInfo.module.scss';
 
 type Props = {
@@ -35,6 +37,9 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const imageId = eventData.event?.images[0]?.id;
 
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
+
+  const enrolmentType = eventData.event && getEnrolmentType(eventData.event);
+
   const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
     ? t('eventDetails.basicInfo.enrolmentStart', {
         date: formatDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
@@ -100,20 +105,22 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
         </>
       )}
 
-      <div className={styles.durationRow}>
-        <div>
-          <TextTitle>
-            {t('eventDetails.basicInfo.labelEnrolmentStart')}
-          </TextTitle>
-          <p>{enrolmentStart}</p>
+      {EnrolmentType.Internal === enrolmentType && (
+        <div className={styles.durationRow}>
+          <div>
+            <TextTitle>
+              {t('eventDetails.basicInfo.labelEnrolmentStart')}
+            </TextTitle>
+            <p>{enrolmentStart}</p>
+          </div>
+          <div>
+            <TextTitle>
+              {t('eventDetails.basicInfo.labelEnrolmentEndDays')}
+            </TextTitle>
+            <p>{eventData.event?.pEvent?.enrolmentEndDays}</p>
+          </div>
         </div>
-        <div>
-          <TextTitle>
-            {t('eventDetails.basicInfo.labelEnrolmentEndDays')}
-          </TextTitle>
-          <p>{eventData.event?.pEvent?.enrolmentEndDays}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
