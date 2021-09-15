@@ -26,7 +26,6 @@ import {
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
   act,
-  actWait,
   configure,
   fireEvent,
   renderWithRoute,
@@ -523,6 +522,7 @@ describe('location and enrolment info', () => {
   });
 
   test('user can add external enrolment and save form', async () => {
+    const externalEnrolmentUrl = 'https://beta.kultus.fi/';
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
       getEventMockedResponse({
         autoAcceptance: false,
@@ -537,6 +537,7 @@ describe('location and enrolment info', () => {
       enrolmentEndDays: null,
       enrolmentStart: null,
       neededOccurrences: 0,
+      externalEnrolmentUrl,
     });
 
     renderComponent({
@@ -559,8 +560,17 @@ describe('location and enrolment info', () => {
 
     act(() => userEvent.click(getFormElement('externalEnrolmentButton')));
 
+    expect(
+      screen.queryByText(/tämä kenttä on pakollinen/i)
+    ).not.toBeInTheDocument();
+
+    userEvent.click(getFormElement('saveButton'));
+
+    // externalEnrolmentButton is required
+    await screen.findByText(/tämä kenttä on pakollinen/i);
+
     const enrolmentUrlInput = await getFormElement('enrolmentUrl');
-    userEvent.type(enrolmentUrlInput, 'https://beta.kultus.fi/');
+    userEvent.type(enrolmentUrlInput, externalEnrolmentUrl);
 
     // should be hidden when external enrolment is selected
     expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();

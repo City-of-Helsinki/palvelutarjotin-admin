@@ -363,12 +363,14 @@ export const getUpdateEventMockResponse = ({
   enrolmentEndDays,
   enrolmentStart,
   neededOccurrences,
+  externalEnrolmentUrl = null,
   languages = ['fi'],
 }: {
   autoAcceptance: boolean;
   enrolmentEndDays: number;
   enrolmentStart: string;
   neededOccurrences: number;
+  externalEnrolmentUrl?: string;
   languages?: Languages[];
 }): MockedResponse => ({
   request: {
@@ -379,6 +381,7 @@ export const getUpdateEventMockResponse = ({
       autoAcceptance,
       neededOccurrences,
       enrolmentEndDays,
+      externalEnrolmentUrl,
       enrolmentStart, // '2021-05-03T21:00:00.000Z',
     }),
   },
@@ -528,12 +531,14 @@ const getEditEventVariables = ({
   enrolmentEndDays,
   enrolmentStart,
   neededOccurrences,
+  externalEnrolmentUrl = null,
   languages = ['fi'],
 }: {
   placeId: string;
   autoAcceptance: boolean;
   enrolmentEndDays: number;
   enrolmentStart: string;
+  externalEnrolmentUrl?: string;
   neededOccurrences: number;
   languages?: Languages[];
 }) => ({
@@ -581,6 +586,7 @@ const getEditEventVariables = ({
       neededOccurrences,
       autoAcceptance,
       mandatoryAdditionalInformation: false,
+      externalEnrolmentUrl,
     },
   },
 });

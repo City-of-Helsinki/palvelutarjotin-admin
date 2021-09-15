@@ -54,6 +54,18 @@ export const getEnrolmentType = (event: EventFieldsFragment): EnrolmentType => {
   return EnrolmentType.Unenrollable;
 };
 
+export const getFormEnrolmentType = (
+  event: EventFieldsFragment
+): EnrolmentType => {
+  if (event.pEvent.externalEnrolmentUrl) {
+    return EnrolmentType.External;
+  }
+  if (event.pEvent.enrolmentStart || !event.location?.id) {
+    return EnrolmentType.Internal;
+  }
+  return EnrolmentType.Unenrollable;
+};
+
 export const getEventQueryVariables = (id: string) => ({
   id,
   include: ['location', 'keywords', 'audience', 'in_language'],
@@ -95,7 +107,7 @@ export const getEditEventPayload = ({
     enrolmentStart,
     isVirtual,
     neededOccurrences,
-    // externalEnrolmentUrl,
+    externalEnrolmentUrl,
     enrolmentType,
   } = formValues;
   const eventData = omitTypenames(event);
@@ -106,21 +118,21 @@ export const getEditEventPayload = ({
       enrolmentEndDays: Number(enrolmentEndDays) || 0,
       neededOccurrences: Number(neededOccurrences) || 0,
       autoAcceptance,
-      // externalEnrolmentUrl: '',
+      externalEnrolmentUrl: null,
     },
     [EnrolmentType.External]: {
       enrolmentEndDays: null,
       enrolmentStart: null,
       neededOccurrences: 0,
       autoAcceptance: false,
-      // externalEnrolmentUrl,
+      externalEnrolmentUrl,
     },
     [EnrolmentType.Unenrollable]: {
       enrolmentEndDays: null,
       enrolmentStart: null,
       neededOccurrences: 0,
       autoAcceptance: false,
-      // externalEnrolmentUrl: '',
+      externalEnrolmentUrl: null,
     },
   };
 
