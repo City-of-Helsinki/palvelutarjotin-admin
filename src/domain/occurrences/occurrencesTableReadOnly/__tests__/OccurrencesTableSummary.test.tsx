@@ -1,8 +1,13 @@
 import * as React from 'react';
 
+import { PalvelutarjotinEventNode } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
 import formatTimeRange from '../../../../utils/formatTimeRange';
-import { fakeOccurrence, fakePEvent } from '../../../../utils/mockDataUtils';
+import {
+  fakeEvent,
+  fakeOccurrence,
+  fakePEvent,
+} from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 
@@ -50,4 +55,21 @@ it('show occurrence data in the table in correct format', () => {
     name: occurrenceRowText,
   });
   expect(occurrenceRow).toBeInTheDocument();
+});
+
+it('show occurrence data in the table in correct format when enrolments are not done internally', () => {
+  renderComponent({
+    eventData: {
+      event: fakeEvent({
+        pEvent: fakePEvent({
+          enrolmentStart: null,
+          externalEnrolmentUrl: null,
+        }),
+      }),
+    },
+  });
+  expect(screen.getByText(/Tapahtumapaikka/i)).toBeInTheDocument();
+  expect(screen.getByText(/Toiminnot/i)).toBeInTheDocument();
+  expect(screen.queryByText(/Ilm. alkaa/i)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Ilmoittautuneita/i)).not.toBeInTheDocument();
 });

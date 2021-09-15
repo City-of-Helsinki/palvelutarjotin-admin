@@ -132,7 +132,12 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnActions'),
       accessor: (row: OccurrenceFieldsFragment) => (
-        <ActionsDropdown eventId={eventId} onCancel={onCancel} row={row} />
+        <ActionsDropdown
+          eventId={eventId}
+          onCancel={onCancel}
+          row={row}
+          enrolmentType={enrolmentType}
+        />
       ),
       id: 'actions',
       rowClickDisabled: true,
