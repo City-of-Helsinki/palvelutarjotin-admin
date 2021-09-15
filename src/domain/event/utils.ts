@@ -247,6 +247,7 @@ export const getEditEventPayload = ({
         : null),
       neededOccurrences:
         Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
+      externalEnrolmentUrl: existingEventValues.pEvent.externalEnrolmentUrl,
       autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
       mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
     },

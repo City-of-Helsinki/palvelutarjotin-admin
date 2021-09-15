@@ -370,7 +370,7 @@ export const getUpdateEventMockResponse = ({
   enrolmentEndDays: number;
   enrolmentStart: string;
   neededOccurrences: number;
-  externalEnrolmentUrl?: string;
+  externalEnrolmentUrl?: string | null;
   languages?: Languages[];
 }): MockedResponse => ({
   request: {
@@ -406,6 +406,7 @@ export const getEventMockedResponse = ({
   autoAcceptance = true,
   enrolmentEndDays = null,
   enrolmentStart = null,
+  externalEnrolmentUrl = null,
   neededOccurrences = 1,
   languages = ['fi'],
   occurrences,
@@ -414,6 +415,7 @@ export const getEventMockedResponse = ({
   autoAcceptance?: boolean;
   enrolmentEndDays?: number | null;
   enrolmentStart?: string | null;
+  externalEnrolmentUrl?: string | null;
   neededOccurrences?: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;
@@ -430,6 +432,7 @@ export const getEventMockedResponse = ({
     autoAcceptance,
     enrolmentEndDays,
     enrolmentStart,
+    externalEnrolmentUrl,
     location: location
       ? fakePlace({
           id: placeId,
@@ -446,6 +449,7 @@ const getEventResponse = ({
   autoAcceptance,
   enrolmentEndDays,
   enrolmentStart,
+  externalEnrolmentUrl,
   neededOccurrences,
   languages = ['fi'],
   occurrences,
@@ -454,6 +458,7 @@ const getEventResponse = ({
   autoAcceptance: boolean;
   enrolmentEndDays: number;
   enrolmentStart: string;
+  externalEnrolmentUrl: string;
   neededOccurrences: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;
@@ -514,6 +519,7 @@ const getEventResponse = ({
         autoAcceptance,
         enrolmentEndDays,
         enrolmentStart,
+        externalEnrolmentUrl,
         neededOccurrences,
         mandatoryAdditionalInformation: false,
         occurrences: occurrences ?? fakeOccurrences(),
@@ -538,8 +544,8 @@ const getEditEventVariables = ({
   autoAcceptance: boolean;
   enrolmentEndDays: number;
   enrolmentStart: string;
-  externalEnrolmentUrl?: string;
   neededOccurrences: number;
+  externalEnrolmentUrl?: string | null;
   languages?: Languages[];
 }) => ({
   event: {
@@ -583,10 +589,10 @@ const getEditEventVariables = ({
       contactPhoneNumber: contactPhoneNumber,
       enrolmentEndDays,
       enrolmentStart: enrolmentStart ? new Date(enrolmentStart) : null,
+      externalEnrolmentUrl,
       neededOccurrences,
       autoAcceptance,
       mandatoryAdditionalInformation: false,
-      externalEnrolmentUrl,
     },
   },
 });

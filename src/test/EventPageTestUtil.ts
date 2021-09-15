@@ -158,6 +158,7 @@ const editEventVariables = {
       contactPhoneNumber: contactPhoneNumber,
       enrolmentEndDays: 3,
       enrolmentStart: '2020-08-13T00:45:00.000Z',
+      externalEnrolmentUrl: null,
       neededOccurrences: 3,
       mandatoryAdditionalInformation: mandatoryAdditionalInformation,
     },
