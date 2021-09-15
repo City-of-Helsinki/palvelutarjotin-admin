@@ -53,7 +53,7 @@ import {
 } from './types';
 import {
   getEditEventPayload,
-  getEnrolmentType,
+  getFormEnrolmentType,
   useBaseEventQuery,
 } from './utils';
 import ValidationSchema from './ValidationSchema';
@@ -126,12 +126,13 @@ const CreateOccurrencePage: React.FC = () => {
           []
         );
 
-        const enrolmentType = getEnrolmentType(event);
+        const enrolmentType = getFormEnrolmentType(event);
 
         setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({
           ...defaultInitialValues,
           enrolmentType,
+          externalEnrolmentUrl: event.pEvent.externalEnrolmentUrl ?? '',
           // If enrolment start time is not defined yet, then user hasn't filled this form yet
           // and initial value can be set to true as default
           autoAcceptance: event.pEvent.autoAcceptance
@@ -142,7 +143,7 @@ const CreateOccurrencePage: React.FC = () => {
             ? new Date(event.pEvent.enrolmentStart)
             : null,
           isVirtual: isVirtualEvent,
-          neededOccurrences: event.pEvent.neededOccurrences ?? '',
+          neededOccurrences: event.pEvent.neededOccurrences || '1',
           location: isVirtualEvent ? '' : event.location?.id || '',
           hasAreaForGroupWork: venueData?.hasAreaForGroupWork ?? false,
           hasClothingStorage: venueData?.hasClothingStorage ?? false,

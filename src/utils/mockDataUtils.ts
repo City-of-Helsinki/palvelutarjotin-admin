@@ -280,6 +280,7 @@ export const fakePEvent = (
   autoAcceptance: false,
   nextOccurrenceDatetime: '',
   lastOccurrenceDatetime: '',
+  externalEnrolmentUrl: null,
   mandatoryAdditionalInformation: false,
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,

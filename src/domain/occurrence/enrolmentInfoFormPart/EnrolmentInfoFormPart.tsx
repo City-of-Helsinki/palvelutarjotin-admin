@@ -48,12 +48,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
       <div className={styles.formSectionInnerContainer}>
         <div>
           <h2>{t('eventForm.enrolment.title')}</h2>
-          <EnrolmentTypeSelector
-            enrolmentType={enrolmentType}
-            setEnrolmentType={(enrolmentTypeValue: EnrolmentType) =>
-              setFieldValue('enrolmentType', enrolmentTypeValue)
-            }
-          />
+          <EnrolmentTypeSelector enrolmentType={enrolmentType} />
           {enrolmentFieldSetComponentByType[enrolmentType]}
         </div>
       </div>
@@ -63,8 +58,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
 
 export const EnrolmentTypeSelector: React.FC<{
   enrolmentType: EnrolmentType;
-  setEnrolmentType: (enrolmentTypeValue: EnrolmentType) => void;
-}> = ({ enrolmentType, setEnrolmentType }) => {
+}> = ({ enrolmentType }) => {
   const { t } = useTranslation();
 
   const isActiveEnrolmentType = (type: EnrolmentType) => {
