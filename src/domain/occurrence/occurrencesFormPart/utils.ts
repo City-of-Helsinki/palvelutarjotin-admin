@@ -75,8 +75,8 @@ export const getOptimisticCreateOccurrenceResponse = ({
           : OccurrenceSeatType.ChildrenCount,
         seatsApproved: 0,
         seatsTaken: 0,
-        maxGroupSize: Number(values.maxGroupSize) || 0,
-        minGroupSize: Number(values.minGroupSize) || 0,
+        maxGroupSize: Number(values.maxGroupSize) || null,
+        minGroupSize: Number(values.minGroupSize) || null,
         pEvent: {
           __typename: 'PalvelutarjotinEventNode',
           id: uniqueId(),
