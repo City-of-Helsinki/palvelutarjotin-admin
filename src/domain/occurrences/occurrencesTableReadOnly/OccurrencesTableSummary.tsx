@@ -47,7 +47,10 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     );
   };
 
-  const enrolmentType = eventData?.event && getEnrolmentType(eventData.event);
+  // EnrolmentType.Internal is the default enrolment type instead of undefined, because it makes the testing much easier
+  const enrolmentType = eventData?.event
+    ? getEnrolmentType(eventData.event)
+    : EnrolmentType.Internal;
 
   const enrolmentColumns =
     EnrolmentType.Internal === enrolmentType

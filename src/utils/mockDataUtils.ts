@@ -271,6 +271,7 @@ export const fakePEvent = (
   contactPhoneNumber: '1233211234',
   enrolmentEndDays: 3,
   enrolmentStart: '2020-07-13T06:00:00+00:00',
+  externalEnrolmentUrl: null,
   neededOccurrences: 3,
   organisation: fakeOrganisation(),
   occurrences: fakeOccurrences(),
@@ -340,7 +341,7 @@ export const fakeLanguage = (
 });
 
 export const fakeOccurrence = (
-  overrides?: Partial<OccurrenceNode>
+  overrides?: Partial<OccurrenceNode>,
 ): OccurrenceNode => ({
   id: faker.datatype.uuid(),
   pEvent: {

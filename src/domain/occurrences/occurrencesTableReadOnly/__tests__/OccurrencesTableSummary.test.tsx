@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import formatDate from '../../../../utils/formatDate';
 import formatTimeRange from '../../../../utils/formatTimeRange';
-import { fakeOccurrence } from '../../../../utils/mockDataUtils';
+import { fakeOccurrence, fakePEvent } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 
@@ -21,6 +21,10 @@ const mockOccurrence = fakeOccurrence({
   endTime: endTime,
   amountOfSeats: 240,
   placeId: null,
+  pEvent: fakePEvent({
+    id: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
+    enrolmentStart: new Date(),
+  }),
 });
 
 const renderComponent = (props?: Partial<Props>) => {

@@ -41,7 +41,9 @@ import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSu
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { defaultInitialValues } from './constants';
-import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import EnrolmentInfoFormPart, {
+  EnrolmentType,
+} from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
 import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';
@@ -51,11 +53,7 @@ import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
 } from './types';
-import {
-  getEditEventPayload,
-  getFormEnrolmentType,
-  useBaseEventQuery,
-} from './utils';
+import { getEditEventPayload, useBaseEventQuery } from './utils';
 import ValidationSchema from './ValidationSchema';
 
 interface Params {
@@ -126,7 +124,20 @@ const CreateOccurrencePage: React.FC = () => {
           []
         );
 
-        const enrolmentType = getFormEnrolmentType(event);
+        const getEnrolmentType = (): EnrolmentType => {
+          if (event.pEvent.externalEnrolmentUrl) {
+            return EnrolmentType.External;
+          }
+          if (event.pEvent.enrolmentStart) {
+            return EnrolmentType.Internal;
+          }
+          if (event.location) {
+            return EnrolmentType.Unenrollable;
+          }
+          return EnrolmentType.Internal;
+        };
+
+        const enrolmentType = getEnrolmentType();
 
         setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({

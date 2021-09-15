@@ -529,6 +529,7 @@ describe('location and enrolment info', () => {
         enrolmentEndDays: null,
         enrolmentStart: null,
         neededOccurrences: 1,
+        externalEnrolmentUrl: null,
         occurrences: fakeOccurrences(0),
       });
 
