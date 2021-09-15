@@ -26,6 +26,7 @@ import getDateArray from '../../../utils/getDateArray';
 import { getDomain } from '../../../utils/getDomain';
 import getLocalisedString from '../../../utils/getLocalizedString';
 import { ROUTES } from '../../app/routes/constants';
+import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import { getPlaceFields } from '../../place/utils';
 import styles from './actionsDropdown.module.scss';
 import CancelOccurrenceModal from './CancelOccurrenceModal';
@@ -37,6 +38,7 @@ export interface Props {
   onCancel?: (row: OccurrenceFieldsFragment, message?: string) => void;
   row: OccurrenceFieldsFragment;
   event?: EventFieldsFragment | null;
+  enrolmentType: EnrolmentType;
 }
 
 const ActionsDropdown: React.FC<Props> = ({
@@ -45,6 +47,7 @@ const ActionsDropdown: React.FC<Props> = ({
   onDelete,
   onCancel,
   isEventDraft,
+  enrolmentType,
   row,
 }) => {
   const { t } = useTranslation();
@@ -132,7 +135,7 @@ const ActionsDropdown: React.FC<Props> = ({
   const showCancelAction = !row.cancelled && onCancel;
 
   const items = [
-    {
+    enrolmentType === EnrolmentType.Internal && {
       children: (
         <>
           <IconUser />

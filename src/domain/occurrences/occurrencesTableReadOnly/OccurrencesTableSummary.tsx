@@ -138,6 +138,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
           eventId={eventId}
           onCancel={onCancel}
           row={row}
+          enrolmentType={enrolmentType}
         />
       ),
       id: 'actions',
