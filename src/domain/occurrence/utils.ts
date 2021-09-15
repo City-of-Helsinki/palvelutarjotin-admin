@@ -45,15 +45,16 @@ export const getOccurrencePayload = ({
 };
 
 export const getEnrolmentType = (event: EventFieldsFragment): EnrolmentType => {
-  // if (event.externalEnrolmentUrl) {
-  //  return EnrolmentType.External;
-  // }
-  if (event.pEvent.enrolmentStart || !event.location?.id) {
+  if (event.pEvent.externalEnrolmentUrl) {
+    return EnrolmentType.External;
+  }
+  if (event.pEvent.enrolmentStart) {
     return EnrolmentType.Internal;
   }
   return EnrolmentType.Unenrollable;
 };
 
+<<<<<<< HEAD
 export const getFormEnrolmentType = (
   event: EventFieldsFragment
 ): EnrolmentType => {
@@ -65,6 +66,8 @@ export const getFormEnrolmentType = (
   }
   return EnrolmentType.Unenrollable;
 };
+=======
+>>>>>>> cb70104 (feat(enrolment-type): events enrolment info differs on different enrolment type)
 
 export const getEventQueryVariables = (id: string) => ({
   id,

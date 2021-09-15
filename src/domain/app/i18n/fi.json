@@ -457,6 +457,8 @@
       "ariaLabelOpenOccurrences": "Siirry tapahtuman {{eventName}} tapahtuma-aikoihin",
       "textEnrolments": "{{count}} ilmoittautunut",
       "textEnrolments_plural": "{{count}} ilmoittautunutta",
+      "textExternalEnrolments": "Ilmoittautuminen muulla sivustolla",
+      "textUnenrollable": "Ei ilmoittautumista",
       "textOccurrences": "{{count}} tapahtuma-aika",
       "textOccurrences_plural": "{{count}} tapahtuma-aikaa",
       "statusPublished": "Julkaistu",

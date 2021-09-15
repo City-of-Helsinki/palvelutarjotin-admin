@@ -458,6 +458,8 @@
       "ariaLabelOpenOccurrences": "Gå till evenemangtided av {{eventName}}",
       "textEnrolments": "{{count}} registrerad",
       "textEnrolments_plural": "{{count}} registrerade",
+      "textExternalEnrolments": "Anmälningar på en annan webbplats",
+      "textUnenrollable": "Inga anmälningar",
       "textOccurrences": "{{count}} händelsetid",
       "textOccurrences_plural": "{{count}} evenemangtider",
       "statusPublished": "Publicerad",
