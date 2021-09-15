@@ -577,7 +577,7 @@ const getEditEventVariables = ({
       contactPersonId: contactPersonId,
       contactPhoneNumber: contactPhoneNumber,
       enrolmentEndDays,
-      enrolmentStart: new Date(enrolmentStart),
+      enrolmentStart: enrolmentStart ? new Date(enrolmentStart) : null,
       neededOccurrences,
       autoAcceptance,
       mandatoryAdditionalInformation: false,
