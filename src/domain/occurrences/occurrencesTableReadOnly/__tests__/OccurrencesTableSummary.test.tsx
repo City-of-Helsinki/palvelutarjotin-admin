@@ -58,7 +58,7 @@ it('show occurrence data in the table in correct format', () => {
   expect(occurrenceRow).toBeInTheDocument();
 });
 
-it('show occurrence data in the table in correct format when enrolments are not done internally', () => {
+it('does not render enrolment info when enrolments are not done internally', () => {
   renderComponent({
     eventData: {
       event: fakeEvent({
