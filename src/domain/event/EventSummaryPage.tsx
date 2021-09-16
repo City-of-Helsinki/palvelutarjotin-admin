@@ -50,7 +50,6 @@ const EventSummaryPage: React.FC = () => {
     loading,
     refetch: refetchEventData,
   } = useEventQuery({
-    // fetchPolicy: 'network-only',
     variables: {
       id: eventId,
       include: ['location', 'keywords', 'in_language'],
@@ -62,9 +61,11 @@ const EventSummaryPage: React.FC = () => {
   );
   const [cancelOccurrence] = useCancelOccurrenceMutation();
 
+  const enrolmentType = eventData?.event && getEnrolmentType(eventData.event);
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const isEventDraft =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
+  const isInternalEnrolment = enrolmentType === EnrolmentType.Internal;
 
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
@@ -131,8 +132,6 @@ const EventSummaryPage: React.FC = () => {
     }
   };
 
-  const enrolmentType = eventData?.event && getEnrolmentType(eventData.event);
-
   return (
     <PageWrapper title="occurrences.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -193,7 +192,7 @@ const EventSummaryPage: React.FC = () => {
                       })}
                     </span>
                   </h2>
-                  {!isEventDraft && enrolmentType === EnrolmentType.Internal && (
+                  {!isEventDraft && isInternalEnrolment && (
                     <Button onClick={downloadEnrolments} variant="secondary">
                       {t('eventSummary.buttonExportEnrolments')}
                     </Button>
