@@ -39,6 +39,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
 
   const enrolmentType = eventData.event && getEnrolmentType(eventData.event);
+  const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
 
   const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
     ? t('eventDetails.basicInfo.enrolmentStart', {
@@ -59,7 +60,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           <p>{name}</p>
         </>
       )}
-
       {shortDescription && (
         <>
           <TextTitle>
@@ -68,7 +68,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           <p>{shortDescription}</p>
         </>
       )}
-
       {description && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelDescription')}</TextTitle>
@@ -78,7 +77,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           />
         </>
       )}
-
       <>
         <TextTitle>
           {t('eventDetails.basicInfo.labelMandatoryAdditionalInformation')}
@@ -95,17 +93,14 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           </p>
         )}
       </>
-
       {imageId && <ImageInfo imageId={imageId} />}
-
       {infoUrl && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelInfoUrl')}</TextTitle>
           <p>{infoUrl}</p>
         </>
       )}
-
-      {EnrolmentType.Internal === enrolmentType && (
+      {isInternalEnrolment && (
         <div className={styles.durationRow}>
           <div>
             <TextTitle>

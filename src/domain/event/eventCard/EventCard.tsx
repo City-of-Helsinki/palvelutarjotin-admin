@@ -56,15 +56,13 @@ const EventCard: React.FC<Props> = ({
   };
 
   const getEnrolmentText = () => {
-    if (enrolmentType === EnrolmentType.Internal) {
-      return t('events.eventCard.textEnrolments', {
+    return {
+      [EnrolmentType.Internal]: t('events.eventCard.textEnrolments', {
         count: enrolmentsCount || 0,
-      });
-    } else if (enrolmentType === EnrolmentType.External) {
-      return t('events.eventCard.textExternalEnrolments');
-    } else if (enrolmentType === EnrolmentType.Unenrollable) {
-      return t('events.eventCard.textUnenrollable');
-    }
+      }),
+      [EnrolmentType.External]: t('events.eventCard.textExternalEnrolments'),
+      [EnrolmentType.Unenrollable]: t('events.eventCard.textUnenrollable'),
+    }[enrolmentType];
   };
 
   return (

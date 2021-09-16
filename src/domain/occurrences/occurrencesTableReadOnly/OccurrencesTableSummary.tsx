@@ -51,62 +51,60 @@ const OccurrencesTableSummary: React.FC<Props> = ({
   const enrolmentType = eventData?.event
     ? getEnrolmentType(eventData.event)
     : EnrolmentType.Internal;
+  const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
 
-  const enrolmentColumns =
-    EnrolmentType.Internal === enrolmentType
-      ? [
-          {
-            Header: t('occurrences.table.columnAmountOfSeats'),
-            accessor: (row: OccurrenceFieldsFragment) => {
-              if (row.seatType === OccurrenceSeatType.EnrolmentCount) {
-                return t('occurrenceDetails.textAmountOfGroups', {
-                  count: row.amountOfSeats,
-                });
-              }
-              return row.amountOfSeats;
-            },
-            id: 'amountOfSeats',
-          },
-          {
-            Header: t('occurrences.table.columnEnrolmentStarts'),
-            accessor: (row: OccurrenceFieldsFragment) =>
-              eventData?.event?.pEvent?.enrolmentStart
-                ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
-                : '',
-            id: 'enrolmentStarts',
-          },
-          {
-            Header: (
-              <>
-                <div>{t('occurrences.table.columnEnrolments')}</div>
-                <div className={styles.enrolmentsInfoText}>
-                  {t('occurrences.table.columnEnrolmentsHelper')}
-                </div>
-              </>
-            ),
-            accessor: (row: OccurrenceFieldsFragment) => {
-              if (row.cancelled) {
-                return (
-                  <span className={styles.cancelledText}>
-                    {t('occurrences.status.cancelled')}
-                  </span>
-                );
-              }
-              if (row.seatsTaken != null && row.seatsApproved != null) {
-                return (
-                  <EnrolmentsBadge
-                    approvedSeatsCount={row.seatsApproved}
-                    pendingSeatsCount={row.seatsTaken - row.seatsApproved}
-                    isOccurrenceFull={row.remainingSeats === 0}
-                  />
-                );
-              }
-              return null;
-            },
-            id: 'enrolments',
-          },
-        ]
-      : [];
+  const enrolmentColumns = [
+    {
+      Header: t('occurrences.table.columnAmountOfSeats'),
+      accessor: (row: OccurrenceFieldsFragment) => {
+        if (row.seatType === OccurrenceSeatType.EnrolmentCount) {
+          return t('occurrenceDetails.textAmountOfGroups', {
+            count: row.amountOfSeats,
+          });
+        }
+        return row.amountOfSeats;
+      },
+      id: 'amountOfSeats',
+    },
+    {
+      Header: t('occurrences.table.columnEnrolmentStarts'),
+      accessor: (row: OccurrenceFieldsFragment) =>
+        eventData?.event?.pEvent?.enrolmentStart
+          ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
+          : '',
+      id: 'enrolmentStarts',
+    },
+    {
+      Header: (
+        <>
+          <div>{t('occurrences.table.columnEnrolments')}</div>
+          <div className={styles.enrolmentsInfoText}>
+            {t('occurrences.table.columnEnrolmentsHelper')}
+          </div>
+        </>
+      ),
+      accessor: (row: OccurrenceFieldsFragment) => {
+        if (row.cancelled) {
+          return (
+            <span className={styles.cancelledText}>
+              {t('occurrences.status.cancelled')}
+            </span>
+          );
+        }
+        if (row.seatsTaken != null && row.seatsApproved != null) {
+          return (
+            <EnrolmentsBadge
+              approvedSeatsCount={row.seatsApproved}
+              pendingSeatsCount={row.seatsTaken - row.seatsApproved}
+              isOccurrenceFull={row.remainingSeats === 0}
+            />
+          );
+        }
+        return null;
+      },
+      id: 'enrolments',
+    },
+  ];
 
   const columns = [
     {
@@ -129,7 +127,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       },
       id: 'place',
     },
-    ...enrolmentColumns,
+    ...(isInternalEnrolment ? enrolmentColumns : []),
     {
       Header: t('occurrences.table.columnActions'),
       accessor: (row: OccurrenceFieldsFragment) => (
