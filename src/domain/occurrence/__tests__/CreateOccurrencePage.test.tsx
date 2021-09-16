@@ -36,7 +36,7 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
-import { EnrolmentType } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../constants';
 import { occurrencesFormTestId } from '../occurrencesFormPart/OccurrencesFormPart';
 
 configure({ defaultHidden: true });

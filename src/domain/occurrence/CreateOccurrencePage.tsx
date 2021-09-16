@@ -40,10 +40,8 @@ import {
 import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSubmitRequests';
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { defaultInitialValues } from './constants';
-import EnrolmentInfoFormPart, {
-  EnrolmentType,
-} from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { defaultInitialValues, EnrolmentType } from './constants';
+import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
 import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';

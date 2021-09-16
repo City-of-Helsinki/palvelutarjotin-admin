@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import IconClock from '../../../icons/IconClock';
 import { PUBLICATION_STATUS } from '../../events/constants';
-import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../../occurrence/constants';
 import { getEventPlaceholderImage } from '../utils';
 import styles from './eventCard.module.scss';
 

@@ -9,7 +9,7 @@ import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import getTimeFormat from '../../../utils/getTimeFormat';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
-import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
 import styles from './eventBasicInfo.module.scss';
 

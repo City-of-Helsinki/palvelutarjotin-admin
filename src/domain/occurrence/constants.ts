@@ -1,8 +1,13 @@
-import { EnrolmentType } from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import { TimeAndLocationFormFields } from './types';
 
 export enum OCCURRENCE_URL_PARAMS {
   ENROLMENT_UPDATED = 'enrolmentUpdated',
+}
+
+export enum EnrolmentType {
+  Internal = 'internal',
+  External = 'external',
+  Unenrollable = 'unenrollable',
 }
 
 export const defaultInitialValues: TimeAndLocationFormFields = {

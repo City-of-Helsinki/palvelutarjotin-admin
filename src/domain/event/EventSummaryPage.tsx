@@ -25,7 +25,7 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { EnrolmentType } from '../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../occurrence/constants';
 import { getEnrolmentType } from '../occurrence/utils';
 import OccurrencesTableSummary from '../occurrences/occurrencesTableReadOnly/OccurrencesTableSummary';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
