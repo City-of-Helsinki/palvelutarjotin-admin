@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { PUBLICATION_STATUS } from '../../../events/constants';
-import { EnrolmentType } from '../../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../../../occurrence/constants';
 import EventCard from '../EventCard';
 
 const defaultEventCardProps = {

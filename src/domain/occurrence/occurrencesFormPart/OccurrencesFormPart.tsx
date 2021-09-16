@@ -22,7 +22,7 @@ import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
 import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
 import PlaceText from '../../place/PlaceText';
-import { EnrolmentType } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../constants';
 import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,

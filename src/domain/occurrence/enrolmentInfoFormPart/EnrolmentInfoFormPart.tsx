@@ -8,14 +8,9 @@ import CheckboxField from '../../../common/components/form/fields/CheckboxField'
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import RadiobuttonField from '../../../common/components/form/fields/RadiobuttonField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
+import { EnrolmentType } from '../constants';
 import styles from '../occurrencePage.module.scss';
 import { TimeAndLocationFormFields } from '../types';
-
-export enum EnrolmentType {
-  Internal = 'internal',
-  External = 'external',
-  Unenrollable = 'unenrollable',
-}
 
 const EnrolmentInfoFormPart: React.FC = () => {
   const { t } = useTranslation();

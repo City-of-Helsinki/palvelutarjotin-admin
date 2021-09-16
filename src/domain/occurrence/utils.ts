@@ -10,7 +10,7 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
 import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { EnrolmentType } from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from './constants';
 import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,

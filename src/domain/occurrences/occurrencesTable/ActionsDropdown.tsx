@@ -9,7 +9,7 @@ import TableDropdown, {
 import { OccurrenceFieldsFragment } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
 import { ROUTES } from '../../app/routes/constants';
-import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../../occurrence/constants';
 import styles from './actionsDropdown.module.scss';
 import CancelOccurrenceModal from './CancelOccurrenceModal';
 

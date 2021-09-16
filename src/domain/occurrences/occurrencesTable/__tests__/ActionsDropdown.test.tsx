@@ -5,7 +5,7 @@ import { tableDropdownTestId } from '../../../../common/components/tableDropdown
 import { fakeOccurrence } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import { ROUTES } from '../../../app/routes/constants';
-import { EnrolmentType } from '../../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
 const eventId = 'testEventId123';

@@ -13,7 +13,7 @@ import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
-import { EnrolmentType } from '../../occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';

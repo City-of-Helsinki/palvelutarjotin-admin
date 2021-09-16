@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { DATETIME_FORMAT } from '../../common/components/datepicker/contants';
 import { isValidTime } from '../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { EnrolmentType } from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { EnrolmentType } from './constants';
 
 const ValidationSchema = Yup.object().shape({
   // infoUrl: Yup.string(),
