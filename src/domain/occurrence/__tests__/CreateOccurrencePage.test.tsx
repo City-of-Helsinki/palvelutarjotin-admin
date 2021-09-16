@@ -1063,19 +1063,14 @@ describe('enrolment type selector', () => {
     renderComponent({
       mocks: [getEventMockedResponse({})],
     });
-    await waitFor(() => {
-      expect(
-        screen.getByRole('heading', {
-          name: /ilmoittautuminen/i,
-        })
-      ).toBeInTheDocument();
+
+    await screen.findByRole('heading', {
+      name: /ilmoittautuminen/i,
     });
 
-    Object.values(radiosByType)
-      .flat()
-      .forEach((label) => {
-        expect(screen.getByText(label)).toBeInTheDocument();
-      });
+    Object.values(radiosByType).forEach((label) => {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    });
   });
 
   it.each((Object.keys(fieldSetsByType) as EnrolmentType[]).reverse())(
@@ -1092,11 +1087,10 @@ describe('enrolment type selector', () => {
       userEvent.click(screen.getByText(radiosByType[type]));
 
       const visibleFieldLabels = fieldSetsByType[type];
-      const hiddenFieldLabels = Object.values(
-        Object.assign({}, fieldSetsByType, {
-          [type]: [],
-        })
-      ).flat();
+      const hiddenFieldLabels = Object.values({
+        ...fieldSetsByType,
+        [type]: [],
+      }).flat();
 
       visibleFieldLabels.forEach((label) => {
         expect(screen.getByText(label)).toBeInTheDocument();
