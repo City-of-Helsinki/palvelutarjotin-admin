@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import * as ICS from 'ics';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
@@ -36,6 +37,20 @@ import EventSummaryPage from '../EventSummaryPage';
 const includeArray = ['location', 'keywords', 'in_language'];
 
 configure({ defaultHidden: true });
+
+const originalCreateEvent = ICS.createEvent;
+
+beforeAll(() => {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  (ICS as any).createEvent = jest.fn();
+});
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+afterAll(() => {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  (ICS as any).createEvent = originalCreateEvent;
+});
 
 const eventId1 = 'eventMockId';
 const eventId2 = 'eventMockId2';
@@ -530,4 +545,55 @@ it('can cancel occurrences from occurrence table actions', async () => {
       occurrenceRow.queryByRole('menuitem', { name: 'Peruuta' })
     ).not.toBeInTheDocument();
   }
+});
+
+it('can download ics file from actions dropdown', async () => {
+  renderComponent({ mocks: getMocks() });
+
+  await waitFor(() => {
+    expect(screen.queryByText(organisationName)).toBeInTheDocument();
+  });
+
+  const occurrenceRow = within(screen.getAllByRole('row')[1]);
+  const actionsDropdown = occurrenceRow.getByRole('button', {
+    name: /valitse/i,
+  });
+  userEvent.click(actionsDropdown);
+
+  const importToCalendarButton = occurrenceRow.getByRole('menuitem', {
+    name: /lataa kalenteriin/i,
+  });
+  userEvent.click(importToCalendarButton);
+
+  await waitFor(() => {
+    expect(ICS.createEvent).toHaveBeenCalledTimes(1);
+  });
+
+  expect((ICS.createEvent as jest.Mock<any, any>).mock.calls[0])
+    .toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "description": "Tapahtuman lyhyt kuvaus",
+          "end": Array [
+            2020,
+            8,
+            3,
+            12,
+            30,
+          ],
+          "location": "",
+          "productId": "http://localhost",
+          "start": Array [
+            2020,
+            12,
+            11,
+            0,
+            0,
+          ],
+          "startOutputType": "local",
+          "title": "Tapahtuma123456",
+        },
+        [Function],
+      ]
+    `);
 });

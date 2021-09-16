@@ -646,7 +646,8 @@
       "menuItemDelete": "Delete",
       "menuItemEdit": "Edit",
       "menuItemEnrolments": "Registrations",
-      "menuItemCancel": "Cancel"
+      "menuItemCancel": "Cancel",
+      "menuItemAddToCalendar": "Import to calendar"
     },
     "buttonBack": "Events",
     "buttonCreateOccurrence": "Add new event time",
@@ -668,6 +669,7 @@
     },
     "cancelError": "Canceling occurrence failed",
     "cancelErrorSuccess": "Occurrence canceled",
+    "downloadCalendarError": "Error while importing to calendar",
     "pageTitle": "Event times",
     "status": {
       "cancelled": "Cancelled"

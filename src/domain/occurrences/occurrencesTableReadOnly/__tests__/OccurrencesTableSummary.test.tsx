@@ -39,6 +39,7 @@ it('show occurrence data in the table in correct format', () => {
   expect(screen.getByText(/-/i)).toBeInTheDocument();
   //amount of sits
   expect(screen.getByText(/240/i)).toBeInTheDocument();
+
   // row text to check the order of columns
   const occurrenceRowText =
     '11.12.2020 00:00 – 00:00 - 240 0 hyväksytty 0 hyväksymättä Valitse';

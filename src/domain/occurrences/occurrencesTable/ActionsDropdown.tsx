@@ -1,14 +1,32 @@
-import { IconCross, IconCrossCircle, IconPenLine, IconUser } from 'hds-react';
+import { saveAs } from 'file-saver';
+import {
+  IconCalendar,
+  IconCross,
+  IconCrossCircle,
+  IconPenLine,
+  IconUser,
+} from 'hds-react';
+import { createEvent, EventAttributes } from 'ics';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import AlertModal from '../../../common/components/modal/AlertModal';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../common/components/tableDropdown/TableDropdown';
-import { OccurrenceFieldsFragment } from '../../../generated/graphql';
+import {
+  EventFieldsFragment,
+  OccurrenceFieldsFragment,
+  usePlaceQuery,
+} from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
+import useLocale from '../../../hooks/useLocale';
+import getDateArray from '../../../utils/getDateArray';
+import { getDomain } from '../../../utils/getDomain';
+import getLocalisedString from '../../../utils/getLocalizedString';
 import { ROUTES } from '../../app/routes/constants';
+import { getPlaceFields } from '../../place/utils';
 import styles from './actionsDropdown.module.scss';
 import CancelOccurrenceModal from './CancelOccurrenceModal';
 
@@ -18,10 +36,12 @@ export interface Props {
   onDelete?: (row: OccurrenceFieldsFragment) => void;
   onCancel?: (row: OccurrenceFieldsFragment, message?: string) => void;
   row: OccurrenceFieldsFragment;
+  event?: EventFieldsFragment | null;
 }
 
 const ActionsDropdown: React.FC<Props> = ({
   eventId,
+  event,
   onDelete,
   onCancel,
   isEventDraft,
@@ -29,10 +49,48 @@ const ActionsDropdown: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const locale = useLocale();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = React.useState(false);
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+  const placeId = row.placeId || event?.location?.id || '';
+  const { data, loading: loadingPlace } = usePlaceQuery({
+    variables: { id: placeId },
+  });
+
+  const {
+    streetAddress,
+    addressLocality,
+    name: locationName,
+  } = getPlaceFields(data?.place, locale);
+
+  const downloadIcsFile = (occurrence: OccurrenceFieldsFragment) => {
+    if (event?.id && occurrence.startTime) {
+      const domain = getDomain();
+      const icsEvent: EventAttributes = {
+        title: getLocalisedString(event?.name || {}, locale),
+        description: getLocalisedString(event.shortDescription ?? {}, locale),
+        start: getDateArray(occurrence.startTime),
+        end: occurrence.endTime
+          ? getDateArray(occurrence.endTime)
+          : getDateArray(occurrence.startTime),
+        location: [locationName, streetAddress, addressLocality]
+          .filter((e) => e)
+          .join(', '),
+        productId: domain,
+        startOutputType: 'local',
+      };
+      createEvent(icsEvent, (error: Error | undefined, value: string) => {
+        if (error) {
+          toast.error(t('occurrences.downloadCalendarError'));
+        } else {
+          const blob = new Blob([value], { type: 'text/calendar' });
+          saveAs(blob, `event_${event.id?.replace(/:/g, '')}.ics`);
+        }
+      });
+    }
   };
 
   const goToOccurrenceDetailsPage = () => {
@@ -91,6 +149,15 @@ const ActionsDropdown: React.FC<Props> = ({
         </>
       ),
       onClick: goToEditOccurrencePage,
+    },
+    !loadingPlace && {
+      onClick: downloadIcsFile,
+      children: (
+        <>
+          <IconCalendar />
+          {t('occurrences.actionsDropdown.menuItemAddToCalendar')}
+        </>
+      ),
     },
     showCancelAction && {
       onClick: openCancelModal,

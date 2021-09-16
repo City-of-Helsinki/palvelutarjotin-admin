@@ -653,7 +653,8 @@
       "menuItemDelete": "Radera",
       "menuItemEdit": "Redigera",
       "menuItemEnrolments": "Registreringar",
-      "menuItemCancel": "Annullera"
+      "menuItemCancel": "Annullera",
+      "menuItemAddToCalendar": "Importera till kalender"
     },
     "buttonBack": "Evenemang",
     "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
@@ -675,6 +676,7 @@
     },
     "cancelError": "Det gick inte att avbryta förekomsten",
     "cancelErrorSuccess": "Tiden för händelsen avbröts",
+    "downloadCalendarError": "Fel vid import",
     "pageTitle": "Evenemangtider",
     "status": {
       "cancelled": "Inställt"

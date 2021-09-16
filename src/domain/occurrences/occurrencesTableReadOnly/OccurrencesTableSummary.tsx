@@ -32,8 +32,9 @@ const OccurrencesTableSummary: React.FC<Props> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const eventId = eventData?.event?.id || '';
-  const eventLocationId = eventData?.event?.location?.id || '';
+  const event = eventData?.event;
+  const eventId = event?.id || '';
+  const eventLocationId = event?.location?.id || '';
 
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
     history.pushWithLocale(
@@ -118,7 +119,12 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnActions'),
       accessor: (row: OccurrenceFieldsFragment) => (
-        <ActionsDropdown eventId={eventId} onCancel={onCancel} row={row} />
+        <ActionsDropdown
+          event={event}
+          eventId={eventId}
+          onCancel={onCancel}
+          row={row}
+        />
       ),
       id: 'actions',
       rowClickDisabled: true,
