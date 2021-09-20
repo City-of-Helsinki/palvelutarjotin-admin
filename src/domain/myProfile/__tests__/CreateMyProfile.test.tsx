@@ -1,11 +1,15 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 
+import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import * as graphql from '../../../generated/graphql';
 import {
+  fakeLocalizedObject,
   fakeOrganisationProposals,
   fakeOrganisations,
   fakePerson,
+  fakePlace,
+  fakePlaces,
 } from '../../../utils/mockDataUtils';
 import {
   act,
@@ -16,6 +20,38 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateMyProfile from '../CreateMyProfile';
+
+const places = [
+  {
+    placeSearchString: 'Sellon',
+    placeId: 'placeId',
+    placeName: 'Sellon kirjasto',
+  },
+  {
+    placeSearchString: 'Entresse',
+    placeId: 'placeId2',
+    placeName: 'Entressen kirjasto',
+  },
+];
+
+const placesMockResponses: MockedResponse[] = places.map((place) => ({
+  request: {
+    query: graphql.PlacesDocument,
+    variables: {
+      dataSource: 'tprek',
+      showAllPlaces: true,
+      pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
+      text: place.placeSearchString,
+    },
+  },
+  result: {
+    data: {
+      places: fakePlaces(1, [
+        { name: fakeLocalizedObject(place.placeName), id: place.placeId },
+      ]),
+    },
+  },
+}));
 
 const organisationMocks1 = fakeOrganisations(2, [
   {
@@ -54,7 +90,7 @@ const myProfile = fakePerson({
   name: 'Testi Testaaja',
   emailAddress: 'testi@testaaja.com',
   phoneNumber: '123321123',
-  language: 'FI',
+  language: graphql.Language.Fi,
   organisationproposalSet: fakeOrganisationProposals(),
 });
 
@@ -81,6 +117,7 @@ const apolloMocks: MockedResponse[] = [
       },
     },
   },
+  ...placesMockResponses,
 ];
 
 const refetch = jest.fn();
@@ -93,7 +130,7 @@ const renderComponent = () => {
   });
 };
 
-test('render profile page correctly', async () => {
+test('can create profile with all the information', async () => {
   const createProfileMock = jest.fn();
   jest
     .spyOn(graphql, 'useCreateMyProfileMutation')
@@ -116,12 +153,42 @@ test('render profile page correctly', async () => {
 
   userEvent.type(name, 'Testi Testaaja');
   userEvent.type(phone, '123321123');
-  userEvent.click(
-    screen.getByRole('button', {
-      name: /organisaatio organisaatio, jonka tapahtumia hallinnoit/i,
-    })
+
+  // Add location
+  const locationField = screen.getByRole('textbox', {
+    name: /tapahtumapaikat/i,
+  });
+  act(() => userEvent.click(locationField));
+
+  userEvent.type(locationField, places[0].placeSearchString);
+  const locationOption = await screen.findByRole('option', {
+    name: new RegExp(places[0].placeName, 'i'),
+  });
+  expect(locationField).toHaveValue(places[0].placeSearchString);
+  userEvent.click(locationOption);
+  expect(locationField).toHaveValue('');
+
+  // Add second location
+  userEvent.type(locationField, places[1].placeSearchString);
+  const locationOption2 = await screen.findByRole('option', {
+    name: new RegExp(places[1].placeName, 'i'),
+  });
+  expect(locationField).toHaveValue(places[1].placeSearchString);
+  userEvent.click(locationOption2);
+  expect(locationField).toHaveValue('');
+
+  // places should be listed below location input
+  places.forEach((p) =>
+    expect(screen.queryByText(p.placeName)).toBeInTheDocument()
   );
 
+  act(() =>
+    userEvent.click(
+      screen.getByRole('button', {
+        name: /organisaatio organisaatio, jonka tapahtumia hallinnoit/i,
+      })
+    )
+  );
   await waitFor(() => {
     expect(
       screen.getByText('Organisaatio 1', { selector: 'li' })
