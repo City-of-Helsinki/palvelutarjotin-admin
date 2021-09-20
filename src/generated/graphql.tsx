@@ -775,6 +775,18 @@ export type MutationDeleteImageMutationArgs = {
   imageId: Scalars['String'];
 };
 
+export type Neighborhood = {
+  __typename?: 'Neighborhood';
+  id: Scalars['ID'];
+  name?: Maybe<LocalisedObject>;
+};
+
+export type NeighborhoodListResponse = {
+  __typename?: 'NeighborhoodListResponse';
+  meta: Meta;
+  data: Array<Neighborhood>;
+};
+
 /** An object with an ID */
 export type Node = {
   /** The ID of the object. */
@@ -1053,6 +1065,7 @@ export type PageInfo = {
 export type PalvelutarjotinEventInput = {
   enrolmentStart?: Maybe<Scalars['DateTime']>;
   enrolmentEndDays?: Maybe<Scalars['Int']>;
+  externalEnrolmentUrl?: Maybe<Scalars['String']>;
   neededOccurrences: Scalars['Int'];
   contactPersonId?: Maybe<Scalars['ID']>;
   contactPhoneNumber?: Maybe<Scalars['String']>;
@@ -1070,6 +1083,7 @@ export type PalvelutarjotinEventNode = Node & {
   linkedEventId: Scalars['String'];
   enrolmentStart?: Maybe<Scalars['DateTime']>;
   enrolmentEndDays?: Maybe<Scalars['Int']>;
+  externalEnrolmentUrl?: Maybe<Scalars['String']>;
   neededOccurrences: Scalars['Int'];
   organisation?: Maybe<OrganisationNode>;
   contactPerson?: Maybe<PersonNode>;
@@ -1334,6 +1348,7 @@ export type Query = {
   /** The ID of the object */
   organisation?: Maybe<OrganisationNode>;
   organisations?: Maybe<OrganisationNodeConnection>;
+  neighborhoodList?: Maybe<NeighborhoodListResponse>;
   events?: Maybe<EventListResponse>;
   event?: Maybe<Event>;
   places?: Maybe<PlaceListResponse>;
@@ -1493,6 +1508,8 @@ export type QueryEventsArgs = {
   keyword?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
+  allOngoingAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
+  allOngoingOr?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;

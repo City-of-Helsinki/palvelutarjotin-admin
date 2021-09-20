@@ -6,6 +6,7 @@ export const getMyProfileValidationSchema = (type: 'create' | 'edit') => {
   const commonFormSchema = {
     name: Yup.string().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
     phoneNumber: Yup.string().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
+    locations: Yup.array(),
   };
 
   if (type === 'edit') {

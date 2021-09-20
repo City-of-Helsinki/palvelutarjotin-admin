@@ -6,6 +6,7 @@ import {
   useFormikContext,
 } from 'formik';
 import { Button } from 'hds-react';
+import { initial } from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ import DropdownField, {
   Option,
 } from '../../../common/components/form/fields/DropdownField';
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
+import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
@@ -43,6 +45,7 @@ export type MyProfileEditFormFields = {
 export type MyProfileCreateFormFields = MyProfileEditFormFields & {
   isPrivacyPolicyAccepted: boolean;
   isTermsOfServiceRead: boolean;
+  locations: string[];
   organisations: string[];
   organisationProposals: string;
 };
@@ -53,6 +56,7 @@ const defaultCreateInitialValues: MyProfileCreateFormFields = {
   isTermsOfServiceRead: false,
   name: '',
   organisations: [],
+  locations: [],
   organisationProposals: '',
   phoneNumber: '',
   language: Language.Fi,
@@ -82,6 +86,10 @@ function MyProfileForm<T extends FormType>({
   const { t } = useTranslation();
   const locale = useLocale();
   const user = useSelector(userSelector);
+  const validationSchema = React.useMemo(
+    () => getMyProfileValidationSchema(type),
+    [type]
+  );
   const languages: Option[] = Object.values(LanguageCodeEnum)?.map(
     (language) => ({
       label: t(`common.languages.${language.toLowerCase()}`),
@@ -170,7 +178,7 @@ function MyProfileForm<T extends FormType>({
       initialValues={initialValues}
       validateOnChange
       onSubmit={handleOnSubmit}
-      validationSchema={getMyProfileValidationSchema(type)}
+      validationSchema={validationSchema}
     >
       {({ errors, handleSubmit, touched }) => {
         return (
@@ -195,6 +203,16 @@ function MyProfileForm<T extends FormType>({
                 name="phoneNumber"
                 helperText={t('myProfileForm.helperPhoneNumber')}
                 component={TextInputField}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Field
+                labelText={t('myProfileForm.labelLocations')}
+                name="locations"
+                helperText={t('myProfileForm.helperLocations')}
+                placeholder={t('myProfileForm.placeholderLocations')}
+                component={PlaceSelectorField}
               />
             </FormGroup>
 
