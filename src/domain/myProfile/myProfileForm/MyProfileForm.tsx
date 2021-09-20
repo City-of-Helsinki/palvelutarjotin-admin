@@ -6,7 +6,6 @@ import {
   useFormikContext,
 } from 'formik';
 import { Button } from 'hds-react';
-import { initial } from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';

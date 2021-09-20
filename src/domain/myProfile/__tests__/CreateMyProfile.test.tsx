@@ -170,6 +170,12 @@ test('can create profile with all the information', async () => {
 
   // Add second location
   userEvent.type(locationField, places[1].placeSearchString);
+
+  // this has failed couple of times in commit tests
+  // if it fails again, try adding these lines
+  // await act(() => new Promise(res => setTimeout(res, 500)));
+  // screen.logTestingPlaygroundURL();
+  // and try to commit again
   const locationOption2 = await screen.findByRole('option', {
     name: new RegExp(places[1].placeName, 'i'),
   });
