@@ -8,7 +8,6 @@ import {
   fakeOrganisationProposals,
   fakeOrganisations,
   fakePerson,
-  fakePlace,
   fakePlaces,
 } from '../../../utils/mockDataUtils';
 import {
@@ -173,12 +172,16 @@ test('can create profile with all the information', async () => {
 
   // this has failed couple of times in commit tests
   // if it fails again, try adding these lines
-  // await act(() => new Promise(res => setTimeout(res, 500)));
+  // await act(() => new Promise((res) => setTimeout(res, 500)));
   // screen.logTestingPlaygroundURL();
   // and try to commit again
-  const locationOption2 = await screen.findByRole('option', {
-    name: new RegExp(places[1].placeName, 'i'),
-  });
+  const locationOption2 = await screen.findByRole(
+    'option',
+    {
+      name: new RegExp(places[1].placeName, 'i'),
+    },
+    { timeout: 20000 }
+  );
   expect(locationField).toHaveValue(places[1].placeSearchString);
   userEvent.click(locationOption2);
   expect(locationField).toHaveValue('');
@@ -230,6 +233,7 @@ test('can create profile with all the information', async () => {
           phoneNumber: '123321123',
           language: 'FI',
           organisations: ['organisation1', 'organisation2'],
+          placeIds: ['placeId', 'placeId2'],
           organisationProposals: [],
         },
       },
@@ -237,7 +241,7 @@ test('can create profile with all the information', async () => {
   });
 
   expect(refetch).toBeCalled();
-});
+}, 20000);
 
 test('create profile with organisation proposal', async () => {
   const createProfileMock = jest.fn();
@@ -298,6 +302,7 @@ test('create profile with organisation proposal', async () => {
           language: 'FI',
           phoneNumber: '123321123',
           organisations: [],
+          placeIds: [],
           organisationProposals: [{ name: 'Org1' }],
         },
       },

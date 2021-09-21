@@ -456,6 +456,7 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   updatedAt: '' as any,
   isStaff: true,
   organisationproposalSet: fakeOrganisationProposals(),
+  placeIds: [],
   ...overrides,
 });
 

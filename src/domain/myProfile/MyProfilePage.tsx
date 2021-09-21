@@ -34,7 +34,7 @@ const MyProfilePage: React.FC = () => {
             name: myProfileData.myProfile.name,
             emailAddress: myProfileData.myProfile.emailAddress,
             phoneNumber: myProfileData.myProfile.phoneNumber,
-            locations: [], // myProfileData.myProfile.placeIds,
+            locations: myProfileData.myProfile.placeIds,
             language: myProfileData.myProfile.language ?? locale,
           }
         : undefined,

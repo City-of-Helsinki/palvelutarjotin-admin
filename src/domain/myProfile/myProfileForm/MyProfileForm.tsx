@@ -39,6 +39,7 @@ export type MyProfileEditFormFields = {
   name: string;
   phoneNumber: string;
   language: Language;
+  locations: string[];
 };
 
 export type MyProfileCreateFormFields = MyProfileEditFormFields & {

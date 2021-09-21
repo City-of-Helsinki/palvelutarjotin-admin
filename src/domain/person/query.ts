@@ -7,6 +7,7 @@ export const QUERY_PLACE = gql`
     name
     phoneNumber
     language
+    placeIds
   }
 
   query Person($id: ID!) {
