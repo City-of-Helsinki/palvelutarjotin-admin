@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.3...v0.3.4) (2021-09-21)
+
+
+### Features
+
+* add external enrolment url support ([df829df](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/df829dfeeb73498548c6cb37bc9496503a16cd90))
+* add import to calendar button to occurrence row action dropdown ([6d2116d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6d2116dc3c3657794ea7f4b3bc761d489f5edb83))
+* add placeIds to profile mutation and quries ([188175d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/188175de8d2e1089946023db57b78ccea3545cd2))
+* **cms:** add breadcrumbs + other refactoring ([0a45a08](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/0a45a089ba473259bc32c4d0655c7d4e69b9c659))
+* **cms:** add sub page search ([4455e1a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4455e1ae44dcd40020f836ee9c6bd9287d35f9eb))
+* **cms:** cms navigation and page component ([c619f82](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c619f82fbf19ad204ed787dad0748f4e38e2d570))
+* **enrolment-type:** an enrolment type selector implemented. ([cd79c7f](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cd79c7f2c094893b98bdcd31f1b818db005d807e))
+* **enrolment-type:** different validation on each enrolment type ([8af9d4a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8af9d4ad2f5f4d645fdc9a1b03c3316f7fce0568))
+* **enrolment-type:** Enrolment type effects on occurrence table. ([4885abc](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4885abc5b993b56d023df6bafe5783830d875279))
+* **enrolment-type:** events enrolment info differs on different enrolment type ([2bb28d1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2bb28d1baba216389daece7e273ee3d168c8935d))
+* location selector to profile form ([104ba6a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/104ba6a12e73a624ae8397c7fb56192a12b2c705))
+
+
+### Bug Fixes
+
+* changes to min and max labelling in occurrence form. ([56dbd54](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/56dbd549b5d884881f6a7b68586c703c1a898ac5))
+* enrolment info validation ([2a6efe4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2a6efe46fb6f8ae74e3857c83a0602644707d29f))
+* **enrolment-type:** removed an unimplemented event-has-no-occurrences -field. ([90bf75c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/90bf75cacdd4a83ddb7cf51ddd6e3aa8b7c43f12))
+* **enrolment-type:** resolved the linter issues ([cf66469](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cf66469dec89228b7ef5ced3309beb1e25b2602c))
+* pt-1141 hide group size inputs when external enrolment ([62bef91](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/62bef918e4e38bf065ad493c491640c1d15c0445))
+* types/dompurify to prod deps ([8b2a5ba](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8b2a5ba5f805c1806957018c5b5035aede3701ed))
+
 ### [0.3.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.2...v0.3.3) (2021-09-07)
 
 
