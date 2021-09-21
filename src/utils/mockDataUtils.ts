@@ -281,7 +281,6 @@ export const fakePEvent = (
   autoAcceptance: false,
   nextOccurrenceDatetime: '',
   lastOccurrenceDatetime: '',
-  externalEnrolmentUrl: null,
   mandatoryAdditionalInformation: false,
   __typename: 'PalvelutarjotinEventNode',
   ...overrides,
@@ -341,7 +340,7 @@ export const fakeLanguage = (
 });
 
 export const fakeOccurrence = (
-  overrides?: Partial<OccurrenceNode>,
+  overrides?: Partial<OccurrenceNode>
 ): OccurrenceNode => ({
   id: faker.datatype.uuid(),
   pEvent: {

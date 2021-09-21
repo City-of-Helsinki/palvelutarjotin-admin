@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { PalvelutarjotinEventNode } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
 import formatTimeRange from '../../../../utils/formatTimeRange';
 import {

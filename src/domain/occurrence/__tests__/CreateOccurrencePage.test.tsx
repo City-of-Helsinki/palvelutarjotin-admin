@@ -35,8 +35,8 @@ import {
   within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
-import CreateOccurrencePage from '../CreateOccurrencePage';
 import { EnrolmentType } from '../constants';
+import CreateOccurrencePage from '../CreateOccurrencePage';
 import { occurrencesFormTestId } from '../occurrencesFormPart/OccurrencesFormPart';
 
 configure({ defaultHidden: true });
@@ -1051,11 +1051,11 @@ describe('enrolment type selector', () => {
   const fieldSetsByType = {
     [EnrolmentType.Internal]: [
       /ilmoittautuminen alkaa/i,
-      /ilmoittautuminen sulkeutuu x päivää ennen tapahtuma\-aikaa/i,
+      /ilmoittautuminen sulkeutuu x päivää ennen tapahtuma-aikaa/i,
       /tarvittavat käyntikerrat/i,
       /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
     ],
-    [EnrolmentType.External]: [/www\-osoite ilmoittautumislomakkeelle/i],
+    [EnrolmentType.External]: [/www-osoite ilmoittautumislomakkeelle/i],
     [EnrolmentType.Unenrollable]: [] as RegExp[],
   };
 
