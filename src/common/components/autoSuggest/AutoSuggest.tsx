@@ -177,7 +177,6 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
       if (isFocused) {
         onBlur(value);
       }
-
       ensureIsNotFocused();
       ensureMenuIsClosed();
     }

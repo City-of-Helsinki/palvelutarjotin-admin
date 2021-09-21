@@ -60,7 +60,7 @@ const apolloMocks: MockedResponse[] = [
           name: 'Testi Testaaja',
           emailAddress: 'testi@testaaja.com',
           phoneNumber: '123321123',
-          language: 'FI',
+          language: graphql.Language.Fi,
           organisationproposalSet: fakeOrganisationProposals(),
         }),
       },
@@ -137,6 +137,7 @@ test('profile can be edited', async () => {
           name: 'Changed Name',
           phoneNumber: '321123321',
           language: 'EN',
+          placeIds: [],
         },
       },
     });

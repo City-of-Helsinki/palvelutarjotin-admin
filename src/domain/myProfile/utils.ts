@@ -15,6 +15,7 @@ export const getMyProfileCreatePayload = (
   phoneNumber: values.phoneNumber,
   emailAddress: values.emailAddress,
   language: values.language,
+  placeIds: values.locations,
   organisations: values.organisations,
   organisationProposals: values.organisationProposals
     ? [{ name: values.organisationProposals } as OrganisationProposalNodeInput]
@@ -25,6 +26,7 @@ export const getMyProfileEditPayload = (values: MyProfileEditFormFields) => ({
   name: values.name,
   phoneNumber: values.phoneNumber,
   emailAddress: values.emailAddress,
+  placeIds: values.locations,
   language: values.language,
 });
 

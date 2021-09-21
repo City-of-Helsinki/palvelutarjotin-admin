@@ -126,6 +126,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
             organisations: ['organisation1', 'organisation2'],
             phoneNumber: '123321123',
             language: 'FI',
+            placeIds: [],
             organisationProposals: [],
           },
         },
