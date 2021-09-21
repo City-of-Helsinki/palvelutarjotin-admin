@@ -652,7 +652,8 @@
       "menuItemDelete": "Poista",
       "menuItemEdit": "Muokkaa",
       "menuItemEnrolments": "Ilmoittautuneet",
-      "menuItemCancel": "Peruuta"
+      "menuItemCancel": "Peruuta",
+      "menuItemAddToCalendar": "Lataa kalenteriin"
     },
     "buttonBack": "Tapahtumiin",
     "buttonCreateOccurrence": "Lisää uusi tapahtuma-aika",
@@ -674,6 +675,7 @@
     },
     "cancelError": "Tapahtuma-ajan peruminen epäonnistui",
     "cancelErrorSuccess": "Tapahtuma-aika peruutettu",
+    "downloadCalendarError": "Virhe ladattaessa tapahtumaa kalenteriin",
     "pageTitle": "Tapahtuma-ajat",
     "status": {
       "cancelled": "Peruttu"

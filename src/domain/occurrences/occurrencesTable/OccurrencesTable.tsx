@@ -168,6 +168,7 @@ const OccurrencesTable: React.FC<Props> = ({
       Header: t('occurrences.table.columnActions'),
       accessor: (row: OccurrenceFieldsFragment) => (
         <ActionsDropdown
+          event={eventData?.event}
           eventId={eventId}
           isEventDraft={isEventDraft}
           onDelete={onDelete}
