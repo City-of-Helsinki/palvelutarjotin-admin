@@ -136,6 +136,14 @@ const eventMock2 = getFakeEvent(
   }
 );
 
+const eventMockWithExternalEnrolments = getFakeEvent(
+  {
+    id: eventId1,
+    publicationStatus: PUBLICATION_STATUS.PUBLIC,
+  },
+  { enrolmentStart: null, externalEnrolmentUrl: 'https://beta.kultus.fi' }
+);
+
 const profileMock = fakePerson({
   organisations: fakeOrganisations(1, [
     fakeOrganisation({
@@ -376,6 +384,28 @@ it('hides edit buttons when event has been published', async () => {
       name: 'Muokkaa perustietoja',
     })
   ).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('button', {
+      name: /lataa ilmoittautumiset \(csv\)/i,
+    })
+  ).toBeInTheDocument();
+});
+
+it('does not show enrolments download button when enrolments are not done internally', async () => {
+  renderWithRoute(<EventSummaryPage />, {
+    mocks: getMocks({ event1: eventMockWithExternalEnrolments }),
+    path: ROUTES.EVENT_SUMMARY,
+    routes: [`/events/${eventId1}/summary`],
+  });
+  await waitFor(() => {
+    expect(screen.queryByText(organisationName)).toBeInTheDocument();
+  });
+  expect(
+    screen.queryByRole('button', {
+      name: /lataa ilmoittautumiset \(csv\)/i,
+    })
+  ).not.toBeInTheDocument();
 });
 
 it('shows upcoming and past occurrences', async () => {

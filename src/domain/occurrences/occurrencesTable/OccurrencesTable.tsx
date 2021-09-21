@@ -15,6 +15,8 @@ import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
+import { EnrolmentType } from '../../occurrence/constants';
+import { getEnrolmentType } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from './ActionsDropdown';
@@ -74,6 +76,11 @@ const OccurrencesTable: React.FC<Props> = ({
       )
     );
   };
+
+  // EnrolmentType.Internal is the default enrolment type instead of undefined, because it makes the testing much easier
+  const enrolmentType = eventData?.event
+    ? getEnrolmentType(eventData.event)
+    : EnrolmentType.Internal;
 
   const columns = [
     {
@@ -169,6 +176,7 @@ const OccurrencesTable: React.FC<Props> = ({
       accessor: (row: OccurrenceFieldsFragment) => (
         <ActionsDropdown
           event={eventData?.event}
+          enrolmentType={enrolmentType}
           eventId={eventId}
           isEventDraft={isEventDraft}
           onDelete={onDelete}

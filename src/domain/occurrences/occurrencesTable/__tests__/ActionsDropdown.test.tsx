@@ -5,6 +5,7 @@ import { tableDropdownTestId } from '../../../../common/components/tableDropdown
 import { fakeOccurrence } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import { ROUTES } from '../../../app/routes/constants';
+import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
 const eventId = 'testEventId123';
@@ -15,6 +16,7 @@ const mockOccurrence = fakeOccurrence({ id: occurrenceId });
 const renderComponent = (props?: Partial<Props>) => {
   return render(
     <ActionsDropdown
+      enrolmentType={EnrolmentType.Internal}
       eventId={eventId}
       isEventDraft
       onDelete={jest.fn()}
@@ -60,6 +62,16 @@ it('navigates correctly from actions', () => {
     )}`
   );
 });
+
+it.each([EnrolmentType.External, EnrolmentType.Unenrollable])(
+  'does not render enrollments link when enrolment type is not internal',
+  (enrolmentType) => {
+    renderComponent({ enrolmentType: enrolmentType });
+    expect(
+      screen.queryByRole('menuitem', { name: 'Ilmoittautuneet' })
+    ).not.toBeInTheDocument();
+  }
+);
 
 it('renders cancel modal and cancel functionality works', () => {
   const onCancelMock = jest.fn();

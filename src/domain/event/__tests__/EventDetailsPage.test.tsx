@@ -54,6 +54,15 @@ const eventMock = fakeEvent({
     ),
   }),
 });
+
+const externallyEnrollableEventMock = {
+  ...eventMock,
+  pEvent: {
+    ...eventMock.pEvent,
+    externalEnrolmentUrl: 'https://beta.kultus.fi',
+  },
+};
+
 const profileMock = fakePerson({
   id: personId,
   organisations: fakeOrganisations(),
@@ -195,6 +204,10 @@ test('renders correct information and delete works', async () => {
   expect(screen.queryByText('TestiVenue')).toBeInTheDocument();
   expect(screen.queryByText('Eväidensyöntipaikka')).toBeInTheDocument();
   expect(screen.queryByText('Vaatesäilytys')).toBeInTheDocument();
+  expect(screen.getByText(/ilmoittautuminen alkaa/i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/ilmoittautuminen sulkeutuu, päivää/i)
+  ).toBeInTheDocument();
 
   const eventImage = screen.getByAltText('Kuvan vaihtoehtoinen teksti');
   expect(eventImage).toHaveAttribute(
@@ -231,4 +244,46 @@ test('renders correct information and delete works', async () => {
       eventId: eventMock.id,
     },
   });
+});
+
+test('enrolment info is not shown when enrolments are not done internally', async () => {
+  const deleteMock = jest.fn();
+  jest
+    .spyOn(graphql, 'useDeleteSingleEventMutation')
+    .mockReturnValue([deleteMock] as any);
+
+  const { container } = renderWithRoute(<EventDetailsPage />, {
+    routes: ['/events/palvelutarjotin:afzunowba4'],
+    path: ROUTES.EVENT_DETAILS,
+    mocks: [
+      {
+        request: {
+          query: graphql.EventDocument,
+          variables: {
+            id: 'palvelutarjotin:afzunowba4',
+            include: ['audience', 'in_language', 'keywords', 'location'],
+          },
+        },
+        result: {
+          data: {
+            event: externallyEnrollableEventMock,
+          },
+        },
+      },
+      ...apolloMocks.slice(1),
+    ],
+  });
+
+  Modal.setAppElement(container);
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+  expect(
+    screen.queryByRole('heading', { name: 'Tapahtuman perustiedot' })
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/ilmoittautuminen alkaa/i)).not.toBeInTheDocument();
+  expect(
+    screen.queryByText(/ilmoittautuminen sulkeutuu, päivää/i)
+  ).not.toBeInTheDocument();
 });

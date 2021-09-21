@@ -412,9 +412,12 @@
     },
     "enrolment": {
       "title": "Ilmoittautuminen",
-      "labelExternalEnrolment": "Ilmoittautuminen ohjataan eri sivustolle",
-      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle",
-      "labelEnrolmentRequired": "Tapahtuma-aikoihin osallistuminen edellyttää ilmoittautumista"
+      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle"
+    },
+    "enrolmentType": {
+      "labelInternal": "Ilmoittautuminen Kultuksessa",
+      "labelExternal": "Ilmoittautuminen muulla sivustolla",
+      "labelUnenrollable": "Ei ilmoittautumista"
     },
     "location": {
       "helperLocation": "Tapahtuma-aikojen oletuksena käytettävä tapahtumapaikka",
@@ -443,7 +446,6 @@
     },
     "occurrences": {
       "occurrencesFormSectionTitle": "Tapahtuma-aika",
-      "labelEventHasNoOccurrences": "Tapahtumalla ei ole lukittua ajankohtaa",
       "buttonAddNewOccurence": "Lisää uusi tapahtuma-aika",
       "saveSuccesful": "Tapahtuma-aika tallennettu"
     }
@@ -455,6 +457,8 @@
       "ariaLabelOpenOccurrences": "Siirry tapahtuman {{eventName}} tapahtuma-aikoihin",
       "textEnrolments": "{{count}} ilmoittautunut",
       "textEnrolments_plural": "{{count}} ilmoittautunutta",
+      "textExternalEnrolments": "Ilmoittautuminen muulla sivustolla",
+      "textUnenrollable": "Ei ilmoittautumista",
       "textOccurrences": "{{count}} tapahtuma-aika",
       "textOccurrences_plural": "{{count}} tapahtuma-aikaa",
       "statusPublished": "Julkaistu",

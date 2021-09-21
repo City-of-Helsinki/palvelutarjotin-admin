@@ -17,6 +17,7 @@ import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
 import { getEventFields } from '../event/utils';
 import { getSelectedOrganisation } from '../myProfile/utils';
+import { getEnrolmentType } from '../occurrence/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { activeOrganisationSelector } from '../organisation/selector';
 import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from './constants';
@@ -269,6 +270,7 @@ const Events: React.FC<{
           totalSeatsTakes = 0,
           publicationStatus,
         } = getEventFields(event, locale);
+        const enrolmentType = getEnrolmentType(event);
         return (
           <EventCard
             key={id || ''}
@@ -279,6 +281,7 @@ const Events: React.FC<{
             name={eventName}
             occurrencesCount={occurrences?.length || 0}
             publicationStatus={publicationStatus}
+            enrolmentType={enrolmentType}
             onClick={goToEventSummaryPage}
           />
         );

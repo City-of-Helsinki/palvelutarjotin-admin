@@ -13,6 +13,8 @@ import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
+import { EnrolmentType } from '../../occurrence/constants';
+import { getEnrolmentType } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from '../occurrencesTable/ActionsDropdown';
@@ -45,27 +47,13 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     );
   };
 
-  const columns = [
-    {
-      Header: t('occurrences.table.columnDate'),
-      accessor: (row: OccurrenceFieldsFragment) =>
-        formatDate(new Date(row.startTime)),
-      id: 'date',
-    },
-    {
-      Header: t('occurrences.table.columnTime'),
-      accessor: (row: OccurrenceFieldsFragment) =>
-        formatTimeRange(new Date(row.startTime), new Date(row.endTime), locale),
-      id: 'time',
-    },
-    {
-      Header: t('occurrences.table.columnLocation'),
-      accessor: (row: OccurrenceFieldsFragment) => {
-        const placeId = row.placeId || eventLocationId;
-        return placeId ? <PlaceText id={placeId} /> : '-';
-      },
-      id: 'place',
-    },
+  // EnrolmentType.Internal is the default enrolment type instead of undefined, because it makes the testing much easier
+  const enrolmentType = eventData?.event
+    ? getEnrolmentType(eventData.event)
+    : EnrolmentType.Internal;
+  const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
+
+  const enrolmentColumns = [
     {
       Header: t('occurrences.table.columnAmountOfSeats'),
       accessor: (row: OccurrenceFieldsFragment) => {
@@ -116,6 +104,30 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       },
       id: 'enrolments',
     },
+  ];
+
+  const columns = [
+    {
+      Header: t('occurrences.table.columnDate'),
+      accessor: (row: OccurrenceFieldsFragment) =>
+        formatDate(new Date(row.startTime)),
+      id: 'date',
+    },
+    {
+      Header: t('occurrences.table.columnTime'),
+      accessor: (row: OccurrenceFieldsFragment) =>
+        formatTimeRange(new Date(row.startTime), new Date(row.endTime), locale),
+      id: 'time',
+    },
+    {
+      Header: t('occurrences.table.columnLocation'),
+      accessor: (row: OccurrenceFieldsFragment) => {
+        const placeId = row.placeId || eventLocationId;
+        return placeId ? <PlaceText id={placeId} /> : '-';
+      },
+      id: 'place',
+    },
+    ...(isInternalEnrolment ? enrolmentColumns : []),
     {
       Header: t('occurrences.table.columnActions'),
       accessor: (row: OccurrenceFieldsFragment) => (
@@ -124,6 +136,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
           eventId={eventId}
           onCancel={onCancel}
           row={row}
+          enrolmentType={enrolmentType}
         />
       ),
       id: 'actions',

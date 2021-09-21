@@ -2,7 +2,7 @@ import addHours from 'date-fns/addHours';
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
-import { Button, Checkbox, IconMinusCircleFill } from 'hds-react';
+import { Button, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -22,6 +22,7 @@ import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
 import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
 import PlaceText from '../../place/PlaceText';
+import { EnrolmentType } from '../constants';
 import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
@@ -64,7 +65,13 @@ const OccurrencesForm: React.FC<{
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const {
-    values: { location, isVirtual, enrolmentEndDays, enrolmentStart },
+    values: {
+      location,
+      isVirtual,
+      enrolmentEndDays,
+      enrolmentStart,
+      enrolmentType,
+    },
   } = useFormikContext<TimeAndLocationFormFields>();
 
   const { occurrences, id: eventId } = getEventFields(eventData?.event, locale);
@@ -163,14 +170,6 @@ const OccurrencesForm: React.FC<{
       data-testid={occurrencesFormTestId}
     >
       <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
-      <div className={styles.noOccurrencesCheckBox}>
-        <Checkbox
-          disabled
-          id="no-locked-occurrence"
-          label={t('eventForm.occurrences.labelEventHasNoOccurrences')}
-          checked={false}
-        />
-      </div>
       {!!occurrences?.length && (
         <OccurrencesTable
           occurrences={occurrences}
@@ -186,6 +185,7 @@ const OccurrencesForm: React.FC<{
         <OccurrenceForm
           eventDefaultlocation={location}
           isVirtualEvent={isVirtual}
+          enrolmentType={enrolmentType}
           disabled={disabled}
         />
       </Formik>
@@ -196,19 +196,29 @@ const OccurrencesForm: React.FC<{
 const OccurrenceForm: React.FC<{
   eventDefaultlocation: string;
   isVirtualEvent: boolean;
+  enrolmentType: EnrolmentType;
   disabled: boolean;
-}> = ({ eventDefaultlocation, isVirtualEvent, disabled }) => {
+}> = ({ eventDefaultlocation, isVirtualEvent, disabled, enrolmentType }) => {
   const { t } = useTranslation();
   const {
     handleSubmit,
     setFieldValue,
     values: { startTime, endTime, oneGroupFills },
   } = useFormikContext<OccurrenceSectionFormFields>();
+  const showGroupSizeInputs = enrolmentType !== EnrolmentType.External;
 
   const languageOptions = React.useMemo(
     () => getOrderedLanguageOptions(t),
     [t]
   );
+
+  // reset group size input when they are not shown/needed
+  React.useEffect(() => {
+    if (!showGroupSizeInputs) {
+      setFieldValue('minGroupSize', '');
+      setFieldValue('maxGroupSize', '');
+    }
+  }, [showGroupSizeInputs, setFieldValue]);
 
   React.useEffect(() => {
     oneGroupFills
@@ -278,26 +288,30 @@ const OccurrenceForm: React.FC<{
             type="number"
           />
         </div>
-        <div>
-          <Field
-            label={t('eventOccurrenceForm.labelGroupSizeMin')}
-            aria-label={t('eventOccurrenceForm.ariaLabelGroupSizeMin')}
-            name="minGroupSize"
-            component={TextInputField}
-            min={0}
-            type="number"
-          />
-        </div>
-        <div>
-          <Field
-            label={t('eventOccurrenceForm.labelGroupSizeMax')}
-            aria-label={t('eventOccurrenceForm.ariaLabelGroupSizeMax')}
-            name="maxGroupSize"
-            component={TextInputField}
-            min={0}
-            type="number"
-          />
-        </div>
+        {showGroupSizeInputs && (
+          <>
+            <div>
+              <Field
+                label={t('eventOccurrenceForm.labelGroupSizeMin')}
+                aria-label={t('eventOccurrenceForm.ariaLabelGroupSizeMin')}
+                name="minGroupSize"
+                component={TextInputField}
+                min={0}
+                type="number"
+              />
+            </div>
+            <div>
+              <Field
+                label={t('eventOccurrenceForm.labelGroupSizeMax')}
+                aria-label={t('eventOccurrenceForm.ariaLabelGroupSizeMax')}
+                name="maxGroupSize"
+                component={TextInputField}
+                min={0}
+                type="number"
+              />
+            </div>
+          </>
+        )}
         {/* divs are here to avoid styling problem with HDS */}
       </div>
       <div className={styles.formRow}>

@@ -363,12 +363,14 @@ export const getUpdateEventMockResponse = ({
   enrolmentEndDays,
   enrolmentStart,
   neededOccurrences,
+  externalEnrolmentUrl = null,
   languages = ['fi'],
 }: {
   autoAcceptance: boolean;
   enrolmentEndDays: number;
   enrolmentStart: string;
   neededOccurrences: number;
+  externalEnrolmentUrl?: string | null;
   languages?: Languages[];
 }): MockedResponse => ({
   request: {
@@ -379,6 +381,7 @@ export const getUpdateEventMockResponse = ({
       autoAcceptance,
       neededOccurrences,
       enrolmentEndDays,
+      externalEnrolmentUrl,
       enrolmentStart, // '2021-05-03T21:00:00.000Z',
     }),
   },
@@ -403,6 +406,7 @@ export const getEventMockedResponse = ({
   autoAcceptance = true,
   enrolmentEndDays = null,
   enrolmentStart = null,
+  externalEnrolmentUrl = null,
   neededOccurrences = 1,
   languages = ['fi'],
   occurrences,
@@ -411,6 +415,7 @@ export const getEventMockedResponse = ({
   autoAcceptance?: boolean;
   enrolmentEndDays?: number | null;
   enrolmentStart?: string | null;
+  externalEnrolmentUrl?: string | null;
   neededOccurrences?: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;
@@ -427,6 +432,7 @@ export const getEventMockedResponse = ({
     autoAcceptance,
     enrolmentEndDays,
     enrolmentStart,
+    externalEnrolmentUrl,
     location: location
       ? fakePlace({
           id: placeId,
@@ -443,6 +449,7 @@ const getEventResponse = ({
   autoAcceptance,
   enrolmentEndDays,
   enrolmentStart,
+  externalEnrolmentUrl,
   neededOccurrences,
   languages = ['fi'],
   occurrences,
@@ -451,6 +458,7 @@ const getEventResponse = ({
   autoAcceptance: boolean;
   enrolmentEndDays: number;
   enrolmentStart: string;
+  externalEnrolmentUrl: string;
   neededOccurrences: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;
@@ -511,6 +519,7 @@ const getEventResponse = ({
         autoAcceptance,
         enrolmentEndDays,
         enrolmentStart,
+        externalEnrolmentUrl,
         neededOccurrences,
         mandatoryAdditionalInformation: false,
         occurrences: occurrences ?? fakeOccurrences(),
@@ -528,6 +537,7 @@ const getEditEventVariables = ({
   enrolmentEndDays,
   enrolmentStart,
   neededOccurrences,
+  externalEnrolmentUrl = null,
   languages = ['fi'],
 }: {
   placeId: string;
@@ -535,6 +545,7 @@ const getEditEventVariables = ({
   enrolmentEndDays: number;
   enrolmentStart: string;
   neededOccurrences: number;
+  externalEnrolmentUrl?: string | null;
   languages?: Languages[];
 }) => ({
   event: {
@@ -577,7 +588,8 @@ const getEditEventVariables = ({
       contactPersonId: contactPersonId,
       contactPhoneNumber: contactPhoneNumber,
       enrolmentEndDays,
-      enrolmentStart: new Date(enrolmentStart),
+      enrolmentStart: enrolmentStart ? new Date(enrolmentStart) : null,
+      externalEnrolmentUrl,
       neededOccurrences,
       autoAcceptance,
       mandatoryAdditionalInformation: false,

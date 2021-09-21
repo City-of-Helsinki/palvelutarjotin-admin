@@ -40,7 +40,7 @@ import {
 import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSubmitRequests';
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { defaultInitialValues } from './constants';
+import { defaultInitialValues, EnrolmentType } from './constants';
 import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import LocationFormPart from './locationFormPart/LocationFormPart';
 import styles from './occurrencePage.module.scss';
@@ -117,15 +117,31 @@ const CreateOccurrencePage: React.FC = () => {
         const venueData = data?.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
         const eventName = omit(event.name, '__typename');
-
         const eventLangs = Object.entries(eventName).reduce<string[]>(
           (prev, [lang, value]) => (value ? [...prev, lang] : prev),
           []
         );
 
+        const getEnrolmentType = (): EnrolmentType => {
+          if (event.pEvent.externalEnrolmentUrl) {
+            return EnrolmentType.External;
+          }
+          if (event.pEvent.enrolmentStart) {
+            return EnrolmentType.Internal;
+          }
+          if (event.location) {
+            return EnrolmentType.Unenrollable;
+          }
+          return EnrolmentType.Internal;
+        };
+
+        const enrolmentType = getEnrolmentType();
+
         setSelectedLanguages(eventLangs as Language[]);
         setInitialValues({
           ...defaultInitialValues,
+          enrolmentType,
+          externalEnrolmentUrl: event.pEvent.externalEnrolmentUrl ?? '',
           // If enrolment start time is not defined yet, then user hasn't filled this form yet
           // and initial value can be set to true as default
           autoAcceptance: event.pEvent.autoAcceptance
@@ -136,7 +152,7 @@ const CreateOccurrencePage: React.FC = () => {
             ? new Date(event.pEvent.enrolmentStart)
             : null,
           isVirtual: isVirtualEvent,
-          neededOccurrences: event.pEvent.neededOccurrences ?? '',
+          neededOccurrences: event.pEvent.neededOccurrences || '1',
           location: isVirtualEvent ? '' : event.location?.id || '',
           hasAreaForGroupWork: venueData?.hasAreaForGroupWork ?? false,
           hasClothingStorage: venueData?.hasClothingStorage ?? false,

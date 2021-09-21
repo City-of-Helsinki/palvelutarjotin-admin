@@ -25,6 +25,8 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import EventPreviewCard from '../event/eventPreviewCard/EventPreviewCard';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { EnrolmentType } from '../occurrence/constants';
+import { getEnrolmentType } from '../occurrence/utils';
 import OccurrencesTableSummary from '../occurrences/occurrencesTableReadOnly/OccurrencesTableSummary';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { EDIT_EVENT_QUERY_PARAMS, NAVIGATED_FROM } from './EditEventPage';
@@ -48,7 +50,6 @@ const EventSummaryPage: React.FC = () => {
     loading,
     refetch: refetchEventData,
   } = useEventQuery({
-    // fetchPolicy: 'network-only',
     variables: {
       id: eventId,
       include: ['location', 'keywords', 'in_language'],
@@ -60,9 +61,11 @@ const EventSummaryPage: React.FC = () => {
   );
   const [cancelOccurrence] = useCancelOccurrenceMutation();
 
+  const enrolmentType = eventData?.event && getEnrolmentType(eventData.event);
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
   const isEventDraft =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
+  const isInternalEnrolment = enrolmentType === EnrolmentType.Internal;
 
   const occurrences =
     (eventData?.event?.pEvent?.occurrences.edges.map(
@@ -189,7 +192,7 @@ const EventSummaryPage: React.FC = () => {
                       })}
                     </span>
                   </h2>
-                  {!isEventDraft && (
+                  {!isEventDraft && isInternalEnrolment && (
                     <Button onClick={downloadEnrolments} variant="secondary">
                       {t('eventSummary.buttonExportEnrolments')}
                     </Button>

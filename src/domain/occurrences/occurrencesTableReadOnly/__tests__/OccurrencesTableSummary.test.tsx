@@ -2,7 +2,11 @@ import * as React from 'react';
 
 import formatDate from '../../../../utils/formatDate';
 import formatTimeRange from '../../../../utils/formatTimeRange';
-import { fakeOccurrence } from '../../../../utils/mockDataUtils';
+import {
+  fakeEvent,
+  fakeOccurrence,
+  fakePEvent,
+} from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 
@@ -21,6 +25,10 @@ const mockOccurrence = fakeOccurrence({
   endTime: endTime,
   amountOfSeats: 240,
   placeId: null,
+  pEvent: fakePEvent({
+    id: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
+    enrolmentStart: new Date(),
+  }),
 });
 
 const renderComponent = (props?: Partial<Props>) => {
@@ -47,4 +55,21 @@ it('show occurrence data in the table in correct format', () => {
     name: occurrenceRowText,
   });
   expect(occurrenceRow).toBeInTheDocument();
+});
+
+it('does not render enrolment info when enrolments are not done internally', () => {
+  renderComponent({
+    eventData: {
+      event: fakeEvent({
+        pEvent: fakePEvent({
+          enrolmentStart: null,
+          externalEnrolmentUrl: null,
+        }),
+      }),
+    },
+  });
+  expect(screen.getByText(/Tapahtumapaikka/i)).toBeInTheDocument();
+  expect(screen.getByText(/Toiminnot/i)).toBeInTheDocument();
+  expect(screen.queryByText(/Ilm. alkaa/i)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Ilmoittautuneita/i)).not.toBeInTheDocument();
 });

@@ -413,9 +413,12 @@
     },
     "enrolment": {
       "title": "Inskrivning",
-      "labelExternalEnrolment": "Registrering sker på extern webbplats",
-      "labelExternalEnrolmentUrl": "Webbadress för registreringsformuläret",
-      "labelEnrolmentRequired": "Anmälan till evenemang krävs"
+      "labelExternalEnrolmentUrl": "Webbadress för registreringsformuläret"
+    },
+    "enrolmentType": {
+      "labelInternal": "Interna registreringar på Kultus",
+      "labelExternal": "Anmälningar på en annan webbplats",
+      "labelUnenrollable": "Inga anmälningar"
     },
     "location": {
       "helperLocation": "Standardplats för evenemangtider",
@@ -444,7 +447,6 @@
     },
     "occurrences": {
       "occurrencesFormSectionTitle": "Evenemangets tidpunkt",
-      "labelEventHasNoOccurrences": "Den här händelsen har ingen specifik förekomsttid",
       "buttonAddNewOccurence": "Läg till ny tidpunkt",
       "saveSuccesful": "Tidpunkt har sparats"
     }
@@ -456,6 +458,8 @@
       "ariaLabelOpenOccurrences": "Gå till evenemangtided av {{eventName}}",
       "textEnrolments": "{{count}} registrerad",
       "textEnrolments_plural": "{{count}} registrerade",
+      "textExternalEnrolments": "Anmälningar på en annan webbplats",
+      "textUnenrollable": "Inga anmälningar",
       "textOccurrences": "{{count}} händelsetid",
       "textOccurrences_plural": "{{count}} evenemangtider",
       "statusPublished": "Publicerad",

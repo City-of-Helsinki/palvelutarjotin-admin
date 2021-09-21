@@ -10,6 +10,7 @@ import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
 import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { EnrolmentType } from './constants';
 import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
@@ -35,12 +36,22 @@ export const getOccurrencePayload = ({
     pEventId,
     placeId: isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.occurrenceLocation,
     amountOfSeats: Number(values.amountOfSeats) || 0,
-    minGroupSize: Number(values.minGroupSize) || 0,
-    maxGroupSize: Number(values.maxGroupSize) || 0,
+    minGroupSize: Number(values.minGroupSize) || null,
+    maxGroupSize: Number(values.maxGroupSize) || null,
     seatType: values.oneGroupFills
       ? SeatType.EnrolmentCount
       : SeatType.ChildrenCount,
   };
+};
+
+export const getEnrolmentType = (event: EventFieldsFragment): EnrolmentType => {
+  if (event.pEvent.externalEnrolmentUrl) {
+    return EnrolmentType.External;
+  }
+  if (event.pEvent.enrolmentStart) {
+    return EnrolmentType.Internal;
+  }
+  return EnrolmentType.Unenrollable;
 };
 
 export const getEventQueryVariables = (id: string) => ({
@@ -84,8 +95,34 @@ export const getEditEventPayload = ({
     enrolmentStart,
     isVirtual,
     neededOccurrences,
+    externalEnrolmentUrl,
+    enrolmentType,
   } = formValues;
   const eventData = omitTypenames(event);
+
+  const pEventEnrolmentFields = {
+    [EnrolmentType.Internal]: {
+      enrolmentStart,
+      enrolmentEndDays: Number(enrolmentEndDays) || 0,
+      neededOccurrences: Number(neededOccurrences) || 0,
+      autoAcceptance,
+      externalEnrolmentUrl: null,
+    },
+    [EnrolmentType.External]: {
+      enrolmentEndDays: null,
+      enrolmentStart: null,
+      neededOccurrences: 0,
+      autoAcceptance: false,
+      externalEnrolmentUrl,
+    },
+    [EnrolmentType.Unenrollable]: {
+      enrolmentEndDays: null,
+      enrolmentStart: null,
+      neededOccurrences: 0,
+      autoAcceptance: false,
+      externalEnrolmentUrl: null,
+    },
+  };
 
   return {
     name: eventData.name,
@@ -122,12 +159,9 @@ export const getEditEventPayload = ({
       contactEmail: eventData.pEvent.contactEmail,
       contactPersonId: eventData.pEvent.contactPerson?.id,
       contactPhoneNumber: eventData.pEvent.contactPhoneNumber,
-      enrolmentEndDays: Number(enrolmentEndDays) || 0,
-      enrolmentStart,
-      neededOccurrences: Number(neededOccurrences) || 0,
-      autoAcceptance,
       mandatoryAdditionalInformation:
         eventData.pEvent.mandatoryAdditionalInformation,
+      ...pEventEnrolmentFields[enrolmentType],
     },
   };
 };

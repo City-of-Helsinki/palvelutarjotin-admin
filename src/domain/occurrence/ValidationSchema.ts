@@ -7,22 +7,40 @@ import * as Yup from 'yup';
 import { DATETIME_FORMAT } from '../../common/components/datepicker/contants';
 import { isValidTime } from '../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { EnrolmentType } from './constants';
 
 const ValidationSchema = Yup.object().shape({
   // infoUrl: Yup.string(),
-  enrolmentEndDays: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-    .min(0, (param) => ({
-      min: param.min,
-      key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
-    })),
+  enrolmentEndDays: Yup.number().when(
+    ['enrolmentType'],
+    (enrolmentType: EnrolmentType, schema: Yup.NumberSchema) => {
+      if (enrolmentType !== EnrolmentType.Internal) {
+        return schema;
+      }
+      return schema
+        .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+        .min(0, (param) => ({
+          min: param.min,
+          key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
+        }));
+    }
+  ),
   enrolmentStart: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
-      isFuture as any
+    .when(
+      ['enrolmentType'],
+      (enrolmentType: EnrolmentType, schema: Yup.DateSchema) => {
+        if (enrolmentType !== EnrolmentType.Internal) {
+          return schema.nullable();
+        }
+        return schema
+          .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+          .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+          .test(
+            'isInTheFuture',
+            VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
+            isFuture as any
+          );
+      }
     )
     .when(['occurrenceDate', 'occurrenceStartsAt'], ((
       occurrenceDate: Date,
@@ -45,20 +63,25 @@ const ValidationSchema = Yup.object().shape({
       }
       return schema;
     }) as any),
-  externalEnrolment: Yup.boolean(),
-  externalEnrolmentUrl: Yup.string().when('externalEnrolment', {
-    is: true,
-    then: Yup.string()
-      .url(VALIDATION_MESSAGE_KEYS.URL)
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    otherwise: Yup.string(),
+  externalEnrolmentUrl: Yup.string().when(
+    'enrolmentType',
+    (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {
+      if (enrolmentType === EnrolmentType.External) {
+        return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
+      }
+      return schema;
+    }
+  ),
+  neededOccurrences: Yup.number().when('enrolmentType', {
+    is: EnrolmentType.Internal,
+    then: Yup.number()
+      .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+      .min(1, (param) => ({
+        min: param.min,
+        key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
+      })),
+    otherwise: Yup.number().nullable(),
   }),
-  neededOccurrences: Yup.number()
-    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-    .min(1, (param) => ({
-      min: param.min,
-      key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
-    })),
   location: Yup.string().when('isVirtual', {
     is: false,
     then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),

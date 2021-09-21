@@ -12,6 +12,7 @@ export const QUERY_EVENT = gql`
     contactPhoneNumber
     enrolmentEndDays
     enrolmentStart
+    externalEnrolmentUrl
     neededOccurrences
     mandatoryAdditionalInformation
     organisation {

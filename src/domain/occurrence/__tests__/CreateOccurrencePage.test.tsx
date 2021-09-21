@@ -35,6 +35,7 @@ import {
   within,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
+import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 import { occurrencesFormTestId } from '../occurrencesFormPart/OccurrencesFormPart';
 
@@ -481,6 +482,105 @@ describe('location and enrolment info', () => {
       );
     });
   });
+
+  test('user can choose no enrolment option and save form', async () => {
+    const eventWithoutEnrolmentAndLocationInfoMockedResponse =
+      getEventMockedResponse({
+        autoAcceptance: false,
+        enrolmentEndDays: null,
+        enrolmentStart: null,
+        neededOccurrences: 1,
+        occurrences: fakeOccurrences(0),
+      });
+
+    const updateEventMockResponse = getUpdateEventMockResponse({
+      autoAcceptance: false,
+      enrolmentEndDays: null,
+      enrolmentStart: null,
+      neededOccurrences: 0,
+    });
+
+    renderComponent({
+      mocks: [
+        eventWithoutEnrolmentAndLocationInfoMockedResponse,
+        updateEventMockResponse,
+      ],
+    });
+
+    const toastSuccess = jest.spyOn(toast, 'success');
+
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+    await selectLocation();
+    await screen.findByText('Test venue description');
+
+    // Save event with no enrolment
+    act(() => userEvent.click(getFormElement('noEnrolmentButton')));
+    userEvent.click(getFormElement('saveButton'));
+
+    await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
+  });
+
+  test('user can add external enrolment and save form', async () => {
+    const externalEnrolmentUrl = 'https://beta.kultus.fi/';
+    const eventWithoutEnrolmentAndLocationInfoMockedResponse =
+      getEventMockedResponse({
+        autoAcceptance: false,
+        enrolmentEndDays: null,
+        enrolmentStart: null,
+        neededOccurrences: 1,
+        externalEnrolmentUrl: null,
+        occurrences: fakeOccurrences(0),
+      });
+
+    const updateEventMockResponse = getUpdateEventMockResponse({
+      autoAcceptance: false,
+      enrolmentEndDays: null,
+      enrolmentStart: null,
+      neededOccurrences: 0,
+      externalEnrolmentUrl,
+    });
+
+    renderComponent({
+      mocks: [
+        eventWithoutEnrolmentAndLocationInfoMockedResponse,
+        updateEventMockResponse,
+      ],
+    });
+
+    const toastSuccess = jest.spyOn(toast, 'success');
+
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+    await selectLocation();
+    await screen.findByText('Test venue description');
+
+    // should be found in the document before clking externalEnrolment radio button
+    expect(getOccurrenceFormElement('min')).toBeInTheDocument();
+    expect(getOccurrenceFormElement('max')).toBeInTheDocument();
+
+    act(() => userEvent.click(getFormElement('externalEnrolmentButton')));
+
+    expect(
+      screen.queryByText(/tämä kenttä on pakollinen/i)
+    ).not.toBeInTheDocument();
+
+    userEvent.click(getFormElement('saveButton'));
+
+    // externalEnrolmentButton is required
+    await screen.findByText(/tämä kenttä on pakollinen/i);
+
+    const enrolmentUrlInput = await getFormElement('enrolmentUrl');
+    userEvent.type(enrolmentUrlInput, externalEnrolmentUrl);
+
+    // should be hidden when external enrolment is selected
+    expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
+    expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
+
+    userEvent.click(getFormElement('saveButton'));
+
+    await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
+  });
 });
 
 describe('occurrences form', () => {
@@ -496,13 +596,7 @@ describe('occurrences form', () => {
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
-    const locationInput = getFormElement('location');
-
-    act(() => userEvent.click(locationInput));
-    userEvent.type(locationInput, 'Sellon');
-
-    const place = await screen.findByText(/Sellon kirjasto/i);
-    userEvent.click(place);
+    await selectLocation();
 
     const occurrenceLocationInput = getOccurrenceFormElement('location');
 
@@ -947,6 +1041,71 @@ describe('venue info', () => {
   });
 });
 
+describe('enrolment type selector', () => {
+  const radiosByType = {
+    [EnrolmentType.Internal]: /ilmoittautuminen kultuksessa/i,
+    [EnrolmentType.External]: /ilmoittautuminen muulla sivustolla/i,
+    [EnrolmentType.Unenrollable]: /ei ilmoittautumista/i,
+  };
+
+  const fieldSetsByType = {
+    [EnrolmentType.Internal]: [
+      /ilmoittautuminen alkaa/i,
+      /ilmoittautuminen sulkeutuu x päivää ennen tapahtuma-aikaa/i,
+      /tarvittavat käyntikerrat/i,
+      /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
+    ],
+    [EnrolmentType.External]: [/www-osoite ilmoittautumislomakkeelle/i],
+    [EnrolmentType.Unenrollable]: [] as RegExp[],
+  };
+
+  it('renders proper event types', async () => {
+    renderComponent({
+      mocks: [getEventMockedResponse({})],
+    });
+
+    await screen.findByRole('heading', {
+      name: /ilmoittautuminen/i,
+    });
+
+    Object.values(radiosByType).forEach((label) => {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    });
+  });
+
+  it.each((Object.keys(fieldSetsByType) as EnrolmentType[]).reverse())(
+    'renders a proper fieldset when a type is changed to %s',
+    async (type) => {
+      renderComponent({
+        mocks: [getEventMockedResponse({})],
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText(radiosByType[type])).toBeInTheDocument();
+      });
+
+      userEvent.click(screen.getByText(radiosByType[type]));
+
+      const visibleFieldLabels = fieldSetsByType[type];
+      const hiddenFieldLabels = Object.values({
+        ...fieldSetsByType,
+        [type]: [],
+      }).flat();
+
+      visibleFieldLabels.forEach((label) => {
+        expect(screen.getByText(label)).toBeInTheDocument();
+      });
+
+      hiddenFieldLabels.forEach((label) => {
+        expect(screen.queryByText(label)).not.toBeInTheDocument();
+      });
+
+      // avoid redundant "Warning: An update to Formik inside a test was not wrapped in act(...)." errors
+      await act(() => new Promise((res) => setTimeout(res, 0)));
+    }
+  );
+});
+
 const getLanguageCheckboxes = () => {
   const finnishLanguageCheckbox = screen.getByRole('checkbox', {
     name: 'Suomi',
@@ -1027,11 +1186,11 @@ const getOccurrenceFormElement = (
         name: 'Paikkoja',
       });
     case 'min':
-      return screen.getByRole('spinbutton', {
+      return screen.queryByRole('spinbutton', {
         name: /minimi henkilömäärä/i,
       });
     case 'max':
-      return screen.getByRole('spinbutton', {
+      return screen.queryByRole('spinbutton', {
         name: /maksimi henkilömäärä/i,
       });
     case 'oneGroupFills':
@@ -1055,6 +1214,9 @@ const getFormElement = (
     | 'virtualEvent'
     | 'saveButton'
     | 'goToPublishing'
+    | 'noEnrolmentButton'
+    | 'externalEnrolmentButton'
+    | 'enrolmentUrl'
 ) => {
   switch (key) {
     case 'location':
@@ -1087,7 +1249,29 @@ const getFormElement = (
       return screen.getByRole('button', {
         name: /siirry julkaisuun/i,
       });
+    case 'noEnrolmentButton':
+      return screen.getByRole('radio', {
+        name: /ei ilmoittautumista/i,
+      });
+    case 'externalEnrolmentButton':
+      return screen.getByRole('radio', {
+        name: /lmoittautuminen muulla sivustolla/i,
+      });
+    case 'enrolmentUrl':
+      return screen.getByRole('textbox', {
+        name: /www-osoite ilmoittautumislomakkeelle/i,
+      });
   }
+};
+
+const selectLocation = async () => {
+  const locationInput = getFormElement('location');
+
+  act(() => userEvent.click(locationInput));
+  userEvent.type(locationInput, 'Sellon');
+
+  const place = await screen.findByText(/Sellon kirjasto/i);
+  userEvent.click(place);
 };
 
 const fillAndSubmitOccurrenceForm = async ({

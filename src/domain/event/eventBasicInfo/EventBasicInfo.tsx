@@ -9,6 +9,8 @@ import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import getTimeFormat from '../../../utils/getTimeFormat';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
+import { EnrolmentType } from '../../occurrence/constants';
+import { getEnrolmentType } from '../../occurrence/utils';
 import styles from './eventBasicInfo.module.scss';
 
 type Props = {
@@ -35,6 +37,10 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const imageId = eventData.event?.images[0]?.id;
 
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
+
+  const enrolmentType = eventData.event && getEnrolmentType(eventData.event);
+  const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
+
   const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
     ? t('eventDetails.basicInfo.enrolmentStart', {
         date: formatDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
@@ -54,7 +60,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           <p>{name}</p>
         </>
       )}
-
       {shortDescription && (
         <>
           <TextTitle>
@@ -63,7 +68,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           <p>{shortDescription}</p>
         </>
       )}
-
       {description && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelDescription')}</TextTitle>
@@ -73,7 +77,6 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           />
         </>
       )}
-
       <>
         <TextTitle>
           {t('eventDetails.basicInfo.labelMandatoryAdditionalInformation')}
@@ -90,30 +93,29 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
           </p>
         )}
       </>
-
       {imageId && <ImageInfo imageId={imageId} />}
-
       {infoUrl && (
         <>
           <TextTitle>{t('eventDetails.basicInfo.labelInfoUrl')}</TextTitle>
           <p>{infoUrl}</p>
         </>
       )}
-
-      <div className={styles.durationRow}>
-        <div>
-          <TextTitle>
-            {t('eventDetails.basicInfo.labelEnrolmentStart')}
-          </TextTitle>
-          <p>{enrolmentStart}</p>
+      {isInternalEnrolment && (
+        <div className={styles.durationRow}>
+          <div>
+            <TextTitle>
+              {t('eventDetails.basicInfo.labelEnrolmentStart')}
+            </TextTitle>
+            <p>{enrolmentStart}</p>
+          </div>
+          <div>
+            <TextTitle>
+              {t('eventDetails.basicInfo.labelEnrolmentEndDays')}
+            </TextTitle>
+            <p>{eventData.event?.pEvent?.enrolmentEndDays}</p>
+          </div>
         </div>
-        <div>
-          <TextTitle>
-            {t('eventDetails.basicInfo.labelEnrolmentEndDays')}
-          </TextTitle>
-          <p>{eventData.event?.pEvent?.enrolmentEndDays}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

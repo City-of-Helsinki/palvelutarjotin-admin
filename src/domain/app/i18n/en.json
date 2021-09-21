@@ -406,9 +406,12 @@
     },
     "enrolment": {
       "title": "Enrolment",
-      "labelExternalEnrolment": "Enrolment is done on external site",
-      "labelExternalEnrolmentUrl": "Web address for the registration form",
-      "labelEnrolmentRequired": "Enrolment to event is required"
+      "labelExternalEnrolmentUrl": "Web address for the registration form"
+    },
+    "enrolmentType": {
+      "labelInternal": "Internal enrolments at Kultus",
+      "labelExternal": "Enrolments on another site",
+      "labelUnenrollable": "No enrolments"
     },
     "location": {
       "helperLocation": "The default venue for event times",
@@ -437,7 +440,6 @@
     },
     "occurrences": {
       "occurrencesFormSectionTitle": "Occurrences",
-      "labelEventHasNoOccurrences": "This event doesn't have specific occurrence time",
       "buttonAddNewOccurence": "Add new occurrence",
       "saveSuccesful": "Occurrence saved"
     }
@@ -449,6 +451,8 @@
       "ariaLabelOpenOccurrences": "Go to event times of {{eventName}}",
       "textEnrolments": "{{count}} enrolments",
       "textEnrolments_plural": "{{count}} enrolments",
+      "textExternalEnrolments": "Enrolments on another site",
+      "textUnenrollable": "No enrolments",
       "textOccurrences": "{{count}} occurrence",
       "textOccurrences_plural": "{{count}} occurrences",
       "statusPublished": "Published",
