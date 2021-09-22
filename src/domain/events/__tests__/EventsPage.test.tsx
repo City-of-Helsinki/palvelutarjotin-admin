@@ -9,15 +9,21 @@ import {
   Event,
   EventsDocument,
   MyProfileDocument,
+  PlaceDocument,
 } from '../../../generated/graphql';
 import {
+  fakeEvent,
   fakeEvents,
   fakeLocalizedObject,
+  fakeOccurrences,
   fakeOrganisations,
   fakePerson,
+  fakePEvent,
+  fakePlace,
 } from '../../../utils/mockDataUtils';
 import {
   act,
+  configure,
   render,
   screen,
   userEvent,
@@ -27,6 +33,19 @@ import * as organisationSelectors from '../../organisation/selector';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from '../constants';
 import EventsPage from '../EventsPage';
 
+configure({ defaultHidden: true });
+
+const places = [
+  {
+    id: 'placeId1',
+    name: fakeLocalizedObject('Paikka1'),
+  },
+  {
+    id: 'placeId2',
+    name: fakeLocalizedObject('Paikka2'),
+  },
+];
+
 const eventOverrides: Partial<Event>[] = Array.from({ length: 10 }).map(
   (_, i) => {
     const number = i + 1;
@@ -34,17 +53,6 @@ const eventOverrides: Partial<Event>[] = Array.from({ length: 10 }).map(
       name: fakeLocalizedObject(`Tapahtuma ${number}`),
       shortDescription: fakeLocalizedObject(`Lyhyt kuvaus ${number}`),
       description: fakeLocalizedObject(`Pitkä kuvaus ${number}`),
-      // pEvent: {
-      //   ...fakePEvent(),
-      //   // this override mock won't appear in the test atm
-      //   // TODO: investigate
-      //   occurrences: fakeOccurrences(1, [
-      //     {
-      //       startTime: '2020-04-03T09:00:00+00:00',
-      //       endTime: '2020-04-03T09:30:00+00:00',
-      //     },
-      //   ]),
-      // },
     };
   }
 );
@@ -62,6 +70,7 @@ const baseVariables = {
   sort: EVENT_SORT_KEYS.START_TIME,
   text: '',
   showAll: true,
+  location: '',
   start: 'now',
 };
 
@@ -111,22 +120,44 @@ const apolloMocks: MockedResponse[] = [
     },
     result: {
       data: {
-        myProfile: fakePerson({ organisations: organisationsMock }),
+        myProfile: fakePerson({
+          organisations: organisationsMock,
+          placeIds: places.map((place) => place.id),
+        }),
       },
     },
   },
+  ...places.map(({ id, name }) => ({
+    request: {
+      query: PlaceDocument,
+      variables: {
+        id,
+      },
+    },
+    result: {
+      data: {
+        place: fakePlace({ name, id }),
+      },
+    },
+  })),
 ];
+
+const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
+  return render(<EventsPage />, {
+    mocks: [...apolloMocks, ...(mocks ?? [])],
+    initialState: {
+      organisation: {
+        activeOrganisation: organisationsMock.edges[0]?.node?.id,
+      },
+    },
+    routes: ['/'],
+  });
+};
 
 test('renders events list and load more events button works', async () => {
   advanceTo(new Date(2020, 5, 20));
-  jest
-    .spyOn(organisationSelectors, 'activeOrganisationSelector')
-    .mockReturnValue(organisationsMock.edges[0]?.node?.id as any);
   const toastErrorSpy = jest.spyOn(toast, 'error');
-
-  render(<EventsPage />, { mocks: apolloMocks, routes: ['/'] });
-
-  await act(wait);
+  renderComponent();
 
   await waitFor(() => {
     expect(
@@ -169,4 +200,111 @@ test('renders events list and load more events button works', async () => {
       ],
     ]
   `);
+});
+
+test('events can be searched with text', async () => {
+  const eventName = 'Haettu tapahtuma';
+  const eventDescription = 'Haeutun tapahtuma kuvaus';
+  const textSearchEventsMock = fakeEvents(1, [
+    {
+      name: fakeLocalizedObject(eventName),
+      shortDescription: fakeLocalizedObject(eventDescription),
+      description: fakeLocalizedObject(eventDescription),
+    },
+  ]);
+  const searchMock = {
+    mocks: [
+      {
+        request: {
+          query: EventsDocument,
+          variables: {
+            ...baseVariables,
+            text: eventName,
+          },
+        },
+        result: {
+          data: {
+            events: textSearchEventsMock,
+          },
+        },
+      },
+    ],
+  };
+  renderComponent(searchMock);
+
+  const searchInput = screen.getByRole('textbox', {
+    name: /haku/i,
+  });
+  userEvent.type(searchInput, eventName);
+
+  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
+  expect(screen.queryByText(eventName)).toBeInTheDocument();
+  expect(screen.queryByText(eventDescription)).toBeInTheDocument();
+
+  userEvent.clear(searchInput);
+  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
+});
+
+test('events can be searched with places from user profile', async () => {
+  // events that have matching placeId
+  const events = [
+    {
+      placeId: places[0].id,
+      eventName: 'Haettu tapahtuma',
+      eventDescription: 'Haeutun tapahtuma kuvaus',
+    },
+    {
+      placeId: places[1].id,
+      eventName: 'Haettu tapahtuma2',
+      eventDescription: 'Haeutun tapahtuma kuvaus2',
+    },
+  ];
+  const searchMock = {
+    mocks: events.map((event) => ({
+      request: {
+        query: EventsDocument,
+        variables: {
+          ...baseVariables,
+          location: event.placeId,
+        },
+      },
+      result: {
+        data: {
+          events: fakeEvents(1, [
+            fakeEvent({
+              name: fakeLocalizedObject(event.eventName),
+              shortDescription: fakeLocalizedObject(event.eventDescription),
+            }),
+          ]),
+        },
+      },
+    })),
+  };
+  renderComponent(searchMock);
+
+  await screen.findByRole('heading', { name: `Tapahtumat 5 kpl` });
+
+  // Test first place filter and clear it
+  const placesDropdownToggle = screen.getByRole('button', {
+    name: /paikat: avaa valikko/i,
+  });
+  userEvent.click(placesDropdownToggle);
+  userEvent.click(screen.getByRole('option', { name: places[0].name.fi }));
+
+  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
+  expect(screen.queryByText(events[0].eventName)).toBeInTheDocument();
+  expect(screen.queryByText(events[0].eventDescription)).toBeInTheDocument();
+
+  const clearPlacesButton = screen.getByRole('button', {
+    name: /poista kaikki paikat/i,
+  });
+  userEvent.click(clearPlacesButton);
+
+  await screen.findByRole('heading', { name: `Tapahtumat 5 kpl` });
+
+  // Test second place filter
+  userEvent.click(screen.getByRole('option', { name: places[1].name.fi }));
+  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
+  expect(screen.queryByText(events[1].eventName)).toBeInTheDocument();
+  expect(screen.queryByText(events[1].eventDescription)).toBeInTheDocument();
 });

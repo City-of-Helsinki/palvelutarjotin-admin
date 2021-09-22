@@ -471,7 +471,16 @@
         "tomorrow": "Imorgon kl {{time}}"
       }
     },
-    "placeholderSearch": "Sök",
+    "search": {
+      "placeholderSearch": "Sök",
+      "labelSearch": "Sök",
+      "labelPlaces": "(SV)Places",
+      "placeholderPlaces": "(SV)Search places...",
+      "placesToggleButtonAriaLabel": "(SV)Open dropdown",
+      "placesClearButtonAriaLabel": "(SV)Delete all places",
+      "placesSelectedItemRemoveButtonAriaLabel": "(SV)Delete place"
+    },
+
     "textEventCount": "{{count}} st",
     "textNoComingEvents": "Inga evenemang med kommande evenemangtider",
     "title": "Evenemang",

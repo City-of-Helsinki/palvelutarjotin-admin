@@ -46,7 +46,7 @@
     grid-gap: var(--grid-gap);
 
     @include respond_above(sm) {
-      grid-template-columns: 1fr var(--width-input);
+      grid-template-columns: var(--width-input) 1fr auto;
     }
   }
 

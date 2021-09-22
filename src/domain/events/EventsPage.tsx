@@ -1,4 +1,4 @@
-import { Button, TextInput } from 'hds-react';
+import { Button, Combobox, TextInput } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,8 @@ import {
 import useDebounce from '../../hooks/useDebounce';
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useProfilePlaces from '../../hooks/useProfilePlaces';
+import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -24,12 +26,14 @@ import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from './constants';
 import styles from './eventsPage.module.scss';
 import { useEventsQueryHelper } from './utils';
 
+type PlaceOption = { label: string; value: string };
+
 const EventsPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState('');
+  const [placesValue, setPlacesValue] = React.useState<PlaceOption[]>([]);
   const searchValue = useDebounce(inputValue, 100);
   const { t } = useTranslation();
   const history = useHistory();
-
   const { data: myProfileData } = useMyProfileQuery();
 
   const activeOrganisation = useSelector(activeOrganisationSelector);
@@ -42,6 +46,7 @@ const EventsPage: React.FC = () => {
     publisher: selectedOrganisation?.publisherId,
     sort: EVENT_SORT_KEYS.START_TIME,
     text: searchValue,
+    location: placesValue.map((p) => p.value).join(','),
     showAll: true,
   };
 
@@ -124,22 +129,26 @@ const EventsPage: React.FC = () => {
           <ActiveOrganisationInfo as="h1" />
 
           <div className={styles.comingEventsTitleWrapper}>
-            <div />
             <div className={styles.searchWrapper}>
-              <div>
-                <Button fullWidth={true} onClick={goToCreateEventPage}>
-                  {t('events.buttonNewEvent')}
-                </Button>
-              </div>
               <div>
                 <TextInput
                   id="search"
-                  placeholder={t('events.placeholderSearch')}
+                  placeholder={t('events.search.placeholderSearch')}
                   onChange={handleSearchFieldChange}
                   value={inputValue}
-                  label={t('events.placeholderSearch')}
-                  hideLabel
+                  label={t('events.search.labelSearch')}
                 />
+              </div>
+              <div>
+                <PlaceSelector
+                  onChange={(places) => setPlacesValue(places)}
+                  value={placesValue}
+                />
+              </div>
+              <div style={{ marginLeft: 'auto', marginTop: '28px' }}>
+                <Button fullWidth={true} onClick={goToCreateEventPage}>
+                  {t('events.buttonNewEvent')}
+                </Button>
               </div>
             </div>
           </div>
@@ -184,6 +193,38 @@ const EventsPage: React.FC = () => {
         </div>
       </Container>
     </PageWrapper>
+  );
+};
+
+const PlaceSelector: React.FC<{
+  onChange: (selected: PlaceOption[]) => void;
+  value: PlaceOption[];
+}> = ({ onChange, value }) => {
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const { places } = useProfilePlaces();
+
+  const placeOptions: PlaceOption[] = places
+    ? places.map((place) => ({
+        label: getLocalizedString(place.name, locale),
+        value: place.id ?? '',
+      }))
+    : [];
+
+  return (
+    <Combobox
+      value={value as any}
+      label={t('events.search.labelPlaces')}
+      multiselect
+      placeholder={t('events.search.placeholderPlaces')}
+      toggleButtonAriaLabel={t('events.search.placesToggleButtonAriaLabel')}
+      clearButtonAriaLabel={t('events.search.placesClearButtonAriaLabel')}
+      selectedItemRemoveButtonAriaLabel={t(
+        'events.search.placesSelectedItemRemoveButtonAriaLabel'
+      )}
+      onChange={onChange as any}
+      options={placeOptions}
+    />
   );
 };
 

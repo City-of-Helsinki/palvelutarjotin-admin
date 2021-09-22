@@ -464,7 +464,15 @@
         "tomorrow": "Tomorrow at {{time}}"
       }
     },
-    "placeholderSearch": "Search",
+    "search": {
+      "placeholderSearch": "Search",
+      "labelSearch": "Search",
+      "labelPlaces": "Places",
+      "placeholderPlaces": "Search places...",
+      "placesToggleButtonAriaLabel": "Open dropdown",
+      "placesClearButtonAriaLabel": "Delete all places",
+      "placesSelectedItemRemoveButtonAriaLabel": "Delete place"
+    },
     "textEventCount": "{{count}} pcs",
     "textNoComingEvents": "No events with coming event times",
     "title": "Events",
