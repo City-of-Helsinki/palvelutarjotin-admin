@@ -205,7 +205,7 @@ const OccurrenceForm: React.FC<{
     setFieldValue,
     values: { startTime, endTime, oneGroupFills },
   } = useFormikContext<OccurrenceSectionFormFields>();
-  const showGroupSizeInputs = enrolmentType !== EnrolmentType.External;
+  const showGroupSizeInputs = enrolmentType === EnrolmentType.Internal;
 
   const languageOptions = React.useMemo(
     () => getOrderedLanguageOptions(t),
