@@ -476,7 +476,7 @@
       "labelPlaces": "Paikat",
       "placeholderPlaces": "Hae paikkoja...",
       "placesToggleButtonAriaLabel": "Avaa valikko",
-      "placesClearButtonAriaLabel": "Poista kaikki paikat",
+      "placesClearButtonAriaLabel": "Tyhjennä kaikki paikat",
       "placesSelectedItemRemoveButtonAriaLabel": "Poista paikka"
     },
     "textEventCount": "{{count}} kpl",

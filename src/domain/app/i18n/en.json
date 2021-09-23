@@ -470,8 +470,8 @@
       "labelPlaces": "Places",
       "placeholderPlaces": "Search places...",
       "placesToggleButtonAriaLabel": "Open dropdown",
-      "placesClearButtonAriaLabel": "Delete all places",
-      "placesSelectedItemRemoveButtonAriaLabel": "Delete place"
+      "placesClearButtonAriaLabel": "Clear place selections",
+      "placesSelectedItemRemoveButtonAriaLabel": "Remove place"
     },
     "textEventCount": "{{count}} pcs",
     "textNoComingEvents": "No events with coming event times",
