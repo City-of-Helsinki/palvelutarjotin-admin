@@ -296,7 +296,7 @@ test('events can be searched with places from user profile', async () => {
   expect(screen.queryByText(events[0].eventDescription)).toBeInTheDocument();
 
   const clearPlacesButton = screen.getByRole('button', {
-    name: /poista kaikki paikat/i,
+    name: /tyhjennä kaikki paikat/i,
   });
   userEvent.click(clearPlacesButton);
 
