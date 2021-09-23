@@ -7,6 +7,7 @@ import { MessageParams } from 'yup/lib/types';
 
 import { isInFuture } from '../../../utils/dateUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
+import { EnrolmentType } from '../constants';
 
 const addMinValidationMessage = (
   param: {
@@ -56,10 +57,12 @@ const getValidationSchema = ({
   isVirtual,
   enrolmentEndDays,
   enrolmentStart,
+  enrolmentType,
 }: {
   isVirtual?: boolean;
   enrolmentEndDays?: string | number;
   enrolmentStart?: Date | null;
+  enrolmentType: EnrolmentType;
 }) =>
   Yup.object().shape({
     occurrenceLocation: isVirtual
@@ -86,9 +89,12 @@ const getValidationSchema = ({
     languages: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    amountOfSeats: Yup.number()
-      .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-      .min(1, addMinValidationMessage),
+    amountOfSeats:
+      enrolmentType === EnrolmentType.Internal
+        ? Yup.number()
+            .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+            .min(1, addMinValidationMessage)
+        : Yup.number(),
     minGroupSize: Yup.number()
       .min(1, addMinValidationMessage)
       .when(

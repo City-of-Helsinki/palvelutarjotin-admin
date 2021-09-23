@@ -85,8 +85,14 @@ const OccurrencesForm: React.FC<{
   }, [location]);
 
   const validationSchema = React.useMemo(
-    () => getValidationSchema({ isVirtual, enrolmentEndDays, enrolmentStart }),
-    [enrolmentEndDays, enrolmentStart, isVirtual]
+    () =>
+      getValidationSchema({
+        isVirtual,
+        enrolmentEndDays,
+        enrolmentStart,
+        enrolmentType,
+      }),
+    [enrolmentEndDays, enrolmentStart, isVirtual, enrolmentType]
   );
   const eventVariables = getEventQueryVariables(eventId ?? '');
 
@@ -217,6 +223,7 @@ const OccurrenceForm: React.FC<{
     if (!showGroupSizeInputs) {
       setFieldValue('minGroupSize', '');
       setFieldValue('maxGroupSize', '');
+      setFieldValue('amountOfSeats', '');
     }
   }, [showGroupSizeInputs, setFieldValue]);
 
@@ -278,18 +285,18 @@ const OccurrenceForm: React.FC<{
           options={languageOptions}
         />
         {/* divs are here to avoid styling problem with HDS */}
-        <div>
-          <Field
-            label={t('eventOccurrenceForm.labelAmountOfSeats')}
-            name="amountOfSeats"
-            disabled={oneGroupFills}
-            component={TextInputField}
-            min={0}
-            type="number"
-          />
-        </div>
         {showGroupSizeInputs && (
           <>
+            <div>
+              <Field
+                label={t('eventOccurrenceForm.labelAmountOfSeats')}
+                name="amountOfSeats"
+                disabled={oneGroupFills}
+                component={TextInputField}
+                min={0}
+                type="number"
+              />
+            </div>
             <div>
               <Field
                 label={t('eventOccurrenceForm.labelGroupSizeMin')}

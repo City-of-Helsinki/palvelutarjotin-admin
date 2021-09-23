@@ -517,9 +517,10 @@ describe('location and enrolment info', () => {
     // Save event with no enrolment
     act(() => userEvent.click(getFormElement('noEnrolmentButton')));
 
-    // grup min and maxi nput should be hidden
+    // grup min and max input should be hidden
     expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
     expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
+    expect(getOccurrenceFormElement('seats')).not.toBeInTheDocument();
 
     userEvent.click(getFormElement('saveButton'));
 
@@ -581,6 +582,7 @@ describe('location and enrolment info', () => {
     // should be hidden when external enrolment is selected
     expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
     expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
+    expect(getOccurrenceFormElement('seats')).not.toBeInTheDocument();
 
     userEvent.click(getFormElement('saveButton'));
 
@@ -722,6 +724,71 @@ describe('occurrences form', () => {
     expect(seatsInput).toHaveValue(30);
     expect(minGroupSizeInput).toHaveValue(10);
     expect(maxGroupSizeInput).toHaveValue(20);
+    expect(occurrenceLocationInput.parentElement).toHaveTextContent(
+      'Sellon kirjasto'
+    );
+
+    await waitFor(() => {
+      expect(occurrenceStartsAtInput).toHaveValue('');
+      expect(occurrenceEndsAtInput).toHaveValue('');
+    });
+
+    // Occurrence should still be in the document after event refetch
+    expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
+  });
+
+  test('can create new occurrence without internal enrolment', async () => {
+    const occurrenceStartTime = '10.05.2021 10:00';
+    const occurrenceEndTime = '10.05.2021 11:00';
+    const occurrenceData1 = {
+      amountOfSeats: 0,
+      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      languages: ['fi', 'en'],
+      minGroupSize: null,
+      maxGroupSize: null,
+      endTime: occurrenceEndTime,
+      startTime: occurrenceStartTime,
+    };
+    const eventMockResponse = getEventMockedResponse({
+      occurrences: fakeOccurrences(0),
+    });
+    const addOccurrenceMockResponse =
+      getAddOccurrenceMockResponse(occurrenceData1);
+    const occurrence1: Partial<OccurrenceNode> = {
+      ...occurrenceData1,
+      languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
+      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
+      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      placeId: placeId,
+    };
+    renderComponent({
+      mocks: [
+        eventMockResponse,
+        getEventMockedResponse({
+          occurrences: fakeOccurrences(1, [occurrence1]),
+        }),
+        addOccurrenceMockResponse,
+      ],
+    });
+
+    const occurrence1RowText = `Sellon kirjasto10.05.2021 10:0010.05.2021 11:00englanti, suomi0––`;
+
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+
+    act(() => userEvent.click(getFormElement('noEnrolmentButton')));
+
+    await fillAndSubmitOccurrenceForm({
+      occurrenceStartTime,
+      occurrenceEndTime,
+      seatsInputs: false,
+    });
+
+    expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
+
+    const occurrenceStartsAtInput = getOccurrenceFormElement('starts');
+    const occurrenceEndsAtInput = getOccurrenceFormElement('ends');
+    const occurrenceLocationInput = getOccurrenceFormElement('location');
     expect(occurrenceLocationInput.parentElement).toHaveTextContent(
       'Sellon kirjasto'
     );
@@ -1208,7 +1275,7 @@ const getOccurrenceFormElement = (
         name: 'Tapahtuman kieli',
       });
     case 'seats':
-      return occurrencesForm.getByRole('spinbutton', {
+      return occurrencesForm.queryByRole('spinbutton', {
         name: 'Paikkoja',
       });
     case 'min':
@@ -1304,10 +1371,12 @@ const fillAndSubmitOccurrenceForm = async ({
   occurrenceEndTime,
   occurrenceStartTime,
   submit = true,
+  seatsInputs = true,
 }: {
   occurrenceStartTime: string;
   occurrenceEndTime: string;
   submit?: boolean;
+  seatsInputs?: boolean;
 }) => {
   const withinOccurrencesForm = within(
     screen.getByTestId(occurrencesFormTestId)
@@ -1366,20 +1435,22 @@ const fillAndSubmitOccurrenceForm = async ({
   userEvent.click(optionEn);
   userEvent.click(languageSelector);
 
-  const seatsInput = getOccurrenceFormElement('seats');
-  const minGroupSizeInput = getOccurrenceFormElement('min');
-  const maxGroupSizeInput = getOccurrenceFormElement('max');
+  if (seatsInputs) {
+    const seatsInput = getOccurrenceFormElement('seats');
+    const minGroupSizeInput = getOccurrenceFormElement('min');
+    const maxGroupSizeInput = getOccurrenceFormElement('max');
 
-  userEvent.type(seatsInput, '30');
-  userEvent.type(minGroupSizeInput, '10');
-  userEvent.type(maxGroupSizeInput, '20');
+    userEvent.type(seatsInput, '30');
+    userEvent.type(minGroupSizeInput, '10');
+    userEvent.type(maxGroupSizeInput, '20');
 
-  await waitFor(() => {
-    expect(seatsInput).toHaveValue(30);
-  });
+    await waitFor(() => {
+      expect(seatsInput).toHaveValue(30);
+    });
 
-  expect(minGroupSizeInput).toHaveValue(10);
-  expect(maxGroupSizeInput).toHaveValue(20);
+    expect(minGroupSizeInput).toHaveValue(10);
+    expect(maxGroupSizeInput).toHaveValue(20);
+  }
 
   if (submit) {
     const submitButton = getOccurrenceFormElement('submit');
