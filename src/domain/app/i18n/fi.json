@@ -470,7 +470,15 @@
         "tomorrow": "Huomenna klo {{time}}"
       }
     },
-    "placeholderSearch": "Haku",
+    "search": {
+      "placeholderSearch": "Haku",
+      "labelSearch": "Haku",
+      "labelPlaces": "Paikat",
+      "placeholderPlaces": "Hae paikkoja...",
+      "placesToggleButtonAriaLabel": "Avaa valikko",
+      "placesClearButtonAriaLabel": "Tyhjennä kaikki paikat",
+      "placesSelectedItemRemoveButtonAriaLabel": "Poista paikka"
+    },
     "textEventCount": "{{count}} kpl",
     "textNoComingEvents": "Ei tapahtumia joissa on tulevia tapahtumia-aikoja",
     "title": "Tapahtumat",

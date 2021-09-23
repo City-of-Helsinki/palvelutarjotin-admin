@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # testcafe screenshots
-/screenshot
+/screenshots
 
 # ItelliJ
 *.iml
