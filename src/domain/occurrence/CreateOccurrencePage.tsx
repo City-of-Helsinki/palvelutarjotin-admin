@@ -273,9 +273,9 @@ const CreateOccurrencePage: React.FC = () => {
 
   const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
     () => {
+      // after saving, event data is refetched and it should include at least 1 ocurrences
       const { pEvent: { occurrences = undefined } = {} } =
         eventDataRef.current?.event ?? {};
-
       const requiredFieldsSchema = Yup.object().shape({
         occurrences: Yup.array().min(
           1,

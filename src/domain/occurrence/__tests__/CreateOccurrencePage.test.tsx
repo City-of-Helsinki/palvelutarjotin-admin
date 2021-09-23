@@ -516,6 +516,11 @@ describe('location and enrolment info', () => {
 
     // Save event with no enrolment
     act(() => userEvent.click(getFormElement('noEnrolmentButton')));
+
+    // grup min and maxi nput should be hidden
+    expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
+    expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
+
     userEvent.click(getFormElement('saveButton'));
 
     await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
@@ -555,7 +560,7 @@ describe('location and enrolment info', () => {
     await selectLocation();
     await screen.findByText('Test venue description');
 
-    // should be found in the document before clking externalEnrolment radio button
+    // should be found in the document before clicking externalEnrolment radio button
     expect(getOccurrenceFormElement('min')).toBeInTheDocument();
     expect(getOccurrenceFormElement('max')).toBeInTheDocument();
 
@@ -861,8 +866,7 @@ describe('occurrences form', () => {
 });
 
 describe('save occurrence and event info simultaneously', () => {
-  it('saves occurrence and event info when using save button', async () => {
-    advanceTo('2021-04-02');
+  const fillForm = async () => {
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
     const occurrenceStartTime = '10.05.2021 10:00';
     const occurrenceEndTime = '10.05.2021 11:00';
@@ -904,7 +908,7 @@ describe('save occurrence and event info simultaneously', () => {
       placeId: placeId,
     };
 
-    renderComponent({
+    const { history } = renderComponent({
       mocks: [
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
         updateEventMockResponse,
@@ -915,7 +919,6 @@ describe('save occurrence and event info simultaneously', () => {
       ],
     });
 
-    const toastSuccess = jest.spyOn(toast, 'success');
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
 
@@ -969,6 +972,14 @@ describe('save occurrence and event info simultaneously', () => {
       submit: false,
     });
 
+    return { history };
+  };
+
+  it('saves occurrence and event info when using save button', async () => {
+    advanceTo('2021-04-02');
+    const toastSuccess = jest.spyOn(toast, 'success');
+
+    await fillForm();
     userEvent.click(getFormElement('saveButton'));
 
     await waitFor(() => {
@@ -979,7 +990,22 @@ describe('save occurrence and event info simultaneously', () => {
     expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
   });
 
-  it.todo('saves occurrence and event info when using to go to publish button');
+  it('saves occurrence and event info when using to go to publish button', async () => {
+    advanceTo('2021-04-02');
+    const toastSuccess = jest.spyOn(toast, 'success');
+    const { history } = await fillForm();
+    const historyPush = jest.spyOn(history, 'push');
+
+    userEvent.click(getFormElement('goToPublishing'));
+
+    await waitFor(() => {
+      expect(toastSuccess).toHaveBeenCalledTimes(2);
+    });
+
+    expect(toastSuccess).toHaveBeenCalledWith('Tapahtuma-aika tallennettu');
+    expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+    expect(historyPush).toHaveBeenCalledWith(`/fi/events/${eventId}/summary`);
+  });
 });
 
 describe('venue info', () => {
