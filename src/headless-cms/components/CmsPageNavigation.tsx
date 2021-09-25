@@ -10,6 +10,8 @@ import { uriToBreadcrumbs } from '../utils';
 import { NavigationObject } from './CmsPage';
 import styles from './cmsPage.module.scss';
 
+export const cmsNavigationContainerTestId = 'cms-navigation-container';
+
 const CmsPageNavigation: React.FC<{
   navigation?: NavigationObject[][];
 }> = ({ navigation }): JSX.Element => {
@@ -22,36 +24,34 @@ const CmsPageNavigation: React.FC<{
   };
 
   return (
-    <>
+    <nav data-testid={cmsNavigationContainerTestId}>
       {navigation?.map((navigationArray, index) => {
         return (
           <div className={styles.navigationRowContainer} key={index}>
             <Container className={styles.container}>
-              <nav>
-                <div className={styles.navigationRow} key={index}>
-                  {navigationArray
-                    ?.sort((a, b) => a.title.localeCompare(b.title))
-                    .map((n) => {
-                      const uri = getCmsPath(n.uri);
-                      return (
-                        <Link
-                          key={n.uri}
-                          className={classNames({
-                            [styles.activeLink]: isActiveLink(uri),
-                          })}
-                          to={`/${locale}${uri}`}
-                        >
-                          <span>{n.title}</span>
-                        </Link>
-                      );
-                    })}
-                </div>
-              </nav>
+              <div className={styles.navigationRow} key={index}>
+                {navigationArray
+                  ?.sort((a, b) => a.title.localeCompare(b.title))
+                  .map((n) => {
+                    const uri = getCmsPath(n.uri);
+                    return (
+                      <Link
+                        key={n.uri}
+                        className={classNames({
+                          [styles.activeLink]: isActiveLink(uri),
+                        })}
+                        to={`/${locale}${uri}`}
+                      >
+                        <span>{n.title}</span>
+                      </Link>
+                    );
+                  })}
+              </div>
             </Container>
           </div>
         );
       })}
-    </>
+    </nav>
   );
 };
 
