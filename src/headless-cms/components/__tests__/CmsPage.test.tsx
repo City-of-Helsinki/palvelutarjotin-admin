@@ -1,5 +1,5 @@
 import { dequal } from 'dequal';
-import { graphql } from 'msw';
+import { graphql, GraphQLContext, ResponseComposition } from 'msw';
 import React from 'react';
 
 import { ROUTES } from '../../../domain/app/routes/constants';
@@ -182,6 +182,32 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
 
 const mocks = initializeMocks(pageHierarchy);
 
+const handleMockError = ({
+  query,
+  variables,
+  ctx,
+  res,
+}: {
+  query: string;
+  variables: any;
+  ctx: GraphQLContext<Record<string, any>>;
+  res: ResponseComposition<any>;
+}) => {
+  // eslint-disable-next-line no-console
+  console.error('Missing mock with variables: ', variables);
+  return res(
+    ctx.errors([
+      {
+        message: `Missing mock for the following query: \n\r\n\rquery: ${query} \n\rvariables: ${JSON.stringify(
+          variables,
+          null,
+          2
+        )}`,
+      },
+    ])
+  );
+};
+
 beforeEach(() => {
   server.use(
     graphql.query('Page', (req, res, ctx) => {
@@ -193,19 +219,12 @@ beforeEach(() => {
         return res(ctx.data(mock.response));
       }
 
-      // eslint-disable-next-line no-console
-      console.error('Missing mock with variables: ', req.variables);
-      return res(
-        ctx.errors([
-          {
-            message: `Missing mock for the following query: \n\r\n\rquery: Page \n\rvariables: ${JSON.stringify(
-              req.variables,
-              null,
-              2
-            )}`,
-          },
-        ])
-      );
+      return handleMockError({
+        res,
+        ctx,
+        variables: req.variables,
+        query: 'Page',
+      });
     }),
     graphql.query('SubPagesSearch', (req, res, ctx) => {
       const mock = mocks.SubPagesSearch.find(({ variables }) => {
@@ -216,19 +235,12 @@ beforeEach(() => {
         return res(ctx.data(mock.response));
       }
 
-      // eslint-disable-next-line no-console
-      console.error('Missing mock with variables: ', req.variables);
-      return res(
-        ctx.errors([
-          {
-            message: `Missing mock for the following query: \n\r\n\rquery: Page \n\rvariables: ${JSON.stringify(
-              req.variables,
-              null,
-              2
-            )}`,
-          },
-        ])
-      );
+      return handleMockError({
+        res,
+        ctx,
+        variables: req.variables,
+        query: 'SubPagesSearch',
+      });
     })
   );
 });
