@@ -14,10 +14,11 @@ import {
   useSubPagesSearchQuery,
 } from '../../../generated/graphql-cms';
 import useDebounce from '../../../hooks/useDebounce';
+import useLocale from '../../../hooks/useLocale';
 import cmsClient from '../../client';
 import styles from './cmsPageSearch.module.scss';
 
-const BLOCK_SIZE = 3;
+const BLOCK_SIZE = 10;
 const SEARCH_DEBOUNCE_TIME = 500;
 
 const CmsPageSearch: React.FC<{
@@ -112,14 +113,15 @@ const CmsPageSearchList: React.FC<{
   fetchMore: () => void;
 }> = ({ pages, loading, isLoadingMore, fetchMore, hasMoreToLoad }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
 
   return (
     <div className={styles.pageList}>
       <LoadingSpinner isLoading={loading}>
         {pages.map((page) => {
-          const pageUri = getCmsPath(page.uri);
+          const pageUri = `/${locale}${getCmsPath(page.uri)}`;
           const pageLead =
-            page.lead?.replaceAll('<p>', '')?.replaceAll('</p>', '') ?? '';
+            page.lead?.replace('<p>', '')?.replace('</p>', '') ?? '';
           const imgSrc =
             page.featuredImage?.node?.mediaItemUrl ??
             getEventPlaceholderImage(page.id);
