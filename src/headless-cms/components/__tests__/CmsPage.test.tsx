@@ -120,35 +120,67 @@ const pageHierarchy: PageHierarchy[] = [
   },
 ];
 
+const subPagesMocks = [
+  {
+    variables: {
+      first: 10,
+      id: '/paasivu/oppimateriaalit/',
+      idType: 'URI',
+      search: '',
+    },
+    response: {
+      page: {
+        id: 'page',
+        __typename: 'Page',
+        children: {
+          pageInfo: {
+            endCursor: 10,
+            hasNextPage: false,
+          },
+          edges: searchablePages.map((p) => ({
+            cursor: '',
+            node: fakePage({ title: p.title, uri: p.uri }),
+          })),
+        },
+      },
+    },
+  },
+  {
+    variables: {
+      first: 10,
+      id: '/paasivu/oppimateriaalit/',
+      idType: 'URI',
+      search: 'haku',
+    },
+    response: {
+      page: {
+        id: 'page2',
+        __typename: 'Page',
+        children: {
+          pageInfo: {
+            endCursor: 10,
+            hasNextPage: false,
+          },
+          edges: [
+            {
+              cursor: '',
+              node: fakePage({ title: 'Haettu sivu' }),
+            },
+          ],
+        },
+      },
+    },
+  },
+];
+
 function initializeMocks(pageHierarchy: PageHierarchy[]) {
   const mocks = {
     Page: [],
-    SubPagesSearch: [
-      {
-        variables: {
-          first: 10,
-          id: '/paasivu/oppimateriaalit/',
-          idType: 'URI',
-          search: '',
-        },
-        response: {
-          page: {
-            id: 'page',
-            children: {
-              pageInfo: {
-                endCursor: 10,
-                hasNextPage: false,
-              },
-              edges: searchablePages.map((p) => ({
-                cursor: '',
-                node: fakePage({ title: p.title, uri: p.uri }),
-              })),
-            },
-          },
-        },
-      },
-    ],
+    SubPagesSearch: subPagesMocks,
   };
+  pageHierarchy.forEach((page) => addMock(page));
+  return mocks;
+
   function addMock(page: PageHierarchy) {
     mocks.Page.push({
       variables: {
@@ -176,8 +208,6 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
     });
     page.children?.forEach((child) => addMock(child));
   }
-  pageHierarchy.forEach((page) => addMock(page));
-  return mocks;
 }
 
 const mocks = initializeMocks(pageHierarchy);
@@ -422,15 +452,32 @@ test('CMS sub pages can be searched', async () => {
     await screen.findByRole('heading', { name: page.title });
   }
 
+  userEvent.type(screen.getByRole('textbox', { name: /haku/i }), 'haku');
+
+  await screen.findByText('Haettu sivu');
+
+  for (const page of searchablePages) {
+    expect(
+      screen.queryByRole('heading', { name: page.title })
+    ).not.toBeInTheDocument();
+  }
+
+  userEvent.clear(screen.getByRole('textbox', { name: /haku/i }));
+
   // navigation works from page card
   userEvent.click(
-    screen.getByRole('link', {
-      name: /oppimateriaali1/i,
-    })
+    await screen.findByRole(
+      'link',
+      {
+        name: /oppimateriaali1/i,
+      },
+      { timeout: 5000 }
+    )
   );
 
   await wait();
 
+  // test breadcrumbs in search page
   const breadcrumbs = getBreadcrumbsContainer();
   breadcrumbs.getByText('Oppimateriaali1');
   screen.getByRole('heading', { name: 'Oppimateriaali1' });
