@@ -5,11 +5,24 @@ import {
   Language,
   LanguageCodeEnum,
   MediaItem,
+  MenuItem,
   Page,
   Seo,
 } from '../generated/graphql-cms';
 
 const generateUri = () => faker.random.words().split(' ').join('/');
+
+export const fakeMenuItem = (overrides?: Partial<MenuItem>): MenuItem => {
+  return merge<MenuItem, typeof overrides>(
+    {
+      databaseId: faker.datatype.number(),
+      id: faker.datatype.string(),
+      path: '',
+      __typename: 'MenuItem',
+    },
+    overrides
+  );
+};
 
 export const fakePage = (
   overrides?: Partial<Page>,

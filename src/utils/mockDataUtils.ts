@@ -502,7 +502,7 @@ export const fakeLocalizedObject = (
   fi: localizedObject.fi || text || faker.random.words(),
 });
 
-const generateNodeArray = <T extends (...args: any) => any>(
+export const generateNodeArray = <T extends (...args: any) => any>(
   fakeFunc: T,
   length: number
 ): ReturnType<T>[] => {
