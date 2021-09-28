@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,9 +16,7 @@
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "exclude": [
     "**/__mocks__/*",
     "src/**/*.stories.*",
@@ -30,6 +24,7 @@
     "src/test/**",
     "src/utils/testUtils.tsx",
     "src/utils/mockDataUtils.ts",
+    "src/utils/cmsMockDataUtils.ts",
     "src/utils/CommonEventFormTests.ts"
   ]
 }
