@@ -1,4 +1,22 @@
-import { uriToBreadcrumbs } from '../utils';
+import { dequal } from 'dequal';
+import { graphql } from 'msw';
+
+import {
+  PageIdType,
+  PageQuery,
+  PageQueryVariables,
+} from '../../generated/graphql-cms';
+import { server } from '../../test/msw/server';
+import { fakePage } from '../../utils/cmsMockDataUtils';
+import {
+  getCmsUriFromPath,
+  normalizeCmsUri,
+  queryPageWithUri,
+  removeSurroundingSlashes,
+  slugsToUriSegments,
+  stripLocaleFromUri,
+  uriToBreadcrumbs,
+} from '../utils';
 
 describe('uriToBreadcrumbs', () => {
   test.each([
@@ -29,5 +47,155 @@ describe('uriToBreadcrumbs', () => {
     },
   ])('uriToBreadcrumbs("$uri") returns $expected', ({ uri, expected }) => {
     expect(uriToBreadcrumbs(uri)).toEqual(expected);
+  });
+});
+
+describe('stripLocaleFromUri', () => {
+  test.each([
+    {
+      uri: '/en/ensdgfdsd/',
+      expected: '/ensdgfdsd/',
+    },
+    {
+      uri: '/en/ensdgfdsd/slug',
+      expected: '/ensdgfdsd/slug',
+    },
+    {
+      uri: '/svaasdfgds/',
+      expected: '/svaasdfgds/',
+    },
+    {
+      uri: '/fi/slug1',
+      expected: '/slug1',
+    },
+    {
+      uri: '/sv/slug1/',
+      expected: '/slug1/',
+    },
+    {
+      uri: '/sv1/slug1/',
+      expected: '/sv1/slug1/',
+    },
+    {
+      uri: '/fiI/slug1/',
+      expected: '/fiI/slug1/',
+    },
+    {
+      uri: '/fi10/slug1/',
+      expected: '/fi10/slug1/',
+    },
+  ])('stripLocaleFromUri("$uri") returns $expected', ({ uri, expected }) => {
+    expect(stripLocaleFromUri(uri)).toBe(expected);
+  });
+});
+
+describe('removeSurroundingSlashes', () => {
+  test.each([
+    {
+      uri: '/moi/',
+      expected: 'moi',
+    },
+    {
+      uri: '/slug1/slug2/',
+      expected: 'slug1/slug2',
+    },
+  ])(
+    'removeSurroundingSlashes("$uri") returns $expected',
+    ({ uri, expected }) => {
+      expect(removeSurroundingSlashes(uri)).toBe(expected);
+    }
+  );
+});
+
+describe('slugsToUriSegments', () => {
+  test.each([
+    {
+      slugs: [],
+      expected: [],
+    },
+    {
+      slugs: ['slug1'],
+      expected: ['/slug1/'],
+    },
+    {
+      slugs: ['slug1', 'slug2'],
+      expected: ['/slug1/', '/slug1/slug2/'],
+    },
+    {
+      slugs: ['slug1', 'slug2', 'slug3'],
+      expected: ['/slug1/', '/slug1/slug2/', '/slug1/slug2/slug3/'],
+    },
+  ])('slugsToUriSegments("$uri") returns $expected', ({ slugs, expected }) => {
+    expect(slugsToUriSegments(slugs)).toEqual(expected);
+  });
+});
+
+describe('getCmsUriFromPath', () => {
+  test.each([
+    {
+      slugs: '/fi/cms-page/test',
+      expected: '/test',
+    },
+    {
+      slugs: '/sv/cms-page/test',
+      expected: '/test',
+    },
+    {
+      slugs: '/en/cms-page/test',
+      expected: '/test',
+    },
+    {
+      slugs: '/en/cms-page/test/test2',
+      expected: '/test/test2',
+    },
+    {
+      slugs: '/en/cms-page/test/test2/test3',
+      expected: '/test/test2/test3',
+    },
+  ])('getCmsUriFromPath("$uri") returns $expected', ({ slugs, expected }) => {
+    expect(getCmsUriFromPath(slugs)).toEqual(expected);
+  });
+});
+
+describe('normalizeCmsUri', () => {
+  test.each([
+    {
+      uri: '/fi/test1/',
+      expected: 'test1',
+    },
+    {
+      uri: '/en/test1/test2/',
+      expected: 'test1/test2',
+    },
+    {
+      uri: '/sv/test1/test2/test3',
+      expected: 'test1/test2/test3',
+    },
+  ])('normalizeCmsUri("$uri") returns $expected', ({ uri, expected }) => {
+    expect(normalizeCmsUri(uri)).toEqual(expected);
+  });
+});
+
+describe('queryPageWithUri', () => {
+  it('fetches page with uri', async () => {
+    const uri = '/fi/test-page/nested-page/';
+    const idType = PageIdType.Uri;
+    const page = fakePage();
+    server.use(
+      graphql.query<PageQuery, PageQueryVariables>('Page', (req, res, ctx) => {
+        if (dequal(req.variables, { id: 'test-page/nested-page', idType })) {
+          return res(
+            ctx.data({
+              page,
+            })
+          );
+        } else {
+          return res(ctx.errors([{ message: "Variables didn't match" }]));
+        }
+      })
+    );
+
+    const { data: pageResponse } = await queryPageWithUri(uri);
+    expect(page.id).toEqual(pageResponse.page.id);
   });
 });

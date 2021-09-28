@@ -7,6 +7,8 @@ import { configure } from 'enzyme';
 import { toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';
 
+import { server } from './test/msw/server';
+
 expect.extend(toHaveNoViolations);
 
 jest.setTimeout(50000);
@@ -17,6 +19,16 @@ jest.setTimeout(50000);
 window.scrollTo = jest.fn();
 
 configure({ adapter: new Adapter() });
+
+beforeAll(() => {
+  server.listen();
+});
+afterEach(() => {
+  server.resetHandlers();
+});
+afterAll(() => {
+  server.close();
+});
 
 const originalWarn = console.warn.bind(console.warn);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

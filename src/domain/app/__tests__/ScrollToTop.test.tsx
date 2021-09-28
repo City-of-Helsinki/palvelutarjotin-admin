@@ -1,8 +1,13 @@
 import * as React from 'react';
 
+import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { render, screen, waitFor } from '../../../utils/testUtils';
 import AppRoutes from '../routes/AppRoutes';
 import ScrollToTop, { resetFocusId } from '../ScrollToTop';
+
+beforeEach(() => {
+  initCmsMenuItemsMocks();
+});
 
 const TestComponent = () => {
   return (

@@ -17,6 +17,7 @@ import CmsPageNavigation from './CmsPageNavigation';
 import CmsPageSearch from './CmsPageSearch/CmsPageSearch';
 
 export const SEARCH_PANEL_TRESHOLD = 5;
+export const breadcrumbsContainerTestId = 'breadcrumbs-container';
 
 const CmsPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -51,9 +52,12 @@ const Breadcrumbs: React.FC<{ breadcrumbs: Breadcrumb[] }> = ({
 
   return (
     <Container className={styles.container}>
-      <ul className={styles.breadcrumbList}>
+      <ul
+        className={styles.breadcrumbList}
+        data-testid={breadcrumbsContainerTestId}
+      >
         {!!breadcrumbs.length && (
-          <li>
+          <li key="front-page">
             <Link to="/">{t('cms.linkFrontPage')}</Link>
           </li>
         )}
@@ -62,7 +66,7 @@ const Breadcrumbs: React.FC<{ breadcrumbs: Breadcrumb[] }> = ({
           const to = `/${locale}${getCmsPath(uriWithoutLocale)}`;
           const isLastItem = all.length === index + 1;
           return (
-            <li>
+            <li key={breadcrumb.title}>
               {isLastItem ? (
                 breadcrumb.title
               ) : (

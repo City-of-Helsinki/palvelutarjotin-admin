@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
+import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import Header from '../Header';
@@ -19,6 +20,10 @@ const mocks = [
     result: profileResponse,
   },
 ];
+
+beforeEach(() => {
+  initCmsMenuItemsMocks();
+});
 
 it('Header matches snapshot', () => {
   const { container } = render(<Header />, { mocks });
@@ -54,4 +59,14 @@ describe('cimode in language selector', () => {
     render(<Header />);
     expect(screen.queryAllByText(/CIMODE/).length).toBe(0);
   });
+});
+
+test('header renders cms menu items', async () => {
+  const { menuItems } = initCmsMenuItemsMocks();
+  render(<Header />, { mocks });
+
+  for (const menuItem of menuItems) {
+    const link = await screen.findByRole('link', { name: menuItem.title });
+    expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
+  }
 });
