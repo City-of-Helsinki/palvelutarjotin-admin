@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.4...v0.3.5) (2021-09-28)
+
+
+### Features
+
+* filter events by profile places ([91008e5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/91008e5f1f3f1c2328e54d56d5324ec7aad14a73))
+
+
+### Bug Fixes
+
+* add missing sv translations ([b3e4e89](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b3e4e89745e8c2bcfbaffc4c7681348af25cfd8f))
+* add swedish translation for my profile form ([f8cb897](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/f8cb897c33aa38bc0595bd5a2fa804f0749b12ec))
+* browser tests ([e7f820e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/e7f820e04871318093fba767cacdd2f79bc6774e))
+* build ts error by ignoring cmsMockDataUtils type check ([c799856](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c7998561ae68b88c79486afa29c75bf9971621b4))
+* delete unused imports ([6b36018](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6b36018ca2b8a7176045dc1ba876f0aa2ac06dd7))
+* events page tests after translation changes ([aa43bd6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/aa43bd6a9cf984f00a677f12b43e1677c0e83c69))
+* hide also seats input when not internal enrolment ([1525db8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/1525db82d4c52722bac70d68efbef191065b69c0))
+* hide min and max fields when not internal enrolment + improve tests ([88f910b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/88f910b36bf12a3ad8fcd4a41f5a537c81176a01))
+* some translation improvements for places selector ([847d92c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/847d92c416fbbfb2b90275f003453a42589d35b4))
+
 ### [0.3.4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.3...v0.3.4) (2021-09-21)
 
 
