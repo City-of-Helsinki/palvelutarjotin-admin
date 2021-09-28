@@ -36,13 +36,6 @@ export const initCmsMenuItemsMocks = () => {
           } as MenuQuery['menu'],
         })
       );
-    }),
-    graphql.query('Page', (req, res, ctx) => {
-      return res(
-        ctx.data({
-          page: fakePage(),
-        })
-      );
     })
   );
 

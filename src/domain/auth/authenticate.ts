@@ -45,29 +45,29 @@ export const logoutTunnistamo = async (): Promise<void> => {
   }
 };
 
-export const getApiToken = (accessToken: string): StoreThunk => async (
-  dispatch
-) => {
-  try {
-    dispatch(startFetchingToken());
+export const getApiToken =
+  (accessToken: string): StoreThunk =>
+  async (dispatch) => {
+    try {
+      dispatch(startFetchingToken());
 
-    const res: AxiosResponse<ApiTokenResponse> = await axios.get(
-      TUNNISTAMO_API_TOKEN_ENDPOINT,
-      {
-        headers: {
-          Authorization: `bearer ${accessToken}`,
-        },
-      }
-    );
+      const res: AxiosResponse<ApiTokenResponse> = await axios.get(
+        TUNNISTAMO_API_TOKEN_ENDPOINT,
+        {
+          headers: {
+            Authorization: `bearer ${accessToken}`,
+          },
+        }
+      );
 
-    dispatch(fetchTokenSuccess(res.data));
-  } catch (e) {
-    dispatch(fetchTokenError(e));
-    toast(i18n.t('authentication.errorMessage'), {
-      type: toast.TYPE.ERROR,
-    });
-  }
-};
+      dispatch(fetchTokenSuccess(res.data));
+    } catch (e) {
+      dispatch(fetchTokenError(e));
+      toast(i18n.t('authentication.errorMessage'), {
+        type: toast.TYPE.ERROR,
+      });
+    }
+  };
 
 export const clearAllState = async (): Promise<void> => {
   await Promise.all([

@@ -49,7 +49,6 @@ const Breadcrumbs: React.FC<{ breadcrumbs: Breadcrumb[] }> = ({
 }) => {
   const locale = useLocale();
   const { t } = useTranslation();
-
   return (
     <Container className={styles.container}>
       <ul

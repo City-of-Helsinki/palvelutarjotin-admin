@@ -3,7 +3,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
-import wait from 'waait';
 
 import {
   Event,
@@ -15,21 +14,17 @@ import {
   fakeEvent,
   fakeEvents,
   fakeLocalizedObject,
-  fakeOccurrences,
   fakeOrganisations,
   fakePerson,
-  fakePEvent,
   fakePlace,
 } from '../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import * as organisationSelectors from '../../organisation/selector';
 import { EVENT_SORT_KEYS, PAGE_SIZE } from '../constants';
 import EventsPage from '../EventsPage';
 

@@ -1,12 +1,24 @@
+import { graphql } from 'msw';
 import * as React from 'react';
 
 import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
+import { server } from '../../../test/msw/server';
+import { fakePage } from '../../../utils/cmsMockDataUtils';
 import { render, screen, waitFor } from '../../../utils/testUtils';
 import AppRoutes from '../routes/AppRoutes';
 import ScrollToTop, { resetFocusId } from '../ScrollToTop';
 
 beforeEach(() => {
   initCmsMenuItemsMocks();
+  server.use(
+    graphql.query('Page', (req, res, ctx) => {
+      return res(
+        ctx.data({
+          page: fakePage(),
+        })
+      );
+    })
+  );
 });
 
 const TestComponent = () => {
