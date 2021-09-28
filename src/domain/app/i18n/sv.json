@@ -474,11 +474,11 @@
     "search": {
       "placeholderSearch": "Sök",
       "labelSearch": "Sök",
-      "labelPlaces": "(SV)Places",
-      "placeholderPlaces": "(SV)Search places...",
-      "placesToggleButtonAriaLabel": "(SV)Open dropdown",
-      "placesClearButtonAriaLabel": "(SV)Delete all places",
-      "placesSelectedItemRemoveButtonAriaLabel": "(SV)Delete place"
+      "labelPlaces": "Stället",
+      "placeholderPlaces": "Sök efter stället för",
+      "placesToggleButtonAriaLabel": "Öppna dropdown för at hitta de du söker",
+      "placesClearButtonAriaLabel": "Radera ut de utvalda platserna",
+      "placesSelectedItemRemoveButtonAriaLabel": "Tabort (det här) stället"
     },
 
     "textEventCount": "{{count}} st",
