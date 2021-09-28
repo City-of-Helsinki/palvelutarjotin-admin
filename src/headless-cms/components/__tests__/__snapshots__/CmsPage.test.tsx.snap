@@ -2,177 +2,811 @@
 
 exports[`renders CMS page and navigation flow works 1`] = `
 <div>
-  <div>
-    <nav
-      data-testid="cms-navigation-container"
+  <div
+    class="pageLayout"
+  >
+    <header
+      class="Navigation-module_header__2HNOX Navigation-module_theme-light__36nmi"
     >
-      <div
-        class="navigationRowContainer"
+      <a
+        class="Navigation-module_skipToContent__2p54x"
+        href="#main-content"
       >
+        Siirry sisältöön
+      </a>
+      <div
+        class="visible-module_belowM__2GR1J"
+      >
+        <div
+          class="Navigation-module_headerBackgroundWrapper__137R3"
+        >
+          <div
+            class="Navigation-module_headerContainer__2YPsu"
+          >
+            <a
+              class="Navigation-module_title__3zRBe"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="Logo-module_logo__Y2mwP Navigation-module_logo__1sEy6"
+                role="img"
+                title="Helsingin kaupunki"
+                viewBox="0 0 78 36"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M75.753 2.251v20.7c0 3.95-3.275 7.178-7.31 7.178h-22.26c-2.674 0-5.205.96-7.183 2.739a10.749 10.749 0 00-7.183-2.74H9.509c-4.003 0-7.247-3.21-7.247-7.177V2.25h73.491zM40.187 34.835a8.47 8.47 0 016.012-2.471h22.245c5.268 0 9.556-4.219 9.556-9.413V0H0v22.935c0 5.194 4.256 9.413 9.509 9.413h22.308c2.263 0 4.398.882 6.012 2.471L39.016 36l1.17-1.165z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M67.522 11.676c0 .681-.556 1.177-1.255 1.177-.7 0-1.255-.496-1.255-1.177 0-.682.556-1.178 1.255-1.178.7-.03 1.255.465 1.255 1.178zm-2.352 9.622h2.178v-7.546H65.17v7.546zm-3.909-4.556l2.845 4.556h-2.368l-1.907-3.022-1.033 1.271v1.75h-2.161V10.453h2.16v5.004c0 .93-.11 1.86-.11 1.86h.047s.509-.821.938-1.41l1.653-2.154h2.542l-2.606 2.99zm-6.817-.278c0-1.875-.938-2.898-2.432-2.898-1.271 0-1.939.728-2.32 1.426h-.048l.112-1.24h-2.162v7.546h2.162V16.82c0-.868.524-1.472 1.335-1.472.81 0 1.16.527 1.16 1.534v4.416h2.177l.016-4.834zm-8.931-4.788c0 .681-.557 1.177-1.256 1.177-.7 0-1.255-.496-1.255-1.177 0-.682.556-1.178 1.255-1.178.715-.03 1.256.465 1.256 1.178zm-2.352 9.622h2.177v-7.546H43.16v7.546zm-3.75-2.107c0-.605-.859-.729-1.86-1.008-1.16-.294-2.622-.867-2.622-2.308 0-1.426 1.398-2.324 3.051-2.324 1.541 0 2.956.712 3.544 1.72l-1.86 1.022c-.19-.666-.762-1.193-1.62-1.193-.557 0-1.018.232-1.018.682 0 .573 1.018.635 2.162.991 1.208.372 2.32.915 2.32 2.294 0 1.518-1.446 2.417-3.115 2.417-1.811 0-3.242-.744-3.877-1.952l1.89-1.039c.24.822.922 1.441 1.955 1.441.62 0 1.05-.248 1.05-.743zm-6.882-8.677h-2.177v8.692c0 .775.175 1.348.509 1.705.35.356.89.526 1.636.526.255 0 .525-.03.78-.077.27-.062.476-.14.65-.233l.191-1.425a2.07 2.07 0 01-.46.124c-.128.03-.287.03-.461.03-.286 0-.414-.077-.509-.216-.111-.14-.159-.387-.159-.744v-8.382zm-7.246 4.57c-.795 0-1.446.558-1.621 1.581h3.05c.017-.899-.587-1.58-1.43-1.58zm3.353 3.007H23.63c.095 1.224.794 1.828 1.7 1.828.81 0 1.367-.527 1.494-1.24l1.828 1.007c-.54.961-1.7 1.798-3.322 1.798-2.16 0-3.75-1.472-3.75-3.951 0-2.464 1.62-3.951 3.703-3.951 2.081 0 3.464 1.44 3.464 3.486-.016.604-.111 1.023-.111 1.023zm-11.077 3.207h2.257V10.916h-2.257v4.107h-4.243v-4.091H11.06v10.366h2.256v-4.292h4.243v4.292z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span>
+                Kultus Admin beta
+              </span>
+            </a>
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="header.menuToggleAriaLabel"
+              class="Navigation-module_mobileMenuToggle__1v6en"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                  />
+                  <path
+                    d="M22 17v2H2v-2h20zm0-6v2H2v-2h20zm0-6v2H2V5h20z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="visible-module_aboveM__31mn_"
+      >
+        <div
+          class="Navigation-module_headerBackgroundWrapper__137R3"
+        >
+          <div
+            class="Navigation-module_headerContainer__2YPsu"
+          >
+            <a
+              class="Navigation-module_title__3zRBe"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="Logo-module_logo__Y2mwP Navigation-module_logo__1sEy6"
+                role="img"
+                title="Helsingin kaupunki"
+                viewBox="0 0 78 36"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M75.753 2.251v20.7c0 3.95-3.275 7.178-7.31 7.178h-22.26c-2.674 0-5.205.96-7.183 2.739a10.749 10.749 0 00-7.183-2.74H9.509c-4.003 0-7.247-3.21-7.247-7.177V2.25h73.491zM40.187 34.835a8.47 8.47 0 016.012-2.471h22.245c5.268 0 9.556-4.219 9.556-9.413V0H0v22.935c0 5.194 4.256 9.413 9.509 9.413h22.308c2.263 0 4.398.882 6.012 2.471L39.016 36l1.17-1.165z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M67.522 11.676c0 .681-.556 1.177-1.255 1.177-.7 0-1.255-.496-1.255-1.177 0-.682.556-1.178 1.255-1.178.7-.03 1.255.465 1.255 1.178zm-2.352 9.622h2.178v-7.546H65.17v7.546zm-3.909-4.556l2.845 4.556h-2.368l-1.907-3.022-1.033 1.271v1.75h-2.161V10.453h2.16v5.004c0 .93-.11 1.86-.11 1.86h.047s.509-.821.938-1.41l1.653-2.154h2.542l-2.606 2.99zm-6.817-.278c0-1.875-.938-2.898-2.432-2.898-1.271 0-1.939.728-2.32 1.426h-.048l.112-1.24h-2.162v7.546h2.162V16.82c0-.868.524-1.472 1.335-1.472.81 0 1.16.527 1.16 1.534v4.416h2.177l.016-4.834zm-8.931-4.788c0 .681-.557 1.177-1.256 1.177-.7 0-1.255-.496-1.255-1.177 0-.682.556-1.178 1.255-1.178.715-.03 1.256.465 1.256 1.178zm-2.352 9.622h2.177v-7.546H43.16v7.546zm-3.75-2.107c0-.605-.859-.729-1.86-1.008-1.16-.294-2.622-.867-2.622-2.308 0-1.426 1.398-2.324 3.051-2.324 1.541 0 2.956.712 3.544 1.72l-1.86 1.022c-.19-.666-.762-1.193-1.62-1.193-.557 0-1.018.232-1.018.682 0 .573 1.018.635 2.162.991 1.208.372 2.32.915 2.32 2.294 0 1.518-1.446 2.417-3.115 2.417-1.811 0-3.242-.744-3.877-1.952l1.89-1.039c.24.822.922 1.441 1.955 1.441.62 0 1.05-.248 1.05-.743zm-6.882-8.677h-2.177v8.692c0 .775.175 1.348.509 1.705.35.356.89.526 1.636.526.255 0 .525-.03.78-.077.27-.062.476-.14.65-.233l.191-1.425a2.07 2.07 0 01-.46.124c-.128.03-.287.03-.461.03-.286 0-.414-.077-.509-.216-.111-.14-.159-.387-.159-.744v-8.382zm-7.246 4.57c-.795 0-1.446.558-1.621 1.581h3.05c.017-.899-.587-1.58-1.43-1.58zm3.353 3.007H23.63c.095 1.224.794 1.828 1.7 1.828.81 0 1.367-.527 1.494-1.24l1.828 1.007c-.54.961-1.7 1.798-3.322 1.798-2.16 0-3.75-1.472-3.75-3.951 0-2.464 1.62-3.951 3.703-3.951 2.081 0 3.464 1.44 3.464 3.486-.016.604-.111 1.023-.111 1.023zm-11.077 3.207h2.257V10.916h-2.257v4.107h-4.243v-4.091H11.06v10.366h2.256v-4.292h4.243v4.292z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span>
+                Kultus Admin beta
+              </span>
+            </a>
+            <div
+              class="Navigation-module_headerContent__3zHbK"
+            >
+              <nav
+                class="NavigationRow-module_navigation__24tui"
+              >
+                <a
+                  class="NavigationItem-module_rowItem__2QxRz"
+                  href="/fi/cms-page/test1"
+                >
+                  <span
+                    class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                  >
+                    Testi1
+                  </span>
+                </a>
+                <a
+                  class="NavigationItem-module_rowItem__2QxRz"
+                  href="/fi/cms-page/test2"
+                >
+                  <span
+                    class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                  >
+                    Testi2
+                  </span>
+                </a>
+                <a
+                  class="NavigationItem-module_rowItem__2QxRz"
+                  href="/fi/cms-page/test3"
+                >
+                  <span
+                    class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                  >
+                    Testi3
+                  </span>
+                </a>
+                <a
+                  class="NavigationItem-module_rowItem__2QxRz"
+                  href="/fi/cms-page/test4"
+                >
+                  <span
+                    class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                  >
+                    Testi4
+                  </span>
+                </a>
+                <a
+                  class="NavigationItem-module_rowItem__2QxRz"
+                  href="/fi/cms-page/test5"
+                >
+                  <span
+                    class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                  >
+                    Testi5
+                  </span>
+                </a>
+              </nav>
+              <div
+                class="NavigationActions-module_navigationActions__2D8MK"
+              >
+                <div
+                  class="NavigationUser-module_user__4HdTn"
+                >
+                  <div
+                    class="visible-module_belowM__2GR1J"
+                  >
+                    <span
+                      class="NavigationUser-module_userName__1FRZj"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g
+                          fill="none"
+                          fill-rule="evenodd"
+                        >
+                          <path
+                            d="M0 0h24v24H0z"
+                          />
+                          <path
+                            d="M16.267 13a4.733 4.733 0 014.728 4.517l.005.216V22H3v-4.267a4.733 4.733 0 014.517-4.728L7.733 13h8.534zm-8.534 2a2.733 2.733 0 00-2.728 2.567L5 17.733V20h14v-2.267c0-1.416-1.107-2.636-2.46-2.726l-.163-.005L7.733 15zM12 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
+                            fill="currentColor"
+                          />
+                        </g>
+                      </svg>
+                      Test User
+                    </span>
+                    <a
+                      class=""
+                    >
+                      <span
+                        class="NavigationItem-module_icon__3sdYZ button_hds-icon__3CVhk"
+                      >
+                        <svg
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <path
+                              d="M0 0h24v24H0z"
+                            />
+                            <path
+                              d="M16.267 13a4.733 4.733 0 014.728 4.517l.005.216V22H3v-4.267a4.733 4.733 0 014.517-4.728L7.733 13h8.534zm-8.534 2a2.733 2.733 0 00-2.728 2.567L5 17.733V20h14v-2.267c0-1.416-1.107-2.636-2.46-2.726l-.163-.005L7.733 15zM12 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
+                              fill="currentColor"
+                            />
+                          </g>
+                        </svg>
+                      </span>
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Omat tiedot
+                      </span>
+                    </a>
+                    <a
+                      class=""
+                    >
+                      <span
+                        class="NavigationItem-module_icon__3sdYZ button_hds-icon__3CVhk"
+                      >
+                        <svg
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <polygon
+                              points="0 24 0 0 24 0 24 24"
+                            />
+                            <polygon
+                              fill="currentColor"
+                              points="13.5 12 8.5 7 10 5.5 16.5 12 10 18.5 8.5 17"
+                            />
+                          </g>
+                        </svg>
+                      </span>
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto
+                      </span>
+                    </a>
+                    <a
+                      class=""
+                    >
+                      <span
+                        class="NavigationItem-module_icon__3sdYZ button_hds-icon__3CVhk"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <path
+                              d="M0 0h24v24H0z"
+                            />
+                            <path
+                              d="M16 2v5h-2V4H5v16h9v-3h2v5H3V2h13zm2 5l5 5-5 5-1.5-1.5 2.5-2.501L8 13v-2l10.999-.001L16.5 8.5 18 7z"
+                              fill="currentColor"
+                            />
+                          </g>
+                        </svg>
+                      </span>
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Kirjaudu ulos
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    class="visible-module_aboveM__31mn_"
+                  >
+                    <div
+                      class="MenuButton-module_menuButton__3T9k9 NavigationUser-module_userDropdown__196gv"
+                    >
+                      <button
+                        aria-controls="userDropdown-menu"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-label="Avaa käyttäjän valikko"
+                        class="MenuButton-module_toggleButton__3WH1a"
+                        id="userDropdown-button"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <path
+                              d="M0 0h24v24H0z"
+                            />
+                            <path
+                              d="M16.267 13a4.733 4.733 0 014.728 4.517l.005.216V22H3v-4.267a4.733 4.733 0 014.517-4.728L7.733 13h8.534zm-8.534 2a2.733 2.733 0 00-2.728 2.567L5 17.733V20h14v-2.267c0-1.416-1.107-2.636-2.46-2.726l-.163-.005L7.733 15zM12 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
+                              fill="currentColor"
+                            />
+                          </g>
+                        </svg>
+                        <span
+                          class="MenuButton-module_toggleButtonLabel__3NiHR"
+                        >
+                          Test User
+                        </span>
+                        <svg
+                          aria-hidden="true"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <path
+                              d="M0 0h24v24H0z"
+                            />
+                            <path
+                              d="M12 13.5l5-5 1.5 1.5-6.5 6.5L5.5 10 7 8.5z"
+                              fill="currentColor"
+                            />
+                          </g>
+                        </svg>
+                      </button>
+                      <div
+                        aria-labelledby="userDropdown-button"
+                        class="Menu-module_menu__FuqT0"
+                        id="userDropdown-menu"
+                        role="region"
+                        style="top: 10px; min-width: 190px;"
+                      >
+                        <a
+                          class="Menu-module_item__3yQdE "
+                        >
+                          <span
+                            class="NavigationItem-module_icon__3sdYZ button_hds-icon__3CVhk"
+                          >
+                            <svg
+                              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g
+                                fill="none"
+                                fill-rule="evenodd"
+                              >
+                                <path
+                                  d="M0 0h24v24H0z"
+                                />
+                                <path
+                                  d="M16.267 13a4.733 4.733 0 014.728 4.517l.005.216V22H3v-4.267a4.733 4.733 0 014.517-4.728L7.733 13h8.534zm-8.534 2a2.733 2.733 0 00-2.728 2.567L5 17.733V20h14v-2.267c0-1.416-1.107-2.636-2.46-2.726l-.163-.005L7.733 15zM12 2a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
+                                  fill="currentColor"
+                                />
+                              </g>
+                            </svg>
+                          </span>
+                          <span
+                            class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                          >
+                            Omat tiedot
+                          </span>
+                        </a>
+                        <a
+                          class="Menu-module_item__3yQdE "
+                        >
+                          <span
+                            class="NavigationItem-module_icon__3sdYZ button_hds-icon__3CVhk"
+                          >
+                            <svg
+                              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g
+                                fill="none"
+                                fill-rule="evenodd"
+                              >
+                                <polygon
+                                  points="0 24 0 0 24 0 24 24"
+                                />
+                                <polygon
+                                  fill="currentColor"
+                                  points="13.5 12 8.5 7 10 5.5 16.5 12 10 18.5 8.5 17"
+                                />
+                              </g>
+                            </svg>
+                          </span>
+                          <span
+                            class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                          >
+                            Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto
+                          </span>
+                        </a>
+                        <a
+                          class="Menu-module_item__3yQdE "
+                        >
+                          <span
+                            class="NavigationItem-module_icon__3sdYZ button_hds-icon__3CVhk"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                              role="img"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g
+                                fill="none"
+                                fill-rule="evenodd"
+                              >
+                                <path
+                                  d="M0 0h24v24H0z"
+                                />
+                                <path
+                                  d="M16 2v5h-2V4H5v16h9v-3h2v5H3V2h13zm2 5l5 5-5 5-1.5-1.5 2.5-2.501L8 13v-2l10.999-.001L16.5 8.5 18 7z"
+                                  fill="currentColor"
+                                />
+                              </g>
+                            </svg>
+                          </span>
+                          <span
+                            class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                          >
+                            Kirjaudu ulos
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MenuButton-module_menuButton__3T9k9 NavigationLanguageSelector-module_languageDropdown__3nCEM"
+                >
+                  <button
+                    aria-controls="languageSelector-menu"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    aria-label="FI kielivalikko"
+                    class="MenuButton-module_toggleButton__3WH1a"
+                    id="languageSelector-button"
+                    type="button"
+                  >
+                    <span
+                      class="MenuButton-module_toggleButtonLabel__3NiHR"
+                    >
+                      FI
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g
+                        fill="none"
+                        fill-rule="evenodd"
+                      >
+                        <path
+                          d="M0 0h24v24H0z"
+                        />
+                        <path
+                          d="M12 13.5l5-5 1.5 1.5-6.5 6.5L5.5 10 7 8.5z"
+                          fill="currentColor"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                  <div
+                    aria-labelledby="languageSelector-button"
+                    class="Menu-module_menu__FuqT0"
+                    id="languageSelector-menu"
+                    role="region"
+                    style="top: 10px; min-width: 190px;"
+                  >
+                    <a
+                      class="Menu-module_item__3yQdE "
+                      lang="fi"
+                    >
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Suomeksi
+                      </span>
+                    </a>
+                    <a
+                      class="Menu-module_item__3yQdE "
+                      lang="sv"
+                    >
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        På svenska
+                      </span>
+                    </a>
+                    <a
+                      class="Menu-module_item__3yQdE "
+                      lang="en"
+                    >
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        In English
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      aria-hidden="false"
+      class="pageBody"
+      id="main-content"
+    >
+      <div>
+        <nav
+          data-testid="cms-navigation-container"
+        >
+          <div
+            class="navigationRowContainer"
+          >
+            <div
+              class="container default container"
+            >
+              <div
+                class="navigationRow"
+              >
+                <a
+                  class="activeLink"
+                  href="/fi/cms-page/paasivu/alisivu1/"
+                >
+                  <span>
+                    Alisivu1
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/alisivu3/"
+                >
+                  <span>
+                    Alisivu3
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/alisivu4/"
+                >
+                  <span>
+                    Alisivu4
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/oppimateriaalit/"
+                >
+                  <span>
+                    Oppimateriaalit
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="navigationRowContainer"
+          >
+            <div
+              class="container default container"
+            >
+              <div
+                class="navigationRow"
+              >
+                <a
+                  class="activeLink"
+                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/"
+                >
+                  <span>
+                    Alisivu1 alisivu1
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu2/"
+                >
+                  <span>
+                    Alisivu1 alisivu2
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu3/"
+                >
+                  <span>
+                    Alisivu1 alisivu3
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="navigationRowContainer"
+          >
+            <div
+              class="container default container"
+            >
+              <div
+                class="navigationRow"
+              >
+                <a
+                  class="activeLink"
+                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu1/"
+                >
+                  <span>
+                    Alisivu1 alisivu1 alisivu1
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu2/"
+                >
+                  <span>
+                    Alisivun1 alisivu1 alisivu2
+                  </span>
+                </a>
+                <a
+                  class=""
+                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu3/"
+                >
+                  <span>
+                    Alisivun1 alisivu1 alisivu3
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
         <div
           class="container default container"
         >
-          <div
-            class="navigationRow"
+          <ul
+            class="breadcrumbList"
+            data-testid="breadcrumbs-container"
           >
-            <a
-              class="activeLink"
-              href="/fi/cms-page/paasivu/alisivu1/"
-            >
-              <span>
+            <li>
+              <a
+                href="/"
+              >
+                Kotisivu
+              </a>
+            </li>
+            <li>
+              <a
+                href="/fi/cms-page/paasivu/"
+              >
+                Pääsivu
+              </a>
+            </li>
+            <li>
+              <a
+                href="/fi/cms-page/paasivu/alisivu1/"
+              >
                 Alisivu1
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/alisivu3/"
-            >
-              <span>
-                Alisivu3
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/alisivu4/"
-            >
-              <span>
-                Alisivu4
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/oppimateriaalit/"
-            >
-              <span>
-                Oppimateriaalit
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div
-        class="navigationRowContainer"
-      >
-        <div
-          class="container default container"
-        >
-          <div
-            class="navigationRow"
-          >
-            <a
-              class="activeLink"
-              href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/"
-            >
-              <span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/"
+              >
                 Alisivu1 alisivu1
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/alisivu1/ali2sivu2/"
-            >
-              <span>
-                Alisivu1 alisivu2
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/alisivu1/ali2sivu3/"
-            >
-              <span>
-                Alisivu1 alisivu3
-              </span>
-            </a>
-          </div>
+              </a>
+            </li>
+            <li>
+              Alisivu1 alisivu1 alisivu1
+            </li>
+          </ul>
         </div>
+        <div
+          class="container default"
+        >
+          <h1>
+            Alisivu1 alisivu1 alisivu1
+          </h1>
+          <p>
+            Sisältö
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer
+      class="footerWrapper"
+    >
+      <div
+        class="Koros-module_koros__1r3rg koros"
+      >
+        <svg
+          aria-hidden="true"
+          height="85"
+          width="100%"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern
+              height="85"
+              id="koros_basic-1"
+              patternUnits="userSpaceOnUse"
+              width="106"
+              x="0"
+              y="0"
+            >
+              <path
+                d="M0,800h20V0c-4.9,0-5,2.6-9.9,2.6S5,0,0,0V800z"
+                transform="scale(5.3)"
+              />
+            </pattern>
+          </defs>
+          <rect
+            fill="url(#koros_basic-1)"
+            height="85"
+            width="100%"
+          />
+        </svg>
       </div>
       <div
-        class="navigationRowContainer"
+        class="container default"
       >
         <div
-          class="container default container"
+          class="footer"
         >
           <div
-            class="navigationRow"
+            class="helsinkiLogo"
+          />
+          <div
+            class="copyright"
           >
-            <a
-              class="activeLink"
-              href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu1/"
+            <div>
+              © Copyright 2020 • Kaikki oikeudet pidätetään
+            </div>
+            <div
+              class="links"
             >
-              <span>
-                Alisivu1 alisivu1 alisivu1
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu2/"
-            >
-              <span>
-                Alisivun1 alisivu1 alisivu2
-              </span>
-            </a>
-            <a
-              class=""
-              href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu3/"
-            >
-              <span>
-                Alisivun1 alisivu1 alisivu3
-              </span>
-            </a>
+              <div>
+                <a
+                  href="https://beta.kultus.fi/fi"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Kouluille ja päiväkodeille
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Henkil%C3%B6rekisteri%20Palvelutarjotin.pdf"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Rekisteriseloste
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </nav>
-    <div
-      class="container default container"
-    >
-      <ul
-        class="breadcrumbList"
-        data-testid="breadcrumbs-container"
-      >
-        <li>
-          <a
-            href="/"
-          >
-            Kotisivu
-          </a>
-        </li>
-        <li>
-          <a
-            href="/fi/cms-page/paasivu/"
-          >
-            Pääsivu
-          </a>
-        </li>
-        <li>
-          <a
-            href="/fi/cms-page/paasivu/alisivu1/"
-          >
-            Alisivu1
-          </a>
-        </li>
-        <li>
-          <a
-            href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/"
-          >
-            Alisivu1 alisivu1
-          </a>
-        </li>
-        <li>
-          Alisivu1 alisivu1 alisivu1
-        </li>
-      </ul>
-    </div>
-    <div
-      class="container default"
-    >
-      <h1>
-        Alisivu1 alisivu1 alisivu1
-      </h1>
-      <p>
-        Sisältö
-      </p>
-    </div>
+    </footer>
   </div>
 </div>
 `;

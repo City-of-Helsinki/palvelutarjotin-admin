@@ -1,11 +1,20 @@
 import { MockedProvider } from '@apollo/client/testing';
 import { render } from '@testing-library/react';
+import { graphql } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import wait from 'waait';
 
-import * as graphql from '../../../../generated/graphql';
+import {
+  CreateMyProfileDocument,
+  MyProfileDocument,
+  OrganisationsDocument,
+  OrganisationType,
+} from '../../../../generated/graphql';
+import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
+import { server } from '../../../../test/msw/server';
+import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakeOrganisations, fakePerson } from '../../../../utils/mockDataUtils';
 import {
   act,
@@ -22,6 +31,19 @@ const profileResponse = {
     myProfile: fakePerson(),
   },
 };
+
+beforeEach(() => {
+  initCmsMenuItemsMocks();
+  server.use(
+    graphql.query('Page', (req, res, ctx) => {
+      return res(
+        ctx.data({
+          page: fakePage(),
+        })
+      );
+    })
+  );
+});
 
 afterEach(() => {
   jest.restoreAllMocks();
@@ -40,24 +62,24 @@ const organisationMocks = fakeOrganisations(3, [
   {
     name: 'Organisaatio 1',
     id: 'organisation1',
-    type: graphql.OrganisationType.Provider,
+    type: OrganisationType.Provider,
   },
   {
     name: 'Organisaatio 2',
     id: 'organisation2',
-    type: graphql.OrganisationType.Provider,
+    type: OrganisationType.Provider,
   },
   {
     name: 'Organisaatio 3',
     id: 'organisation3',
-    type: graphql.OrganisationType.Provider,
+    type: OrganisationType.Provider,
   },
 ]);
 
 const mocks = [
   {
     request: {
-      query: graphql.MyProfileDocument,
+      query: MyProfileDocument,
     },
     result: profileResponse,
   },
@@ -82,7 +104,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
   const mocks = [
     {
       request: {
-        query: graphql.MyProfileDocument,
+        query: MyProfileDocument,
       },
       result: {
         data: {
@@ -92,7 +114,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
     },
     {
       request: {
-        query: graphql.MyProfileDocument,
+        query: MyProfileDocument,
       },
       result: {
         data: {
@@ -105,7 +127,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
     },
     {
       request: {
-        query: graphql.OrganisationsDocument,
+        query: OrganisationsDocument,
         variables: {
           type: 'provider',
         },
@@ -118,7 +140,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
     },
     {
       request: {
-        query: graphql.CreateMyProfileDocument,
+        query: CreateMyProfileDocument,
         variables: {
           myProfile: {
             emailAddress: 'test@test.fi',
@@ -181,7 +203,7 @@ it('Pagelayout renders children when user has profile, organisations and has sta
   const mocks = [
     {
       request: {
-        query: graphql.MyProfileDocument,
+        query: MyProfileDocument,
       },
       result: {
         data: {
@@ -209,7 +231,7 @@ it('render registration pending page', async () => {
   const mocks = [
     {
       request: {
-        query: graphql.MyProfileDocument,
+        query: MyProfileDocument,
       },
       result: {
         data: {

@@ -1,7 +1,10 @@
+import { graphql } from 'msw';
 import * as React from 'react';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
+import { server } from '../../../../test/msw/server';
+import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import Header from '../Header';
@@ -23,6 +26,15 @@ const mocks = [
 
 beforeEach(() => {
   initCmsMenuItemsMocks();
+  server.use(
+    graphql.query('Page', (req, res, ctx) => {
+      return res(
+        ctx.data({
+          page: fakePage(),
+        })
+      );
+    })
+  );
 });
 
 it('Header matches snapshot', () => {

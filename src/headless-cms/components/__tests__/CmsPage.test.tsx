@@ -1,13 +1,19 @@
+import { MockedResponse } from '@apollo/client/testing';
 import { dequal } from 'dequal';
 import { graphql, GraphQLContext, ResponseComposition } from 'msw';
 import React from 'react';
 
+import AppRoutes from '../../../domain/app/routes/AppRoutes';
 import { ROUTES } from '../../../domain/app/routes/constants';
+import { MyProfileDocument } from '../../../generated/graphql';
 import { PageIdType } from '../../../generated/graphql-cms';
+import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { server } from '../../../test/msw/server';
 import { fakePage } from '../../../utils/cmsMockDataUtils';
+import { fakeOrganisations, fakePerson } from '../../../utils/mockDataUtils';
 import {
   act,
+  render,
   renderWithRoute,
   screen,
   userEvent,
@@ -17,6 +23,17 @@ import {
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
 import { cmsNavigationContainerTestId } from '../CmsPageNavigation';
+
+jest.mock('../../../domain/auth/authenticate', () => ({
+  __esModule: true,
+  ...(jest.requireActual('../../../domain/auth/authenticate') as any),
+  // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
+  // in useEffect
+  getApiToken: () => ({
+    type: 'FETCH_TOKEN_SUCCESS',
+    payload: 'token',
+  }),
+}));
 
 const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 
@@ -173,6 +190,15 @@ const subPagesMocks = [
   },
 ];
 
+const authenticatedInitialState = {
+  authentication: {
+    tunnistamo: {
+      user: { profile: { email: 'test@test.fi' }, access_token: 'token' },
+    },
+    token: { apiToken: 'token' },
+  },
+};
+
 function initializeMocks(pageHierarchy: PageHierarchy[]) {
   const mocks = {
     Page: [],
@@ -209,6 +235,26 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
     page.children?.forEach((child) => addMock(child));
   }
 }
+
+// authenticated user needs a profile
+const apolloMocks: MockedResponse[] = [
+  {
+    request: {
+      query: MyProfileDocument,
+    },
+    result: {
+      data: {
+        myProfile: fakePerson({
+          isStaff: true,
+          name: 'Test User',
+          organisations: fakeOrganisations(1, [
+            { name: 'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto' },
+          ]),
+        }),
+      },
+    },
+  },
+];
 
 const mocks = initializeMocks(pageHierarchy);
 
@@ -281,16 +327,26 @@ const getCmsNavigationContainer = () =>
   within(screen.getByTestId(cmsNavigationContainerTestId));
 
 test('renders CMS page and navigation flow works', async () => {
-  const { container } = renderWithRoute(<CmsPage />, {
+  const { menuItems } = initCmsMenuItemsMocks();
+  const { container } = render(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
-    path: `/fi${ROUTES.CMS_PAGE}+`,
+    initialState: authenticatedInitialState,
+    mocks: apolloMocks,
   });
   await wait();
+  await testHeaderLinks();
   await testLevel1Navigation();
   await testLevel2Navigation();
   await testLevel3Navigation();
   await testLevel4Navigation();
   await testBreadcrumbNavigation();
+
+  async function testHeaderLinks() {
+    for (const menuItem of menuItems) {
+      const link = await screen.findByRole('link', { name: menuItem.title });
+      expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
+    }
+  }
 
   async function testLevel1Navigation() {
     // all level 1 navigation links should be rendered
@@ -411,7 +467,6 @@ test('renders CMS page and navigation flow works', async () => {
     breadcrumbs.getByRole('link', { name: 'Alisivu1' });
     breadcrumbs.getByRole('link', { name: 'Alisivu1 alisivu1' });
     breadcrumbs.getByText('Alisivu1 alisivu1 alisivu1');
-
     expect(container).toMatchSnapshot();
   }
 

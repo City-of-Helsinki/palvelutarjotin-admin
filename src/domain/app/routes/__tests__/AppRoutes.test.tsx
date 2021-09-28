@@ -2,12 +2,17 @@
 import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import i18n from 'i18next';
+import { graphql } from 'msw';
 import * as React from 'react';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
+import wait from 'waait';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
+import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
+import { server } from '../../../../test/msw/server';
+import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { store } from '../../store';
 import AppRoutes from '../AppRoutes';
@@ -27,6 +32,19 @@ const mocks = [
     result: profileResponse,
   },
 ];
+
+beforeEach(() => {
+  initCmsMenuItemsMocks();
+  server.use(
+    graphql.query('Page', (req, res, ctx) => {
+      return res(
+        ctx.data({
+          page: fakePage(),
+        })
+      );
+    })
+  );
+});
 
 const wrapperCreator = (route: string) =>
   mount(
