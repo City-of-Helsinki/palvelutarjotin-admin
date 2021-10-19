@@ -3,12 +3,13 @@ import { enGB as en, fi } from 'date-fns/locale';
 import get from 'lodash/get';
 
 import sv from './date-fns/locale/sv';
+import { DATE_FORMAT } from './time/format';
 
 const locales = { en, fi, sv };
 
 export const formatDate = (
   date: Date | null | number,
-  format = 'd.M.yyyy',
+  format = DATE_FORMAT,
   locale = 'fi'
 ): string => {
   if (!date) {

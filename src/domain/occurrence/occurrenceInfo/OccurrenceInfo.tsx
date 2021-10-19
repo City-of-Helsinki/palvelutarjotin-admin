@@ -13,7 +13,11 @@ import useLocale from '../../../hooks/useLocale';
 import IconClock from '../../../icons/IconClock';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
-import { formatIntoTime } from '../../../utils/time/format';
+import {
+  DATE_FORMAT,
+  formatIntoDate,
+  formatIntoTime,
+} from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { getEventFields } from '../../event/utils';
 import { PUBLICATION_STATUS } from '../../events/constants';
@@ -51,18 +55,18 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
   const getOccurrenceDateTimeString = () => {
     if (!isSameDay(startTime, endTime)) {
       const startDateTimeString = t('occurrenceDetails.textDateAndTime', {
-        date: capitalize(formatDate(startTime, 'd.M.yyyy', locale)),
+        date: capitalize(formatIntoDate(startTime)),
         time: formatIntoTime(startTime),
       });
       const endDateTimeString = t('occurrenceDetails.textDateAndTime', {
-        date: capitalize(formatDate(endTime, 'd.M.yyyy', locale)),
+        date: capitalize(formatIntoDate(endTime)),
         time: formatIntoTime(endTime),
       });
       return `${startDateTimeString} — ${endDateTimeString}`;
     }
 
     return t('occurrenceDetails.textDateAndTime', {
-      date: capitalize(formatDate(startTime, 'EEEE d.M.yyyy', locale)),
+      date: capitalize(formatDate(startTime, `EEEE ${DATE_FORMAT}`, locale)),
       time: formatTimeRange(startTime, endTime),
     });
   };

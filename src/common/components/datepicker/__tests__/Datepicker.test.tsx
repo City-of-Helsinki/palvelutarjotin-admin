@@ -11,6 +11,7 @@ import { fi } from 'date-fns/locale';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 
+import { DATE_FORMAT } from '../../../../utils/time/format';
 import Datepicker, { DatepickerProps } from '../Datepicker';
 
 configure({ defaultHidden: true });
@@ -126,7 +127,7 @@ describe('<Datepicker />', () => {
       'i'
     );
     const dateSelectRegex = new RegExp(
-      `Valitse ${formatDate(date, 'd.M.yyyy')}`,
+      `Valitse ${formatDate(date, DATE_FORMAT)}`,
       'i'
     );
 
@@ -245,7 +246,7 @@ describe('<Datepicker timeSelector /> with time selector', () => {
     const testDate = getTestDate(5);
 
     const dateSelectRegex = new RegExp(
-      `Valitse ${formatDate(testDate, 'd.M.yyyy')}`,
+      `Valitse ${formatDate(testDate, DATE_FORMAT)}`,
       'i'
     );
 

@@ -5,8 +5,8 @@ import TextTitle from '../../../common/components/textTitle/TextTitle';
 import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
-import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
+import { formatIntoDate, formatIntoTime } from '../../../utils/time/format';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
@@ -37,11 +37,8 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
 
   const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
     ? t('eventDetails.basicInfo.enrolmentStart', {
-        date: formatDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
-        time: formatDate(
-          new Date(eventData.event?.pEvent?.enrolmentStart),
-          'HH:mm'
-        ),
+        date: formatIntoDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
+        time: formatIntoTime(new Date(eventData.event?.pEvent?.enrolmentStart)),
       })
     : '';
 

@@ -1,12 +1,11 @@
 import addDays from 'date-fns/addDays';
-import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isValidDate from 'date-fns/isValid';
 import * as Yup from 'yup';
 import { MessageParams } from 'yup/lib/types';
 
 import { isInFuture } from '../../../utils/dateUtils';
-import { formatIntoDateTime } from '../../../utils/time/format';
+import { formatIntoDate, formatIntoDateTime } from '../../../utils/time/format';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { EnrolmentType } from '../constants';
 
@@ -48,7 +47,7 @@ const getStartTimeValidation = ({
     minDate.setHours(0, 0, 0, 0);
     return schema.min(minDate, () => ({
       key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-      min: formatDate(minDate, 'd.M.yyyy'),
+      min: formatIntoDate(minDate),
     }));
   }
   return schema;

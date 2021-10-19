@@ -37,6 +37,7 @@ import {
   fakePlaces,
   fakeVenue,
 } from '../utils/mockDataUtils';
+import { DATETIME_FORMAT } from '../utils/time/format';
 
 type Languages = 'fi' | 'en' | 'sv';
 type LanguagesObject = { [key in Languages]: string };
@@ -316,8 +317,8 @@ export const getAddOccurrenceMockResponse = ({
     query: AddOccurrenceDocument,
     variables: {
       input: {
-        startTime: parseDate(startTime, 'd.M.yyyy HH:mm', new Date()),
-        endTime: parseDate(endTime, 'd.M.yyyy HH:mm', new Date()),
+        startTime: parseDate(startTime, DATETIME_FORMAT, new Date()),
+        endTime: parseDate(endTime, DATETIME_FORMAT, new Date()),
         languages: languages.map((lang) => ({ id: lang })),
         pEventId,
         placeId,

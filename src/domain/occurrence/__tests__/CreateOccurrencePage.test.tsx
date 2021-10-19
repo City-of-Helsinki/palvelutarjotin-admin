@@ -5,7 +5,6 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 
-import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
 import {
@@ -34,6 +33,11 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  formatIntoDateTime,
+} from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
@@ -99,9 +103,8 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const formattedEnrolmentStartTime = format(
-      new Date(enrolmentStartDateTimeValue),
-      'd.M.yyyy HH:mm'
+    const formattedEnrolmentStartTime = formatIntoDateTime(
+      new Date(enrolmentStartDateTimeValue)
     );
     const toastSuccess = jest.spyOn(toast, 'success');
 
@@ -229,7 +232,7 @@ describe('location and enrolment info', () => {
     const neededOccurrencesInput = getFormElement('neededOccurrences');
 
     expect(enrolmentStartDateTimeInput).toHaveValue(
-      format(new Date(enrolmentStartDateTimeValue), 'd.M.yyyy HH:mm')
+      format(new Date(enrolmentStartDateTimeValue), DATETIME_FORMAT)
     );
     expect(enrolmentEndDaysInput).toHaveValue(1);
     expect(neededOccurrencesInput).toHaveValue(1);
@@ -340,9 +343,8 @@ describe('location and enrolment info', () => {
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
     const occurrenceStartTime = '10.5.2021 10:00';
     const occurrenceEndTime = '10.5.2021 11:00';
-    const formattedEnrolmentStartTime = format(
-      new Date(enrolmentStartDateTimeValue),
-      'd.M.yyyy HH:mm'
+    const formattedEnrolmentStartTime = formatIntoDateTime(
+      new Date(enrolmentStartDateTimeValue)
     );
     const occurrenceId = 'occurrenceId';
     const eventData = {
@@ -367,8 +369,8 @@ describe('location and enrolment info', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'd.M.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'd.M.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
       // Need matching id here that is is in the addOccurrence response
       id: occurrenceId,
@@ -686,8 +688,8 @@ describe('occurrences form', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'd.M.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'd.M.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
     renderComponent({
@@ -757,8 +759,8 @@ describe('occurrences form', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'd.M.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'd.M.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
     renderComponent({
@@ -811,8 +813,8 @@ describe('occurrences form', () => {
       minGroupSize: 10,
       maxGroupSize: 20,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'd.M.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'd.M.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
     const occurrenceId1 = 'occurrence1';
@@ -946,9 +948,8 @@ describe('save occurrence and event info simultaneously', () => {
       endTime: occurrenceEndTime,
       startTime: occurrenceStartTime,
     };
-    const formattedEnrolmentStartTime = format(
-      new Date(enrolmentStartDateTimeValue),
-      'd.M.yyyy HH:mm'
+    const formattedEnrolmentStartTime = formatIntoDateTime(
+      new Date(enrolmentStartDateTimeValue)
     );
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
       getEventMockedResponse({
@@ -970,8 +971,8 @@ describe('save occurrence and event info simultaneously', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'd.M.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'd.M.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
 

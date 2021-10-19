@@ -2,6 +2,7 @@ import { format as formatDateStr } from 'date-fns';
 import { enGB as en, fi, sv } from 'date-fns/locale';
 
 import { Language } from '../types';
+import { DATE_FORMAT } from './time/format';
 
 const locales = { en, fi, sv };
 
@@ -13,7 +14,7 @@ const locales = { en, fi, sv };
  */
 export default function formatDate(
   date: Date | null,
-  format = 'd.M.yyyy',
+  format = DATE_FORMAT,
   locale: Language = 'fi'
 ): string {
   if (!date) {

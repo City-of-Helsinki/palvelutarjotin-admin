@@ -14,10 +14,11 @@ import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../hooks/useLocale';
 import IconCalendar from '../../../icons/IconCalendar';
+import { DATE_FORMAT, DATETIME_FORMAT } from '../../../utils/time/format';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
 import { getTimeObjects, TimeObject } from '../timepicker/utils';
-import { DATE_FORMAT, dateLocales, DATETIME_FORMAT } from './contants';
+import { dateLocales } from './contants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 import Month from './Month';
