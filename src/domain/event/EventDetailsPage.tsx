@@ -101,7 +101,7 @@ const EventDetailsPage = () => {
   const renderFutureOccurrencesList = () => {
     const getOccurrenceTime = (time: string) =>
       t('eventDetails.deleteModal.occurrenceTime', {
-        date: formatDate(new Date(time), 'dd.MM.yyyy'),
+        date: formatDate(new Date(time), 'd.M.yyyy'),
         time: formatDate(new Date(time), 'HH:mm'),
       });
 

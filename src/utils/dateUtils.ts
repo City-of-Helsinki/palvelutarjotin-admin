@@ -8,7 +8,7 @@ const locales = { en, fi, sv };
 
 export const formatDate = (
   date: Date | null | number,
-  format = 'dd.MM.yyyy',
+  format = 'd.M.yyyy',
   locale = 'fi'
 ): string => {
   if (!date) {

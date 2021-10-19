@@ -341,7 +341,7 @@ const OccurrencesTable: React.FC<{
   occurrences: OccurrenceFieldsFragment[];
   onDeleteOccurrence: (id: string) => Promise<void>;
 }> = ({ occurrences, onDeleteOccurrence }) => {
-  const dateFormat = 'dd.MM.yyyy HH:mm';
+  const dateFormat = 'd.M.yyyy HH:mm';
   const { t } = useTranslation();
 
   return (

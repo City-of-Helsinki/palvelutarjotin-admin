@@ -91,7 +91,7 @@ const defaultFormData = {
   infoUrl: createFinnishLocalisedObject(infoUrl, true),
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
-  enrolmentStart: '13.08.2020 03:45',
+  enrolmentStart: '13.8.2020 03:45',
   enrolmentEndDays: '3',
   neededOccurrences: '3',
   imagePhotographerName: 'Valo Valokuvaaja',

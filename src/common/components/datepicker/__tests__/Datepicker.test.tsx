@@ -66,7 +66,7 @@ describe('<Datepicker />', () => {
     userEvent.tab();
 
     const selectedDateButton = screen.getByRole('button', {
-      name: /valitse 05\.07\.2020/i,
+      name: /valitse 5\.7\.2020/i,
     });
     expect(selectedDateButton).toHaveAttribute('tabIndex', '0');
     expect(selectedDateButton).toHaveClass('daySelected');
@@ -77,7 +77,7 @@ describe('<Datepicker />', () => {
     userEvent.tab();
 
     const currentDayButton = screen.getByRole('button', {
-      name: /valitse 05\.07\.2020/i,
+      name: /valitse 5\.7\.2020/i,
     });
 
     // selected date receives focus asynchronously, lets wait it to happen
@@ -87,7 +87,7 @@ describe('<Datepicker />', () => {
 
     await waitFor(() =>
       expect(
-        screen.queryByRole('button', { name: 'Valitse 12.07.2020' })
+        screen.queryByRole('button', { name: 'Valitse 12.7.2020' })
       ).toHaveFocus()
     );
 
@@ -96,7 +96,7 @@ describe('<Datepicker />', () => {
 
     expect(screen.queryByText(/elokuu 2020/i)).toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: /Valitse 02\.08\.2020/i })
+      screen.queryByRole('button', { name: /Valitse 2\.8\.2020/i })
     ).toHaveFocus();
   });
 
@@ -126,7 +126,7 @@ describe('<Datepicker />', () => {
       'i'
     );
     const dateSelectRegex = new RegExp(
-      `Valitse ${formatDate(date, 'dd.MM.yyyy')}`,
+      `Valitse ${formatDate(date, 'd.M.yyyy')}`,
       'i'
     );
 
@@ -245,7 +245,7 @@ describe('<Datepicker timeSelector /> with time selector', () => {
     const testDate = getTestDate(5);
 
     const dateSelectRegex = new RegExp(
-      `Valitse ${formatDate(testDate, 'dd.MM.yyyy')}`,
+      `Valitse ${formatDate(testDate, 'd.M.yyyy')}`,
       'i'
     );
 

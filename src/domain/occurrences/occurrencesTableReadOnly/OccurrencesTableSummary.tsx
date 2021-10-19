@@ -14,7 +14,7 @@ import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../../occurrence/constants';
-import { getEnrolmentType } from '../../occurrence/utils';
+import { getEnrolmentType, isMultidayOccurrence } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from '../occurrencesTable/ActionsDropdown';
@@ -114,9 +114,14 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       id: 'date',
     },
     {
-      Header: t('occurrences.table.columnTime'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatTimeRange(new Date(row.startTime), new Date(row.endTime), locale),
+        isMultidayOccurrence(row)
+          ? null
+          : formatTimeRange(
+              new Date(row.startTime),
+              new Date(row.endTime),
+              locale
+            ),
       id: 'time',
     },
     {

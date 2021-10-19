@@ -28,8 +28,8 @@ function generateUniqueId(prefix = 'datepicker-id') {
   return `${prefix}-${uniqueId()}`;
 }
 
-const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
-const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
+const dateRegex = /^\d{1,2}\.\d{1,2}\.\d{4}$/;
+const datetimeRegex = /^\d{1,2}\.\d{1,2}\.\d{4} \d{2}:\d{2}$/;
 const MINUTE_INTERVAL = 15;
 
 export type DatepickerProps = {

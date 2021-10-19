@@ -47,7 +47,7 @@ const getStartTimeValidation = ({
     minDate.setHours(0, 0, 0, 0);
     return schema.min(minDate, () => ({
       key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-      min: formatDate(minDate, 'dd.MM.yyyy'),
+      min: formatDate(minDate, 'd.M.yyyy'),
     }));
   }
   return schema;
@@ -78,7 +78,7 @@ const getValidationSchema = ({
             'isAfterStartTime',
             () => ({
               key: VALIDATION_MESSAGE_KEYS.TIME_MIN,
-              min: formatDate(startTime, 'dd.MM.yyyy HH:mm'),
+              min: formatDate(startTime, 'd.M.yyyy HH:mm'),
             }),
             ((endTime: Date) => {
               return isBefore(startTime, endTime);

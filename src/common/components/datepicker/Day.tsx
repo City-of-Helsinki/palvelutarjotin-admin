@@ -76,7 +76,7 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
       type="button"
       ref={dayRef}
       aria-label={t('common.datepicker.accessibility.selectDate', {
-        value: formatDate(date, 'dd.MM.yyyy', { locale: dateLocales[locale] }),
+        value: formatDate(date, 'd.M.yyyy', { locale: dateLocales[locale] }),
       })}
     >
       {dayLabel}

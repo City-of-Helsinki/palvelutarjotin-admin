@@ -20,6 +20,7 @@ import getLocalisedString from '../../utils/getLocalizedString';
 import getTimeFormat from '../../utils/getTimeFormat';
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { getEnrolmentType } from '../occurrence/utils';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
@@ -49,7 +50,7 @@ export const getEventStartTimeStr = (
   const nextOccurrenceTime = event.pEvent.nextOccurrenceDatetime;
   const startTime = nextOccurrenceTime ? new Date(nextOccurrenceTime) : null;
   const timeFormat = getTimeFormat(locale);
-  const dateFormat = 'iiii dd.MM';
+  const dateFormat = 'iiii d.M';
 
   if (!startTime) return null;
 
@@ -305,6 +306,7 @@ export const getEventFields = (
         shortDescription: getLocalisedString(event.shortDescription, locale),
         description: getLocalisedString(event.description, locale),
         infoUrl: getLocalisedString(event.infoUrl, locale),
+        enrolmentType: getEnrolmentType(event),
         imageUrl:
           event.images?.[0]?.url || getEventPlaceholderImage(event.id || ''),
         imageAltText: event.images?.[0]?.altText,
@@ -314,6 +316,7 @@ export const getEventFields = (
         contactPhoneNumber: event.pEvent?.contactPhoneNumber,
         contactEmail: event.pEvent?.contactEmail,
         contactPerson: event.pEvent?.contactPerson?.name,
+        organisationId: event?.pEvent?.organisation?.id,
         neededOccurrences: event.pEvent?.neededOccurrences,
         mandatoryAdditionalInformation:
           event.pEvent?.mandatoryAdditionalInformation,

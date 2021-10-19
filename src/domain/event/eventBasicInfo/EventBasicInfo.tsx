@@ -20,7 +20,6 @@ type Props = {
 
 const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const { t } = useTranslation();
-
   const name = getLocalizedString(eventData.event?.name || {}, language);
   const shortDescription = getLocalizedString(
     eventData.event?.shortDescription || {},
@@ -30,14 +29,10 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
     eventData.event?.description || {},
     language
   );
-
   const mandatoryAdditionalInformation =
     eventData.event?.pEvent?.mandatoryAdditionalInformation;
-
   const imageId = eventData.event?.images[0]?.id;
-
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
-
   const enrolmentType = eventData.event && getEnrolmentType(eventData.event);
   const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
 

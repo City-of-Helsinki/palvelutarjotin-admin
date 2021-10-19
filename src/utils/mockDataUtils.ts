@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import addTime from 'date-fns/add';
 import faker from 'faker';
 
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
@@ -355,7 +356,9 @@ export const fakeOccurrence = (
     { id: 'fi', name: 'Finnish' },
   ]),
   startTime: '2020-08-03T09:00:00+00:00',
-  endTime: '2020-08-03T09:30:00+00:00',
+  endTime: overrides?.startTime
+    ? addTime(new Date(overrides?.startTime), { hours: 1 })
+    : '2020-08-03T09:30:00+00:00',
   placeId: faker.datatype.uuid(),
   seatsTaken: 0,
   seatsApproved: 0,

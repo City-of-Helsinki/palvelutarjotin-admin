@@ -67,7 +67,7 @@ export const keyword = 'perheet';
 export const venueDescription = 'Test venue description';
 
 export const occurrenceFormData = {
-  date: '13.08.2020',
+  date: '13.8.2020',
   startsAt: '12:00',
   endsAt: '13:00',
   amountOfSeats: '30',
@@ -316,8 +316,8 @@ export const getAddOccurrenceMockResponse = ({
     query: AddOccurrenceDocument,
     variables: {
       input: {
-        startTime: parseDate(startTime, 'dd.MM.yyyy HH:mm', new Date()),
-        endTime: parseDate(endTime, 'dd.MM.yyyy HH:mm', new Date()),
+        startTime: parseDate(startTime, 'd.M.yyyy HH:mm', new Date()),
+        endTime: parseDate(endTime, 'd.M.yyyy HH:mm', new Date()),
         languages: languages.map((lang) => ({ id: lang })),
         pEventId,
         placeId,

@@ -67,46 +67,40 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const enrolmentIsNotApproved = enrolment?.status !== EnrolmentStatus.Approved;
   const enrolmentIsNotDeclined = enrolment?.status !== EnrolmentStatus.Declined;
 
-  const [
-    approveEnrolment,
-    { loading: loadingApproveEnrolment },
-  ] = useApproveEnrolmentMutation({
-    onError: (error) => {
-      toast(t('enrolment.approveEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
-    },
-    onCompleted: () => setApproveModalOpen(false),
-  });
+  const [approveEnrolment, { loading: loadingApproveEnrolment }] =
+    useApproveEnrolmentMutation({
+      onError: (error) => {
+        toast(t('enrolment.approveEnrolmentError'), {
+          type: toast.TYPE.ERROR,
+        });
+      },
+      onCompleted: () => setApproveModalOpen(false),
+    });
 
-  const [
-    declineEnrolment,
-    { loading: loadingDeclineEnrolment },
-  ] = useDeclineEnrolmentMutation({
-    onError: (error) => {
-      toast(t('enrolment.declineEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
-    },
-    onCompleted: () => setDeclineModalOpen(false),
-  });
+  const [declineEnrolment, { loading: loadingDeclineEnrolment }] =
+    useDeclineEnrolmentMutation({
+      onError: (error) => {
+        toast(t('enrolment.declineEnrolmentError'), {
+          type: toast.TYPE.ERROR,
+        });
+      },
+      onCompleted: () => setDeclineModalOpen(false),
+    });
 
-  const [
-    deleteEnrolment,
-    { loading: loadingDeleteEnrolment },
-  ] = useDeleteEnrolmentMutation({
-    onError: (error) => {
-      toast(t('enrolment.deleteEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
-    },
-    onCompleted: () => {
-      setDeleteModalOpen(false);
-      // refetch occurrence to easily update seatsTaken info
-      refetchOccurrence();
-      onGoBackClick();
-    },
-  });
+  const [deleteEnrolment, { loading: loadingDeleteEnrolment }] =
+    useDeleteEnrolmentMutation({
+      onError: (error) => {
+        toast(t('enrolment.deleteEnrolmentError'), {
+          type: toast.TYPE.ERROR,
+        });
+      },
+      onCompleted: () => {
+        setDeleteModalOpen(false);
+        // refetch occurrence to easily update seatsTaken info
+        refetchOccurrence();
+        onGoBackClick();
+      },
+    });
 
   const handleApproveEnrolment = async (message?: string) => {
     approveEnrolment({
@@ -270,7 +264,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   label={t('enrolment.enrolmentDetails.labelEnrolled')}
                   value={format(
                     new Date(enrolment?.enrolmentTime),
-                    'dd.MM.yyyy hh:mm'
+                    'd.M.yyyy hh:mm'
                   )}
                 />
                 <EnrolmentInfoRow
