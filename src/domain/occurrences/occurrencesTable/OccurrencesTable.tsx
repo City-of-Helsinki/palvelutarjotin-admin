@@ -10,7 +10,6 @@ import {
   OccurrenceSeatType,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
-import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
@@ -39,7 +38,6 @@ const OccurrencesTable: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
   const [selectedOccurrences, setSelectedOccurrences] = React.useState<
     string[]
   >([]);
@@ -100,8 +98,7 @@ const OccurrencesTable: React.FC<Props> = ({
           aria-label={t('occurrences.table.labelChooseOccurrence', {
             info: `${formatDate(new Date(row.startTime))}  ${formatTimeRange(
               new Date(row.startTime),
-              new Date(row.endTime),
-              locale
+              new Date(row.endTime)
             )}`,
           })}
         />
@@ -117,7 +114,7 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnTime'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatTimeRange(new Date(row.startTime), new Date(row.endTime), locale),
+        formatTimeRange(new Date(row.startTime), new Date(row.endTime)),
       id: 'time',
     },
     {

@@ -7,7 +7,6 @@ import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
-import getTimeFormat from '../../../utils/getTimeFormat';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
@@ -41,7 +40,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
         date: formatDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
         time: formatDate(
           new Date(eventData.event?.pEvent?.enrolmentStart),
-          getTimeFormat(language)
+          'HH:mm'
         ),
       })
     : '';

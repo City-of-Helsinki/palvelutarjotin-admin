@@ -17,7 +17,7 @@ import { Language } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
-import getTimeFormat from '../../utils/getTimeFormat';
+import { formatIntoTime } from '../../utils/time/format';
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { getEnrolmentType } from '../occurrence/utils';
@@ -49,24 +49,23 @@ export const getEventStartTimeStr = (
 ): string | null => {
   const nextOccurrenceTime = event.pEvent.nextOccurrenceDatetime;
   const startTime = nextOccurrenceTime ? new Date(nextOccurrenceTime) : null;
-  const timeFormat = getTimeFormat(locale);
   const dateFormat = 'iiii d.M';
 
   if (!startTime) return null;
 
   if (isToday(startTime))
     return t('events.eventCard.startTime.today', {
-      time: formatDate(startTime, timeFormat, locale),
+      time: formatIntoTime(startTime),
     });
 
   if (isTomorrow(startTime))
     return t('events.eventCard.startTime.tomorrow', {
-      time: formatDate(startTime, timeFormat, locale),
+      time: formatIntoTime(startTime),
     });
 
   return t('events.eventCard.startTime.other', {
     date: formatDate(startTime, dateFormat, locale),
-    time: formatDate(startTime, timeFormat, locale),
+    time: formatIntoTime(startTime),
   });
 };
 

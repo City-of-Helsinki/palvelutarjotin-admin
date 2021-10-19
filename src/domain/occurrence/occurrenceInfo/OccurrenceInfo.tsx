@@ -13,6 +13,7 @@ import useLocale from '../../../hooks/useLocale';
 import IconClock from '../../../icons/IconClock';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
+import { formatIntoTime } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { getEventFields } from '../../event/utils';
 import { PUBLICATION_STATUS } from '../../events/constants';
@@ -51,18 +52,18 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
     if (!isSameDay(startTime, endTime)) {
       const startDateTimeString = t('occurrenceDetails.textDateAndTime', {
         date: capitalize(formatDate(startTime, 'd.M.yyyy', locale)),
-        time: formatDate(startTime, 'HH:mm'),
+        time: formatIntoTime(startTime),
       });
       const endDateTimeString = t('occurrenceDetails.textDateAndTime', {
         date: capitalize(formatDate(endTime, 'd.M.yyyy', locale)),
-        time: formatDate(endTime, 'HH:mm'),
+        time: formatIntoTime(endTime),
       });
       return `${startDateTimeString} — ${endDateTimeString}`;
     }
 
     return t('occurrenceDetails.textDateAndTime', {
       date: capitalize(formatDate(startTime, 'EEEE d.M.yyyy', locale)),
-      time: formatTimeRange(startTime, endTime, locale),
+      time: formatTimeRange(startTime, endTime),
     });
   };
 

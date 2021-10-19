@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { MessageParams } from 'yup/lib/types';
 
 import { isInFuture } from '../../../utils/dateUtils';
+import { formatIntoDateTime } from '../../../utils/time/format';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { EnrolmentType } from '../constants';
 
@@ -78,7 +79,7 @@ const getValidationSchema = ({
             'isAfterStartTime',
             () => ({
               key: VALIDATION_MESSAGE_KEYS.TIME_MIN,
-              min: formatDate(startTime, 'd.M.yyyy HH:mm'),
+              min: formatIntoDateTime(startTime),
             }),
             ((endTime: Date) => {
               return isBefore(startTime, endTime);

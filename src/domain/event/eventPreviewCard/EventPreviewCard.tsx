@@ -21,7 +21,7 @@ interface Props {
   link: string;
 }
 
-const EventCard: React.FC<Props> = ({ event, link }) => {
+const EventPreviewCard: React.FC<Props> = ({ event, link }) => {
   const { t } = useTranslation();
   const locale = useLocale();
 
@@ -62,4 +62,4 @@ const EventCard: React.FC<Props> = ({ event, link }) => {
   );
 };
 
-export default EventCard;
+export default EventPreviewCard;

@@ -9,7 +9,6 @@ import {
   OccurrenceSeatType,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
-import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { ROUTES } from '../../app/routes/constants';
@@ -33,7 +32,6 @@ const OccurrencesTableSummary: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
   const event = eventData?.event;
   const eventId = event?.id || '';
   const eventLocationId = event?.location?.id || '';
@@ -117,11 +115,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       accessor: (row: OccurrenceFieldsFragment) =>
         isMultidayOccurrence(row)
           ? null
-          : formatTimeRange(
-              new Date(row.startTime),
-              new Date(row.endTime),
-              locale
-            ),
+          : formatTimeRange(new Date(row.startTime), new Date(row.endTime)),
       id: 'time',
     },
     {

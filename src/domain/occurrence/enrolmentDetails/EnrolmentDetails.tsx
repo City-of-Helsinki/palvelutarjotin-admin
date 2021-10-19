@@ -1,6 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client';
 import classNames from 'classnames';
-import { format } from 'date-fns';
 import {
   Button,
   IconArrowLeft,
@@ -26,6 +25,7 @@ import {
   useEnrolmentQuery,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
+import { formatIntoDateTime } from '../../../utils/time/format';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { joinStudyLevelLabels } from '../../studyLevel/utils';
@@ -262,10 +262,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
               <tbody>
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelEnrolled')}
-                  value={format(
-                    new Date(enrolment?.enrolmentTime),
-                    'd.M.yyyy hh:mm'
-                  )}
+                  value={formatIntoDateTime(new Date(enrolment?.enrolmentTime))}
                 />
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelStatus')}

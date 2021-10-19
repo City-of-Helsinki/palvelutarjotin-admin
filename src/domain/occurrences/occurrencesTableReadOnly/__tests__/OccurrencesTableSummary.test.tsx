@@ -10,14 +10,9 @@ import {
 import { render, screen } from '../../../../utils/testUtils';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 
-const locale = 'fi';
 const startTime = new Date(2020, 11, 11).toISOString();
 const endTime = new Date(2020, 11, 11).toISOString();
-const timeRange = formatTimeRange(
-  new Date(startTime),
-  new Date(endTime),
-  locale
-);
+const timeRange = formatTimeRange(new Date(startTime), new Date(endTime));
 
 const mockOccurrence = fakeOccurrence({
   id: 'occurrenceId1',

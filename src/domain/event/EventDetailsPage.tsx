@@ -1,4 +1,3 @@
-import { format as formatDate } from 'date-fns';
 import { Button, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +13,7 @@ import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
+import { formatIntoDate, formatIntoTime } from '../../utils/time/format';
 import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -101,8 +101,8 @@ const EventDetailsPage = () => {
   const renderFutureOccurrencesList = () => {
     const getOccurrenceTime = (time: string) =>
       t('eventDetails.deleteModal.occurrenceTime', {
-        date: formatDate(new Date(time), 'd.M.yyyy'),
-        time: formatDate(new Date(time), 'HH:mm'),
+        date: formatIntoDate(new Date(time)),
+        time: formatIntoTime(new Date(time)),
       });
 
     if (eventHasUpcomingOccurrences) {
