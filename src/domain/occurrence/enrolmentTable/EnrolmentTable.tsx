@@ -11,7 +11,7 @@ import {
   EnrolmentStatus,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
-import formatDate from '../../../utils/formatDate';
+import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
 import { getNumberOfParticipants } from '../../enrolment/utils';
@@ -106,7 +106,7 @@ const EnrolmentTable: React.FC<Props> = ({
           aria-label={t(
             'occurrenceDetails.enrolmentTable.labelSelectEnrolment',
             {
-              info: `${formatDate(new Date(row.enrolmentTime))} ${
+              info: `${formatLocalizedDate(new Date(row.enrolmentTime))} ${
                 row.person?.name
               }`,
             }
@@ -118,7 +118,7 @@ const EnrolmentTable: React.FC<Props> = ({
     {
       Header: t('occurrenceDetails.enrolmentTable.columnEnrolmentTime'),
       accessor: (row: EnrolmentFieldsFragment) =>
-        formatDate(new Date(row.enrolmentTime)),
+        formatLocalizedDate(new Date(row.enrolmentTime)),
       id: 'enrolmentTime',
     },
     {

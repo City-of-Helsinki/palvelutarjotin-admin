@@ -7,11 +7,13 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import formatDate from 'date-fns/format';
-import { fi } from 'date-fns/locale';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 
-import { DATE_FORMAT } from '../../../../utils/time/format';
+import {
+  DATE_FORMAT,
+  formatLocalizedDate,
+} from '../../../../utils/time/format';
 import Datepicker, { DatepickerProps } from '../Datepicker';
 
 configure({ defaultHidden: true });
@@ -123,7 +125,7 @@ describe('<Datepicker />', () => {
     const { onChange } = renderDatepicker({ value: date });
 
     const monthRegex = new RegExp(
-      formatDate(date, 'LLLL yyyy', { locale: fi }),
+      formatLocalizedDate(date, 'LLLL yyyy', 'fi'),
       'i'
     );
     const dateSelectRegex = new RegExp(

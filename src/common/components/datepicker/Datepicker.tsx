@@ -14,11 +14,14 @@ import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../hooks/useLocale';
 import IconCalendar from '../../../icons/IconCalendar';
-import { DATE_FORMAT, DATETIME_FORMAT } from '../../../utils/time/format';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  formatLocalizedDate,
+} from '../../../utils/time/format';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
 import { getTimeObjects, TimeObject } from '../timepicker/utils';
-import { dateLocales } from './contants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 import Month from './Month';
@@ -386,9 +389,11 @@ const Datepicker: React.FC<DatepickerProps> = ({
                       aria-live="polite"
                       id={dialogLabelId}
                     >
-                      {formatDate(new Date(year, month), 'LLLL yyyy', {
-                        locale: dateLocales[locale],
-                      })}
+                      {formatLocalizedDate(
+                        new Date(year, month),
+                        'LLLL yyyy',
+                        locale
+                      )}
                     </div>
                     <MonthNavButton
                       onClick={goToNextMonths}

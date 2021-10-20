@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { axe } from 'jest-axe';
 import * as React from 'react';
 
 import {

@@ -11,12 +11,12 @@ import {
 import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
 import IconClock from '../../../icons/IconClock';
-import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import {
   DATE_FORMAT,
   formatIntoDate,
   formatIntoTime,
+  formatLocalizedDate,
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { getEventFields } from '../../event/utils';
@@ -66,7 +66,9 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
     }
 
     return t('occurrenceDetails.textDateAndTime', {
-      date: capitalize(formatDate(startTime, `EEEE ${DATE_FORMAT}`, locale)),
+      date: capitalize(
+        formatLocalizedDate(startTime, `EEEE ${DATE_FORMAT}`, locale)
+      ),
       time: formatTimeRange(startTime, endTime),
     });
   };

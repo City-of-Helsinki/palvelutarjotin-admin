@@ -10,8 +10,8 @@ import {
   OccurrenceSeatType,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
-import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
+import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import { EnrolmentType } from '../../occurrence/constants';
@@ -96,7 +96,9 @@ const OccurrencesTable: React.FC<Props> = ({
           checked={selectedOccurrences.includes(row.id)}
           onChange={() => handleCheckboxChange(row)}
           aria-label={t('occurrences.table.labelChooseOccurrence', {
-            info: `${formatDate(new Date(row.startTime))}  ${formatTimeRange(
+            info: `${formatLocalizedDate(
+              new Date(row.startTime)
+            )}  ${formatTimeRange(
               new Date(row.startTime),
               new Date(row.endTime)
             )}`,
@@ -108,7 +110,7 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnDate'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatDate(new Date(row.startTime)),
+        formatLocalizedDate(new Date(row.startTime)),
       id: 'date',
     },
     {
@@ -141,7 +143,9 @@ const OccurrencesTable: React.FC<Props> = ({
       Header: t('occurrences.table.columnEnrolmentStarts'),
       accessor: (row: OccurrenceFieldsFragment) =>
         eventData?.event?.pEvent?.enrolmentStart
-          ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
+          ? formatLocalizedDate(
+              new Date(eventData?.event?.pEvent?.enrolmentStart)
+            )
           : '',
       id: 'enrolmentStarts',
     },

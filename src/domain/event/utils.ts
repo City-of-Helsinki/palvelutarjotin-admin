@@ -14,10 +14,9 @@ import {
   PublishEventMutationInput,
 } from '../../generated/graphql';
 import { Language } from '../../types';
-import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
-import { formatIntoTime } from '../../utils/time/format';
+import { formatIntoTime, formatLocalizedDate } from '../../utils/time/format';
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { getEnrolmentType } from '../occurrence/utils';
@@ -64,7 +63,7 @@ export const getEventStartTimeStr = (
     });
 
   return t('events.eventCard.startTime.other', {
-    date: formatDate(startTime, dateFormat, locale),
+    date: formatLocalizedDate(startTime, dateFormat, locale),
     time: formatIntoTime(startTime),
   });
 };

@@ -1,25 +1,4 @@
-import { format as formatDateStr, isFuture, isToday } from 'date-fns';
-import { enGB as en, fi } from 'date-fns/locale';
-import get from 'lodash/get';
-
-import sv from './date-fns/locale/sv';
-import { DATE_FORMAT } from './time/format';
-
-const locales = { en, fi, sv };
-
-export const formatDate = (
-  date: Date | null | number,
-  format = DATE_FORMAT,
-  locale = 'fi'
-): string => {
-  if (!date) {
-    return '';
-  }
-
-  return formatDateStr(date, format, {
-    locale: get(locales, locale),
-  }).trim();
-};
+import { isFuture, isToday } from 'date-fns';
 
 export const isTodayOrLater = (date: Date) => {
   return isToday(date) || isFuture(date);

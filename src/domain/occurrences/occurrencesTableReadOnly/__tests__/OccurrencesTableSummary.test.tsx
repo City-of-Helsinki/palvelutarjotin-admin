@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import formatDate from '../../../../utils/formatDate';
 import formatTimeRange from '../../../../utils/formatTimeRange';
 import {
   fakeEvent,
@@ -8,6 +7,7 @@ import {
   fakePEvent,
 } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
+import { formatLocalizedDate } from '../../../../utils/time/format';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 
 const startTime = new Date(2020, 11, 11).toISOString();
@@ -35,7 +35,9 @@ const renderComponent = (props?: Partial<Props>) => {
 it('show occurrence data in the table in correct format', () => {
   renderComponent();
   //date
-  expect(screen.getByText(formatDate(new Date(startTime)))).toBeInTheDocument();
+  expect(
+    screen.getByText(formatLocalizedDate(new Date(startTime)))
+  ).toBeInTheDocument();
   //time
   expect(screen.getByText(timeRange)).toBeInTheDocument();
   //place

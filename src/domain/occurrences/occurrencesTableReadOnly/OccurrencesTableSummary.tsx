@@ -9,8 +9,8 @@ import {
   OccurrenceSeatType,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
-import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
+import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType, isMultidayOccurrence } from '../../occurrence/utils';
@@ -68,7 +68,9 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       Header: t('occurrences.table.columnEnrolmentStarts'),
       accessor: (row: OccurrenceFieldsFragment) =>
         eventData?.event?.pEvent?.enrolmentStart
-          ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
+          ? formatLocalizedDate(
+              new Date(eventData?.event?.pEvent?.enrolmentStart)
+            )
           : '',
       id: 'enrolmentStarts',
     },
@@ -108,7 +110,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnDate'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatDate(new Date(row.startTime)),
+        formatLocalizedDate(new Date(row.startTime)),
       id: 'date',
     },
     {
