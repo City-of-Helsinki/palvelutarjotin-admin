@@ -79,21 +79,27 @@ export const useCmsMenuItems = () => {
   };
 };
 
-export const useCmsLanguageOptions = () => {
+export const useCmsLanguageOptions = ({
+  skip = false,
+}: { skip?: boolean } = {}) => {
   const location = useLocation();
-  const cmsUri = location.pathname.replace(/(\/?(fi|en|sv))?\/?cms-page/, '');
-  const { data: pageData } = usePageQuery(cmsUri);
 
-  return [
-    {
-      uri: pageData?.page?.uri,
-      locale: pageData?.page?.language?.code?.toLowerCase(),
-    },
-    ...(pageData?.page?.translations?.map((translation) => ({
-      uri: translation?.uri,
-      locale: translation?.language?.code?.toLowerCase(),
-    })) ?? []),
-  ];
+  const cmsPageRegexp = /(\/?(fi|en|sv))?\/?cms-page/;
+  const cmsUri = location.pathname.replace(cmsPageRegexp, '');
+  const { data: pageData } = usePageQuery(cmsUri, { skip });
+
+  return !skip
+    ? [
+        {
+          uri: pageData?.page?.uri,
+          locale: pageData?.page?.language?.code?.toLowerCase(),
+        },
+        ...(pageData?.page?.translations?.map((translation) => ({
+          uri: translation?.uri,
+          locale: translation?.language?.code?.toLowerCase(),
+        })) ?? []),
+      ]
+    : [];
 };
 
 export type Breadcrumb = { title: string; uri: string };
