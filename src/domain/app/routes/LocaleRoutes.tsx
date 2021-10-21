@@ -18,6 +18,7 @@ import EventsPage from '../../events/EventsPage';
 import MyProfilePage from '../../myProfile/MyProfilePage';
 import NotFoundPage from '../../notFound/NotFoundPage';
 import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
+import EditOccurrencesPage from '../../occurrence/EditOccurrencesPage';
 import OccurrenceDetailsPage from '../../occurrence/OccurrenceDetailsPage';
 import PageLayout from '../layout/PageLayout';
 import { ROUTES } from './constants';
@@ -86,6 +87,11 @@ const LocaleRoutes: React.FC<
           exact
           path={`/${locale}${ROUTES.EDIT_EVENT}`}
           component={EditEventPage}
+        />
+        <Route
+          exact
+          path={[`/${locale}${ROUTES.EDIT_OCCURRENCES}`]}
+          component={EditOccurrencesPage}
         />
         <Route
           exact

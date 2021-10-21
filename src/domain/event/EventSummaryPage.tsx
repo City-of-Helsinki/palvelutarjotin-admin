@@ -132,6 +132,10 @@ const EventSummaryPage: React.FC = () => {
     }
   };
 
+  const editOccurrencesButtonLink = isEventDraft
+    ? `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
+    : `/${locale}${ROUTES.EDIT_OCCURRENCES.replace(':id', eventId)}`;
+
   return (
     <PageWrapper title="occurrences.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -183,6 +187,13 @@ const EventSummaryPage: React.FC = () => {
               </div>
 
               <div className={styles.summarySection}>
+                {!isEventDraft && isInternalEnrolment && (
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button onClick={downloadEnrolments} variant="secondary">
+                      {t('eventSummary.buttonExportEnrolments')}
+                    </Button>
+                  </div>
+                )}
                 <div className={styles.sectionTitleRow}>
                   <h2>
                     {t('occurrences.titleOccurrences')}{' '}
@@ -192,20 +203,10 @@ const EventSummaryPage: React.FC = () => {
                       })}
                     </span>
                   </h2>
-                  {!isEventDraft && isInternalEnrolment && (
-                    <Button onClick={downloadEnrolments} variant="secondary">
-                      {t('eventSummary.buttonExportEnrolments')}
-                    </Button>
-                  )}
-                  {isEventDraft && (
-                    <EditButton
-                      text={t('eventSummary.buttonEditOccurrences')}
-                      link={`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(
-                        ':id',
-                        eventId
-                      )}`}
-                    />
-                  )}
+                  <EditButton
+                    text={t('eventSummary.buttonEditOccurrences')}
+                    link={editOccurrencesButtonLink}
+                  />
                 </div>
                 {!!comingOccurrences.length ? (
                   <OccurrencesTableSummary

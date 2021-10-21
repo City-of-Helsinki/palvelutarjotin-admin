@@ -656,6 +656,10 @@
     "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Language"
   },
+  "editOccurrencesPage": {
+    "buttonBackToSummary": "EN: Takaisin tapahtuman tietoihin",
+    "titleEditOccurrences": "EN: Muokkaa tapahtuma-aikoja"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Delete",

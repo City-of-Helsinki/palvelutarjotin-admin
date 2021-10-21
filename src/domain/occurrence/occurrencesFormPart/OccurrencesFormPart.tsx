@@ -23,10 +23,7 @@ import { getEventFields } from '../../event/utils';
 import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
 import PlaceText from '../../place/PlaceText';
 import { EnrolmentType } from '../constants';
-import {
-  OccurrenceSectionFormFields,
-  TimeAndLocationFormFields,
-} from '../types';
+import { OccurrenceSectionFormFields } from '../types';
 import {
   getEventQueryVariables,
   getOccurrenceFields,
@@ -59,20 +56,26 @@ const OccurrencesForm: React.FC<{
   eventData: EventQuery;
   createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
   disabled: boolean;
-}> = ({ disabled, eventData, createOccurrence }) => {
+  location: string;
+  isVirtual: boolean;
+  enrolmentStart: Date | null;
+  enrolmentEndDays: number | string;
+  enrolmentType: EnrolmentType;
+  title: string;
+}> = ({
+  disabled,
+  eventData,
+  createOccurrence,
+  enrolmentEndDays,
+  enrolmentStart,
+  enrolmentType,
+  isVirtual,
+  location,
+  title,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
-
-  const {
-    values: {
-      location,
-      isVirtual,
-      enrolmentEndDays,
-      enrolmentStart,
-      enrolmentType,
-    },
-  } = useFormikContext<TimeAndLocationFormFields>();
 
   const { occurrences, id: eventId } = getEventFields(eventData?.event, locale);
   const pEventId = eventData.event?.pEvent.id as string;
@@ -175,7 +178,7 @@ const OccurrencesForm: React.FC<{
       className={styles.occurrencesFormPart}
       data-testid={occurrencesFormTestId}
     >
-      <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
+      <h2>{title}</h2>
       {!!occurrences?.length && (
         <OccurrencesTable
           occurrences={occurrences}
@@ -189,7 +192,7 @@ const OccurrencesForm: React.FC<{
         validateOnChange
       >
         <OccurrenceForm
-          eventDefaultlocation={location}
+          eventDefaultlocation={!isVirtual ? location : ''}
           isVirtualEvent={isVirtual}
           enrolmentType={enrolmentType}
           disabled={disabled}

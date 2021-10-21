@@ -664,6 +664,10 @@
     "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Språk"
   },
+  "editOccurrencesPage": {
+    "buttonBackToSummary": "SV: Takaisin tapahtuman tietoihin",
+    "titleEditOccurrences": "SV: Muokkaa tapahtuma-aikoja"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Radera",
