@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders event information correctly and matches snapshot 1`] = `
+<div>
+  <a
+    class="eventCard"
+    href="/test-link"
+  >
+    <div
+      class="imageWrapper"
+      style="background-image: url(https://api.hel.fi/linkedevents-test/media/images/test.png);"
+    />
+    <div
+      class="contentWrapper"
+    >
+      <div
+        class="titleWrapper"
+      >
+        <div
+          class="title"
+        >
+          Testinimi
+        </div>
+        <div
+          class="description"
+        >
+          Testikuvaus
+        </div>
+      </div>
+      <div
+        class="occurrenceInfoWrapper"
+      >
+        <div
+          class="textWithIcon"
+        >
+          <svg
+            class=""
+            height="100%"
+            viewBox="0 0 24 24"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill-rule="evenodd"
+              stroke-width="1"
+            >
+              <path
+                d="M11.80416,-2.30926389e-13 C18.32352,-2.30926389e-13 23.60928,5.2848 23.60928,11.80416 C23.60928,18.32352 18.32352,23.60928 11.80416,23.60928 C5.2848,23.60928 -3.37507799e-14,18.32352 -3.37507799e-14,11.80416 C-3.37507799e-14,5.2848 5.2848,-2.30926389e-13 11.80416,-2.30926389e-13 Z M11.80416,2.5296 C6.6912,2.5296 2.53056,6.69024 2.53056,11.80416 C2.53056,16.91904 6.6912,21.07968 11.80416,21.07968 C16.91808,21.07968 21.07968,16.91904 21.07968,11.80416 C21.07968,6.69024 16.91808,2.5296 11.80416,2.5296 Z M13.068768,5.842464 L13.068768,11.280864 L16.665888,14.877024 L14.878368,16.665504 L10.539168,12.328224 L10.539168,5.842464 L13.068768,5.842464 Z"
+              />
+            </g>
+          </svg>
+          perjantaina 22.10 klo 16:17
+        </div>
+        <div
+          class="textWithIcon"
+        >
+          <svg
+            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+            role="img"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <path
+                d="M0 0h24v24H0z"
+              />
+              <path
+                d="M11.967 1.5c2.06 0 4.12.778 5.69 2.334 3.143 3.111 2.93 7.96 0 11.268l-.622.709c-2.612 2.991-4.066 4.96-5.068 6.937-1.073-2.13-2.682-4.249-5.689-7.646-2.93-3.308-3.143-8.157 0-11.268A8.06 8.06 0 0111.967 1.5zm.032 2a6.072 6.072 0 00-4.3 1.762A5.606 5.606 0 006.002 9.41c.02 1.573.648 3.134 1.766 4.398l.66.752c1.59 1.823 2.717 3.239 3.573 4.503.975-1.437 2.292-3.063 4.233-5.255 1.118-1.264 1.746-2.825 1.766-4.398a5.616 5.616 0 00-1.698-4.15A6.077 6.077 0 0011.999 3.5zM12 6a3.5 3.5 0 110 6.999A3.5 3.5 0 0112 6zm0 2c-.827 0-1.5.673-1.5 1.5S11.173 11 12 11s1.5-.673 1.5-1.5S12.827 8 12 8z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+          
+        </div>
+      </div>
+      <div
+        class="eventKeywords"
+      >
+        <div
+          class="keyword"
+        >
+          Maksuton
+        </div>
+        <div
+          class="keyword"
+        >
+          avainsana1
+        </div>
+        <div
+          class="keyword"
+        >
+          avainsana2
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+`;

@@ -23,6 +23,10 @@ export function formatIntoDate(date: Date): string {
   return format(date, DATE_FORMAT);
 }
 
+export function formatDateRange(start: Date, end: Date) {
+  return `${formatIntoDate(start)} – ${formatIntoDate(end)}`;
+}
+
 export function formatLocalizedDate(
   date: Date | null,
   format = DATE_FORMAT,

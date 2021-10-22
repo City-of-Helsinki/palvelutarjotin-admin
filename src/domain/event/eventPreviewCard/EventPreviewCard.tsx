@@ -12,7 +12,7 @@ import EventKeywords from '../eventKeywords/EventKeywords';
 import {
   getEventFields,
   getEventPlaceholderImage,
-  getEventStartTimeStr,
+  getNextOccurrenceDateStr,
 } from '../utils';
 import styles from './eventPreviewCard.module.scss';
 
@@ -29,7 +29,7 @@ const EventPreviewCard: React.FC<Props> = ({ event, link }) => {
     event,
     locale
   );
-  const time = getEventStartTimeStr(event, locale, t);
+  const time = getNextOccurrenceDateStr(event, locale, t);
 
   return (
     <Link to={link} className={styles.eventCard}>

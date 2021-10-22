@@ -16,10 +16,14 @@ import {
 import { Language } from '../../types';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
-import { formatIntoTime, formatLocalizedDate } from '../../utils/time/format';
+import {
+  formatDateRange,
+  formatIntoTime,
+  formatLocalizedDate,
+} from '../../utils/time/format';
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { getEnrolmentType } from '../occurrence/utils';
+import { getEnrolmentType, isMultidayOccurrence } from '../occurrence/utils';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
@@ -41,6 +45,33 @@ export const getEventPlaceholderImage = (id: string): string => {
   return EVENT_PLACEHOLDER_IMAGES[index];
 };
 
+export const getNextOccurrenceDateStr = (
+  event: EventFieldsFragment,
+  locale: Language,
+  t: TFunction
+): string | null => {
+  const nextOccurrenceNode = event.pEvent.occurrences.edges.find(
+    (occurrence) => {
+      const occurrenceStartTime = occurrence?.node?.startTime;
+      return occurrenceStartTime && isFutureDate(new Date(occurrenceStartTime));
+    }
+  );
+  const nextOccurrence = nextOccurrenceNode?.node;
+
+  if (nextOccurrence?.startTime) {
+    if (isMultidayOccurrence(nextOccurrence)) {
+      return formatDateRange(
+        new Date(nextOccurrence.startTime),
+        new Date(nextOccurrence.endTime)
+      );
+    }
+
+    return getStartTimeStr(new Date(nextOccurrence.startTime), locale, t);
+  }
+
+  return null;
+};
+
 export const getEventStartTimeStr = (
   event: EventFieldsFragment,
   locale: Language,
@@ -48,10 +79,14 @@ export const getEventStartTimeStr = (
 ): string | null => {
   const nextOccurrenceTime = event.pEvent.nextOccurrenceDatetime;
   const startTime = nextOccurrenceTime ? new Date(nextOccurrenceTime) : null;
-  const dateFormat = 'iiii d.M';
 
   if (!startTime) return null;
 
+  return getStartTimeStr(startTime, locale, t);
+};
+
+const getStartTimeStr = (startTime: Date, locale: Language, t: TFunction) => {
+  const dateFormat = 'iiii d.M';
   if (isToday(startTime))
     return t('events.eventCard.startTime.today', {
       time: formatIntoTime(startTime),
