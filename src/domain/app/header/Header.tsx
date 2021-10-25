@@ -173,8 +173,8 @@ const LanguageNavigation: React.FC = () => {
   const locale = i18n.language;
   const { pathname, search } = useLocation();
   const history = useHistory();
-  const languageOptions = useCmsLanguageOptions();
   const isCmsPage = !!useRouteMatch(`/${locale}${ROUTES.CMS_PAGE}`);
+  const languageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
 
   const getCmsHref = (lang: string) => {
     const nav = languageOptions?.find((languageOption) => {
