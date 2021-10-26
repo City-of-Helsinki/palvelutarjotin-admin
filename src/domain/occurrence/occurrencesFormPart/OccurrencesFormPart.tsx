@@ -1,5 +1,4 @@
 import addHours from 'date-fns/addHours';
-import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, IconMinusCircleFill } from 'hds-react';
@@ -19,6 +18,7 @@ import {
   useDeleteOccurrenceMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { formatIntoDateTime } from '../../../utils/time/format';
 import { getEventFields } from '../../event/utils';
 import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
 import PlaceText from '../../place/PlaceText';
@@ -341,7 +341,6 @@ const OccurrencesTable: React.FC<{
   occurrences: OccurrenceFieldsFragment[];
   onDeleteOccurrence: (id: string) => Promise<void>;
 }> = ({ occurrences, onDeleteOccurrence }) => {
-  const dateFormat = 'dd.MM.yyyy HH:mm';
   const { t } = useTranslation();
 
   return (
@@ -372,8 +371,8 @@ const OccurrencesTable: React.FC<{
               <td>
                 <PlaceText id={occurrence.placeId} />
               </td>
-              <td>{formatDate(new Date(occurrence.startTime), dateFormat)}</td>
-              <td>{formatDate(new Date(occurrence.endTime), dateFormat)}</td>
+              <td>{formatIntoDateTime(new Date(occurrence.startTime))}</td>
+              <td>{formatIntoDateTime(new Date(occurrence.endTime))}</td>
               <td>{formattedLanguages}</td>
               <td>{occurrence.amountOfSeats}</td>
               <td>{occurrence.minGroupSize ?? '–'}</td>

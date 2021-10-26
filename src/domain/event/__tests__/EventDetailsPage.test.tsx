@@ -233,9 +233,9 @@ test('renders correct information and delete works', async () => {
     expect(modal.queryByText(t)).toBeInTheDocument();
   });
 
-  expect(modal.queryByText('26.08.2021 klo 00:00')).toBeInTheDocument();
+  expect(modal.queryByText('26.8.2021 klo 00:00')).toBeInTheDocument();
   expect(modal.queryByTestId('dots')).toBeInTheDocument();
-  expect(modal.queryByText('31.08.2021 klo 00:00')).toBeInTheDocument();
+  expect(modal.queryByText('31.8.2021 klo 00:00')).toBeInTheDocument();
 
   userEvent.click(modal.getByRole('button', { name: 'Poista tapahtuma' }));
 

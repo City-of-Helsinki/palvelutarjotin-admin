@@ -1,6 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client';
 import classNames from 'classnames';
-import { format } from 'date-fns';
 import {
   Button,
   IconArrowLeft,
@@ -26,6 +25,7 @@ import {
   useEnrolmentQuery,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
+import { formatIntoDateTime } from '../../../utils/time/format';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { joinStudyLevelLabels } from '../../studyLevel/utils';
@@ -67,46 +67,40 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const enrolmentIsNotApproved = enrolment?.status !== EnrolmentStatus.Approved;
   const enrolmentIsNotDeclined = enrolment?.status !== EnrolmentStatus.Declined;
 
-  const [
-    approveEnrolment,
-    { loading: loadingApproveEnrolment },
-  ] = useApproveEnrolmentMutation({
-    onError: (error) => {
-      toast(t('enrolment.approveEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
-    },
-    onCompleted: () => setApproveModalOpen(false),
-  });
+  const [approveEnrolment, { loading: loadingApproveEnrolment }] =
+    useApproveEnrolmentMutation({
+      onError: (error) => {
+        toast(t('enrolment.approveEnrolmentError'), {
+          type: toast.TYPE.ERROR,
+        });
+      },
+      onCompleted: () => setApproveModalOpen(false),
+    });
 
-  const [
-    declineEnrolment,
-    { loading: loadingDeclineEnrolment },
-  ] = useDeclineEnrolmentMutation({
-    onError: (error) => {
-      toast(t('enrolment.declineEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
-    },
-    onCompleted: () => setDeclineModalOpen(false),
-  });
+  const [declineEnrolment, { loading: loadingDeclineEnrolment }] =
+    useDeclineEnrolmentMutation({
+      onError: (error) => {
+        toast(t('enrolment.declineEnrolmentError'), {
+          type: toast.TYPE.ERROR,
+        });
+      },
+      onCompleted: () => setDeclineModalOpen(false),
+    });
 
-  const [
-    deleteEnrolment,
-    { loading: loadingDeleteEnrolment },
-  ] = useDeleteEnrolmentMutation({
-    onError: (error) => {
-      toast(t('enrolment.deleteEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
-    },
-    onCompleted: () => {
-      setDeleteModalOpen(false);
-      // refetch occurrence to easily update seatsTaken info
-      refetchOccurrence();
-      onGoBackClick();
-    },
-  });
+  const [deleteEnrolment, { loading: loadingDeleteEnrolment }] =
+    useDeleteEnrolmentMutation({
+      onError: (error) => {
+        toast(t('enrolment.deleteEnrolmentError'), {
+          type: toast.TYPE.ERROR,
+        });
+      },
+      onCompleted: () => {
+        setDeleteModalOpen(false);
+        // refetch occurrence to easily update seatsTaken info
+        refetchOccurrence();
+        onGoBackClick();
+      },
+    });
 
   const handleApproveEnrolment = async (message?: string) => {
     approveEnrolment({
@@ -268,10 +262,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
               <tbody>
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelEnrolled')}
-                  value={format(
-                    new Date(enrolment?.enrolmentTime),
-                    'dd.MM.yyyy hh:mm'
-                  )}
+                  value={formatIntoDateTime(new Date(enrolment?.enrolmentTime))}
                 />
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelStatus')}

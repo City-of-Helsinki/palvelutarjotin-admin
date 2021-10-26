@@ -4,8 +4,8 @@ import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { DATETIME_FORMAT } from '../../common/components/datepicker/contants';
 import { isValidTime } from '../../utils/dateUtils';
+import { DATETIME_FORMAT } from '../../utils/time/format';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EnrolmentType } from './constants';
 

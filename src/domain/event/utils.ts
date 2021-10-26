@@ -14,12 +14,16 @@ import {
   PublishEventMutationInput,
 } from '../../generated/graphql';
 import { Language } from '../../types';
-import formatDate from '../../utils/formatDate';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import getLocalisedString from '../../utils/getLocalizedString';
-import getTimeFormat from '../../utils/getTimeFormat';
+import {
+  formatDateRange,
+  formatIntoTime,
+  formatLocalizedDate,
+} from '../../utils/time/format';
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
+import { getEnrolmentType, isMultidayOccurrence } from '../occurrence/utils';
 import {
   EVENT_PLACEHOLDER_IMAGES,
   VIRTUAL_EVENT_LOCATION_ID,
@@ -41,6 +45,33 @@ export const getEventPlaceholderImage = (id: string): string => {
   return EVENT_PLACEHOLDER_IMAGES[index];
 };
 
+export const getNextOccurrenceDateStr = (
+  event: EventFieldsFragment,
+  locale: Language,
+  t: TFunction
+): string | null => {
+  const nextOccurrenceNode = event.pEvent.occurrences.edges.find(
+    (occurrence) => {
+      const occurrenceStartTime = occurrence?.node?.startTime;
+      return occurrenceStartTime && isFutureDate(new Date(occurrenceStartTime));
+    }
+  );
+  const nextOccurrence = nextOccurrenceNode?.node;
+
+  if (nextOccurrence?.startTime) {
+    if (isMultidayOccurrence(nextOccurrence)) {
+      return formatDateRange(
+        new Date(nextOccurrence.startTime),
+        new Date(nextOccurrence.endTime)
+      );
+    }
+
+    return getStartTimeStr(new Date(nextOccurrence.startTime), locale, t);
+  }
+
+  return null;
+};
+
 export const getEventStartTimeStr = (
   event: EventFieldsFragment,
   locale: Language,
@@ -48,24 +79,27 @@ export const getEventStartTimeStr = (
 ): string | null => {
   const nextOccurrenceTime = event.pEvent.nextOccurrenceDatetime;
   const startTime = nextOccurrenceTime ? new Date(nextOccurrenceTime) : null;
-  const timeFormat = getTimeFormat(locale);
-  const dateFormat = 'iiii dd.MM';
 
   if (!startTime) return null;
 
+  return getStartTimeStr(startTime, locale, t);
+};
+
+const getStartTimeStr = (startTime: Date, locale: Language, t: TFunction) => {
+  const dateFormat = 'iiii d.M';
   if (isToday(startTime))
     return t('events.eventCard.startTime.today', {
-      time: formatDate(startTime, timeFormat, locale),
+      time: formatIntoTime(startTime),
     });
 
   if (isTomorrow(startTime))
     return t('events.eventCard.startTime.tomorrow', {
-      time: formatDate(startTime, timeFormat, locale),
+      time: formatIntoTime(startTime),
     });
 
   return t('events.eventCard.startTime.other', {
-    date: formatDate(startTime, dateFormat, locale),
-    time: formatDate(startTime, timeFormat, locale),
+    date: formatLocalizedDate(startTime, dateFormat, locale),
+    time: formatIntoTime(startTime),
   });
 };
 
@@ -305,6 +339,7 @@ export const getEventFields = (
         shortDescription: getLocalisedString(event.shortDescription, locale),
         description: getLocalisedString(event.description, locale),
         infoUrl: getLocalisedString(event.infoUrl, locale),
+        enrolmentType: getEnrolmentType(event),
         imageUrl:
           event.images?.[0]?.url || getEventPlaceholderImage(event.id || ''),
         imageAltText: event.images?.[0]?.altText,
@@ -314,6 +349,7 @@ export const getEventFields = (
         contactPhoneNumber: event.pEvent?.contactPhoneNumber,
         contactEmail: event.pEvent?.contactEmail,
         contactPerson: event.pEvent?.contactPerson?.name,
+        organisationId: event?.pEvent?.organisation?.id,
         neededOccurrences: event.pEvent?.neededOccurrences,
         mandatoryAdditionalInformation:
           event.pEvent?.mandatoryAdditionalInformation,

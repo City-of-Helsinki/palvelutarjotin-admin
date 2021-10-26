@@ -698,7 +698,7 @@
     "table": {
       "columnActions": "Toiminnot",
       "columnAmountOfSeats": "Paikkoja",
-      "columnDate": "Pvm",
+      "columnDate": "Ajankohta",
       "columnEnrolmentStarts": "Ilm. alkaa",
       "columnEnrolments": "Ilmoittautuneita",
       "columnEnrolmentsHelper": "hyväksytty / hyväksymättä",

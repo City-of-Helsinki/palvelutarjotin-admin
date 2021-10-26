@@ -14,10 +14,14 @@ import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../hooks/useLocale';
 import IconCalendar from '../../../icons/IconCalendar';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  formatLocalizedDate,
+} from '../../../utils/time/format';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
 import { getTimeObjects, TimeObject } from '../timepicker/utils';
-import { DATE_FORMAT, dateLocales, DATETIME_FORMAT } from './contants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 import Month from './Month';
@@ -28,8 +32,8 @@ function generateUniqueId(prefix = 'datepicker-id') {
   return `${prefix}-${uniqueId()}`;
 }
 
-const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
-const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
+const dateRegex = /^\d{1,2}\.\d{1,2}\.\d{4}$/;
+const datetimeRegex = /^\d{1,2}\.\d{1,2}\.\d{4} \d{2}:\d{2}$/;
 const MINUTE_INTERVAL = 15;
 
 export type DatepickerProps = {
@@ -385,9 +389,11 @@ const Datepicker: React.FC<DatepickerProps> = ({
                       aria-live="polite"
                       id={dialogLabelId}
                     >
-                      {formatDate(new Date(year, month), 'LLLL yyyy', {
-                        locale: dateLocales[locale],
-                      })}
+                      {formatLocalizedDate(
+                        new Date(year, month),
+                        'LLLL yyyy',
+                        locale
+                      )}
                     </div>
                     <MonthNavButton
                       onClick={goToNextMonths}

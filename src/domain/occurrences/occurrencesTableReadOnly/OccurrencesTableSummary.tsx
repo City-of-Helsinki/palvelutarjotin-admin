@@ -9,12 +9,11 @@ import {
   OccurrenceSeatType,
 } from '../../../generated/graphql';
 import useHistory from '../../../hooks/useHistory';
-import useLocale from '../../../hooks/useLocale';
-import formatDate from '../../../utils/formatDate';
 import formatTimeRange from '../../../utils/formatTimeRange';
+import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../../occurrence/constants';
-import { getEnrolmentType } from '../../occurrence/utils';
+import { getEnrolmentType, isMultidayOccurrence } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from '../occurrencesTable/ActionsDropdown';
@@ -33,7 +32,6 @@ const OccurrencesTableSummary: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
   const event = eventData?.event;
   const eventId = event?.id || '';
   const eventLocationId = event?.location?.id || '';
@@ -70,7 +68,9 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       Header: t('occurrences.table.columnEnrolmentStarts'),
       accessor: (row: OccurrenceFieldsFragment) =>
         eventData?.event?.pEvent?.enrolmentStart
-          ? formatDate(new Date(eventData?.event?.pEvent?.enrolmentStart))
+          ? formatLocalizedDate(
+              new Date(eventData?.event?.pEvent?.enrolmentStart)
+            )
           : '',
       id: 'enrolmentStarts',
     },
@@ -110,13 +110,14 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnDate'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatDate(new Date(row.startTime)),
+        formatLocalizedDate(new Date(row.startTime)),
       id: 'date',
     },
     {
-      Header: t('occurrences.table.columnTime'),
       accessor: (row: OccurrenceFieldsFragment) =>
-        formatTimeRange(new Date(row.startTime), new Date(row.endTime), locale),
+        isMultidayOccurrence(row)
+          ? null
+          : formatTimeRange(new Date(row.startTime), new Date(row.endTime)),
       id: 'time',
     },
     {

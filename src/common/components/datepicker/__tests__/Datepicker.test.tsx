@@ -7,10 +7,13 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import formatDate from 'date-fns/format';
-import { fi } from 'date-fns/locale';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 
+import {
+  DATE_FORMAT,
+  formatLocalizedDate,
+} from '../../../../utils/time/format';
 import Datepicker, { DatepickerProps } from '../Datepicker';
 
 configure({ defaultHidden: true });
@@ -66,7 +69,7 @@ describe('<Datepicker />', () => {
     userEvent.tab();
 
     const selectedDateButton = screen.getByRole('button', {
-      name: /valitse 05\.07\.2020/i,
+      name: /valitse 5\.7\.2020/i,
     });
     expect(selectedDateButton).toHaveAttribute('tabIndex', '0');
     expect(selectedDateButton).toHaveClass('daySelected');
@@ -77,7 +80,7 @@ describe('<Datepicker />', () => {
     userEvent.tab();
 
     const currentDayButton = screen.getByRole('button', {
-      name: /valitse 05\.07\.2020/i,
+      name: /valitse 5\.7\.2020/i,
     });
 
     // selected date receives focus asynchronously, lets wait it to happen
@@ -87,7 +90,7 @@ describe('<Datepicker />', () => {
 
     await waitFor(() =>
       expect(
-        screen.queryByRole('button', { name: 'Valitse 12.07.2020' })
+        screen.queryByRole('button', { name: 'Valitse 12.7.2020' })
       ).toHaveFocus()
     );
 
@@ -96,7 +99,7 @@ describe('<Datepicker />', () => {
 
     expect(screen.queryByText(/elokuu 2020/i)).toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: /Valitse 02\.08\.2020/i })
+      screen.queryByRole('button', { name: /Valitse 2\.8\.2020/i })
     ).toHaveFocus();
   });
 
@@ -122,11 +125,11 @@ describe('<Datepicker />', () => {
     const { onChange } = renderDatepicker({ value: date });
 
     const monthRegex = new RegExp(
-      formatDate(date, 'LLLL yyyy', { locale: fi }),
+      formatLocalizedDate(date, 'LLLL yyyy', 'fi'),
       'i'
     );
     const dateSelectRegex = new RegExp(
-      `Valitse ${formatDate(date, 'dd.MM.yyyy')}`,
+      `Valitse ${formatDate(date, DATE_FORMAT)}`,
       'i'
     );
 
@@ -245,7 +248,7 @@ describe('<Datepicker timeSelector /> with time selector', () => {
     const testDate = getTestDate(5);
 
     const dateSelectRegex = new RegExp(
-      `Valitse ${formatDate(testDate, 'dd.MM.yyyy')}`,
+      `Valitse ${formatDate(testDate, DATE_FORMAT)}`,
       'i'
     );
 

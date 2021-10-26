@@ -1,3 +1,5 @@
+import isSameDay from 'date-fns/isSameDay';
+
 import { LINKEDEVENTS_CONTENT_TYPE } from '../../constants';
 import {
   EventFieldsFragment,
@@ -42,6 +44,19 @@ export const getOccurrencePayload = ({
       ? SeatType.EnrolmentCount
       : SeatType.ChildrenCount,
   };
+};
+
+export const isMultidayOccurrence = (
+  occurrence: OccurrenceFieldsFragment
+): boolean => {
+  if (occurrence.startTime && occurrence.endTime) {
+    return !isSameDay(
+      new Date(occurrence.startTime),
+      new Date(occurrence.endTime)
+    );
+  }
+
+  return false;
 };
 
 export const getEnrolmentType = (event: EventFieldsFragment): EnrolmentType => {

@@ -430,10 +430,11 @@ it('shows upcoming and past occurrences', async () => {
 });
 
 it('shows full and not full occurrence rows correctly', async () => {
+  '13.12.2020 30 13.7.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä Valitse';
   const fullOccurrenceRowText =
-    /13\.12\.2020 00:00 – 12:30 30 13\.07\.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä/i;
+    '13.12.2020 00:00 – 01:00 30 13.7.2020 10 hyväksytty 20 hyväksymättä Tapahtuma on täynnä Valitse';
   const notFullOccurrenceRowText =
-    /12\.12\.2020 00:00 – 12:30 30 13\.07\.2020 0 hyväksytty 0 hyväksymättä/i;
+    '12.12.2020 00:00 – 01:00 30 13.7.2020 0 hyväksytty 0 hyväksymättä Valitse';
   const seatsApproved = 10;
   renderWithRoute(<EventSummaryPage />, {
     mocks: getMocks({
@@ -601,29 +602,29 @@ it('can download ics file from actions dropdown', async () => {
 
   expect((ICS.createEvent as jest.Mock<any, any>).mock.calls[0])
     .toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "description": "Tapahtuman lyhyt kuvaus",
-          "end": Array [
-            2020,
-            8,
-            3,
-            12,
-            30,
-          ],
-          "location": "",
-          "productId": "http://localhost",
-          "start": Array [
-            2020,
-            12,
-            11,
-            0,
-            0,
-          ],
-          "startOutputType": "local",
-          "title": "Tapahtuma123456",
-        },
-        [Function],
-      ]
-    `);
+    Array [
+      Object {
+        "description": "Tapahtuman lyhyt kuvaus",
+        "end": Array [
+          2020,
+          12,
+          11,
+          1,
+          0,
+        ],
+        "location": "",
+        "productId": "http://localhost",
+        "start": Array [
+          2020,
+          12,
+          11,
+          0,
+          0,
+        ],
+        "startOutputType": "local",
+        "title": "Tapahtuma123456",
+      },
+      [Function],
+    ]
+  `);
 });

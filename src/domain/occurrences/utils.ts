@@ -1,17 +1,14 @@
-import { format } from 'date-fns';
-
 import { EventFieldsFragment } from '../../generated/graphql';
+import { formatIntoDateTime } from '../../utils/time/format';
 
 export const getEventPublishedTime = (event: EventFieldsFragment) => {
-  const dateFormat = 'dd.MM.yyyy HH:mm';
-
   // TODO: use only this when it is available
   if (event.datePublished) {
-    return format(new Date(event.datePublished), dateFormat);
+    return formatIntoDateTime(new Date(event.datePublished));
   }
 
   if (event.startTime) {
-    return format(new Date(event.startTime), dateFormat);
+    return formatIntoDateTime(new Date(event.startTime));
   }
 
   return null;

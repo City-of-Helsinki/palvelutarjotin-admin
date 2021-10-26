@@ -96,7 +96,7 @@ test('renders correct information', async () => {
   });
 
   // values
-  expect(screen.queryByText('14.08.2020 10:15')).toBeInTheDocument();
+  expect(screen.queryByText('14.8.2020 10:15')).toBeInTheDocument();
   expect(screen.queryByText('Hyväksytty')).toBeInTheDocument();
   expect(
     screen.queryByText('Tekstiviestillä, sähköpostilla, kieli: suomi')

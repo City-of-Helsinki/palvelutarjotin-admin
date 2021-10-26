@@ -1,15 +1,18 @@
-import formatDate from '../formatDate';
+import { formatLocalizedDate } from '../time/format';
 
 describe('formatDate function', () => {
   it('format date string', () => {
-    expect(formatDate(null)).toBe('');
+    expect(formatLocalizedDate(null)).toBe('');
 
-    expect(formatDate(new Date('2019-11-08T12:27:34+02:00'))).toBe(
-      '08.11.2019'
+    expect(formatLocalizedDate(new Date('2019-11-08T12:27:34+02:00'))).toBe(
+      '8.11.2019'
     );
 
     expect(
-      formatDate(new Date('2019-11-08T12:27:34+02:00'), 'dd.MM.yyy hh:mm')
-    ).toBe('08.11.2019 12:27');
+      formatLocalizedDate(
+        new Date('2019-11-08T12:27:34+02:00'),
+        'd.M.yyy hh:mm'
+      )
+    ).toBe('8.11.2019 12:27');
   });
 });

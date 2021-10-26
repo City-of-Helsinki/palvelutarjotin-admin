@@ -11,13 +11,15 @@ import {
   useOccurrenceQuery,
 } from '../../generated/graphql';
 import useHistory from '../../hooks/useHistory';
+import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
+import { getEventFields } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { OCCURRENCE_URL_PARAMS } from './constants';
+import { EnrolmentType, OCCURRENCE_URL_PARAMS } from './constants';
 import EnrolmentDetails from './enrolmentDetails/EnrolmentDetails';
 import EnrolmentTable from './enrolmentTable/EnrolmentTable';
 import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
@@ -32,6 +34,7 @@ interface Params {
 const OccurrenceDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const locale = useLocale();
   const { id, occurrenceId, enrolmentId } = useParams<Params>();
   const searchParams = useSearchParams();
   const enrolmentUpdated = Boolean(
@@ -40,8 +43,10 @@ const OccurrenceDetailsPage: React.FC = () => {
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     variables: { id, include: ['keywords', 'location'] },
   });
+
   const event = eventData?.event;
-  const organisationId = event?.pEvent?.organisation?.id || '';
+  const { organisationId, enrolmentType } = getEventFields(event, locale);
+  const hasInternalEnrolment = enrolmentType === EnrolmentType.Internal;
 
   const {
     data: occurrenceData,
@@ -96,7 +101,7 @@ const OccurrenceDetailsPage: React.FC = () => {
                     onGoBackClick={goToOccurrenceDetails}
                     refetchOccurrence={refetchOccurrence}
                   />
-                ) : (
+                ) : hasInternalEnrolment ? (
                   <EnrolmentTable
                     enrolments={occurrence.enrolments.edges.map(
                       (e) => e?.node as EnrolmentFieldsFragment
@@ -108,7 +113,7 @@ const OccurrenceDetailsPage: React.FC = () => {
                     seatsRemaining={occurrence.remainingSeats}
                     onEnrolmentsModified={handleEnrolmentsModified}
                   />
-                )}
+                ) : null}
               </div>
             </Container>
           </div>

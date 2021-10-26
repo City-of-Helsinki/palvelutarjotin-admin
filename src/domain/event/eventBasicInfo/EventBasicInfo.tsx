@@ -5,9 +5,8 @@ import TextTitle from '../../../common/components/textTitle/TextTitle';
 import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventQuery } from '../../../generated/graphql';
 import { Language } from '../../../types';
-import formatDate from '../../../utils/formatDate';
 import getLocalizedString from '../../../utils/getLocalizedString';
-import getTimeFormat from '../../../utils/getTimeFormat';
+import { formatIntoDate, formatIntoTime } from '../../../utils/time/format';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
@@ -20,7 +19,6 @@ type Props = {
 
 const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   const { t } = useTranslation();
-
   const name = getLocalizedString(eventData.event?.name || {}, language);
   const shortDescription = getLocalizedString(
     eventData.event?.shortDescription || {},
@@ -30,24 +28,17 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
     eventData.event?.description || {},
     language
   );
-
   const mandatoryAdditionalInformation =
     eventData.event?.pEvent?.mandatoryAdditionalInformation;
-
   const imageId = eventData.event?.images[0]?.id;
-
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
-
   const enrolmentType = eventData.event && getEnrolmentType(eventData.event);
   const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
 
   const enrolmentStart = eventData.event?.pEvent?.enrolmentStart
     ? t('eventDetails.basicInfo.enrolmentStart', {
-        date: formatDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
-        time: formatDate(
-          new Date(eventData.event?.pEvent?.enrolmentStart),
-          getTimeFormat(language)
-        ),
+        date: formatIntoDate(new Date(eventData.event?.pEvent?.enrolmentStart)),
+        time: formatIntoTime(new Date(eventData.event?.pEvent?.enrolmentStart)),
       })
     : '';
 

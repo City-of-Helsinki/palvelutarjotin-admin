@@ -5,7 +5,6 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 
-import { DATE_FORMAT } from '../../../common/components/datepicker/contants';
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
 import {
@@ -34,6 +33,11 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  formatIntoDateTime,
+} from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
@@ -99,9 +103,8 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const formattedEnrolmentStartTime = format(
-      new Date(enrolmentStartDateTimeValue),
-      'dd.MM.yyyy HH:mm'
+    const formattedEnrolmentStartTime = formatIntoDateTime(
+      new Date(enrolmentStartDateTimeValue)
     );
     const toastSuccess = jest.spyOn(toast, 'success');
 
@@ -229,14 +232,14 @@ describe('location and enrolment info', () => {
     const neededOccurrencesInput = getFormElement('neededOccurrences');
 
     expect(enrolmentStartDateTimeInput).toHaveValue(
-      format(new Date(enrolmentStartDateTimeValue), 'dd.MM.yyyy HH:mm')
+      format(new Date(enrolmentStartDateTimeValue), DATETIME_FORMAT)
     );
     expect(enrolmentEndDaysInput).toHaveValue(1);
     expect(neededOccurrencesInput).toHaveValue(1);
 
     userEvent.click(enrolmentStartDateTimeInput);
     enrolmentStartDateTimeInput.setSelectionRange(0, 15);
-    userEvent.type(enrolmentStartDateTimeInput, '{backspace}01.05.2021 00:00');
+    userEvent.type(enrolmentStartDateTimeInput, '{backspace}1.5.2021 00:00');
 
     userEvent.clear(enrolmentEndDaysInput);
     userEvent.type(enrolmentEndDaysInput, '2');
@@ -245,7 +248,7 @@ describe('location and enrolment info', () => {
     userEvent.type(neededOccurrencesInput, '3');
 
     await waitFor(() => {
-      expect(enrolmentStartDateTimeInput).toHaveValue('01.05.2021 00:00');
+      expect(enrolmentStartDateTimeInput).toHaveValue('1.5.2021 00:00');
     });
 
     expect(enrolmentEndDaysInput).toHaveValue(2);
@@ -338,11 +341,10 @@ describe('location and enrolment info', () => {
 
   test('notification modal works correctly when info is not filled', async () => {
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
-    const occurrenceStartTime = '10.05.2021 10:00';
-    const occurrenceEndTime = '10.05.2021 11:00';
-    const formattedEnrolmentStartTime = format(
-      new Date(enrolmentStartDateTimeValue),
-      'dd.MM.yyyy HH:mm'
+    const occurrenceStartTime = '10.5.2021 10:00';
+    const occurrenceEndTime = '10.5.2021 11:00';
+    const formattedEnrolmentStartTime = formatIntoDateTime(
+      new Date(enrolmentStartDateTimeValue)
     );
     const occurrenceId = 'occurrenceId';
     const eventData = {
@@ -367,8 +369,8 @@ describe('location and enrolment info', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
       // Need matching id here that is is in the addOccurrence response
       id: occurrenceId,
@@ -667,8 +669,8 @@ describe('occurrences form', () => {
   });
 
   test('can create new occurrence and it is added to occurrences table', async () => {
-    const occurrenceStartTime = '10.05.2021 10:00';
-    const occurrenceEndTime = '10.05.2021 11:00';
+    const occurrenceStartTime = '10.5.2021 10:00';
+    const occurrenceEndTime = '10.5.2021 11:00';
     const occurrenceData1 = {
       amountOfSeats: 30,
       seatType: graphql.OccurrenceSeatType.ChildrenCount,
@@ -686,8 +688,8 @@ describe('occurrences form', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
     renderComponent({
@@ -738,8 +740,8 @@ describe('occurrences form', () => {
   });
 
   test('can create new occurrence without internal enrolment', async () => {
-    const occurrenceStartTime = '10.05.2021 10:00';
-    const occurrenceEndTime = '10.05.2021 11:00';
+    const occurrenceStartTime = '10.5.2021 10:00';
+    const occurrenceEndTime = '10.5.2021 11:00';
     const occurrenceData1 = {
       amountOfSeats: 0,
       seatType: graphql.OccurrenceSeatType.ChildrenCount,
@@ -757,8 +759,8 @@ describe('occurrences form', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
     renderComponent({
@@ -771,7 +773,7 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `Sellon kirjasto10.05.2021 10:0010.05.2021 11:00englanti, suomi0––`;
+    const occurrence1RowText = `Sellon kirjasto10.5.2021 10:0010.5.2021 11:00englanti, suomi0––`;
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -803,16 +805,16 @@ describe('occurrences form', () => {
   });
 
   test('occurrence can be deleted from occurrence table', async () => {
-    const occurrenceStartTime = '10.05.2021 10:00';
-    const occurrenceEndTime = '10.05.2021 11:00';
+    const occurrenceStartTime = '10.5.2021 10:00';
+    const occurrenceEndTime = '10.5.2021 11:00';
     const occurrence: Partial<OccurrenceNode> = {
       amountOfSeats: 30,
       seatType: graphql.OccurrenceSeatType.ChildrenCount,
       minGroupSize: 10,
       maxGroupSize: 20,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
     const occurrenceId1 = 'occurrence1';
@@ -889,7 +891,7 @@ describe('occurrences form', () => {
     userEvent.click(dateInput);
     userEvent.type(dateInput, format(addDays(currentDate, -1), DATE_FORMAT));
     fireEvent.blur(dateInput);
-    expect(dateInput).toHaveValue('19.05.2021 00:00');
+    expect(dateInput).toHaveValue('19.5.2021 00:00');
 
     await waitFor(() => {
       expect(dateInput).toBeInvalid();
@@ -919,7 +921,7 @@ describe('occurrences form', () => {
     userEvent.click(dateInput);
     userEvent.type(dateInput, format(addDays(enrolmentStart, 1), DATE_FORMAT));
     fireEvent.blur(dateInput);
-    expect(dateInput).toHaveValue('22.05.2021 00:00');
+    expect(dateInput).toHaveValue('22.5.2021 00:00');
 
     await waitFor(() => {
       expect(dateInput).toBeInvalid();
@@ -927,7 +929,7 @@ describe('occurrences form', () => {
 
     expect(dateInput).toHaveAttribute('aria-describedby');
     expect(
-      screen.queryByText('Päivämäärän on oltava aikaisintaan 23.05.2021')
+      screen.queryByText('Päivämäärän on oltava aikaisintaan 23.5.2021')
     ).toBeInTheDocument();
   });
 });
@@ -935,8 +937,8 @@ describe('occurrences form', () => {
 describe('save occurrence and event info simultaneously', () => {
   const fillForm = async () => {
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
-    const occurrenceStartTime = '10.05.2021 10:00';
-    const occurrenceEndTime = '10.05.2021 11:00';
+    const occurrenceStartTime = '10.5.2021 10:00';
+    const occurrenceEndTime = '10.5.2021 11:00';
     const occurrenceData1 = {
       amountOfSeats: 30,
       seatType: graphql.OccurrenceSeatType.ChildrenCount,
@@ -946,9 +948,8 @@ describe('save occurrence and event info simultaneously', () => {
       endTime: occurrenceEndTime,
       startTime: occurrenceStartTime,
     };
-    const formattedEnrolmentStartTime = format(
-      new Date(enrolmentStartDateTimeValue),
-      'dd.MM.yyyy HH:mm'
+    const formattedEnrolmentStartTime = formatIntoDateTime(
+      new Date(enrolmentStartDateTimeValue)
     );
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
       getEventMockedResponse({
@@ -970,8 +971,8 @@ describe('save occurrence and event info simultaneously', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(occurrenceStartTime, 'dd.MM.yyyy HH:mm', new Date()),
-      endTime: parseDate(occurrenceEndTime, 'dd.MM.yyyy HH:mm', new Date()),
+      startTime: parseDate(occurrenceStartTime, DATETIME_FORMAT, new Date()),
+      endTime: parseDate(occurrenceEndTime, DATETIME_FORMAT, new Date()),
       placeId: placeId,
     };
 
