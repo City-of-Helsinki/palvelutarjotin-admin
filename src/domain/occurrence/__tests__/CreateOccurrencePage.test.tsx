@@ -773,7 +773,7 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `Sellon kirjasto10.5.2021 10:0010.5.2021 11:00englanti, suomi0––`;
+    const occurrence1RowText = `Sellon kirjasto10.5.2021 10:0010.5.2021 11:00englanti, suomi–––`;
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
