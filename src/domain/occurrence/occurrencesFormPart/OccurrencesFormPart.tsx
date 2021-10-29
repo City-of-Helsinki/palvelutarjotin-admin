@@ -374,7 +374,8 @@ const OccurrencesTable: React.FC<{
               <td>{formatIntoDateTime(new Date(occurrence.startTime))}</td>
               <td>{formatIntoDateTime(new Date(occurrence.endTime))}</td>
               <td>{formattedLanguages}</td>
-              <td>{occurrence.amountOfSeats}</td>
+              {/* Using '||' because we want to show '-' if amount of seats not defined or is 0 */}
+              <td>{occurrence.amountOfSeats || '–'}</td>
               <td>{occurrence.minGroupSize ?? '–'}</td>
               <td>{occurrence.maxGroupSize ?? '–'}</td>
               <td>
