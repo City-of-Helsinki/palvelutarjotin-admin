@@ -675,6 +675,7 @@
     "buttonShowMore": "Show more occurrences",
     "count": "{{count}} pcs",
     "deleteError": "Failed to delete event time",
+    "deleteSuccess": "EN: Tapahtuma-aika poistettu",
     "deleteModal": {
       "buttonDelete": "Delete event time",
       "text1": "Are you sure you want to delete the event time?",
@@ -687,7 +688,7 @@
       "note2": "Enrolments to this occurrence will be canceled and a message will be sent to enrollees."
     },
     "cancelError": "Canceling occurrence failed",
-    "cancelErrorSuccess": "Occurrence canceled",
+    "cancelSuccess": "Occurrence canceled",
     "downloadCalendarError": "Error while importing to calendar",
     "pageTitle": "Event times",
     "status": {

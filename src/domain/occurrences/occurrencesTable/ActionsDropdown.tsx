@@ -133,6 +133,7 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const showCancelAction = !row.cancelled && onCancel;
+  const canDelete = isEventDraft || row.cancelled;
 
   const items = [
     enrolmentType === EnrolmentType.Internal && {
@@ -171,7 +172,7 @@ const ActionsDropdown: React.FC<Props> = ({
         </>
       ),
     },
-    isEventDraft && {
+    canDelete && {
       onClick: openDeleteModal,
       children: (
         <>

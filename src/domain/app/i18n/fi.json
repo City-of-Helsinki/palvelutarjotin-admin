@@ -681,6 +681,7 @@
     "buttonShowMore": "Näytä lisää tapahtuma-aikoja",
     "count": "{{count}} kpl",
     "deleteError": "Tapahtuma-ajan poistaminen epäonnistui",
+    "deleteSuccess": "Tapahtuma-aika poistettu",
     "deleteModal": {
       "buttonDelete": "Poista tapahtuma-aika",
       "text1": "Oletko varma että haluat poistaa tapahtuma-ajan?",
@@ -693,7 +694,7 @@
       "note2": "Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti"
     },
     "cancelError": "Tapahtuma-ajan peruminen epäonnistui",
-    "cancelErrorSuccess": "Tapahtuma-aika peruutettu",
+    "cancelSuccess": "Tapahtuma-aika peruutettu",
     "downloadCalendarError": "Virhe ladattaessa tapahtumaa kalenteriin",
     "pageTitle": "Tapahtuma-ajat",
     "status": {
