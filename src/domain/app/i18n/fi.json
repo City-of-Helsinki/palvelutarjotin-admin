@@ -690,7 +690,7 @@
     },
     "cancelModal": {
       "title": "Peruuta tapahtuma-aika",
-      "note1": "Oletko varma, että haluat poistaa valitun tapahtuma-ajan?",
+      "note1": "Oletko varma, että haluat peruuttaa valitun tapahtuma-ajan?",
       "note2": "Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti"
     },
     "cancelError": "Tapahtuma-ajan peruminen epäonnistui",
