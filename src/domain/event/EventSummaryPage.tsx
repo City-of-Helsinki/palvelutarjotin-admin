@@ -221,7 +221,7 @@ const EventSummaryPage: React.FC = () => {
 
               <div className={styles.summarySection}>
                 {!isEventDraft && isInternalEnrolment && (
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <div className={styles.exportEnrolmentsButtonRow}>
                     <Button onClick={downloadEnrolments} variant="secondary">
                       {t('eventSummary.buttonExportEnrolments')}
                     </Button>

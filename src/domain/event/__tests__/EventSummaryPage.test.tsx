@@ -526,7 +526,7 @@ it('can cancel occurrences from occurrence table actions', async () => {
     const dialog = within(await screen.findByRole('dialog'));
     const expectedTextsToBeVisible = [
       'Peruuta tapahtuma-aika',
-      'Oletko varma, että haluat poistaa valitun tapahtuma-ajan?',
+      'Oletko varma, että haluat peruuttaa valitun tapahtuma-ajan?',
       'Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti',
     ];
     expectedTextsToBeVisible.forEach((text) => {
