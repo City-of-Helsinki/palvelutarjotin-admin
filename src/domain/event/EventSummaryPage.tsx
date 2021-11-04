@@ -14,6 +14,7 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import {
   OccurrenceFieldsFragment,
   useCancelOccurrenceMutation,
+  useDeleteOccurrenceMutation,
   useEventQuery,
 } from '../../generated/graphql';
 import useHistory from '../../hooks/useHistory';
@@ -45,6 +46,9 @@ const EventSummaryPage: React.FC = () => {
   const locale = useLocale();
   const lang = i18n.language;
   const [showAllPastEvents, setShowAllPastEvents] = React.useState(false);
+  const [loadingOccurrences, setLoadingOccurrences] = React.useState<string[]>(
+    []
+  );
   const {
     data: eventData,
     loading,
@@ -60,6 +64,7 @@ const EventSummaryPage: React.FC = () => {
     eventData?.event?.pEvent?.id
   );
   const [cancelOccurrence] = useCancelOccurrenceMutation();
+  const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
   const enrolmentType = eventData?.event && getEnrolmentType(eventData.event);
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
@@ -83,6 +88,14 @@ const EventSummaryPage: React.FC = () => {
     ':id',
     eventId
   )}`;
+
+  const addLoadingOccurrence = (id: string) => {
+    setLoadingOccurrences((ids) => [...ids, id]);
+  };
+
+  const deleteLoadingOccurrence = (occurrenceId: string) => {
+    setLoadingOccurrences((ids) => ids.filter((id) => id !== occurrenceId));
+  };
 
   const goToEventDetailsPage = () => {
     history.pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
@@ -122,15 +135,39 @@ const EventSummaryPage: React.FC = () => {
     message?: string
   ) => {
     try {
+      addLoadingOccurrence(occurrence.id);
       await cancelOccurrence({
         variables: { input: { id: occurrence.id, reason: message } },
       });
       await refetchEventData();
-      toast.success(t('occurrences.cancelErrorSuccess'));
+      deleteLoadingOccurrence(occurrence.id);
+      toast.success(t('occurrences.cancelSuccess'));
     } catch (e) {
+      deleteLoadingOccurrence(occurrence.id);
       toast.error(t('occurrences.cancelError'));
     }
   };
+
+  const handleDeleteOccurrence = async (
+    occurrence: OccurrenceFieldsFragment
+  ) => {
+    try {
+      addLoadingOccurrence(occurrence.id);
+      await deleteOccurrence({
+        variables: { input: { id: occurrence.id } },
+      });
+      await refetchEventData();
+      deleteLoadingOccurrence(occurrence.id);
+      toast.success(t('occurrences.deleteSuccess'));
+    } catch (e) {
+      deleteLoadingOccurrence(occurrence.id);
+      toast.error(t('occurrences.deleteError'));
+    }
+  };
+
+  const editOccurrencesButtonLink = isEventDraft
+    ? `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
+    : `/${locale}${ROUTES.EDIT_OCCURRENCES.replace(':id', eventId)}`;
 
   return (
     <PageWrapper title="occurrences.pageTitle">
@@ -183,6 +220,13 @@ const EventSummaryPage: React.FC = () => {
               </div>
 
               <div className={styles.summarySection}>
+                {!isEventDraft && isInternalEnrolment && (
+                  <div className={styles.exportEnrolmentsButtonRow}>
+                    <Button onClick={downloadEnrolments} variant="secondary">
+                      {t('eventSummary.buttonExportEnrolments')}
+                    </Button>
+                  </div>
+                )}
                 <div className={styles.sectionTitleRow}>
                   <h2>
                     {t('occurrences.titleOccurrences')}{' '}
@@ -192,26 +236,18 @@ const EventSummaryPage: React.FC = () => {
                       })}
                     </span>
                   </h2>
-                  {!isEventDraft && isInternalEnrolment && (
-                    <Button onClick={downloadEnrolments} variant="secondary">
-                      {t('eventSummary.buttonExportEnrolments')}
-                    </Button>
-                  )}
-                  {isEventDraft && (
-                    <EditButton
-                      text={t('eventSummary.buttonEditOccurrences')}
-                      link={`/${locale}${ROUTES.CREATE_OCCURRENCE.replace(
-                        ':id',
-                        eventId
-                      )}`}
-                    />
-                  )}
+                  <EditButton
+                    text={t('eventSummary.buttonEditOccurrences')}
+                    link={editOccurrencesButtonLink}
+                  />
                 </div>
                 {!!comingOccurrences.length ? (
                   <OccurrencesTableSummary
                     eventData={eventData}
                     occurrences={comingOccurrences}
                     onCancel={handleCancelOccurrence}
+                    onDelete={handleDeleteOccurrence}
+                    loadingOccurrences={loadingOccurrences}
                   />
                 ) : (
                   <div>{t('occurrences.textNoComingOccurrences')}</div>
@@ -227,6 +263,7 @@ const EventSummaryPage: React.FC = () => {
                       </span>
                     </h2>
                     <OccurrencesTableSummary
+                      loadingOccurrences={loadingOccurrences}
                       eventData={eventData}
                       occurrences={
                         showAllPastEvents

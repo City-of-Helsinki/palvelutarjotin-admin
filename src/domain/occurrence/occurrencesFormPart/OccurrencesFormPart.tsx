@@ -20,13 +20,11 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { formatIntoDateTime } from '../../../utils/time/format';
 import { getEventFields } from '../../event/utils';
+import { PUBLICATION_STATUS } from '../../events/constants';
 import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
 import PlaceText from '../../place/PlaceText';
 import { EnrolmentType } from '../constants';
-import {
-  OccurrenceSectionFormFields,
-  TimeAndLocationFormFields,
-} from '../types';
+import { OccurrenceSectionFormFields } from '../types';
 import {
   getEventQueryVariables,
   getOccurrenceFields,
@@ -59,23 +57,31 @@ const OccurrencesForm: React.FC<{
   eventData: EventQuery;
   createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
   disabled: boolean;
-}> = ({ disabled, eventData, createOccurrence }) => {
+  location: string;
+  isVirtual: boolean;
+  enrolmentStart: Date | null;
+  enrolmentEndDays: number | string;
+  enrolmentType: EnrolmentType;
+  title: string;
+}> = ({
+  disabled,
+  eventData,
+  createOccurrence,
+  enrolmentEndDays,
+  enrolmentStart,
+  enrolmentType,
+  isVirtual,
+  location,
+  title,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
 
-  const {
-    values: {
-      location,
-      isVirtual,
-      enrolmentEndDays,
-      enrolmentStart,
-      enrolmentType,
-    },
-  } = useFormikContext<TimeAndLocationFormFields>();
-
   const { occurrences, id: eventId } = getEventFields(eventData?.event, locale);
   const pEventId = eventData.event?.pEvent.id as string;
+  const isPublishedEvent =
+    eventData.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
 
   const initialValues = React.useMemo(() => {
     return {
@@ -175,11 +181,12 @@ const OccurrencesForm: React.FC<{
       className={styles.occurrencesFormPart}
       data-testid={occurrencesFormTestId}
     >
-      <h2>{t('eventForm.occurrences.occurrencesFormSectionTitle')}</h2>
+      <h2>{title}</h2>
       {!!occurrences?.length && (
         <OccurrencesTable
           occurrences={occurrences}
           onDeleteOccurrence={handleDeleteOccurrence}
+          isPublishedEvent={isPublishedEvent}
         />
       )}
       <Formik
@@ -189,7 +196,7 @@ const OccurrencesForm: React.FC<{
         validateOnChange
       >
         <OccurrenceForm
-          eventDefaultlocation={location}
+          eventDefaultlocation={!isVirtual ? location : ''}
           isVirtualEvent={isVirtual}
           enrolmentType={enrolmentType}
           disabled={disabled}
@@ -340,7 +347,8 @@ const OccurrenceForm: React.FC<{
 const OccurrencesTable: React.FC<{
   occurrences: OccurrenceFieldsFragment[];
   onDeleteOccurrence: (id: string) => Promise<void>;
-}> = ({ occurrences, onDeleteOccurrence }) => {
+  isPublishedEvent?: boolean;
+}> = ({ occurrences, onDeleteOccurrence, isPublishedEvent }) => {
   const { t } = useTranslation();
 
   return (
@@ -366,6 +374,8 @@ const OccurrencesTable: React.FC<{
             })
             .join(', ');
 
+          const showDeleteButton = !isPublishedEvent || occurrence.cancelled;
+
           return (
             <tr key={occurrence.id}>
               <td>
@@ -379,13 +389,15 @@ const OccurrencesTable: React.FC<{
               <td>{occurrence.minGroupSize ?? '–'}</td>
               <td>{occurrence.maxGroupSize ?? '–'}</td>
               <td>
-                <button
-                  type="button"
-                  onClick={() => onDeleteOccurrence(occurrence.id)}
-                  aria-label={t('occurrences.table.buttonDeleteOccurrence')}
-                >
-                  <IconMinusCircleFill />
-                </button>
+                {showDeleteButton ? (
+                  <button
+                    type="button"
+                    onClick={() => onDeleteOccurrence(occurrence.id)}
+                    aria-label={t('occurrences.table.buttonDeleteOccurrence')}
+                  >
+                    <IconMinusCircleFill />
+                  </button>
+                ) : null}
               </td>
             </tr>
           );

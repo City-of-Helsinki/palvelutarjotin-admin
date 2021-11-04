@@ -664,6 +664,10 @@
     "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Språk"
   },
+  "editOccurrencesPage": {
+    "buttonBackToSummary": "Tillbaka till evenemangsinfo",
+    "titleEditOccurrences": "Ändra datum för evenemang"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Radera",
@@ -679,6 +683,7 @@
     "buttonShowMore": "Visa fler händelser",
     "count": "{{count}} st",
     "deleteError": "Det gick inte att ta bort evenemangtiden",
+    "deleteSuccess": "Datum för evenemang borttaget",
     "deleteModal": {
       "buttonDelete": "Bort evenemangtid",
       "text1": "Är du säker på att du vill ta bort evenemangtid?",
@@ -691,7 +696,7 @@
       "note2": "Anmälningar till denna händelse avbryts och ett meddelande skickas till anmälda."
     },
     "cancelError": "Det gick inte att avbryta förekomsten",
-    "cancelErrorSuccess": "Tiden för händelsen avbröts",
+    "cancelSuccess": "Tiden för händelsen avbröts",
     "downloadCalendarError": "Fel vid import",
     "pageTitle": "Evenemangtider",
     "status": {

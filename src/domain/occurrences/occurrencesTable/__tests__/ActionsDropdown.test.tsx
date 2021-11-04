@@ -85,7 +85,7 @@ it('renders cancel modal and cancel functionality works', () => {
 
   expect(
     screen.queryByText(
-      'Oletko varma, että haluat poistaa valitun tapahtuma-ajan?'
+      'Oletko varma, että haluat peruuttaa valitun tapahtuma-ajan?'
     )
   ).toBeInTheDocument();
 

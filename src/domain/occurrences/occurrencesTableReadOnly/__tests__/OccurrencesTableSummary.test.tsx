@@ -28,7 +28,11 @@ const mockOccurrence = fakeOccurrence({
 
 const renderComponent = (props?: Partial<Props>) => {
   return render(
-    <OccurrencesTableSummary occurrences={[mockOccurrence]} {...props} />
+    <OccurrencesTableSummary
+      loadingOccurrences={[]}
+      occurrences={[mockOccurrence]}
+      {...props}
+    />
   );
 };
 

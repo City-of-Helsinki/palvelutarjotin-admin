@@ -359,7 +359,7 @@ it('navigates to edit occurrences page when edit occurrences button is clicked',
   );
 });
 
-it('hides edit buttons when event has been published', async () => {
+it('changes edit occurrences button when event has been published', async () => {
   renderWithRoute(<EventSummaryPage />, {
     mocks: getMocks(),
     path: ROUTES.EVENT_SUMMARY,
@@ -377,7 +377,7 @@ it('hides edit buttons when event has been published', async () => {
 
   expect(
     screen.queryByRole('link', { name: 'Muokkaa tapahtuma-aikoja' })
-  ).not.toBeInTheDocument();
+  ).toHaveAttribute('href', '/fi/events/eventMockId2/occurrences/edit');
 
   expect(
     screen.queryByRole('link', {
@@ -526,7 +526,7 @@ it('can cancel occurrences from occurrence table actions', async () => {
     const dialog = within(await screen.findByRole('dialog'));
     const expectedTextsToBeVisible = [
       'Peruuta tapahtuma-aika',
-      'Oletko varma, että haluat poistaa valitun tapahtuma-ajan?',
+      'Oletko varma, että haluat peruuttaa valitun tapahtuma-ajan?',
       'Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti',
     ];
     expectedTextsToBeVisible.forEach((text) => {

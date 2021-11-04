@@ -656,6 +656,10 @@
     "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Language"
   },
+  "editOccurrencesPage": {
+    "buttonBackToSummary": "Back to event details",
+    "titleEditOccurrences": "Edit occurrences"
+  },
   "occurrences": {
     "actionsDropdown": {
       "menuItemDelete": "Delete",
@@ -671,6 +675,7 @@
     "buttonShowMore": "Show more occurrences",
     "count": "{{count}} pcs",
     "deleteError": "Failed to delete event time",
+    "deleteSuccess": "Occurrence deleted successfully",
     "deleteModal": {
       "buttonDelete": "Delete event time",
       "text1": "Are you sure you want to delete the event time?",
@@ -679,11 +684,11 @@
     },
     "cancelModal": {
       "title": "Cancel occurrence",
-      "note1": "Are you sure that you want to delete se selected occurrence?",
+      "note1": "Are you sure that you want to cancel the selected occurrence?",
       "note2": "Enrolments to this occurrence will be canceled and a message will be sent to enrollees."
     },
     "cancelError": "Canceling occurrence failed",
-    "cancelErrorSuccess": "Occurrence canceled",
+    "cancelSuccess": "Occurrence canceled",
     "downloadCalendarError": "Error while importing to calendar",
     "pageTitle": "Event times",
     "status": {

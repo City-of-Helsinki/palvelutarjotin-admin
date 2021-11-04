@@ -1,5 +1,11 @@
 import { useApolloClient } from '@apollo/client';
-import { Form, Formik, FormikContextType, FormikHelpers } from 'formik';
+import {
+  Form,
+  Formik,
+  FormikContextType,
+  FormikHelpers,
+  useFormikContext,
+} from 'formik';
 import { Button } from 'hds-react';
 import compact from 'lodash/compact';
 import omit from 'lodash/omit';
@@ -469,10 +475,11 @@ const OccurrenceInfoForm: React.FC<{
               <FocusToFirstError />
               <LocationFormPart selectedLanguages={selectedLanguages} />
               <EnrolmentInfoFormPart />
-              <OccurrencesFormPart
+              <OccurrencesFormPartWrapper
                 eventData={eventData}
                 createOccurrence={createOccurrence}
                 disabled={loading}
+                title={t('eventForm.occurrences.occurrencesFormSectionTitle')}
               />
               <div className={styles.submitButtons}>
                 <Button
@@ -497,6 +504,33 @@ const OccurrenceInfoForm: React.FC<{
       </Formik>
     </OccurrencesFormHandleContext.Provider>
   );
+};
+
+const OccurrencesFormPartWrapper: React.FC<{
+  eventData: EventQuery;
+  createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
+  disabled: boolean;
+  title: string;
+}> = (props) => {
+  const {
+    values: {
+      location,
+      isVirtual,
+      enrolmentEndDays,
+      enrolmentStart,
+      enrolmentType,
+    },
+  } = useFormikContext<TimeAndLocationFormFields>();
+
+  const formProps = {
+    location,
+    isVirtual,
+    enrolmentEndDays,
+    enrolmentStart,
+    enrolmentType,
+  };
+
+  return <OccurrencesFormPart {...props} {...formProps} />;
 };
 
 export default CreateOccurrencePage;

@@ -1,3 +1,4 @@
+import { LoadingSpinner } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row } from 'react-table';
@@ -23,12 +24,16 @@ export interface Props {
   eventData?: EventQuery;
   occurrences: OccurrenceFieldsFragment[];
   onCancel?: (occurrence: OccurrenceFieldsFragment, message?: string) => void;
+  onDelete?: (occurrence: OccurrenceFieldsFragment) => void;
+  loadingOccurrences: string[];
 }
 
 const OccurrencesTableSummary: React.FC<Props> = ({
   eventData,
   occurrences,
   onCancel,
+  onDelete,
+  loadingOccurrences,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -84,6 +89,9 @@ const OccurrencesTableSummary: React.FC<Props> = ({
         </>
       ),
       accessor: (row: OccurrenceFieldsFragment) => {
+        if (loadingOccurrences.includes(row.id)) {
+          return <LoadingSpinner small />;
+        }
         if (row.cancelled) {
           return (
             <span className={styles.cancelledText}>
@@ -136,6 +144,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
           event={event}
           eventId={eventId}
           onCancel={onCancel}
+          onDelete={onDelete}
           row={row}
           enrolmentType={enrolmentType}
         />
