@@ -665,8 +665,8 @@
     "labelLanguages": "Språk"
   },
   "editOccurrencesPage": {
-    "buttonBackToSummary": "SV: Takaisin tapahtuman tietoihin",
-    "titleEditOccurrences": "SV: Muokkaa tapahtuma-aikoja"
+    "buttonBackToSummary": "Tillbaka till evenemangsinfo",
+    "titleEditOccurrences": "Ändra datum för evenemang"
   },
   "occurrences": {
     "actionsDropdown": {
