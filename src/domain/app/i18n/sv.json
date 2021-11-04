@@ -683,7 +683,7 @@
     "buttonShowMore": "Visa fler händelser",
     "count": "{{count}} st",
     "deleteError": "Det gick inte att ta bort evenemangtiden",
-    "deleteSuccess": "SV: Tapahtuma-aika poistettu",
+    "deleteSuccess": "Datum för evenemang borttaget",
     "deleteModal": {
       "buttonDelete": "Bort evenemangtid",
       "text1": "Är du säker på att du vill ta bort evenemangtid?",
