@@ -5,7 +5,22 @@ export const QUERY_ENROLMENT = gql`
     id
     groupSize
     amountOfAdult
-    name
+    unitId
+    unitName
+    unit {
+      ... on ExternalPlace {
+        name {
+          ...localisedFields
+        }
+      }
+      ... on Place {
+        internalId
+        id
+        name {
+          ...localisedFields
+        }
+      }
+    }
     groupName
     studyLevels {
       edges {

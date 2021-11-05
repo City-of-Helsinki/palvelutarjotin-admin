@@ -37,7 +37,7 @@ export const defaultInitialValues: EnrolmentFormFields = {
       phoneNumber: '',
       emailAddress: '',
     },
-    name: '',
+    unitName: '',
     groupName: '',
     groupSize: '',
     amountOfAdult: '',
@@ -102,7 +102,7 @@ const EnrolmentForm: React.FC<Props> = ({
                 <Field
                   label={t('enrolmentForm.studyGroup.labelName')}
                   component={TextInputField}
-                  name="studyGroup.name"
+                  name="studyGroup.unitName"
                 />
               </FormGroup>
               <div className={styles.rowWith2Columns}>

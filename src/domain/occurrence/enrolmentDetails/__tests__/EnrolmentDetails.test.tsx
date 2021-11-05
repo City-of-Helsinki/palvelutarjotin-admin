@@ -46,7 +46,7 @@ const getMocks = (overrides?: Partial<EnrolmentNode>) => [
             }),
           }),
           studyGroup: fakeStudyGroup({
-            name: 'Yläaste',
+            unitName: 'Yläaste',
             groupName: 'Ryhmän nimi',
             extraNeeds: 'Lisätietoja tässä',
             person: fakePerson({

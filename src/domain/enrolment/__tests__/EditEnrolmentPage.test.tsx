@@ -59,7 +59,7 @@ const enrolmentResponse = {
           name: personName,
           phoneNumber: personPhoneNumber,
         }),
-        name: studyGroupName,
+        unitName: studyGroupName,
         groupName: groupName,
         groupSize,
         amountOfAdult,
@@ -141,7 +141,7 @@ it('initializes edit form correctly', async () => {
   ).toHaveValue(enrolment.studyGroup.person.phoneNumber);
   expect(
     screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelName)
-  ).toHaveValue(enrolment.studyGroup.name);
+  ).toHaveValue(enrolment.studyGroup.unitName);
   expect(
     screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelGroupName)
   ).toHaveValue(enrolment.studyGroup.groupName);
@@ -244,7 +244,7 @@ it('calls update enrolment function with correct parameters when form is submitt
             amountOfAdult: amountOfAdult,
             groupSize: groupSize,
             groupName: groupName,
-            name: studyGroupName,
+            unitName: studyGroupName,
             studyLevels: studyLevels.edges.map((e) => e.node.id),
             person: {
               name: personName,

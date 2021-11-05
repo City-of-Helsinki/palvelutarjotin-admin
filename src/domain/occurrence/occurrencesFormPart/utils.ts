@@ -114,16 +114,18 @@ export const addOccurrencesToCache = ({
     }) as EventQuery;
 
     // Find index where to insert new occurrence in the cache array
-    const index = cachedEvent.event?.pEvent.occurrences.edges.findIndex((o) => {
-      const occurrenceStartTime = new Date(o?.node?.startTime);
-      const startTime = new Date(data.addOccurrence?.occurrence?.startTime);
-      return isBefore(startTime, occurrenceStartTime);
-    });
+    const index = cachedEvent.event?.pEvent.occurrences?.edges.findIndex(
+      (o) => {
+        const occurrenceStartTime = new Date(o?.node?.startTime);
+        const startTime = new Date(data.addOccurrence?.occurrence?.startTime);
+        return isBefore(startTime, occurrenceStartTime);
+      }
+    );
 
     const newOccurrences =
       index != null && index > -1
         ? [
-            ...(cachedEvent.event?.pEvent.occurrences.edges ?? []).slice(
+            ...(cachedEvent.event?.pEvent.occurrences?.edges ?? []).slice(
               0,
               index
             ),
@@ -131,10 +133,12 @@ export const addOccurrencesToCache = ({
               __typename: 'OccurrenceNodeEdge',
               node: addOccurrence.occurrence,
             },
-            ...(cachedEvent.event?.pEvent.occurrences.edges ?? []).slice(index),
+            ...(cachedEvent.event?.pEvent.occurrences?.edges ?? []).slice(
+              index
+            ),
           ]
         : [
-            ...(cachedEvent.event?.pEvent.occurrences.edges ?? []),
+            ...(cachedEvent.event?.pEvent.occurrences?.edges ?? []),
             {
               __typename: 'OccurrenceNodeEdge',
               node: addOccurrence.occurrence,
@@ -184,7 +188,7 @@ export const deleteOccurrenceFromCache = ({
             ...cachedEvent.event?.pEvent.occurrences,
             edges: [
               // Filter out deleted occurrence
-              ...(cachedEvent.event?.pEvent.occurrences.edges ?? []).filter(
+              ...(cachedEvent.event?.pEvent.occurrences?.edges ?? []).filter(
                 (e) => e?.node?.id !== occurrenceId
               ),
             ],
