@@ -147,7 +147,12 @@
       "labelName": "Päiväkoti / koulu / oppilaitos",
       "labelStudyLevel": "Luokka-aste",
       "titleGroup": "Ryhmän tiedot",
-      "titleNotifier": "Ilmoittajan tiedot"
+      "titleNotifier": "Ilmoittajan tiedot",
+      "helperUnitId": "Etsi Helsinkiläistä toimipistettä",
+      "placeholderUnitId": "Toimipaikan nimi",
+      "helperUnitName": "Kirjoita toimipaikan nimi",
+      "placeholderUnitName": "Toimipaikan nimi",
+      "showUnitNameLabel": "Paikka Helsingin ulkopuolelta"
     },
     "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
     "titleResponsiblePerson": "Tapahtuman aikana ryhmästä vastuussa oleva aikuinen",
