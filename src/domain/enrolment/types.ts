@@ -16,6 +16,7 @@ export interface EnrolmentFormFields {
       phoneNumber: string;
       emailAddress: string;
     };
+    unitId: string;
     unitName: string;
     groupName: string;
     groupSize: string;

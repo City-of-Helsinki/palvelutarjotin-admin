@@ -146,7 +146,12 @@
       "labelName": "Förskola / skola / högskola",
       "labelStudyLevel": "Betygsnivå",
       "titleGroup": "Gruppinformation",
-      "titleNotifier": "Anmälaren informations"
+      "titleNotifier": "Anmälaren informations",
+      "helperUnitId": "Sök efter en plats i staden Helsingfors",
+      "placeholderUnitId": "Enhetens namn",
+      "helperUnitName": "Skriv namnet på enheten",
+      "placeholderUnitName": "Enhetens namn",
+      "showUnitNameLabel": "En plats utanför Helsingfors"
     },
     "titleNotifications": "Meddelanden om händelse",
     "titleResponsiblePerson": "An adult in charge of the group during the event",

@@ -111,6 +111,7 @@ const EditorEnrolmentPage: React.FC = () => {
           amountOfAdult: enrolment?.studyGroup.amountOfAdult?.toString() || '',
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
           groupName: enrolment?.studyGroup.groupName || '',
+          unitId: enrolment?.studyGroup.unitId || '',
           unitName: enrolment?.studyGroup.unitName || '',
           studyLevels: studyLevels.map((s) => s.toUpperCase()) || [],
           person: {

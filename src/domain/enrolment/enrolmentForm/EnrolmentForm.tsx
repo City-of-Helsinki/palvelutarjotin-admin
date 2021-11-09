@@ -1,5 +1,5 @@
-import { Field, Formik } from 'formik';
-import { Button } from 'hds-react';
+import { Field, Formik, useFormikContext } from 'formik';
+import { Button, Checkbox } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,7 @@ import DropdownField from '../../../common/components/form/fields/DropdownField'
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import TextAreaInputField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
+import UnitPlaceSelectorField from '../../../common/components/form/fields/UnitPlaceSelectorField';
 import FocusToFirstError from '../../../common/components/form/FocusToFirstError';
 import FormGroup from '../../../common/components/form/FormGroup';
 import { Language } from '../../../generated/graphql';
@@ -37,6 +38,7 @@ export const defaultInitialValues: EnrolmentFormFields = {
       phoneNumber: '',
       emailAddress: '',
     },
+    unitId: '',
     unitName: '',
     groupName: '',
     groupSize: '',
@@ -99,10 +101,23 @@ const EnrolmentForm: React.FC<Props> = ({
                 />
               </FormGroup>
               <FormGroup>
-                <Field
+                <UnitField
                   label={t('enrolmentForm.studyGroup.labelName')}
-                  component={TextInputField}
-                  name="studyGroup.unitName"
+                  unitId="studyGroup.unitId"
+                  unitName="studyGroup.unitName"
+                  unitIdHelperText={t('enrolmentForm.studyGroup.helperUnitId')}
+                  unitIdPlaceholder={t(
+                    'enrolmentForm.studyGroup.placeholderUnitId'
+                  )}
+                  unitNameHelperText={t(
+                    'enrolmentForm.studyGroup.helperUnitName'
+                  )}
+                  unitNamePlaceholder={t(
+                    'enrolmentForm.studyGroup.placeholderUnitName'
+                  )}
+                  showUnitNameLabel={t(
+                    'enrolmentForm.studyGroup.showUnitNameLabel'
+                  )}
                 />
               </FormGroup>
               <div className={styles.rowWith2Columns}>
@@ -230,6 +245,86 @@ const EnrolmentForm: React.FC<Props> = ({
         );
       }}
     </Formik>
+  );
+};
+
+const UnitField: React.FC<{
+  label: string;
+  unitId: string;
+  unitName: string;
+  unitIdHelperText?: string;
+  unitIdPlaceholder?: string;
+  unitNameHelperText?: string;
+  unitNamePlaceholder?: string;
+  showUnitNameLabel: string;
+}> = ({
+  label,
+  unitId,
+  unitName,
+  unitIdHelperText,
+  unitIdPlaceholder,
+  unitNameHelperText,
+  unitNamePlaceholder,
+  showUnitNameLabel,
+}) => {
+  const { values, setFieldValue } = useFormikContext();
+  const {
+    studyGroup: { unitId: unitIdValue, unitName: unitNameValue },
+  } = values as EnrolmentFormFields;
+
+  const isUnitNameGiven = Boolean(!unitIdValue && unitNameValue);
+  const [showUnitNameField, setShowUnitNameField] =
+    React.useState(isUnitNameGiven);
+
+  React.useEffect(() => {
+    if (unitNameValue && !unitIdValue && !showUnitNameField) {
+      setShowUnitNameField(true);
+    }
+  }, [unitNameValue, unitIdValue, showUnitNameField]);
+
+  const handleShowUnitNameField = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.checked) {
+      setShowUnitNameField(true);
+      setFieldValue(unitId, null);
+    } else {
+      setShowUnitNameField(false);
+      setFieldValue(unitName, '');
+    }
+  };
+
+  return (
+    <div className={styles.unitField}>
+      {!showUnitNameField ? (
+        <Field
+          labelText={label}
+          disabled={showUnitNameField}
+          required={true}
+          aria-required
+          name={unitId}
+          component={UnitPlaceSelectorField}
+          helperText={unitIdHelperText}
+          placeholder={unitIdPlaceholder}
+        />
+      ) : (
+        <Field
+          label={label}
+          required
+          aria-required
+          name={unitName}
+          component={TextInputField}
+          helperText={unitNameHelperText}
+          placeholder={unitNamePlaceholder}
+        />
+      )}
+      <Checkbox
+        id="show-studyGroup-unitName"
+        label={showUnitNameLabel}
+        checked={showUnitNameField}
+        onChange={handleShowUnitNameField}
+      />
+    </div>
   );
 };
 
