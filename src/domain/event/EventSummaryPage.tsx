@@ -73,7 +73,7 @@ const EventSummaryPage: React.FC = () => {
   const isInternalEnrolment = enrolmentType === EnrolmentType.Internal;
 
   const occurrences =
-    (eventData?.event?.pEvent?.occurrences.edges.map(
+    (eventData?.event?.pEvent?.occurrences?.edges.map(
       (edge) => edge?.node
     ) as OccurrenceFieldsFragment[]) || [];
 

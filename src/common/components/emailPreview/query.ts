@@ -6,7 +6,22 @@ export const QUERY_TEMPLATE_CONTEXT = gql`
       id
       studyGroup {
         id
-        name
+        unitId
+        unitName
+        unit {
+          ... on ExternalPlace {
+            name {
+              ...localisedFields
+            }
+          }
+          ... on Place {
+            internalId
+            id
+            name {
+              ...localisedFields
+            }
+          }
+        }
         person {
           id
           emailAddress

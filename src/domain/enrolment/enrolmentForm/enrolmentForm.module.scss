@@ -48,4 +48,10 @@
   .submitButtonWrapper {
     text-align: right;
   }
+
+  .unitField {
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+    grid-gap: var(--spacing-layout-s);
+  }
 }

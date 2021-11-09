@@ -50,7 +50,7 @@ export const getNextOccurrenceDateStr = (
   locale: Language,
   t: TFunction
 ): string | null => {
-  const nextOccurrenceNode = event.pEvent.occurrences.edges.find(
+  const nextOccurrenceNode = event.pEvent.occurrences?.edges.find(
     (occurrence) => {
       const occurrenceStartTime = occurrence?.node?.startTime;
       return occurrenceStartTime && isFutureDate(new Date(occurrenceStartTime));
@@ -304,12 +304,12 @@ export const isEditableEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.publicationStatus === PUBLICATION_STATUS.DRAFT;
 
 export const hasOccurrences = (event: EventFieldsFragment): boolean => {
-  return Boolean(event.pEvent?.occurrences.edges.length);
+  return Boolean(event.pEvent?.occurrences?.edges.length);
 };
 
 export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(
-    event.pEvent?.occurrences.edges.some(
+    event.pEvent?.occurrences?.edges.some(
       (edge) =>
         edge?.node?.startTime && isFuture(new Date(edge?.node?.startTime))
     )
@@ -354,10 +354,10 @@ export const getEventFields = (
         mandatoryAdditionalInformation:
           event.pEvent?.mandatoryAdditionalInformation,
         occurrences:
-          event.pEvent?.occurrences.edges.map(
+          event.pEvent?.occurrences?.edges.map(
             (edge) => edge?.node as OccurrenceFieldsFragment
           ) || [],
-        totalSeatsTakes: event.pEvent?.occurrences.edges.reduce(
+        totalSeatsTakes: event.pEvent?.occurrences?.edges.reduce(
           (acc, cur) => acc + (cur?.node?.seatsTaken || 0),
           0
         ),

@@ -34,9 +34,8 @@ const EditorEnrolmentPage: React.FC = () => {
   const history = useHistory();
   const locale = useLocale();
   const [selectedLanguage] = React.useState(locale);
-  const [initialValues, setInitialValues] = React.useState<EnrolmentFormFields>(
-    defaultInitialValues
-  );
+  const [initialValues, setInitialValues] =
+    React.useState<EnrolmentFormFields>(defaultInitialValues);
 
   const [updateEnrolment] = useUpdateEnrolmentMutation();
 
@@ -112,7 +111,8 @@ const EditorEnrolmentPage: React.FC = () => {
           amountOfAdult: enrolment?.studyGroup.amountOfAdult?.toString() || '',
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
           groupName: enrolment?.studyGroup.groupName || '',
-          name: enrolment?.studyGroup.name || '',
+          unitId: enrolment?.studyGroup.unitId || '',
+          unitName: enrolment?.studyGroup.unitName || '',
           studyLevels: studyLevels.map((s) => s.toUpperCase()) || [],
           person: {
             name: enrolment?.studyGroup.person.name || '',

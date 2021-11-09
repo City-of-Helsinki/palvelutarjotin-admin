@@ -30,6 +30,7 @@ const personId = '123123';
 const notificationType = graphqlFns.NotificationType.Email;
 const amountOfAdult = 1;
 const groupName = 'groupName';
+const studyGroupId = '';
 const studyGroupName = 'studyGroupName';
 const personEmailAddress = 'testi@hotmail.com';
 const personName = 'Testi Testinen';
@@ -59,7 +60,8 @@ const enrolmentResponse = {
           name: personName,
           phoneNumber: personPhoneNumber,
         }),
-        name: studyGroupName,
+        unitId: studyGroupId,
+        unitName: studyGroupName,
         groupName: groupName,
         groupSize,
         amountOfAdult,
@@ -139,9 +141,23 @@ it('initializes edit form correctly', async () => {
       messages.enrolmentForm.studyGroup.person.labelPhoneNumber
     )
   ).toHaveValue(enrolment.studyGroup.person.phoneNumber);
-  expect(
-    screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelName)
-  ).toHaveValue(enrolment.studyGroup.name);
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole('checkbox', {
+        name: /paikka helsingin ulkopuolelta/i,
+      })
+    ).toBeChecked();
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole('textbox', {
+        name: /päiväkoti \/ koulu \/ oppilaitos \*/i,
+      })
+    ).toHaveValue(enrolment.studyGroup.unitName);
+  });
+
   expect(
     screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelGroupName)
   ).toHaveValue(enrolment.studyGroup.groupName);
@@ -240,11 +256,13 @@ it('calls update enrolment function with correct parameters when form is submitt
         input: {
           enrolmentId: enrolmentId,
           notificationType: notificationType,
+          person: undefined,
           studyGroup: {
             amountOfAdult: amountOfAdult,
             groupSize: groupSize,
             groupName: groupName,
-            name: studyGroupName,
+            unitId: studyGroupId,
+            unitName: studyGroupName,
             studyLevels: studyLevels.edges.map((e) => e.node.id),
             person: {
               name: personName,

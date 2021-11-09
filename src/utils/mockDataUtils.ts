@@ -10,6 +10,7 @@ import {
   EnrolmentStatus,
   Event,
   EventListResponse,
+  ExternalPlace,
   Image,
   InLanguage,
   Keyword,
@@ -42,6 +43,7 @@ import {
   StudyLevelNode,
   StudyLevelNodeConnection,
   StudyLevelNodeEdge,
+  UnitNode,
   VenueNode,
 } from '../generated/graphql';
 import getLinkedEventsInternalId from './getLinkedEventsInternalId';
@@ -149,6 +151,22 @@ export const fakeEnrolment = (
   ...overrides,
 });
 
+export const fakeUnit = (
+  overrides?: Partial<UnitNode>,
+  unitType: 'ExternalPlace' | 'Place' = 'ExternalPlace'
+): UnitNode => {
+  if (unitType === 'Place') {
+    return fakePlace();
+  }
+  return {
+    name: {
+      fi: 'toimipisteen nimi',
+      sv: 'kontor namn',
+      en: 'unit name',
+    },
+  } as ExternalPlace;
+};
+
 export const fakeStudyGroup = (
   overrides?: Partial<StudyGroupNode>
 ): StudyGroupNode => ({
@@ -159,7 +177,9 @@ export const fakeStudyGroup = (
   groupName: '',
   groupSize: 19,
   id: faker.datatype.uuid(),
-  name: '',
+  unitName: '',
+  unitId: '',
+  unit: fakeUnit(undefined, overrides?.unitId ? 'Place' : 'ExternalPlace'),
   occurrences: fakeOccurrences(),
   person: fakePerson(),
   updatedAt: '',

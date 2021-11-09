@@ -128,7 +128,7 @@ const EnrolmentTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupName'),
-      accessor: (row: EnrolmentFieldsFragment) => row.studyGroup.name,
+      accessor: (row: EnrolmentFieldsFragment) => row.studyGroup.unitName,
       id: 'studyGroupName',
     },
     {

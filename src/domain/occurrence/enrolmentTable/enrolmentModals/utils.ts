@@ -17,7 +17,7 @@ export const getEnrolmentTemplateContextJSON = (
         },
       },
       study_group: {
-        name: studyGroup.name,
+        name: studyGroup.unitName,
         person: {
           email_address: studyGroup.person.emailAddress,
         },

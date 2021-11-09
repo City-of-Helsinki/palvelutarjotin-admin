@@ -293,7 +293,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
 
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelStudyGroupName')}
-                  value={enrolment.studyGroup.name}
+                  value={enrolment.studyGroup.unitName}
                   space
                 />
                 <EnrolmentInfoRow
