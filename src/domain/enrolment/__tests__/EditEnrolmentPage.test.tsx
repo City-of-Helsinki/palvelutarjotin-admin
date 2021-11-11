@@ -145,7 +145,7 @@ it('initializes edit form correctly', async () => {
   await waitFor(() => {
     expect(
       screen.getByRole('checkbox', {
-        name: /paikka helsingin ulkopuolelta/i,
+        name: /paikka ei ole listalla/i,
       })
     ).toBeChecked();
   });

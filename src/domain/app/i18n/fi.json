@@ -152,7 +152,7 @@
       "placeholderUnitId": "Toimipaikan nimi",
       "helperUnitName": "Kirjoita toimipaikan nimi",
       "placeholderUnitName": "Toimipaikan nimi",
-      "showUnitNameLabel": "Paikka Helsingin ulkopuolelta"
+      "showUnitNameLabel": "Paikka ei ole listalla"
     },
     "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
     "titleResponsiblePerson": "Tapahtuman aikana ryhmästä vastuussa oleva aikuinen",
