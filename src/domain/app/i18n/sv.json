@@ -100,7 +100,10 @@
     "linkSkipToContent": "Gå till innehållet",
     "openInNewTab": "(öppnas i en ny flik)",
     "notification": "Underrättelse",
-    "getStaffRightsInstructionsText": "Skaffa rättighet att publicera evenemang med denna <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"{{openInNewTab}}\">form</a> blankett!"
+    "getStaffRightsInstructionsText": "Skaffa rättighet att publicera evenemang med denna <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"{{openInNewTab}}\">form</a> blankett!",
+    "unitPlaceSelector": {
+      "noPlaceFoundError": "Platsen har valts, men det gick inte att läsa in namnet"
+    }
   },
   "cms": {
     "linkFrontPage": "Hemsidan",

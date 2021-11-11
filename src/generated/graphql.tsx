@@ -67,7 +67,11 @@ export type AddEventMutationInput = {
   audienceMinAge?: Maybe<Scalars['String']>;
   audienceMaxAge?: Maybe<Scalars['String']>;
   superEventType?: Maybe<Scalars['String']>;
-  extensionCourse?: Maybe<IdObjectInput>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
   name: LocalisedObjectInput;
   localizationExtraInfo?: Maybe<LocalisedObjectInput>;
   shortDescription: LocalisedObjectInput;
@@ -360,7 +364,11 @@ export type Event = {
   audienceMinAge?: Maybe<Scalars['String']>;
   audienceMaxAge?: Maybe<Scalars['String']>;
   superEventType?: Maybe<Scalars['String']>;
-  extensionCourse?: Maybe<ExtensionCourse>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
   name: LocalisedObject;
   localizationExtraInfo?: Maybe<LocalisedObject>;
   shortDescription: LocalisedObject;
@@ -396,15 +404,6 @@ export type EventSearchListResponse = {
   __typename?: 'EventSearchListResponse';
   meta: Meta;
   data: Array<Event>;
-};
-
-export type ExtensionCourse = {
-  __typename?: 'ExtensionCourse';
-  enrolmentStartTime?: Maybe<Scalars['String']>;
-  enrolmentEndTime?: Maybe<Scalars['String']>;
-  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
-  remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
 };
 
 export type ExternalLink = {
@@ -1303,7 +1302,11 @@ export type PublishEventMutationInput = {
   audienceMinAge?: Maybe<Scalars['String']>;
   audienceMaxAge?: Maybe<Scalars['String']>;
   superEventType?: Maybe<Scalars['String']>;
-  extensionCourse?: Maybe<IdObjectInput>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
   name: LocalisedObjectInput;
   localizationExtraInfo?: Maybe<LocalisedObjectInput>;
   shortDescription: LocalisedObjectInput;
@@ -1354,6 +1357,8 @@ export type Query = {
   image?: Maybe<Image>;
   keywords?: Maybe<KeywordListResponse>;
   keyword?: Maybe<Keyword>;
+  /** Keywords related to Kultus ordered by the number of events */
+  popularKultusKeywords?: Maybe<KeywordListResponse>;
   keywordSet?: Maybe<KeywordSet>;
   eventsSearch?: Maybe<EventSearchListResponse>;
   placesSearch?: Maybe<PlaceSearchListResponse>;
@@ -1496,12 +1501,6 @@ export type QueryOrganisationsArgs = {
 };
 
 
-export type QuerySchoolsAndKindergartensListArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryEventsArgs = {
   division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
@@ -1569,6 +1568,12 @@ export type QueryKeywordsArgs = {
 
 export type QueryKeywordArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryPopularKultusKeywordsArgs = {
+  amount?: Maybe<Scalars['Int']>;
+  showAllKeywords?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -1789,7 +1794,11 @@ export type UpdateEventMutationInput = {
   audienceMinAge?: Maybe<Scalars['String']>;
   audienceMaxAge?: Maybe<Scalars['String']>;
   superEventType?: Maybe<Scalars['String']>;
-  extensionCourse?: Maybe<IdObjectInput>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
   name: LocalisedObjectInput;
   localizationExtraInfo?: Maybe<LocalisedObjectInput>;
   shortDescription: LocalisedObjectInput;
@@ -2301,6 +2310,11 @@ export type PlacesQueryVariables = Exact<{
 
 
 export type PlacesQuery = { __typename?: 'Query', places?: Maybe<{ __typename?: 'PlaceListResponse', meta: { __typename?: 'Meta', count?: Maybe<number>, next?: Maybe<string>, previous?: Maybe<string> }, data: Array<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> };
+
+export type SchoolsAndKindergartensListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SchoolsAndKindergartensListQuery = { __typename?: 'Query', schoolsAndKindergartensList?: Maybe<{ __typename?: 'ServiceUnitNameListResponse', meta: { __typename?: 'Meta', count?: Maybe<number> }, data: Array<{ __typename?: 'ServiceUnitNode', id: string, name?: Maybe<{ __typename?: 'LocalisedObject', fi?: Maybe<string>, sv?: Maybe<string>, en?: Maybe<string> }> }> }> };
 
 export type StudyLevelFieldsFragment = { __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> };
 
@@ -4183,6 +4197,50 @@ export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pla
 export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
 export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const SchoolsAndKindergartensListDocument = gql`
+    query SchoolsAndKindergartensList {
+  schoolsAndKindergartensList {
+    meta {
+      count
+    }
+    data {
+      id
+      name {
+        fi
+        sv
+        en
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSchoolsAndKindergartensListQuery__
+ *
+ * To run a query within a React component, call `useSchoolsAndKindergartensListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSchoolsAndKindergartensListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSchoolsAndKindergartensListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSchoolsAndKindergartensListQuery(baseOptions?: Apollo.QueryHookOptions<SchoolsAndKindergartensListQuery, SchoolsAndKindergartensListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SchoolsAndKindergartensListQuery, SchoolsAndKindergartensListQueryVariables>(SchoolsAndKindergartensListDocument, options);
+      }
+export function useSchoolsAndKindergartensListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SchoolsAndKindergartensListQuery, SchoolsAndKindergartensListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SchoolsAndKindergartensListQuery, SchoolsAndKindergartensListQueryVariables>(SchoolsAndKindergartensListDocument, options);
+        }
+export type SchoolsAndKindergartensListQueryHookResult = ReturnType<typeof useSchoolsAndKindergartensListQuery>;
+export type SchoolsAndKindergartensListLazyQueryHookResult = ReturnType<typeof useSchoolsAndKindergartensListLazyQuery>;
+export type SchoolsAndKindergartensListQueryResult = Apollo.QueryResult<SchoolsAndKindergartensListQuery, SchoolsAndKindergartensListQueryVariables>;
 export const StudyLevelsDocument = gql`
     query StudyLevels {
   studyLevels {
