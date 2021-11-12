@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.5...v0.3.6) (2021-11-12)
+
+
+### Features
+
+* add ability to edit occurrences (add/delete) ([ebbcff7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ebbcff7d5eabd0591d214e17f55adfc42321eeaf))
+* show loading indicator in occurrences table when deleting/canceling ([c1988d0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c1988d0363b001fd30b8bf58b71ce848f6df2984))
+* study group unit field and selector ([37af0dc](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/37af0dcffd1928250e6c1c2370ada78c1234ae80))
+* updated the study group and servicemap api schemas. ([9837ad1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9837ad1f209e8c9f265c080062224669a294eb4d))
+
+
+### Bug Fixes
+
+* add couple sv transltions ([07c69cc](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/07c69ccf6c338b9e3a670bf0b246190b0691e67e))
+* better translation for unit field checkbox ([44eec53](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/44eec538f59c640bac373cf1c25bb6853b8a1c18))
+* couple translation fixes ([0a50942](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/0a50942f76f9870613310caa448fec779cf84025))
+* dont try to fetch language options from cms when not on cms page ([696b57b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/696b57b5622234c86ba86b4df6ecea0f279b7df4))
+* how multiday occurrences are shown and update date formatting to coply with HDS guidelines ([c21c56e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c21c56edc4a3794704afd5b545651b10ef61d6cc))
+* show dash instead of 0 when amounOfSeats if 0 ([0874c5d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/0874c5d82b0422378773e48eaa266d4b48437b76))
+* show multi day occurrences as date range in event preview card ([8d15fd6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8d15fd6d85ccd85b9a9d9546ff3a447ae6deebd4))
+* swedish translation dfor deleteSuccess ([5d3a1ae](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5d3a1aee28854445f8667fde14058bf44f78fb6f))
+
 ### [0.3.5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.4...v0.3.5) (2021-09-28)
 
 
