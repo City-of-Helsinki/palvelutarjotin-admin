@@ -292,6 +292,11 @@ it('calls update enrolment function with correct parameters when form is submitt
 });
 
 describe('UnitField', () => {
+  const getUnitFieldInput = () =>
+    screen.getByRole('textbox', {
+      name: /päiväkoti \/ koulu \/ oppilaitos/i,
+    });
+
   const setupUnitFieldTest = async (testMocks: MockedResponse[] = []) => {
     const enrolmentWithoutUnit = {
       ...enrolment,
@@ -333,11 +338,7 @@ describe('UnitField', () => {
     await setupUnitFieldTest();
 
     // First it renders the autosuggest field
-    expect(
-      screen.getByRole('textbox', {
-        name: /päiväkoti \/ koulu \/ oppilaitos/i,
-      })
-    ).toBeInTheDocument();
+    expect(getUnitFieldInput()).toBeInTheDocument();
 
     expect(
       screen.getByText(/etsi helsinkiläistä toimipistettä/i)
@@ -363,63 +364,40 @@ describe('UnitField', () => {
 
     expect(screen.getByText(/kirjoita toimipaikan nimi/i)).toBeInTheDocument();
 
-    userEvent.type(
-      screen.getByRole('textbox', {
-        name: /päiväkoti \/ koulu \/ oppilaitos/i,
-      }),
-      'Testikoulu'
-    );
+    userEvent.type(getUnitFieldInput(), 'Testikoulu');
 
     userEvent.tab();
 
-    expect(
-      screen.getByRole('textbox', {
-        name: /päiväkoti \/ koulu \/ oppilaitos/i,
-      })
-    ).toHaveValue('Testikoulu');
+    expect(getUnitFieldInput()).toHaveValue('Testikoulu');
   });
 
   it('renders a list of schools and kindergartens in unit id field', async () => {
     await setupUnitFieldTest();
 
     // Type to unit id field
-    userEvent.type(
-      screen.getByRole('textbox', {
-        name: /päiväkoti \/ koulu \/ oppilaitos/i,
-      }),
-      'place'
-    );
-
-    // wait for debounce to trigger and populate localStorage
-    await act(() => wait(500));
+    userEvent.type(getUnitFieldInput(), 'place');
 
     // The inserted text should filter autosuggest field options
-    expect(screen.getByText('place12')).toBeInTheDocument();
+    await screen.findByText('place12');
     expect(screen.getByText('place123')).toBeInTheDocument();
     expect(screen.queryByText('place1')).toBeInTheDocument();
     expect(screen.queryByText('place2')).toBeInTheDocument();
 
     // Type to unit id field
-    userEvent.clear(
-      screen.getByRole('textbox', {
-        name: /päiväkoti \/ koulu \/ oppilaitos/i,
-      })
-    );
-    userEvent.type(
-      screen.getByRole('textbox', {
-        name: /päiväkoti \/ koulu \/ oppilaitos/i,
-      }),
-      'place12'
-    );
+    userEvent.clear(getUnitFieldInput());
+    userEvent.type(getUnitFieldInput(), 'place12');
 
     // wait for debounce to trigger and populate localStorage
     await act(() => wait(500));
 
     // The inserted text should filter autosuggest field options
-    expect(screen.getByText('place12')).toBeInTheDocument();
+    await screen.findByText('place12');
     expect(screen.getByText('place123')).toBeInTheDocument();
-    expect(screen.queryByText('place1')).not.toBeInTheDocument();
-    expect(screen.queryByText('place2')).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.queryByText('place1')).not.toBeInTheDocument();
+      expect(screen.queryByText('place2')).not.toBeInTheDocument();
+    });
   });
 
   it('renders prefilled unit id', async () => {
@@ -475,33 +453,21 @@ describe('UnitField', () => {
     undefined,
   ])(
     'shows the unit text in a autosuggest div next to the input (%p)',
-    async (placeMocks) => {
+    async (placeMocks: any) => {
       await setupUnitFieldTest(placeMocks);
 
-      userEvent.type(
-        screen.getByRole('textbox', {
-          name: /päiväkoti \/ koulu \/ oppilaitos/i,
-        }),
-        'place12'
-      );
+      userEvent.type(getUnitFieldInput(), 'place12');
 
-      // wait for debounce to trigger and populate localStorage
-      await act(() => wait(500));
-
-      expect(screen.getByText('place12')).toBeInTheDocument();
+      await screen.findByText('place12');
 
       // Select an unit
       userEvent.click(screen.getByText('place12'));
 
-      await act(() => wait(500));
-
-      expect(
-        screen.getByRole('textbox', {
-          name: /päiväkoti \/ koulu \/ oppilaitos/i,
-        }).nextElementSibling
-      ).toHaveTextContent(
-        placeMocks ? 'place12' : 'unitPlaceSelector.noPlaceFoundError'
-      );
+      await waitFor(() => {
+        expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
+          placeMocks ? 'place12' : 'unitPlaceSelector.noPlaceFoundError'
+        );
+      });
     }
   );
 
