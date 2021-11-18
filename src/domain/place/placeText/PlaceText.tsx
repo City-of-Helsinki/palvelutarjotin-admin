@@ -6,15 +6,17 @@ import getLocalisedString from '../../../utils/getLocalizedString';
 
 interface Props {
   placeId: string;
+  errorText?: string;
 }
 
-const PlaceText: React.FC<Props> = ({ placeId }) => {
+const PlaceText: React.FC<Props> = ({ placeId, errorText = '' }) => {
   const locale = useLocale();
-  const { data } = usePlaceQuery({
+  const { data, loading } = usePlaceQuery({
     variables: { id: placeId },
   });
+  const text = getLocalisedString(data?.place?.name || {}, locale);
 
-  return <>{getLocalisedString(data?.place?.name || {}, locale)}</>;
+  return !loading ? <>{text || errorText}</> : null;
 };
 
 export default PlaceText;

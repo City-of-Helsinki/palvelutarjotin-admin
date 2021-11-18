@@ -1,20 +1,20 @@
 import { useApolloClient } from '@apollo/client';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
-import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../common/components/autoSuggest/contants';
 import {
   Place,
   PlaceDocument,
   PlaceQuery,
-  usePlacesQuery,
+  useSchoolsAndKindergartensListQuery,
 } from '../../generated/graphql';
 import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
-import getLocalizedString from '../../utils/getLocalizedString';
+import getLocalisedString from '../../utils/getLocalizedString';
 import PlaceText from './placeText/PlaceText';
 
 interface Props {
@@ -46,19 +46,15 @@ const UnitPlaceSelector: React.FC<Props> = ({
 }) => {
   const [inputValue, setInputValue] = React.useState('');
   const searchValue = useDebounce(inputValue, 100);
+
   const apolloClient = useApolloClient();
 
-  const { data: placesData, loading } = usePlacesQuery({
+  const { data: unitsData, loading } = useSchoolsAndKindergartensListQuery({
     skip: !searchValue,
-    variables: {
-      dataSource: 'tprek',
-      pageSize: AUTOSUGGEST_OPTIONS_AMOUNT,
-      showAllPlaces: true,
-      text: searchValue,
-    },
   });
 
   const locale = useLocale();
+  const { t } = useTranslation();
 
   const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
     const data = apolloClient.readQuery<PlaceQuery>({
@@ -66,20 +62,21 @@ const UnitPlaceSelector: React.FC<Props> = ({
       variables: { id: option.value },
     });
 
-    return getLocalizedString(data?.place?.name || {}, locale);
+    return getLocalisedString(data?.place?.name || {}, locale);
   };
 
-  const getOptionLabel = (place: Place) =>
-    `${getLocalizedString(place.name || {}, locale)}, ${getLocalizedString(
-      place.streetAddress || {},
-      locale
-    )}`;
+  const getOptionLabel = (place: Place) => {
+    return getLocalisedString(place.name || {}, locale);
+  };
 
   const placeOptions =
-    placesData?.places?.data.map((place) => ({
-      label: getOptionLabel(place),
-      value: place.id || '',
-    })) || [];
+    unitsData?.schoolsAndKindergartensList?.data
+      .map((place) => ({
+        label: getOptionLabel(place as Place),
+        value: place.id || '',
+      }))
+      // Filter the results with a search value!
+      .filter((place) => place.label.includes(searchValue)) || [];
 
   const handleBlur = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
@@ -108,7 +105,15 @@ const UnitPlaceSelector: React.FC<Props> = ({
         value: item,
       }));
     } else if (value) {
-      return { label: <PlaceText placeId={value} />, value: value };
+      return {
+        label: (
+          <PlaceText
+            placeId={value}
+            errorText={t('unitPlaceSelector.noPlaceFoundError')}
+          />
+        ),
+        value: value,
+      };
     }
 
     return null;

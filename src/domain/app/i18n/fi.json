@@ -101,7 +101,10 @@
     "linkSkipToContent": "Siirry sisältöön",
     "openInNewTab": "(avataan uudessa välilehdessä)",
     "notification": "Ilmoitus",
-    "getStaffRightsInstructionsText": "Hanki oikeus tapahtumien julkaisuun tällä <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"lomakkeella {{openInNewTab}}\">lomakkeella</a>"
+    "getStaffRightsInstructionsText": "Hanki oikeus tapahtumien julkaisuun tällä <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"lomakkeella {{openInNewTab}}\">lomakkeella</a>",
+    "unitPlaceSelector": {
+      "noPlaceFoundError": "Paikka on valittu, mutta nimen latauksessa esiintyi ongelma"
+    }
   },
   "cms": {
     "linkFrontPage": "Kotisivu",

@@ -51,4 +51,19 @@ export const QUERY_PLACE = gql`
       }
     }
   }
+  query SchoolsAndKindergartensList {
+    schoolsAndKindergartensList {
+      meta {
+        count
+      }
+      data {
+        id
+        name {
+          fi
+          sv
+          en
+        }
+      }
+    }
+  }
 `;

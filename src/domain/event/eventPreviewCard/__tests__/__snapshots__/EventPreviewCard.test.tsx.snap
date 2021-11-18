@@ -73,7 +73,6 @@ exports[`renders event information correctly and matches snapshot 1`] = `
               />
             </g>
           </svg>
-          
         </div>
       </div>
       <div
