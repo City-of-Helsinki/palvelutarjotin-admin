@@ -76,7 +76,9 @@ const UnitPlaceSelector: React.FC<Props> = ({
         value: place.id || '',
       }))
       // Filter the results with a search value!
-      .filter((place) => place.label.includes(searchValue)) || [];
+      .filter((place) =>
+        place.label.toLowerCase().includes(searchValue.toLowerCase())
+      ) || [];
 
   const handleBlur = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
