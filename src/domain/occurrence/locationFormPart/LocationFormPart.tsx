@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import OrderableEventCheckboxField from '../../event/eventForm/OrderableEventCheckboxField';
 import VirtualEventCheckboxField from '../../event/eventForm/VirtualEventCheckboxField';
 import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import { VENUE_AMENITIES } from '../../venue/utils';
@@ -20,7 +21,7 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
 
   const {
     values,
-    values: { location, locationDescription },
+    values: { location, locationDescription, isVirtual, isBookable },
     setFieldValue,
   } = useFormikContext<TimeAndLocationFormFields>();
 
@@ -43,11 +44,20 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
         <div>
           <h2>{t('eventForm.location.title')}</h2>
           <div className={styles.locationSection}>
-            <Field
-              label={t('eventForm.location.labelEventIsHeldVirtual')}
-              name="isVirtual"
-              component={VirtualEventCheckboxField}
-            />
+            <div className={styles.locationCheckboxes}>
+              <Field
+                label={t('eventForm.location.labelEventIsHeldVirtual')}
+                name="isVirtual"
+                disabled={isBookable}
+                component={VirtualEventCheckboxField}
+              />
+              <Field
+                label={t('eventForm.location.labelBookableEvent')}
+                name="isBookable"
+                disabled={isVirtual}
+                component={OrderableEventCheckboxField}
+              />
+            </div>
           </div>
           <div className={styles.locationSection}>
             <Field
@@ -55,7 +65,7 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
               labelText={t('eventForm.location.labelLocation')}
               name="location"
               required
-              disabled={values.isVirtual}
+              disabled={isVirtual || isBookable}
               placeholder={t('eventForm.location.placeholderLocation')}
               component={PlaceSelectorField}
             />

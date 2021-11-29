@@ -10,7 +10,10 @@ import {
 } from '../../generated/graphql';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
-import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
+import {
+  BOOKABLE_TO_SCHOOL_LOCATION_ID,
+  VIRTUAL_EVENT_LOCATION_ID,
+} from '../event/constants';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { EnrolmentType } from './constants';
 import {
@@ -26,17 +29,19 @@ export const getOccurrencePayload = ({
   values,
   pEventId,
   isVirtual,
+  isBookable,
 }: {
   values: OccurrenceSectionFormFields;
   pEventId: string;
   isVirtual: boolean;
+  isBookable: boolean;
 }) => {
   return {
     startTime: values.startTime,
     endTime: values.endTime,
     languages: values.languages.map((lang) => ({ id: lang as Language })),
     pEventId,
-    placeId: isVirtual ? VIRTUAL_EVENT_LOCATION_ID : values.occurrenceLocation,
+    placeId: getPlaceId({ values, isVirtual, isBookable }),
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || null,
     maxGroupSize: Number(values.maxGroupSize) || null,
@@ -44,6 +49,23 @@ export const getOccurrencePayload = ({
       ? SeatType.EnrolmentCount
       : SeatType.ChildrenCount,
   };
+};
+
+export const getPlaceId = ({
+  isBookable,
+  isVirtual,
+  values,
+}: {
+  isVirtual: boolean;
+  isBookable: boolean;
+  values: OccurrenceSectionFormFields;
+}) => {
+  if (isVirtual) {
+    return VIRTUAL_EVENT_LOCATION_ID;
+  } else if (isBookable) {
+    return BOOKABLE_TO_SCHOOL_LOCATION_ID;
+  }
+  return values.occurrenceLocation;
 };
 
 export const isMultidayOccurrence = (
@@ -109,6 +131,7 @@ export const getEditEventPayload = ({
     location,
     enrolmentStart,
     isVirtual,
+    isBookable,
     neededOccurrences,
     externalEnrolmentUrl,
     enrolmentType,
@@ -165,7 +188,11 @@ export const getEditEventPayload = ({
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.PLACE,
         // If event is virtual, we use location id for internet events
-        isVirtual ? VIRTUAL_EVENT_LOCATION_ID : location
+        isVirtual
+          ? VIRTUAL_EVENT_LOCATION_ID
+          : isBookable
+          ? BOOKABLE_TO_SCHOOL_LOCATION_ID
+          : location
       ),
     },
     draft: eventData.publicationStatus === PUBLICATION_STATUS.DRAFT,

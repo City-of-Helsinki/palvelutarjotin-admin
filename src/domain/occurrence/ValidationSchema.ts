@@ -82,12 +82,13 @@ const ValidationSchema = Yup.object().shape({
       })),
     otherwise: Yup.number().nullable(),
   }),
-  location: Yup.string().when('isVirtual', {
-    is: false,
-    then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    otherwise: Yup.string(),
+  location: Yup.string().when(['isVirtual', 'isBookable'], {
+    is: (isVirtual: boolean, isBookable: boolean) => isVirtual || isBookable,
+    then: Yup.string(),
+    otherwise: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   }),
   isVirtual: Yup.boolean(),
+  isBookable: Yup.boolean(),
   // TODO make this reauired to be true when more than one 1 needed occurrence
   autoAcceptance: Yup.boolean().when('neededOccurrences', {
     is: (val: number) => val > 1,

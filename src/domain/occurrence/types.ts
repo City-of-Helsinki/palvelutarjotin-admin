@@ -17,6 +17,7 @@ export type LocationDescriptions = { [K in SUPPORT_LANGUAGES]: string };
 export type TimeAndLocationFormFields = {
   location: string;
   isVirtual: boolean;
+  isBookable: boolean;
   enrolmentNeeded: boolean;
   externalEnrolmentUrl: string;
   enrolmentStart: Date | null;

@@ -11,7 +11,10 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
-import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
+import {
+  BOOKABLE_TO_SCHOOL_LOCATION_ID,
+  VIRTUAL_EVENT_LOCATION_ID,
+} from '../event/constants';
 import { getEventFields } from '../event/utils';
 import { EnrolmentType } from './constants';
 import styles from './editOccurrencesPage.module.scss';
@@ -46,6 +49,7 @@ const EditOccurrencesPage: React.FC = () => {
   const enrolmentEndDays = event?.pEvent.enrolmentEndDays ?? 0;
   const enrolmentStart = event?.pEvent.enrolmentStart;
   const isVirtual = event?.location?.id === VIRTUAL_EVENT_LOCATION_ID;
+  const isBookable = event?.location?.id === BOOKABLE_TO_SCHOOL_LOCATION_ID;
   const location = event?.location?.id ?? EnrolmentType.Internal;
 
   return (
@@ -69,6 +73,7 @@ const EditOccurrencesPage: React.FC = () => {
                   enrolmentStart={new Date(enrolmentStart)}
                   enrolmentType={enrolmentType}
                   isVirtual={isVirtual}
+                  isBookable={isBookable}
                   location={location}
                   disabled={addOccurrenceLoading}
                 />

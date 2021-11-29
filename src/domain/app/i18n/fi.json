@@ -432,7 +432,8 @@
       "labelLocation": "Oletustapahtumapaikka",
       "placeholderLocation": "Etsi tapahtumapaikkaa...",
       "title": "Tapahtumapaikka",
-      "labelEventIsHeldVirtual": "Tapahtuma järjestetään virtuaalisesti"
+      "labelEventIsHeldVirtual": "Tapahtuma järjestetään virtuaalisesti",
+      "labelBookableEvent": "Tilattavissa omaan toimipaikkaan"
     },
     "accessibility": {
       "audienceDropdown": {

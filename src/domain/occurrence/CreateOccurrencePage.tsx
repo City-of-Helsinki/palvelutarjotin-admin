@@ -38,7 +38,10 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
-import { VIRTUAL_EVENT_LOCATION_ID } from '../event/constants';
+import {
+  BOOKABLE_TO_SCHOOL_LOCATION_ID,
+  VIRTUAL_EVENT_LOCATION_ID,
+} from '../event/constants';
 import {
   EDIT_EVENT_QUERY_PARAMS,
   NAVIGATED_FROM,
@@ -122,6 +125,9 @@ const CreateOccurrencePage: React.FC = () => {
 
         const venueData = data?.venue;
         const isVirtualEvent = event.location?.id === VIRTUAL_EVENT_LOCATION_ID;
+        const isBookable =
+          event.location?.id === BOOKABLE_TO_SCHOOL_LOCATION_ID;
+        const isLocationEditable = isVirtualEvent || isBookable;
         const eventName = omit(event.name, '__typename');
         const eventLangs = Object.entries(eventName).reduce<string[]>(
           (prev, [lang, value]) => (value ? [...prev, lang] : prev),
@@ -158,8 +164,9 @@ const CreateOccurrencePage: React.FC = () => {
             ? new Date(event.pEvent.enrolmentStart)
             : null,
           isVirtual: isVirtualEvent,
+          isBookable,
           neededOccurrences: event.pEvent.neededOccurrences || '1',
-          location: isVirtualEvent ? '' : event.location?.id || '',
+          location: isLocationEditable ? '' : event.location?.id || '',
           hasAreaForGroupWork: venueData?.hasAreaForGroupWork ?? false,
           hasClothingStorage: venueData?.hasClothingStorage ?? false,
           hasIndoorPlayingArea: venueData?.hasIndoorPlayingArea ?? false,
@@ -227,7 +234,7 @@ const CreateOccurrencePage: React.FC = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const requests: Promise<any>[] = compact([
           editEvent({
-            // Do not modify cache because not all fields can be returned from api we want
+            // Do not modify cache because not all fields we would want can be returned from api
             fetchPolicy: 'no-cache',
             variables: {
               event: {
@@ -516,6 +523,7 @@ const OccurrencesFormPartWrapper: React.FC<{
     values: {
       location,
       isVirtual,
+      isBookable,
       enrolmentEndDays,
       enrolmentStart,
       enrolmentType,
@@ -525,6 +533,7 @@ const OccurrencesFormPartWrapper: React.FC<{
   const formProps = {
     location,
     isVirtual,
+    isBookable,
     enrolmentEndDays,
     enrolmentStart,
     enrolmentType,

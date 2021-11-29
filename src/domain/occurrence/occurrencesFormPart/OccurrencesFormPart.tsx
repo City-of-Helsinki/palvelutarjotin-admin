@@ -59,6 +59,7 @@ const OccurrencesForm: React.FC<{
   disabled: boolean;
   location: string;
   isVirtual: boolean;
+  isBookable: boolean;
   enrolmentStart: Date | null;
   enrolmentEndDays: number | string;
   enrolmentType: EnrolmentType;
@@ -71,6 +72,7 @@ const OccurrencesForm: React.FC<{
   enrolmentStart,
   enrolmentType,
   isVirtual,
+  isBookable,
   location,
   title,
 }) => {
@@ -94,11 +96,12 @@ const OccurrencesForm: React.FC<{
     () =>
       getValidationSchema({
         isVirtual,
+        isBookable,
         enrolmentEndDays,
         enrolmentStart,
         enrolmentType,
       }),
-    [enrolmentEndDays, enrolmentStart, isVirtual, enrolmentType]
+    [enrolmentEndDays, enrolmentStart, isVirtual, isBookable, enrolmentType]
   );
   const eventVariables = getEventQueryVariables(eventId ?? '');
 
@@ -130,11 +133,13 @@ const OccurrencesForm: React.FC<{
             values,
             pEventId,
             isVirtual,
+            isBookable,
           }),
         },
         optimisticResponse: getOptimisticCreateOccurrenceResponse({
           values,
           isVirtual,
+          isBookable,
         }),
         update: (proxy, { data }) => {
           addOccurrencesToCache({
@@ -198,6 +203,7 @@ const OccurrencesForm: React.FC<{
         <OccurrenceForm
           eventDefaultlocation={!isVirtual ? location : ''}
           isVirtualEvent={isVirtual}
+          isBookableEvent={isBookable}
           enrolmentType={enrolmentType}
           disabled={disabled}
         />
@@ -209,9 +215,16 @@ const OccurrencesForm: React.FC<{
 const OccurrenceForm: React.FC<{
   eventDefaultlocation: string;
   isVirtualEvent: boolean;
+  isBookableEvent: boolean;
   enrolmentType: EnrolmentType;
   disabled: boolean;
-}> = ({ eventDefaultlocation, isVirtualEvent, disabled, enrolmentType }) => {
+}> = ({
+  eventDefaultlocation,
+  isVirtualEvent,
+  disabled,
+  enrolmentType,
+  isBookableEvent,
+}) => {
   const { t } = useTranslation();
   const {
     handleSubmit,
@@ -243,12 +256,12 @@ const OccurrenceForm: React.FC<{
   React.useEffect(() => {
     if (eventDefaultlocation) {
       setFieldValue('occurrenceLocation', eventDefaultlocation);
-    } else if (isVirtualEvent) {
+    } else if (isVirtualEvent || isBookableEvent) {
       setFieldValue('occurrenceLocation', '');
     } else {
       setFieldValue('occurrenceLocation', '');
     }
-  }, [eventDefaultlocation, isVirtualEvent, setFieldValue]);
+  }, [eventDefaultlocation, isVirtualEvent, isBookableEvent, setFieldValue]);
 
   React.useEffect(() => {
     // Initialize endTime if not yet given
@@ -270,7 +283,7 @@ const OccurrenceForm: React.FC<{
         <Field
           labelText={t('eventOccurrenceForm.labelEventLocation')}
           name="occurrenceLocation"
-          disabled={isVirtualEvent}
+          disabled={isVirtualEvent || isBookableEvent}
           component={PlaceSelectorField}
         />
         <Field
