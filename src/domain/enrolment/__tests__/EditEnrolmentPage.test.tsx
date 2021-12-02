@@ -41,6 +41,9 @@ const studyGroupName = 'studyGroupName';
 const personEmailAddress = 'testi@hotmail.com';
 const personName = 'Testi Testinen';
 const groupSize = 10;
+const amountOfSeats = 30;
+// total of 30
+const remainingSeats = 19;
 const extraNeeds = 'lisätarpeet';
 const personPhoneNumber = '123321123';
 const studyLevels = fakeStudyLevels(2);
@@ -53,6 +56,8 @@ const enrolmentResponse = {
       occurrence: fakeOccurrence({
         id: occurrenceId,
         pEvent: fakePEvent({ organisation: fakeOrganisation() }),
+        remainingSeats,
+        amountOfSeats,
       }),
       person: fakePerson({
         id: personId,
@@ -507,5 +512,110 @@ describe('UnitField', () => {
         name: /päiväkoti \/ koulu \/ oppilaitos/i,
       }).nextElementSibling
     ).toBe(null);
+  });
+});
+
+describe('max group size validation of the Children and Adults -fields', () => {
+  const createEnrolmentForm = async (
+    childrenCount: string,
+    adultsCount: string
+  ) => {
+    renderPage();
+    await screen.findByLabelText(/lapsia/i);
+
+    userEvent.clear(screen.getByLabelText(/lapsia/i));
+    userEvent.clear(screen.getByLabelText(/aikuisia/i));
+
+    childrenCount
+      ? userEvent.type(screen.getByLabelText(/lapsia/i), childrenCount)
+      : userEvent.click(screen.getByLabelText(/lapsia/i));
+    adultsCount
+      ? userEvent.type(screen.getByLabelText(/aikuisia/i), adultsCount)
+      : userEvent.click(screen.getByLabelText(/aikuisia/i));
+    userEvent.tab();
+  };
+
+  test('both of the fields are greater than the max group size', async () => {
+    await createEnrolmentForm('21', '22');
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(
+          /Lasten ja aikuisten yhteislukumäärän tulee olla enintään 20/i
+        )
+      ).toHaveLength(2);
+    });
+  });
+
+  test('both of the fields are less than the min group size, but the total is valid', async () => {
+    await createEnrolmentForm('8', '9');
+    await waitFor(() => {
+      expect(
+        screen.queryByText(
+          /Lasten ja aikuisten yhteislukumäärän tulee olla enintään 20/i
+        )
+      ).not.toBeInTheDocument();
+    });
+    expect(
+      screen.queryByText(
+        /Lasten ja aikuisten yhteislukumäärän tulee olla vähintään 10/i
+      )
+    ).not.toBeInTheDocument();
+  });
+
+  test('one of the fields are less than the min group size, but the total is valid', async () => {
+    await createEnrolmentForm('7', '11');
+    await waitFor(() => {
+      expect(
+        screen.queryByText(
+          /Lasten ja aikuisten yhteislukumäärän tulee olla enintään 20/i
+        )
+      ).not.toBeInTheDocument();
+    });
+    expect(
+      screen.queryByText(
+        /Lasten ja aikuisten yhteislukumäärän tulee olla vähintään 10/i
+      )
+    ).not.toBeInTheDocument();
+  });
+
+  test('one field is greater than the max group size and another one is (still) empty', async () => {
+    await createEnrolmentForm('21', '');
+    await screen.findByText(
+      /Lasten ja aikuisten yhteislukumäärän tulee olla enintään 20/i
+    );
+    await screen.findByText(/Tämä kenttä on pakollinen/i);
+  });
+
+  test('the total count is less than minimum', async () => {
+    await createEnrolmentForm('1', '2');
+    await waitFor(() => {
+      expect(
+        screen.getAllByText(
+          /Lasten ja aikuisten yhteislukumäärän tulee olla vähintään 10/i
+        )
+      ).toHaveLength(2);
+    });
+  });
+
+  test('both the fields are valid as a single, but the total is greater than the maximum group size', async () => {
+    await createEnrolmentForm('19', '18');
+    await screen.findByText(
+      /Arvon tulee olla enintään 2 yhdessä aikuisten lukumäärän kanssa/i
+    );
+    await screen.findByText(
+      /Arvon tulee olla enintään 1 yhdessä lasten lukumäärän kanssa/i
+    );
+  });
+
+  test('one of the field values is valid, but another one is greater than the max group size', async () => {
+    await createEnrolmentForm('22', '18');
+    await screen.findByText(
+      /Arvon tulee olla enintään 2 yhdessä aikuisten lukumäärän kanssa/i
+    );
+    expect(
+      screen.queryByText(
+        /Arvon tulee olla enintään 1 yhdessä lasten lukumäärän kanssa/i
+      )
+    ).not.toBeInTheDocument();
   });
 });

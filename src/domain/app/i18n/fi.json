@@ -582,6 +582,12 @@
         "required": "Tämä kenttä on pakollinen",
         "min": "Arvon tulee olla aikaisintaan {{min}}",
         "max": "Arvon tulee olla viimeistään {{max}}"
+      },
+      "studygroup": {
+        "childrenandadultmin": "Lasten ja aikuisten yhteislukumäärän tulee olla vähintään {{min}}",
+        "adultmaxwithchildren": "Arvon tulee olla enintään {{max}} yhdessä lasten lukumäärän kanssa",
+        "childrenmaxwithadults": "Arvon tulee olla enintään {{max}} yhdessä aikuisten lukumäärän kanssa",
+        "childrenandadultmax": "Lasten ja aikuisten yhteislukumäärän tulee olla enintään {{max}}"
       }
     },
     "actions": {

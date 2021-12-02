@@ -1,3 +1,4 @@
+import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
@@ -8,11 +9,13 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import {
   Language,
   NotificationType,
+  OccurrenceSeatType,
   useEnrolmentQuery,
   useUpdateEnrolmentMutation,
 } from '../../generated/graphql';
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import { assertUnreachable } from '../../utils/typescript.utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -105,8 +108,6 @@ const EditorEnrolmentPage: React.FC = () => {
           enrolment?.notificationType === NotificationType.EmailSms,
         isSameResponsiblePerson:
           enrolment?.person?.id === enrolment?.studyGroup.person.id,
-        minGroupSize: enrolmentData.enrolment?.occurrence.minGroupSize || 0,
-        maxGroupSize: enrolmentData.enrolment?.occurrence.maxGroupSize || 0,
         studyGroup: {
           amountOfAdult: enrolment?.studyGroup.amountOfAdult?.toString() || '',
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
@@ -134,6 +135,36 @@ const EditorEnrolmentPage: React.FC = () => {
     }
   }, [enrolmentData, selectedLanguage]);
 
+  // calculate max group size and take current enrolment group size into account
+  const getMaxGroupSize = (): number | null => {
+    if (!enrolmentData?.enrolment?.occurrence) {
+      return null;
+    }
+
+    const occurrence = enrolmentData?.enrolment?.occurrence;
+    const { remainingSeats, maxGroupSize, seatType } = occurrence;
+    const { amountOfAdult, groupSize } = enrolmentData.enrolment.studyGroup;
+    const wholeGroupSize = amountOfAdult + groupSize;
+
+    if (isNumber(remainingSeats) && isNumber(maxGroupSize) && seatType) {
+      switch (seatType) {
+        case OccurrenceSeatType.ChildrenCount:
+          // add wholeGroupSize to remaining seats because event could be already full
+          // then remaining seats would be 0 and enrolment couldn't be edited
+          return Math.min(maxGroupSize, remainingSeats + wholeGroupSize);
+        case OccurrenceSeatType.EnrolmentCount:
+          return maxGroupSize || 0;
+        default:
+          return assertUnreachable(seatType);
+      }
+    }
+
+    return null;
+  };
+
+  const maxGroupSize = getMaxGroupSize();
+  const minGroupSize = enrolmentData?.enrolment?.occurrence.minGroupSize ?? 0;
+
   return (
     <PageWrapper title="createEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -145,10 +176,18 @@ const EditorEnrolmentPage: React.FC = () => {
                 {t('enrolment.editEnrolmentBackButton')}
               </BackButton>
               <h1>{t('enrolment.editEnrolmentTitle')}</h1>
-              <EnrolmentForm
-                onSubmit={handleSubmit}
-                initialValues={initialValues}
-              />
+              {!!minGroupSize && !!maxGroupSize ? (
+                <EnrolmentForm
+                  onSubmit={handleSubmit}
+                  initialValues={initialValues}
+                  minGroupSize={minGroupSize}
+                  maxGroupSize={maxGroupSize}
+                />
+              ) : (
+                <Notification label="Virhe" type="error">
+                  Virhe lomakkeen alustuksessa
+                </Notification>
+              )}
             </Container>
           </div>
         )}
@@ -156,5 +195,7 @@ const EditorEnrolmentPage: React.FC = () => {
     </PageWrapper>
   );
 };
+
+const isNumber = (n?: number | null): n is number => typeof n === 'number';
 
 export default EditorEnrolmentPage;

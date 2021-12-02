@@ -55,6 +55,9 @@ export const QUERY_ENROLMENT = gql`
         id
         maxGroupSize
         minGroupSize
+        remainingSeats
+        amountOfSeats
+        seatType
         pEvent {
           id
           organisation {

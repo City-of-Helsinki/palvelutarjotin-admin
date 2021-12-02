@@ -584,6 +584,12 @@
         "required": "Obligatorikst att fylla detta fält",
         "min": "Den här tiden måste vara tidigast {{min}}",
         "max": "Den här tiden måste vara senast {{max}}"
+      },
+      "studygroup": {
+        "childrenandadultmin": "Det totala antalet barn och vuxna måste vara minst {{min}}",
+        "adultmaxwithchildren": "Maxvärdet är {{max}} med nuvarande antal barn",
+        "childrenmaxwithadults": "Maxvärdet är {{max}} med nuvarande antal vuxen",
+        "childrenandadultmax": "Det totala antalet barn och vuxna får inte överstiga {{max}}"
       }
     },
     "actions": {

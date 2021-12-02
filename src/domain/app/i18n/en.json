@@ -576,6 +576,12 @@
         "required": "This field is required",
         "min": "This time must be earliest {{min}}",
         "max": "This time must be latest {{max}}"
+      },
+      "studygroup": {
+        "childrenandadultmin": "The total number of children and adults must be at least {{min}}",
+        "adultmaxwithchildren": "Maximum value is {{max}} with current amount of children",
+        "childrenmaxwithadults": "Maximum value is {{max}} with current amount of adults",
+        "childrenandadultmax": "The total number of children and adults must not exceed {{max}}"
       }
     },
     "actions": {
