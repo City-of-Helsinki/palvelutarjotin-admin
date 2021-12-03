@@ -26,7 +26,7 @@ import EnrolmentForm, {
   defaultInitialValues,
 } from './enrolmentForm/EnrolmentForm';
 import { EnrolmentFormFields } from './types';
-import { getUpdateEnrolmentPayload } from './utils';
+import { getGroupSizeBoundaries, getUpdateEnrolmentPayload } from './utils';
 
 const EditorEnrolmentPage: React.FC = () => {
   const { enrolmentId, eventId } = useParams<{
@@ -135,35 +135,11 @@ const EditorEnrolmentPage: React.FC = () => {
     }
   }, [enrolmentData, selectedLanguage]);
 
-  // calculate max group size and take current enrolment group size into account
-  const getMaxGroupSize = (): number | null => {
-    if (!enrolmentData?.enrolment?.occurrence) {
-      return null;
-    }
-
-    const occurrence = enrolmentData?.enrolment?.occurrence;
-    const { remainingSeats, maxGroupSize, seatType } = occurrence;
-    const { amountOfAdult, groupSize } = enrolmentData.enrolment.studyGroup;
-    const wholeGroupSize = amountOfAdult + groupSize;
-
-    if (isNumber(remainingSeats) && isNumber(maxGroupSize) && seatType) {
-      switch (seatType) {
-        case OccurrenceSeatType.ChildrenCount:
-          // add wholeGroupSize to remaining seats because event could be already full
-          // then remaining seats would be 0 and enrolment couldn't be edited
-          return Math.min(maxGroupSize, remainingSeats + wholeGroupSize);
-        case OccurrenceSeatType.EnrolmentCount:
-          return maxGroupSize || 0;
-        default:
-          return assertUnreachable(seatType);
-      }
-    }
-
-    return null;
-  };
-
-  const maxGroupSize = getMaxGroupSize();
-  const minGroupSize = enrolmentData?.enrolment?.occurrence.minGroupSize ?? 0;
+  const { minGroupSize, maxGroupSize } =
+    getGroupSizeBoundaries({
+      occurrence: enrolmentData?.enrolment?.occurrence,
+      studyGroup: enrolmentData?.enrolment?.studyGroup,
+    }) ?? {};
 
   return (
     <PageWrapper title="createEvent.pageTitle">
@@ -195,7 +171,5 @@ const EditorEnrolmentPage: React.FC = () => {
     </PageWrapper>
   );
 };
-
-const isNumber = (n?: number | null): n is number => typeof n === 'number';
 
 export default EditorEnrolmentPage;

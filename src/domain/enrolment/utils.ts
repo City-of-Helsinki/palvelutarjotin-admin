@@ -1,10 +1,15 @@
+import isNumber from 'lodash/isNumber';
+
 import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
   Language,
   NotificationType,
+  OccurrenceSeatType,
+  SeatType,
   UpdateEnrolmentMutationInput,
 } from '../../generated/graphql';
+import { assertUnreachable } from '../../utils/typescript.utils';
 import { EnrolmentFormFields } from './types';
 
 export const getEnrolmentFields = (
@@ -74,4 +79,56 @@ export const getNumberOfParticipants = (
         acc + cur.studyGroup.groupSize + cur.studyGroup.amountOfAdult,
       0
     );
+};
+
+export const getGroupSizeBoundaries = ({
+  studyGroup,
+  occurrence,
+}: {
+  studyGroup?: { amountOfAdult: number; groupSize: number };
+  occurrence?: {
+    remainingSeats: number;
+    maxGroupSize?: number | null;
+    minGroupSize?: number | null;
+    seatType: OccurrenceSeatType;
+  };
+}): {
+  minGroupSize: number;
+  maxGroupSize: number;
+} | null => {
+  if (!occurrence || !studyGroup) {
+    return null;
+  }
+
+  const { remainingSeats, maxGroupSize, seatType, minGroupSize } = occurrence;
+  const { amountOfAdult, groupSize } = studyGroup;
+  const wholeGroupSize = amountOfAdult + groupSize;
+
+  if (isNumber(remainingSeats) && isNumber(maxGroupSize) && seatType) {
+    let calculatedMaxGroupSize: number | null = null;
+    switch (seatType) {
+      case OccurrenceSeatType.ChildrenCount:
+        // add wholeGroupSize to remaining seats because event could be already full
+        // then remaining seats would be 0 and enrolment couldn't be edited
+        calculatedMaxGroupSize = Math.min(
+          maxGroupSize,
+          remainingSeats + wholeGroupSize
+        );
+        break;
+      case OccurrenceSeatType.EnrolmentCount:
+        calculatedMaxGroupSize = maxGroupSize || 0;
+        break;
+      default:
+        assertUnreachable(seatType);
+    }
+
+    if (isNumber(calculatedMaxGroupSize) && isNumber(minGroupSize)) {
+      return {
+        maxGroupSize: calculatedMaxGroupSize ?? null,
+        minGroupSize: minGroupSize ?? null,
+      };
+    }
+  }
+
+  return null;
 };
