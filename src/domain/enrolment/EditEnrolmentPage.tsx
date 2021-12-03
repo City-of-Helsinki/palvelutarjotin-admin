@@ -9,13 +9,11 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import {
   Language,
   NotificationType,
-  OccurrenceSeatType,
   useEnrolmentQuery,
   useUpdateEnrolmentMutation,
 } from '../../generated/graphql';
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
-import { assertUnreachable } from '../../utils/typescript.utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';

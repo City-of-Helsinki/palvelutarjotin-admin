@@ -6,7 +6,6 @@ import {
   Language,
   NotificationType,
   OccurrenceSeatType,
-  SeatType,
   UpdateEnrolmentMutationInput,
 } from '../../generated/graphql';
 import { assertUnreachable } from '../../utils/typescript.utils';
