@@ -2,8 +2,6 @@ export interface EnrolmentFormFields {
   hasEmailNotification: boolean;
   hasSmsNotification: boolean;
   isSameResponsiblePerson: boolean;
-  maxGroupSize: number;
-  minGroupSize: number;
   language: string;
   person: {
     name: string;

@@ -306,6 +306,7 @@ export type EnrolmentNode = Node & {
   studyGroup: StudyGroupNode;
   occurrence: OccurrenceNode;
   enrolmentTime: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   person?: Maybe<PersonNode>;
   notificationType?: Maybe<NotificationType>;
   status?: Maybe<EnrolmentStatus>;
@@ -1092,12 +1093,14 @@ export type PalvelutarjotinEventNode = Node & {
 
 
 export type PalvelutarjotinEventNodeOccurrencesArgs = {
+  orderBy?: Maybe<Array<Maybe<Scalars['String']>>>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   upcoming?: Maybe<Scalars['Boolean']>;
+  enrollable?: Maybe<Scalars['Boolean']>;
   date?: Maybe<Scalars['Date']>;
   time?: Maybe<Scalars['Time']>;
   pEvent?: Maybe<Scalars['ID']>;
@@ -1177,6 +1180,7 @@ export type PersonNodeOccurrencesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   upcoming?: Maybe<Scalars['Boolean']>;
+  enrollable?: Maybe<Scalars['Boolean']>;
   date?: Maybe<Scalars['Date']>;
   time?: Maybe<Scalars['Time']>;
   pEvent?: Maybe<Scalars['ID']>;
@@ -1351,6 +1355,8 @@ export type Query = {
   schoolsAndKindergartensList?: Maybe<ServiceUnitNameListResponse>;
   events?: Maybe<EventListResponse>;
   event?: Maybe<Event>;
+  /** Get upcoming events sorted by the next occurrence. */
+  upcomingEvents?: Maybe<EventListResponse>;
   places?: Maybe<PlaceListResponse>;
   place?: Maybe<Place>;
   images?: Maybe<ImageListResponse>;
@@ -1374,6 +1380,7 @@ export type QueryOccurrencesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   upcoming?: Maybe<Scalars['Boolean']>;
+  enrollable?: Maybe<Scalars['Boolean']>;
   date?: Maybe<Scalars['Date']>;
   time?: Maybe<Scalars['Time']>;
   pEvent?: Maybe<Scalars['ID']>;
@@ -1535,6 +1542,13 @@ export type QueryEventArgs = {
 };
 
 
+export type QueryUpcomingEventsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
 export type QueryPlacesArgs = {
   dataSource?: Maybe<Scalars['String']>;
   divisions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -1666,6 +1680,7 @@ export type StudyGroupNodeOccurrencesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   upcoming?: Maybe<Scalars['Boolean']>;
+  enrollable?: Maybe<Scalars['Boolean']>;
   date?: Maybe<Scalars['Date']>;
   time?: Maybe<Scalars['Time']>;
   pEvent?: Maybe<Scalars['ID']>;
@@ -2050,7 +2065,7 @@ export type EnrolmentQueryVariables = Exact<{
 }>;
 
 
-export type EnrolmentQuery = { __typename?: 'Query', enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, occurrence: { __typename?: 'OccurrenceNode', id: string, maxGroupSize?: Maybe<number>, minGroupSize?: Maybe<number>, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string }> }> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> } } }> };
+export type EnrolmentQuery = { __typename?: 'Query', enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EnrolmentStatus>, occurrence: { __typename?: 'OccurrenceNode', id: string, maxGroupSize?: Maybe<number>, minGroupSize?: Maybe<number>, remainingSeats: number, amountOfSeats: number, seatType: OccurrenceSeatType, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string }> }> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person: { __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> } } }> };
 
 export type NotificationTemplateQueryVariables = Exact<{
   templateType?: Maybe<NotificationTemplateType>;
@@ -2933,6 +2948,9 @@ export const EnrolmentDocument = gql`
       id
       maxGroupSize
       minGroupSize
+      remainingSeats
+      amountOfSeats
+      seatType
       pEvent {
         id
         organisation {

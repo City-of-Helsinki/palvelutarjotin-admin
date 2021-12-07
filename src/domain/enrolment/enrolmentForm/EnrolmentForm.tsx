@@ -18,14 +18,12 @@ import useStudyLevels from '../../studyLevel/useStudyLevels';
 import { EnrolmentFormFields } from '../types';
 // import { ROUTES } from '../../app/routes/constants';
 import styles from './enrolmentForm.module.scss';
-import ValidationSchema from './ValidationSchema';
+import getValidationSchema from './ValidationSchema';
 
 export const defaultInitialValues: EnrolmentFormFields = {
   hasEmailNotification: false,
   hasSmsNotification: false,
   isSameResponsiblePerson: true,
-  maxGroupSize: 0,
-  minGroupSize: 0,
   language: '',
   person: {
     name: '',
@@ -50,14 +48,22 @@ export const defaultInitialValues: EnrolmentFormFields = {
 
 interface Props {
   initialValues?: EnrolmentFormFields;
+  minGroupSize?: number;
+  maxGroupSize?: number;
   onSubmit: (values: EnrolmentFormFields) => void;
 }
 
 const EnrolmentForm: React.FC<Props> = ({
   initialValues = defaultInitialValues,
+  minGroupSize = 10,
+  maxGroupSize = 20,
   onSubmit,
 }) => {
   const { t } = useTranslation();
+
+  const validationSchema = React.useMemo(() => {
+    return getValidationSchema({ minGroupSize, maxGroupSize });
+  }, [minGroupSize, maxGroupSize]);
 
   const { options: studyLevelOptions } = useStudyLevels();
 
@@ -71,7 +77,7 @@ const EnrolmentForm: React.FC<Props> = ({
       enableReinitialize={true}
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={ValidationSchema}
+      validationSchema={validationSchema}
     >
       {({ handleSubmit, values: { isSameResponsiblePerson } }) => {
         return (

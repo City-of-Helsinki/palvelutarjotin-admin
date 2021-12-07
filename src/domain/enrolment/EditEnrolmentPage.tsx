@@ -1,3 +1,4 @@
+import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
@@ -23,7 +24,7 @@ import EnrolmentForm, {
   defaultInitialValues,
 } from './enrolmentForm/EnrolmentForm';
 import { EnrolmentFormFields } from './types';
-import { getUpdateEnrolmentPayload } from './utils';
+import { getGroupSizeBoundaries, getUpdateEnrolmentPayload } from './utils';
 
 const EditorEnrolmentPage: React.FC = () => {
   const { enrolmentId, eventId } = useParams<{
@@ -105,8 +106,6 @@ const EditorEnrolmentPage: React.FC = () => {
           enrolment?.notificationType === NotificationType.EmailSms,
         isSameResponsiblePerson:
           enrolment?.person?.id === enrolment?.studyGroup.person.id,
-        minGroupSize: enrolmentData.enrolment?.occurrence.minGroupSize || 0,
-        maxGroupSize: enrolmentData.enrolment?.occurrence.maxGroupSize || 0,
         studyGroup: {
           amountOfAdult: enrolment?.studyGroup.amountOfAdult?.toString() || '',
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
@@ -134,6 +133,12 @@ const EditorEnrolmentPage: React.FC = () => {
     }
   }, [enrolmentData, selectedLanguage]);
 
+  const { minGroupSize, maxGroupSize } =
+    getGroupSizeBoundaries({
+      occurrence: enrolmentData?.enrolment?.occurrence,
+      studyGroup: enrolmentData?.enrolment?.studyGroup,
+    }) ?? {};
+
   return (
     <PageWrapper title="createEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
@@ -145,10 +150,18 @@ const EditorEnrolmentPage: React.FC = () => {
                 {t('enrolment.editEnrolmentBackButton')}
               </BackButton>
               <h1>{t('enrolment.editEnrolmentTitle')}</h1>
-              <EnrolmentForm
-                onSubmit={handleSubmit}
-                initialValues={initialValues}
-              />
+              {!!minGroupSize && !!maxGroupSize ? (
+                <EnrolmentForm
+                  onSubmit={handleSubmit}
+                  initialValues={initialValues}
+                  minGroupSize={minGroupSize}
+                  maxGroupSize={maxGroupSize}
+                />
+              ) : (
+                <Notification label="Virhe" type="error">
+                  Virhe lomakkeen alustuksessa
+                </Notification>
+              )}
             </Container>
           </div>
         )}
