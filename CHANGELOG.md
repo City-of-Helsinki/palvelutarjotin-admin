@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.6...v0.3.7) (2021-12-08)
+
+
+### Features
+
+* unit place selector uses schoolsAndKindergartens query ([aa0173c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/aa0173ca022cf26cda173a45ed24fb0095d337d5))
+
+
+### Bug Fixes
+
+* delete unused variables ([53856c3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/53856c3df7247aee68b6174dfe7e12e472852b3e))
+* make phonenumber not required when editing enrolment ([c7b6951](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c7b6951c0b84efeddb5818fa0445ae7983ccf370))
+* unit id fields entries are filtered in lowercase format ([ce6b75e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ce6b75ed4e6be4019e931b7ff96708ee9da10b14))
+* validation in edit enrolment page + add tests ([74bbc8a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/74bbc8a5c5e8c4d34d61db6880ba0d19879e71cf))
+
 ### [0.3.6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.5...v0.3.6) (2021-11-12)
 
 
