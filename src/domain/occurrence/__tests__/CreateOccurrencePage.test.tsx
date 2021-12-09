@@ -1149,7 +1149,7 @@ describe('enrolment type selector', () => {
       /tarvittavat käyntikerrat/i,
       /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
     ],
-    [EnrolmentType.External]: [/www-osoite ilmoittautumislomakkeelle/i],
+    [EnrolmentType.External]: [/Sähköposti- tai www-osoite ilmoittautumiseen/i],
     [EnrolmentType.Unenrollable]: [] as RegExp[],
   };
 
@@ -1353,7 +1353,7 @@ const getFormElement = (
       });
     case 'enrolmentUrl':
       return screen.getByRole('textbox', {
-        name: /www-osoite ilmoittautumislomakkeelle/i,
+        name: /Sähköposti- tai www-osoite ilmoittautumiseen/i,
       });
   }
 };

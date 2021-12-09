@@ -139,7 +139,7 @@ export const ExternalEnrolmentFields: React.FC = () => {
     <div>
       <div>
         <Field
-          label={t('eventForm.enrolment.labelExternalEnrolmentUrl')}
+          label={t('eventForm.enrolment.labelExternalEnrolmentUrlOrEmail')}
           name="externalEnrolmentUrl"
           component={TextInputField}
         />

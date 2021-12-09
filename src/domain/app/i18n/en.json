@@ -414,7 +414,7 @@
     },
     "enrolment": {
       "title": "Enrolment",
-      "labelExternalEnrolmentUrl": "Web address for the registration form"
+      "labelExternalEnrolmentUrlOrEmail": "Email or web address for enrolment"
     },
     "enrolmentType": {
       "labelInternal": "Internal enrolments at Kultus",

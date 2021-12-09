@@ -421,7 +421,7 @@
     },
     "enrolment": {
       "title": "Inskrivning",
-      "labelExternalEnrolmentUrl": "Webbadress för registreringsformuläret"
+      "labelExternalEnrolmentUrlOrEmail": "E-post- eller nätadress för anmälningar"
     },
     "enrolmentType": {
       "labelInternal": "Interna registreringar på Kultus",
