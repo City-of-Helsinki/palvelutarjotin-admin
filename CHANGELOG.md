@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.0.0...v1.1.0) (2021-12-10)
+
+
+### Features
+
+* add is orderable to school checkbox to create occurrences page ([98282f7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/98282f7d78c9a317ed1119b9162ce508128d455f))
+* update enrolment link label to also have email ([8c63d67](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8c63d675235b006f3c9a632801c255e9e9d1c2a0))
+
 ## [1.0.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v0.3.6...v1.0.0) (2021-12-08)
 
 
