@@ -420,7 +420,7 @@
     },
     "enrolment": {
       "title": "Ilmoittautuminen",
-      "labelExternalEnrolmentUrl": "WWW-osoite ilmoittautumislomakkeelle"
+      "labelExternalEnrolmentUrlOrEmail": "Sähköposti- tai www-osoite ilmoittautumiseen"
     },
     "enrolmentType": {
       "labelInternal": "Ilmoittautuminen Kultuksessa",
