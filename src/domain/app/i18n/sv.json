@@ -433,7 +433,8 @@
       "labelLocation": "Standard venue",
       "placeholderLocation": "Sök evenemangsplats...",
       "title": "Plats",
-      "labelEventIsHeldVirtual": "Evenemanget hålls praktiskt taget"
+      "labelEventIsHeldVirtual": "Evenemanget hålls praktiskt taget",
+      "labelBookableEvent": "Evenemanget går att beställa till den egna verksamhetsplatsen"
     },
     "accessibility": {
       "audienceDropdown": {

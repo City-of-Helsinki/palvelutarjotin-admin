@@ -4,24 +4,21 @@ import * as React from 'react';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 
-// This is its own component because how Formik recommends to handle situations
-// where form value is based on other form value.
-// see: https://github.com/formium/formik/issues/2204#issuecomment-574207100
-const VirtualEventCheckboxField = ({
+const OrderableEventCheckboxField = ({
   form,
   ...props
 }: FieldProps & CheckboxProps) => {
   const { setFieldValue } = form;
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('isVirtual', e.target.checked);
+    setFieldValue('isBookable', e.target.checked);
     if (e.target.checked) {
       setFieldValue('location', '');
-      setFieldValue('isBookable', false);
+      setFieldValue('isVirtual', false);
     }
   };
 
   return <CheckboxField {...props} form={form} onChange={handleOnChange} />;
 };
 
-export default VirtualEventCheckboxField;
+export default OrderableEventCheckboxField;

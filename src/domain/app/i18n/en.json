@@ -426,7 +426,8 @@
       "labelLocation": "Default venue",
       "placeholderLocation": "Search venue...",
       "title": "Location",
-      "labelEventIsHeldVirtual": "Event is held virtually"
+      "labelEventIsHeldVirtual": "Event is held virtually",
+      "labelBookableEvent": "The event will be held at customers place"
     },
     "accessibility": {
       "audienceDropdown": {

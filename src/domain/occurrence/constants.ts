@@ -13,6 +13,7 @@ export enum EnrolmentType {
 export const defaultInitialValues: TimeAndLocationFormFields = {
   location: '',
   isVirtual: false,
+  isBookable: false,
   enrolmentType: EnrolmentType.Internal,
   enrolmentNeeded: false,
   externalEnrolmentUrl: '',

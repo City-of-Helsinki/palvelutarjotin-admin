@@ -118,6 +118,20 @@
   margin: var(--spacing-l) 0;
 }
 
+.locationCheckboxes {
+  display: flex;
+  align-items: center;
+  margin: var(--spacing-l) 0;
+
+  & > div {
+    margin-top: 0 !important;
+  }
+
+  & > div:not(:first-child) {
+    margin-left: var(--spacing-m);
+  }
+}
+
 .occurrencesForm {
   > div {
     &:not(:last-child)::after {

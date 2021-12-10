@@ -55,19 +55,22 @@ const getStartTimeValidation = ({
 
 const getValidationSchema = ({
   isVirtual,
+  isBookable,
   enrolmentEndDays,
   enrolmentStart,
   enrolmentType,
 }: {
   isVirtual?: boolean;
+  isBookable?: boolean;
   enrolmentEndDays?: string | number;
   enrolmentStart?: Date | null;
   enrolmentType: EnrolmentType;
 }) =>
   Yup.object().shape({
-    occurrenceLocation: isVirtual
-      ? Yup.string()
-      : Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    occurrenceLocation:
+      isVirtual || isBookable
+        ? Yup.string()
+        : Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     startTime: getStartTimeValidation({ enrolmentStart, enrolmentEndDays }),
     endTime: Yup.date()
       .typeError(VALIDATION_MESSAGE_KEYS.DATE)

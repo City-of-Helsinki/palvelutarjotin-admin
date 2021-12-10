@@ -616,7 +616,7 @@ describe('occurrences form', () => {
     });
   });
 
-  test('location input is disabled when virtual event checkbox is checked', async () => {
+  test('location input and orderable event checkbox are disabled when virtual event checkbox is checked', async () => {
     renderComponent({ mocks: [getEventMockedResponse({})] });
 
     // Wait for form to have been initialized
@@ -624,8 +624,10 @@ describe('occurrences form', () => {
 
     const virtualEventCheckbox = getFormElement('virtualEvent');
     userEvent.click(virtualEventCheckbox);
-
     expect(virtualEventCheckbox).toBeChecked();
+
+    const orderableEventCheckbox = getFormElement('orderableEvent');
+    expect(orderableEventCheckbox).toBeDisabled();
 
     const placeInput = getFormElement('location');
     expect(placeInput).toBeDisabled();
@@ -640,6 +642,36 @@ describe('occurrences form', () => {
       expect(occurrenceLocationInput).toBeEnabled();
       expect(placeInput).toBeEnabled();
       expect(virtualEventCheckbox).not.toBeChecked();
+    });
+  });
+
+  test('location input and virtual event checkbox are disabled when orderable event checkbox is checked', async () => {
+    renderComponent({ mocks: [getEventMockedResponse({})] });
+
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+
+    const orderableEventCheckbox = getFormElement('orderableEvent');
+    userEvent.click(orderableEventCheckbox);
+
+    expect(orderableEventCheckbox).toBeChecked();
+
+    const virtualEventCheckbox = getFormElement('virtualEvent');
+    expect(virtualEventCheckbox).toBeDisabled();
+
+    const placeInput = getFormElement('location');
+    expect(placeInput).toBeDisabled();
+
+    const occurrenceLocationInput = getOccurrenceFormElement('location');
+    expect(occurrenceLocationInput).toBeDisabled();
+
+    userEvent.click(orderableEventCheckbox);
+
+    // await to get rid of act warnings
+    await waitFor(() => {
+      expect(occurrenceLocationInput).toBeEnabled();
+      expect(placeInput).toBeEnabled();
+      expect(orderableEventCheckbox).not.toBeChecked();
     });
   });
 
@@ -1311,6 +1343,7 @@ const getFormElement = (
     | 'noEnrolmentButton'
     | 'externalEnrolmentButton'
     | 'enrolmentUrl'
+    | 'orderableEvent'
 ) => {
   switch (key) {
     case 'location':
@@ -1334,6 +1367,10 @@ const getFormElement = (
     case 'virtualEvent':
       return screen.getByRole('checkbox', {
         name: /tapahtuma järjestetään virtuaalisesti/i,
+      });
+    case 'orderableEvent':
+      return screen.getByRole('checkbox', {
+        name: /Tilattavissa omaan toimipaikkaan/i,
       });
     case 'saveButton':
       return screen.getByRole('button', {

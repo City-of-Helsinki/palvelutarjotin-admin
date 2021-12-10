@@ -11,3 +11,4 @@ export const EVENT_PLACEHOLDER_IMAGES = [
 ];
 
 export const VIRTUAL_EVENT_LOCATION_ID = 'helsinki:internet';
+export const BOOKABLE_TO_SCHOOL_LOCATION_ID = 'helsinki:bookable';
