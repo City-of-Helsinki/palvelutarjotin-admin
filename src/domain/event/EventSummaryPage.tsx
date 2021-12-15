@@ -78,10 +78,10 @@ const EventSummaryPage: React.FC = () => {
     ) as OccurrenceFieldsFragment[]) || [];
 
   const comingOccurrences = occurrences.filter(
-    (item) => !isPast(new Date(item.startTime))
+    (item) => !isPast(new Date(item.endTime))
   );
   const pastOccurrences = occurrences.filter((item) =>
-    isPast(new Date(item.startTime))
+    isPast(new Date(item.endTime))
   );
 
   const eventPreviewLink = `/${lang}${ROUTES.EVENT_PREVIEW.replace(

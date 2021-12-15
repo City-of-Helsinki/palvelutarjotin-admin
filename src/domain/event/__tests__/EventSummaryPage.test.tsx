@@ -128,8 +128,13 @@ const eventMock2 = getFakeEvent(
     publicationStatus: PUBLICATION_STATUS.PUBLIC,
   },
   {
-    occurrences: fakeOccurrences(3, [
+    occurrences: fakeOccurrences(4, [
       { startTime: new Date(2020, 11, 11).toISOString() },
+      // occurrence with startTime in the past but endTime in the future
+      {
+        startTime: new Date(2020, 9, 13).toISOString(),
+        endTime: new Date(2020, 11, 11).toISOString(),
+      },
       { startTime: new Date(2020, 9, 12).toISOString() },
       { startTime: new Date(2020, 8, 13).toISOString() },
     ]),
@@ -421,7 +426,7 @@ it('shows upcoming and past occurrences', async () => {
   });
 
   expect(
-    screen.getByRole('heading', { name: 'Tapahtuma-ajat 1 kpl' })
+    screen.getByRole('heading', { name: 'Tapahtuma-ajat 2 kpl' })
   ).toBeInTheDocument();
 
   expect(
