@@ -141,7 +141,7 @@ const eventMockWithExternalEnrolments = getFakeEvent(
     id: eventId1,
     publicationStatus: PUBLICATION_STATUS.PUBLIC,
   },
-  { enrolmentStart: null, externalEnrolmentUrl: 'https://beta.kultus.fi' }
+  { enrolmentStart: null, externalEnrolmentUrl: 'https://kultus.fi' }
 );
 
 const profileMock = fakePerson({

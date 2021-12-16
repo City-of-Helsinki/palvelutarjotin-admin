@@ -55,9 +55,9 @@ export const PRIVACY_POLICY_LINKS = {
 };
 
 export const TEACHER_UI_LINKS = {
-  fi: 'https://beta.kultus.fi/fi',
-  en: 'https://beta.kultus.fi/en',
-  sv: 'https://beta.kultus.fi/sv',
+  fi: 'https://kultus.fi/fi',
+  en: 'https://kultus.fi/en',
+  sv: 'https://kultus.fi/sv',
 };
 
 export const createEmptyLocalizedObject = (): LocalisedObject => ({

@@ -179,9 +179,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
   expect(
     screen.queryByRole('heading', { name: 'Täydennä tietosi' })
   ).toBeInTheDocument();
-  expect(
-    screen.queryByText('Hei, tervetuloa Kultus betaan!')
-  ).toBeInTheDocument();
+  expect(screen.queryByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
 
   expect(screen.queryByText('test@test.fi')).toBeInTheDocument();
 

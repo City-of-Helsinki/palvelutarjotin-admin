@@ -4,7 +4,7 @@
       "permissionDeniedError": "Du har inte behörighet att utföra den här åtgärden"
     }
   },
-  "appName": "Kultus beta Admin",
+  "appName": "Kultus",
   "authentication": {
     "errorMessage": "Ett fel uppstod. Försök igen",
     "networkError": {
@@ -170,7 +170,7 @@
   "createMyProfile": {
     "buttonSubmit": "Spara och fortsätt",
     "error": "Det gick inte att spara min profil",
-    "infoText1": "Hej, välkommen till Kultus beta!",
+    "infoText1": "Hej, välkommen till Kultus!",
     "infoText2": "För att ange transaktioner i systemet ber vi dig verifiera följande information:",
     "pageTitle": "Fyll i din information",
     "title": "Fyll i din information"
