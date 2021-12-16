@@ -4,7 +4,7 @@
       "permissionDeniedError": "You do not have permission to perform this action"
     }
   },
-  "appName": "Kultus beta Admin",
+  "appName": "Kultus Admin",
   "authentication": {
     "errorMessage": "An error occured while logging in. Please try again",
     "networkError": {
@@ -166,7 +166,7 @@
   "createMyProfile": {
     "buttonSubmit": "Save and continue",
     "error": "Failed to save my profile",
-    "infoText1": "Hello, welcome to the Kultus beta!",
+    "infoText1": "Hello, welcome to the Kultus!",
     "infoText2": "In order to enter transactions into the system, we ask that you verify the following information:",
     "pageTitle": "Complete your information",
     "title": "Complete your information"

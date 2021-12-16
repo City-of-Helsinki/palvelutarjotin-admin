@@ -33,7 +33,7 @@ const RegistrationPendingPage: React.FC = () => {
               <br />
               0404866869
               <br />
-              Kultus beta
+              Kultus
             </address>
           </div>
         </div>

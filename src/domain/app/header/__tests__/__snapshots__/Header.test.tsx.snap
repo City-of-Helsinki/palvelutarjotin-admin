@@ -41,7 +41,7 @@ exports[`Header matches snapshot 1`] = `
             />
           </svg>
           <span>
-            Kultus Admin beta
+            Kultus Admin
           </span>
         </a>
         <button
@@ -106,7 +106,7 @@ exports[`Header matches snapshot 1`] = `
             />
           </svg>
           <span>
-            Kultus Admin beta
+            Kultus Admin
           </span>
         </a>
         <div

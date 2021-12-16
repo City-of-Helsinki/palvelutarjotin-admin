@@ -4,7 +4,7 @@
       "permissionDeniedError": "Sinulla ei ole lupaa suorittaa tätä toimintoa"
     }
   },
-  "appName": "Kultus Admin beta",
+  "appName": "Kultus Admin",
   "authentication": {
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
     "networkError": {
@@ -171,7 +171,7 @@
   "createMyProfile": {
     "buttonSubmit": "Tallenna ja jatka",
     "error": "Omien tietojen tallentaminen epäonnistui",
-    "infoText1": "Hei, tervetuloa Kultus betaan!",
+    "infoText1": "Hei, tervetuloa Kultukseen!",
     "infoText2": "Jotta voisit syöttää järjestelmään tapahtumia, pyydämme sinua tarkistamaan seuraavat tietosi:",
     "pageTitle": "Täydennä tietosi",
     "title": "Täydennä tietosi"
