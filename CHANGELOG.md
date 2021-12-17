@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.1.0...v1.1.1) (2021-12-17)
+
+
+### Bug Fixes
+
+* add missing Admin text to sv translation ([b865ede](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b865ede8b69505386a47e9c8a41245ad5ab05002))
+* delete beta texts ([bac5272](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/bac527267fcad0f082673b3e3c82ee565d4cbf11))
+* occurrences listing in event summary showing ongoing events in the past section ([638eed6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/638eed6025e166bd56509bbf5f769937be724fdd))
+
 ## [1.1.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.0.0...v1.1.0) (2021-12-10)
 
 
