@@ -47,10 +47,7 @@ it('navigates correctly from actions', () => {
   userEvent.click(screen.getByRole('menuitem', { name: 'Ilmoittautuneet' }));
 
   expect(historyPush).toHaveBeenCalledWith(
-    `/fi${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
-      ':occurrenceId',
-      occurrenceId
-    )}`
+    '/fi/events/testEventId123/occurrences/occurrenceId123?returnPath=%2F'
   );
 
   userEvent.click(screen.getByRole('menuitem', { name: 'Muokkaa' }));

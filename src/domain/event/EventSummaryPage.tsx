@@ -20,6 +20,7 @@ import {
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import getLocalizedString from '../../utils/getLocalizedString';
+import useQueryStringWithReturnPath from '../../utils/useQueryStringWithReturnPath';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -30,7 +31,6 @@ import { EnrolmentType } from '../occurrence/constants';
 import { getEnrolmentType } from '../occurrence/utils';
 import OccurrencesTableSummary from '../occurrences/occurrencesTableReadOnly/OccurrencesTableSummary';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { EDIT_EVENT_QUERY_PARAMS, NAVIGATED_FROM } from './EditEventPage';
 import EventPublish from './eventPublish/EventPublish';
 import styles from './eventSummaryPage.module.scss';
 
@@ -42,6 +42,7 @@ interface Params {
 const EventSummaryPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { id: eventId } = useParams<Params>();
   const locale = useLocale();
   const lang = i18n.language;
@@ -98,17 +99,15 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const goToEventDetailsPage = () => {
-    history.pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
+    history.pushWithReturnPath(ROUTES.EVENT_DETAILS.replace(':id', eventId));
   };
 
   const goToCreateOccurrence = () => {
-    history.pushWithLocale(
-      `${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
-    );
+    history.pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', eventId));
   };
 
   const copyEventToNewTemplate = () => {
-    history.pushWithLocale(`${ROUTES.COPY_EVENT.replace(':id', eventId)}`);
+    history.pushWithReturnPath(ROUTES.COPY_EVENT.replace(':id', eventId));
   };
 
   const goToHome = () => history.pushWithLocale(ROUTES.HOME);
@@ -119,15 +118,10 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const getEditLink = () => {
-    const searchParams = new URLSearchParams();
-    searchParams.append(
-      EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
-      NAVIGATED_FROM.EVENT_SUMMARY
-    );
     return `/${lang}${ROUTES.EDIT_EVENT.replace(
       ':id',
       eventId
-    )}?${searchParams.toString()}`;
+    )}${queryStringWithReturnPath}`;
   };
 
   const handleCancelOccurrence = async (

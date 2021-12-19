@@ -16,7 +16,7 @@ import FormLanguageSelector from '../../../common/components/formLanguageSelecto
 import TextEditorField from '../../../common/components/textEditorField/TextEditorField';
 import { createEmptyLocalizedObject } from '../../../constants';
 import { EventQuery, PersonFieldsFragment } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
+import useGoBack from '../../../hooks/useGoBack';
 import { Language } from '../../../types';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
@@ -82,12 +82,12 @@ const EventForm = <T extends FormFields>({
   eventMutationLoading,
 }: Props<T>): React.ReactElement => {
   const isPrefilledForm = formType === 'edit' || formType === 'template';
-  const history = useHistory();
   const { t } = useTranslation();
   const { additionalCriteriaKeywords, categoryKeywords, targetGroups } =
     useKeywordOptions();
   const isPublished =
     eventData?.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
+  const goBack = useGoBack({ defaultReturnPath: ROUTES.HOME });
 
   const {
     selectedLanguages,
@@ -116,10 +116,6 @@ const EventForm = <T extends FormFields>({
     [persons]
   );
 
-  const goToEventList = () => {
-    history.pushWithLocale(ROUTES.HOME);
-  };
-
   const getLabelWithLanguage = (stringId: string, lang: string) => {
     return `${t(stringId)} (${lang.toUpperCase()})`;
   };
@@ -139,15 +135,12 @@ const EventForm = <T extends FormFields>({
         setFieldValue,
         setFieldTouched,
         touched,
-        errors,
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
         return (
           <>
-            <BackButton onClick={goToEventList}>
-              {t('editEvent.buttons.buttonBack')}
-            </BackButton>
+            <BackButton onClick={goBack}>{t('common.back')}</BackButton>
             <FocusToFirstError />
             <div className={styles.eventForm}>
               <div>

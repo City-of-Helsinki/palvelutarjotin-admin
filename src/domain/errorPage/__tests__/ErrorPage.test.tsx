@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 // eslint-disable-next-line import/default
 import Router from 'react-router';
 
+import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import ErrorPage from '../ErrorPage';
 

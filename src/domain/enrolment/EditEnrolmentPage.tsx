@@ -1,7 +1,7 @@
 import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
@@ -12,8 +12,10 @@ import {
   useEnrolmentQuery,
   useUpdateEnrolmentMutation,
 } from '../../generated/graphql';
+import useGoBack from '../../hooks/useGoBack';
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import { extractLatestReturnPath } from '../../utils/extractLatestReturnPath';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -34,6 +36,7 @@ const EditorEnrolmentPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
+  const { search } = useLocation();
   const [selectedLanguage] = React.useState(locale);
   const [initialValues, setInitialValues] =
     React.useState<EnrolmentFormFields>(defaultInitialValues);
@@ -48,6 +51,15 @@ const EditorEnrolmentPage: React.FC = () => {
   const organisationId =
     enrolmentData?.enrolment?.occurrence.pEvent?.organisation?.id;
   const occurrenceId = enrolmentData?.enrolment?.occurrence.id;
+
+  const defaultReturnPath = ROUTES.OCCURRENCE_DETAILS.replace(
+    ':id',
+    eventId
+  ).replace(':occurrenceId', occurrenceId!);
+
+  const goBack = useGoBack({
+    defaultReturnPath,
+  });
 
   const handleSubmit = async (values: EnrolmentFormFields) => {
     try {
@@ -70,22 +82,29 @@ const EditorEnrolmentPage: React.FC = () => {
     }
   };
 
+  // handle navigating no latest return path
   const goToOccurrenceDetailsPage = ({
     enrolmentUpdated,
   }: {
     enrolmentUpdated?: boolean;
   } = {}) => {
     if (eventId && occurrenceId) {
-      const search = new URLSearchParams();
+      const defaultReturnPath = ROUTES.OCCURRENCE_DETAILS.replace(
+        ':id',
+        eventId
+      ).replace(':occurrenceId', occurrenceId);
+      const { returnPath, remainingQueryString } = extractLatestReturnPath(
+        search,
+        defaultReturnPath
+      );
+      const searchParams = new URLSearchParams(remainingQueryString);
+
       if (enrolmentUpdated) {
-        search.append(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED, 'true');
+        searchParams.append(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED, 'true');
       }
       history.pushWithLocale({
-        pathname: `${ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
-          ':occurrenceId',
-          occurrenceId
-        )}`,
-        search: search.toString(),
+        pathname: returnPath,
+        search: searchParams.toString(),
       });
     }
   };
@@ -146,7 +165,7 @@ const EditorEnrolmentPage: React.FC = () => {
           <div className={styles.editEnrolmentPage}>
             <Container>
               <ActiveOrganisationInfo organisationId={organisationId} />
-              <BackButton onClick={() => goToOccurrenceDetailsPage()}>
+              <BackButton onClick={goBack}>
                 {t('enrolment.editEnrolmentBackButton')}
               </BackButton>
               <h1>{t('enrolment.editEnrolmentTitle')}</h1>

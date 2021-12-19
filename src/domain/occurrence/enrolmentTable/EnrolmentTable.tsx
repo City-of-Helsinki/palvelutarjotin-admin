@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { Checkbox, IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
 import { Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
@@ -39,6 +40,7 @@ const EnrolmentTable: React.FC<Props> = ({
   onEnrolmentsModified,
 }) => {
   const { t } = useTranslation();
+  const { search } = useLocation();
   const history = useHistory();
 
   const [selectedEnrolments, setSelectedEnrolments] = React.useState<string[]>(
@@ -60,11 +62,16 @@ const EnrolmentTable: React.FC<Props> = ({
 
   const goToEnrolmentDetailsPage = (row: Row<EnrolmentFieldsFragment>) => {
     if (eventId && occurrenceId) {
-      history.pushWithLocale(
-        ROUTES.ENROLMENT_DETAILS.replace(':enrolmentId', row.original.id)
+      // we need to preserve returnPath in url -> add query string
+      history.pushWithLocale({
+        pathname: ROUTES.ENROLMENT_DETAILS.replace(
+          ':enrolmentId',
+          row.original.id
+        )
           .replace(':id', eventId)
-          .replace(':occurrenceId', occurrenceId)
-      );
+          .replace(':occurrenceId', occurrenceId),
+        search,
+      });
     }
   };
 

@@ -12,6 +12,7 @@ import {
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
+import { addParamsToQueryString } from '../../utils/addParamsToQueryString';
 import getLocalizedString from '../../utils/getLocalizedString';
 import { formatIntoDate, formatIntoTime } from '../../utils/time/format';
 import { clearApolloCache } from '../app/apollo/utils';
@@ -20,7 +21,6 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { EDIT_EVENT_QUERY_PARAMS, NAVIGATED_FROM } from './EditEventPage';
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
 import EventCategorisation from './eventCategorisation/EventCategorisation';
 import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
@@ -43,8 +43,8 @@ const EventDetailsPage = () => {
   };
   const history = useHistory();
   const locale = useLocale();
-  const location = useLocation();
-  const language = getEventLanguageFromUrl(location.search);
+  const { search } = useLocation();
+  const language = getEventLanguageFromUrl(search);
   const [selectedLanguage, setSelectedLanguage] = React.useState(
     language || locale
   );
@@ -66,12 +66,17 @@ const EventDetailsPage = () => {
     }
   }, [eventData, language]);
 
+  // replace language and preserve returnPath
   const handleLanguageChange = (newLanguage: Language) => {
+    const searchParams = new URLSearchParams(search);
+    searchParams.delete('language');
+    const queryString = addParamsToQueryString(searchParams.toString(), {
+      language: newLanguage,
+    });
     history.pushWithLocale({
       pathname: ROUTES.EVENT_DETAILS.replace(':id', id),
-      search: `?language=${newLanguage}`,
+      search: queryString,
     });
-    setSelectedLanguage(newLanguage);
   };
 
   const toggleModal = () => {
@@ -142,14 +147,7 @@ const EventDetailsPage = () => {
   };
 
   const handleEditEventClick = () => {
-    const searchParams = new URLSearchParams();
-    searchParams.append(
-      EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
-      NAVIGATED_FROM.EVENT_DETAILS
-    );
-    history.pushWithLocale(
-      `${ROUTES.EDIT_EVENT.replace(':id', id)}?${searchParams.toString()}`
-    );
+    history.pushWithReturnPath(ROUTES.EDIT_EVENT.replace(':id', id));
   };
 
   return (

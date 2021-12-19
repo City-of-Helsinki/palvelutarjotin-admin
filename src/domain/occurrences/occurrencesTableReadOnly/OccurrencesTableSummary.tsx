@@ -42,7 +42,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
   const eventLocationId = event?.location?.id || '';
 
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
-    history.pushWithLocale(
+    history.pushWithReturnPath(
       ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.original.id

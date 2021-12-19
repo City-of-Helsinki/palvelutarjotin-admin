@@ -49,22 +49,27 @@ test('it renders correct texts and click events work', () => {
 
   const pushSpy = jest.spyOn(history, 'push');
 
-  const backButton = screen.getByRole('button', { name: 'Tapahtumat' });
+  const backButton = screen.getByRole('button', { name: 'Takaisin' });
   userEvent.click(backButton);
 
   expect(pushSpy).toHaveBeenCalledTimes(1);
-  expect(pushSpy).toHaveBeenCalledWith('/fi');
+  expect(pushSpy).toHaveBeenCalledWith({
+    pathname: '/fi',
+    search: '',
+    state: undefined,
+  });
 
   const editButton = screen.getByRole('button', { name: 'Muokkaa tapahtumaa' });
   userEvent.click(editButton);
 
   expect(pushSpy).toHaveBeenCalledTimes(2);
   expect(pushSpy).toHaveBeenCalledWith({
-    pathname: `/fi/events/${eventId}/edit`,
-    search: '?language=fi',
+    pathname: '/fi',
+    search: '',
+    state: undefined,
   });
 
-  expect(screen.queryByText('Tapahtumat')).toBeVisible();
+  expect(screen.queryByText('Takaisin')).toBeVisible();
   expect(screen.queryByText('suomi')).toBeVisible();
   expect(screen.queryByText('englanti')).toBeVisible();
   expect(screen.queryByText('ruotsi')).toBeVisible();

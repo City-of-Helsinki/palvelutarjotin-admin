@@ -97,7 +97,7 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const goToOccurrenceDetailsPage = () => {
-    history.pushWithLocale(
+    history.pushWithReturnPath(
       ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id
