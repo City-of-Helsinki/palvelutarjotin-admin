@@ -335,7 +335,7 @@ it('navigates to edit event page when edit button is clicked', async () => {
   );
 
   expect(historyPush).toHaveBeenCalledWith(
-    '/fi/events/eventMockId/edit?navigatedFrom=eventSummary'
+    '/fi/events/eventMockId/edit?returnPath=%2Fevents%2FeventMockId%2Fsummary'
   );
 });
 

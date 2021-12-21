@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 import BackButton from '../../../common/components/backButton/BackButton';
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
+import useGoBack from '../../../hooks/useGoBack';
 import useHistory from '../../../hooks/useHistory';
 import { Language } from '../../../types';
+import useQueryStringWithReturnPath from '../../../utils/useQueryStringWithReturnPath';
 import { ROUTES } from '../../app/routes/constants';
 import EventLanguageSelector from '../eventLanguageSelector/EventLanguageSelector';
 import { isEditableEvent } from '../utils';
@@ -26,24 +28,25 @@ const EventDetailsButtons: React.FC<Props> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const eventId = eventData.event?.id || '';
-
-  const goToEventList = () => {
-    history.pushWithLocale(ROUTES.HOME);
-  };
+  const goBack = useGoBack({
+    defaultReturnPath: ROUTES.HOME,
+    pageQueryParams: ['language'],
+  });
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const goToEditPage = () => {
+    const searchParams = new URLSearchParams(queryStringWithReturnPath);
+    searchParams.append('language', selectedLanguage);
     history.pushWithLocale({
       pathname: ROUTES.EDIT_EVENT.replace(':id', eventId),
-      search: `?language=${selectedLanguage}`,
+      search: searchParams.toString(),
     });
   };
 
   return (
     <div className={styles.eventDetailsButtons}>
       <div>
-        <BackButton onClick={goToEventList}>
-          {t('eventDetails.buttons.buttonBack')}
-        </BackButton>
+        <BackButton onClick={goBack}>{t('common.back')}</BackButton>
       </div>
       <EventLanguageSelector
         languages={Object.values(SUPPORT_LANGUAGES).map((language) => ({

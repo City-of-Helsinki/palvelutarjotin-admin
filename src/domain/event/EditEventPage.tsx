@@ -11,8 +11,8 @@ import {
   useEditEventMutation,
   useEventQuery,
 } from '../../generated/graphql';
+import useGoBack from '../../hooks/useGoBack';
 import useHistory from '../../hooks/useHistory';
-import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
@@ -50,7 +50,7 @@ const useEventFormEditSubmit = (
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const history = useHistory();
-  const locale = useLocale();
+  const goBack = useGoBack({ defaultReturnPath: ROUTES.HOME });
   const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
   const [updateImageRequestHandler, updateImageLoading] =
     useUpdateImageRequest();
@@ -62,23 +62,11 @@ const useEventFormEditSubmit = (
     history.pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
   };
 
-  const goToEventSummary = () => {
-    history.pushWithLocale(`${ROUTES.EVENT_SUMMARY.replace(':id', id)}`);
-  };
-
-  const goToEventDetailsPage = () => {
-    history.replace(`/${locale}${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
-  };
-
   const navigateAfterSave = () => {
     if (navigatedFrom === NAVIGATED_FROM.OCCURRENCES) {
       goToOccurrencesPage();
-    } else if (navigatedFrom === NAVIGATED_FROM.EVENT_SUMMARY) {
-      goToEventSummary();
-    } else if (navigatedFrom === NAVIGATED_FROM.EVENT_DETAILS) {
-      goToEventDetailsPage();
     } else {
-      history.goBack();
+      goBack();
     }
   };
 

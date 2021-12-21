@@ -1,7 +1,7 @@
 import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -10,6 +10,7 @@ import {
   useEventQuery,
   useOccurrenceQuery,
 } from '../../generated/graphql';
+import useGoBack from '../../hooks/useGoBack';
 import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
 import { useSearchParams } from '../../hooks/useQuery';
@@ -27,6 +28,7 @@ import styles from './occurrencePage.module.scss';
 
 interface Params {
   id: string;
+  eventId: string;
   occurrenceId: string;
   enrolmentId?: string;
 }
@@ -35,6 +37,7 @@ const OccurrenceDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
+  const { search } = useLocation();
   const { id, occurrenceId, enrolmentId } = useParams<Params>();
   const searchParams = useSearchParams();
   const enrolmentUpdated = Boolean(
@@ -42,6 +45,10 @@ const OccurrenceDetailsPage: React.FC = () => {
   );
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     variables: { id, include: ['keywords', 'location'] },
+  });
+  const goBack = useGoBack({
+    defaultReturnPath: ROUTES.EVENT_SUMMARY.replace(':id', id),
+    pageQueryParams: Object.values(OCCURRENCE_URL_PARAMS),
   });
 
   const event = eventData?.event;
@@ -63,6 +70,7 @@ const OccurrenceDetailsPage: React.FC = () => {
         ':occurrenceId',
         occurrenceId
       ),
+      search,
     });
   };
 
@@ -85,9 +93,7 @@ const OccurrenceDetailsPage: React.FC = () => {
                 )}
                 <ActiveOrganisationInfo organisationId={organisationId} />
 
-                <BackButton onClick={history.goBack}>
-                  {t('occurrenceDetails.buttonBack')}
-                </BackButton>
+                <BackButton onClick={goBack}>{t('common.back')}</BackButton>
 
                 <OccurrenceInfo event={event} occurrence={occurrence} />
 

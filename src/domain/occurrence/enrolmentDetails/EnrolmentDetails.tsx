@@ -147,7 +147,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   };
 
   const handleEditEnrolment = () => {
-    history.pushWithLocale(
+    history.pushWithReturnPath(
       ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
         ':enrolmentId',
         enrolmentId

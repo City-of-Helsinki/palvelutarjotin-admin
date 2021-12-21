@@ -148,7 +148,7 @@ const ActionsDropdown: React.FC<Props> = ({
 
   const handleEdit = () => {
     if (eventId) {
-      history.pushWithLocale(
+      history.pushWithReturnPath(
         ROUTES.EDIT_ENROLMENT.replace(':enrolmentId', row.id).replace(
           ':eventId',
           eventId

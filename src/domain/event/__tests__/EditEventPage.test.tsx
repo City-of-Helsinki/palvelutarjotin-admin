@@ -52,7 +52,7 @@ const renderComponent = ({
 test('edit event form initializes and submits correctly', async () => {
   const { history } = renderComponent();
 
-  const goBack = jest.spyOn(history, 'goBack');
+  const push = jest.spyOn(history, 'push');
 
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
@@ -97,7 +97,7 @@ test('edit event form initializes and submits correctly', async () => {
 
   await waitFor(
     () => {
-      expect(goBack).toHaveBeenCalled();
+      expect(push).toHaveBeenCalled();
     },
     { timeout: 5000 }
   );
@@ -231,7 +231,7 @@ describe('Language selection', () => {
     const { history } = renderComponent();
     const genericSwedishValue = 'SV translation';
 
-    const goBack = jest.spyOn(history, 'goBack');
+    const push = jest.spyOn(history, 'push');
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
@@ -266,7 +266,7 @@ describe('Language selection', () => {
     // Unselecting the language after filling should have cleared the input values.
     await waitFor(
       () => {
-        expect(goBack).toHaveBeenCalled();
+        expect(push).toHaveBeenCalled();
       },
       { timeout: 5000 }
     );

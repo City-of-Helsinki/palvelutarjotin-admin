@@ -325,7 +325,9 @@ test('enrolment table renders correct information', async () => {
 
   userEvent.click(screen.getByText('Testi Testaaja'));
 
-  expect(pushSpy).toHaveBeenCalledWith(
-    `/fi${testPath}/enrolments/${enrolmentId}`
-  );
+  expect(pushSpy).toHaveBeenCalledWith({
+    pathname:
+      '/fi/events/palvelutarjotin:afzunowba4/occurrences/T2NjdXJyZW5jZU5vZGU6MTIz/enrolments/afdgsgfsdg23532',
+    search: '',
+  });
 });
