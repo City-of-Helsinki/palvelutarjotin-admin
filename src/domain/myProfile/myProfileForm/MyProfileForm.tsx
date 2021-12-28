@@ -50,7 +50,7 @@ export type MyProfileCreateFormFields = MyProfileEditFormFields & {
   organisationProposals: string;
 };
 
-const defaultCreateInitialValues: MyProfileCreateFormFields = {
+export const defaultCreateInitialValues: MyProfileCreateFormFields = {
   emailAddress: '',
   isPrivacyPolicyAccepted: false,
   isTermsOfServiceRead: false,
@@ -169,13 +169,20 @@ function MyProfileForm<T extends FormType>({
   const handleOnSubmit = (values: FormFields<T>) => {
     onSubmit({
       ...values,
-      emailAddress: user?.profile.email || '',
+      emailAddress: values.emailAddress || user?.profile.email || '',
     });
   };
 
+  const initialValuesWithPrefilledEmail = initialValues.emailAddress
+    ? initialValues
+    : {
+        ...initialValues,
+        emailAddress: user?.profile.email || '',
+      };
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={initialValuesWithPrefilledEmail}
       validateOnChange
       onSubmit={handleOnSubmit}
       validationSchema={validationSchema}
@@ -194,6 +201,14 @@ function MyProfileForm<T extends FormType>({
                 label={t('myProfileForm.labelName')}
                 name="name"
                 helperText={t('myProfileForm.helperName')}
+                component={TextInputField}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Field
+                label={t('myProfileForm.labelContactEmail')}
+                name="emailAddress"
+                helperText={t('myProfileForm.helperContactEmail')}
                 component={TextInputField}
               />
             </FormGroup>

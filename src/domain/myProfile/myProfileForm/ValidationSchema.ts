@@ -4,8 +4,11 @@ import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
 export const getMyProfileValidationSchema = (type: 'create' | 'edit') => {
   const commonFormSchema = {
-    name: Yup.string().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
-    phoneNumber: Yup.string().required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED),
+    name: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    emailAddress: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+    phoneNumber: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     locations: Yup.array(),
   };
 

@@ -146,12 +146,15 @@ test('can create profile with all the information', async () => {
 
   const name = screen.getByLabelText('Nimi');
   const phone = screen.getByLabelText('Puhelinnumero');
+  const email = screen.getByLabelText('Sähköpostiosoite yhteydenotoille');
   expect(name).toHaveValue('');
   expect(phone).toHaveValue('');
+  expect(email).toHaveValue(''); // No auth mocked, so the input stays empty
   expect(screen.getByText(/suomi/i)).toBeInTheDocument();
 
-  userEvent.type(name, 'Testi Testaaja');
-  userEvent.type(phone, '123321123');
+  userEvent.type(name, myProfile.name);
+  userEvent.type(phone, myProfile.phoneNumber);
+  userEvent.type(email, myProfile.emailAddress);
 
   // Add location
   const locationField = screen.getByRole('textbox', {
@@ -229,7 +232,7 @@ test('can create profile with all the information', async () => {
       variables: {
         myProfile: {
           name: 'Testi Testaaja',
-          emailAddress: '',
+          emailAddress: 'testi@testaaja.com',
           phoneNumber: '123321123',
           language: 'FI',
           organisations: ['organisation1', 'organisation2'],
@@ -256,6 +259,11 @@ test('create profile with organisation proposal', async () => {
 
   userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
   userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
+  userEvent.clear(screen.getByLabelText('Sähköpostiosoite yhteydenotoille'));
+  userEvent.type(
+    screen.getByLabelText('Sähköpostiosoite yhteydenotoille'),
+    'changed@testaaja.fi'
+  );
 
   userEvent.type(
     screen.getByLabelText('Lähetä uusi organisaatio pyyntö'),
@@ -298,7 +306,7 @@ test('create profile with organisation proposal', async () => {
       variables: {
         myProfile: {
           name: 'Testi Testaaja',
-          emailAddress: '',
+          emailAddress: 'changed@testaaja.fi',
           language: 'FI',
           phoneNumber: '123321123',
           organisations: [],

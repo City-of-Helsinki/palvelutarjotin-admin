@@ -25,7 +25,7 @@ import {
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
-
+const userEmail = 'test@test.fi';
 const profileResponse = {
   data: {
     myProfile: fakePerson(),
@@ -52,7 +52,7 @@ afterEach(() => {
 const authenticatedInitialState = {
   authentication: {
     tunnistamo: {
-      user: { profile: { email: 'test@test.fi' } },
+      user: { profile: { email: userEmail } },
     },
     token: { apiToken: 'token' },
   },
@@ -143,7 +143,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
         query: CreateMyProfileDocument,
         variables: {
           myProfile: {
-            emailAddress: 'test@test.fi',
+            emailAddress: userEmail,
             name: 'Testi Testaaja',
             organisations: ['organisation1', 'organisation2'],
             phoneNumber: '123321123',
@@ -181,7 +181,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
   ).toBeInTheDocument();
   expect(screen.queryByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
 
-  expect(screen.queryByText('test@test.fi')).toBeInTheDocument();
+  expect(screen.queryByText(userEmail)).toBeInTheDocument();
 
   await fillAndSubmitProfileForm();
 
