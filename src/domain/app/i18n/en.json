@@ -545,6 +545,8 @@
     "labelGroupSizeMax": "Max (person)",
     "ariaLabelGroupSizeMax": "Maximum number of persons",
     "labelAutoAcceptance": "Automatically confirm registrations within the number of participants",
+    "labelAutoAcceptanceMessage": "Any additional information to the confirmation message",
+    "helperAutoAcceptanceMessage": "",
     "labelEventLocation": "Event location",
     "labelLocationDescription": "Event location description",
     "labelOneGroupFills": "One group fills the event",

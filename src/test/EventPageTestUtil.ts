@@ -161,6 +161,7 @@ const editEventVariables = {
       externalEnrolmentUrl: null,
       neededOccurrences: 3,
       mandatoryAdditionalInformation: mandatoryAdditionalInformation,
+      autoAcceptanceMessage: null,
     },
     organisationId: organisationId,
     draft: true,

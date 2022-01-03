@@ -14,6 +14,7 @@ import {
   MyProfileDocument,
   OccurrenceNodeConnection,
   OccurrenceSeatType,
+  PalvelutarjotinEventTranslationsInput,
   Place,
   PlaceDocument,
   PlacesDocument,
@@ -361,6 +362,7 @@ export const getAddOccurrenceMockResponse = ({
 
 export const getUpdateEventMockResponse = ({
   autoAcceptance,
+  autoAcceptanceMessage = null,
   enrolmentEndDays,
   enrolmentStart,
   neededOccurrences,
@@ -368,6 +370,7 @@ export const getUpdateEventMockResponse = ({
   languages = ['fi'],
 }: {
   autoAcceptance: boolean;
+  autoAcceptanceMessage?: string | null;
   enrolmentEndDays: number;
   enrolmentStart: string;
   neededOccurrences: number;
@@ -384,6 +387,15 @@ export const getUpdateEventMockResponse = ({
       enrolmentEndDays,
       externalEnrolmentUrl,
       enrolmentStart, // '2021-05-03T21:00:00.000Z',
+      translations:
+        autoAcceptance && autoAcceptanceMessage
+          ? [
+              {
+                languageCode: Language.Fi,
+                autoAcceptanceMessage,
+              } as PalvelutarjotinEventTranslationsInput,
+            ]
+          : ([] as PalvelutarjotinEventTranslationsInput[]),
     }),
   },
   result: {
@@ -405,6 +417,7 @@ export const getUpdateEventMockResponse = ({
 export const getEventMockedResponse = ({
   location = false,
   autoAcceptance = true,
+  autoAcceptanceMessage = null,
   enrolmentEndDays = null,
   enrolmentStart = null,
   externalEnrolmentUrl = null,
@@ -414,6 +427,7 @@ export const getEventMockedResponse = ({
 }: {
   location?: boolean;
   autoAcceptance?: boolean;
+  autoAcceptanceMessage?: string | null;
   enrolmentEndDays?: number | null;
   enrolmentStart?: string | null;
   externalEnrolmentUrl?: string | null;
@@ -431,6 +445,7 @@ export const getEventMockedResponse = ({
   result: getEventResponse({
     languages,
     autoAcceptance,
+    autoAcceptanceMessage,
     enrolmentEndDays,
     enrolmentStart,
     externalEnrolmentUrl,
@@ -448,6 +463,7 @@ export const getEventMockedResponse = ({
 const getEventResponse = ({
   location,
   autoAcceptance,
+  autoAcceptanceMessage = null,
   enrolmentEndDays,
   enrolmentStart,
   externalEnrolmentUrl,
@@ -457,6 +473,7 @@ const getEventResponse = ({
 }: {
   location: Place;
   autoAcceptance: boolean;
+  autoAcceptanceMessage: string | null;
   enrolmentEndDays: number;
   enrolmentStart: string;
   externalEnrolmentUrl: string;
@@ -518,6 +535,7 @@ const getEventResponse = ({
         contactEmail: contactEmail,
         contactPhoneNumber: contactPhoneNumber,
         autoAcceptance,
+        autoAcceptanceMessage,
         enrolmentEndDays,
         enrolmentStart,
         externalEnrolmentUrl,
@@ -535,6 +553,7 @@ const getEventResponse = ({
 const getEditEventVariables = ({
   placeId,
   autoAcceptance,
+  translations,
   enrolmentEndDays,
   enrolmentStart,
   neededOccurrences,
@@ -543,6 +562,7 @@ const getEditEventVariables = ({
 }: {
   placeId: string;
   autoAcceptance: boolean;
+  translations: PalvelutarjotinEventTranslationsInput[];
   enrolmentEndDays: number;
   enrolmentStart: string;
   neededOccurrences: number;
@@ -593,6 +613,7 @@ const getEditEventVariables = ({
       externalEnrolmentUrl,
       neededOccurrences,
       autoAcceptance,
+      translations,
       mandatoryAdditionalInformation: false,
     },
   },

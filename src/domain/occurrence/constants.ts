@@ -21,6 +21,7 @@ export const defaultInitialValues: TimeAndLocationFormFields = {
   enrolmentEndDays: '',
   neededOccurrences: '',
   autoAcceptance: true,
+  autoAcceptanceMessage: '',
   locationDescription: {
     fi: '',
     en: '',

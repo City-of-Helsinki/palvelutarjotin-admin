@@ -24,6 +24,7 @@ export type TimeAndLocationFormFields = {
   enrolmentEndDays: number | string;
   neededOccurrences: number | string;
   autoAcceptance: boolean;
+  autoAcceptanceMessage: string | null;
   locationDescription: LocationDescriptions;
   hasClothingStorage: boolean;
   hasSnackEatingPlace: boolean;

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputField from '../../../common/components/form/fields/DateInputField';
 import RadiobuttonField from '../../../common/components/form/fields/RadiobuttonField';
+import TextAreaField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import { EnrolmentType } from '../constants';
 import styles from '../occurrencePage.module.scss';
@@ -87,7 +88,12 @@ export const InternalEnrolmentFields: React.FC<{
   neededOccurrences: number;
 }> = ({ neededOccurrences }) => {
   const { t } = useTranslation();
-
+  const {
+    values: {
+      autoAcceptance: showAutoAcceptanceMessage,
+      autoAcceptanceMessage,
+    },
+  } = useFormikContext<TimeAndLocationFormFields>();
   return (
     <div>
       <div className={styles.formRow}>
@@ -128,6 +134,17 @@ export const InternalEnrolmentFields: React.FC<{
           component={CheckboxField}
         />
       </div>
+      {showAutoAcceptanceMessage && (
+        <div className={styles.formRow}>
+          <Field
+            label={t('eventOccurrenceForm.labelAutoAcceptanceMessage')}
+            name="autoAcceptanceMessage"
+            component={TextAreaField}
+            value={autoAcceptanceMessage ?? ''}
+            helperText={t('eventOccurrenceForm.helperAutoAcceptanceMessage')}
+          />
+        </div>
+      )}
     </div>
   );
 };

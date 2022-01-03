@@ -42,6 +42,7 @@ import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 import { occurrencesFormTestId } from '../occurrencesFormPart/OccurrencesFormPart';
+import { getEditEventPayload } from '../utils';
 
 configure({ defaultHidden: true });
 
@@ -1232,6 +1233,133 @@ describe('enrolment type selector', () => {
   );
 });
 
+describe('auto acceptance for enrolments', () => {
+  it('renders auto acceptance message when auto accept is set on', async () => {
+    renderComponent({
+      mocks: [getEventMockedResponse({ autoAcceptance: false })],
+    });
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+    // set as checked
+    act(() => userEvent.click(getFormElement('autoAcceptance')));
+    await waitFor(() => {
+      expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
+    });
+  });
+
+  it('submits the auto acceptance message right', async () => {
+    const Utils = require('../utils');
+    const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
+    const toastSuccess = jest.spyOn(toast, 'success');
+    const enrolmentStart = '2021-05-03T21:00:00.000Z';
+    const enrolmentEndDays = 1;
+    const neededOccurrences = 1;
+    renderComponent({
+      mocks: [
+        getEventMockedResponse({
+          location: true,
+          autoAcceptance: false,
+          enrolmentEndDays,
+          enrolmentStart,
+          neededOccurrences,
+        }),
+        getUpdateEventMockResponse({
+          autoAcceptance: true,
+          autoAcceptanceMessage: 'bla bla',
+          enrolmentEndDays,
+          enrolmentStart,
+          neededOccurrences,
+        }),
+      ],
+    });
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+    // set as checked
+    act(() => userEvent.click(getFormElement('autoAcceptance')));
+    await waitFor(() => {
+      expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
+    });
+    userEvent.type(getFormElement('autoAcceptanceMessage'), 'bla bla');
+    userEvent.click(getFormElement('saveButton'));
+    await waitFor(() => {
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+    });
+    expect(spyGetEditEventPayload).toHaveBeenCalledWith({
+      event: expect.anything(),
+      formValues: expect.objectContaining({
+        autoAcceptance: true,
+        autoAcceptanceMessage: 'bla bla',
+      }),
+    });
+    expect(spyGetEditEventPayload).toHaveReturnedWith(
+      expect.objectContaining({
+        pEvent: expect.objectContaining({
+          translations: [
+            { languageCode: 'FI', autoAcceptanceMessage: 'bla bla' },
+          ],
+        }),
+      })
+    );
+  });
+
+  it('clears the auto acceptance message on submit when auto acceptance is set off', async () => {
+    const Utils = require('../utils');
+    const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
+    const toastSuccess = jest.spyOn(toast, 'success');
+    const enrolmentStart = '2021-05-03T21:00:00.000Z';
+    const enrolmentEndDays = 1;
+    const neededOccurrences = 1;
+    renderComponent({
+      mocks: [
+        getEventMockedResponse({
+          location: true,
+          autoAcceptance: true,
+          autoAcceptanceMessage: 'bla bla',
+          enrolmentEndDays,
+          enrolmentStart,
+          neededOccurrences,
+        }),
+        getUpdateEventMockResponse({
+          autoAcceptance: false,
+          autoAcceptanceMessage: '',
+          enrolmentEndDays,
+          enrolmentStart,
+          neededOccurrences,
+        }),
+      ],
+    });
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+    expect(getFormElement('autoAcceptanceMessage')).toHaveValue('bla bla');
+    // set as unchecked
+    userEvent.click(getFormElement('autoAcceptance'));
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('textbox', {
+          name: /mahdolliset lisätiedot vahvistusviestiin/i,
+        })
+      ).not.toBeInTheDocument();
+    });
+
+    userEvent.click(getFormElement('saveButton'));
+    await waitFor(() => {
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+    });
+    expect(spyGetEditEventPayload).toHaveBeenCalledWith({
+      event: expect.anything(),
+      formValues: expect.objectContaining({
+        autoAcceptance: false,
+        autoAcceptanceMessage: 'bla bla',
+      }),
+    });
+    expect(spyGetEditEventPayload).toHaveReturnedWith(
+      expect.objectContaining({
+        pEvent: expect.objectContaining({ translations: [] }),
+      })
+    );
+  });
+});
+
 const getLanguageCheckboxes = () => {
   const finnishLanguageCheckbox = screen.getByRole('checkbox', {
     name: 'Suomi',
@@ -1337,6 +1465,7 @@ const getFormElement = (
     | 'enrolmentEndDays'
     | 'neededOccurrences'
     | 'autoAcceptance'
+    | 'autoAcceptanceMessage'
     | 'virtualEvent'
     | 'saveButton'
     | 'goToPublishing'
@@ -1363,6 +1492,10 @@ const getFormElement = (
     case 'autoAcceptance':
       return screen.getByRole('checkbox', {
         name: /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
+      });
+    case 'autoAcceptanceMessage':
+      return screen.getByRole('textbox', {
+        name: /mahdolliset lisätiedot vahvistusviestiin/i,
       });
     case 'virtualEvent':
       return screen.getByRole('checkbox', {

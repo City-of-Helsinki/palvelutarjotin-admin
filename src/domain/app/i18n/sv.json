@@ -553,6 +553,8 @@
     "labelGroupSizeMax": "Max (person)",
     "ariaLabelGroupSizeMax": "Maximalt antal personer",
     "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
+    "labelAutoAcceptanceMessage": "Eventuell tilläggsinformation till bekräftelsemeddelandet",
+    "helperAutoAcceptanceMessage": "",
     "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",

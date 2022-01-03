@@ -128,6 +128,7 @@ const createEventVariables = {
       contactPhoneNumber: contactPhoneNumber,
       neededOccurrences: 1,
       mandatoryAdditionalInformation: true,
+      translations: [],
     },
     organisationId,
     draft: true,

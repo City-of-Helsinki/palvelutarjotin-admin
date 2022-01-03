@@ -551,6 +551,8 @@
     "labelGroupSizeMax": "Max (hlö)",
     "ariaLabelGroupSizeMax": "Maksimi henkilömäärä",
     "labelAutoAcceptance": "Vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa",
+    "labelAutoAcceptanceMessage": "Mahdolliset lisätiedot vahvistusviestiin",
+    "helperAutoAcceptanceMessage": "Lisätiedot sisällytetään ilmoittautumisen hyväksynnän yhteydessä lähetettävään vahvistusviestiin",
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
     "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
