@@ -120,6 +120,11 @@ test('profile can be edited', async () => {
 
   userEvent.clear(screen.getByLabelText('Nimi'));
   userEvent.type(screen.getByLabelText('Nimi'), 'Changed Name');
+  userEvent.clear(screen.getByLabelText('Sähköpostiosoite yhteydenotoille'));
+  userEvent.type(
+    screen.getByLabelText('Sähköpostiosoite yhteydenotoille'),
+    'changed@testaaja.com'
+  );
   userEvent.clear(screen.getByLabelText('Puhelinnumero'));
   userEvent.type(screen.getByLabelText('Puhelinnumero'), '321123321');
   userEvent.click(screen.getByText(/suomi/i));
@@ -133,7 +138,7 @@ test('profile can be edited', async () => {
     expect(updateProfileMock).toHaveBeenCalledWith({
       variables: {
         myProfile: {
-          emailAddress: '',
+          emailAddress: 'changed@testaaja.com',
           name: 'Changed Name',
           phoneNumber: '321123321',
           language: 'EN',

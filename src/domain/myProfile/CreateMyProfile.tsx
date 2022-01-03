@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { useCreateMyProfileMutation } from '../../generated/graphql';
-import scrollToTop from '../../utils/scrollToTop';
 import HeroBackground from '../app/heroBackground/HeroBackground';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -28,8 +27,7 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
           myProfile: getMyProfileCreatePayload(values),
         },
       });
-      await refetch();
-      scrollToTop();
+      refetch();
     } catch (e) {
       toast(t('createMyProfile.error'), {
         type: toast.TYPE.ERROR,
