@@ -1,5 +1,5 @@
 import { Field, useFormikContext } from 'formik';
-import { SelectionGroup } from 'hds-react';
+import { Notification, SelectionGroup } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -135,14 +135,23 @@ export const InternalEnrolmentFields: React.FC<{
         />
       </div>
       {showAutoAcceptanceMessage && (
-        <div className={styles.formRow}>
-          <Field
-            label={t('eventOccurrenceForm.labelAutoAcceptanceMessage')}
-            name="autoAcceptanceMessage"
-            component={TextAreaField}
-            value={autoAcceptanceMessage ?? ''}
-            helperText={t('eventOccurrenceForm.helperAutoAcceptanceMessage')}
-          />
+        <div>
+          <div className={styles.formRow}>
+            <Field
+              label={t('eventOccurrenceForm.labelAutoAcceptanceMessage')}
+              name="autoAcceptanceMessage"
+              component={TextAreaField}
+              value={autoAcceptanceMessage ?? ''}
+              helperText={t('eventOccurrenceForm.helperAutoAcceptanceMessage')}
+            />
+          </div>
+          <div className={styles.formRow}>
+            <Notification
+              label={t('eventOccurrenceForm.infoTitleAutoAcceptance')}
+            >
+              {t('eventOccurrenceForm.infoContentAutoAcceptance')}
+            </Notification>
+          </div>
         </div>
       )}
     </div>

@@ -547,6 +547,8 @@
     "labelAutoAcceptance": "Automatically confirm registrations within the number of participants",
     "labelAutoAcceptanceMessage": "Any additional information to the confirmation message",
     "helperAutoAcceptanceMessage": "",
+    "infoTitleAutoAcceptance": "The confirmation message will automatically contain the following information",
+    "infoContentAutoAcceptance": "Personalized greeting, registration confirmed, event details, time, number of seats reserved, language, place, address, contact information for the organizer.",
     "labelEventLocation": "Event location",
     "labelLocationDescription": "Event location description",
     "labelOneGroupFills": "One group fills the event",

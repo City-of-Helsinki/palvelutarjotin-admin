@@ -1245,6 +1245,16 @@ describe('auto acceptance for enrolments', () => {
     await waitFor(() => {
       expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
     });
+    expect(
+      screen.getByRole('heading', {
+        name: /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot\./i
+      )
+    ).toBeInTheDocument();
   });
 
   it('submits the auto acceptance message right', async () => {
@@ -1340,6 +1350,11 @@ describe('auto acceptance for enrolments', () => {
         })
       ).not.toBeInTheDocument();
     });
+    expect(
+      screen.queryByRole('heading', {
+        name: /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i,
+      })
+    ).not.toBeInTheDocument();
 
     userEvent.click(getFormElement('saveButton'));
     await waitFor(() => {

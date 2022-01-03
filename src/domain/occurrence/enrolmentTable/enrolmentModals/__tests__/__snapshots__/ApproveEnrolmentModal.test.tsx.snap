@@ -84,6 +84,53 @@ exports[`matches snapshot 1`] = `
               Lisää viesti
             </label>
           </div>
+          <div
+            class="formRow"
+          >
+            <section
+              aria-atomic="true"
+              aria-label="Notification"
+              class="Notification-module_notification__2hN3H notification_hds-notification__2DQPN"
+            >
+              <div
+                class="Notification-module_content__ZZKvE notification_hds-notification__content__5ylSS"
+              >
+                <div
+                  aria-level="2"
+                  class="Notification-module_label__1bhNu notification_hds-notification__label__2t1lR"
+                  role="heading"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Notification-module_icon__1ans7 notification_hds-icon__29HQM"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g
+                      fill="none"
+                      fill-rule="evenodd"
+                    >
+                      <rect
+                        height="24"
+                        width="24"
+                      />
+                      <path
+                        d="M12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 Z M13,10 L13,16.5 L15,16.5 L15,18 L9,18 L9,16.5 L11,16.5 L11,11.5 L9,11.5 L9,10 L13,10 Z M11.8125239,6 C12.5373649,6 13.125,6.58759799 13.125,7.3125 C13.125,8.03735415 12.5373649,8.625 11.8125239,8.625 C11.0876351,8.625 10.5,8.03735415 10.5,7.3125 C10.5,6.58759799 11.0876351,6 11.8125239,6 Z"
+                        fill="currentColor"
+                      />
+                    </g>
+                  </svg>
+                  Vahvistusviesti sisältää automaattisesti seuraavat tiedot
+                </div>
+                <div
+                  class="Notification-module_body__9BSAD notification_hds-notification__body__3cobH"
+                >
+                  Personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot.
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
         <div
           class="buttonsContainer"

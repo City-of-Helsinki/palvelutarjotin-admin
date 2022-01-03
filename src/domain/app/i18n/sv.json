@@ -555,6 +555,8 @@
     "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
     "labelAutoAcceptanceMessage": "Eventuell tilläggsinformation till bekräftelsemeddelandet",
     "helperAutoAcceptanceMessage": "",
+    "infoTitleAutoAcceptance": "Bekräftelsemeddelandet kommer automatiskt att innehålla följande information",
+    "infoContentAutoAcceptance": "Personlig hälsning, registrering bekräftad, evenemangsdetaljer, tid, antal reserverade platser, språk, plats, adress, kontaktuppgifter till arrangören.",
     "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",

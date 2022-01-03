@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Button, Checkbox, IconCross, TextArea } from 'hds-react';
+import { Button, Checkbox, IconCross, Notification, TextArea } from 'hds-react';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
@@ -78,14 +78,25 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
               id="add-note"
               label={t('enrolment.enrolmentModal.addMessage')}
             />
+            {noteType === 'success' && (
+              <div className={styles.formRow}>
+                <Notification
+                  label={t('eventOccurrenceForm.infoTitleAutoAcceptance')}
+                >
+                  {t('eventOccurrenceForm.infoContentAutoAcceptance')}
+                </Notification>
+              </div>
+            )}
             {showMessageTextArea && (
-              <TextArea
-                className={styles.noteTextArea}
-                value={messageText}
-                id="note-text-area"
-                label={t('enrolment.enrolmentModal.messageToParticipants')}
-                onChange={(e) => onMessageTextChange?.(e.target.value)}
-              />
+              <div>
+                <TextArea
+                  className={styles.noteTextArea}
+                  value={messageText}
+                  id="note-text-area"
+                  label={t('enrolment.enrolmentModal.messageToParticipants')}
+                  onChange={(e) => onMessageTextChange?.(e.target.value)}
+                />
+              </div>
             )}
           </div>
         )}
