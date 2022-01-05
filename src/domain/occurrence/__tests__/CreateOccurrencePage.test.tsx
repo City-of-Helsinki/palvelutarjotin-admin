@@ -1239,9 +1239,11 @@ describe('auto acceptance for enrolments', () => {
       mocks: [getEventMockedResponse({ autoAcceptance: false })],
     });
     // Wait for form to have been initialized
-    await screen.findByTestId('time-and-location-form');
+    await screen.findByRole('textbox', {
+      name: /ilmoittautuminen alkaa/i,
+    });
     // set as checked
-    act(() => userEvent.click(getFormElement('autoAcceptance')));
+    userEvent.click(getFormElement('autoAcceptance'));
     await waitFor(() => {
       expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
     });
@@ -1283,9 +1285,11 @@ describe('auto acceptance for enrolments', () => {
       ],
     });
     // Wait for form to have been initialized
-    await screen.findByTestId('time-and-location-form');
+    await screen.findByRole('textbox', {
+      name: /ilmoittautuminen alkaa/i,
+    });
     // set as checked
-    act(() => userEvent.click(getFormElement('autoAcceptance')));
+    userEvent.click(getFormElement('autoAcceptance'));
     await waitFor(() => {
       expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
     });
@@ -1339,7 +1343,9 @@ describe('auto acceptance for enrolments', () => {
       ],
     });
     // Wait for form to have been initialized
-    await screen.findByTestId('time-and-location-form');
+    await screen.findByRole('textbox', {
+      name: /ilmoittautuminen alkaa/i,
+    });
     expect(getFormElement('autoAcceptanceMessage')).toHaveValue('bla bla');
     // set as unchecked
     userEvent.click(getFormElement('autoAcceptance'));
