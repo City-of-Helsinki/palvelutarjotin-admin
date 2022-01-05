@@ -1,5 +1,6 @@
-import addHours from 'date-fns/addHours';
-import isBefore from 'date-fns/isBefore';
+import classNames from 'classnames';
+import addDays from 'date-fns/addDays';
+import parseDate from 'date-fns/parse';
 import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
@@ -7,10 +8,12 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
-import DateInputField from '../../../common/components/form/fields/DateInputField';
+import DateInputFieldHDS from '../../../common/components/form/fields/DateInputFieldHDS';
 import MultiDropdownField from '../../../common/components/form/fields/MultiDropdownField';
 import PlaceSelectorField from '../../../common/components/form/fields/PlaceSelectorField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
+import TimeInputField from '../../../common/components/form/fields/TimeInputField';
+import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import {
   EventQuery,
   OccurrenceFieldsFragment,
@@ -18,7 +21,8 @@ import {
   useDeleteOccurrenceMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import { formatIntoDateTime } from '../../../utils/time/format';
+import { DATE_FORMAT, formatIntoDateTime } from '../../../utils/time/format';
+import { isValidDateString, parseDateString } from '../../../utils/time/utils';
 import { getEventFields } from '../../event/utils';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import { OccurrenceFormContextSetter } from '../../occurrence/OccurrencesFormHandleContext';
@@ -34,6 +38,7 @@ import styles from './occurrencesFormPart.module.scss';
 import {
   addOccurrencesToCache,
   deleteOccurrenceFromCache,
+  getOccurrencerWithSameDateAlreadyExists,
   getOptimisticCreateOccurrenceResponse,
   getOptimisticDeleteOccurrenceResponse,
   getOrderedLanguageOptions,
@@ -41,14 +46,17 @@ import {
 import getValidationSchema from './ValidationSchema';
 
 export const defaultInitialValues: OccurrenceSectionFormFields = {
-  startTime: null,
-  endTime: null,
+  startDate: '',
+  startTime: '',
+  endDate: '',
+  endTime: '',
   languages: [],
   occurrenceLocation: '',
   amountOfSeats: '',
   minGroupSize: '',
   maxGroupSize: '',
   oneGroupFills: false,
+  isMultidayOccurrence: false,
 };
 
 export const occurrencesFormTestId = 'occurrences-form';
@@ -79,6 +87,11 @@ const OccurrencesForm: React.FC<{
   const { t } = useTranslation();
   const locale = useLocale();
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
+  const [latestOccurrenceDate, setLatestOccurrenceDate] =
+    React.useState<Date | null>(null);
+  const [confirmAddOccurrence, setConfirmAddOccurrence] = React.useState<
+    (() => void) | null
+  >(null);
 
   const { occurrences, id: eventId } = getEventFields(eventData?.event, locale);
   const pEventId = eventData.event?.pEvent.id as string;
@@ -112,6 +125,11 @@ const OccurrencesForm: React.FC<{
     action.resetForm();
     action.setValues({
       ...defaultInitialValues,
+      isMultidayOccurrence: values.isMultidayOccurrence,
+      startDate: values.startDate,
+      startTime: values.startTime,
+      endTime: values.endTime,
+      endDate: values.endDate,
       occurrenceLocation: values.occurrenceLocation,
       minGroupSize: values.minGroupSize,
       maxGroupSize: values.maxGroupSize,
@@ -127,6 +145,9 @@ const OccurrencesForm: React.FC<{
   ) => {
     try {
       reinitializeForm(values, action);
+      setLatestOccurrenceDate(
+        parseDate(values.startDate, DATE_FORMAT, new Date())
+      );
       await createOccurrence({
         variables: {
           input: getOccurrencePayload({
@@ -157,7 +178,6 @@ const OccurrencesForm: React.FC<{
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
       });
-      return Promise.reject(e);
     }
   };
 
@@ -181,6 +201,23 @@ const OccurrencesForm: React.FC<{
     }
   };
 
+  const handleOccurrenceFormSubmit = (
+    values: OccurrenceSectionFormFields,
+    action: FormikHelpers<OccurrenceSectionFormFields>
+  ) => {
+    const doAddOccurrence = () => addOccurrence(values, action);
+    if (
+      occurrences &&
+      getOccurrencerWithSameDateAlreadyExists(values, occurrences)
+    ) {
+      // add callback to react state to be called when modal is confirmed
+      // we need to save form values and formik helper to closure
+      setConfirmAddOccurrence(() => doAddOccurrence);
+    } else {
+      doAddOccurrence();
+    }
+  };
+
   return (
     <div
       className={styles.occurrencesFormPart}
@@ -196,7 +233,7 @@ const OccurrencesForm: React.FC<{
       )}
       <Formik
         initialValues={initialValues}
-        onSubmit={addOccurrence}
+        onSubmit={handleOccurrenceFormSubmit}
         validationSchema={validationSchema}
         validateOnChange
       >
@@ -206,8 +243,26 @@ const OccurrencesForm: React.FC<{
           isBookableEvent={isBookable}
           enrolmentType={enrolmentType}
           disabled={disabled}
+          latestOccurrenceDate={latestOccurrenceDate}
         />
       </Formik>
+      {confirmAddOccurrence && (
+        <ConfirmationModal
+          isOpen
+          title="Huomio"
+          confirmButtonText="Lisää tapahtuma-aika"
+          onConfirm={() => {
+            confirmAddOccurrence?.();
+            setConfirmAddOccurrence(null);
+          }}
+          toggleModal={() => setConfirmAddOccurrence(null)}
+        >
+          <p>
+            Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja
+            loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?
+          </p>
+        </ConfirmationModal>
+      )}
     </div>
   );
 };
@@ -218,18 +273,20 @@ const OccurrenceForm: React.FC<{
   isBookableEvent: boolean;
   enrolmentType: EnrolmentType;
   disabled: boolean;
+  latestOccurrenceDate?: Date | null;
 }> = ({
   eventDefaultlocation,
   isVirtualEvent,
   disabled,
   enrolmentType,
   isBookableEvent,
+  latestOccurrenceDate,
 }) => {
   const { t } = useTranslation();
   const {
     handleSubmit,
     setFieldValue,
-    values: { startTime, endTime, oneGroupFills },
+    values: { oneGroupFills, isMultidayOccurrence, startDate },
   } = useFormikContext<OccurrenceSectionFormFields>();
   const showGroupSizeInputs = enrolmentType === EnrolmentType.Internal;
 
@@ -263,22 +320,28 @@ const OccurrenceForm: React.FC<{
     }
   }, [eventDefaultlocation, isVirtualEvent, isBookableEvent, setFieldValue]);
 
-  React.useEffect(() => {
-    // Initialize endTime if not yet given
-    if (startTime && !endTime) {
-      setFieldValue('endTime', addHours(startTime, 1));
-    }
+  const handleIsMultidayOccurrenceChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFieldValue('isMultidayOccurrence', e.target.checked);
 
-    // Set endTime 1 hour after startTime if it happens to be before startTime
-    if (startTime && endTime && isBefore(endTime, startTime)) {
-      setFieldValue('endTime', addHours(startTime, 1));
+    // reset end date input when it is hidden
+    if (!e.target.checked) {
+      setFieldValue('endDate', '');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startTime, setFieldValue]);
+  };
+
+  const minEndDate = isValidDateString(startDate)
+    ? parseDateString(startDate)
+    : new Date();
 
   return (
     <div className={styles.eventOccurrenceForm}>
-      <div className={styles.occurrenceFormRow}>
+      <div
+        className={classNames(styles.occurrenceFormRow, {
+          [styles.occurrenceFormRowMultiday]: isMultidayOccurrence,
+        })}
+      >
         <OccurrenceFormContextSetter />
         <Field
           labelText={t('eventOccurrenceForm.labelEventLocation')}
@@ -286,18 +349,43 @@ const OccurrenceForm: React.FC<{
           disabled={isVirtualEvent || isBookableEvent}
           component={PlaceSelectorField}
         />
-        <Field
-          labelText={t('eventOccurrenceForm.labelStartsAt')}
-          name="startTime"
-          timeSelector
-          component={DateInputField}
-        />
-        <Field
-          labelText={t('eventOccurrenceForm.labelEndsAt')}
-          name="endTime"
-          timeSelector
-          component={DateInputField}
-        />
+        <div className={styles.occurrenceFormDatePart}>
+          <Field
+            label={t('eventOccurrenceForm.labelStartDate')}
+            name="startDate"
+            initialMonth={latestOccurrenceDate || new Date()}
+            minDate={new Date()}
+            component={DateInputFieldHDS}
+          />
+          <Field
+            label={t('eventOccurrenceForm.labelStartTime')}
+            name="startTime"
+            component={TimeInputField}
+          />
+          {isMultidayOccurrence && (
+            <>
+              <Field
+                label={t('eventOccurrenceForm.labelEndDate')}
+                name="endDate"
+                initialMonth={minEndDate}
+                minDate={addDays(minEndDate, 1)}
+                component={DateInputFieldHDS}
+              />
+              <Field
+                label={t('eventOccurrenceForm.labelEndTime')}
+                name="endTime"
+                component={TimeInputField}
+              />
+            </>
+          )}
+        </div>
+        {!isMultidayOccurrence && (
+          <Field
+            label={t('eventOccurrenceForm.labelEndTime')}
+            name="endTime"
+            component={TimeInputField}
+          />
+        )}
         <Field
           label={t('eventOccurrenceForm.labelLanguages')}
           name="languages"
@@ -341,7 +429,13 @@ const OccurrenceForm: React.FC<{
         )}
         {/* divs are here to avoid styling problem with HDS */}
       </div>
-      <div className={styles.formRow}>
+      <div className={styles.checkboxRow}>
+        <Field
+          label="Tapahtuma on monipäiväinen"
+          name="isMultidayOccurrence"
+          onChange={handleIsMultidayOccurrenceChange}
+          component={CheckboxField}
+        />
         <Field
           label={t('eventOccurrenceForm.labelOneGroupFills')}
           name="oneGroupFills"

@@ -14,12 +14,14 @@ import {
   LanguageNode,
   LanguageNodeConnection,
   LanguageNodeEdge,
+  OccurrenceFieldsFragment,
   OccurrenceSeatType,
   PageInfo,
 } from '../../../generated/graphql';
 import sortFavorably from '../../../utils/sortFavorably';
+import { parseDateTimeString } from '../../../utils/time/utils';
 import { OccurrenceSectionFormFields } from '../types';
-import { getPlaceId } from '../utils';
+import { getDateFromDateAndTimeString, getPlaceId } from '../utils';
 
 export const getOrderedLanguageOptions = (t: TFunction) => {
   const languagesOrder = sortFavorably(
@@ -60,8 +62,14 @@ export const getOptimisticCreateOccurrenceResponse = ({
         id: uniqueId(),
         amountOfSeats: Number(values.amountOfSeats) || 0,
         cancelled: false,
-        startTime: values.startTime?.toISOString(),
-        endTime: values.endTime?.toISOString(),
+        startTime: getDateFromDateAndTimeString(
+          values.startDate,
+          values.startTime
+        ).toISOString(),
+        endTime: getDateFromDateAndTimeString(
+          values.endDate || values.startDate,
+          values.endTime
+        ).toISOString(),
         languages: fakeLanguages(
           orderBy(values.languages, undefined, 'asc').map((lang) => ({
             name: lang,
@@ -196,6 +204,28 @@ export const deleteOccurrenceFromCache = ({
         },
       },
     },
+  });
+};
+
+export const getOccurrencerWithSameDateAlreadyExists = (
+  formValues: OccurrenceSectionFormFields,
+  occurrences: OccurrenceFieldsFragment[]
+) => {
+  return occurrences.some((occurrence) => {
+    const formStartDateTime = parseDateTimeString(
+      `${formValues.startDate} ${formValues.startTime}`
+    );
+    // use endDate is it is filled
+    const formEndDateTime = parseDateTimeString(
+      `${formValues.endDate || formValues.startDate} ${formValues.endTime}`
+    );
+    const occurrenceStartTime = new Date(occurrence.startTime);
+    const occurrenceEndTime = new Date(occurrence.endTime);
+
+    return (
+      formStartDateTime.getTime() === occurrenceStartTime.getTime() &&
+      formEndDateTime.getTime() === occurrenceEndTime.getTime()
+    );
   });
 };
 

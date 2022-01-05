@@ -1,11 +1,19 @@
 import addDays from 'date-fns/addDays';
 import isBefore from 'date-fns/isBefore';
 import isValidDate from 'date-fns/isValid';
+import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 import { MessageParams } from 'yup/lib/types';
 
-import { isInFuture } from '../../../utils/dateUtils';
-import { formatIntoDate, formatIntoDateTime } from '../../../utils/time/format';
+import { isInFuture, isValidTime } from '../../../utils/dateUtils';
+import { DATE_FORMAT, formatIntoDate } from '../../../utils/time/format';
+import {
+  isTimeStringBefore,
+  isValidDateString,
+  isValidTimeString,
+  parseDateString,
+  parseTimeString,
+} from '../../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { EnrolmentType } from '../constants';
 
@@ -35,7 +43,6 @@ const getStartTimeValidation = ({
   enrolmentStart?: Date | null;
 }) => {
   const schema = Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .test('isInFuture', VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE, isInFuture);
 
@@ -51,6 +58,20 @@ const getStartTimeValidation = ({
     }));
   }
   return schema;
+};
+
+const isValidDateValidation = (value?: string) => {
+  if (!value) return false;
+  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+  return isValidDate(parsedDate);
+};
+
+const getTimeValidation = () => {
+  return Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .test('isValidTime', 'Aika ei ole kelvollinen', (time?: string) =>
+      time ? isValidTimeString(time) : false
+    );
 };
 
 const getValidationSchema = ({
@@ -71,24 +92,66 @@ const getValidationSchema = ({
       isVirtual || isBookable
         ? Yup.string()
         : Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    startTime: getStartTimeValidation({ enrolmentStart, enrolmentEndDays }),
-    endTime: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    startDate: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .when('startTime', ((startTime: Date, schema: Yup.DateSchema) => {
-        if (isValidDate(startTime)) {
+      .test('isValidDate', 'Käytä muotoa P.K.VVVV', isValidDateValidation)
+      .test(
+        'isInFuture',
+        VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
+        (value?: string) => {
+          if (!value) return false;
+          const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+          return isInFuture(parsedDate);
+        }
+      ),
+    startTime: getTimeValidation(),
+    endDate: Yup.string()
+      .when('isMultidayOccurrence', {
+        is: true,
+        then: Yup.string()
+          .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          .test('isValidDate', 'Käytä muotoa P.K.VVVV', isValidDateValidation),
+        otherwise: Yup.string(),
+      })
+      .when('startDate', ((startDate: string, schema: Yup.StringSchema) => {
+        if (isValidDateString(startDate)) {
           return schema.test(
-            'isAfterStartTime',
-            () => ({
-              key: VALIDATION_MESSAGE_KEYS.TIME_MIN,
-              min: formatIntoDateTime(startTime),
-            }),
-            ((endTime: Date) => {
-              return isBefore(startTime, endTime);
-            }) as any
+            'isAfterStartDate',
+            'Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen',
+            (endDate?: string) => {
+              // if endDate is not set or is invalid, ignore this check by returning true (passing)
+              if (!endDate || !isValidDateString(endDate)) return true;
+
+              return (
+                !!endDate &&
+                isValidDateString(endDate) &&
+                isBefore(parseDateString(startDate), parseDateString(endDate))
+              );
+            }
           );
         }
+        return schema;
       }) as any),
+    endTime: getTimeValidation().when(['startTime', 'isMultidayOccurrence'], ((
+      startTime: string,
+      isMultidayOccurrence: boolean,
+      schema: Yup.StringSchema
+    ) => {
+      if (startTime && !isMultidayOccurrence) {
+        return schema.test(
+          'isAfterStartTime',
+          'Päättymisajan on oltava alkamisajan jälkeen',
+          (endTime?: string) => {
+            if (!endTime) return true;
+            if (isValidTimeString(startTime) && isValidTimeString(endTime)) {
+              return isTimeStringBefore(startTime, endTime);
+            }
+            return true;
+          }
+        );
+      }
+      return schema;
+    }) as any),
     languages: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
