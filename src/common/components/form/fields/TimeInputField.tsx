@@ -40,6 +40,7 @@ const TimeInputField: React.FC<Props> = (props) => {
       onChange={handleChange}
       helperText={helperText}
       errorText={errorText}
+      invalid={Boolean(errorText)}
       className={classNames(className, { [invalidFieldClass]: errorText })}
     />
   );

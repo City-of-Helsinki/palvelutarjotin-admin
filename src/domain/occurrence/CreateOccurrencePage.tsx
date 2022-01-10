@@ -309,6 +309,7 @@ const CreateOccurrencePage: React.FC = () => {
         // All good, redirect user to summary page for publishing
         goToSummaryPage();
       } catch (e) {
+        console.log(e);
         if (e instanceof Yup.ValidationError) {
           setMissingEventInfoError(e);
           if (process.env.NODE_ENV === 'development') {

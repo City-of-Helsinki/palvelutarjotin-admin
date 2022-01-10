@@ -51,6 +51,7 @@ const DateInputField: React.FC<Props> = (props) => {
       onBlur={handleBlur}
       helperText={helperText}
       errorText={errorText}
+      invalid={Boolean(errorText)}
       className={classNames(className, { [invalidFieldClass]: errorText })}
     />
   );

@@ -13,19 +13,35 @@
 }
 
 .occurrenceFormRow {
+  --grid-gap: var(--spacing-s);
+  --date-column-width: calc(170px + 100px + var(--grid-gap));
+
   display: grid;
+  grid-gap: var(--grid-gap);
   margin-bottom: var(--spacing-l);
 
   @include respond_above(md) {
-    grid-template-columns: 1fr 290px 100px 180px 100px 100px 100px;
-    grid-gap: $baseMargin;
+    grid-template-columns: 1fr var(--date-column-width) 100px 180px repeat(
+        3,
+        100px
+      );
   }
 
   &Multiday {
     @include respond_above(md) {
-      grid-template-columns: 1fr 290px 300px 100px 100px 100px;
-      grid-gap: $baseMargin;
+      grid-template-columns:
+        1fr var(--date-column-width) calc(280px + var(--grid-gap))
+        repeat(3, 100px);
     }
+  }
+}
+
+.occurrenceFormDatePart {
+  display: grid;
+  grid-gap: var(--grid-gap);
+
+  @include respond_above(md) {
+    grid-template-columns: 170px 100px;
   }
 }
 
@@ -39,15 +55,6 @@
 
   & > div {
     margin-top: 0 !important;
-  }
-}
-
-.occurrenceFormDatePart {
-  display: grid;
-
-  @include respond_above(md) {
-    grid-template-columns: 170px 100px;
-    grid-gap: $baseMargin;
   }
 }
 

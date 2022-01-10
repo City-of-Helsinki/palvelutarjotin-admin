@@ -201,7 +201,8 @@ const OccurrencesForm: React.FC<{
     }
   };
 
-  const handleOccurrenceFormSubmit = (
+  // TODO: what to do is this is called when going to publish page and confirmation modal is opened?
+  const handleOccurrenceFormSubmit = async (
     values: OccurrenceSectionFormFields,
     action: FormikHelpers<OccurrenceSectionFormFields>
   ) => {
@@ -214,7 +215,7 @@ const OccurrencesForm: React.FC<{
       // we need to save form values and formik helper to closure
       setConfirmAddOccurrence(() => doAddOccurrence);
     } else {
-      doAddOccurrence();
+      await doAddOccurrence();
     }
   };
 
@@ -360,6 +361,8 @@ const OccurrenceForm: React.FC<{
           <Field
             label={t('eventOccurrenceForm.labelStartTime')}
             name="startTime"
+            hoursLabel="Alkuajan tunnit"
+            minutesLabel="Alkuajan minuutit"
             component={TimeInputField}
           />
           {isMultidayOccurrence && (
@@ -374,6 +377,8 @@ const OccurrenceForm: React.FC<{
               <Field
                 label={t('eventOccurrenceForm.labelEndTime')}
                 name="endTime"
+                hoursLabel="Loppuajan tunnit"
+                minutesLabel="Loppuajan minuutit"
                 component={TimeInputField}
               />
             </>
@@ -383,6 +388,8 @@ const OccurrenceForm: React.FC<{
           <Field
             label={t('eventOccurrenceForm.labelEndTime')}
             name="endTime"
+            hoursLabel="Loppuajan tunnit"
+            minutesLabel="Loppuajan minuutit"
             component={TimeInputField}
           />
         )}
@@ -451,6 +458,8 @@ const OccurrenceForm: React.FC<{
   );
 };
 
+export const occurrencesTableTestId = 'occurrences-table';
+
 const OccurrencesTable: React.FC<{
   occurrences: OccurrenceFieldsFragment[];
   onDeleteOccurrence: (id: string) => Promise<void>;
@@ -459,7 +468,10 @@ const OccurrencesTable: React.FC<{
   const { t } = useTranslation();
 
   return (
-    <table className={styles.occurrencesTable}>
+    <table
+      className={styles.occurrencesTable}
+      data-testid={occurrencesTableTestId}
+    >
       <thead>
         <tr>
           <th>{t('occurrences.table.columnLocation')}</th>
