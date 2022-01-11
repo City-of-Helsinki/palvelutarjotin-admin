@@ -5,14 +5,14 @@ import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 import { MessageParams } from 'yup/lib/types';
 
-import { isInFuture, isValidTime } from '../../../utils/dateUtils';
-import { DATE_FORMAT, formatIntoDate } from '../../../utils/time/format';
+import { isInFuture } from '../../../utils/dateUtils';
+import { DATE_FORMAT, formatIntoDateTime } from '../../../utils/time/format';
 import {
   isTimeStringBefore,
   isValidDateString,
   isValidTimeString,
   parseDateString,
-  parseTimeString,
+  parseDateTimeString,
 } from '../../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { EnrolmentType } from '../constants';
@@ -35,31 +35,6 @@ const addMaxValidationMessage = (
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
 
-const getStartTimeValidation = ({
-  enrolmentEndDays,
-  enrolmentStart,
-}: {
-  enrolmentEndDays?: string | number;
-  enrolmentStart?: Date | null;
-}) => {
-  const schema = Yup.date()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isInFuture', VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE, isInFuture);
-
-  if (enrolmentEndDays != null && enrolmentStart) {
-    const minDate =
-      enrolmentEndDays > 0
-        ? addDays(enrolmentStart, enrolmentEndDays as number)
-        : new Date(enrolmentStart);
-    minDate.setHours(0, 0, 0, 0);
-    return schema.min(minDate, () => ({
-      key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-      min: formatIntoDate(minDate),
-    }));
-  }
-  return schema;
-};
-
 const isValidDateValidation = (value?: string) => {
   if (!value) return false;
   const parsedDate = parseDate(value, DATE_FORMAT, new Date());
@@ -72,6 +47,45 @@ const getTimeValidation = () => {
     .test('isValidTime', 'Aika ei ole kelvollinen', (time?: string) =>
       time ? isValidTimeString(time) : false
     );
+};
+
+const isAfterEnrolmentStartTime = (
+  enrolmentEndDays?: string | number,
+  enrolmentStart?: Date | null
+) =>
+  ((startTime: string, schema: Yup.StringSchema) => {
+    if (
+      isValidTimeString(startTime) &&
+      enrolmentEndDays != null &&
+      enrolmentStart
+    ) {
+      const minDate =
+        enrolmentEndDays > 0
+          ? addDays(enrolmentStart, enrolmentEndDays as number)
+          : new Date(enrolmentStart);
+      return schema.test(
+        'isAfterEnrolmentStart',
+        () => ({
+          key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+          min: formatIntoDateTime(minDate),
+        }),
+        (startDate?: string) => {
+          if (startDate) {
+            const startDateString = startDate + ' ' + startTime;
+            const startDateObject = parseDateTimeString(startDateString);
+            return isBefore(minDate, startDateObject);
+          }
+          return false;
+        }
+      );
+    }
+    return schema;
+  }) as any;
+
+const validateIsInFuture = (value?: string) => {
+  if (!value) return false;
+  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+  return isInFuture(parsedDate);
 };
 
 const getValidationSchema = ({
@@ -98,11 +112,11 @@ const getValidationSchema = ({
       .test(
         'isInFuture',
         VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
-        (value?: string) => {
-          if (!value) return false;
-          const parsedDate = parseDate(value, DATE_FORMAT, new Date());
-          return isInFuture(parsedDate);
-        }
+        validateIsInFuture
+      )
+      .when(
+        'startTime',
+        isAfterEnrolmentStartTime(enrolmentEndDays, enrolmentStart)
       ),
     startTime: getTimeValidation(),
     endDate: Yup.string()

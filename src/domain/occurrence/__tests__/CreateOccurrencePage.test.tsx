@@ -4,7 +4,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
-import wait from 'waait';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -76,6 +75,25 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
     routes: [ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)],
     path: ROUTES.CREATE_OCCURRENCE,
   });
+};
+
+const getDefaultOccurrenceValues = ({
+  isMultiday = false,
+}: { isMultiday?: boolean } = {}) => {
+  const occurrenceStartDate = '10.5.2021';
+  const occurrenceStartTime = '10:00';
+  const occurrenceEndDate = '12.5.2021';
+  const occurrenceEndTime = '11:00';
+  return {
+    occurrenceStartDate,
+    occurrenceStartTime,
+    occurrenceEndDate,
+    occurrenceEndTime,
+    occurrenceStartDatetime: occurrenceStartDate + ' ' + occurrenceStartTime,
+    occurrenceEndDatetime: isMultiday
+      ? occurrenceEndDate + ' ' + occurrenceEndTime
+      : occurrenceStartDate + ' ' + occurrenceEndTime,
+  };
 };
 
 advanceTo('2021-04-02');
@@ -811,6 +829,103 @@ describe('occurrences form', () => {
     expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
   });
 
+  test('can create multiday occurrence', async () => {
+    const occurrenceStartDate = '10.5.2021';
+    const occurrenceStartTime = '10:00';
+    const occurrenceEndDate = '12.5.2021';
+    const occurrenceEndTime = '11:00';
+
+    const occurrenceStartDateTime =
+      occurrenceStartDate + ' ' + occurrenceStartTime;
+    const occurrenceEndDateTime = occurrenceEndDate + ' ' + occurrenceEndTime;
+
+    const occurrenceData1 = {
+      amountOfSeats: 30,
+      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      languages: ['fi', 'en'],
+      minGroupSize: 10,
+      maxGroupSize: 20,
+      endTime: occurrenceEndTime,
+      startTime: occurrenceStartTime,
+    };
+    const eventMockResponse = getEventMockedResponse({
+      occurrences: fakeOccurrences(0),
+    });
+    const addOccurrenceMockResponse =
+      getAddOccurrenceMockResponse(occurrenceData1);
+    const occurrence1: Partial<OccurrenceNode> = {
+      ...occurrenceData1,
+      languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
+      startTime: parseDate(
+        occurrenceStartDateTime,
+        DATETIME_FORMAT,
+        new Date()
+      ),
+      endTime: parseDate(occurrenceEndDateTime, DATETIME_FORMAT, new Date()),
+      placeId: placeId,
+    };
+    renderComponent({
+      mocks: [
+        eventMockResponse,
+        getEventMockedResponse({
+          occurrences: fakeOccurrences(1, [occurrence1]),
+        }),
+        addOccurrenceMockResponse,
+      ],
+    });
+
+    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}${occurrenceData1.maxGroupSize}`;
+
+    // Wait for form to have been initialized
+    await screen.findByTestId('time-and-location-form');
+
+    await fillAndSubmitOccurrenceForm({
+      occurrenceStartDate,
+      occurrenceStartTime,
+      occurrenceEndDate,
+      occurrenceEndTime,
+    });
+
+    await waitFor(() => {
+      expect(screen.getAllByRole('row')[1]).toHaveTextContent(
+        occurrence1RowText
+      );
+    });
+
+    const occurrenceStartDateInput = getOccurrenceFormElement('startDate');
+    const occurrenceStartHoursInput = getOccurrenceFormElement('startHours');
+    const occurrenceStartMinutesInput =
+      getOccurrenceFormElement('startMinutes');
+    const occurrenceEndDateInput = getOccurrenceFormElement('endDate');
+    const occurrenceEndHoursInput = getOccurrenceFormElement('endHours');
+    const occurrenceEndMinutesInput = getOccurrenceFormElement('endMinutes');
+    const occurrenceLocationInput = getOccurrenceFormElement('location');
+    const seatsInput = getOccurrenceFormElement('seats');
+    const minGroupSizeInput = getOccurrenceFormElement('min');
+    const maxGroupSizeInput = getOccurrenceFormElement('max');
+
+    expect(seatsInput).toHaveValue(30);
+    expect(minGroupSizeInput).toHaveValue(10);
+    expect(maxGroupSizeInput).toHaveValue(20);
+    expect(occurrenceLocationInput.parentElement).toHaveTextContent(
+      'Sellon kirjasto'
+    );
+
+    const [startHours, startMinutes] = occurrenceStartTime.split(':');
+    const [endHours, endMinutes] = occurrenceEndTime.split(':');
+    await waitFor(() => {
+      expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
+      expect(occurrenceStartHoursInput).toHaveValue(startHours);
+      expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
+      expect(occurrenceEndDateInput).toHaveValue(occurrenceEndDate);
+      expect(occurrenceEndHoursInput).toHaveValue(endHours);
+      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
+    });
+
+    // Occurrence should still be in the document after event refetch
+    expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
+  });
+
   test('can create new occurrence without internal enrolment', async () => {
     const occurrenceStartDate = '10.5.2021';
     const occurrenceStartTime = '10:00';
@@ -1006,11 +1121,9 @@ describe('occurrences form', () => {
     });
   });
 
-  // fix: add validation for this
-  test.skip('occurrence date cannot be before enrolments ending day', async () => {
-    const currentDate = new Date('2021-05-20');
-    advanceTo(currentDate);
-    const enrolmentStart = new Date('2021-05-21');
+  test('occurrence date time cannot be before enrolments ending day', async () => {
+    advanceTo(new Date('2021-05-20'));
+    const enrolmentStart = new Date('2021-05-21T12:00:00');
     const enrolmentEndDays = 2;
     const eventMockResponse = getEventMockedResponse({
       enrolmentStart: enrolmentStart.toISOString(),
@@ -1022,13 +1135,28 @@ describe('occurrences form', () => {
     await screen.findByTestId('time-and-location-form');
 
     const dateInput = getOccurrenceFormElement('startDate');
-    userEvent.type(dateInput, format(addDays(enrolmentStart, 1), DATE_FORMAT));
-    expect(dateInput).toHaveValue('22.5.2021');
+    const startHoursInput = getOccurrenceFormElement('startHours');
+    const startMinutesInput = getOccurrenceFormElement('startMinutes');
+    userEvent.type(
+      dateInput,
+      format(addDays(enrolmentStart, enrolmentEndDays), DATE_FORMAT)
+    );
+    userEvent.type(startHoursInput, '11');
+    userEvent.type(startMinutesInput, '00');
+    expect(dateInput).toHaveValue('23.5.2021');
 
+    await screen.findByText(
+      /Päivämäärän on oltava aikaisintaan 23\.5\.2021 12:00/i
+    );
+
+    // enter valid time -> error text should disappear
+    userEvent.type(startHoursInput, '13');
     await waitFor(() => {
       expect(
-        screen.queryByText('Päivämäärän on oltava aikaisintaan 23.5.2021')
-      ).toBeInTheDocument();
+        screen.queryByText(
+          /Päivämäärän on oltava aikaisintaan 23\.5\.2021 12:00/i
+        )
+      ).not.toBeInTheDocument();
     });
   });
 });
@@ -1521,6 +1649,7 @@ const getOccurrenceFormElement = (
     | 'max'
     | 'oneGroupFills'
     | 'submit'
+    | 'multidayOccurrence'
 ) => {
   const occurrencesForm = within(screen.getByTestId(occurrencesFormTestId));
   switch (key) {
@@ -1575,6 +1704,11 @@ const getOccurrenceFormElement = (
     case 'submit':
       return screen.getByRole('button', {
         name: /lisää uusi tapahtuma-aika/i,
+      });
+
+    case 'multidayOccurrence':
+      return screen.getByRole('checkbox', {
+        name: /Tapahtuma on monipäiväinen/i,
       });
   }
 };
@@ -1696,8 +1830,6 @@ const fillAndSubmitOccurrenceForm = async ({
   const occurrenceStartsDateInput = getOccurrenceFormElement('startDate');
   const occurrenceStartHoursInput = getOccurrenceFormElement('startHours');
   const occurrenceStartMinutesInput = getOccurrenceFormElement('startMinutes');
-  const occurrenceEndHoursInput = getOccurrenceFormElement('endHours');
-  const occurrenceEndMinutesInput = getOccurrenceFormElement('endMinutes');
 
   const [startHours, startMinutes] = occurrenceStartTime.split(':');
   const [endHours, endMinutes] = occurrenceEndTime.split(':');
@@ -1705,14 +1837,24 @@ const fillAndSubmitOccurrenceForm = async ({
   // avoid act warning from react testing library (caused by autosuggest component)
   act(() => userEvent.click(occurrenceStartsDateInput));
 
+  // get end date input visible by clicking multiday occurrence checkbox
+  if (occurrenceEndDate) {
+    userEvent.click(getOccurrenceFormElement('multidayOccurrence'));
+  }
+
   userEvent.type(occurrenceStartsDateInput, occurrenceStartDate);
   expect(occurrenceStartsDateInput).toHaveValue(occurrenceStartDate);
 
   userEvent.type(occurrenceStartHoursInput, startHours);
   userEvent.type(occurrenceStartMinutesInput, startMinutes);
 
-  userEvent.type(occurrenceEndHoursInput, endHours);
-  userEvent.type(occurrenceEndMinutesInput, endMinutes);
+  if (occurrenceEndDate) {
+    const endDateInput = getOccurrenceFormElement('endDate');
+    userEvent.type(endDateInput, occurrenceEndDate);
+  }
+
+  userEvent.type(getOccurrenceFormElement('endHours'), endHours);
+  userEvent.type(getOccurrenceFormElement('endMinutes'), endMinutes);
 
   expect(occurrenceStartHoursInput).toHaveValue(startHours);
 
