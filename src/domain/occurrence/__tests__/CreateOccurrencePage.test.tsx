@@ -1234,6 +1234,9 @@ describe('enrolment type selector', () => {
 });
 
 describe('auto acceptance for enrolments', () => {
+  const customMessage =
+    'Näytöksen ensi-iltana pyydetään saapumaan paikalle väh. puolituntia ennen näytöksen alkua.';
+
   it('renders auto acceptance message when auto accept is set on', async () => {
     renderComponent({
       mocks: [getEventMockedResponse({ autoAcceptance: false })],
@@ -1277,7 +1280,7 @@ describe('auto acceptance for enrolments', () => {
         }),
         getUpdateEventMockResponse({
           autoAcceptance: true,
-          autoAcceptanceMessage: 'bla bla',
+          autoAcceptanceMessage: customMessage,
           enrolmentEndDays,
           enrolmentStart,
           neededOccurrences,
@@ -1293,7 +1296,7 @@ describe('auto acceptance for enrolments', () => {
     await waitFor(() => {
       expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
     });
-    userEvent.type(getFormElement('autoAcceptanceMessage'), 'bla bla');
+    userEvent.type(getFormElement('autoAcceptanceMessage'), customMessage);
     userEvent.click(getFormElement('saveButton'));
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
@@ -1302,14 +1305,14 @@ describe('auto acceptance for enrolments', () => {
       event: expect.anything(),
       formValues: expect.objectContaining({
         autoAcceptance: true,
-        autoAcceptanceMessage: 'bla bla',
+        autoAcceptanceMessage: customMessage,
       }),
     });
     expect(spyGetEditEventPayload).toHaveReturnedWith(
       expect.objectContaining({
         pEvent: expect.objectContaining({
           translations: [
-            { languageCode: 'FI', autoAcceptanceMessage: 'bla bla' },
+            { languageCode: 'FI', autoAcceptanceMessage: customMessage },
           ],
         }),
       })
@@ -1328,7 +1331,7 @@ describe('auto acceptance for enrolments', () => {
         getEventMockedResponse({
           location: true,
           autoAcceptance: true,
-          autoAcceptanceMessage: 'bla bla',
+          autoAcceptanceMessage: customMessage,
           enrolmentEndDays,
           enrolmentStart,
           neededOccurrences,
@@ -1346,7 +1349,7 @@ describe('auto acceptance for enrolments', () => {
     await screen.findByRole('textbox', {
       name: /ilmoittautuminen alkaa/i,
     });
-    expect(getFormElement('autoAcceptanceMessage')).toHaveValue('bla bla');
+    expect(getFormElement('autoAcceptanceMessage')).toHaveValue(customMessage);
     // set as unchecked
     userEvent.click(getFormElement('autoAcceptance'));
     await waitFor(() => {
@@ -1370,7 +1373,7 @@ describe('auto acceptance for enrolments', () => {
       event: expect.anything(),
       formValues: expect.objectContaining({
         autoAcceptance: false,
-        autoAcceptanceMessage: 'bla bla',
+        autoAcceptanceMessage: customMessage,
       }),
     });
     expect(spyGetEditEventPayload).toHaveReturnedWith(
