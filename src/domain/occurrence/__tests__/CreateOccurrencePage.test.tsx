@@ -89,8 +89,8 @@ const getDefaultOccurrenceValues = ({
     occurrenceStartTime,
     occurrenceEndDate,
     occurrenceEndTime,
-    occurrenceStartDatetime: occurrenceStartDate + ' ' + occurrenceStartTime,
-    occurrenceEndDatetime: isMultiday
+    occurrenceStartDateTime: occurrenceStartDate + ' ' + occurrenceStartTime,
+    occurrenceEndDateTime: isMultiday
       ? occurrenceEndDate + ' ' + occurrenceEndTime
       : occurrenceStartDate + ' ' + occurrenceEndTime,
   };
@@ -363,12 +363,13 @@ describe('location and enrolment info', () => {
 
   test('notification modal works correctly when info is not filled', async () => {
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
-    const occurrenceStartDate = '10.5.2021';
-    const occurrenceStartTime = '10:00';
-    const occurrenceEndTime = '11:00';
-    const occurrenceStartDateTime =
-      occurrenceStartDate + ' ' + occurrenceStartTime;
-    const occurrenceEndDateTime = occurrenceStartDate + ' ' + occurrenceEndTime;
+    const {
+      occurrenceEndTime,
+      occurrenceStartDate,
+      occurrenceStartTime,
+      occurrenceStartDateTime,
+      occurrenceEndDateTime,
+    } = getDefaultOccurrenceValues();
 
     const formattedEnrolmentStartTime = formatIntoDateTime(
       new Date(enrolmentStartDateTimeValue)
@@ -735,13 +736,13 @@ describe('occurrences form', () => {
   });
 
   test('can create new occurrence and it is added to occurrences table', async () => {
-    const occurrenceStartDate = '10.5.2021';
-    const occurrenceStartTime = '10:00';
-    const occurrenceEndTime = '11:00';
-
-    const occurrenceStartDateTime =
-      occurrenceStartDate + ' ' + occurrenceStartTime;
-    const occurrenceEndDateTime = occurrenceStartDate + ' ' + occurrenceEndTime;
+    const {
+      occurrenceEndTime,
+      occurrenceStartDate,
+      occurrenceStartTime,
+      occurrenceStartDateTime,
+      occurrenceEndDateTime,
+    } = getDefaultOccurrenceValues();
 
     const occurrenceData1 = {
       amountOfSeats: 30,
@@ -830,14 +831,14 @@ describe('occurrences form', () => {
   });
 
   test('can create multiday occurrence', async () => {
-    const occurrenceStartDate = '10.5.2021';
-    const occurrenceStartTime = '10:00';
-    const occurrenceEndDate = '12.5.2021';
-    const occurrenceEndTime = '11:00';
-
-    const occurrenceStartDateTime =
-      occurrenceStartDate + ' ' + occurrenceStartTime;
-    const occurrenceEndDateTime = occurrenceEndDate + ' ' + occurrenceEndTime;
+    const {
+      occurrenceEndTime,
+      occurrenceStartDate,
+      occurrenceStartTime,
+      occurrenceStartDateTime,
+      occurrenceEndDateTime,
+      occurrenceEndDate,
+    } = getDefaultOccurrenceValues();
 
     const occurrenceData1 = {
       amountOfSeats: 30,
@@ -927,13 +928,13 @@ describe('occurrences form', () => {
   });
 
   test('can create new occurrence without internal enrolment', async () => {
-    const occurrenceStartDate = '10.5.2021';
-    const occurrenceStartTime = '10:00';
-    const occurrenceEndTime = '11:00';
-
-    const occurrenceStartDateTime =
-      occurrenceStartDate + ' ' + occurrenceStartTime;
-    const occurrenceEndDateTime = occurrenceStartDate + ' ' + occurrenceEndTime;
+    const {
+      occurrenceEndTime,
+      occurrenceStartDate,
+      occurrenceStartTime,
+      occurrenceStartDateTime,
+      occurrenceEndDateTime,
+    } = getDefaultOccurrenceValues();
 
     const occurrenceData1 = {
       amountOfSeats: 0,
@@ -1012,12 +1013,8 @@ describe('occurrences form', () => {
   });
 
   test('occurrence can be deleted from occurrence table', async () => {
-    const occurrenceStartDate = '10.5.2021';
-    const occurrenceStartTime = '10:00';
-    const occurrenceEndTime = '11:00';
-    const occurrenceStartDateTime =
-      occurrenceStartDate + ' ' + occurrenceStartTime;
-    const occurrenceEndDateTime = occurrenceStartDate + ' ' + occurrenceEndTime;
+    const { occurrenceStartDateTime, occurrenceEndDateTime } =
+      getDefaultOccurrenceValues();
 
     const occurrence: Partial<OccurrenceNode> = {
       amountOfSeats: 30,
@@ -1164,13 +1161,13 @@ describe('occurrences form', () => {
 describe('save occurrence and event info simultaneously', () => {
   const fillForm = async () => {
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
-    const occurrenceStartDate = '10.5.2021';
-    const occurrenceStartTime = '10:00';
-    const occurrenceEndTime = '11:00';
-
-    const occurrenceStartDateTime =
-      occurrenceStartDate + ' ' + occurrenceStartTime;
-    const occurrenceEndDateTime = occurrenceStartDate + ' ' + occurrenceEndTime;
+    const {
+      occurrenceEndTime,
+      occurrenceStartDate,
+      occurrenceStartTime,
+      occurrenceStartDateTime,
+      occurrenceEndDateTime,
+    } = getDefaultOccurrenceValues();
 
     const occurrenceData1 = {
       amountOfSeats: 30,
