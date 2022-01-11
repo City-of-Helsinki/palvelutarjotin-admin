@@ -161,7 +161,7 @@ const editEventVariables = {
       externalEnrolmentUrl: null,
       neededOccurrences: 3,
       mandatoryAdditionalInformation: mandatoryAdditionalInformation,
-      autoAcceptanceMessage: null,
+      translations: [],
     },
     organisationId: organisationId,
     draft: true,
@@ -237,6 +237,7 @@ const eventResponse = {
         neededOccurrences: 3,
         mandatoryAdditionalInformation: mandatoryAdditionalInformation,
         autoAcceptance: true,
+        autoAcceptanceMessage: null,
         contactPerson: fakePerson({
           id: contactPersonId,
         }),

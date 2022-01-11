@@ -302,6 +302,7 @@ export const fakePEvent = (
   updatedAt: '' as any,
   autoAcceptance: false,
   autoAcceptanceMessage: null,
+  translations: [],
   nextOccurrenceDatetime: '',
   lastOccurrenceDatetime: '',
   mandatoryAdditionalInformation: false,
