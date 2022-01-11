@@ -966,10 +966,20 @@ export type OrganisationNode = Node & {
   type: OrganisationType;
   persons: PersonNodeConnection;
   publisherId: Scalars['String'];
+  pEvent: PalvelutarjotinEventNodeConnection;
 };
 
 
 export type OrganisationNodePersonsArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type OrganisationNodePEventArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
@@ -1093,12 +1103,12 @@ export type PalvelutarjotinEventNode = Node & {
   contactEmail: Scalars['String'];
   autoAcceptance: Scalars['Boolean'];
   mandatoryAdditionalInformation: Scalars['Boolean'];
+  translations?: Maybe<Array<Maybe<PalvelutarjotinEventTranslationType>>>;
+  occurrences?: Maybe<OccurrenceNodeConnection>;
   nextOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
   lastOccurrenceDatetime?: Maybe<Scalars['DateTime']>;
-  occurrences?: Maybe<OccurrenceNodeConnection>;
   /** Translated field in the language defined in request ACCEPT-LANGUAGE header  */
   autoAcceptanceMessage?: Maybe<Scalars['String']>;
-  translations?: Maybe<Array<Maybe<PalvelutarjotinEventTranslationType>>>;
 };
 
 
@@ -1115,6 +1125,23 @@ export type PalvelutarjotinEventNodeOccurrencesArgs = {
   time?: Maybe<Scalars['Time']>;
   pEvent?: Maybe<Scalars['ID']>;
   cancelled?: Maybe<Scalars['Boolean']>;
+};
+
+export type PalvelutarjotinEventNodeConnection = {
+  __typename?: 'PalvelutarjotinEventNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<PalvelutarjotinEventNodeEdge>>;
+};
+
+/** A Relay edge containing a `PalvelutarjotinEventNode` and its cursor. */
+export type PalvelutarjotinEventNodeEdge = {
+  __typename?: 'PalvelutarjotinEventNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<PalvelutarjotinEventNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
 };
 
 export type PalvelutarjotinEventTranslationType = {
@@ -1142,6 +1169,7 @@ export type PersonNode = Node & {
   placeIds: Array<Scalars['String']>;
   organisations: OrganisationNodeConnection;
   organisationproposalSet: OrganisationProposalNodeConnection;
+  pEvent: PalvelutarjotinEventNodeConnection;
   occurrences: OccurrenceNodeConnection;
   studygroupSet: StudyGroupNodeConnection;
   enrolmentSet: EnrolmentNodeConnection;
@@ -1160,6 +1188,15 @@ export type PersonNodeOrganisationsArgs = {
 
 
 export type PersonNodeOrganisationproposalSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type PersonNodePEventArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
