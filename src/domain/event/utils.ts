@@ -200,6 +200,7 @@ export const getEventPayload = ({
       contactPhoneNumber: formValues.contactPhoneNumber,
       neededOccurrences: 1,
       mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
+      translations: [],
     },
     organisationId,
   };
@@ -283,6 +284,8 @@ export const getEditEventPayload = ({
         Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
       externalEnrolmentUrl: existingEventValues.pEvent.externalEnrolmentUrl,
       autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
+      autoAcceptanceMessage:
+        existingEventValues.pEvent.autoAcceptanceMessage ?? null,
       mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
     },
     organisationId,

@@ -45,6 +45,17 @@ it('renders correctly and calls approve enrolment handler', async () => {
     screen.queryByText(messages.enrolment.enrolmentModal.approveEnrolmentNote)
   ).toBeInTheDocument();
 
+  expect(
+    screen.queryByText(
+      /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i
+    )
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      /personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot\./i
+    )
+  ).toBeInTheDocument();
+
   const approveEnrolmentButton = screen.getByText(
     messages.enrolment.enrolmentModal.sendConfirmationMessage
   );

@@ -5,6 +5,7 @@ export const QUERY_EVENT = gql`
     id
     nextOccurrenceDatetime
     autoAcceptance
+    autoAcceptanceMessage
     contactPerson {
       ...personFields
     }

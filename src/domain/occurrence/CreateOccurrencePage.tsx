@@ -159,6 +159,7 @@ const CreateOccurrencePage: React.FC = () => {
           autoAcceptance: event.pEvent.autoAcceptance
             ? event.pEvent.autoAcceptance
             : false,
+          autoAcceptanceMessage: event.pEvent.autoAcceptanceMessage ?? null,
           enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
           enrolmentStart: event.pEvent.enrolmentStart
             ? new Date(event.pEvent.enrolmentStart)

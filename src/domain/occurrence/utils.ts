@@ -5,6 +5,7 @@ import {
   EventFieldsFragment,
   Language,
   OccurrenceFieldsFragment,
+  PalvelutarjotinEventTranslationsInput,
   SeatType,
   useEventQuery,
 } from '../../generated/graphql';
@@ -127,6 +128,7 @@ export const getEditEventPayload = ({
 }) => {
   const {
     autoAcceptance,
+    autoAcceptanceMessage,
     enrolmentEndDays,
     location,
     enrolmentStart,
@@ -144,6 +146,15 @@ export const getEditEventPayload = ({
       enrolmentEndDays: Number(enrolmentEndDays) || 0,
       neededOccurrences: Number(neededOccurrences) || 0,
       autoAcceptance,
+      translations:
+        autoAcceptance && autoAcceptanceMessage
+          ? [
+              {
+                languageCode: Language.Fi,
+                autoAcceptanceMessage,
+              } as PalvelutarjotinEventTranslationsInput,
+            ]
+          : [],
       externalEnrolmentUrl: null,
     },
     [EnrolmentType.External]: {
@@ -151,6 +162,7 @@ export const getEditEventPayload = ({
       enrolmentStart: null,
       neededOccurrences: 0,
       autoAcceptance: false,
+      translations: [],
       externalEnrolmentUrl,
     },
     [EnrolmentType.Unenrollable]: {
@@ -158,6 +170,7 @@ export const getEditEventPayload = ({
       enrolmentStart: null,
       neededOccurrences: 0,
       autoAcceptance: false,
+      translations: [],
       externalEnrolmentUrl: null,
     },
   };
