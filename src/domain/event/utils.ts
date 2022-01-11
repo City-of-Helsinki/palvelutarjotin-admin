@@ -4,6 +4,7 @@ import isPastDate from 'date-fns/isPast';
 import isToday from 'date-fns/isToday';
 import isTomorrow from 'date-fns/isTomorrow';
 import { TFunction } from 'i18next';
+import omit from 'lodash/omit';
 
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
@@ -284,8 +285,9 @@ export const getEditEventPayload = ({
         Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
       externalEnrolmentUrl: existingEventValues.pEvent.externalEnrolmentUrl,
       autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
-      autoAcceptanceMessage:
-        existingEventValues.pEvent.autoAcceptanceMessage ?? null,
+      translations: existingEventValues.pEvent.translations?.map(
+        (translation) => omit(translation, '__typename')
+      ),
       mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
     },
     organisationId,

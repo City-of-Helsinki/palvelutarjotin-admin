@@ -26,6 +26,10 @@ export const QUERY_EVENT = gql`
         }
       }
     }
+    translations {
+      autoAcceptanceMessage
+      languageCode
+    }
   }
 
   fragment localisedFields on LocalisedObject {

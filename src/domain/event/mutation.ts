@@ -27,6 +27,7 @@ export const MUTATION_EVENT = gql`
             id
             neededOccurrences
             autoAcceptance
+            autoAcceptanceMessage
           }
           infoUrl {
             ...localisedFields
