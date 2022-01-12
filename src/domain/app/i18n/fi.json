@@ -561,7 +561,22 @@
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
     "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
-    "titleParticipantRow": "Osallistujamäärä"
+    "titleParticipantRow": "Osallistujamäärä",
+    "validation": {
+      "errorEndDateBeforeStartDate": "Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
+      "errorEndTimeBeforeStartTime": "Päättymisajan on oltava alkamisajan jälkeen"
+    },
+    "timeInputs": {
+      "labelStartHours": "Alkuajan tunnit",
+      "labelStartMinutes": "Alkuajan minuutit",
+      "labelEndHours": "Loppuajan tunnit",
+      "labelEndMinutes": "Loppuajan minuutit"
+    },
+    "duplicateOccurrenceModal": {
+      "title": "Huomio",
+      "text": "Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?",
+      "buttonAddOccurrence": "Lisää tapahtuma-aika"
+    }
   },
   "form": {
     "validation": {
@@ -581,12 +596,14 @@
         "positiveNumber": "Tämän kentän on oltava kelvollinen numero"
       },
       "date": {
+        "invalid": "Käytä muotoa P.K.VVVV",
         "required": "Päivämäärä on pakollinen",
         "mustNotInThePast": "Päivämäärä ei voi olla menneisyydessä",
         "min": "Päivämäärän on oltava aikaisintaan {{min}}",
         "max": "Päivämäärän on oltava viimeistään {{max}}"
       },
       "time": {
+        "invalid": "Aika ei ole kelvollinen",
         "required": "Tämä kenttä on pakollinen",
         "min": "Arvon tulee olla aikaisintaan {{min}}",
         "max": "Arvon tulee olla viimeistään {{max}}"

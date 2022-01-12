@@ -563,7 +563,23 @@
     "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",
-    "titleParticipantRow": "Deltagarantal"
+    "titleParticipantRow": "Deltagarantal",
+    "validation": {
+      "errorEndDateBeforeStartDate": "SV: Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
+      "errorEndTimeBeforeStartTime": "SV: Päättymisajan on oltava alkamisajan jälkeen"
+    },
+    "timeInputs": {
+      "labelStartHours": "SV: Alkuajan tunnit",
+      "labelStartMinutes": "SV: Alkuajan minuutit",
+      "labelEndHours": "SV: Loppuajan tunnit",
+      "labelEndMinutes": "SV: Loppuajan minuutit"
+    },
+    "duplicateOccurrenceModal": {
+      "title": "SV: Huomio",
+      "text": "SV: Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?",
+      "buttonAddOccurrences": "SV: Lisää tapahtuma-aika",
+      "buttonCancelAddOccurrence": "SV: Peruuta"
+    }
   },
   "form": {
     "validation": {
@@ -583,12 +599,14 @@
         "positiveNumber": "Detta fält måste vara ett giltigt nummer"
       },
       "date": {
+        "invalid": "SV: Use form D.M.YYYY",
         "required": "Obligatorikst att fylla detta fält",
         "mustNotInThePast": "Detta datum kan inte vara i förr",
         "min": "Detta datum måste vara tidigast {{min}}",
         "max": "Detta datum måste vara senast {{max}}"
       },
       "time": {
+        "invalid": "SV: Time is invalid",
         "required": "Obligatorikst att fylla detta fält",
         "min": "Den här tiden måste vara tidigast {{min}}",
         "max": "Den här tiden måste vara senast {{max}}"

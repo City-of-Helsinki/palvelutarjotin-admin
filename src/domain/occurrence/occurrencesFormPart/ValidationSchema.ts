@@ -44,8 +44,10 @@ const isValidDateValidation = (value?: string) => {
 const getTimeValidation = () => {
   return Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .test('isValidTime', 'Aika ei ole kelvollinen', (time?: string) =>
-      time ? isValidTimeString(time) : false
+    .test(
+      'isValidTime',
+      VALIDATION_MESSAGE_KEYS.TIME_INVALID,
+      (time?: string) => (time ? isValidTimeString(time) : false)
     );
 };
 
@@ -108,7 +110,11 @@ const getValidationSchema = ({
         : Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     startDate: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .test('isValidDate', 'Käytä muotoa P.K.VVVV', isValidDateValidation)
+      .test(
+        'isValidDate',
+        VALIDATION_MESSAGE_KEYS.DATE_INVALID,
+        isValidDateValidation
+      )
       .test(
         'isInFuture',
         VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
@@ -124,14 +130,18 @@ const getValidationSchema = ({
         is: true,
         then: Yup.string()
           .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          .test('isValidDate', 'Käytä muotoa P.K.VVVV', isValidDateValidation),
+          .test(
+            'isValidDate',
+            VALIDATION_MESSAGE_KEYS.DATE_INVALID,
+            isValidDateValidation
+          ),
         otherwise: Yup.string(),
       })
       .when('startDate', ((startDate: string, schema: Yup.StringSchema) => {
         if (isValidDateString(startDate)) {
           return schema.test(
             'isAfterStartDate',
-            'Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen',
+            'eventOccurrenceForm.validation.errorEndDateBeforeStartDate',
             (endDate?: string) => {
               // if endDate is not set or is invalid, ignore this check by returning true (passing)
               if (!endDate || !isValidDateString(endDate)) return true;
@@ -154,7 +164,7 @@ const getValidationSchema = ({
       if (startTime && !isMultidayOccurrence) {
         return schema.test(
           'isAfterStartTime',
-          'Päättymisajan on oltava alkamisajan jälkeen',
+          'eventOccurrenceForm.validation.errorEndTimeBeforeStartTime',
           (endTime?: string) => {
             if (!endTime) return true;
             if (isValidTimeString(startTime) && isValidTimeString(endTime)) {

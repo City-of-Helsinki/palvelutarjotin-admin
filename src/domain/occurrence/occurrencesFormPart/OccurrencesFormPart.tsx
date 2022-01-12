@@ -250,18 +250,17 @@ const OccurrencesForm: React.FC<{
       {confirmAddOccurrence && (
         <ConfirmationModal
           isOpen
-          title="Huomio"
-          confirmButtonText="Lisää tapahtuma-aika"
+          title={t('eventOccurrenceForm.duplicateOccurrenceModal.title')}
+          confirmButtonText={t(
+            'eventOccurrenceForm.duplicateOccurrenceModal.buttonAddOccurrence'
+          )}
           onConfirm={() => {
             confirmAddOccurrence?.();
             setConfirmAddOccurrence(null);
           }}
           toggleModal={() => setConfirmAddOccurrence(null)}
         >
-          <p>
-            Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja
-            loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?
-          </p>
+          <p>{t('eventOccurrenceForm.duplicateOccurrenceModal.text')}</p>
         </ConfirmationModal>
       )}
     </div>
@@ -361,8 +360,8 @@ const OccurrenceForm: React.FC<{
           <Field
             label={t('eventOccurrenceForm.labelStartTime')}
             name="startTime"
-            hoursLabel="Alkuajan tunnit"
-            minutesLabel="Alkuajan minuutit"
+            hoursLabel={t('eventOccurrenceForm.timeInputs.labelStartHours')}
+            minutesLabel={t('eventOccurrenceForm.timeInputs.labelStartMinutes')}
             component={TimeInputField}
           />
           {isMultidayOccurrence && (
@@ -377,8 +376,10 @@ const OccurrenceForm: React.FC<{
               <Field
                 label={t('eventOccurrenceForm.labelEndTime')}
                 name="endTime"
-                hoursLabel="Loppuajan tunnit"
-                minutesLabel="Loppuajan minuutit"
+                hoursLabel={t('eventOccurrenceForm.timeInputs.labelEndHours')}
+                minutesLabel={t(
+                  'eventOccurrenceForm.timeInputs.labelEndMinutes'
+                )}
                 component={TimeInputField}
               />
             </>
@@ -388,8 +389,8 @@ const OccurrenceForm: React.FC<{
           <Field
             label={t('eventOccurrenceForm.labelEndTime')}
             name="endTime"
-            hoursLabel="Loppuajan tunnit"
-            minutesLabel="Loppuajan minuutit"
+            hoursLabel={t('eventOccurrenceForm.timeInputs.labelEndHours')}
+            minutesLabel={t('eventOccurrenceForm.timeInputs.labelEndMinutes')}
             component={TimeInputField}
           />
         )}

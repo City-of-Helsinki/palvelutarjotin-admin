@@ -16,7 +16,6 @@ const TimeInputField: React.FC<Props> = (props) => {
     field: { name, onChange, onBlur, ...field },
     form: { errors, touched },
     helperText,
-    required,
     ...rest
   } = props;
   const errorText = getErrorText(errors, touched, name, t);

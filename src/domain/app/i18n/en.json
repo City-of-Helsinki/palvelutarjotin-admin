@@ -555,7 +555,23 @@
     "labelEventLocation": "Event location",
     "labelLocationDescription": "Event location description",
     "labelOneGroupFills": "One group fills the event",
-    "titleParticipantRow": "Participant count"
+    "titleParticipantRow": "Participant count",
+    "validation": {
+      "errorEndDateBeforeStartDate": "EN: Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
+      "errorEndTimeBeforeStartTime": "EN: Päättymisajan on oltava alkamisajan jälkeen"
+    },
+    "timeInputs": {
+      "labelStartHours": "EN: Alkuajan tunnit",
+      "labelStartMinutes": "EN: Alkuajan minuutit",
+      "labelEndHours": "EN: Loppuajan tunnit",
+      "labelEndMinutes": "EN: Loppuajan minuutit"
+    },
+    "duplicateOccurrenceModal": {
+      "title": "EN: Huomio",
+      "text": "EN: Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?",
+      "buttonAddOccurrences": "EN: Lisää tapahtuma-aika",
+      "buttonCancelAddOccurrence": "EN: Peruuta"
+    }
   },
   "form": {
     "validation": {
@@ -575,12 +591,14 @@
         "positiveNumber": "This field must be a valid number"
       },
       "date": {
+        "invalid": "Use form D.M.YYYY",
         "required": "This field is required",
         "mustNotInThePast": "This date must not be in the past",
         "min": "This date must be earliest {{min}}",
         "max": "This date must be latest {{max}}"
       },
       "time": {
+        "invalid": "Time is invalid",
         "required": "This field is required",
         "min": "This time must be earliest {{min}}",
         "max": "This time must be latest {{max}}"
