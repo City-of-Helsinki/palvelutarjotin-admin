@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.1.1...v1.2.0) (2022-01-12)
+
+
+### Features
+
+* **autoAcceptanceMessage:** notification about the email content ([564d7ca](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/564d7ca00b40899676bb21060d96db81b5e99f30))
+* **autoAcceptanceMessage:** updated the schema ([4f0c6da](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4f0c6daaa977a67875304c5408b42babfe2add7d))
+* **profile:** email can be given in my profile form ([b62b489](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b62b48957017f3c34239065915003eaa1a936f20))
+
+
+### Bug Fixes
+
+* **autoAcceptanceMessage:** a trivial style fix ([83191da](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/83191da23027c5e8d11569edde6ce68afe8c81a5))
+* **autoAcceptanceMessage:** fixed edit event page mutation ([70bc6c7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/70bc6c7170431489245ced41bf8fd6413af5acca))
+* **autoAcceptanceMessage:** updated the Swedish translations ([01ace09](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/01ace09ed8c5814a56458e5f7b87dcccc73f73c6))
+* back navigation to pages where it was inconsistent ([6176a2a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6176a2a986ac396c8180b7bfb324d22516cd58ef))
+* multiday occurrence time in occurrences table ([54080e4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/54080e4f666ba553affc4b604e5e04cdea915d50))
+
 ### [1.1.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.1.0...v1.1.1) (2021-12-17)
 
 
