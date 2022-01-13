@@ -439,7 +439,7 @@ const OccurrenceForm: React.FC<{
       </div>
       <div className={styles.checkboxRow}>
         <Field
-          label="Tapahtuma on monipäiväinen"
+          label={t('eventOccurrenceForm.labelMultidayOccurrence')}
           name="isMultidayOccurrence"
           onChange={handleIsMultidayOccurrenceChange}
           component={CheckboxField}

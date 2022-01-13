@@ -564,6 +564,7 @@
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",
     "titleParticipantRow": "Deltagarantal",
+    "labelMultidayOccurrence": "SV: Tapahtuma-aika on monipäiväinen",
     "validation": {
       "errorEndDateBeforeStartDate": "SV: Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
       "errorEndTimeBeforeStartTime": "SV: Päättymisajan on oltava alkamisajan jälkeen"

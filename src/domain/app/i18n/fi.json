@@ -562,6 +562,7 @@
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
     "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
     "titleParticipantRow": "Osallistujamäärä",
+    "labelMultidayOccurrence": "Tapahtuma-aika on monipäiväinen",
     "validation": {
       "errorEndDateBeforeStartDate": "Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
       "errorEndTimeBeforeStartTime": "Päättymisajan on oltava alkamisajan jälkeen"
