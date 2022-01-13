@@ -1464,7 +1464,7 @@ describe('auto acceptance for enrolments', () => {
     ).toBeInTheDocument();
   });
 
-  it.only('submits the auto acceptance message right', async () => {
+  it('submits the auto acceptance message right', async () => {
     const Utils = require('../utils');
     const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
     const toastSuccess = jest.spyOn(toast, 'success');
