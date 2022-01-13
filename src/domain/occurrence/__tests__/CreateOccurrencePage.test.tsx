@@ -1464,7 +1464,7 @@ describe('auto acceptance for enrolments', () => {
     ).toBeInTheDocument();
   });
 
-  it('submits the auto acceptance message right', async () => {
+  it.only('submits the auto acceptance message right', async () => {
     const Utils = require('../utils');
     const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
     const toastSuccess = jest.spyOn(toast, 'success');
@@ -1705,7 +1705,7 @@ const getOccurrenceFormElement = (
 
     case 'multidayOccurrence':
       return screen.getByRole('checkbox', {
-        name: /Tapahtuma on monipäiväinen/i,
+        name: /Tapahtuma-aika on monipäiväinen/i,
       });
   }
 };
