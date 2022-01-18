@@ -13,7 +13,6 @@ import { usePageQuery } from '../usePageQuery';
 import { stripLocaleFromUri } from '../utils';
 import styles from './cmsPage.module.scss';
 import CmsPageContent from './CmsPageContent';
-import CmsPageNavigation from './CmsPageNavigation';
 import CmsPageSearch from './CmsPageSearch/CmsPageSearch';
 
 export const SEARCH_PANEL_TRESHOLD = 5;
@@ -22,11 +21,7 @@ export const breadcrumbsContainerTestId = 'breadcrumbs-container';
 const CmsPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: pageData, loading: loadingPage } = usePageQuery(slug);
-  const {
-    navigation,
-    breadcrumbs,
-    loading: loadingNavigation,
-  } = useCmsNavigation(slug);
+  const { breadcrumbs, loading: loadingNavigation } = useCmsNavigation(slug);
   const page = pageData?.page;
 
   const showSearch =
@@ -35,7 +30,6 @@ const CmsPage: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loadingPage || loadingNavigation}>
       <div>
-        {navigation && <CmsPageNavigation navigation={navigation} />}
         {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs} />}
         {page && <CmsPageContent page={page} />}
         {showSearch && <CmsPageSearch page={page as Page} />}
