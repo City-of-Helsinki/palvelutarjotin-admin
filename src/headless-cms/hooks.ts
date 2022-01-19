@@ -9,6 +9,7 @@ import {
 import useIsMounted from '../hooks/useIsMounted';
 import useLocale from '../hooks/useLocale';
 import { isFeatureEnabled } from '../utils/featureFlags';
+import { skipFalsyType } from '../utils/typescript.utils';
 import cmsClient from './client';
 import { MENU_NAME } from './constants';
 import { usePageQuery } from './usePageQuery';
@@ -47,7 +48,8 @@ export const useCmsMenuItems = () => {
                 (childTranslation) =>
                   translation?.language === childTranslation?.language
               )
-            ),
+            )
+            .filter(skipFalsyType),
         }));
 
         return [
