@@ -81,9 +81,10 @@ const Header: React.FC = () => {
               if (!item?.id) return null;
               if (!!item.children?.length) {
                 return (
-                  <Navigation.Dropdown label={item.title}>
+                  <Navigation.Dropdown label={item.title} key={item.id}>
                     {item.children.map((child) => (
                       <Navigation.Item
+                        key={child.id}
                         label={child?.title}
                         as={HeaderLink}
                         to={`/${locale}${getCmsPath(

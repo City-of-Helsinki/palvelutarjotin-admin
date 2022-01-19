@@ -340,8 +340,23 @@ test('renders CMS page and navigation flow works', async () => {
 
   async function testHeaderLinks() {
     for (const menuItem of menuItems) {
-      const link = await screen.findByRole('link', { name: menuItem.title });
-      expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
+      if (menuItem.children) {
+        const dropdownButton = await screen.findByRole('button', {
+          name: menuItem.title,
+        });
+        userEvent.click(dropdownButton);
+        for (const childItem of menuItem.children) {
+          await screen.findByRole('link', {
+            name: childItem.title,
+            hidden: true,
+          });
+        }
+        userEvent.click(dropdownButton);
+      } else {
+        const link = await screen.findByRole('link', { name: menuItem.title });
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
+      }
     }
   }
 
