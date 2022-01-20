@@ -1,0 +1,29 @@
+.descriptionContainer {
+  margin-bottom: var(--spacing-m);
+}
+
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    margin-bottom: var(--spacing-s);
+  }
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-m);
+
+  color: var(--color-black-90);
+  text-decoration: none;
+  font-weight: 500;
+
+  background: var(--color-engel-medium-light);
+
+  & > svg {
+    margin-right: var(--spacing-2-xs);
+  }
+}

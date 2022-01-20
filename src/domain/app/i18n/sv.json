@@ -18,6 +18,9 @@
     "back": "Tillbacka",
     "leave": "Lämna",
     "close": "Stänga",
+    "srOnly": {
+      "opensInANewTab": "Öppnas i en ny flik"
+    },
     "alertModal": {
       "buttonCancel": "Avbryt"
     },

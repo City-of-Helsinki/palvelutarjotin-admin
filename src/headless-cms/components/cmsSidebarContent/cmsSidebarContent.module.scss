@@ -1,0 +1,8 @@
+.container {
+  padding: 0;
+  list-style-type: none;
+
+  & > li:not(:last-child) {
+    margin-bottom: var(--spacing-3-xl);
+  }
+}

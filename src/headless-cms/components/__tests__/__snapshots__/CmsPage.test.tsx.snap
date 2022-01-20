@@ -615,7 +615,9 @@ exports[`renders CMS page and navigation flow works 1`] = `
       class="pageBody"
       id="main-content"
     >
-      <div>
+      <div
+        class="cmsPageContainer"
+      >
         <div
           class="container default container"
         >
@@ -659,12 +661,28 @@ exports[`renders CMS page and navigation flow works 1`] = `
         <div
           class="container default"
         >
-          <h1>
-            Alisivu1 alisivu1 alisivu1
-          </h1>
-          <p>
-            Sisältö
-          </p>
+          <div
+            class="cmsSidebarLayout"
+          >
+            <div
+              class="cmsSidebarLayoutMain"
+            >
+              <h1>
+                Alisivu1 alisivu1 alisivu1
+              </h1>
+              <p>
+                Sisältö
+              </p>
+            </div>
+            <aside
+              class="cmsSidebarLayoutAside"
+              data-testid="cms-sidebar-layout-sidebar"
+            >
+              <ul
+                class="container"
+              />
+            </aside>
+          </div>
         </div>
       </div>
     </div>
