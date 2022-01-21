@@ -23,7 +23,8 @@ export type TimeAndLocationFormFields = {
   isBookable: boolean;
   enrolmentNeeded: boolean;
   externalEnrolmentUrl: string;
-  enrolmentStart: Date | null;
+  enrolmentStartDate: string;
+  enrolmentStartTime: string;
   enrolmentEndDays: number | string;
   neededOccurrences: number | string;
   autoAcceptance: boolean;

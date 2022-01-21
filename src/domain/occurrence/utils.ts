@@ -13,6 +13,7 @@ import {
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
+import { parseDateTimeString } from '../../utils/time/utils';
 import {
   BOOKABLE_TO_SCHOOL_LOCATION_ID,
   VIRTUAL_EVENT_LOCATION_ID,
@@ -143,7 +144,8 @@ export const getEditEventPayload = ({
     autoAcceptanceMessage,
     enrolmentEndDays,
     location,
-    enrolmentStart,
+    enrolmentStartDate,
+    enrolmentStartTime,
     isVirtual,
     isBookable,
     neededOccurrences,
@@ -151,10 +153,11 @@ export const getEditEventPayload = ({
     enrolmentType,
   } = formValues;
   const eventData = omitTypenames(event);
-
   const pEventEnrolmentFields = {
     [EnrolmentType.Internal]: {
-      enrolmentStart,
+      enrolmentStart: parseDateTimeString(
+        `${enrolmentStartDate} ${enrolmentStartTime}`
+      ),
       enrolmentEndDays: Number(enrolmentEndDays) || 0,
       neededOccurrences: Number(neededOccurrences) || 0,
       autoAcceptance,

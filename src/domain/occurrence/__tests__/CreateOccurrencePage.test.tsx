@@ -36,11 +36,13 @@ import {
 import {
   DATE_FORMAT,
   DATETIME_FORMAT,
-  formatIntoDateTime,
+  formatIntoDate,
+  formatIntoTime,
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
+import { enrolmentInfoFormTestId } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import {
   occurrencesFormTestId,
   occurrencesTableTestId,
@@ -125,7 +127,10 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const formattedEnrolmentStartTime = formatIntoDateTime(
+    const formattedEnrolmentStartDate = formatIntoDate(
+      new Date(enrolmentStartDateTimeValue)
+    );
+    const formattedEnrolmentStartTime = formatIntoTime(
       new Date(enrolmentStartDateTimeValue)
     );
     const toastSuccess = jest.spyOn(toast, 'success');
@@ -168,18 +173,24 @@ describe('location and enrolment info', () => {
       })
     ).not.toBeChecked();
 
-    const enrolmentStartDateTimeInput = getFormElement('enrolmentStart');
+    const enrolmentStartDateInput = getFormElement('enrolmentStartDate');
+    const enrolmentStartHoursInput = getFormElement('enrolmentStartHours');
+    const enrolmentStartMinutesInput = getFormElement('enrolmentStartMinutes');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
 
-    act(() => userEvent.click(enrolmentStartDateTimeInput));
-    userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartTime);
-    fireEvent.blur(enrolmentStartDateTimeInput);
+    const [startHours, startMinutes] = formattedEnrolmentStartTime.split(':');
+
+    act(() => userEvent.click(enrolmentStartDateInput));
+    userEvent.type(enrolmentStartDateInput, formattedEnrolmentStartDate);
+    userEvent.type(enrolmentStartHoursInput, startHours);
+    userEvent.type(enrolmentStartMinutesInput, startMinutes);
+
     userEvent.type(enrolmentEndDaysInput, '1');
 
     await waitFor(() => {
-      expect(enrolmentStartDateTimeInput).toHaveValue(
-        formattedEnrolmentStartTime
-      );
+      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
+      expect(enrolmentStartHoursInput).toHaveValue(startHours);
+      expect(enrolmentStartMinutesInput).toHaveValue(startMinutes);
     });
 
     const autoAcceptanceCheckbox = getFormElement('autoAcceptance');
@@ -247,21 +258,25 @@ describe('location and enrolment info', () => {
       screen.getByLabelText('Tapahtumapaikan kuvaus (FI)')
     ).toHaveTextContent(venueDescription);
 
-    const enrolmentStartDateTimeInput = getFormElement(
-      'enrolmentStart'
+    const enrolmentStartDateInput = getFormElement(
+      'enrolmentStartDate'
     ) as HTMLInputElement;
+    const enrolmentStartHoursInput = getFormElement('enrolmentStartHours');
+    const enrolmentStartMinutesInput = getFormElement('enrolmentStartMinutes');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
     const neededOccurrencesInput = getFormElement('neededOccurrences');
 
-    expect(enrolmentStartDateTimeInput).toHaveValue(
-      format(new Date(enrolmentStartDateTimeValue), DATETIME_FORMAT)
+    expect(enrolmentStartDateInput).toHaveValue(
+      format(new Date(enrolmentStartDateTimeValue), DATE_FORMAT)
     );
     expect(enrolmentEndDaysInput).toHaveValue(1);
     expect(neededOccurrencesInput).toHaveValue(1);
 
-    userEvent.click(enrolmentStartDateTimeInput);
-    enrolmentStartDateTimeInput.setSelectionRange(0, 15);
-    userEvent.type(enrolmentStartDateTimeInput, '{backspace}1.5.2021 00:00');
+    act(() => userEvent.click(enrolmentStartDateInput));
+    enrolmentStartDateInput.setSelectionRange(0, 15);
+    userEvent.type(enrolmentStartDateInput, '{backspace}1.5.2021');
+    userEvent.type(enrolmentStartHoursInput, '00');
+    userEvent.type(enrolmentStartMinutesInput, '00');
 
     userEvent.clear(enrolmentEndDaysInput);
     userEvent.type(enrolmentEndDaysInput, '2');
@@ -270,7 +285,9 @@ describe('location and enrolment info', () => {
     userEvent.type(neededOccurrencesInput, '3');
 
     await waitFor(() => {
-      expect(enrolmentStartDateTimeInput).toHaveValue('1.5.2021 00:00');
+      expect(enrolmentStartDateInput).toHaveValue('1.5.2021');
+      expect(enrolmentStartHoursInput).toHaveValue('00');
+      expect(enrolmentStartMinutesInput).toHaveValue('00');
     });
 
     expect(enrolmentEndDaysInput).toHaveValue(2);
@@ -371,7 +388,10 @@ describe('location and enrolment info', () => {
       occurrenceEndDateTime,
     } = getDefaultOccurrenceValues();
 
-    const formattedEnrolmentStartTime = formatIntoDateTime(
+    const formattedEnrolmentStartDate = formatIntoDate(
+      new Date(enrolmentStartDateTimeValue)
+    );
+    const formattedEnrolmentStartTime = formatIntoTime(
       new Date(enrolmentStartDateTimeValue)
     );
     const occurrenceId = 'occurrenceId';
@@ -450,7 +470,7 @@ describe('location and enrolment info', () => {
     // form should be validated and errors should appear
     expect(
       await screen.findAllByText(/Tämä kenttä on pakollinen/i)
-    ).toHaveLength(2);
+    ).toHaveLength(3);
 
     // Modal should not appear at this point
     expect(
@@ -465,18 +485,19 @@ describe('location and enrolment info', () => {
     const place = await screen.findByText(/Sellon kirjasto/i);
     act(() => userEvent.click(place));
 
-    const enrolmentStartDateTimeInput = getFormElement('enrolmentStart');
+    const enrolmentStartDateInput = getFormElement('enrolmentStartDate');
+    const enrolmentStartHoursInput = getFormElement('enrolmentStartHours');
+    const enrolmentStartMinutesInput = getFormElement('enrolmentStartMinutes');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
 
-    act(() => userEvent.click(enrolmentStartDateTimeInput));
-    userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartTime);
-    fireEvent.blur(enrolmentStartDateTimeInput);
+    act(() => userEvent.click(enrolmentStartDateInput));
+    userEvent.type(enrolmentStartDateInput, formattedEnrolmentStartDate);
+    userEvent.type(enrolmentStartHoursInput, formattedEnrolmentStartTime);
+    userEvent.type(enrolmentStartMinutesInput, formattedEnrolmentStartTime);
     userEvent.type(enrolmentEndDaysInput, '1');
 
     await waitFor(() => {
-      expect(enrolmentStartDateTimeInput).toHaveValue(
-        formattedEnrolmentStartTime
-      );
+      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
     });
 
     // Try to go to publish page
@@ -790,8 +811,10 @@ describe('occurrences form', () => {
       occurrenceEndTime,
     });
 
+    const occurrencesTable = within(screen.getByTestId(occurrencesTableTestId));
+
     await waitFor(() => {
-      expect(screen.getAllByRole('row')[1]).toHaveTextContent(
+      expect(occurrencesTable.getAllByRole('row')[1]).toHaveTextContent(
         occurrence1RowText
       );
     });
@@ -827,7 +850,9 @@ describe('occurrences form', () => {
     });
 
     // Occurrence should still be in the document after event refetch
-    expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
+    expect(occurrencesTable.getAllByRole('row')[1]).toHaveTextContent(
+      occurrence1RowText
+    );
   });
 
   test('can create multiday occurrence', async () => {
@@ -887,8 +912,10 @@ describe('occurrences form', () => {
       occurrenceEndTime,
     });
 
+    const occurrencesTable = within(screen.getByTestId(occurrencesTableTestId));
+
     await waitFor(() => {
-      expect(screen.getAllByRole('row')[1]).toHaveTextContent(
+      expect(occurrencesTable.getAllByRole('row')[1]).toHaveTextContent(
         occurrence1RowText
       );
     });
@@ -924,7 +951,11 @@ describe('occurrences form', () => {
     });
 
     // Occurrence should still be in the document after event refetch
-    expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
+    await waitFor(() => {
+      expect(occurrencesTable.getAllByRole('row')[1]).toHaveTextContent(
+        occurrence1RowText
+      );
+    });
   });
 
   test('can create new occurrence without internal enrolment', async () => {
@@ -1178,7 +1209,10 @@ describe('save occurrence and event info simultaneously', () => {
       endTime: occurrenceEndDateTime,
       startTime: occurrenceStartDateTime,
     };
-    const formattedEnrolmentStartTime = formatIntoDateTime(
+    const formattedEnrolmentStartDate = formatIntoDate(
+      new Date(enrolmentStartDateTimeValue)
+    );
+    const formattedEnrolmentStartTime = formatIntoTime(
       new Date(enrolmentStartDateTimeValue)
     );
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
@@ -1254,18 +1288,25 @@ describe('save occurrence and event info simultaneously', () => {
       })
     ).not.toBeChecked();
 
-    const enrolmentStartDateTimeInput = getFormElement('enrolmentStart');
+    const enrolmentStartDateTimeInput = getFormElement('enrolmentStartDate');
+    const enrolmentStartHoursInput = getFormElement('enrolmentStartHours');
+    const enrolmentStartMinutesInput = getFormElement('enrolmentStartMinutes');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
 
+    const [startHours, startMinutes] = formattedEnrolmentStartTime.split(':');
+
     act(() => userEvent.click(enrolmentStartDateTimeInput));
-    userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartTime);
-    fireEvent.blur(enrolmentStartDateTimeInput);
+    userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartDate);
+    userEvent.type(enrolmentStartHoursInput, startHours);
+    userEvent.type(enrolmentStartMinutesInput, startMinutes);
     userEvent.type(enrolmentEndDaysInput, '1');
 
     await waitFor(() => {
       expect(enrolmentStartDateTimeInput).toHaveValue(
-        formattedEnrolmentStartTime
+        formattedEnrolmentStartDate
       );
+      expect(enrolmentStartHoursInput).toHaveValue(startHours);
+      expect(enrolmentStartMinutesInput).toHaveValue(startMinutes);
     });
 
     await fillAndSubmitOccurrenceForm({
@@ -1364,9 +1405,12 @@ describe('venue info', () => {
 
     userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
+    await waitFor(
+      () => {
+        expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+      },
+      { timeout: 10000 }
+    );
   });
 });
 
@@ -1380,6 +1424,7 @@ describe('enrolment type selector', () => {
   const fieldSetsByType = {
     [EnrolmentType.Internal]: [
       /ilmoittautuminen alkaa/i,
+      /klo/i,
       /ilmoittautuminen sulkeutuu x päivää ennen tapahtuma-aikaa/i,
       /tarvittavat käyntikerrat/i,
       /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
@@ -1421,12 +1466,16 @@ describe('enrolment type selector', () => {
         [type]: [],
       }).flat();
 
+      const enrolmentInfoForm = within(
+        screen.getByTestId(enrolmentInfoFormTestId)
+      );
+
       visibleFieldLabels.forEach((label) => {
-        expect(screen.getByText(label)).toBeInTheDocument();
+        expect(enrolmentInfoForm.getByText(label)).toBeInTheDocument();
       });
 
       hiddenFieldLabels.forEach((label) => {
-        expect(screen.queryByText(label)).not.toBeInTheDocument();
+        expect(enrolmentInfoForm.queryByText(label)).not.toBeInTheDocument();
       });
 
       // avoid redundant "Warning: An update to Formik inside a test was not wrapped in act(...)." errors
@@ -1713,7 +1762,9 @@ const getOccurrenceFormElement = (
 const getFormElement = (
   key:
     | 'location'
-    | 'enrolmentStart'
+    | 'enrolmentStartDate'
+    | 'enrolmentStartHours'
+    | 'enrolmentStartMinutes'
     | 'enrolmentEndDays'
     | 'neededOccurrences'
     | 'autoAcceptance'
@@ -1726,23 +1777,34 @@ const getFormElement = (
     | 'enrolmentUrl'
     | 'orderableEvent'
 ) => {
+  const enrolmentForm = within(screen.getByTestId(enrolmentInfoFormTestId));
   switch (key) {
     case 'location':
-      return screen.getByRole('textbox', { name: /oletustapahtumapaikka \*/i });
-    case 'enrolmentStart':
       return screen.getByRole('textbox', {
+        name: /oletustapahtumapaikka \*/i,
+      });
+    case 'enrolmentStartDate':
+      return enrolmentForm.getByRole('textbox', {
         name: /ilmoittautuminen alkaa \*/i,
       });
+    case 'enrolmentStartHours':
+      return enrolmentForm.getByRole('textbox', {
+        name: /alkuajan tunnit/i,
+      });
+    case 'enrolmentStartMinutes':
+      return enrolmentForm.getByRole('textbox', {
+        name: /alkuajan minuutit/i,
+      });
     case 'enrolmentEndDays':
-      return screen.getByRole('spinbutton', {
+      return enrolmentForm.getByRole('spinbutton', {
         name: /ilmoittautuminen sulkeutuu X päivää ennen tapahtuma-aikaa/i,
       });
     case 'neededOccurrences':
-      return screen.getByRole('spinbutton', {
+      return enrolmentForm.getByRole('spinbutton', {
         name: /tarvittavat käyntikerrat/i,
       });
     case 'autoAcceptance':
-      return screen.getByRole('checkbox', {
+      return enrolmentForm.getByRole('checkbox', {
         name: /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
       });
     case 'autoAcceptanceMessage':

@@ -151,8 +151,13 @@
   justify-content: space-between;
 }
 
-.enrolmentStartInput {
-  min-width: 220px;
+.enrolmentStartDate {
+  min-width: 190px;
+  width: auto;
+}
+
+.enrolmentStartTime {
+  width: 100px !important;
 }
 
 .enrolmentTypeSelector {

@@ -1,16 +1,45 @@
-import formatDate from 'date-fns/format';
-import isFuture from 'date-fns/isFuture';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { isValidTime } from '../../utils/dateUtils';
-import { DATETIME_FORMAT } from '../../utils/time/format';
+import { isInFuture } from '../../utils/dateUtils';
+import { DATE_FORMAT } from '../../utils/time/format';
+import { isValidTimeString } from '../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EnrolmentType } from './constants';
 
+const isValidDateValidation = (value?: string) => {
+  if (!value) return false;
+  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+  return isValidDate(parsedDate);
+};
+
+const validateIsInFuture = (value?: string) => {
+  if (!value) return false;
+  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+  return isInFuture(parsedDate);
+};
+
+const getTimeValidation = () => {
+  return Yup.string().when(
+    ['enrolmentType'],
+    (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {
+      if (enrolmentType !== EnrolmentType.Internal) {
+        return schema;
+      }
+      // if enrolment type is internal, then enrolment start time is required
+      return schema
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .test(
+          'isValidTime',
+          VALIDATION_MESSAGE_KEYS.TIME_INVALID,
+          (time?: string) => (time ? isValidTimeString(time) : false)
+        );
+    }
+  );
+};
+
 const ValidationSchema = Yup.object().shape({
-  // infoUrl: Yup.string(),
   enrolmentEndDays: Yup.number().when(
     ['enrolmentType'],
     (enrolmentType: EnrolmentType, schema: Yup.NumberSchema) => {
@@ -25,44 +54,27 @@ const ValidationSchema = Yup.object().shape({
         }));
     }
   ),
-  enrolmentStart: Yup.date()
-    .when(
-      ['enrolmentType'],
-      (enrolmentType: EnrolmentType, schema: Yup.DateSchema) => {
-        if (enrolmentType !== EnrolmentType.Internal) {
-          return schema.nullable();
-        }
-        return schema
-          .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-          .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-          .test(
-            'isInTheFuture',
-            VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
-            isFuture as any
-          );
+  enrolmentStartDate: Yup.string().when(
+    ['enrolmentType'],
+    (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {
+      if (enrolmentType !== EnrolmentType.Internal) {
+        return schema;
       }
-    )
-    .when(['occurrenceDate', 'occurrenceStartsAt'], ((
-      occurrenceDate: Date,
-      occurrenceStartsAt: string,
-      schema: Yup.DateSchema
-    ) => {
-      if (isValidDate(occurrenceDate)) {
-        const isValid = isValidTime(occurrenceStartsAt);
-        const occurrenceStart = isValid
-          ? parseDate(occurrenceStartsAt, 'HH:mm', occurrenceDate)
-          : occurrenceDate;
-        return schema.test(
-          'isBefore',
-          () => ({
-            key: VALIDATION_MESSAGE_KEYS.DATE_MAX,
-            max: formatDate(occurrenceStart, DATETIME_FORMAT),
-          }),
-          ((enrolmentStart: Date) => enrolmentStart < occurrenceStart) as any
+      return schema
+        .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+        .test(
+          'isValidDate',
+          VALIDATION_MESSAGE_KEYS.DATE_INVALID,
+          isValidDateValidation
+        )
+        .test(
+          'isInFuture',
+          VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
+          validateIsInFuture
         );
-      }
-      return schema;
-    }) as any),
+    }
+  ),
+  enrolmentStartTime: getTimeValidation(),
   externalEnrolmentUrl: Yup.string().when(
     'enrolmentType',
     (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {

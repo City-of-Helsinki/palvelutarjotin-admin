@@ -24,6 +24,10 @@ export const isValidDateString = (time: string) => {
   return isValidDate(parseDateString(time));
 };
 
+export const isValidDateTimeString = (time: string) => {
+  return isValidDate(parseDateTimeString(time));
+};
+
 export const isTimeStringBefore = (a: string, b: string) => {
   const timeA = parseTimeString(a);
   const timeB = parseTimeString(b);

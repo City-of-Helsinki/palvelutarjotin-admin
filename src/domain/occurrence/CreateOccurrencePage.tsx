@@ -1,4 +1,5 @@
 import { useApolloClient } from '@apollo/client';
+import formatDate from 'date-fns/format';
 import {
   Form,
   Formik,
@@ -34,6 +35,8 @@ import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
+import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
+import { isValidDateTimeString } from '../../utils/time/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -161,9 +164,12 @@ const CreateOccurrencePage: React.FC = () => {
             : false,
           autoAcceptanceMessage: event.pEvent.autoAcceptanceMessage ?? null,
           enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
-          enrolmentStart: event.pEvent.enrolmentStart
-            ? new Date(event.pEvent.enrolmentStart)
-            : null,
+          enrolmentStartDate: event.pEvent.enrolmentStart
+            ? formatDate(new Date(event.pEvent.enrolmentStart), DATE_FORMAT)
+            : '',
+          enrolmentStartTime: event.pEvent.enrolmentStart
+            ? formatDate(new Date(event.pEvent.enrolmentStart), TIME_FORMAT)
+            : '',
           isVirtual: isVirtualEvent,
           isBookable,
           neededOccurrences: event.pEvent.neededOccurrences || '1',
@@ -276,11 +282,9 @@ const CreateOccurrencePage: React.FC = () => {
         // eslint-disable-next-line no-console
         console.log(e);
       }
-
       toast(t('createOccurrence.error'), {
         type: toast.TYPE.ERROR,
       });
-
       return Promise.reject(e);
     }
   };
@@ -526,17 +530,22 @@ const OccurrencesFormPartWrapper: React.FC<{
       isVirtual,
       isBookable,
       enrolmentEndDays,
-      enrolmentStart,
+      enrolmentStartDate,
+      enrolmentStartTime,
       enrolmentType,
     },
   } = useFormikContext<TimeAndLocationFormFields>();
+
+  const enrolmentStartDateTime = `${enrolmentStartDate} ${enrolmentStartTime}`;
 
   const formProps = {
     location,
     isVirtual,
     isBookable,
     enrolmentEndDays,
-    enrolmentStart,
+    enrolmentStart: isValidDateTimeString(enrolmentStartDateTime)
+      ? enrolmentStartDateTime
+      : '',
     enrolmentType,
   };
 

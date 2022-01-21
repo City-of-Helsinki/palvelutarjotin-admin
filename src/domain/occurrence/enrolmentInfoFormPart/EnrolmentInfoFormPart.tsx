@@ -5,13 +5,16 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
-import DateInputField from '../../../common/components/form/fields/DateInputField';
+import DateInputFieldHDS from '../../../common/components/form/fields/DateInputFieldHDS';
 import RadiobuttonField from '../../../common/components/form/fields/RadiobuttonField';
 import TextAreaField from '../../../common/components/form/fields/TextAreaInputField';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
+import TimeInputField from '../../../common/components/form/fields/TimeInputField';
 import { EnrolmentType } from '../constants';
 import styles from '../occurrencePage.module.scss';
 import { TimeAndLocationFormFields } from '../types';
+
+export const enrolmentInfoFormTestId = 'enrolment-info-form';
 
 const EnrolmentInfoFormPart: React.FC = () => {
   const { t } = useTranslation();
@@ -40,7 +43,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
   };
 
   return (
-    <div className={styles.formSection}>
+    <div className={styles.formSection} data-testid={enrolmentInfoFormTestId}>
       <div className={styles.formSectionInnerContainer}>
         <div>
           <h2>{t('eventForm.enrolment.title')}</h2>
@@ -99,12 +102,21 @@ export const InternalEnrolmentFields: React.FC<{
       <div className={styles.formRow}>
         <Field
           disableConfirmation
-          className={styles.enrolmentStartInput}
+          className={styles.enrolmentStartDate}
           required
-          labelText={t('eventForm.basicInfo.labelEnrolmentStart')}
-          name="enrolmentStart"
-          component={DateInputField}
-          timeSelector={true}
+          label={t('eventForm.basicInfo.labelEnrolmentStartDate')}
+          name="enrolmentStartDate"
+          placeholder="Päivämäärä"
+          component={DateInputFieldHDS}
+        />
+        <Field
+          className={styles.enrolmentStartTime}
+          required
+          label={t('eventForm.basicInfo.labelEnrolmentStartTime')}
+          name="enrolmentStartTime"
+          hoursLabel={t('eventOccurrenceForm.timeInputs.labelStartHours')}
+          minutesLabel={t('eventOccurrenceForm.timeInputs.labelStartMinutes')}
+          component={TimeInputField}
         />
         <div>
           <Field
