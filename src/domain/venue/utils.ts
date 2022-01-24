@@ -152,17 +152,10 @@ export const createOrUpdateVenue = async ({
     });
 
     if (venueShouldBeUpdated) {
-      console.log('mamamam');
-      try {
-        const moi = await apolloClient.mutate<EditVenueMutation>({
-          variables,
-          mutation: EditVenueDocument,
-        });
-        console.log('hahahaha');
-        return moi;
-      } catch (e) {
-        console.log(e);
-      }
+      return apolloClient.mutate<EditVenueMutation>({
+        variables,
+        mutation: EditVenueDocument,
+      });
     } else if (newVenueShouldBeCreated) {
       return apolloClient.mutate<CreateVenueMutation>({
         variables,

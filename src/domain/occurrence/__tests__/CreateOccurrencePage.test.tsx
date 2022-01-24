@@ -1549,9 +1549,12 @@ describe('auto acceptance for enrolments', () => {
     });
     userEvent.type(getFormElement('autoAcceptanceMessage'), customMessage);
     userEvent.click(getFormElement('saveButton'));
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
+    await waitFor(
+      () => {
+        expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+      },
+      { timeout: 10000 }
+    );
     expect(spyGetEditEventPayload).toHaveBeenCalledWith({
       event: expect.anything(),
       formValues: expect.objectContaining({
