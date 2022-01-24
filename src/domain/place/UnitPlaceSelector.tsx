@@ -57,6 +57,9 @@ const UnitPlaceSelector: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
+    if (!option.value) {
+      return '';
+    }
     const data = apolloClient.readQuery<PlaceQuery>({
       query: PlaceDocument,
       variables: { id: option.value },
