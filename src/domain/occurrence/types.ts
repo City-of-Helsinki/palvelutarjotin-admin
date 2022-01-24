@@ -2,14 +2,17 @@ import { SUPPORT_LANGUAGES } from '../../constants';
 import { EnrolmentType } from './constants';
 
 export interface OccurrenceSectionFormFields {
-  startTime: Date | null;
-  endTime: Date | null;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
   languages: string[];
   occurrenceLocation: string;
   amountOfSeats: string;
   maxGroupSize: string;
   minGroupSize: string;
   oneGroupFills: boolean;
+  isMultidayOccurrence: boolean;
 }
 
 export type LocationDescriptions = { [K in SUPPORT_LANGUAGES]: string };

@@ -13,12 +13,48 @@
 }
 
 .occurrenceFormRow {
+  --grid-gap: var(--spacing-s);
+  --date-column-width: calc(170px + 100px + var(--grid-gap));
+
   display: grid;
+  grid-gap: var(--grid-gap);
   margin-bottom: var(--spacing-l);
 
   @include respond_above(md) {
-    grid-template-columns: repeat(3, 1fr) 180px 110px 110px 110px;
-    grid-gap: $baseMargin;
+    grid-template-columns: 1fr var(--date-column-width) 100px 180px repeat(
+        3,
+        100px
+      );
+  }
+
+  &Multiday {
+    @include respond_above(md) {
+      grid-template-columns:
+        1fr var(--date-column-width) calc(280px + var(--grid-gap))
+        repeat(3, 100px);
+    }
+  }
+}
+
+.occurrenceFormDatePart {
+  display: grid;
+  grid-gap: var(--grid-gap);
+
+  @include respond_above(md) {
+    grid-template-columns: 170px 100px;
+  }
+}
+
+.checkboxRow {
+  display: flex;
+  margin-bottom: var(--spacing-l);
+
+  div:not(:last-child) {
+    margin-right: var(--spacing-m);
+  }
+
+  & > div {
+    margin-top: 0 !important;
   }
 }
 

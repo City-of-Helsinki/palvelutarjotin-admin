@@ -1,4 +1,5 @@
 import isSameDay from 'date-fns/isSameDay';
+import parseDate from 'date-fns/parse';
 
 import { LINKEDEVENTS_CONTENT_TYPE } from '../../constants';
 import {
@@ -11,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
+import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
 import {
   BOOKABLE_TO_SCHOOL_LOCATION_ID,
   VIRTUAL_EVENT_LOCATION_ID,
@@ -38,8 +40,10 @@ export const getOccurrencePayload = ({
   isBookable: boolean;
 }) => {
   return {
-    startTime: values.startTime,
-    endTime: values.endTime,
+    startTime: getDateFromDateAndTimeString(values.startDate, values.startTime),
+    endTime: values.isMultidayOccurrence
+      ? getDateFromDateAndTimeString(values.endDate, values.endTime)
+      : getDateFromDateAndTimeString(values.startDate, values.endTime),
     languages: values.languages.map((lang) => ({ id: lang as Language })),
     pEventId,
     placeId: getPlaceId({ values, isVirtual, isBookable }),
@@ -50,6 +54,14 @@ export const getOccurrencePayload = ({
       ? SeatType.EnrolmentCount
       : SeatType.ChildrenCount,
   };
+};
+
+export const getDateFromDateAndTimeString = (
+  dateString: string,
+  timeString: string
+) => {
+  const date = parseDate(dateString, DATE_FORMAT, new Date());
+  return parseDate(timeString, TIME_FORMAT, date);
 };
 
 export const getPlaceId = ({

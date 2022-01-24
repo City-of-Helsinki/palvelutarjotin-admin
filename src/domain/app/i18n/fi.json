@@ -542,9 +542,10 @@
     "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "helpTextFirstOccurrence": "Täydennä ensimmäisen tapahtuma-ajan tiedot",
-    "labelDate": "Päivämäärä",
-    "labelStartsAt": "Alkaa",
-    "labelEndsAt": "Päättyy",
+    "labelStartDate": "Päivämäärä",
+    "labelStartTime": "Alkaa klo",
+    "labelEndDate": "Päättyy",
+    "labelEndTime": "Päättyy klo",
     "labelEnrolmentStarts": "Ilmoittautuminen alkaa",
     "labelLanguages": "Tapahtuman kieli",
     "labelAmountOfSeats": "Paikkoja",
@@ -560,7 +561,23 @@
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
     "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
-    "titleParticipantRow": "Osallistujamäärä"
+    "titleParticipantRow": "Osallistujamäärä",
+    "labelMultidayOccurrence": "Tapahtuma-aika on monipäiväinen",
+    "validation": {
+      "errorEndDateBeforeStartDate": "Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
+      "errorEndTimeBeforeStartTime": "Päättymisajan on oltava alkamisajan jälkeen"
+    },
+    "timeInputs": {
+      "labelStartHours": "Alkamisajankohdan tuntivalitsin",
+      "labelStartMinutes": "Alkamisajankohdan minuuttivalitsin",
+      "labelEndHours": "Loppumisajankohdan tuntivalitsin",
+      "labelEndMinutes": "Loppumisajankohdan minuuttivalitsin"
+    },
+    "duplicateOccurrenceModal": {
+      "title": "Huomio",
+      "text": "Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?",
+      "buttonAddOccurrence": "Lisää tapahtuma-aika"
+    }
   },
   "form": {
     "validation": {
@@ -580,12 +597,14 @@
         "positiveNumber": "Tämän kentän on oltava kelvollinen numero"
       },
       "date": {
+        "invalid": "Käytä muotoa P.K.VVVV",
         "required": "Päivämäärä on pakollinen",
         "mustNotInThePast": "Päivämäärä ei voi olla menneisyydessä",
         "min": "Päivämäärän on oltava aikaisintaan {{min}}",
         "max": "Päivämäärän on oltava viimeistään {{max}}"
       },
       "time": {
+        "invalid": "Aika ei ole kelvollinen",
         "required": "Tämä kenttä on pakollinen",
         "min": "Arvon tulee olla aikaisintaan {{min}}",
         "max": "Arvon tulee olla viimeistään {{max}}"

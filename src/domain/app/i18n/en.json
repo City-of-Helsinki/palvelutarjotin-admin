@@ -536,9 +536,10 @@
     "infoText2": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> day before the start of the event time. You can change these settings in the event information.",
     "infoText2_plural": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> days before the start of the event time. You can change these settings in the event information.",
     "helpTextFirstOccurrence": "Fill in the information for the first event time",
-    "labelDate": "Date",
-    "labelStartsAt": "Starts at",
-    "labelEndsAt": "Ends at",
+    "labelStartDate": "Date",
+    "labelStartTime": "Start time",
+    "labelEndDate": "End date",
+    "labelEndTime": "End time",
     "labelEnrolmentStarts": "Enrolment starts on",
     "labelLanguages": "Event language",
     "labelAmountOfSeats": "Total spots",
@@ -554,7 +555,24 @@
     "labelEventLocation": "Event location",
     "labelLocationDescription": "Event location description",
     "labelOneGroupFills": "One group fills the event",
-    "titleParticipantRow": "Participant count"
+    "titleParticipantRow": "Participant count",
+    "labelMultidayOccurrence": "The event is multi-day",
+    "validation": {
+      "errorEndDateBeforeStartDate": "The end date must be after the start date",
+      "errorEndTimeBeforeStartTime": "The end time must be after the start time"
+    },
+    "timeInputs": {
+      "labelStartHours": "Start time hour selector",
+      "labelStartMinutes": "Start time minute selector",
+      "labelEndHours": "Hour selector for end time",
+      "labelEndMinutes": "Minute selector for end time"
+    },
+    "duplicateOccurrenceModal": {
+      "title": "Notice",
+      "text": "An event time with the same start and end time has already been added to the event. Are you sure you want to add this event time?",
+      "buttonAddOccurrences": "Add occurrence",
+      "buttonCancelAddOccurrence": "Cancel"
+    }
   },
   "form": {
     "validation": {
@@ -574,12 +592,14 @@
         "positiveNumber": "This field must be a valid number"
       },
       "date": {
+        "invalid": "Use form D.M.YYYY",
         "required": "This field is required",
         "mustNotInThePast": "This date must not be in the past",
         "min": "This date must be earliest {{min}}",
         "max": "This date must be latest {{max}}"
       },
       "time": {
+        "invalid": "Time is invalid",
         "required": "This field is required",
         "min": "This time must be earliest {{min}}",
         "max": "This time must be latest {{max}}"

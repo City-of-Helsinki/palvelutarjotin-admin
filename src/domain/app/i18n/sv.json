@@ -544,9 +544,10 @@
     "infoText2": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dag före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
     "infoText2_plural": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
     "helpTextFirstOccurrence": "Fyll i Informationen för den första evenemang",
-    "labelDate": "Datum",
-    "labelStartsAt": "Börjar kl",
-    "labelEndsAt": "Slutar kl",
+    "labelStartDate": "Datum",
+    "labelStartTime": "Börjar kl",
+    "labelEndDate": "Slutdatum",
+    "labelEndTime": "Slutar kl",
     "labelEnrolmentStarts": "Anmälan börjar",
     "labelLanguages": "Evenemangets språk",
     "labelAmountOfSeats": "Totala fläckar",
@@ -562,7 +563,24 @@
     "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",
-    "titleParticipantRow": "Deltagarantal"
+    "titleParticipantRow": "Deltagarantal",
+    "labelMultidayOccurrence": "Evenemanget varar i flera dygn",
+    "validation": {
+      "errorEndDateBeforeStartDate": "Slutdatumet måste vara efter startdatumet",
+      "errorEndTimeBeforeStartTime": "Sluttiden måste vara efter starttiden"
+    },
+    "timeInputs": {
+      "labelStartHours": "Starttidens timväljare",
+      "labelStartMinutes": "Starttidens minutväljare",
+      "labelEndHours": "Sluttidens timväljare",
+      "labelEndMinutes": "Sluttidens minutväljare"
+    },
+    "duplicateOccurrenceModal": {
+      "title": "Observera",
+      "text": "En tidpunkt för evenemanget har redan lagts till med samma start- och sluttid. Är du säker på att du vill lägga till denna tidpunkt?",
+      "buttonAddOccurrences": "Läg till ny tidpunkt",
+      "buttonCancelAddOccurrence": "Avbryt"
+    }
   },
   "form": {
     "validation": {
@@ -582,12 +600,14 @@
         "positiveNumber": "Detta fält måste vara ett giltigt nummer"
       },
       "date": {
+        "invalid": "Ange i formen D.M.ÅÅÅÅ",
         "required": "Obligatorikst att fylla detta fält",
         "mustNotInThePast": "Detta datum kan inte vara i förr",
         "min": "Detta datum måste vara tidigast {{min}}",
         "max": "Detta datum måste vara senast {{max}}"
       },
       "time": {
+        "invalid": "Ange i formen tt:mm",
         "required": "Obligatorikst att fylla detta fält",
         "min": "Den här tiden måste vara tidigast {{min}}",
         "max": "Den här tiden måste vara senast {{max}}"

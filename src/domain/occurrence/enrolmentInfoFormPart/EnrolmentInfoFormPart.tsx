@@ -98,6 +98,7 @@ export const InternalEnrolmentFields: React.FC<{
     <div>
       <div className={styles.formRow}>
         <Field
+          disableConfirmation
           className={styles.enrolmentStartInput}
           required
           labelText={t('eventForm.basicInfo.labelEnrolmentStart')}
