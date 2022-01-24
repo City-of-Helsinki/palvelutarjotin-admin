@@ -568,10 +568,10 @@
       "errorEndTimeBeforeStartTime": "Päättymisajan on oltava alkamisajan jälkeen"
     },
     "timeInputs": {
-      "labelStartHours": "Alkuajan tunnit",
-      "labelStartMinutes": "Alkuajan minuutit",
-      "labelEndHours": "Loppuajan tunnit",
-      "labelEndMinutes": "Loppuajan minuutit"
+      "labelStartHours": "Alkamisajankohdan tuntivalitsin",
+      "labelStartMinutes": "Alkamisajankohdan minuuttivalitsin",
+      "labelEndHours": "Loppumisajankohdan tuntivalitsin",
+      "labelEndMinutes": "Loppumisajankohdan minuuttivalitsin"
     },
     "duplicateOccurrenceModal": {
       "title": "Huomio",

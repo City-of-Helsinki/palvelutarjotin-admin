@@ -351,6 +351,7 @@ const OccurrenceForm: React.FC<{
         />
         <div className={styles.occurrenceFormDatePart}>
           <Field
+            disableConfirmation
             label={t('eventOccurrenceForm.labelStartDate')}
             name="startDate"
             initialMonth={latestOccurrenceDate || new Date()}
@@ -367,6 +368,7 @@ const OccurrenceForm: React.FC<{
           {isMultidayOccurrence && (
             <>
               <Field
+                disableConfirmation
                 label={t('eventOccurrenceForm.labelEndDate')}
                 name="endDate"
                 initialMonth={minEndDate}

@@ -546,7 +546,7 @@
     "helpTextFirstOccurrence": "Fyll i Informationen för den första evenemang",
     "labelStartDate": "Datum",
     "labelStartTime": "Börjar kl",
-    "labelEndDate": "SV: End date",
+    "labelEndDate": "Slutdatum",
     "labelEndTime": "Slutar kl",
     "labelEnrolmentStarts": "Anmälan börjar",
     "labelLanguages": "Evenemangets språk",
@@ -564,22 +564,22 @@
     "labelOuterwearStorage": "Förvaring av ytterkläder",
     "labelOneGroupFills": "En grupp fyller evenemanget",
     "titleParticipantRow": "Deltagarantal",
-    "labelMultidayOccurrence": "SV: Tapahtuma-aika on monipäiväinen",
+    "labelMultidayOccurrence": "Evenemanget varar i flera dygn",
     "validation": {
-      "errorEndDateBeforeStartDate": "SV: Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
-      "errorEndTimeBeforeStartTime": "SV: Päättymisajan on oltava alkamisajan jälkeen"
+      "errorEndDateBeforeStartDate": "Slutdatumet måste vara efter startdatumet",
+      "errorEndTimeBeforeStartTime": "Sluttiden måste vara efter starttiden"
     },
     "timeInputs": {
-      "labelStartHours": "SV: Alkuajan tunnit",
-      "labelStartMinutes": "SV: Alkuajan minuutit",
-      "labelEndHours": "SV: Loppuajan tunnit",
-      "labelEndMinutes": "SV: Loppuajan minuutit"
+      "labelStartHours": "Starttidens timväljare",
+      "labelStartMinutes": "Starttidens minutväljare",
+      "labelEndHours": "Sluttidens timväljare",
+      "labelEndMinutes": "Sluttidens minutväljare"
     },
     "duplicateOccurrenceModal": {
-      "title": "SV: Huomio",
-      "text": "SV: Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?",
-      "buttonAddOccurrences": "SV: Lisää tapahtuma-aika",
-      "buttonCancelAddOccurrence": "SV: Peruuta"
+      "title": "Observera",
+      "text": "En tidpunkt för evenemanget har redan lagts till med samma start- och sluttid. Är du säker på att du vill lägga till denna tidpunkt?",
+      "buttonAddOccurrences": "Läg till ny tidpunkt",
+      "buttonCancelAddOccurrence": "Avbryt"
     }
   },
   "form": {
@@ -600,14 +600,14 @@
         "positiveNumber": "Detta fält måste vara ett giltigt nummer"
       },
       "date": {
-        "invalid": "SV: Use form D.M.YYYY",
+        "invalid": "Ange i formen D.M.ÅÅÅÅ",
         "required": "Obligatorikst att fylla detta fält",
         "mustNotInThePast": "Detta datum kan inte vara i förr",
         "min": "Detta datum måste vara tidigast {{min}}",
         "max": "Detta datum måste vara senast {{max}}"
       },
       "time": {
-        "invalid": "SV: Time is invalid",
+        "invalid": "Ange i formen tt:mm",
         "required": "Obligatorikst att fylla detta fält",
         "min": "Den här tiden måste vara tidigast {{min}}",
         "max": "Den här tiden måste vara senast {{max}}"

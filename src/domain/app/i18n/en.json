@@ -556,22 +556,22 @@
     "labelLocationDescription": "Event location description",
     "labelOneGroupFills": "One group fills the event",
     "titleParticipantRow": "Participant count",
-    "labelMultidayOccurrence": "EN: Tapahtuma-aika on monipäiväinen",
+    "labelMultidayOccurrence": "The event is multi-day",
     "validation": {
-      "errorEndDateBeforeStartDate": "EN: Päättymispäivämäärän on oltava alkamispäivämäärän jälkeen",
-      "errorEndTimeBeforeStartTime": "EN: Päättymisajan on oltava alkamisajan jälkeen"
+      "errorEndDateBeforeStartDate": "The end date must be after the start date",
+      "errorEndTimeBeforeStartTime": "The end time must be after the start time"
     },
     "timeInputs": {
-      "labelStartHours": "EN: Alkuajan tunnit",
-      "labelStartMinutes": "EN: Alkuajan minuutit",
-      "labelEndHours": "EN: Loppuajan tunnit",
-      "labelEndMinutes": "EN: Loppuajan minuutit"
+      "labelStartHours": "Start time hour selector",
+      "labelStartMinutes": "Start time minute selector",
+      "labelEndHours": "Hour selector for end time",
+      "labelEndMinutes": "Minute selector for end time"
     },
     "duplicateOccurrenceModal": {
-      "title": "EN: Huomio",
-      "text": "EN: Tapahtumaan on jo lisätty tapahtuma-aika samalla alku- ja loppuajalla. Haluatko varmasti lisätä tämän tapahtuma-ajan?",
-      "buttonAddOccurrences": "EN: Lisää tapahtuma-aika",
-      "buttonCancelAddOccurrence": "EN: Peruuta"
+      "title": "Notice",
+      "text": "An event time with the same start and end time has already been added to the event. Are you sure you want to add this event time?",
+      "buttonAddOccurrences": "Add occurrence",
+      "buttonCancelAddOccurrence": "Cancel"
     }
   },
   "form": {
