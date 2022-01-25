@@ -453,11 +453,9 @@ describe('location and enrolment info', () => {
         addOccurrenceMockResponse,
       ],
     });
-
-    const pushMock = jest.spyOn(history, 'push');
-
-    const toastSuccess = jest.spyOn(toast, 'success');
     Modal.setAppElement(container);
+    const pushMock = jest.spyOn(history, 'push');
+    const toastSuccess = jest.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -1712,19 +1710,19 @@ const getOccurrenceFormElement = (
       });
     case 'startHours':
       return occurrencesForm.getByRole('textbox', {
-        name: /alkuajan tunnit/i,
+        name: /Alkamisajankohdan tuntivalitsin/i,
       });
     case 'startMinutes':
       return occurrencesForm.getByRole('textbox', {
-        name: /alkuajan minuutit/i,
+        name: /Alkamisajankohdan minuuttivalitsin/i,
       });
     case 'endHours':
       return occurrencesForm.getByRole('textbox', {
-        name: /loppuajan tunnit/i,
+        name: /Loppumisajankohdan tuntivalitsin/i,
       });
     case 'endMinutes':
       return occurrencesForm.getByRole('textbox', {
-        name: /loppuajan minuutit/i,
+        name: /Loppumisajankohdan minuuttivalitsin/i,
       });
     case 'endDate':
       return occurrencesForm.getByRole('textbox', {
@@ -1792,11 +1790,11 @@ const getFormElement = (
       });
     case 'enrolmentStartHours':
       return enrolmentForm.getByRole('textbox', {
-        name: /alkuajan tunnit/i,
+        name: /alkamisajankohdan tuntivalitsin/i,
       });
     case 'enrolmentStartMinutes':
       return enrolmentForm.getByRole('textbox', {
-        name: /alkuajan minuutit/i,
+        name: /alkamisajankohdan minuuttivalitsin/i,
       });
     case 'enrolmentEndDays':
       return enrolmentForm.getByRole('spinbutton', {

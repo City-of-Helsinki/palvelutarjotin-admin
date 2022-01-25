@@ -449,6 +449,7 @@ const OccurrenceInfoForm: React.FC<{
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={ValidationSchema}
+        validateOnMount
       >
         {({ dirty, submitForm, isValid }) => {
           // Handle submitting both event info and occurrence form

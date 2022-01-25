@@ -136,4 +136,4 @@ const PlaceSelector: React.FC<Props> = ({
   );
 };
 
-export default PlaceSelector;
+export default React.memo(PlaceSelector);

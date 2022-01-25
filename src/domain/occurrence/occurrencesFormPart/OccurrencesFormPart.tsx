@@ -45,6 +45,8 @@ import {
 } from './utils';
 import getValidationSchema from './ValidationSchema';
 
+export const occurrencesFormTestId = 'occurrences-form';
+export const occurrencesTableTestId = 'occurrences-table';
 export const defaultInitialValues: OccurrenceSectionFormFields = {
   startDate: '',
   startTime: '',
@@ -58,8 +60,6 @@ export const defaultInitialValues: OccurrenceSectionFormFields = {
   oneGroupFills: false,
   isMultidayOccurrence: false,
 };
-
-export const occurrencesFormTestId = 'occurrences-form';
 
 const OccurrencesForm: React.FC<{
   eventData: EventQuery;
@@ -94,7 +94,10 @@ const OccurrencesForm: React.FC<{
     (() => void) | null
   >(null);
 
-  const { occurrences, id: eventId } = getEventFields(eventData?.event, locale);
+  const { occurrences, id: eventId } = React.useMemo(
+    () => getEventFields(eventData?.event, locale),
+    [eventData.event, locale]
+  );
   const pEventId = eventData.event?.pEvent.id as string;
   const isPublishedEvent =
     eventData.event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
@@ -117,7 +120,10 @@ const OccurrencesForm: React.FC<{
       }),
     [enrolmentEndDays, enrolmentStart, isVirtual, isBookable, enrolmentType]
   );
-  const eventVariables = getEventQueryVariables(eventId ?? '');
+  const eventVariables = React.useMemo(
+    () => getEventQueryVariables(eventId ?? ''),
+    [eventId]
+  );
 
   const reinitializeForm = (
     values: OccurrenceSectionFormFields,
@@ -182,25 +188,28 @@ const OccurrencesForm: React.FC<{
     }
   };
 
-  const handleDeleteOccurrence = async (id: string) => {
-    try {
-      await deleteOccurrence({
-        variables: { input: { id } },
-        optimisticResponse: getOptimisticDeleteOccurrenceResponse(),
-        update: (proxy) => {
-          deleteOccurrenceFromCache({
-            proxy,
-            eventVariables,
-            occurrenceId: id,
-          });
-        },
-      });
-    } catch (e) {
-      toast(t('occurrences.deleteError'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-  };
+  const handleDeleteOccurrence = React.useCallback(
+    async (id: string) => {
+      try {
+        await deleteOccurrence({
+          variables: { input: { id } },
+          optimisticResponse: getOptimisticDeleteOccurrenceResponse(),
+          update: (proxy) => {
+            deleteOccurrenceFromCache({
+              proxy,
+              eventVariables,
+              occurrenceId: id,
+            });
+          },
+        });
+      } catch (e) {
+        toast(t('occurrences.deleteError'), {
+          type: toast.TYPE.ERROR,
+        });
+      }
+    },
+    [deleteOccurrence, eventVariables, t]
+  );
 
   // TODO: what to do is this is called when going to publish page and confirmation modal is opened?
   const handleOccurrenceFormSubmit = async (
@@ -462,9 +471,7 @@ const OccurrenceForm: React.FC<{
   );
 };
 
-export const occurrencesTableTestId = 'occurrences-table';
-
-const OccurrencesTable: React.FC<{
+let OccurrencesTable: React.FC<{
   occurrences: OccurrenceFieldsFragment[];
   onDeleteOccurrence: (id: string) => Promise<void>;
   isPublishedEvent?: boolean;
@@ -529,5 +536,6 @@ const OccurrencesTable: React.FC<{
     </table>
   );
 };
+OccurrencesTable = React.memo(OccurrencesTable);
 
 export default OccurrencesForm;

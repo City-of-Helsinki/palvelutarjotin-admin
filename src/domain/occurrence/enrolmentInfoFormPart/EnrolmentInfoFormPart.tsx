@@ -106,7 +106,6 @@ export const InternalEnrolmentFields: React.FC<{
           required
           label={t('eventForm.basicInfo.labelEnrolmentStartDate')}
           name="enrolmentStartDate"
-          placeholder="Päivämäärä"
           component={DateInputFieldHDS}
         />
         <Field
