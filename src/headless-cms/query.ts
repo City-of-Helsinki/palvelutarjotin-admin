@@ -12,15 +12,24 @@ export const MENU_QUERY = gql`
           connectedNode {
             node {
               ... on Page {
-                ...pageFields
-                translations {
-                  ...pageFields
+                ...menuPageFields
+                children {
+                  nodes {
+                    ...menuPageFields
+                  }
                 }
               }
             }
           }
         }
       }
+    }
+  }
+
+  fragment menuPageFields on Page {
+    ...pageFields
+    translations {
+      ...pageFields
     }
   }
 `;

@@ -119,6 +119,72 @@ exports[`renders CMS page and navigation flow works 1`] = `
               <nav
                 class="NavigationRow-module_navigation__24tui"
               >
+                <div
+                  class="MenuButton-module_menuButton__3T9k9 NavigationItem-module_dropdownItem__3gis5"
+                >
+                  <button
+                    aria-controls="hds-menu-button-5-menu"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="MenuButton-module_toggleButton__3WH1a"
+                    id="hds-menu-button-5-button"
+                    type="button"
+                  >
+                    <span
+                      class="MenuButton-module_toggleButtonLabel__3NiHR"
+                    >
+                      Mikä Kultus?
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g
+                        fill="none"
+                        fill-rule="evenodd"
+                      >
+                        <path
+                          d="M0 0h24v24H0z"
+                        />
+                        <path
+                          d="M12 13.5l5-5 1.5 1.5-6.5 6.5L5.5 10 7 8.5z"
+                          fill="currentColor"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                  <div
+                    aria-labelledby="hds-menu-button-5-button"
+                    class="Menu-module_menu__FuqT0"
+                    id="hds-menu-button-5-menu"
+                    role="region"
+                    style="top: 0px; min-width: 190px;"
+                  >
+                    <a
+                      class="Menu-module_item__3yQdE "
+                      href="/fi/cms-page/helsinki-liikkuu/alisivu/"
+                    >
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Mikä Kultus alisivu1
+                      </span>
+                    </a>
+                    <a
+                      class="Menu-module_item__3yQdE "
+                      href="/fi/cms-page/helsinki-liikkuu/alisivu/"
+                    >
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Mikä Kultus alisivu2
+                      </span>
+                    </a>
+                  </div>
+                </div>
                 <a
                   class="NavigationItem-module_rowItem__2QxRz"
                   href="/fi/cms-page/test1"
@@ -126,7 +192,7 @@ exports[`renders CMS page and navigation flow works 1`] = `
                   <span
                     class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
                   >
-                    Testi1
+                    Helsinki liikkuu
                   </span>
                 </a>
                 <a
@@ -136,7 +202,7 @@ exports[`renders CMS page and navigation flow works 1`] = `
                   <span
                     class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
                   >
-                    Testi2
+                    Kulttuurikasvatus
                   </span>
                 </a>
                 <a
@@ -146,7 +212,7 @@ exports[`renders CMS page and navigation flow works 1`] = `
                   <span
                     class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
                   >
-                    Testi3
+                    Oppimateriaalit
                   </span>
                 </a>
                 <a
@@ -156,17 +222,7 @@ exports[`renders CMS page and navigation flow works 1`] = `
                   <span
                     class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
                   >
-                    Testi4
-                  </span>
-                </a>
-                <a
-                  class="NavigationItem-module_rowItem__2QxRz"
-                  href="/fi/cms-page/test5"
-                >
-                  <span
-                    class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
-                  >
-                    Testi5
+                    Kultus sivu
                   </span>
                 </a>
               </nav>
@@ -560,126 +616,6 @@ exports[`renders CMS page and navigation flow works 1`] = `
       id="main-content"
     >
       <div>
-        <nav
-          data-testid="cms-navigation-container"
-        >
-          <div
-            class="navigationRowContainer"
-          >
-            <div
-              class="container default container"
-            >
-              <div
-                class="navigationRow"
-              >
-                <a
-                  class="activeLink"
-                  href="/fi/cms-page/paasivu/alisivu1/"
-                >
-                  <span>
-                    Alisivu1
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/alisivu3/"
-                >
-                  <span>
-                    Alisivu3
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/alisivu4/"
-                >
-                  <span>
-                    Alisivu4
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/oppimateriaalit/"
-                >
-                  <span>
-                    Oppimateriaalit
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div
-            class="navigationRowContainer"
-          >
-            <div
-              class="container default container"
-            >
-              <div
-                class="navigationRow"
-              >
-                <a
-                  class="activeLink"
-                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/"
-                >
-                  <span>
-                    Alisivu1 alisivu1
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu2/"
-                >
-                  <span>
-                    Alisivu1 alisivu2
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu3/"
-                >
-                  <span>
-                    Alisivu1 alisivu3
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div
-            class="navigationRowContainer"
-          >
-            <div
-              class="container default container"
-            >
-              <div
-                class="navigationRow"
-              >
-                <a
-                  class="activeLink"
-                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu1/"
-                >
-                  <span>
-                    Alisivu1 alisivu1 alisivu1
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu2/"
-                >
-                  <span>
-                    Alisivun1 alisivu1 alisivu2
-                  </span>
-                </a>
-                <a
-                  class=""
-                  href="/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu3/"
-                >
-                  <span>
-                    Alisivun1 alisivu1 alisivu3
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </nav>
         <div
           class="container default container"
         >

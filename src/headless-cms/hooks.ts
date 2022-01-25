@@ -3,14 +3,14 @@ import { useLocation, useParams } from 'react-router';
 
 import {
   MenuNodeIdTypeEnum,
-  Page,
+  MenuPageFieldsFragment,
   useMenuQuery,
 } from '../generated/graphql-cms';
 import useIsMounted from '../hooks/useIsMounted';
 import useLocale from '../hooks/useLocale';
 import { isFeatureEnabled } from '../utils/featureFlags';
+import { skipFalsyType } from '../utils/typescript.utils';
 import cmsClient from './client';
-import { NavigationObject, SEARCH_PANEL_TRESHOLD } from './components/CmsPage';
 import { MENU_NAME } from './constants';
 import { usePageQuery } from './usePageQuery';
 import {
@@ -35,11 +35,21 @@ export const useCmsMenuItems = () => {
   const menuItemArrays = navigationData?.menu?.menuItems?.nodes?.map(
     (menuItem) => {
       const item = menuItem?.connectedNode?.node;
-      if (item && 'title' in item) {
+      if (isPageNode(item)) {
         const translationItems = item.translations?.map((translation) => ({
           ...translation,
           locale: translation?.language?.code,
           uri: stripLocaleFromUri(translation?.uri ?? ''),
+          // find all child translations that have same language
+          children: item.children?.nodes
+            ?.filter(isPageNode)
+            .map((childNode) =>
+              childNode.translations?.find(
+                (childTranslation) =>
+                  translation?.language === childTranslation?.language
+              )
+            )
+            .filter(skipFalsyType),
         }));
 
         return [
@@ -47,6 +57,7 @@ export const useCmsMenuItems = () => {
             ...item,
             locale: item?.language?.code,
             uri: stripLocaleFromUri(item.uri ?? ''),
+            children: item.children?.nodes?.filter(isPageNode),
           },
           ...(translationItems ?? []),
         ];
@@ -106,9 +117,6 @@ export type Breadcrumb = { title: string; uri: string };
 
 export const useCmsNavigation = (slug: string) => {
   const [loading, setLoading] = React.useState(true);
-  const [navigation, setNavigation] = React.useState<
-    NavigationObject[][] | null
-  >(null);
   const [breadcrumbs, setBreadcrumbs] = React.useState<Breadcrumb[] | null>(
     null
   );
@@ -131,28 +139,7 @@ export const useCmsNavigation = (slug: string) => {
           title: page?.title ?? '',
         }));
 
-        // Makes navigating to children pages faster (no loading spinner)
-        fetchPageChildrenToApolloCache(pages[pages.length - 1] as Page);
-
-        // Form array of navigation arrays of all the sub menus of current cms page
-        const navigationLevels = pages
-          .map((page) => {
-            const navigationItems: NavigationObject[] = [];
-            page?.children?.nodes?.forEach((p) => {
-              if (p && 'uri' in p) {
-                navigationItems.push({
-                  uri: stripLocaleFromUri(p.uri ?? '') as string,
-                  locale: p.language?.code?.toLowerCase() ?? 'fi',
-                  title: p.title ?? '',
-                });
-              }
-            });
-            return navigationItems;
-          })
-          .filter((i) => !!i.length && i.length < SEARCH_PANEL_TRESHOLD);
-
         if (isMounted.current) {
-          setNavigation(navigationLevels);
           setBreadcrumbs(breadcrumbs);
           setLoading(false);
         }
@@ -164,16 +151,9 @@ export const useCmsNavigation = (slug: string) => {
     }
   }, [slug, locale, isMounted]);
 
-  // TODO: Fetch locale specific pages also, only finnish works correctly atm
-  const fetchPageChildrenToApolloCache = (page: Page) => {
-    if ((page.children?.nodes?.length ?? 0) < SEARCH_PANEL_TRESHOLD) {
-      page?.children?.nodes?.forEach((child) => {
-        if (child && 'uri' in child && child.uri) {
-          queryPageWithUri(child.uri);
-        }
-      });
-    }
-  };
+  return { breadcrumbs, loading };
+};
 
-  return { navigation, breadcrumbs, loading };
+const isPageNode = (node?: any): node is MenuPageFieldsFragment => {
+  return Boolean(node && 'title' in node);
 };

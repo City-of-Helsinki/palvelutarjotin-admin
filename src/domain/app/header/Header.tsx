@@ -79,21 +79,37 @@ const Header: React.FC = () => {
           {menuItems
             ?.map((item, index) => {
               if (!item?.id) return null;
-              const translatedPageUri = `/${item.slug}` as string;
-              return (
-                <Navigation.Item
-                  key={index}
-                  active={isTabActive(item.uri)}
-                  as={HeaderLink}
-                  label={item.title}
-                  to={`/${locale}${getCmsPath(translatedPageUri)}`}
-                />
-              );
+              if (!!item.children?.length) {
+                return (
+                  <Navigation.Dropdown label={item.title} key={item.id}>
+                    {item.children.map((child) => (
+                      <Navigation.Item
+                        key={child.id}
+                        label={child?.title}
+                        as={HeaderLink}
+                        to={`/${locale}${getCmsPath(
+                          stripLocaleFromUri(child?.uri ?? '')
+                        )}`}
+                      />
+                    ))}
+                  </Navigation.Dropdown>
+                );
+              } else {
+                const translatedPageUri = `/${item.slug}` as string;
+                return (
+                  <Navigation.Item
+                    key={index}
+                    active={isTabActive(item.uri)}
+                    label={item.title}
+                    as={HeaderLink}
+                    to={`/${locale}${getCmsPath(translatedPageUri)}`}
+                  />
+                );
+              }
             })
             .filter((item) => item != null)}
         </Navigation.Row>
       )}
-
       <Navigation.Actions>
         {isAuthenticated && (
           <UserNavigation

@@ -469,7 +469,7 @@ describe('Language selection', () => {
         )}`,
       });
     });
-  });
+  }, 100_000);
 
   Object.entries({
     fi: ['fi', 'en', 'sv'],

@@ -22,7 +22,6 @@ import {
 } from '../../../utils/testUtils';
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
-import { cmsNavigationContainerTestId } from '../CmsPageNavigation';
 
 jest.mock('../../../domain/auth/authenticate', () => ({
   __esModule: true,
@@ -323,12 +322,10 @@ beforeEach(() => {
 
 const getBreadcrumbsContainer = () =>
   within(screen.getByTestId(breadcrumbsContainerTestId));
-const getCmsNavigationContainer = () =>
-  within(screen.getByTestId(cmsNavigationContainerTestId));
 
 test('renders CMS page and navigation flow works', async () => {
   const { menuItems } = initCmsMenuItemsMocks();
-  const { container } = render(<AppRoutes />, {
+  const { container, history } = render(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
     initialState: authenticatedInitialState,
     mocks: apolloMocks,
@@ -343,20 +340,27 @@ test('renders CMS page and navigation flow works', async () => {
 
   async function testHeaderLinks() {
     for (const menuItem of menuItems) {
-      const link = await screen.findByRole('link', { name: menuItem.title });
-      expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
+      if (menuItem.children) {
+        const dropdownButton = await screen.findByRole('button', {
+          name: menuItem.title,
+        });
+        userEvent.click(dropdownButton);
+        for (const childItem of menuItem.children) {
+          await screen.findByRole('link', {
+            name: childItem.title,
+            hidden: true,
+          });
+        }
+        userEvent.click(dropdownButton);
+      } else {
+        const link = await screen.findByRole('link', { name: menuItem.title });
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
+      }
     }
   }
 
   async function testLevel1Navigation() {
-    // all level 1 navigation links should be rendered
-    pageHierarchy[0].children.forEach(({ title }) => screen.getByText(title));
-
-    // level 2 navigation links shouldn't be rendered yet
-    pageHierarchy[0].children[0].children.forEach(({ title }) =>
-      expect(screen.queryByText(title)).not.toBeInTheDocument()
-    );
-
     // level 1 navigation breadcrumbs
     const breadcrumbs = getBreadcrumbsContainer();
     breadcrumbs.getByRole('link', { name: /kotisivu/i });
@@ -368,22 +372,8 @@ test('renders CMS page and navigation flow works', async () => {
   }
 
   async function testLevel2Navigation() {
-    userEvent.click(await screen.findByText(/alisivu1/i));
+    history.push('/fi/cms-page/paasivu/alisivu1');
     await wait();
-
-    // all level 1 and 2 navigation links shuld be rendered
-    pageHierarchy[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-    pageHierarchy[0].children[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-
-    // first child should be active after navigating to it
-    const firstNavigationChild = screen.getByRole('link', {
-      name: pageHierarchy[0].children[0].title,
-    });
-    expect(firstNavigationChild).toHaveClass('activeLink');
 
     // level 2 navigation breadcrumbs
     const breadcrumbs = getBreadcrumbsContainer();
@@ -397,30 +387,8 @@ test('renders CMS page and navigation flow works', async () => {
   }
 
   async function testLevel3Navigation() {
-    userEvent.click(await screen.findByText(/alisivu1 alisivu1/i));
+    history.push('/fi/cms-page/paasivu/alisivu1/ali2sivu1/');
     await wait();
-
-    // all level 1 and 2 and 3  navigation links shuld be rendered
-    pageHierarchy[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-    pageHierarchy[0].children[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-    pageHierarchy[0].children[0].children[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-
-    const navigation = getCmsNavigationContainer();
-    // two navigation links should be active after navigating
-    const firstNavigationChild = navigation.getByRole('link', {
-      name: pageHierarchy[0].children[0].title,
-    });
-    const secondNavigationChild = navigation.getByRole('link', {
-      name: pageHierarchy[0].children[0].children[0].title,
-    });
-    expect(firstNavigationChild).toHaveClass('activeLink');
-    expect(secondNavigationChild).toHaveClass('activeLink');
 
     // level 3 navigation breadcrumbs
     const breadcrumbs3 = getBreadcrumbsContainer();
@@ -431,34 +399,8 @@ test('renders CMS page and navigation flow works', async () => {
   }
 
   async function testLevel4Navigation() {
-    userEvent.click(await screen.findByText(/alisivu1 alisivu1 alisivu1/i));
+    history.push('/fi/cms-page/paasivu/alisivu1/ali2sivu1/ali3sivu1/');
     await wait();
-
-    // all level 1 and 2 and 3 navigation links should still be rendered
-    pageHierarchy[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-    pageHierarchy[0].children[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-    pageHierarchy[0].children[0].children[0].children.forEach(({ title }) =>
-      getCmsNavigationContainer().getByText(title)
-    );
-
-    // three navigation links should be active after navigating
-    const navigation = getCmsNavigationContainer();
-    const firstNavigationChild = navigation.getByRole('link', {
-      name: pageHierarchy[0].children[0].title,
-    });
-    const secondNavigationChild = navigation.getByRole('link', {
-      name: pageHierarchy[0].children[0].children[0].title,
-    });
-    const thirdNavigationChild = navigation.getByRole('link', {
-      name: pageHierarchy[0].children[0].children[0].children[0].title,
-    });
-    expect(firstNavigationChild).toHaveClass('activeLink');
-    expect(secondNavigationChild).toHaveClass('activeLink');
-    expect(thirdNavigationChild).toHaveClass('activeLink');
 
     // level 4 navigation breadcrumbs
     const breadcrumbs = getBreadcrumbsContainer();
@@ -493,11 +435,11 @@ test('renders CMS page and navigation flow works', async () => {
 
 test('CMS sub pages can be searched', async () => {
   const { history } = renderWithRoute(<CmsPage />, {
-    routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
+    routes: [
+      `/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu/oppimateriaalit')}`,
+    ],
     path: `/fi${ROUTES.CMS_PAGE}+`,
   });
-
-  userEvent.click(await screen.findByRole('link', { name: 'Oppimateriaalit' }));
 
   await screen.findByRole('heading', { name: /oppimateriaalit/i });
   await screen.findByText(/kaikki opimateriaalit/i);
