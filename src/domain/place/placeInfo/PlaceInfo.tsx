@@ -24,7 +24,7 @@ const PlaceInfo: React.FC<Props> = ({
   showVenueInfo,
 }) => {
   const { t } = useTranslation();
-  const { data } = usePlaceQuery({ variables: { id } });
+  const { data } = usePlaceQuery({ variables: { id }, skip: !id });
 
   if (!data) return null;
 
