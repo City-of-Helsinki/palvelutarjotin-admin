@@ -30,23 +30,29 @@ const PlaceSelectorField: React.FC<Props> = (props) => {
   } = props;
   const invalidText = getErrorText(errors, touched, name, t);
 
-  const handleBlur = (val: string | string[] | null) => {
-    onBlur({
-      target: {
-        id: name,
-        value: val,
-      },
-    });
-  };
+  const handleBlur = React.useCallback(
+    (val: string | string[] | null) => {
+      onBlur({
+        target: {
+          id: name,
+          value: val,
+        },
+      });
+    },
+    [name, onBlur]
+  );
 
-  const handleChange = (val: string | string[] | null) => {
-    onChange({
-      target: {
-        id: name,
-        value: val,
-      },
-    });
-  };
+  const handleChange = React.useCallback(
+    (val: string | string[] | null) => {
+      onChange({
+        target: {
+          id: name,
+          value: val,
+        },
+      });
+    },
+    [name, onChange]
+  );
 
   return (
     <PlaceSelector

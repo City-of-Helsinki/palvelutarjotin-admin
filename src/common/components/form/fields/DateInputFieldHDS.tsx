@@ -31,14 +31,17 @@ const DateInputField: React.FC<Props> = (props) => {
     });
   }, [name, onBlur]);
 
-  const handleChange = (val?: string) => {
-    onChange({
-      target: {
-        id: name,
-        value: val,
-      },
-    });
-  };
+  const handleChange = React.useCallback(
+    (val?: string) => {
+      onChange({
+        target: {
+          id: name,
+          value: val,
+        },
+      });
+    },
+    [name, onChange]
+  );
 
   return (
     <DateInput

@@ -11,7 +11,7 @@ import PlaceInfo from '../../place/placeInfo/PlaceInfo';
 import { VENUE_AMENITIES } from '../../venue/utils';
 import VenueDataFields from '../../venue/venueDataFields/VenueDataFields';
 import styles from '../occurrencePage.module.scss';
-import { TimeAndLocationFormFields } from '../types';
+import { LocationDescriptions, TimeAndLocationFormFields } from '../types';
 
 const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
   selectedLanguages,
@@ -29,11 +29,17 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
     // Empty venue descriptions and amenities from form when location is not defined
     if (!location) {
       Object.keys(locationDescription).forEach((key) => {
-        setFieldValue(`locationDescription.${key as Language}`, '');
+        // check if description is set to avoid unnecessary rerenders
+        if (locationDescription[key as keyof LocationDescriptions]) {
+          setFieldValue(`locationDescription.${key as Language}`, '');
+        }
       });
 
-      VENUE_AMENITIES.forEach((v) => {
-        setFieldValue(v, false);
+      VENUE_AMENITIES.forEach((amenity) => {
+        // check if amenity is checked to avoid unnecessary rerenders
+        if (values[amenity]) {
+          setFieldValue(amenity, false);
+        }
       });
     }
   }, [location, locationDescription, setFieldValue, values]);
