@@ -3,7 +3,6 @@ import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
-import { isInFuture } from '../../utils/dateUtils';
 import { DATE_FORMAT } from '../../utils/time/format';
 import { isValidTimeString, parseDateTimeString } from '../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
