@@ -1,10 +1,11 @@
+import isFuture from 'date-fns/isFuture';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
 
 import { isInFuture } from '../../utils/dateUtils';
 import { DATE_FORMAT } from '../../utils/time/format';
-import { isValidTimeString } from '../../utils/time/utils';
+import { isValidTimeString, parseDateTimeString } from '../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EnrolmentType } from './constants';
 
@@ -55,24 +56,37 @@ const ValidationSchema = Yup.object().shape({
     }
   ),
   enrolmentStartDate: Yup.string().when(
-    ['enrolmentType'],
-    (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {
+    ['enrolmentType', 'enrolmentStartTime'],
+    ((
+      enrolmentType: EnrolmentType,
+      enrolmentStartTime: string,
+      schema: Yup.StringSchema
+    ) => {
       if (enrolmentType !== EnrolmentType.Internal) {
         return schema;
       }
-      return schema
+      schema = schema
         .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
         .test(
           'isValidDate',
           VALIDATION_MESSAGE_KEYS.DATE_INVALID,
           isValidDateValidation
-        )
-        .test(
+        );
+
+      // if user has set start time, combine start date and time to test if it is in future
+      if (isValidTimeString(enrolmentStartTime)) {
+        schema = schema.test(
           'isInFuture',
           VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
-          validateIsInFuture
+          (value?: string) => {
+            return isFuture(
+              parseDateTimeString(`${value} ${enrolmentStartTime}`)
+            );
+          }
         );
-    }
+      }
+      return schema;
+    }) as any
   ),
   enrolmentStartTime: getTimeValidation(),
   externalEnrolmentUrl: Yup.string().when(

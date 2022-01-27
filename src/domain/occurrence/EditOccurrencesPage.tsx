@@ -70,7 +70,9 @@ const EditOccurrencesPage: React.FC = () => {
                   createOccurrence={createOccurrence}
                   eventData={eventData}
                   enrolmentEndDays={enrolmentEndDays}
-                  enrolmentStart={enrolmentStart}
+                  enrolmentStart={
+                    enrolmentStart ? new Date(enrolmentStart) : null
+                  }
                   enrolmentType={enrolmentType}
                   isVirtual={isVirtual}
                   isBookable={isBookable}
