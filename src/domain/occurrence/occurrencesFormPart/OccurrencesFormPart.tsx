@@ -68,7 +68,7 @@ const OccurrencesForm: React.FC<{
   location: string;
   isVirtual: boolean;
   isBookable: boolean;
-  enrolmentStart: string;
+  enrolmentStart?: Date | null;
   enrolmentEndDays: number | string;
   enrolmentType: EnrolmentType;
   title: string;

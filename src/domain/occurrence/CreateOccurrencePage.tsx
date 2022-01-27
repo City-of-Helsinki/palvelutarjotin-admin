@@ -36,7 +36,10 @@ import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
-import { isValidDateTimeString } from '../../utils/time/utils';
+import {
+  isValidDateTimeString,
+  parseDateTimeString,
+} from '../../utils/time/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -545,8 +548,8 @@ const OccurrencesFormPartWrapper: React.FC<{
     isBookable,
     enrolmentEndDays,
     enrolmentStart: isValidDateTimeString(enrolmentStartDateTime)
-      ? enrolmentStartDateTime
-      : '',
+      ? parseDateTimeString(enrolmentStartDateTime)
+      : null,
     enrolmentType,
   };
 

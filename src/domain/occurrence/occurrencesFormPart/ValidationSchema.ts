@@ -53,7 +53,7 @@ const getTimeValidation = () => {
 
 const isAfterEnrolmentStartTime = (
   enrolmentEndDays?: string | number,
-  enrolmentStart?: string
+  enrolmentStart?: Date | null
 ) =>
   ((startTime: string, schema: Yup.StringSchema) => {
     if (
@@ -63,11 +63,8 @@ const isAfterEnrolmentStartTime = (
     ) {
       const minDate =
         enrolmentEndDays > 0
-          ? addDays(
-              parseDateTimeString(enrolmentStart),
-              enrolmentEndDays as number
-            )
-          : new Date(parseDateTimeString(enrolmentStart));
+          ? addDays(enrolmentStart, enrolmentEndDays as number)
+          : enrolmentStart;
       return schema.test(
         'isAfterEnrolmentStart',
         () => ({
@@ -103,7 +100,7 @@ const getValidationSchema = ({
   isVirtual?: boolean;
   isBookable?: boolean;
   enrolmentEndDays?: string | number;
-  enrolmentStart?: string;
+  enrolmentStart?: Date | null;
   enrolmentType: EnrolmentType;
 }) =>
   Yup.object().shape({
