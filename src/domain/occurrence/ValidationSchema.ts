@@ -15,12 +15,6 @@ const isValidDateValidation = (value?: string) => {
   return isValidDate(parsedDate);
 };
 
-const validateIsInFuture = (value?: string) => {
-  if (!value) return false;
-  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
-  return isInFuture(parsedDate);
-};
-
 const getTimeValidation = () => {
   return Yup.string().when(
     ['enrolmentType'],
