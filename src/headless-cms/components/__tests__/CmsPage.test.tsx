@@ -9,7 +9,11 @@ import { MyProfileDocument } from '../../../generated/graphql';
 import { PageIdType } from '../../../generated/graphql-cms';
 import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { server } from '../../../test/msw/server';
-import { fakePage } from '../../../utils/cmsMockDataUtils';
+import {
+  fakeMediaItem,
+  fakePage,
+  fakePost,
+} from '../../../utils/cmsMockDataUtils';
 import { fakeOrganisations, fakePerson } from '../../../utils/mockDataUtils';
 import {
   act,
@@ -39,6 +43,7 @@ const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 type PageHierarchy = {
   title: string;
   uri: string;
+  sidebar?: any;
   content?: string;
   children?: PageHierarchy[];
 };
@@ -82,11 +87,56 @@ const learningMaterialsPage = {
   children: searchablePages,
 };
 
+const sidebarLayoutLinkList = {
+  __typename: 'LayoutLinkList' as const,
+  title: 'Tärkeimmät linkit',
+  description: 'Tsekkaa nämä linkit ja löydä mahtavaa sisältöä!',
+  anchor: 'important-links',
+  links: [
+    {
+      target: '_blank',
+      // eslint-disable-next-line max-len
+      url: 'https://palvelutarjotin.test.kuva.hel.ninja/cms-page/oppimateriaalit/ylakoulu-ja-toinen-aste/koulujen-elokuvaviikko-elokuvan-kotitehtavat-etaopetukseen',
+      title: 'Elokuvaviikon etäkotitehtävät',
+    },
+    {
+      // eslint-disable-next-line max-len
+      url: 'https://palvelutarjotin.test.kuva.hel.ninja/cms-page/oppimateriaalit/ylakoulu-ja-toinen-aste/koulujen-elokuvaviikko-elokuvan-kotitehtavat-etaopetukseen',
+      title: 'Ideoita elokuvaviikon tunneille',
+      target: '',
+    },
+  ],
+};
+
+const sidebarLayoutPage = fakePage({
+  title: 'Oppimateriaalit elokuvajuhlia varten',
+  uri: '/oppimateriaalit-elokuvajuhlia-varten',
+  featuredImage: {
+    node: fakeMediaItem({
+      mediaItemUrl: 'https://hkih.production.geniem.io/i/1245',
+      altText: 'Kirjoja eri väreissä',
+    }),
+  },
+});
+const sidebarLayoutPages = {
+  __typename: 'LayoutPages' as const,
+  pages: [sidebarLayoutPage],
+};
+const sidebarLayoutArticle = fakePost({
+  title: 'Kevät tulee, tuo luonto osaksi opetusta',
+  uri: '/kevat-tulee-tuo-luonto-osaksi-opetusta',
+});
+const sidebarLayoutArticles = {
+  __typename: 'LayoutArticles' as const,
+  articles: [sidebarLayoutArticle],
+};
+
 const pageHierarchy: PageHierarchy[] = [
   {
     title: 'Pääsivu',
     uri: '/paasivu/',
     content: `<h2>${mainPageTitle}</h2><p>${mainPageContent}</p>`,
+    sidebar: [sidebarLayoutLinkList, sidebarLayoutPages, sidebarLayoutArticles],
     children: [
       {
         title: 'Alisivu1',
@@ -155,7 +205,10 @@ const subPagesMocks = [
           },
           edges: searchablePages.map((p) => ({
             cursor: '',
-            node: fakePage({ title: p.title, uri: p.uri }),
+            node: fakePage({
+              title: p.title,
+              uri: p.uri,
+            }),
           })),
         },
       },
@@ -217,6 +270,7 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
           title: page.title,
           uri: page.uri,
           content: page.content,
+          sidebar: page.sidebar ?? [],
           children: {
             nodes: page.children
               ? page.children.map((child) =>
@@ -483,3 +537,74 @@ test('CMS sub pages can be searched', async () => {
     '/fi/cms-page/paasivu/oppimateriaalit/oppimateriaali1/'
   );
 });
+
+test('renders with sidebar layout when sidebar has content', async () => {
+  initCmsMenuItemsMocks();
+  render(<AppRoutes />, {
+    routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
+    initialState: authenticatedInitialState,
+    mocks: apolloMocks,
+  });
+
+  await screen.findByText(sidebarLayoutLinkList.title);
+
+  //-- Renders layout link lists correctly
+  // Renders title
+  expect(screen.queryByText(sidebarLayoutLinkList.title)).toBeInTheDocument();
+
+  // Renders description
+  expect(
+    screen.queryByText(sidebarLayoutLinkList.description)
+  ).toBeInTheDocument();
+
+  // Sets anchoring id
+  // Check that an element with the ID exists. Use uncommon pattern because we
+  // are ensuring a technical detail instead of validating the user
+  // experience.
+  expect(
+    document.querySelector(`#${sidebarLayoutLinkList.anchor}`)
+  ).toBeInTheDocument();
+
+  //-- Renders layout pages
+  verifyCmsSidebarContentCard({
+    title: sidebarLayoutPage.title!,
+    url: `${window.origin}/cms-page${sidebarLayoutPage.uri}`,
+    image: sidebarLayoutPage.featuredImage?.node?.mediaItemUrl,
+    imageAlt: sidebarLayoutPage.featuredImage?.node?.altText,
+  });
+
+  //-- Renders layout articles
+  verifyCmsSidebarContentCard({
+    title: sidebarLayoutArticle.title!,
+    url: `${window.origin}/cms-page${sidebarLayoutArticle.uri}`,
+  });
+});
+
+function verifyCmsSidebarContentCard({
+  title,
+  url,
+  image,
+  imageAlt,
+}: {
+  title: string;
+  url: string;
+  image?: string | null;
+  imageAlt?: string | null;
+}) {
+  // Has title with correct link
+  const link = screen.getByRole('link', {
+    name: title,
+  }) as HTMLAnchorElement;
+  expect(link).toBeInTheDocument();
+  expect(link.href).toEqual(url);
+
+  if (imageAlt) {
+    // Has image if it exists that has correct alt text
+    const imageElement = screen.getByRole('img', {
+      name: imageAlt,
+    }) as HTMLImageElement;
+    expect(imageElement).toBeInTheDocument();
+    // Next image components gets an encoded src value
+    expect(imageElement.src).toEqual(expect.any(String));
+  }
+}

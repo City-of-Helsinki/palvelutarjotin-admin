@@ -24,6 +24,9 @@
     "notificationModal": {
       "buttonClose": "Close"
     },
+    "srOnly": {
+      "opensInANewTab": "Opens in a new tab"
+    },
     "autoSuggest": {
       "accessibility": {
         "clearValueButtonAriaMessage": "Clear value",

@@ -18,6 +18,9 @@
     "back": "Takaisin",
     "leave": "Poistu",
     "close": "Sulje",
+    "srOnly": {
+      "opensInANewTab": "Avautuu uudessa välilehdessä"
+    },
     "alertModal": {
       "buttonCancel": "Peruuta"
     },

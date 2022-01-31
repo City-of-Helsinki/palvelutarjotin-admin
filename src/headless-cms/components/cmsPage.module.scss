@@ -1,3 +1,5 @@
+@import 'layout';
+
 .container {
   padding: 0 !important;
 }
@@ -5,6 +7,10 @@
 .navigationRowContainer {
   background-color: white;
   border-bottom: 1px solid var(--color-black-20);
+}
+
+.cmsPageContainer {
+  background-color: var(--color-white);
 }
 
 .navigationRow {
@@ -42,5 +48,28 @@
   li + li:before {
     content: '\0002f';
     margin: 0 0.5rem;
+  }
+}
+
+.cmsSidebarLayout {
+  display: flex;
+  flex-direction: column;
+
+  @include respond-above(sm) {
+    flex-direction: row;
+  }
+
+  &Main {
+    @include respond-above(sm) {
+      flex-basis: 66.666%;
+      margin-right: var(--spacing-xs);
+    }
+  }
+
+  &Aside {
+    @include respond-above(sm) {
+      flex-basis: 33.333%;
+      margin-left: var(--spacing-xs);
+    }
   }
 }

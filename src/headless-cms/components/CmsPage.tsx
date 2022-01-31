@@ -29,7 +29,7 @@ const CmsPage: React.FC = () => {
 
   return (
     <LoadingSpinner isLoading={loadingPage || loadingNavigation}>
-      <div>
+      <div className={styles.cmsPageContainer}>
         {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs} />}
         {page && <CmsPageContent page={page} />}
         {showSearch && <CmsPageSearch page={page as Page} />}
