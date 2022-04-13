@@ -337,14 +337,46 @@ describe('Event price section', () => {
     expect(screen.getByLabelText(/Hinta/)).toBeDisabled();
     expect(screen.getByLabelText(/Lisätiedot/)).toBeDisabled();
 
-    userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
-
+    act(() => {
+      userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+    });
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
     expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
     expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
 
     // to avoid "An update to Formik inside a test was not wrapped in act(...).""
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
+  });
+
+  test('free text cannot be added to the price field', async () => {
+    render(<CreateEventPage />, { mocks });
+    await screen.findByLabelText(/Tapahtuma on ilmainen/);
+    act(() => {
+      userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+    });
+    userEvent.type(screen.getByLabelText(/Hinta/), '15 euroa');
+    userEvent.tab();
+    await waitFor(() => {
+      expect(
+        screen.getByText(/tämän kentän on oltava kelvollinen numero/i)
+      ).toBeInTheDocument();
+    });
+  });
+
+  test('commas are converted to dots', async () => {
+    render(<CreateEventPage />, { mocks });
+    await screen.findByLabelText(/Tapahtuma on ilmainen/);
+    act(() => {
+      userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+    });
+    userEvent.type(screen.getByLabelText(/Hinta/), '12,34 ');
+    userEvent.tab();
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/tämän kentän on oltava kelvollinen numero/i)
+      ).not.toBeInTheDocument();
+    });
+    expect(screen.getByLabelText(/Hinta/)).toHaveValue('12.34');
   });
 });
 

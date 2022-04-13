@@ -138,6 +138,12 @@ const EventForm = <T extends FormFields>({
       }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
+        const normalizePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+          const normalizedValue = event.target.value
+            .replace(/,/g, '.')
+            .replace(' ', '');
+          setFieldValue('price', normalizedValue, true);
+        };
         return (
           <>
             <BackButton onClick={goBack}>{t('common.back')}</BackButton>
@@ -352,6 +358,7 @@ const EventForm = <T extends FormFields>({
                             label={t('eventForm.offers.labelPrice')}
                             name="price"
                             component={TextInputField}
+                            onChange={normalizePrice}
                           />
                         </div>
                         <div className={styles.isFreeWrapper}>
