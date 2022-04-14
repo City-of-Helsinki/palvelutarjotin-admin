@@ -346,6 +346,42 @@ describe('Event price section', () => {
     // to avoid "An update to Formik inside a test was not wrapped in act(...).""
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
   });
+
+  test.each(['15 euroa', 'kysy tarjousta', '9.99', '9,99'])(
+    'price field allows a free text',
+    async (testText) => {
+      render(<CreateEventPage />, { mocks });
+      await screen.findByLabelText(/Tapahtuma on ilmainen/);
+      act(() => {
+        userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+      });
+      userEvent.type(screen.getByLabelText(/Hinta/), testText);
+      userEvent.tab();
+      await waitFor(() => {
+        expect(screen.getByTestId('event-form')).toHaveFormValues({
+          price: testText,
+        });
+      });
+    }
+  );
+
+  test('price field in a required field when is free is not checked', async () => {
+    render(<CreateEventPage />, { mocks });
+    await screen.findByLabelText(/Tapahtuma on ilmainen/);
+    act(() => {
+      userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+    });
+    expect(
+      screen.queryByText(/Tämä kenttä on pakollinen/i)
+    ).not.toBeInTheDocument();
+    userEvent.type(screen.getByLabelText(/Hinta/), '');
+    userEvent.tab();
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Tämä kenttä on pakollinen/i)
+      ).toBeInTheDocument();
+    });
+  });
 });
 
 describe('Language selection', () => {
