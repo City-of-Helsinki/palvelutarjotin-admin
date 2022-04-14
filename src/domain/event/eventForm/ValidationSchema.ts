@@ -4,12 +4,6 @@ import * as Yup from 'yup';
 import { Language } from '../../../types';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 
-const priceValidation = Yup.string()
-  // Price field is a string field which should contain positive numbers
-  .matches(/^\d+(\.\d+)?$/, VALIDATION_MESSAGE_KEYS.STRING_POSITIVENUMBER)
-  // Price should be required when event is not free
-  .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED);
-
 const createMultiLanguageValidation = (
   languages: string[],
   rule: Yup.AnySchema
@@ -72,7 +66,7 @@ const createValidationSchemaYup = (selectedLanguages: Language[]) =>
     contactEmail: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
     price: Yup.string().when('isFree', {
       is: false,
-      then: priceValidation,
+      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     }),
     priceDescription: Yup.object().when('isFree', {
       is: false,
