@@ -165,6 +165,16 @@ exports[`renders CMS page and navigation flow works 1`] = `
                   >
                     <a
                       class="Menu-module_item__3yQdE "
+                      href="/fi/cms-page/helsinki-liikkuu/"
+                    >
+                      <span
+                        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                      >
+                        Mikä Kultus?
+                      </span>
+                    </a>
+                    <a
+                      class="Menu-module_item__3yQdE "
                       href="/fi/cms-page/helsinki-liikkuu/alisivu/"
                     >
                       <span
