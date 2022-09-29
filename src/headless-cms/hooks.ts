@@ -1,6 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 
+import { isAuthenticatedSelector } from '../domain/auth/selectors';
 import {
   MenuNodeIdTypeEnum,
   MenuPageFieldsFragment,
@@ -22,9 +24,10 @@ import {
 export const useCmsMenuItems = () => {
   const locale = useLocale();
   const { slug } = useParams<{ slug: string }>();
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
   const { data: navigationData, loading: cmsMenuLoading } = useMenuQuery({
     client: cmsClient,
-    skip: !isFeatureEnabled('HEADLESS_CMS') || !locale,
+    skip: !isFeatureEnabled('HEADLESS_CMS') || !locale || !isAuthenticated,
     variables: {
       id: MENU_NAME.Header,
       idType: MenuNodeIdTypeEnum.Name,
@@ -32,39 +35,41 @@ export const useCmsMenuItems = () => {
   });
 
   // contains menu items as arrays with all the translations
-  const menuItemArrays = navigationData?.menu?.menuItems?.nodes?.map(
-    (menuItem) => {
-      const item = menuItem?.connectedNode?.node;
-      if (isPageNode(item)) {
-        const translationItems = item.translations?.map((translation) => ({
-          ...translation,
-          locale: translation?.language?.code,
-          uri: stripLocaleFromUri(translation?.uri ?? ''),
-          // find all child translations that have same language
-          children: item.children?.nodes
-            ?.filter(isPageNode)
-            .map((childNode) =>
-              childNode.translations?.find(
-                (childTranslation) =>
-                  translation?.language === childTranslation?.language
+  const menuItemArrays = React.useMemo(
+    () =>
+      navigationData?.menu?.menuItems?.nodes?.map((menuItem) => {
+        const item = menuItem?.connectedNode?.node;
+        if (isPageNode(item)) {
+          const translationItems = item.translations?.map((translation) => ({
+            ...translation,
+            locale: translation?.language?.code,
+            uri: stripLocaleFromUri(translation?.uri ?? ''),
+            // find all child translations that have same language
+            children: item.children?.nodes
+              ?.filter(isPageNode)
+              .map((childNode) =>
+                childNode.translations?.find(
+                  (childTranslation) =>
+                    translation?.language === childTranslation?.language
+                )
               )
-            )
-            .filter(skipFalsyType),
-        }));
+              .filter(skipFalsyType),
+          }));
 
-        return [
-          {
-            ...item,
-            locale: item?.language?.code,
-            uri: stripLocaleFromUri(item.uri ?? ''),
-            children: item.children?.nodes?.filter(isPageNode),
-          },
-          ...(translationItems ?? []),
-        ];
-      }
+          return [
+            {
+              ...item,
+              locale: item?.language?.code,
+              uri: stripLocaleFromUri(item.uri ?? ''),
+              children: item.children?.nodes?.filter(isPageNode),
+            },
+            ...(translationItems ?? []),
+          ];
+        }
 
-      return null;
-    }
+        return null;
+      }),
+    [navigationData]
   );
 
   const menuItems = menuItemArrays

@@ -6,7 +6,13 @@ import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../../utils/testUtils';
+import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
 
 const profileResponse = {
@@ -74,9 +80,16 @@ describe('cimode in language selector', () => {
 });
 
 test('header renders cms menu items', async () => {
+  jest.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   const { menuItems } = initCmsMenuItemsMocks();
   render(<Header />, { mocks });
-
+  await waitFor(() => {
+    expect(
+      screen.getByRole('button', {
+        name: /fi kielivalikko/i,
+      })
+    ).toBeInTheDocument();
+  });
   for (const menuItem of menuItems) {
     if (menuItem.children) {
       const dropdownButton = await screen.findByRole('button', {
