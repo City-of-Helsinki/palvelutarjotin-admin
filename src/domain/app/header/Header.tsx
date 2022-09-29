@@ -55,11 +55,10 @@ const Header: React.FC = () => {
     };
 
   const isAuthenticated = useSelector(isAuthenticatedSelector);
-
   const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
 
   const organisations: OrganisationNodeFieldsFragment[] =
-    myProfileData?.myProfile?.organisations.edges.map((edge) => ({
+    myProfileData?.myProfile?.organisations?.edges?.map((edge) => ({
       ...(edge?.node as OrganisationNodeFieldsFragment),
     })) || [];
 
@@ -74,7 +73,7 @@ const Header: React.FC = () => {
       logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
       title={t('appName')}
     >
-      {!cmsMenuLoading && menuItems && (
+      {!cmsMenuLoading && menuItems?.length && (
         <Navigation.Row variant="inline">
           {menuItems
             ?.map((item, index) => {
