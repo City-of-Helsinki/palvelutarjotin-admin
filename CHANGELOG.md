@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.1.1...v1.4.0) (2022-10-12)
+
+
+### Features
+
+* **autoAcceptanceMessage:** notification about the email content ([564d7ca](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/564d7ca00b40899676bb21060d96db81b5e99f30))
+* **autoAcceptanceMessage:** updated the schema ([4f0c6da](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4f0c6daaa977a67875304c5408b42babfe2add7d))
+* cms menu loading skipped when user is not logged in ([cf70ac0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cf70ac04f282ca07f9c48e271ea6bca6798e801c))
+* implement new occurrence form with HDS inputs ([dae2a51](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/dae2a516acb777261d39fc7ca749121853fa3b23))
+* **navigation:** add dropdown menu and delete sub navigation bars ([d57c8a7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d57c8a7cdab562a90b2877e6c6db3182ebe06428))
+* **profile:** email can be given in my profile form ([b62b489](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b62b48957017f3c34239065915003eaa1a936f20))
+* **sidebar:** add sidebar layout and link list ([f494789](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/f494789ffc362eecc0f03980a767579f34dd09f2))
+
+
+### Bug Fixes
+
+* a typo in the placeholder text "Etsi helsinkiläistä toimipistettä" ([2eb425a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2eb425a138261fc193f669e6d6bfc4ce92630752))
+* add img and figure styles to fix cms page with bit image ([d7d5de2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d7d5de2c3124794fe45ed716105e0fa59858c7a3))
+* **autoAcceptanceMessage:** a trivial style fix ([83191da](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/83191da23027c5e8d11569edde6ce68afe8c81a5))
+* **autoAcceptanceMessage:** fixed edit event page mutation ([70bc6c7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/70bc6c7170431489245ced41bf8fd6413af5acca))
+* **autoAcceptanceMessage:** updated the Swedish translations ([01ace09](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/01ace09ed8c5814a56458e5f7b87dcccc73f73c6))
+* back navigation to pages where it was inconsistent ([6176a2a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6176a2a986ac396c8180b7bfb324d22516cd58ef))
+* delete padding:0 from sidebar container ([0945c40](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/0945c4048842b66cdd3b95e38cdb701ae81d4367))
+* delete unused function from validation schema ([df2a04a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/df2a04a57bc8f02e86cd2173dc560b2be02edd3f))
+* delete unused import ([c977412](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c977412d7c72a4cf29021884d5218f3a83624f70))
+* EditOccurrencePage form fix ([c709c30](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c709c306ba67513f0e659aca7c8b7ddb17d3630a))
+* filter undefined children from menu ([4f0e951](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4f0e95134246e7038f782c4b1718daf9600a4e04))
+* multiday occurrence time in occurrences table ([54080e4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/54080e4f666ba553affc4b604e5e04cdea915d50))
+* new occurrence form text fixes ([4a73a1c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4a73a1c2b0c2103855144dcf80d3203d2541ee47))
+* prevent fetching the places without place id ([7c6097b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/7c6097b28239e0dc81367e98c4f13aac01f7d9f0))
+
 ## [1.3.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.1.1...v1.3.0) (2022-04-21)
 
 
