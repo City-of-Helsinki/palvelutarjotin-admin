@@ -21,17 +21,11 @@ const RegistrationPendingPage: React.FC = () => {
           <div>
             <h2>{t('registrationPendingPage.title2')}</h2>
             <p>
-              Käsittelemme rekisteröitymisesi viimeistään seuraavana
-              arkipäivänä. Saat sähköpostiisi ilmoituksen, kun käyttäjätilisi on
-              aktivoitu.
+              Saat sähköpostiisi ilmoituksen, kun käyttäjätilisi on aktivoitu.
             </p>
             <h3>Lisätietoja</h3>
             <address>
-              Katri Aikio
-              <br />
-              katri.aikio@hel.fi
-              <br />
-              0404866869
+              kultus@hel.fi
               <br />
               Kultus
             </address>
