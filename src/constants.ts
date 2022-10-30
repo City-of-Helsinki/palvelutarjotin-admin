@@ -54,6 +54,13 @@ export const PRIVACY_POLICY_LINKS = {
     'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personregister%20Tj%C3%A4nstepalett.pdf',
 };
 
+export const TERMS_OF_SERVICE_SLUGS = {
+  fi: process.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_FI ?? 'kayttoehdot',
+  en:
+    process.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_EN ?? 'terms-of-service',
+  sv: process.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_SV ?? 'anvandarvillkor',
+};
+
 export const TEACHER_UI_LINKS = {
   fi: 'https://kultus.fi/fi',
   en: 'https://kultus.fi/en',

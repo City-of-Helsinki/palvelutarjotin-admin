@@ -187,7 +187,7 @@
   },
   "myProfileForm": {
     "checkboxPrivacyPolicy": "Jag godkänner användningen av den information som jag tillhandahåller i transaktionsinformationen.<a href='{{url}}' target='_blank' rel='noreferrer'>Integritetspolicy</a>",
-    "checkboxTermsOfService": "Jag har accepterat <a href='TODO: Add url'>användarvillkoren</a>",
+    "checkboxTermsOfService": "Jag har accepterat <a href='{{url}}' target='_blank' rel='noreferrer'>användarvillkoren</a>",
     "helperEmail": "Detta är ditt användarnamn",
     "helperContactEmail": "Används för kontakter",
     "helperName": "Kan användas för evenemangkontakter",

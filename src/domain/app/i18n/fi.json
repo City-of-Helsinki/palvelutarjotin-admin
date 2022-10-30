@@ -188,7 +188,7 @@
   },
   "myProfileForm": {
     "checkboxPrivacyPolicy": "Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. <a href='{{url}}' target='_blank' rel='noreferrer'>Tietosuojaseloste</a>",
-    "checkboxTermsOfService": "Olen hyväksynyt palvelut <a href='TODO: Add url'>käyttöehdot</a>",
+    "checkboxTermsOfService": "Olen hyväksynyt palvelut <a href='{{url}}' target='_blank' rel='noreferrer'>käyttöehdot</a>",
     "helperEmail": "Tämä on käyttäjätunnuksesi",
     "helperContactEmail": "Käytetään yhteydenotoissa",
     "helperName": "Voidaan käyttää tapahtumien yhteystiedoissa",

@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { TERMS_OF_SERVICE_SLUGS } from '../../../constants';
 import { useMyProfileQuery } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import {
   isAuthenticatedSelector,
   isLoadingUserSelector,
@@ -14,6 +16,7 @@ import Header from '../header/Header';
 import LoginPage from '../login/LoginPage';
 import { useMobileMenuContext } from '../mobileMenu/MobileMenu';
 import { ROUTES } from '../routes/constants';
+import { getCmsPath } from '../routes/utils';
 import styles from './pageLayout.module.scss';
 import ProtectedPageWrapper from './ProtectedPageWrapper';
 
@@ -27,6 +30,10 @@ const PageLayout: React.FC = ({ children }) => {
   const { loading: loadingMyProfile } = useMyProfileQuery({
     skip: !isAuthenticated,
   });
+  const locale = useLocale();
+  const isTermsOfServicePath = pathname.endsWith(
+    `${getCmsPath('/' + TERMS_OF_SERVICE_SLUGS[locale])}`
+  );
 
   return (
     <div className={styles.pageLayout}>
@@ -46,7 +53,9 @@ const PageLayout: React.FC = ({ children }) => {
             pathname === ROUTES.CALLBACK
           }
         >
-          {isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
+          {isTermsOfServicePath ? (
+            <>{children}</>
+          ) : isAuthenticated || pathname === ROUTES.SILENT_CALLBACK ? (
             <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
           ) : (
             <LoginPage />
