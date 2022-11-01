@@ -22,7 +22,7 @@ import FocusToFirstError from '../../../common/components/form/FocusToFirstError
 import FormGroup from '../../../common/components/form/FormGroup';
 import HelperText from '../../../common/components/form/HelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import { PRIVACY_POLICY_LINKS } from '../../../constants';
+import { PRIVACY_POLICY_LINKS, TERMS_OF_SERVICE_SLUGS } from '../../../constants';
 import {
   Language,
   OrganisationType,
@@ -30,6 +30,7 @@ import {
 } from '../../../generated/graphql';
 import { LanguageCodeEnum } from '../../../generated/graphql-cms';
 import useLocale from '../../../hooks/useLocale';
+import { getCmsPath } from '../../app/routes/utils';
 import { userSelector } from '../../auth/selectors';
 import styles from './myProfileForm.module.scss';
 import { getMyProfileValidationSchema } from './ValidationSchema';
@@ -128,7 +129,9 @@ function MyProfileForm<T extends FormType>({
                 label={
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: t('myProfileForm.checkboxTermsOfService'),
+                      __html: t('myProfileForm.checkboxTermsOfService', {
+                        url: getCmsPath(`/${TERMS_OF_SERVICE_SLUGS[locale]}`)
+                      }),
                     }}
                   />
                 }

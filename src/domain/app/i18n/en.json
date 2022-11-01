@@ -183,7 +183,7 @@
   },
   "myProfileForm": {
     "checkboxPrivacyPolicy": "I authorize the use of the information I provide in the transaction information. <a href='{{url}}' target='_blank' rel='noreferrer'>Privacy Policy</a>",
-    "checkboxTermsOfService": "I have accepted the <a href='TODO: Add url'>terms of service</a>",
+    "checkboxTermsOfService": "I have accepted the <a href='{{url}}' target='_blank' rel='noreferrer'>terms of service</a>",
     "helperEmail": "This is your username",
     "helperContactEmail": "This is used to contact you",
     "helperName": "Can be used for event contacts",
