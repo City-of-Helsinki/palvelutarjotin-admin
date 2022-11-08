@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.4.0...v1.5.0) (2022-11-08)
+
+
+### Features
+
+* add terms of service page link to profile form ([e70abce](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/e70abcef48400f9978fb728249e15028e141f70f))
+* update registration pending page text and contact info ([c75fb70](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c75fb70b4782ee26d039be3ef68a5c391c455eb8))
+
 ## [1.4.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.1.1...v1.4.0) (2022-10-12)
 
 
