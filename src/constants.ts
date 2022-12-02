@@ -45,13 +45,13 @@ export enum EVENT_LANGUAGES {
 export const PRIVACY_POLICY_LINKS = {
   fi:
     // eslint-disable-next-line max-len
-    'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Henkil%C3%B6rekisteri%20Palvelutarjotin.pdf',
+    'https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf',
   en:
     // eslint-disable-next-line max-len
-    'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personal%20data%20file%20Palvelutarjotin.pdf',
+    'https://hkih.production.geniem.io/uploads/sites/5/2022/11/bf2f8d34-rekisteriseloste-kultus.fi_en.pdf',
   sv:
     // eslint-disable-next-line max-len
-    'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Kuva/Personregister%20Tj%C3%A4nstepalett.pdf',
+    'https://hkih.production.geniem.io/uploads/sites/5/2022/11/0d425f44-rekisteriseloste-kultus.fi_sv.pdf',
 };
 
 export const TERMS_OF_SERVICE_SLUGS = {
