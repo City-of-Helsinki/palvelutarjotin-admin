@@ -493,7 +493,7 @@
     "title": "Events",
     "titleComingEvents": "Events",
     "titleEventsWithPastOccurrences": "Past events",
-    "titleEventsWithoutOccurrences": "Events without event times",
+    "titleEventsWithoutOccurrences": "Unpublished events",
     "errorFetchMoreEvents": "Failed to load more events"
   },
   "eventSummary": {

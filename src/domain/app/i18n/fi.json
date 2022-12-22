@@ -497,9 +497,9 @@
     "textEventCount": "{{count}} kpl",
     "textNoComingEvents": "Ei tapahtumia joissa on tulevia tapahtumia-aikoja",
     "title": "Tapahtumat",
-    "titleComingEvents": "Tapahtumat",
+    "titleComingEvents": " Julkaistut tapahtumat",
     "titleEventsWithPastOccurrences": "Menneet tapahtumat",
-    "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja",
+    "titleEventsWithoutOccurrences": "Julkaisemattomat tapahtumat",
     "errorFetchMoreEvents": "Tapahtumien lataaminen epäonnistui"
   },
   "eventSummary": {
@@ -564,7 +564,7 @@
     "infoContentAutoAcceptance": "Personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot.",
     "labelEventLocation": "Tapahtumapaikka",
     "labelLocationDescription": "Tapahtumapaikan kuvaus",
-    "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman",
+    "labelOneGroupFills": "Yksi ryhmä täyttää tapahtuman (Määritäthän ryhmän koon (min/max), jos tapahtuma on suunnattu vain ryhmille)",
     "titleParticipantRow": "Osallistujamäärä",
     "labelMultidayOccurrence": "Tapahtuma-aika on monipäiväinen",
     "validation": {

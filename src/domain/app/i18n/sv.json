@@ -16,8 +16,8 @@
   },
   "common": {
     "back": "Tillbacka",
-    "leave": "Lämna",
-    "close": "Stänga",
+    "leave": "Lämn",
+    "close": "Stäng",
     "srOnly": {
       "opensInANewTab": "Öppnas i en ny flik"
     },
@@ -25,7 +25,7 @@
       "buttonCancel": "Avbryt"
     },
     "notificationModal": {
-      "buttonClose": "Stänga"
+      "buttonClose": "Stäng"
     },
     "autoSuggest": {
       "accessibility": {
@@ -94,7 +94,7 @@
       "fi": "Finska",
       "ru": "Ryska",
       "sv": "Svenska",
-      "zh_hans": "Kinesisk"
+      "zh_hans": "Kinesiska"
     },
     "tableDropdown": {
       "toggleButton": "Välj"
@@ -112,12 +112,12 @@
     "linkFrontPage": "Hemsidan",
     "pageSearch": {
       "searchLabel": "Sök",
-      "searchHelperText": "Sök från {{title}} sidas undersidor ...",
-      "loadMore": "Ladda mer"
+      "searchHelperText": "Sök från {{title}}",
+      "loadMore": "Ladda fler"
     }
   },
   "enrolmentForm": {
-    "buttonSubmit": "Skicka in registrering",
+    "buttonSubmit": "Anmäl dig",
     "buttonUpdateEnrolment": "Uppdatera registreringen",
     "infoText1": "Vi använder inte den information du tillhandahåller för marknadsföringsändamål.",
     "infoText2": "Vi skickar ett separat bekräftelsemeddelande när organisatören har behandlat och bekräftat din registrering.",
@@ -143,24 +143,24 @@
         "labelName": "Name",
         "labelPhoneNumber": "Telefonnummer"
       },
-      "helperExtraNeeds": "Lägg till här om du vill berätta arrangören om något annat som är relevant för din grupp",
-      "helperGroupName": "Unikt namn på gruppen, till exempel: 4a",
+      "helperExtraNeeds": "Ange här om du vill berätta något annat relevant om din grupp för arrangören",
+      "helperGroupName": "Gruppens unika namn, t.ex. 4a",
       "labelAmountOfAdult": "Vuxna",
-      "labelExtraNeeds": "Ytterligare information (valfritt)",
+      "labelExtraNeeds": "Ytterligare information (valfri)",
       "labelGroupName": "Gruppens namn",
       "labelGroupSize": "Barn",
-      "labelName": "Förskola / skola / högskola",
-      "labelStudyLevel": "Betygsnivå",
-      "titleGroup": "Gruppinformation",
-      "titleNotifier": "Anmälaren informations",
-      "helperUnitId": "Sök efter en plats i staden Helsingfors",
+      "labelName": "Daghem / skola / läroanstalt",
+      "labelStudyLevel": "Årskurs",
+      "titleGroup": "Uppgifter om gruppen",
+      "titleNotifier": "Anmälarens uppgifter",
+      "helperUnitId": "Sök verksamhetsställe i Helsingfors",
       "placeholderUnitId": "Enhetens namn",
       "helperUnitName": "Skriv namnet på enheten",
       "placeholderUnitName": "Enhetens namn",
-      "showUnitNameLabel": "Platsen är inte listad"
+      "showUnitNameLabel": "Platsen finns inte med på listan"
     },
-    "titleNotifications": "Meddelanden om händelse",
-    "titleResponsiblePerson": "An adult in charge of the group during the event",
+    "titleNotifications": "Meddelanden  om evenemanget",
+    "titleResponsiblePerson": "Vuxen som ansvarar för gruppen under evenemanget",
     "validation": {
       "isSharingDataAccepted": "Dela information med arrangören måste godkännas"
     }
@@ -222,7 +222,7 @@
     "declineEnrolmentError": "Avslag på registrering misslyckades",
     "deleteEnrolmentError": "Radering av registreringen misslyckades",
     "editEnrolmentTitle": "Redigera registreringsinformation",
-    "editEnrolmentBackButton": "Inskrivna",
+    "editEnrolmentBackButton": "Anmälda",
     "status": {
       "approved": "Godkänd",
       "cancelled": "Inställt",
@@ -230,18 +230,18 @@
       "pending": "Ny"
     },
     "enrolmentModal": {
-      "declineEnrolment": "Avsluta registreringen",
-      "approveEnrolment": "Godkänn registrering",
+      "declineEnrolment": "Avsluta anmälan",
+      "approveEnrolment": "Godkänn anmälan",
       "deleteEnrolment": "Radera registrering",
-      "selectedEnrollees": "Valda inskrivna",
+      "selectedEnrollees": "Valda anmälda",
       "approveEnrolmentNote": "Valda anmälningar kommer att godkännas och meddelanden skickas till dem.",
-      "declineEnrolmentNote": "Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.",
+      "declineEnrolmentNote": "Deltagandet för de valda personer som anmält sig bekräftas inte.",
       "addMessage": "Lägg till meddelande",
       "cancelEnrolment": "Annullera",
       "messageToParticipants": "Meddelande till deltagarna",
       "sendConfirmationMessage": "Skicka bekräftelse",
       "sendCancelMessage": "Skicka",
-      "preview": "Förhandsvisning",
+      "preview": "Förhandsgranskning",
       "previewError": "Fel vid inläsning av förhandsgranskning"
     },
     "enrolmentDetails": {
@@ -249,19 +249,19 @@
       "buttonDeclineEnrolment": "Avsluta registreringen",
       "buttonDeleteEnrolment": "Radera",
       "buttonEditEnrolment": "Redigera",
-      "buttonEnrolleesTitle": "Inskrivna",
+      "buttonEnrolleesTitle": "Anmälda",
       "buttonGoToEnrolleesList": "Tillbaka till listan över anmälningar",
-      "labelEnrolled": "Inskrivna",
+      "labelEnrolled": "Anmälda",
       "labelStatus": "Status",
       "labelName": "Namn",
       "labelEmail": "E-post",
       "labelPhoneNumber": "Telefonnummer",
-      "labelStudyGroupName": "Förskola / skola / högskola",
+      "labelStudyGroupName": "Daghem/ skola/ läroanstalt",
       "labelGroupName": "Grupp namn",
-      "labelStudyLevel": "Betygsnivå",
-      "labelGroupSize": "Barn / vuxna",
+      "labelStudyLevel": "Årskurs",
+      "labelGroupSize": "Barn / Vuxna",
       "labelResponsiblePerson": "Ansvarig person",
-      "labelNotifications": "Händelseaviseringar",
+      "labelNotifications": "Meddelanden om evenemanget",
       "labelAdditionalInfo": "Ytterligare information",
       "error": "Hämtning av registreringsdata misslyckades"
     },
@@ -272,14 +272,14 @@
   "createEvent": {
     "pageTitle": "Nytt evenemang",
     "title": "Nytt evenemang",
-    "error": "Det gick inte att spara händelsen",
+    "error": "Det gick inte att spara evenemanget",
     "threeStepNotification": {
       "title": "Evenemanget skapas stegvis.",
       "description": "Nödvändig information måste anges innan du går vidare till nästa steg"
     },
     "stepTitles": {
       "titleBasicInfo": "Grundläggande information",
-      "titleOccurrences": "Förekomster",
+      "titleOccurrences": "Evenemangstider",
       "titlePublish": "Publicera"
     }
   },
@@ -293,10 +293,10 @@
     },
     "pageTitle": "Redigera evenemang",
     "title": "Redigera evenemang",
-    "error": "Det gick inte att spara händelsen",
-    "errorEventIsInThePast": "Händelsen är i det förflutna",
-    "errorEventIsInThePastDescription": "Händelse som är tidigare kan inte redigeras.",
-    "errorEventIsPublished": "Händelsen har redan publicerats",
+    "error": "Det gick inte att spara evenemanget",
+    "errorEventIsInThePast": "Evenemanget är i det förflutna",
+    "errorEventIsInThePastDescription": "Evenemanget som är tidigare kan inte redigeras.",
+    "errorEventIsPublished": "Evenemanget har redan publicerats",
     "errorEventIsPublishedDescription": "Publicerade händelser kan inte redigeras."
   },
   "eventDetails": {
@@ -312,12 +312,12 @@
       "labelName": "Evenemangets namn",
       "labelShortDescription": "Kort beskrivning",
       "labelTargetGroup": "Målgrupper",
-      "title": "Grundläggande information",
+      "title": "Grundläggande information om evenemanget",
       "photographerText": "Foto: {{photographer}}"
     },
     "buttons": {
       "buttonBack": "Evenemang",
-      "buttonDelete": "Bort händelsen",
+      "buttonDelete": "Ta bort evenemanget",
       "buttonEdit": "Redigera evenemang"
     },
     "categorisation": {
@@ -329,7 +329,7 @@
       "labelActivities": "Aktiviteter",
       "labelNeededOccurrences": "Nödvändiga besök",
       "labelPrice": "Pris, €",
-      "title": "Klassificeringar av evenemang"
+      "title": "Evenemangets klassificeringar"
     },
     "contactPerson": {
       "labelEmail": "E-post",
@@ -348,14 +348,14 @@
     },
     "location": {
       "labelLocation": "Evenemangets plats",
-      "labelLocationDescription": "Beskrivning av arenan",
-      "snackEatingPlace": "Snack äta plats",
-      "clothingStorage": "Klädförvaring",
-      "outdoorActivity": "Utomhusaktivitet",
-      "toiletNearby": "Toalett i närheten",
-      "areaForGroupWork": "Grupparbetsutrymme",
-      "indoorPlayingArea": "Lekutrymme inne",
-      "outdoorPlayingArea": "Lekutrymme ute",
+      "labelLocationDescription": "Beskrivning av evenemangsplatsen",
+      "snackEatingPlace": "Plats för att äta matsäck",
+      "clothingStorage": "Förvaring av ytterkläder",
+      "outdoorActivity": "Verksamheten sker utomhus",
+      "toiletNearby": "Toalett nära utrymmet",
+      "areaForGroupWork": "Grupparbetsrum",
+      "indoorPlayingArea": "Lekplats inomhus",
+      "outdoorPlayingArea": "Lekplats utomhus",
       "title": "Plats"
     },
     "title": "Evenemangsdetaljer"
@@ -364,34 +364,34 @@
     "basicInfo": {
       "addImage": "Lägg till bild",
       "deleteImage": "Ta bort bild",
-      "descriptionAddImage": "Lägg till bild av evenemanget. Ange fotografens namn. Bildens maximala storlek är 2 megabyte. Rekommenderade dimensios är 1200px X 800px.",
+      "descriptionAddImage": "Lägg till en bild för evenemanget. Du behöver också namnet på fotografen och en publiceringslicens. Maximal storlek 2 megabyte. Rekommenderad bildstorlek är 1200 x 800 px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
-      "labelDescription": "Beskrivning",
-      "labelMandatoryAdditionalInformation": "Att registrera ytterligare information är obligatoriskt",
+      "labelDescription": "Beskrivning (SV)",
+      "labelMandatoryAdditionalInformation": "De som anmäler sig måste ange tilläggsinformation.",
       "guidanceTextMandatoryAdditionalInformation": "I fall du vill ha tilläggs information om gruppen, i samband med bokingen meddela om detta i beskrivingen av evenemanget.",
-      "labelEnrolmentEndDays": "Anmälningen stängs x-dagar innan evenemanget",
+      "labelEnrolmentEndDays": "Anmälan stänger X dagar före evenemangstiden",
       "labelEnrolmentStartDate": "Registrering börjar",
       "labelEnrolmentStartTime": "Tid",
       "labelImage": "Bild av evenemanget",
-      "labelImageAltText": "Bild alt-text",
+      "labelImageAltText": "Bildens alt-text",
       "labelImagePhotographer": "Fotograf",
-      "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
+      "labelInfoUrl": "Webbadress där du hittar mer information om evenemanget",
       "labelName": "Evenemangets namn",
-      "labelShortDescription": "Kort beskrivning (Max 160 märken)",
+      "labelShortDescription": "Kort beskrivning (upp till 160 tecken)",
       "labelTargetGroup": "Målgrupper",
-      "helperEnrolmentEndDays": "Välj hur många dagar innan händelsetiden anmälan slutar",
+      "helperEnrolmentEndDays": "Välj hur många dagar innan evenemangstiden anmälan slutar",
       "photographer": "Fotograf",
-      "title": "Grundläggande information"
+      "title": "Grundläggande information om evenemanget"
     },
-    "formLanguageSelectorTitle": "Välj formularspråkversioner",
+    "formLanguageSelectorTitle": "Välj formularspråk",
     "buttonCancel": "Avbryt",
     "buttonUpdate": "Uppdatera",
     "buttonSave": "Spara",
-    "buttonSaveAndGoToOccurrences": "Spara och gå till tidpunkter",
+    "buttonSaveAndGoToOccurrences": "Spara och gå till evenemangstiderna",
     "buttonSaveDraft": "Spara utkast",
     "saveSuccesful": "Data har sparats",
     "occurrenceTime": {
-      "titleOccurrenceTime": "Förekomsttid",
+      "titleOccurrenceTime": "Evenemangstid",
       "occurrenceTimeHelperText": "Första förekomstdatum. Resten av händelserna och ytterligare information anges i steg 2."
     },
     "categorisation": {
@@ -407,11 +407,11 @@
       "title": "Klassificeringar av evenemang"
     },
     "offers": {
-      "title": "Evenemanget prissättning",
+      "title": "Evenemangets prissättning",
       "labelIsFree": "Evenemanget är gratis",
-      "labelPrice": "Pris, €",
-      "labelPriceDescription": "Ytterligare information",
-      "placeholderPriceDescription": "pris per barn / grupp,\nhur man ska betala (fakturering eller betalkort),\navbokningsregler"
+      "labelPrice": "Pris €",
+      "labelPriceDescription": "Tilläggsinformation (SV)",
+      "placeholderPriceDescription": "pris per barn/grupp,\nhur man betala (faktura eller bankkort),\navbokningspolicy"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Ändra språk. Vaihda kieli. Change language.",
@@ -426,21 +426,21 @@
       "title": "Kontaktperson"
     },
     "enrolment": {
-      "title": "Inskrivning",
-      "labelExternalEnrolmentUrlOrEmail": "E-post- eller nätadress för anmälningar"
+      "title": "Anmälan",
+      "labelExternalEnrolmentUrlOrEmail": "E-post- eller webbadress för anmälan"
     },
     "enrolmentType": {
-      "labelInternal": "Interna registreringar på Kultus",
-      "labelExternal": "Anmälningar på en annan webbplats",
-      "labelUnenrollable": "Inga anmälningar"
+      "labelInternal": "Anmälan i Kultus",
+      "labelExternal": "Anmälan på en annan webbplats",
+      "labelUnenrollable": "Ingen anmälan"
     },
     "location": {
-      "helperLocation": "Standardplats för evenemangtider",
-      "labelLocation": "Standard venue",
+      "helperLocation": "Evenemangsplats som används för evenemangstiderna",
+      "labelLocation": "Standardevenemangsplats",
       "placeholderLocation": "Sök evenemangsplats...",
       "title": "Plats",
-      "labelEventIsHeldVirtual": "Evenemanget hålls praktiskt taget",
-      "labelBookableEvent": "Evenemanget går att beställa till den egna verksamhetsplatsen"
+      "labelEventIsHeldVirtual": "Evenemanget ordnas virtuellt",
+      "labelBookableEvent": "Kan bokas till eget verksamhetsställe"
     },
     "accessibility": {
       "audienceDropdown": {
@@ -468,29 +468,29 @@
   },
   "events": {
     "buttonLoadMore": "Visa mer",
-    "buttonNewEvent": "Skapa ny evenemang",
+    "buttonNewEvent": "Lägg till ett nytt evenemang",
     "eventCard": {
-      "ariaLabelOpenOccurrences": "Gå till evenemangtided av {{eventName}}",
+      "ariaLabelOpenOccurrences": "Gå till evenemangstid  av {{eventName}}",
       "textEnrolments": "{{count}} registrerad",
       "textEnrolments_plural": "{{count}} registrerade",
-      "textExternalEnrolments": "Anmälningar på en annan webbplats",
-      "textUnenrollable": "Inga anmälningar",
-      "textOccurrences": "{{count}} händelsetid",
+      "textExternalEnrolments": "Anmälan på en annan webbplats",
+      "textUnenrollable": "Ingen anmälan",
+      "textOccurrences": "{{count}} evenemangstid",
       "textOccurrences_plural": "{{count}} evenemangtider",
-      "statusPublished": "Publicerad",
-      "statusNotPublished": "Ej publicerad",
-      "free": "Fri",
+      "statusPublished": "Publicerat",
+      "statusNotPublished": "Ej publicerat",
+      "free": "Gratis",
       "startTime": {
-        "other": "{{date}} kl {{time}}",
-        "today": "Idag kl {{time}}",
-        "tomorrow": "Imorgon kl {{time}}"
+        "other": "{{date}} kl. {{time}}",
+        "today": "Idag kl. {{time}}",
+        "tomorrow": "Imorgon kl. {{time}}"
       }
     },
     "search": {
-      "placeholderSearch": "Sök",
+      "placeholderSearch": "Sökning",
       "labelSearch": "Sök",
-      "labelPlaces": "Stället",
-      "placeholderPlaces": "Sök efter stället för",
+      "labelPlaces": "Platser",
+      "placeholderPlaces": "Sök platser",
       "placesToggleButtonAriaLabel": "Öppna dropdown för at hitta de du söker",
       "placesClearButtonAriaLabel": "Radera ut de utvalda platserna",
       "placesSelectedItemRemoveButtonAriaLabel": "Tabort (det här) stället"
@@ -501,7 +501,7 @@
     "title": "Evenemang",
     "titleComingEvents": "Evenemang",
     "titleEventsWithPastOccurrences": "Tidigare evenemang",
-    "titleEventsWithoutOccurrences": "Evenemang utan evenemangtider",
+    "titleEventsWithoutOccurrences": "Opublicerat evenemang",
     "errorFetchMoreEvents": "Det gick inte att ladda evenemangen"
   },
   "eventSummary": {
@@ -511,7 +511,7 @@
     "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
     "buttonEditBasicInfo": "Redigera information",
     "buttonEditOccurrences": "Redigera förekomster",
-    "buttonExportEnrolments": "Ladda ner registreringar (CSV)"
+    "buttonExportEnrolments": "Ladda ner anmälda (CSV)"
   },
   "eventEnrolmentsReport": {
     "downloadError": "Ett fel uppstod när filen laddades."
@@ -519,9 +519,9 @@
   "createOccurrence": {
     "buttonBack": "Tillbaka till grundläggande information",
     "buttonShowEventInfo": "Visa information om evenemang",
-    "error": "Det gick inte att spara evenemangtid",
-    "formTitle": "Lägg till ny händelsehändelse",
-    "pageTitle": "Ny händelse",
+    "error": "Det gick inte att spara evenemangstid",
+    "formTitle": "Lägg till ett nytt evenemang",
+    "pageTitle": "Nytt evenemang",
     "buttonSaveAndGoToPublishing": "Spara och gå till publicering",
     "buttonGoToPublishing": "Gå till publicering",
     "missingEventInfo": {
@@ -537,38 +537,38 @@
     "buttonGoToPublishing": "Tillbaka till publicering"
   },
   "editOccurrence": {
-    "buttonBack": "Evenemangtider",
+    "buttonBack": "Evenemangstider",
     "buttonShowEventInfo": "Visa information om evenemang",
-    "error": "Det gick inte att spara evenemangtid",
-    "formTitle": "Redigera evenemangtid",
-    "pageTitle": "Redigera evenemangtid"
+    "error": "Det gick inte att spara evenemangstid",
+    "formTitle": "Redigera evenemangstid",
+    "pageTitle": "Redigera evenemangstid"
   },
   "eventOccurrenceForm": {
-    "infoText1": "Lägg till en evenemangtid för det evenemang som kunder kan registrera sig för. Observera att du kan skapa fler gånger samtidigt genom att kopiera händelsetiderna som du redan har skapat.",
-    "infoText2": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dag före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
-    "infoText2_plural": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i händelsesinformationen.",
-    "helpTextFirstOccurrence": "Fyll i Informationen för den första evenemang",
+    "infoText1": "Lägg till en evenemangstid för det evenemang som kunder kan registrera sig för. Observera att du kan skapa fler gånger samtidigt genom att kopiera evenemangstiderna som du redan har skapat.",
+    "infoText2": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dag före evenemangstiden. Du kan ändra dessa inställningar i evenemangsinformationen.",
+    "infoText2_plural": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i evenemangsinformationen.",
+    "helpTextFirstOccurrence": "Fyll i informationen för den första evenemang",
     "labelStartDate": "Datum",
-    "labelStartTime": "Börjar kl",
+    "labelStartTime": "Börjar kl.",
     "labelEndDate": "Slutdatum",
-    "labelEndTime": "Slutar kl",
-    "labelEnrolmentStarts": "Anmälan börjar",
+    "labelEndTime": "Slutar kl.",
+    "labelEnrolmentStarts": "Anmälan öppnar",
     "labelLanguages": "Evenemangets språk",
-    "labelAmountOfSeats": "Totala fläckar",
-    "labelGroupSizeMin": "Min (person)",
+    "labelAmountOfSeats": "Platser",
+    "labelGroupSizeMin": "Min. (personer)",
     "ariaLabelGroupSizeMin": "Minsta antal personer",
-    "labelGroupSizeMax": "Max (person)",
+    "labelGroupSizeMax": "Max. (personer)",
     "ariaLabelGroupSizeMax": "Maximalt antal personer",
-    "labelAutoAcceptance": "Bekräfta registreringar automatiskt inom antalet deltagare",
-    "labelAutoAcceptanceMessage": "Möjlig tilläggsinformation till bekräftningsmeddelandet",
-    "helperAutoAcceptanceMessage": "Tilläggsinformationen tillsätts i bekräftningsmeddelandet som skickas i samband med godkännandet av anmälningen",
-    "infoTitleAutoAcceptance": "Bekräftningsmeddelandet innehåller automatiskt följande uppgifter",
-    "infoContentAutoAcceptance": "Personlig hälsning, anmälan bekräftad, evenemangsinformation, tid, antal bokade platser, språk, plats, adress, arrangörens kontaktuppgifter",
+    "labelAutoAcceptance": "Bekräfta anmälningar automatiskt inom ramen för maximalt antal deltagare",
+    "labelAutoAcceptanceMessage": "Eventuell tilläggsinformation i bekräftelsemeddelandet",
+    "helperAutoAcceptanceMessage": "Tilläggsinformationen finns med i det bekräftelsemeddelande som skickas i samband med godkännandet av anmälan.",
+    "infoTitleAutoAcceptance": "Bekräftelsemeddelandet innehåller automatiskt följande information",
+    "infoContentAutoAcceptance": "Personifierad hälsning, anmälan bekräftad, uppgifter om evenemanget, tid, antal bokade platser, språk, plats, adress, arrangörens kontaktuppgifter.",
     "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
-    "labelOneGroupFills": "En grupp fyller evenemanget",
+    "labelOneGroupFills": "En grupp fyller evenemanget (Ange gruppens storlek (min/max) om evenemanget endast är avsett för grupper).",
     "titleParticipantRow": "Deltagarantal",
-    "labelMultidayOccurrence": "Evenemanget varar i flera dygn",
+    "labelMultidayOccurrence": "Evenemanget pågår i flera dagar",
     "validation": {
       "errorEndDateBeforeStartDate": "Slutdatumet måste vara efter startdatumet",
       "errorEndTimeBeforeStartTime": "Sluttiden måste vara efter starttiden"
@@ -581,7 +581,7 @@
     },
     "duplicateOccurrenceModal": {
       "title": "Observera",
-      "text": "En tidpunkt för evenemanget har redan lagts till med samma start- och sluttid. Är du säker på att du vill lägga till denna tidpunkt?",
+      "text": "En tidpunkt för evenemanget har redan lagts till med samma start- och sluttid. Är du säker på att du vill ange tidpunkten för publicering?",
       "buttonAddOccurrences": "Läg till ny tidpunkt",
       "buttonCancelAddOccurrence": "Avbryt"
     }
@@ -591,13 +591,13 @@
       "number": {
         "max": "Maxvärdet är {{max}}",
         "min": "Värdet måste vara minst {{min}}",
-        "required": "Obligatorikst att fylla detta fält"
+        "required": "Obligatoriskt att fylla detta fält"
       },
       "string": {
         "email": "Detta fält måste vara en giltig e-postmeddelande",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
-        "required": "Obligatorikst att fylla detta fält",
+        "required": "Obligatoriskt att fylla detta fält",
         "url": "Detta fält måste vara en giltig URL",
         "date": "Detta fält måste vara en giltig datum",
         "time": "Tid måste ges i följande format hh:mm",
@@ -605,14 +605,14 @@
       },
       "date": {
         "invalid": "Ange i formen D.M.ÅÅÅÅ",
-        "required": "Obligatorikst att fylla detta fält",
+        "required": "Obligatoriskt att fylla detta fält",
         "mustNotInThePast": "Detta datum kan inte vara i förr",
         "min": "Detta datum måste vara tidigast {{min}}",
         "max": "Detta datum måste vara senast {{max}}"
       },
       "time": {
         "invalid": "Ange i formen tt:mm",
-        "required": "Obligatorikst att fylla detta fält",
+        "required": "Obligatoriskt att fylla detta fält",
         "min": "Den här tiden måste vara tidigast {{min}}",
         "max": "Den här tiden måste vara senast {{max}}"
       },
@@ -661,21 +661,21 @@
     }
   },
   "image": {
-    "labelAltText": "Bild alt-text",
+    "labelAltText": "Bildens alt-text",
     "labelImage": "Bild av evenemanget",
     "labelPhotographerName": "Fotograf"
   },
   "login": {
     "buttonLogin": "Logga in",
     "pageTitle": "Logga in",
-    "title": "Evenemangshantering"
+    "title": "Hantering av evenemang"
   },
   "notFound": {
     "textNotFound": "Sidan du sökte hittades inte"
   },
   "occurrenceDetails": {
-    "buttonBack": "Evenemangtider",
-    "buttonEditOccurrence": "Redigera evenemangtid",
+    "buttonBack": "Evenemangstider",
+    "buttonEditOccurrence": "Redigera evenemangstid",
     "buttonEventDetails": "Visa information om evenemanget",
     "enrolmentTable": {
       "actionsDropdown": {
@@ -686,27 +686,27 @@
       },
       "columnActions": "Funktioner",
       "columnAdditionalInfo": "Ytterligare info",
-      "columnEnrolmentTime": "Anmäld kl",
-      "columnGroupSize": "Barn / vuxna",
+      "columnEnrolmentTime": "Anmälan öppnar",
+      "columnGroupSize": "Barn / Vuxna",
       "columnPersonName": "Namn",
       "columnStatus": "Status",
       "columnStudyGroupGroupName": "Grupp",
-      "columnStudyGroupName": "Förskola / skola / högskola",
-      "count": "{{seatsTaken}} st, {{approvedCount}} bekräftade, {{pendingCount}} i rad",
+      "columnStudyGroupName": "Daghem/skola/läroanstalt",
+      "count": "{{seatsTaken}} st., {{approvedCount}} godkänd, {{pendingCount}} i kö",
       "messages": "Inlägg: {{language}}",
       "showEnrolmentDetails": "Visa mer registreringsinformation",
-      "titleEnrolled": "Registreringar",
+      "titleEnrolled": "Anmälda",
       "labelSelectEnrolment": "Välj registrering {{info}}",
       "labelSelectAllEnrolments": "Välj alla anmälningar"
     },
     "enrolmentDetailsUpdated": "Registreringsinformation uppdaterad",
-    "pageTitle": "Evenemangtid",
+    "pageTitle": "Evenemangstid",
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",
     "textAmountOfSeats_plural": "{{count}} platser",
     "textAmountOfGroups": "{{count}} grupp",
     "textAmountOfGroups_plural": "{{count}} grupper",
-    "textGroupInfo": "gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
+    "textGroupInfo": "Gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Språk"
   },
   "editOccurrencesPage": {
@@ -719,21 +719,21 @@
       "menuItemEdit": "Redigera",
       "menuItemEnrolments": "Registreringar",
       "menuItemCancel": "Annullera",
-      "menuItemAddToCalendar": "Importera till kalender"
+      "menuItemAddToCalendar": "Ladda ner till kalendern"
     },
     "buttonBack": "Evenemang",
-    "buttonCreateOccurrence": "Lägg till en ny evenemangtid",
+    "buttonCreateOccurrence": "Lägg till en ny evenemangstid",
     "buttonEventDetails": "Visa information om evenemanget",
     "buttonCloneEventDetails": "Kopiera till en ny mall",
     "buttonShowMore": "Visa fler händelser",
-    "count": "{{count}} st",
-    "deleteError": "Det gick inte att ta bort evenemangtiden",
+    "count": "{{count}} st.",
+    "deleteError": "Det gick inte att ta bort evenemangstiden",
     "deleteSuccess": "Datum för evenemang borttaget",
     "deleteModal": {
-      "buttonDelete": "Bort evenemangtid",
-      "text1": "Är du säker på att du vill ta bort evenemangtid?",
-      "text2": "En borttagen evenemangtid kan inte ångras.",
-      "title": "Bort evenemangtid"
+      "buttonDelete": "Bort evenemangstid",
+      "text1": "Är du säker på att du vill ta bort evenemangstid?",
+      "text2": "En borttagen evenemangstid kan inte ångras.",
+      "title": "Bort evenemangstid"
     },
     "cancelModal": {
       "title": "Avbryt förekomst",
@@ -743,7 +743,7 @@
     "cancelError": "Det gick inte att avbryta förekomsten",
     "cancelSuccess": "Tiden för händelsen avbröts",
     "downloadCalendarError": "Fel vid import",
-    "pageTitle": "Evenemangtider",
+    "pageTitle": "Evenemangstider",
     "status": {
       "cancelled": "Inställt"
     },
@@ -756,15 +756,15 @@
       "columnEnrolmentsHelper": "accepterad / i väntan på",
       "columnLocation": "Evenemang plats",
       "columnTime": "Tid",
-      "labelChooseAllOccurrences": "Välj alla förekomster",
-      "labelChooseOccurrence": "Välj förekomst {{info}}",
+      "labelChooseAllOccurrences": "Välj alla evenemangstider",
+      "labelChooseOccurrence": "Välj evenemangstid {{info}}",
       "oneGroup": "1 grupp",
       "columnStarts": "Börjar",
       "columnEnds": "Slutar",
-      "columnLanguages": "Händelsens språk",
-      "columnMaxGroupSize": "Min",
-      "columnMinGroupSize": "Max",
-      "buttonDeleteOccurrence": "Ta bort förekomst"
+      "columnLanguages": "Evenemangets språk",
+      "columnMaxGroupSize": "Min.",
+      "columnMinGroupSize": "Max.",
+      "buttonDeleteOccurrence": "Ta bort evenemanget"
     },
     "publishSection": {
       "optionNow": "Nu",
@@ -772,45 +772,45 @@
       "buttonSetPublishedAdvanced": "Ställ in publiceringsdatum",
       "buttonCancelPublishment": "Avbryt publiceringen",
       "confirmModalTitle": "Ställ in publiceringsdatum",
-      "textPublishedTime": "Händelse publicerad",
+      "textPublishedTime": "Evenemanget har publicerats",
       "confirmPublicationButton": "Bekräfta",
-      "confirmText1": "Är du säker på att du vill ställa in tid för publicering?",
-      "confirmText2": "Förekomster kan inte läggas till eller ändras efter att evenemanget har publicerats."
+      "confirmText1": "Är du säker på att du vill ange tidpunkten för publicering?",
+      "confirmText2": "Evenemangstider kan inte läggas till eller redigeras efter publicering."
     },
-    "textNoComingOccurrences": "Inga framtida evenemangtider",
-    "titleOccurrences": "Evenemangens tider",
-    "titleComingOccurrences": "Framtida evenemangtider",
-    "titlePastOccurrences": "Tidigare evenemangtider",
+    "textNoComingOccurrences": "Inga evenemangstider",
+    "titleOccurrences": "Evenemangenstider",
+    "titleComingOccurrences": "Framtida evenemangstider",
+    "titlePastOccurrences": "Tidigare evenemangstider",
     "titleEventPublishment": "Händelsepublikation",
     "errorEventPublicationFailed": "Händelsepublikationen misslyckades",
-    "occurrenceIsFull": "Förekomsten är full",
+    "occurrenceIsFull": "Evenemanget är full",
     "approvedEnrolments": "{{count}} accepterad",
     "pendingEnrolments": "{{count}} pågående"
   },
   "studyLevel": {
-    "grade": "{{count}}: a klass",
-    "grade_plural": "{{count}}: a klass",
-    "preschool": "5-6 åldrig",
-    "secondary": "Andra stadiets utbildning",
-    "age02": "0-2 åldrig",
-    "age34": "3-4 åldrig",
+    "grade": "Åk {{count}} ",
+    "grade_plural": "Åk {{count}} ",
+    "preschool": "5-6 åringar",
+    "secondary": "Gymnasie- och yrkesutbildning",
+    "age02": "0-2 åringar",
+    "age34": "3-4 åringar",
     "other": "Annan grupp"
   },
-  "venue": {
+  "Evenemangsplats": {
     "venueDataFields": {
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
-      "labelHasClothingStorage": "Klädförvaring",
-      "labelHasSnackEatingPlace": "Snack äta plats",
-      "labelOutdoorActivity": "Utomhusaktivitet",
-      "labelHasToiletNearby": "Toalett i närheten",
-      "labelHasAreaForGroupWork": "Grupparbetsutrymme",
-      "labelHasIndoorPlayingArea": "Lekutrymme inne",
-      "labelHasOutdoorPlayingArea": "Lekutrymme ute",
-      "labelLocationDescription": "Beskrivning av arenan",
-      "placeholderLocationDescription": "Till exempel, hur kan en grupp byta kläder, där du kan äta snacks ..."
+      "labelHasClothingStorage": "Förvaring av ytterkläder",
+      "labelHasSnackEatingPlace": "Plats för att äta matsäck",
+      "labelOutdoorActivity": "Verksamheten sker utomhus",
+      "labelHasToiletNearby": "Toalett nära utrymmet",
+      "labelHasAreaForGroupWork": "Grupparbetsrum",
+      "labelHasIndoorPlayingArea": "Lekplats inomhus",
+      "labelHasOutdoorPlayingArea": "Lekplats utomhus",
+      "labelLocationDescription": "Beskrivning av evenemangsplatsen",
+      "placeholderLocationDescription": "Till exempel hur gruppen kan byta kläder..."
     }
   },
   "cmspage": {
-    "notFound": "Det gick inte att läsa in sidan!"
+    "notFound": "Sidan du sökte kunde tyvärr inte hittas"
   }
 }
