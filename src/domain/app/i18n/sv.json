@@ -343,7 +343,7 @@
       "text2": "En borttagen evenemang kan inte ångras.",
       "sendNotificationWarning": "Glöm inte att skicka meddelande om avbeställning till de som anmält sig, innan du raderar evenemanget!",
       "title": "Bort evenemang",
-      "upcomingOccurrences": "Kommande händelser",
+      "upcomingOccurrences": "Kommande evenemang",
       "occurrenceTime": "{{date}} kl. {{time}}"
     },
     "location": {
@@ -462,7 +462,7 @@
     },
     "occurrences": {
       "occurrencesFormSectionTitle": "Evenemangets tidpunkt",
-      "buttonAddNewOccurence": "Läg till ny tidpunkt",
+      "buttonAddNewOccurence": "Lägg till evenemangstid",
       "saveSuccesful": "Tidpunkt har sparats"
     }
   },
@@ -510,7 +510,7 @@
     "titleEventSummary": "Sammanfattning av evenemang",
     "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
     "buttonEditBasicInfo": "Redigera information",
-    "buttonEditOccurrences": "Redigera förekomster",
+    "buttonEditOccurrences": "Redigera evenemangstider",
     "buttonExportEnrolments": "Ladda ner anmälda (CSV)"
   },
   "eventEnrolmentsReport": {
@@ -555,9 +555,9 @@
     "labelEnrolmentStarts": "Anmälan öppnar",
     "labelLanguages": "Evenemangets språk",
     "labelAmountOfSeats": "Platser",
-    "labelGroupSizeMin": "Min. (personer)",
+    "labelGroupSizeMin": "Min. (person)",
     "ariaLabelGroupSizeMin": "Minsta antal personer",
-    "labelGroupSizeMax": "Max. (personer)",
+    "labelGroupSizeMax": "Max. (person)",
     "ariaLabelGroupSizeMax": "Maximalt antal personer",
     "labelAutoAcceptance": "Bekräfta anmälningar automatiskt inom ramen för maximalt antal deltagare",
     "labelAutoAcceptanceMessage": "Eventuell tilläggsinformation i bekräftelsemeddelandet",
@@ -566,7 +566,7 @@
     "infoContentAutoAcceptance": "Personifierad hälsning, anmälan bekräftad, uppgifter om evenemanget, tid, antal bokade platser, språk, plats, adress, arrangörens kontaktuppgifter.",
     "labelEventLocation": "Evenemangets plats",
     "labelOuterwearStorage": "Förvaring av ytterkläder",
-    "labelOneGroupFills": "En grupp fyller evenemanget (Ange gruppens storlek (min/max) om evenemanget endast är avsett för grupper).",
+    "labelOneGroupFills": "En grupp fyller evenemanget",
     "titleParticipantRow": "Deltagarantal",
     "labelMultidayOccurrence": "Evenemanget pågår i flera dagar",
     "validation": {
@@ -582,7 +582,7 @@
     "duplicateOccurrenceModal": {
       "title": "Observera",
       "text": "En tidpunkt för evenemanget har redan lagts till med samma start- och sluttid. Är du säker på att du vill ange tidpunkten för publicering?",
-      "buttonAddOccurrences": "Läg till ny tidpunkt",
+      "buttonAddOccurrences": "Lägg till evenemangstid",
       "buttonCancelAddOccurrence": "Avbryt"
     }
   },
@@ -681,8 +681,8 @@
       "actionsDropdown": {
         "menuItemApprove": "Bekräfta registrering",
         "menuItemDecline": "Lämna utan plats",
-        "menuItemDelete": "Redigera",
-        "menuItemEdit": "Radera"
+        "menuItemDelete": "Radera",
+        "menuItemEdit": "Redigera"
       },
       "columnActions": "Funktioner",
       "columnAdditionalInfo": "Ytterligare info",
@@ -725,7 +725,7 @@
     "buttonCreateOccurrence": "Lägg till en ny evenemangstid",
     "buttonEventDetails": "Visa information om evenemanget",
     "buttonCloneEventDetails": "Kopiera till en ny mall",
-    "buttonShowMore": "Visa fler händelser",
+    "buttonShowMore": "Visa fler",
     "count": "{{count}} st.",
     "deleteError": "Det gick inte att ta bort evenemangstiden",
     "deleteSuccess": "Datum för evenemang borttaget",
@@ -754,7 +754,7 @@
       "columnEnrolmentStarts": "Registrering börjar",
       "columnEnrolments": "Registreringar",
       "columnEnrolmentsHelper": "accepterad / i väntan på",
-      "columnLocation": "Evenemang plats",
+      "columnLocation": "Evenemangsplats",
       "columnTime": "Tid",
       "labelChooseAllOccurrences": "Välj alla evenemangstider",
       "labelChooseOccurrence": "Välj evenemangstid {{info}}",
@@ -778,7 +778,7 @@
       "confirmText2": "Evenemangstider kan inte läggas till eller redigeras efter publicering."
     },
     "textNoComingOccurrences": "Inga evenemangstider",
-    "titleOccurrences": "Evenemangenstider",
+    "titleOccurrences": "Evenemangstider",
     "titleComingOccurrences": "Framtida evenemangstider",
     "titlePastOccurrences": "Tidigare evenemangstider",
     "titleEventPublishment": "Händelsepublikation",

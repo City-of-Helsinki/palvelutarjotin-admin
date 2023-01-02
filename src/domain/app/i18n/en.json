@@ -316,7 +316,7 @@
       "buttonEdit": "Edit events"
     },
     "categorisation": {
-      "eventIsFree": "Event is free",
+      "eventIsFree": "Event is free of charge",
       "labelAudience": "Target groups",
       "labelInLanguage": "Event languages",
       "labelKeywords": "Event keywords",
@@ -362,7 +362,7 @@
       "imageAltTextHelp": "Description of the contents of the image. Add license information also.",
       "labelDescription": "Description",
       "labelMandatoryAdditionalInformation": "Entering additional information is mandatory for the registrant",
-      "guidanceTextMandatoryAdditionalInformation": "Tell above if you need more information about group or other things in activities and make answer as mandatory...",
+      "guidanceTextMandatoryAdditionalInformation": "Tell above if you need more information about a group or activities and mark the field as mandatory.",
       "labelEnrolmentEndDays": "Enrollment closes X days before the event time",
       "labelEnrolmentStartDate": "Enrolment begins",
       "labelEnrolmentStartTime": "Time",
@@ -401,10 +401,10 @@
     },
     "offers": {
       "title": "Event pricing",
-      "labelIsFree": "Event is free",
+      "labelIsFree": "Event is free of charge",
       "labelPrice": "Price, €",
       "labelPriceDescription": "Additional information",
-      "placeholderPriceDescription": "price per child / group,\nhow to pay (billing or debit card),\nperuutusehdot"
+      "placeholderPriceDescription": "price per child / group,\nhow to pay (billing or debit card),\ncancellation policy"
     },
     "changeLanguageModal": {
       "buttonChangeLanguage": "Change language. Vaihda kieli. Ändra språk.",
@@ -472,7 +472,7 @@
       "textOccurrences_plural": "{{count}} occurrences",
       "statusPublished": "Published",
       "statusNotPublished": "Not published",
-      "free": "Free",
+      "free": "Free of charge",
       "startTime": {
         "other": "{{date}} at {{time}}",
         "today": "Today at {{time}}",
@@ -546,7 +546,7 @@
     "labelEndTime": "End time",
     "labelEnrolmentStarts": "Enrolment starts on",
     "labelLanguages": "Event language",
-    "labelAmountOfSeats": "Total spots",
+    "labelAmountOfSeats": "Total seats",
     "labelGroupSizeMin": "Min (person)",
     "ariaLabelGroupSizeMin": "Minimum number of persons",
     "labelGroupSizeMax": "Max (person)",
