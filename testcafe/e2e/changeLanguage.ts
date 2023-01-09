@@ -23,7 +23,7 @@ test('Changing language on login page', async (t) => {
 
   await t
     .expect(
-      screen.getByRole('heading', { name: /evenemangshantering/i }).exists
+      screen.getByRole('heading', { name: /hantering av evenemang/i }).exists
     )
     .ok()
     .expect(screen.getByRole('button', { name: /logga in/i }).exists)
