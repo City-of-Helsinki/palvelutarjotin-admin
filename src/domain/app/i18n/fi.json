@@ -365,10 +365,10 @@
       "addImage": "Lisää kuva",
       "deleteImage": "Poista kuva",
       "descriptionAddImage": "Lisää tapahtumalle kuva. Tarvitset myös kuvaajan nimen ja julkaisulisenssin. Maksimi koko 2 megatavua. Suositeltu kuvakoko on 1200px X 800px.",
-      "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää kuvan loppuun myös lisenssitieto.",
+      "imageAltTextHelp": "Kuvan sisällön sanallinen kuvaus. Lisää loppuun myös kuvan lisenssitieto.",
       "labelDescription": "Kuvaus",
       "labelMandatoryAdditionalInformation": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
-      "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskenttä pakolliseksi...",
+      "guidanceTextMandatoryAdditionalInformation": "Kerro yläpuolella, jos tarvitset lisätietoja ryhmästä tai muusta toimintaan liittyvästä ja merkitse vastauskenttä pakolliseksi.",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu X päivää ennen tapahtuma-aikaa",
       "labelEnrolmentStartDate": "Ilmoittautuminen alkaa",
       "labelEnrolmentStartTime": "Klo",
@@ -499,7 +499,7 @@
     "title": "Tapahtumat",
     "titleComingEvents": "Tapahtumat",
     "titleEventsWithPastOccurrences": "Menneet tapahtumat",
-    "titleEventsWithoutOccurrences": "Tapahtumat, joilla ei ole tapahtuma-aikoja",
+    "titleEventsWithoutOccurrences": "Julkaisemattomat tapahtumat",
     "errorFetchMoreEvents": "Tapahtumien lataaminen epäonnistui"
   },
   "eventSummary": {
