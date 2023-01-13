@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/release-v.1.5.0...release-v.1.6.0) (2023-01-13)
+
+
+### Bug Fixes
+
+* remove unnecessary broken cms header test ([f0c5bf5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/f0c5bf54b8ac1fbbeaae133f3e99f4639e1210b8))
+* update browser test localization ([8e4c013](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8e4c013bfa766868904f8fb31ff7949656d7bd76))
+
 ## [1.5.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.4.0...v1.5.0) (2022-11-08)
 
 
