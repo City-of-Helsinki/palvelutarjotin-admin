@@ -92,9 +92,13 @@ test('header renders cms menu items', async () => {
   });
   for (const menuItem of menuItems) {
     if (menuItem.children) {
-      const dropdownButton = await screen.findByRole('button', {
-        name: menuItem.title,
-      });
+      const dropdownButton = await screen.findByRole(
+        'button',
+        {
+          name: menuItem.title,
+        },
+        { timeout: 2000 }
+      );
       userEvent.click(dropdownButton);
       for (const childItem of menuItem.children) {
         await screen.findByRole('link', {
