@@ -5,11 +5,12 @@ Staff interface for Palvelutarjotin
 ## Environments
 
 Production environment:
-[TODO: Add url when deployed]
-Project is automatically deployed to production when adding new relase tag, e.g. release-v0.1.0, to repo
+ - https://provider.kultus.fi/
+ - Project is automatically deployed to production when adding new relase tag, e.g. release-v0.1.0, to repo
 
-Testing environment: [https://palvelutarjotin-admin.test.kuva.hel.ninja](https://palvelutarjotin-admin.test.kuva.hel.ninja)
-Project is automatically deployed to testing environment when pushing to develop brach
+Testing environment:
+ - https://palvelutarjotin-admin.test.kuva.hel.ninja
+ - Project is automatically deployed to testing environment when pushing to develop brach
 
 ## Requirements
 
@@ -25,7 +26,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open http://localhost:3000/ to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
@@ -79,7 +80,7 @@ Codegen settings in <b>codegen.yml</b>
 ### `yarn storybook`
 
 Runs storybook in development mode
-Open [http://localhost:9009](http://localhost:9009) to view it in browser
+Open http://localhost:9009/ to view it in browser
 
 ### `yarn build-storybook`
 
@@ -133,6 +134,8 @@ Follow the instructions for setting up tunnistamo locally. Before running `docke
 To get silent renew to work locally you also need to set:
 
 - ALLOW_CROSS_SITE_SESSION_COOKIE=True
+  - NOTE: Using this breaks login to Django admin interface, see tunnistamo issue [#269](https://github.com/City-of-Helsinki/tunnistamo/issues/269).
+  - By leaving out the ALLOW_CROSS_SITE_SESSION_COOKIE=True or setting it to False, you can login to Django admin interface but silent renew will not work.
 
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
 
@@ -147,11 +150,11 @@ and execute the following four commands inside your docker container:
 ./manage.py add_oidc_api_scope -an palvelutarjotin -c https://api.hel.fi/auth/palvelutarjotin-admin -n "Palvelutarjotin Admin" -d "Lorem ipsum"
 ```
 
-Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
+Also add http://localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
 
 ### Install Palvelutarjotin GraphQl server locally
 
-Clone the repository (https://github.com/City-of-Helsinki/palvelutarjotin). Follow the instructions for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in palvelutarjotin roots `docker-compose.env.yaml`:
+Clone the [palvelutarjotin repository](https://github.com/City-of-Helsinki/palvelutarjotin) and follow the instructions for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in palvelutarjotin roots `docker-compose.env.yaml`:
 
 - DEBUG=1
 - CORS_ORIGIN_ALLOW_ALL=1
@@ -165,6 +168,9 @@ Copy `cp .env.development.local.example .env.development.local`
 
 Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
 `docker-compose down` stops the container.
+
+**NOTE**:
+- `docker-compose up` is not working (Checked on 2023-02-20), see bug ticket [PT-1640](https://helsinkisolutionoffice.atlassian.net/browse/PT-1640)
 
 OR
 
