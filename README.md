@@ -133,6 +133,8 @@ Follow the instructions for setting up tunnistamo locally. Before running `docke
 To get silent renew to work locally you also need to set:
 
 - ALLOW_CROSS_SITE_SESSION_COOKIE=True
+  - NOTE: Using this breaks login to Django admin interface, see tunnistamo issue [#269](https://github.com/City-of-Helsinki/tunnistamo/issues/269).
+  - By leaving out the ALLOW_CROSS_SITE_SESSION_COOKIE=True or setting it to False, you can login to Django admin interface but silent renew will not work.
 
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
 
