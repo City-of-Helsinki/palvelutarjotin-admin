@@ -273,23 +273,19 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   )}
                 />
 
-                {enrolment.person && (
-                  <>
-                    <EnrolmentInfoRow
-                      label={t('enrolment.enrolmentDetails.labelName')}
-                      value={enrolment.person.name}
-                      space
-                    />
-                    <EnrolmentInfoRow
-                      label={t('enrolment.enrolmentDetails.labelEmail')}
-                      value={enrolment.person.emailAddress}
-                    />
-                    <EnrolmentInfoRow
-                      label={t('enrolment.enrolmentDetails.labelPhoneNumber')}
-                      value={enrolment.person.phoneNumber}
-                    />
-                  </>
-                )}
+                <EnrolmentInfoRow
+                  label={t('enrolment.enrolmentDetails.labelName')}
+                  value={enrolment.studyGroup.person.name}
+                  space
+                />
+                <EnrolmentInfoRow
+                  label={t('enrolment.enrolmentDetails.labelEmail')}
+                  value={enrolment.studyGroup.person.emailAddress}
+                />
+                <EnrolmentInfoRow
+                  label={t('enrolment.enrolmentDetails.labelPhoneNumber')}
+                  value={enrolment.studyGroup.person.phoneNumber}
+                />
 
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelStudyGroupName')}
@@ -315,19 +311,25 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                   value={enrolment.studyGroup.extraNeeds}
                 />
 
-                <EnrolmentInfoRow
-                  label={t('enrolment.enrolmentDetails.labelResponsiblePerson')}
-                  value={enrolment.studyGroup.person.name}
-                  space
-                />
-                <EnrolmentInfoRow
-                  label={t('enrolment.enrolmentDetails.labelEmail')}
-                  value={enrolment.studyGroup.person.emailAddress}
-                />
-                <EnrolmentInfoRow
-                  label={t('enrolment.enrolmentDetails.labelPhoneNumber')}
-                  value={enrolment.studyGroup.person.phoneNumber}
-                />
+                {enrolment.person && (
+                  <>
+                    <EnrolmentInfoRow
+                      label={t(
+                        'enrolment.enrolmentDetails.labelResponsiblePerson'
+                      )}
+                      value={enrolment.person.name}
+                      space
+                    />
+                    <EnrolmentInfoRow
+                      label={t('enrolment.enrolmentDetails.labelEmail')}
+                      value={enrolment.person.emailAddress}
+                    />
+                    <EnrolmentInfoRow
+                      label={t('enrolment.enrolmentDetails.labelPhoneNumber')}
+                      value={enrolment.person.phoneNumber}
+                    />
+                  </>
+                )}
 
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelNotifications')}
