@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.6.0...v1.6.1) (2023-03-27)
+
+
+### Bug Fixes
+
+* use correct contact infos in enrolment details ([138e1d7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/138e1d74e06ddb6bb6e4f8a5811472bdd94ccebc))
+
 ## [1.6.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/release-v.1.5.0...release-v.1.6.0) (2023-01-13)
 
 
