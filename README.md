@@ -5,12 +5,20 @@ Staff interface for Palvelutarjotin
 ## Environments
 
 Production environment:
- - https://provider.kultus.fi/
- - Project is automatically deployed to production when adding new relase tag, e.g. release-v0.1.0, to repo
+
+- https://provider.kultus.fi/
+- Triggered by creation of release-\* tag, e.g. `release-v0.1.0`
+  - Needs to be manually approved in pipeline to be deployed
+
+Staging environment:
+
+- https://kultus-admin-ui.stage.hel.ninja/
+- Automatically deployed by creation of release-\* tag, e.g. `release-v0.1.0`
 
 Testing environment:
- - https://palvelutarjotin-admin.test.kuva.hel.ninja
- - Project is automatically deployed to testing environment when pushing to develop brach
+
+- https://kultus-admin-ui.test.hel.ninja/
+- Automatically deployed by any change to master branch
 
 ## Requirements
 
@@ -170,6 +178,7 @@ Run `docker-compose up`, now the app should be running at `http://localhost:3000
 `docker-compose down` stops the container.
 
 **NOTE**:
+
 - `docker-compose up` is not working (Checked on 2023-02-20), see bug ticket [PT-1640](https://helsinkisolutionoffice.atlassian.net/browse/PT-1640)
 
 OR
