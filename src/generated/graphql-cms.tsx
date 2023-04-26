@@ -54,7 +54,7 @@ export enum AvatarRatingEnum {
 }
 
 /** The category type */
-export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & {
+export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & HierarchicalNode & MenuItemLinkable & {
   __typename?: 'Category';
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
@@ -63,13 +63,13 @@ export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseI
    * @deprecated Deprecated in favor of databaseId
    */
   categoryId?: Maybe<Scalars['Int']>;
-  /** Connection between the category type and the category type */
+  /** Connection between the category type and its children categories. */
   children?: Maybe<CategoryToCategoryConnection>;
-  /** Connection between the category type and the ContentNode type */
+  /** Connection between the Category type and the ContentNode type */
   contentNodes?: Maybe<CategoryToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -91,18 +91,20 @@ export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseI
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
   name?: Maybe<Scalars['String']>;
-  /** Connection between the category type and the category type */
+  /** Connection between the category type and its parent category. */
   parent?: Maybe<CategoryToParentCategoryConnectionEdge>;
   /** Database id of the parent node */
   parentDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the parent node. */
   parentId?: Maybe<Scalars['ID']>;
-  /** Connection between the category type and the post type */
+  /** Connection between the Category type and the post type */
   posts?: Maybe<CategoryToPostConnection>;
   /** An alphanumeric identifier for the object unique to its type. */
   slug?: Maybe<Scalars['String']>;
-  /** Connection between the category type and the Taxonomy type */
+  /** Connection between the Category type and the Taxonomy type */
   taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
+  /** The name of the taxonomy that the object is associated with */
+  taxonomyName?: Maybe<Scalars['String']>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -178,6 +180,22 @@ export type CategoryTranslationArgs = {
   language: LanguageCodeEnum;
 };
 
+/** Connection to category Nodes */
+export type CategoryConnection = {
+  /** A list of edges (relational context) between RootQuery and connected category Nodes */
+  edges: Array<CategoryConnectionEdge>;
+  /** A list of connected category Nodes */
+  nodes: Array<Category>;
+};
+
+/** Edge between a Node and a connected category */
+export type CategoryConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected category Node */
+  node: Category;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum CategoryIdType {
   /** The Database ID for the node */
@@ -192,44 +210,44 @@ export enum CategoryIdType {
   Uri = 'URI'
 }
 
-/** Connection between the category type and the category type */
-export type CategoryToAncestorsCategoryConnection = {
+/** Connection between the Category type and the category type */
+export type CategoryToAncestorsCategoryConnection = CategoryConnection & Connection & {
   __typename?: 'CategoryToAncestorsCategoryConnection';
   /** Edges for the CategoryToAncestorsCategoryConnection connection */
-  edges?: Maybe<Array<Maybe<CategoryToAncestorsCategoryConnectionEdge>>>;
+  edges: Array<CategoryToAncestorsCategoryConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Category>>>;
+  nodes: Array<Category>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type CategoryToAncestorsCategoryConnectionEdge = {
+export type CategoryToAncestorsCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
   __typename?: 'CategoryToAncestorsCategoryConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Category>;
+  node: Category;
 };
 
-/** Connection between the category type and the category type */
-export type CategoryToCategoryConnection = {
+/** Connection between the Category type and the category type */
+export type CategoryToCategoryConnection = CategoryConnection & Connection & {
   __typename?: 'CategoryToCategoryConnection';
   /** Edges for the CategoryToCategoryConnection connection */
-  edges?: Maybe<Array<Maybe<CategoryToCategoryConnectionEdge>>>;
+  edges: Array<CategoryToCategoryConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Category>>>;
+  nodes: Array<Category>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type CategoryToCategoryConnectionEdge = {
+export type CategoryToCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
   __typename?: 'CategoryToCategoryConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Category>;
+  node: Category;
 };
 
 /** Arguments for filtering the CategoryToCategoryConnection connection */
@@ -272,28 +290,30 @@ export type CategoryToCategoryConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
-/** Connection between the category type and the ContentNode type */
-export type CategoryToContentNodeConnection = {
+/** Connection between the Category type and the ContentNode type */
+export type CategoryToContentNodeConnection = ContentNodeConnection & Connection & {
   __typename?: 'CategoryToContentNodeConnection';
   /** Edges for the CategoryToContentNodeConnection connection */
-  edges?: Maybe<Array<Maybe<CategoryToContentNodeConnectionEdge>>>;
+  edges: Array<CategoryToContentNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type CategoryToContentNodeConnectionEdge = {
+export type CategoryToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'CategoryToContentNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the CategoryToContentNodeConnection connection */
@@ -304,7 +324,7 @@ export type CategoryToContentNodeConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -336,31 +356,33 @@ export type CategoryToContentNodeConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the category type and the category type */
-export type CategoryToParentCategoryConnectionEdge = {
+/** Connection between the Category type and the category type */
+export type CategoryToParentCategoryConnectionEdge = OneToOneConnection & Edge & CategoryConnectionEdge & {
   __typename?: 'CategoryToParentCategoryConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Category>;
+  node: Category;
 };
 
-/** Connection between the category type and the post type */
-export type CategoryToPostConnection = {
+/** Connection between the Category type and the post type */
+export type CategoryToPostConnection = PostConnection & Connection & {
   __typename?: 'CategoryToPostConnection';
   /** Edges for the CategoryToPostConnection connection */
-  edges?: Maybe<Array<Maybe<CategoryToPostConnectionEdge>>>;
+  edges: Array<CategoryToPostConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Post>>>;
+  nodes: Array<Post>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type CategoryToPostConnectionEdge = {
+export type CategoryToPostConnectionEdge = PostConnectionEdge & Edge & {
   __typename?: 'CategoryToPostConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
 /** Arguments for filtering the CategoryToPostConnection connection */
@@ -385,7 +407,7 @@ export type CategoryToPostConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -421,23 +443,25 @@ export type CategoryToPostConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
   tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of tag slugs, used to display objects from one tag OR another */
+  /** Array of tag slugs, used to display objects from one tag AND another */
   tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Array of tag slugs, used to exclude objects in specified tags */
+  /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the category type and the Taxonomy type */
-export type CategoryToTaxonomyConnectionEdge = {
+/** Connection between the Category type and the Taxonomy type */
+export type CategoryToTaxonomyConnectionEdge = OneToOneConnection & Edge & TaxonomyConnectionEdge & {
   __typename?: 'CategoryToTaxonomyConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Taxonomy>;
+  node: Taxonomy;
 };
 
 /** The collection type */
-export type Collection = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithRevisions & {
+export type Collection = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithRevisions & {
   __typename?: 'Collection';
   /** Background Color */
   backgroundColor?: Maybe<Scalars['String']>;
@@ -448,6 +472,8 @@ export type Collection = Node & ContentNode & UniformResourceIdentifiable & Data
   collectionId: Scalars['Int'];
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -496,7 +522,7 @@ export type Collection = Node & ContentNode & UniformResourceIdentifiable & Data
   modifiedGmt?: Maybe<Scalars['String']>;
   /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Connection between the collection type and the collection type */
+  /** Connection between the Collection type and the collection type */
   preview?: Maybe<CollectionToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -504,7 +530,7 @@ export type Collection = Node & ContentNode & UniformResourceIdentifiable & Data
   previewRevisionId?: Maybe<Scalars['ID']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the collection type and the collection type */
+  /** Connection between the Collection type and the collection type */
   revisions?: Maybe<CollectionToRevisionConnection>;
   /** The SEO Framework data of the collection */
   seo?: Maybe<Seo>;
@@ -516,8 +542,6 @@ export type Collection = Node & ContentNode & UniformResourceIdentifiable & Data
   status?: Maybe<Scalars['String']>;
   /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the collection type and the TermNode type */
-  terms?: Maybe<CollectionToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** Get specific translation version of this object */
@@ -558,16 +582,6 @@ export type CollectionRevisionsArgs = {
 
 
 /** The collection type */
-export type CollectionTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<CollectionToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The collection type */
 export type CollectionTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -576,6 +590,22 @@ export type CollectionTitleArgs = {
 /** The collection type */
 export type CollectionTranslationArgs = {
   language: LanguageCodeEnum;
+};
+
+/** Connection to collection Nodes */
+export type CollectionConnection = {
+  /** A list of edges (relational context) between RootQuery and connected collection Nodes */
+  edges: Array<CollectionConnectionEdge>;
+  /** A list of connected collection Nodes */
+  nodes: Array<Collection>;
+};
+
+/** Edge between a Node and a connected collection */
+export type CollectionConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected collection Node */
+  node: Collection;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -590,42 +620,44 @@ export enum CollectionIdType {
   Uri = 'URI'
 }
 
-export type CollectionModulesUnionType = EventSearch | EventSelected | LocationsSelected;
+export type CollectionModulesUnionType = EventSearch | EventSelected | EventSearchCarousel | EventSelectedCarousel | LocationsSelected | LocationsSelectedCarousel;
 
-/** Connection between the collection type and the collection type */
-export type CollectionToPreviewConnectionEdge = {
+/** Connection between the Collection type and the collection type */
+export type CollectionToPreviewConnectionEdge = OneToOneConnection & Edge & CollectionConnectionEdge & {
   __typename?: 'CollectionToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Collection>;
+  node: Collection;
 };
 
-/** Connection between the collection type and the collection type */
-export type CollectionToRevisionConnection = {
+/** Connection between the Collection type and the collection type */
+export type CollectionToRevisionConnection = CollectionConnection & Connection & {
   __typename?: 'CollectionToRevisionConnection';
-  /** Edges for the collectionToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<CollectionToRevisionConnectionEdge>>>;
+  /** Edges for the CollectionToRevisionConnection connection */
+  edges: Array<CollectionToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Collection>>>;
+  nodes: Array<Collection>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type CollectionToRevisionConnectionEdge = {
+export type CollectionToRevisionConnectionEdge = CollectionConnectionEdge & Edge & {
   __typename?: 'CollectionToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Collection>;
+  node: Collection;
 };
 
-/** Arguments for filtering the collectionToRevisionConnection connection */
+/** Arguments for filtering the CollectionToRevisionConnection connection */
 export type CollectionToRevisionConnectionWhereArgs = {
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -657,78 +689,15 @@ export type CollectionToRevisionConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the collection type and the TermNode type */
-export type CollectionToTermNodeConnection = {
-  __typename?: 'CollectionToTermNodeConnection';
-  /** Edges for the CollectionToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<CollectionToTermNodeConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type CollectionToTermNodeConnectionEdge = {
-  __typename?: 'CollectionToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
-};
-
-/** Arguments for filtering the CollectionToTermNodeConnection connection */
-export type CollectionToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
-};
-
 /** A Comment object */
 export type Comment = Node & DatabaseIdentifier & {
   __typename?: 'Comment';
   /** User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL. */
   agent?: Maybe<Scalars['String']>;
-  /** The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL. */
+  /**
+   * The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL.
+   * @deprecated Deprecated in favor of the `status` field
+   */
   approved?: Maybe<Scalars['Boolean']>;
   /** The author of the comment */
   author?: Maybe<CommentToCommenterConnectionEdge>;
@@ -763,6 +732,8 @@ export type Comment = Node & DatabaseIdentifier & {
   parentId?: Maybe<Scalars['ID']>;
   /** Connection between the Comment type and the Comment type */
   replies?: Maybe<CommentToCommentConnection>;
+  /** The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL. */
+  status?: Maybe<CommentStatusEnum>;
   /** Type of comment. This field is equivalent to WP_Comment-&gt;comment_type and the value matching the &quot;comment_type&quot; column in SQL. */
   type?: Maybe<Scalars['String']>;
 };
@@ -790,9 +761,11 @@ export type CommentRepliesArgs = {
 };
 
 /** A Comment Author object */
-export type CommentAuthor = Node & Commenter & {
+export type CommentAuthor = Node & Commenter & DatabaseIdentifier & {
   __typename?: 'CommentAuthor';
-  /** Identifies the primary key from the database. */
+  /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
+  avatar?: Maybe<Avatar>;
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The email for the comment author */
   email?: Maybe<Scalars['String']>;
@@ -806,24 +779,68 @@ export type CommentAuthor = Node & Commenter & {
   url?: Maybe<Scalars['String']>;
 };
 
+
+/** A Comment Author object */
+export type CommentAuthorAvatarArgs = {
+  size?: Maybe<Scalars['Int']>;
+  forceDefault?: Maybe<Scalars['Boolean']>;
+  rating?: Maybe<AvatarRatingEnum>;
+};
+
+/** Connection to Comment Nodes */
+export type CommentConnection = {
+  /** A list of edges (relational context) between RootQuery and connected Comment Nodes */
+  edges: Array<CommentConnectionEdge>;
+  /** A list of connected Comment Nodes */
+  nodes: Array<Comment>;
+};
+
+/** Edge between a Node and a connected Comment */
+export type CommentConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected Comment Node */
+  node: Comment;
+};
+
+/** The Type of Identifier used to fetch a single comment node. Default is "ID". To be used along with the "id" field. */
+export enum CommentNodeIdTypeEnum {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID'
+}
+
+/** The status of the comment object. */
+export enum CommentStatusEnum {
+  /** Comments with the Hyväksytty status */
+  Approve = 'APPROVE',
+  /** Comments with the Hylätyt status */
+  Hold = 'HOLD',
+  /** Comments with the Roskaviesti status */
+  Spam = 'SPAM',
+  /** Comments with the Roskakorissa status */
+  Trash = 'TRASH'
+}
+
 /** Connection between the Comment type and the Comment type */
-export type CommentToCommentConnection = {
+export type CommentToCommentConnection = CommentConnection & Connection & {
   __typename?: 'CommentToCommentConnection';
   /** Edges for the CommentToCommentConnection connection */
-  edges?: Maybe<Array<Maybe<CommentToCommentConnectionEdge>>>;
+  edges: Array<CommentToCommentConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Comment>>>;
+  nodes: Array<Comment>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type CommentToCommentConnectionEdge = {
+export type CommentToCommentConnectionEdge = CommentConnectionEdge & Edge & {
   __typename?: 'CommentToCommentConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Comment>;
+  node: Comment;
 };
 
 /** Arguments for filtering the CommentToCommentConnection connection */
@@ -858,7 +875,7 @@ export type CommentToCommentConnectionWhereArgs = {
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Content object name to retrieve affiliated comments for. */
+  /** Content object name (i.e. slug ) to retrieve affiliated comments for. */
   contentName?: Maybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
   contentParent?: Maybe<Scalars['Int']>;
@@ -889,24 +906,30 @@ export type CommentToCommentConnectionWhereArgs = {
 };
 
 /** Connection between the Comment type and the Commenter type */
-export type CommentToCommenterConnectionEdge = {
+export type CommentToCommenterConnectionEdge = OneToOneConnection & Edge & CommenterConnectionEdge & {
   __typename?: 'CommentToCommenterConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Commenter>;
+  node: Commenter;
 };
 
 /** Connection between the Comment type and the ContentNode type */
-export type CommentToContentNodeConnectionEdge = {
+export type CommentToContentNodeConnectionEdge = OneToOneConnection & Edge & ContentNodeConnectionEdge & {
   __typename?: 'CommentToContentNodeConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Connection between the Comment type and the Comment type */
-export type CommentToParentCommentConnectionEdge = {
+export type CommentToParentCommentConnectionEdge = OneToOneConnection & Edge & CommentConnectionEdge & {
   __typename?: 'CommentToParentCommentConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Comment>;
+  node: Comment;
 };
 
 /** Arguments for filtering the CommentToParentCommentConnection connection */
@@ -941,7 +964,7 @@ export type CommentToParentCommentConnectionWhereArgs = {
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Content object name to retrieve affiliated comments for. */
+  /** Content object name (i.e. slug ) to retrieve affiliated comments for. */
   contentName?: Maybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
   contentParent?: Maybe<Scalars['Int']>;
@@ -973,6 +996,8 @@ export type CommentToParentCommentConnectionWhereArgs = {
 
 /** The author of a comment */
 export type Commenter = {
+  /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
+  avatar?: Maybe<Avatar>;
   /** Identifies the primary key from the database. */
   databaseId: Scalars['Int'];
   /** The email address of the author of a comment. */
@@ -987,11 +1012,19 @@ export type Commenter = {
   url?: Maybe<Scalars['String']>;
 };
 
+/** Edge between a Node and a connected Commenter */
+export type CommenterConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected Commenter Node */
+  node: Commenter;
+};
+
 /** Options for ordering the connection */
 export enum CommentsConnectionOrderbyEnum {
   /** Order by browser user agent of the commenter. */
   CommentAgent = 'COMMENT_AGENT',
-  /** Order by true/false approval of the comment. */
+  /** Order by approval status of the comment. */
   CommentApproved = 'COMMENT_APPROVED',
   /** Order by name of the comment author. */
   CommentAuthor = 'COMMENT_AUTHOR',
@@ -1023,8 +1056,16 @@ export enum CommentsConnectionOrderbyEnum {
   UserId = 'USER_ID'
 }
 
+/** A plural connection from one Node Type in the Graph to another Node Type, with support for relational data via &quot;edges&quot;. */
+export type Connection = {
+  /** A list of edges (relational context) between connected nodes */
+  edges: Array<Edge>;
+  /** A list of connected nodes */
+  nodes: Array<Node>;
+};
+
 /** The contact type */
-export type Contact = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithFeaturedImage & NodeWithRevisions & {
+export type Contact = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithFeaturedImage & NodeWithRevisions & {
   __typename?: 'Contact';
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -1033,6 +1074,8 @@ export type Contact = Node & ContentNode & UniformResourceIdentifiable & Databas
   contactId: Scalars['Int'];
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -1087,7 +1130,7 @@ export type Contact = Node & ContentNode & UniformResourceIdentifiable & Databas
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
-  /** Connection between the contact type and the contact type */
+  /** Connection between the Contact type and the contact type */
   preview?: Maybe<ContactToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -1095,7 +1138,7 @@ export type Contact = Node & ContentNode & UniformResourceIdentifiable & Databas
   previewRevisionId?: Maybe<Scalars['ID']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the contact type and the contact type */
+  /** Connection between the Contact type and the contact type */
   revisions?: Maybe<ContactToRevisionConnection>;
   /** The SEO Framework data of the contact */
   seo?: Maybe<Seo>;
@@ -1103,10 +1146,8 @@ export type Contact = Node & ContentNode & UniformResourceIdentifiable & Databas
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the contact type and the TermNode type */
-  terms?: Maybe<ContactToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** Get specific translation version of this object */
@@ -1147,16 +1188,6 @@ export type ContactRevisionsArgs = {
 
 
 /** The contact type */
-export type ContactTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContactToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The contact type */
 export type ContactTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -1165,6 +1196,22 @@ export type ContactTitleArgs = {
 /** The contact type */
 export type ContactTranslationArgs = {
   language: LanguageCodeEnum;
+};
+
+/** Connection to contact Nodes */
+export type ContactConnection = {
+  /** A list of edges (relational context) between RootQuery and connected contact Nodes */
+  edges: Array<ContactConnectionEdge>;
+  /** A list of connected contact Nodes */
+  nodes: Array<Contact>;
+};
+
+/** Edge between a Node and a connected contact */
+export type ContactConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected contact Node */
+  node: Contact;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -1179,40 +1226,42 @@ export enum ContactIdType {
   Uri = 'URI'
 }
 
-/** Connection between the contact type and the contact type */
-export type ContactToPreviewConnectionEdge = {
+/** Connection between the Contact type and the contact type */
+export type ContactToPreviewConnectionEdge = OneToOneConnection & Edge & ContactConnectionEdge & {
   __typename?: 'ContactToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Contact>;
+  node: Contact;
 };
 
-/** Connection between the contact type and the contact type */
-export type ContactToRevisionConnection = {
+/** Connection between the Contact type and the contact type */
+export type ContactToRevisionConnection = ContactConnection & Connection & {
   __typename?: 'ContactToRevisionConnection';
-  /** Edges for the contactToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<ContactToRevisionConnectionEdge>>>;
+  /** Edges for the ContactToRevisionConnection connection */
+  edges: Array<ContactToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Contact>>>;
+  nodes: Array<Contact>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type ContactToRevisionConnectionEdge = {
+export type ContactToRevisionConnectionEdge = ContactConnectionEdge & Edge & {
   __typename?: 'ContactToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Contact>;
+  node: Contact;
 };
 
-/** Arguments for filtering the contactToRevisionConnection connection */
+/** Arguments for filtering the ContactToRevisionConnection connection */
 export type ContactToRevisionConnectionWhereArgs = {
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -1244,76 +1293,12 @@ export type ContactToRevisionConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the contact type and the TermNode type */
-export type ContactToTermNodeConnection = {
-  __typename?: 'ContactToTermNodeConnection';
-  /** Edges for the ContactToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<ContactToTermNodeConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type ContactToTermNodeConnectionEdge = {
-  __typename?: 'ContactToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
-};
-
-/** Arguments for filtering the ContactToTermNodeConnection connection */
-export type ContactToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
-};
-
 /** Nodes used to manage content */
 export type ContentNode = {
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -1382,6 +1367,22 @@ export type ContentNodeEnqueuedStylesheetsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
+/** Connection to ContentNode Nodes */
+export type ContentNodeConnection = {
+  /** A list of edges (relational context) between ContentType and connected ContentNode Nodes */
+  edges: Array<ContentNodeConnectionEdge>;
+  /** A list of connected ContentNode Nodes */
+  nodes: Array<ContentNode>;
+};
+
+/** Edge between a Node and a connected ContentNode */
+export type ContentNodeConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected ContentNode Node */
+  node: ContentNode;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum ContentNodeIdTypeEnum {
   /** Identify a resource by the Database ID. */
@@ -1393,70 +1394,73 @@ export enum ContentNodeIdTypeEnum {
 }
 
 /** Connection between the ContentNode type and the ContentType type */
-export type ContentNodeToContentTypeConnectionEdge = {
+export type ContentNodeToContentTypeConnectionEdge = OneToOneConnection & Edge & ContentTypeConnectionEdge & {
   __typename?: 'ContentNodeToContentTypeConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<ContentType>;
+  node: ContentType;
 };
 
 /** Connection between the ContentNode type and the User type */
-export type ContentNodeToEditLastConnectionEdge = {
+export type ContentNodeToEditLastConnectionEdge = OneToOneConnection & Edge & UserConnectionEdge & {
   __typename?: 'ContentNodeToEditLastConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<User>;
+  node: User;
 };
 
 /** Connection between the ContentNode type and the User type */
-export type ContentNodeToEditLockConnectionEdge = {
+export type ContentNodeToEditLockConnectionEdge = OneToOneConnection & Edge & UserConnectionEdge & {
   __typename?: 'ContentNodeToEditLockConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The timestamp for when the node was last edited */
   lockTimestamp?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<User>;
+  node: User;
 };
 
 /** Connection between the ContentNode type and the EnqueuedScript type */
-export type ContentNodeToEnqueuedScriptConnection = {
+export type ContentNodeToEnqueuedScriptConnection = EnqueuedScriptConnection & Connection & {
   __typename?: 'ContentNodeToEnqueuedScriptConnection';
   /** Edges for the ContentNodeToEnqueuedScriptConnection connection */
-  edges?: Maybe<Array<Maybe<ContentNodeToEnqueuedScriptConnectionEdge>>>;
+  edges: Array<ContentNodeToEnqueuedScriptConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  nodes: Array<EnqueuedScript>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type ContentNodeToEnqueuedScriptConnectionEdge = {
+export type ContentNodeToEnqueuedScriptConnectionEdge = EnqueuedScriptConnectionEdge & Edge & {
   __typename?: 'ContentNodeToEnqueuedScriptConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedScript>;
+  node: EnqueuedScript;
 };
 
 /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-export type ContentNodeToEnqueuedStylesheetConnection = {
+export type ContentNodeToEnqueuedStylesheetConnection = EnqueuedStylesheetConnection & Connection & {
   __typename?: 'ContentNodeToEnqueuedStylesheetConnection';
   /** Edges for the ContentNodeToEnqueuedStylesheetConnection connection */
-  edges?: Maybe<Array<Maybe<ContentNodeToEnqueuedStylesheetConnectionEdge>>>;
+  edges: Array<ContentNodeToEnqueuedStylesheetConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  nodes: Array<EnqueuedStylesheet>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type ContentNodeToEnqueuedStylesheetConnectionEdge = {
+export type ContentNodeToEnqueuedStylesheetConnectionEdge = EnqueuedStylesheetConnectionEdge & Edge & {
   __typename?: 'ContentNodeToEnqueuedStylesheetConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedStylesheet>;
+  node: EnqueuedStylesheet;
 };
-
-/** A union of Content Node Types that support revisions */
-export type ContentRevisionUnion = Post | Page | Collection | Contact | LandingPage | Release | Translation;
 
 /** The template assigned to a node of content */
 export type ContentTemplate = {
@@ -1552,6 +1556,22 @@ export type ContentTypeContentNodesArgs = {
   where?: Maybe<ContentTypeToContentNodeConnectionWhereArgs>;
 };
 
+/** Connection to ContentType Nodes */
+export type ContentTypeConnection = {
+  /** A list of edges (relational context) between RootQuery and connected ContentType Nodes */
+  edges: Array<ContentTypeConnectionEdge>;
+  /** A list of connected ContentType Nodes */
+  nodes: Array<ContentType>;
+};
+
+/** Edge between a Node and a connected ContentType */
+export type ContentTypeConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected ContentType Node */
+  node: ContentType;
+};
+
 /** Allowed Content Types */
 export enum ContentTypeEnum {
   /** The Type of Content object */
@@ -1581,23 +1601,23 @@ export enum ContentTypeIdTypeEnum {
 }
 
 /** Connection between the ContentType type and the ContentNode type */
-export type ContentTypeToContentNodeConnection = {
+export type ContentTypeToContentNodeConnection = ContentNodeConnection & Connection & {
   __typename?: 'ContentTypeToContentNodeConnection';
   /** Edges for the ContentTypeToContentNodeConnection connection */
-  edges?: Maybe<Array<Maybe<ContentTypeToContentNodeConnectionEdge>>>;
+  edges: Array<ContentTypeToContentNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type ContentTypeToContentNodeConnectionEdge = {
+export type ContentTypeToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'ContentTypeToContentNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the ContentTypeToContentNodeConnection connection */
@@ -1608,7 +1628,7 @@ export type ContentTypeToContentNodeConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -1641,23 +1661,23 @@ export type ContentTypeToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the ContentType type and the Taxonomy type */
-export type ContentTypeToTaxonomyConnection = {
+export type ContentTypeToTaxonomyConnection = TaxonomyConnection & Connection & {
   __typename?: 'ContentTypeToTaxonomyConnection';
   /** Edges for the ContentTypeToTaxonomyConnection connection */
-  edges?: Maybe<Array<Maybe<ContentTypeToTaxonomyConnectionEdge>>>;
+  edges: Array<ContentTypeToTaxonomyConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Taxonomy>>>;
+  nodes: Array<Taxonomy>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type ContentTypeToTaxonomyConnectionEdge = {
+export type ContentTypeToTaxonomyConnectionEdge = TaxonomyConnectionEdge & Edge & {
   __typename?: 'ContentTypeToTaxonomyConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Taxonomy>;
+  node: Taxonomy;
 };
 
 /** Allowed Content Types of the Category taxonomy. */
@@ -1678,7 +1698,7 @@ export enum ContentTypesOfTagEnum {
   Post = 'POST'
 }
 
-/** Input for the createCategory mutation */
+/** Input for the createCategory mutation. */
 export type CreateCategoryInput = {
   /** The slug that the category will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
@@ -1695,7 +1715,7 @@ export type CreateCategoryInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createCategory mutation */
+/** The payload for the createCategory mutation. */
 export type CreateCategoryPayload = {
   __typename?: 'CreateCategoryPayload';
   /** The created category */
@@ -1704,7 +1724,7 @@ export type CreateCategoryPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
-/** Input for the createCollection mutation */
+/** Input for the createCollection mutation. */
 export type CreateCollectionInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -1723,7 +1743,7 @@ export type CreateCollectionInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createCollection mutation */
+/** The payload for the createCollection mutation. */
 export type CreateCollectionPayload = {
   __typename?: 'CreateCollectionPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1732,7 +1752,7 @@ export type CreateCollectionPayload = {
   collection?: Maybe<Collection>;
 };
 
-/** Input for the createComment mutation */
+/** Input for the createComment mutation. */
 export type CreateCommentInput = {
   /** The approval status of the comment. */
   approved?: Maybe<Scalars['String']>;
@@ -1744,19 +1764,21 @@ export type CreateCommentInput = {
   authorUrl?: Maybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The ID of the post object the comment belongs to. */
+  /** The database ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
   /** Content of the comment. */
   content?: Maybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day ( e.g. 01/31/2017 ) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
   date?: Maybe<Scalars['String']>;
-  /** Parent comment of current comment. */
+  /** Parent comment ID of current comment. */
   parent?: Maybe<Scalars['ID']>;
+  /** The approval status of the comment */
+  status?: Maybe<CommentStatusEnum>;
   /** Type of comment. */
   type?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createComment mutation */
+/** The payload for the createComment mutation. */
 export type CreateCommentPayload = {
   __typename?: 'CreateCommentPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1767,7 +1789,7 @@ export type CreateCommentPayload = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-/** Input for the createContact mutation */
+/** Input for the createContact mutation. */
 export type CreateContactInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -1786,7 +1808,7 @@ export type CreateContactInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createContact mutation */
+/** The payload for the createContact mutation. */
 export type CreateContactPayload = {
   __typename?: 'CreateContactPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1795,7 +1817,7 @@ export type CreateContactPayload = {
   contact?: Maybe<Contact>;
 };
 
-/** Input for the createLandingPage mutation */
+/** Input for the createLandingPage mutation. */
 export type CreateLandingPageInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -1814,7 +1836,7 @@ export type CreateLandingPageInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createLandingPage mutation */
+/** The payload for the createLandingPage mutation. */
 export type CreateLandingPagePayload = {
   __typename?: 'CreateLandingPagePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1823,7 +1845,7 @@ export type CreateLandingPagePayload = {
   landingPage?: Maybe<LandingPage>;
 };
 
-/** Input for the createMediaItem mutation */
+/** Input for the createMediaItem mutation. */
 export type CreateMediaItemInput = {
   /** Alternative text to display when mediaItem is not displayed */
   altText?: Maybe<Scalars['String']>;
@@ -1846,7 +1868,7 @@ export type CreateMediaItemInput = {
   /** The file type of the mediaItem */
   fileType?: Maybe<MimeTypeEnum>;
   language?: Maybe<LanguageCodeEnum>;
-  /** The WordPress post ID or the graphQL postId of the parent object */
+  /** The ID of the parent object */
   parentId?: Maybe<Scalars['ID']>;
   /** The ping status for the mediaItem */
   pingStatus?: Maybe<Scalars['String']>;
@@ -1858,7 +1880,7 @@ export type CreateMediaItemInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createMediaItem mutation */
+/** The payload for the createMediaItem mutation. */
 export type CreateMediaItemPayload = {
   __typename?: 'CreateMediaItemPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1867,7 +1889,7 @@ export type CreateMediaItemPayload = {
   mediaItem?: Maybe<MediaItem>;
 };
 
-/** Input for the createPage mutation */
+/** Input for the createPage mutation. */
 export type CreatePageInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
@@ -1892,7 +1914,7 @@ export type CreatePageInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createPage mutation */
+/** The payload for the createPage mutation. */
 export type CreatePagePayload = {
   __typename?: 'CreatePagePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1901,7 +1923,7 @@ export type CreatePagePayload = {
   page?: Maybe<Page>;
 };
 
-/** Input for the createPostFormat mutation */
+/** Input for the createPostFormat mutation. */
 export type CreatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
@@ -1915,7 +1937,7 @@ export type CreatePostFormatInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createPostFormat mutation */
+/** The payload for the createPostFormat mutation. */
 export type CreatePostFormatPayload = {
   __typename?: 'CreatePostFormatPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1924,7 +1946,7 @@ export type CreatePostFormatPayload = {
   postFormat?: Maybe<PostFormat>;
 };
 
-/** Input for the createPost mutation */
+/** Input for the createPost mutation. */
 export type CreatePostInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
@@ -1953,7 +1975,7 @@ export type CreatePostInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createPost mutation */
+/** The payload for the createPost mutation. */
 export type CreatePostPayload = {
   __typename?: 'CreatePostPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1962,7 +1984,7 @@ export type CreatePostPayload = {
   post?: Maybe<Post>;
 };
 
-/** Input for the createRelease mutation */
+/** Input for the createRelease mutation. */
 export type CreateReleaseInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -1983,7 +2005,7 @@ export type CreateReleaseInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createRelease mutation */
+/** The payload for the createRelease mutation. */
 export type CreateReleasePayload = {
   __typename?: 'CreateReleasePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -1992,7 +2014,7 @@ export type CreateReleasePayload = {
   release?: Maybe<Release>;
 };
 
-/** Input for the createTag mutation */
+/** Input for the createTag mutation. */
 export type CreateTagInput = {
   /** The slug that the post_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
@@ -2007,7 +2029,7 @@ export type CreateTagInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createTag mutation */
+/** The payload for the createTag mutation. */
 export type CreateTagPayload = {
   __typename?: 'CreateTagPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2016,7 +2038,7 @@ export type CreateTagPayload = {
   tag?: Maybe<Tag>;
 };
 
-/** Input for the createTranslation mutation */
+/** Input for the createTranslation mutation. */
 export type CreateTranslationInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2034,7 +2056,7 @@ export type CreateTranslationInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createTranslation mutation */
+/** The payload for the createTranslation mutation. */
 export type CreateTranslationPayload = {
   __typename?: 'CreateTranslationPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2043,7 +2065,7 @@ export type CreateTranslationPayload = {
   translation?: Maybe<Translation>;
 };
 
-/** Input for the createUser mutation */
+/** Input for the createUser mutation. */
 export type CreateUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
@@ -2083,7 +2105,7 @@ export type CreateUserInput = {
   yim?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the createUser mutation */
+/** The payload for the createUser mutation. */
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2138,6 +2160,19 @@ export type DateQueryInput = {
   year?: Maybe<Scalars['Int']>;
 };
 
+/** Default images of different post types. Returns url of image of queried post type. Values come from Sivuston Asetukset -&gt; Oletuskuvat. */
+export type DefaultImages = {
+  __typename?: 'DefaultImages';
+  /** Attachment URL for article image */
+  article?: Maybe<Scalars['String']>;
+  /** Attachment URL for event image */
+  event?: Maybe<Scalars['String']>;
+  /** Attachment URL for hero image */
+  hero?: Maybe<Scalars['String']>;
+  /** Attachment URL for page image */
+  page?: Maybe<Scalars['String']>;
+};
+
 /** The template assigned to the node */
 export type DefaultTemplate = ContentTemplate & {
   __typename?: 'DefaultTemplate';
@@ -2145,7 +2180,7 @@ export type DefaultTemplate = ContentTemplate & {
   templateName?: Maybe<Scalars['String']>;
 };
 
-/** Input for the deleteCategory mutation */
+/** Input for the deleteCategory mutation. */
 export type DeleteCategoryInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2153,7 +2188,7 @@ export type DeleteCategoryInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteCategory mutation */
+/** The payload for the deleteCategory mutation. */
 export type DeleteCategoryPayload = {
   __typename?: 'DeleteCategoryPayload';
   /** The deteted term object */
@@ -2164,7 +2199,7 @@ export type DeleteCategoryPayload = {
   deletedId?: Maybe<Scalars['ID']>;
 };
 
-/** Input for the deleteCollection mutation */
+/** Input for the deleteCollection mutation. */
 export type DeleteCollectionInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2174,7 +2209,7 @@ export type DeleteCollectionInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteCollection mutation */
+/** The payload for the deleteCollection mutation. */
 export type DeleteCollectionPayload = {
   __typename?: 'DeleteCollectionPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2185,7 +2220,7 @@ export type DeleteCollectionPayload = {
   deletedId?: Maybe<Scalars['ID']>;
 };
 
-/** Input for the deleteComment mutation */
+/** Input for the deleteComment mutation. */
 export type DeleteCommentInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2195,7 +2230,7 @@ export type DeleteCommentInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteComment mutation */
+/** The payload for the deleteComment mutation. */
 export type DeleteCommentPayload = {
   __typename?: 'DeleteCommentPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2206,7 +2241,7 @@ export type DeleteCommentPayload = {
   deletedId?: Maybe<Scalars['ID']>;
 };
 
-/** Input for the deleteContact mutation */
+/** Input for the deleteContact mutation. */
 export type DeleteContactInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2216,7 +2251,7 @@ export type DeleteContactInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteContact mutation */
+/** The payload for the deleteContact mutation. */
 export type DeleteContactPayload = {
   __typename?: 'DeleteContactPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2227,7 +2262,7 @@ export type DeleteContactPayload = {
   deletedId?: Maybe<Scalars['ID']>;
 };
 
-/** Input for the deleteLandingPage mutation */
+/** Input for the deleteLandingPage mutation. */
 export type DeleteLandingPageInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2237,7 +2272,7 @@ export type DeleteLandingPageInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteLandingPage mutation */
+/** The payload for the deleteLandingPage mutation. */
 export type DeleteLandingPagePayload = {
   __typename?: 'DeleteLandingPagePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2248,7 +2283,7 @@ export type DeleteLandingPagePayload = {
   landingPage?: Maybe<LandingPage>;
 };
 
-/** Input for the deleteMediaItem mutation */
+/** Input for the deleteMediaItem mutation. */
 export type DeleteMediaItemInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2258,7 +2293,7 @@ export type DeleteMediaItemInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteMediaItem mutation */
+/** The payload for the deleteMediaItem mutation. */
 export type DeleteMediaItemPayload = {
   __typename?: 'DeleteMediaItemPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2269,7 +2304,7 @@ export type DeleteMediaItemPayload = {
   mediaItem?: Maybe<MediaItem>;
 };
 
-/** Input for the deletePage mutation */
+/** Input for the deletePage mutation. */
 export type DeletePageInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2279,7 +2314,7 @@ export type DeletePageInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deletePage mutation */
+/** The payload for the deletePage mutation. */
 export type DeletePagePayload = {
   __typename?: 'DeletePagePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2290,7 +2325,7 @@ export type DeletePagePayload = {
   page?: Maybe<Page>;
 };
 
-/** Input for the deletePostFormat mutation */
+/** Input for the deletePostFormat mutation. */
 export type DeletePostFormatInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2298,7 +2333,7 @@ export type DeletePostFormatInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deletePostFormat mutation */
+/** The payload for the deletePostFormat mutation. */
 export type DeletePostFormatPayload = {
   __typename?: 'DeletePostFormatPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2309,7 +2344,7 @@ export type DeletePostFormatPayload = {
   postFormat?: Maybe<PostFormat>;
 };
 
-/** Input for the deletePost mutation */
+/** Input for the deletePost mutation. */
 export type DeletePostInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2319,7 +2354,7 @@ export type DeletePostInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deletePost mutation */
+/** The payload for the deletePost mutation. */
 export type DeletePostPayload = {
   __typename?: 'DeletePostPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2330,7 +2365,7 @@ export type DeletePostPayload = {
   post?: Maybe<Post>;
 };
 
-/** Input for the deleteRelease mutation */
+/** Input for the deleteRelease mutation. */
 export type DeleteReleaseInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2340,7 +2375,7 @@ export type DeleteReleaseInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteRelease mutation */
+/** The payload for the deleteRelease mutation. */
 export type DeleteReleasePayload = {
   __typename?: 'DeleteReleasePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2351,7 +2386,7 @@ export type DeleteReleasePayload = {
   release?: Maybe<Release>;
 };
 
-/** Input for the deleteTag mutation */
+/** Input for the deleteTag mutation. */
 export type DeleteTagInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2359,7 +2394,7 @@ export type DeleteTagInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteTag mutation */
+/** The payload for the deleteTag mutation. */
 export type DeleteTagPayload = {
   __typename?: 'DeleteTagPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2370,7 +2405,7 @@ export type DeleteTagPayload = {
   tag?: Maybe<Tag>;
 };
 
-/** Input for the deleteTranslation mutation */
+/** Input for the deleteTranslation mutation. */
 export type DeleteTranslationInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2380,7 +2415,7 @@ export type DeleteTranslationInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the deleteTranslation mutation */
+/** The payload for the deleteTranslation mutation. */
 export type DeleteTranslationPayload = {
   __typename?: 'DeleteTranslationPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2391,7 +2426,7 @@ export type DeleteTranslationPayload = {
   translation?: Maybe<Translation>;
 };
 
-/** Input for the deleteUser mutation */
+/** Input for the deleteUser mutation. */
 export type DeleteUserInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -2401,7 +2436,7 @@ export type DeleteUserInput = {
   reassignId?: Maybe<Scalars['ID']>;
 };
 
-/** The payload for the deleteUser mutation */
+/** The payload for the deleteUser mutation. */
 export type DeleteUserPayload = {
   __typename?: 'DeleteUserPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2419,6 +2454,14 @@ export type DiscussionSettings = {
   defaultCommentStatus?: Maybe<Scalars['String']>;
   /** Salli linkki-ilmoitukset muista blogeista (pingback ja trackback) uusiin artikkeleihin. */
   defaultPingStatus?: Maybe<Scalars['String']>;
+};
+
+/** Relational context between connected nodes */
+export type Edge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected node */
+  node: Node;
 };
 
 /** Asset enqueued by the CMS */
@@ -2458,6 +2501,22 @@ export type EnqueuedScript = Node & EnqueuedAsset & {
   version?: Maybe<Scalars['String']>;
 };
 
+/** Connection to EnqueuedScript Nodes */
+export type EnqueuedScriptConnection = {
+  /** A list of edges (relational context) between ContentNode and connected EnqueuedScript Nodes */
+  edges: Array<EnqueuedScriptConnectionEdge>;
+  /** A list of connected EnqueuedScript Nodes */
+  nodes: Array<EnqueuedScript>;
+};
+
+/** Edge between a Node and a connected EnqueuedScript */
+export type EnqueuedScriptConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected EnqueuedScript Node */
+  node: EnqueuedScript;
+};
+
 /** Stylesheet enqueued by the CMS */
 export type EnqueuedStylesheet = Node & EnqueuedAsset & {
   __typename?: 'EnqueuedStylesheet';
@@ -2477,13 +2536,66 @@ export type EnqueuedStylesheet = Node & EnqueuedAsset & {
   version?: Maybe<Scalars['String']>;
 };
 
+/** Connection to EnqueuedStylesheet Nodes */
+export type EnqueuedStylesheetConnection = {
+  /** A list of edges (relational context) between ContentNode and connected EnqueuedStylesheet Nodes */
+  edges: Array<EnqueuedStylesheetConnectionEdge>;
+  /** A list of connected EnqueuedStylesheet Nodes */
+  nodes: Array<EnqueuedStylesheet>;
+};
+
+/** Edge between a Node and a connected EnqueuedStylesheet */
+export type EnqueuedStylesheetConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected EnqueuedStylesheet Node */
+  node: EnqueuedStylesheet;
+};
+
 /** Collection Module: EventSearch */
 export type EventSearch = {
   __typename?: 'EventSearch';
+  /** Amount of events listed before &quot;show more -button&quot; */
+  initAmountOfEvents?: Maybe<Scalars['Int']>;
   /** Module type */
   module?: Maybe<Scalars['String']>;
   /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+  /**
+   * Show all -link, final link is combination of Tapahtuma- ja kurssikarusellin
+   *                 hakutulosten osoite -link and search params of the module, for example:
+   *                 https://client-url.com/search/?sort=end_time&amp;super_event_type=umbrella,none&amp;language=fi&amp;start=2022-10-29
+   */
+  showAllLink?: Maybe<Scalars['String']>;
+  /** Show all -link */
+  showAllLinkCustom?: Maybe<Scalars['String']>;
+  /** Module title */
+  title?: Maybe<Scalars['String']>;
+  /** Search query */
+  url?: Maybe<Scalars['String']>;
+};
+
+/** Collection Module: EventSearchCarousel */
+export type EventSearchCarousel = {
+  __typename?: 'EventSearchCarousel';
+  /** Amount of cards in carousel */
+  amountOfCards?: Maybe<Scalars['Int']>;
+  /** Events nearby */
+  eventsNearby?: Maybe<Scalars['Boolean']>;
+  /** Module type */
+  module?: Maybe<Scalars['String']>;
+  /** List of modules */
+  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+  /** Events order */
+  orderNewestFirst?: Maybe<Scalars['Boolean']>;
+  /**
+   * Show all -link, final link is combination of Tapahtuma- ja kurssikarusellin
+   *                                     hakutulosten osoite -link and search params of the module, for example:
+   *                                     https://client-url.com/search/?sort=end_time&amp;super_event_type=umbrella,none&amp;language=fi&amp;start=2022-10-29
+   */
+  showAllLink?: Maybe<Scalars['String']>;
+  /** Show all -link */
+  showAllLinkCustom?: Maybe<Scalars['String']>;
   /** Module title */
   title?: Maybe<Scalars['String']>;
   /** Search query */
@@ -2495,10 +2607,35 @@ export type EventSelected = {
   __typename?: 'EventSelected';
   /** List of event IDs */
   events?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Amount of events listed before &quot;show more -button&quot; */
+  initAmountOfEvents?: Maybe<Scalars['Int']>;
   /** Module type */
   module?: Maybe<Scalars['String']>;
   /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+  /** Show all -link */
+  showAllLink?: Maybe<Scalars['String']>;
+  /** Module title */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Collection Module: EventSelectedCarousel */
+export type EventSelectedCarousel = {
+  __typename?: 'EventSelectedCarousel';
+  /** Amount of cards in carousel */
+  amountOfCards?: Maybe<Scalars['Int']>;
+  /** Amount of cards per row */
+  amountOfCardsPerRow?: Maybe<Scalars['Int']>;
+  /** List of event IDs */
+  events?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Events nearby */
+  eventsNearby?: Maybe<Scalars['Boolean']>;
+  /** Module type */
+  module?: Maybe<Scalars['String']>;
+  /** List of modules */
+  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+  /** Show all -link */
+  showAllLink?: Maybe<Scalars['String']>;
   /** Module title */
   title?: Maybe<Scalars['String']>;
 };
@@ -2530,12 +2667,64 @@ export type HierarchicalContentNode = {
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
   /** Connection between the HierarchicalContentNode type and the ContentNode type */
   children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** Post publishing date. */
+  date?: Maybe<Scalars['String']>;
+  /** The publishing date set in GMT. */
+  dateGmt?: Maybe<Scalars['String']>;
+  /** The desired slug of the post */
+  desiredSlug?: Maybe<Scalars['String']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid?: Maybe<Scalars['String']>;
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The user that most recently edited the node */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link?: Maybe<Scalars['String']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified?: Maybe<Scalars['String']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt?: Maybe<Scalars['String']>;
   /** The parent of the node. The parent object can be of various types */
   parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
   /** Database id of the parent node */
   parentDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the parent node. */
   parentId?: Maybe<Scalars['ID']>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug?: Maybe<Scalars['String']>;
+  /** The current status of the object */
+  status?: Maybe<Scalars['String']>;
+  /** The template assigned to a node of content */
+  template?: Maybe<ContentTemplate>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -2558,24 +2747,42 @@ export type HierarchicalContentNodeChildrenArgs = {
   where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
+
+/** Content node with hierarchical (parent/child) relationships */
+export type HierarchicalContentNodeEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+
+/** Content node with hierarchical (parent/child) relationships */
+export type HierarchicalContentNodeEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToContentNodeAncestorsConnection = {
+export type HierarchicalContentNodeToContentNodeAncestorsConnection = ContentNodeConnection & Connection & {
   __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnection';
   /** Edges for the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
-  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>>>;
+  edges: Array<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = {
+export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
@@ -2586,7 +2793,7 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -2619,23 +2826,23 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToContentNodeChildrenConnection = {
+export type HierarchicalContentNodeToContentNodeChildrenConnection = ContentNodeConnection & Connection & {
   __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
   /** Edges for the HierarchicalContentNodeToContentNodeChildrenConnection connection */
-  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>>>;
+  edges: Array<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = {
+export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeChildrenConnection connection */
@@ -2646,7 +2853,7 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -2679,22 +2886,86 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToParentContentNodeConnectionEdge = {
+export type HierarchicalContentNodeToParentContentNodeConnectionEdge = OneToOneConnection & Edge & ContentNodeConnectionEdge & {
   __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
-/** Term node with hierarchical (parent/child) relationships */
-export type HierarchicalTermNode = {
+/** Node with hierarchical (parent/child) relationships */
+export type HierarchicalNode = {
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
   /** Database id of the parent node */
   parentDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the parent node. */
   parentId?: Maybe<Scalars['ID']>;
 };
 
+/** Term node with hierarchical (parent/child) relationships */
+export type HierarchicalTermNode = {
+  /** The number of objects connected to the object */
+  count?: Maybe<Scalars['Int']>;
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** The description of the object */
+  description?: Maybe<Scalars['String']>;
+  /** Connection between the TermNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+  /** Connection between the TermNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The link to the term */
+  link?: Maybe<Scalars['String']>;
+  /** The human friendly name of the object. */
+  name?: Maybe<Scalars['String']>;
+  /** Database id of the parent node */
+  parentDatabaseId?: Maybe<Scalars['Int']>;
+  /** The globally unique identifier of the parent node. */
+  parentId?: Maybe<Scalars['ID']>;
+  /** An alphanumeric identifier for the object unique to its type. */
+  slug?: Maybe<Scalars['String']>;
+  /** The name of the taxonomy that the object is associated with */
+  taxonomyName?: Maybe<Scalars['String']>;
+  /** The ID of the term group that this term object belongs to */
+  termGroupId?: Maybe<Scalars['Int']>;
+  /** The taxonomy ID that the object is associated with */
+  termTaxonomyId?: Maybe<Scalars['Int']>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
+};
+
+
+/** Term node with hierarchical (parent/child) relationships */
+export type HierarchicalTermNodeEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+
+/** Term node with hierarchical (parent/child) relationships */
+export type HierarchicalTermNodeEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
 /** The landingPage type */
-export type LandingPage = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithRevisions & {
+export type LandingPage = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithRevisions & {
   __typename?: 'LandingPage';
   /** Background Color */
   backgroundColor?: Maybe<Scalars['String']>;
@@ -2702,6 +2973,8 @@ export type LandingPage = Node & ContentNode & UniformResourceIdentifiable & Dat
   boxColor?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -2759,7 +3032,7 @@ export type LandingPage = Node & ContentNode & UniformResourceIdentifiable & Dat
   modifiedGmt?: Maybe<Scalars['String']>;
   /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Connection between the landingPage type and the landingPage type */
+  /** Connection between the LandingPage type and the landingPage type */
   preview?: Maybe<LandingPageToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -2767,7 +3040,7 @@ export type LandingPage = Node & ContentNode & UniformResourceIdentifiable & Dat
   previewRevisionId?: Maybe<Scalars['ID']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the landingPage type and the landingPage type */
+  /** Connection between the LandingPage type and the landingPage type */
   revisions?: Maybe<LandingPageToRevisionConnection>;
   /** The SEO Framework data of the landingPage */
   seo?: Maybe<Seo>;
@@ -2777,8 +3050,6 @@ export type LandingPage = Node & ContentNode & UniformResourceIdentifiable & Dat
   status?: Maybe<Scalars['String']>;
   /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the landingPage type and the TermNode type */
-  terms?: Maybe<LandingPageToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** Get specific translation version of this object */
@@ -2849,16 +3120,6 @@ export type LandingPageRevisionsArgs = {
 
 
 /** The landingPage type */
-export type LandingPageTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<LandingPageToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The landingPage type */
 export type LandingPageTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -2867,6 +3128,22 @@ export type LandingPageTitleArgs = {
 /** The landingPage type */
 export type LandingPageTranslationArgs = {
   language: LanguageCodeEnum;
+};
+
+/** Connection to landingPage Nodes */
+export type LandingPageConnection = {
+  /** A list of edges (relational context) between RootQuery and connected landingPage Nodes */
+  edges: Array<LandingPageConnectionEdge>;
+  /** A list of connected landingPage Nodes */
+  nodes: Array<LandingPage>;
+};
+
+/** Edge between a Node and a connected landingPage */
+export type LandingPageConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected landingPage Node */
+  node: LandingPage;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -2882,23 +3159,23 @@ export enum LandingPageIdType {
 }
 
 /** Connection between the landingPage type and the MediaItem type */
-export type LandingPageToFloatImageConnection = {
+export type LandingPageToFloatImageConnection = MediaItemConnection & Connection & {
   __typename?: 'LandingPageToFloatImageConnection';
   /** Edges for the LandingPageToFloatImageConnection connection */
-  edges?: Maybe<Array<Maybe<LandingPageToFloatImageConnectionEdge>>>;
+  edges: Array<LandingPageToFloatImageConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MediaItem>>>;
+  nodes: Array<MediaItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type LandingPageToFloatImageConnectionEdge = {
+export type LandingPageToFloatImageConnectionEdge = MediaItemConnectionEdge & Edge & {
   __typename?: 'LandingPageToFloatImageConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MediaItem>;
+  node: MediaItem;
 };
 
 /** Arguments for filtering the LandingPageToFloatImageConnection connection */
@@ -2909,7 +3186,7 @@ export type LandingPageToFloatImageConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -2942,23 +3219,23 @@ export type LandingPageToFloatImageConnectionWhereArgs = {
 };
 
 /** Connection between the landingPage type and the MediaItem type */
-export type LandingPageToMediaItemConnection = {
+export type LandingPageToMediaItemConnection = MediaItemConnection & Connection & {
   __typename?: 'LandingPageToMediaItemConnection';
   /** Edges for the LandingPageToMediaItemConnection connection */
-  edges?: Maybe<Array<Maybe<LandingPageToMediaItemConnectionEdge>>>;
+  edges: Array<LandingPageToMediaItemConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MediaItem>>>;
+  nodes: Array<MediaItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type LandingPageToMediaItemConnectionEdge = {
+export type LandingPageToMediaItemConnectionEdge = MediaItemConnectionEdge & Edge & {
   __typename?: 'LandingPageToMediaItemConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MediaItem>;
+  node: MediaItem;
 };
 
 /** Arguments for filtering the LandingPageToMediaItemConnection connection */
@@ -2969,7 +3246,7 @@ export type LandingPageToMediaItemConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -3002,23 +3279,23 @@ export type LandingPageToMediaItemConnectionWhereArgs = {
 };
 
 /** Connection between the landingPage type and the MediaItem type */
-export type LandingPageToMobileImageConnection = {
+export type LandingPageToMobileImageConnection = MediaItemConnection & Connection & {
   __typename?: 'LandingPageToMobileImageConnection';
   /** Edges for the LandingPageToMobileImageConnection connection */
-  edges?: Maybe<Array<Maybe<LandingPageToMobileImageConnectionEdge>>>;
+  edges: Array<LandingPageToMobileImageConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MediaItem>>>;
+  nodes: Array<MediaItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type LandingPageToMobileImageConnectionEdge = {
+export type LandingPageToMobileImageConnectionEdge = MediaItemConnectionEdge & Edge & {
   __typename?: 'LandingPageToMobileImageConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MediaItem>;
+  node: MediaItem;
 };
 
 /** Arguments for filtering the LandingPageToMobileImageConnection connection */
@@ -3029,7 +3306,7 @@ export type LandingPageToMobileImageConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -3061,40 +3338,42 @@ export type LandingPageToMobileImageConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the landingPage type and the landingPage type */
-export type LandingPageToPreviewConnectionEdge = {
+/** Connection between the LandingPage type and the landingPage type */
+export type LandingPageToPreviewConnectionEdge = OneToOneConnection & Edge & LandingPageConnectionEdge & {
   __typename?: 'LandingPageToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<LandingPage>;
+  node: LandingPage;
 };
 
-/** Connection between the landingPage type and the landingPage type */
-export type LandingPageToRevisionConnection = {
+/** Connection between the LandingPage type and the landingPage type */
+export type LandingPageToRevisionConnection = LandingPageConnection & Connection & {
   __typename?: 'LandingPageToRevisionConnection';
-  /** Edges for the landingPageToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<LandingPageToRevisionConnectionEdge>>>;
+  /** Edges for the LandingPageToRevisionConnection connection */
+  edges: Array<LandingPageToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<LandingPage>>>;
+  nodes: Array<LandingPage>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type LandingPageToRevisionConnectionEdge = {
+export type LandingPageToRevisionConnectionEdge = LandingPageConnectionEdge & Edge & {
   __typename?: 'LandingPageToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<LandingPage>;
+  node: LandingPage;
 };
 
-/** Arguments for filtering the landingPageToRevisionConnection connection */
+/** Arguments for filtering the LandingPageToRevisionConnection connection */
 export type LandingPageToRevisionConnectionWhereArgs = {
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -3124,72 +3403,6 @@ export type LandingPageToRevisionConnectionWhereArgs = {
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
-};
-
-/** Connection between the landingPage type and the TermNode type */
-export type LandingPageToTermNodeConnection = {
-  __typename?: 'LandingPageToTermNodeConnection';
-  /** Edges for the LandingPageToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<LandingPageToTermNodeConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type LandingPageToTermNodeConnectionEdge = {
-  __typename?: 'LandingPageToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
-};
-
-/** Arguments for filtering the LandingPageToTermNodeConnection connection */
-export type LandingPageToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
 /** Language (Polylang) */
@@ -3197,6 +3410,8 @@ export type Language = {
   __typename?: 'Language';
   /** Language code (Polylang) */
   code?: Maybe<LanguageCodeEnum>;
+  /** Language term front page URL */
+  homeUrl?: Maybe<Scalars['String']>;
   /** Language ID (Polylang) */
   id: Scalars['ID'];
   /** Language locale (Polylang) */
@@ -3210,7 +3425,6 @@ export type Language = {
 /** Enum of all available language codes */
 export enum LanguageCodeEnum {
   En = 'EN',
-  /** The default locale of the site */
   Fi = 'FI',
   Sv = 'SV'
 }
@@ -3220,10 +3434,30 @@ export enum LanguageCodeFilterEnum {
   All = 'ALL',
   Default = 'DEFAULT',
   En = 'EN',
-  /** The default locale of the site */
   Fi = 'FI',
   Sv = 'SV'
 }
+
+/** Layout: LayoutArticleHighlights */
+export type LayoutArticleHighlights = {
+  __typename?: 'LayoutArticleHighlights';
+  /** Anchor */
+  anchor?: Maybe<Scalars['String']>;
+  /** Articles */
+  articles?: Maybe<Array<Maybe<Post>>>;
+  /** Background Color */
+  backgroundColor?: Maybe<Scalars['String']>;
+  /** Category */
+  category?: Maybe<Scalars['Int']>;
+  /** Amount of articles to list */
+  limit?: Maybe<Scalars['Int']>;
+  /** Show more link */
+  showMore?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Tag */
+  tag?: Maybe<Scalars['Int']>;
+  /** Title */
+  title?: Maybe<Scalars['String']>;
+};
 
 /** Layout: LayoutArticles */
 export type LayoutArticles = {
@@ -3238,6 +3472,31 @@ export type LayoutArticles = {
   category?: Maybe<Scalars['Int']>;
   /** Tag */
   limit?: Maybe<Scalars['Int']>;
+  /** Show all -link */
+  showAllLink?: Maybe<Scalars['String']>;
+  /** Tag */
+  tag?: Maybe<Scalars['Int']>;
+  /** Title */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Layout: LayoutArticlesCarousel */
+export type LayoutArticlesCarousel = {
+  __typename?: 'LayoutArticlesCarousel';
+  /** Anchor */
+  anchor?: Maybe<Scalars['String']>;
+  /** Articles */
+  articles?: Maybe<Array<Maybe<Post>>>;
+  /** Background Color */
+  backgroundColor?: Maybe<Scalars['String']>;
+  /** Category */
+  category?: Maybe<Scalars['Int']>;
+  /** Amount of articles to list */
+  limit?: Maybe<Scalars['Int']>;
+  /** Show all -link */
+  showAllLink?: Maybe<Scalars['String']>;
+  /** Show more link */
+  showMore?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Tag */
   tag?: Maybe<Scalars['Int']>;
   /** Title */
@@ -3288,6 +3547,23 @@ export type LayoutPages = {
   description?: Maybe<Scalars['String']>;
   /** Pages */
   pages?: Maybe<Array<Maybe<Page>>>;
+  /** Show all -link */
+  showAllLink?: Maybe<Scalars['String']>;
+  /** Title */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Layout: LayoutPagesCarousel */
+export type LayoutPagesCarousel = {
+  __typename?: 'LayoutPagesCarousel';
+  /** Anchor */
+  anchor?: Maybe<Scalars['String']>;
+  /** Background Color */
+  backgroundColor?: Maybe<Scalars['String']>;
+  /** Description */
+  description?: Maybe<Scalars['String']>;
+  /** Pages */
+  pages?: Maybe<Array<Maybe<Page>>>;
   /** Title */
   title?: Maybe<Scalars['String']>;
 };
@@ -3316,6 +3592,19 @@ export type LocationsSelected = {
   title?: Maybe<Scalars['String']>;
 };
 
+/** Collection Module: LocationsSelectedCarousel */
+export type LocationsSelectedCarousel = {
+  __typename?: 'LocationsSelectedCarousel';
+  /** List of location IDs */
+  locations?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Module type */
+  module?: Maybe<Scalars['String']>;
+  /** List of modules */
+  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+  /** Module title */
+  title?: Maybe<Scalars['String']>;
+};
+
 /** File details for a Media Item */
 export type MediaDetails = {
   __typename?: 'MediaDetails';
@@ -3331,8 +3620,15 @@ export type MediaDetails = {
   width?: Maybe<Scalars['Int']>;
 };
 
+
+/** File details for a Media Item */
+export type MediaDetailsSizesArgs = {
+  exclude?: Maybe<Array<Maybe<MediaItemSizeEnum>>>;
+  include?: Maybe<Array<Maybe<MediaItemSizeEnum>>>;
+};
+
 /** The mediaItem type */
-export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithAuthor & HierarchicalContentNode & {
+export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithAuthor & HierarchicalContentNode & HierarchicalNode & {
   __typename?: 'MediaItem';
   /** Alternative text to display when resource is not displayed */
   altText?: Maybe<Scalars['String']>;
@@ -3350,6 +3646,8 @@ export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & Datab
   children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -3429,10 +3727,8 @@ export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & Datab
   srcSet?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
+  /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the mediaItem type and the TermNode type */
-  terms?: Maybe<MediaItemToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** Get specific translation version of this object */
@@ -3519,16 +3815,6 @@ export type MediaItemSrcSetArgs = {
 
 
 /** The mediaItem type */
-export type MediaItemTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<MediaItemToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The mediaItem type */
 export type MediaItemTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -3537,6 +3823,22 @@ export type MediaItemTitleArgs = {
 /** The mediaItem type */
 export type MediaItemTranslationArgs = {
   language: LanguageCodeEnum;
+};
+
+/** Connection to mediaItem Nodes */
+export type MediaItemConnection = {
+  /** A list of edges (relational context) between RootQuery and connected mediaItem Nodes */
+  edges: Array<MediaItemConnectionEdge>;
+  /** A list of connected mediaItem Nodes */
+  nodes: Array<MediaItem>;
+};
+
+/** Edge between a Node and a connected mediaItem */
+export type MediaItemConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected mediaItem Node */
+  node: MediaItem;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -3610,72 +3912,6 @@ export enum MediaItemStatusEnum {
   Trash = 'TRASH'
 }
 
-/** Connection between the mediaItem type and the TermNode type */
-export type MediaItemToTermNodeConnection = {
-  __typename?: 'MediaItemToTermNodeConnection';
-  /** Edges for the MediaItemToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<MediaItemToTermNodeConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type MediaItemToTermNodeConnectionEdge = {
-  __typename?: 'MediaItemToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
-};
-
-/** Arguments for filtering the MediaItemToTermNodeConnection connection */
-export type MediaItemToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
-};
-
 /** Details of an available size for a media item */
 export type MediaSize = {
   __typename?: 'MediaSize';
@@ -3731,6 +3967,22 @@ export type MenuMenuItemsArgs = {
   where?: Maybe<MenuToMenuItemConnectionWhereArgs>;
 };
 
+/** Connection to Menu Nodes */
+export type MenuConnection = {
+  /** A list of edges (relational context) between RootQuery and connected Menu Nodes */
+  edges: Array<MenuConnectionEdge>;
+  /** A list of connected Menu Nodes */
+  nodes: Array<Menu>;
+};
+
+/** Edge between a Node and a connected Menu */
+export type MenuConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected Menu Node */
+  node: Menu;
+};
+
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
 export type MenuItem = Node & DatabaseIdentifier & {
   __typename?: 'MenuItem';
@@ -3778,6 +4030,8 @@ export type MenuItem = Node & DatabaseIdentifier & {
   target?: Maybe<Scalars['String']>;
   /** Title attribute for the menu item link */
   title?: Maybe<Scalars['String']>;
+  /** The uri of the resource the menu item links to */
+  uri?: Maybe<Scalars['String']>;
   /** URL or destination of the menu item. */
   url?: Maybe<Scalars['String']>;
 };
@@ -3792,14 +4046,42 @@ export type MenuItemChildItemsArgs = {
   where?: Maybe<MenuItemToMenuItemConnectionWhereArgs>;
 };
 
+/** Connection to MenuItem Nodes */
+export type MenuItemConnection = {
+  /** A list of edges (relational context) between RootQuery and connected MenuItem Nodes */
+  edges: Array<MenuItemConnectionEdge>;
+  /** A list of connected MenuItem Nodes */
+  nodes: Array<MenuItem>;
+};
+
+/** Edge between a Node and a connected MenuItem */
+export type MenuItemConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected MenuItem Node */
+  node: MenuItem;
+};
+
 /** Nodes that can be linked to as Menu Items */
 export type MenuItemLinkable = {
-  /** The unique resource identifier path */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
+};
+
+/** Edge between a Node and a connected MenuItemLinkable */
+export type MenuItemLinkableConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected MenuItemLinkable Node */
+  node: MenuItemLinkable;
 };
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -3814,35 +4096,37 @@ export enum MenuItemNodeIdTypeEnum {
 export type MenuItemObjectUnion = Post | Page | Category | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
-export type MenuItemToMenuConnectionEdge = {
+export type MenuItemToMenuConnectionEdge = OneToOneConnection & Edge & MenuConnectionEdge & {
   __typename?: 'MenuItemToMenuConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Menu>;
+  node: Menu;
 };
 
 /** Connection between the MenuItem type and the MenuItem type */
-export type MenuItemToMenuItemConnection = {
+export type MenuItemToMenuItemConnection = MenuItemConnection & Connection & {
   __typename?: 'MenuItemToMenuItemConnection';
   /** Edges for the MenuItemToMenuItemConnection connection */
-  edges?: Maybe<Array<Maybe<MenuItemToMenuItemConnectionEdge>>>;
+  edges: Array<MenuItemToMenuItemConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MenuItem>>>;
+  nodes: Array<MenuItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type MenuItemToMenuItemConnectionEdge = {
+export type MenuItemToMenuItemConnectionEdge = MenuItemConnectionEdge & Edge & {
   __typename?: 'MenuItemToMenuItemConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MenuItem>;
+  node: MenuItem;
 };
 
 /** Arguments for filtering the MenuItemToMenuItemConnection connection */
 export type MenuItemToMenuItemConnectionWhereArgs = {
-  /** The ID of the object */
+  /** The database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
   location?: Maybe<MenuLocationEnum>;
@@ -3853,10 +4137,12 @@ export type MenuItemToMenuItemConnectionWhereArgs = {
 };
 
 /** Connection between the MenuItem type and the MenuItemLinkable type */
-export type MenuItemToMenuItemLinkableConnectionEdge = {
+export type MenuItemToMenuItemLinkableConnectionEdge = OneToOneConnection & Edge & MenuItemLinkableConnectionEdge & {
   __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<MenuItemLinkable>;
+  node: MenuItemLinkable;
 };
 
 /** Registered menu locations */
@@ -3887,33 +4173,37 @@ export enum MenuNodeIdTypeEnum {
   DatabaseId = 'DATABASE_ID',
   /** Identify a menu node by the (hashed) Global ID. */
   Id = 'ID',
-  /** Identify a menu node by it's name */
-  Name = 'NAME'
+  /** Identify a menu node by the slug of menu location to which it is assigned */
+  Location = 'LOCATION',
+  /** Identify a menu node by its name */
+  Name = 'NAME',
+  /** Identify a menu node by its slug */
+  Slug = 'SLUG'
 }
 
 /** Connection between the Menu type and the MenuItem type */
-export type MenuToMenuItemConnection = {
+export type MenuToMenuItemConnection = MenuItemConnection & Connection & {
   __typename?: 'MenuToMenuItemConnection';
   /** Edges for the MenuToMenuItemConnection connection */
-  edges?: Maybe<Array<Maybe<MenuToMenuItemConnectionEdge>>>;
+  edges: Array<MenuToMenuItemConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MenuItem>>>;
+  nodes: Array<MenuItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type MenuToMenuItemConnectionEdge = {
+export type MenuToMenuItemConnectionEdge = MenuItemConnectionEdge & Edge & {
   __typename?: 'MenuToMenuItemConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MenuItem>;
+  node: MenuItem;
 };
 
 /** Arguments for filtering the MenuToMenuItemConnection connection */
 export type MenuToMenuItemConnectionWhereArgs = {
-  /** The ID of the object */
+  /** The database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
   location?: Maybe<MenuLocationEnum>;
@@ -4005,19 +4295,25 @@ export type NodeWithAuthor = {
   authorDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']>;
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
 };
 
 /** Connection between the NodeWithAuthor type and the User type */
-export type NodeWithAuthorToUserConnectionEdge = {
+export type NodeWithAuthorToUserConnectionEdge = OneToOneConnection & Edge & UserConnectionEdge & {
   __typename?: 'NodeWithAuthorToUserConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<User>;
+  node: User;
 };
 
 /** A node that supports the content editor */
 export type NodeWithContentEditor = {
   /** The content of the post. */
   content?: Maybe<Scalars['String']>;
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
 };
 
 
@@ -4028,97 +4324,37 @@ export type NodeWithContentEditorContentArgs = {
 
 /** A node that can have a featured image set */
 export type NodeWithFeaturedImage = {
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
   featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
   /** The database identifier for the featured image node assigned to the content node */
   featuredImageDatabaseId?: Maybe<Scalars['Int']>;
   /** Globally unique ID of the featured image assigned to the node */
   featuredImageId?: Maybe<Scalars['ID']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean'];
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
-  template?: Maybe<ContentTemplate>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']>;
-};
-
-
-/** A node that can have a featured image set */
-export type NodeWithFeaturedImageEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-};
-
-
-/** A node that can have a featured image set */
-export type NodeWithFeaturedImageEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-export type NodeWithFeaturedImageToMediaItemConnectionEdge = {
+export type NodeWithFeaturedImageToMediaItemConnectionEdge = OneToOneConnection & Edge & MediaItemConnectionEdge & {
   __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<MediaItem>;
+  node: MediaItem;
 };
 
 /** A node that can have page attributes */
 export type NodeWithPageAttributes = {
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
   menuOrder?: Maybe<Scalars['Int']>;
 };
 
 /** A node that can have revisions */
 export type NodeWithRevisions = {
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
   /** True if the node is a revision of another node */
   isRevision?: Maybe<Scalars['Boolean']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
@@ -4126,20 +4362,26 @@ export type NodeWithRevisions = {
 };
 
 /** Connection between the NodeWithRevisions type and the ContentNode type */
-export type NodeWithRevisionsToContentNodeConnectionEdge = {
+export type NodeWithRevisionsToContentNodeConnectionEdge = OneToOneConnection & Edge & ContentNodeConnectionEdge & {
   __typename?: 'NodeWithRevisionsToContentNodeConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** A node that can have a template associated with it */
 export type NodeWithTemplate = {
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
   /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
 };
 
 /** A node that NodeWith a title */
 export type NodeWithTitle = {
+  /** The globally unique ID for the object */
+  id: Scalars['ID'];
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
 };
@@ -4169,6 +4411,14 @@ export type Notification = {
   title?: Maybe<Scalars['String']>;
 };
 
+/** A singular connection from one Node to another, with support for relational data on the &quot;edge&quot; of the connection. */
+export type OneToOneConnection = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected node */
+  node: Node;
+};
+
 /** The cardinality of the connection order */
 export enum OrderEnum {
   /** Sort the query result set in an ascending order */
@@ -4178,7 +4428,7 @@ export enum OrderEnum {
 }
 
 /** The page type */
-export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & {
+export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & HierarchicalNode & MenuItemLinkable & {
   __typename?: 'Page';
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
@@ -4194,7 +4444,9 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique resource identifier path */
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -4265,7 +4517,7 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   parentDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the parent node. */
   parentId?: Maybe<Scalars['ID']>;
-  /** Connection between the page type and the page type */
+  /** Connection between the Page type and the page type */
   preview?: Maybe<PageToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -4273,7 +4525,7 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   previewRevisionId?: Maybe<Scalars['ID']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the page type and the page type */
+  /** Connection between the Page type and the page type */
   revisions?: Maybe<PageToRevisionConnection>;
   /** The SEO Framework data of the page */
   seo?: Maybe<Seo>;
@@ -4287,8 +4539,6 @@ export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the page type and the TermNode type */
-  terms?: Maybe<PageToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** Get specific translation version of this object */
@@ -4355,16 +4605,6 @@ export type PageRevisionsArgs = {
 
 
 /** The page type */
-export type PageTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<PageToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The page type */
 export type PageTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -4373,6 +4613,22 @@ export type PageTitleArgs = {
 /** The page type */
 export type PageTranslationArgs = {
   language: LanguageCodeEnum;
+};
+
+/** Connection to page Nodes */
+export type PageConnection = {
+  /** A list of edges (relational context) between RootQuery and connected page Nodes */
+  edges: Array<PageConnectionEdge>;
+  /** A list of connected page Nodes */
+  nodes: Array<Page>;
+};
+
+/** Edge between a Node and a connected page */
+export type PageConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected page Node */
+  node: Page;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -4385,38 +4641,40 @@ export enum PageIdType {
   Uri = 'URI'
 }
 
-export type PageModulesUnionType = EventSearch | EventSelected | LocationsSelected | LayoutCollection | LayoutContact | LayoutArticles | LayoutPages;
+export type PageModulesUnionType = EventSearch | EventSelected | EventSearchCarousel | EventSelectedCarousel | LocationsSelected | LocationsSelectedCarousel | LayoutCollection | LayoutContact | LayoutArticles | LayoutArticlesCarousel | LayoutArticleHighlights | LayoutPages | LayoutPagesCarousel;
 
 export type PageSidebarUnionType = LayoutLinkList | LayoutArticles | LayoutPages;
 
-/** Connection between the page type and the page type */
-export type PageToPreviewConnectionEdge = {
+/** Connection between the Page type and the page type */
+export type PageToPreviewConnectionEdge = OneToOneConnection & Edge & PageConnectionEdge & {
   __typename?: 'PageToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Page>;
+  node: Page;
 };
 
-/** Connection between the page type and the page type */
-export type PageToRevisionConnection = {
+/** Connection between the Page type and the page type */
+export type PageToRevisionConnection = PageConnection & Connection & {
   __typename?: 'PageToRevisionConnection';
-  /** Edges for the pageToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<PageToRevisionConnectionEdge>>>;
+  /** Edges for the PageToRevisionConnection connection */
+  edges: Array<PageToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Page>>>;
+  nodes: Array<Page>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PageToRevisionConnectionEdge = {
+export type PageToRevisionConnectionEdge = PageConnectionEdge & Edge & {
   __typename?: 'PageToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Page>;
+  node: Page;
 };
 
-/** Arguments for filtering the pageToRevisionConnection connection */
+/** Arguments for filtering the PageToRevisionConnection connection */
 export type PageToRevisionConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
   author?: Maybe<Scalars['Int']>;
@@ -4430,7 +4688,7 @@ export type PageToRevisionConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -4462,72 +4720,6 @@ export type PageToRevisionConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the page type and the TermNode type */
-export type PageToTermNodeConnection = {
-  __typename?: 'PageToTermNodeConnection';
-  /** Edges for the PageToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<PageToTermNodeConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type PageToTermNodeConnectionEdge = {
-  __typename?: 'PageToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
-};
-
-/** Arguments for filtering the PageToTermNodeConnection connection */
-export type PageToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
-};
-
 /** An plugin object */
 export type Plugin = Node & {
   __typename?: 'Plugin';
@@ -4551,8 +4743,46 @@ export type Plugin = Node & {
   version?: Maybe<Scalars['String']>;
 };
 
+/** Connection to Plugin Nodes */
+export type PluginConnection = {
+  /** A list of edges (relational context) between RootQuery and connected Plugin Nodes */
+  edges: Array<PluginConnectionEdge>;
+  /** A list of connected Plugin Nodes */
+  nodes: Array<Plugin>;
+};
+
+/** Edge between a Node and a connected Plugin */
+export type PluginConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected Plugin Node */
+  node: Plugin;
+};
+
+/** The status of the WordPress plugin. */
+export enum PluginStatusEnum {
+  /** The plugin is currently active. */
+  Active = 'ACTIVE',
+  /** The plugin is a drop-in plugin. */
+  DropIn = 'DROP_IN',
+  /** The plugin is currently inactive. */
+  Inactive = 'INACTIVE',
+  /** The plugin is a must-use plugin. */
+  MustUse = 'MUST_USE',
+  /** The plugin is activated on the multisite network. */
+  NetworkActivated = 'NETWORK_ACTIVATED',
+  /** The plugin is installed on the multisite network, but is currently inactive. */
+  NetworkInactive = 'NETWORK_INACTIVE',
+  /** The plugin is technically active but was paused while loading. */
+  Paused = 'PAUSED',
+  /** The plugin was active recently. */
+  RecentlyActive = 'RECENTLY_ACTIVE',
+  /** The plugin has an upgrade available. */
+  Upgrade = 'UPGRADE'
+}
+
 /** The post type */
-export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithRevisions & MenuItemLinkable & {
+export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithRevisions & MenuItemLinkable & {
   __typename?: 'Post';
   /** Connection between the NodeWithAuthor type and the User type */
   author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
@@ -4560,13 +4790,15 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   authorDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']>;
-  /** Connection between the post type and the category type */
+  /** Connection between the Post type and the category type */
   categories?: Maybe<PostToCategoryConnection>;
   /** The content of the post. */
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The unique resource identifier path */
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -4622,14 +4854,14 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   modifiedGmt?: Maybe<Scalars['String']>;
   /** List of modules */
   modules?: Maybe<Array<Maybe<PostModulesUnionType>>>;
-  /** Connection between the post type and the postFormat type */
+  /** Connection between the Post type and the postFormat type */
   postFormats?: Maybe<PostToPostFormatConnection>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of the databaseId field
    */
   postId: Scalars['Int'];
-  /** Connection between the post type and the post type */
+  /** Connection between the Post type and the post type */
   preview?: Maybe<PostToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -4637,19 +4869,21 @@ export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseId
   previewRevisionId?: Maybe<Scalars['ID']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the post type and the post type */
+  /** Connection between the Post type and the post type */
   revisions?: Maybe<PostToRevisionConnection>;
   /** The SEO Framework data of the post */
   seo?: Maybe<Seo>;
+  /** List of modules */
+  sidebar?: Maybe<Array<Maybe<PostSidebarUnionType>>>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** Connection between the post type and the tag type */
+  /** Connection between the Post type and the tag type */
   tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the post type and the TermNode type */
+  /** Connection between the Post type and the TermNode type */
   terms?: Maybe<PostToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
@@ -4767,10 +5001,26 @@ export type PostCategoriesNodeInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
+/** Connection to post Nodes */
+export type PostConnection = {
+  /** A list of edges (relational context) between RootQuery and connected post Nodes */
+  edges: Array<PostConnectionEdge>;
+  /** A list of connected post Nodes */
+  nodes: Array<Post>;
+};
+
+/** Edge between a Node and a connected post */
+export type PostConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected post Node */
+  node: Post;
+};
+
 /** The postFormat type */
 export type PostFormat = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'PostFormat';
-  /** Connection between the postFormat type and the ContentNode type */
+  /** Connection between the PostFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
@@ -4799,12 +5049,14 @@ export type PostFormat = Node & TermNode & UniformResourceIdentifiable & Databas
    * @deprecated Deprecated in favor of databaseId
    */
   postFormatId?: Maybe<Scalars['Int']>;
-  /** Connection between the postFormat type and the post type */
+  /** Connection between the PostFormat type and the post type */
   posts?: Maybe<PostFormatToPostConnection>;
   /** An alphanumeric identifier for the object unique to its type. */
   slug?: Maybe<Scalars['String']>;
-  /** Connection between the postFormat type and the Taxonomy type */
+  /** Connection between the PostFormat type and the Taxonomy type */
   taxonomy?: Maybe<PostFormatToTaxonomyConnectionEdge>;
+  /** The name of the taxonomy that the object is associated with */
+  taxonomyName?: Maybe<Scalars['String']>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -4851,6 +5103,22 @@ export type PostFormatPostsArgs = {
   where?: Maybe<PostFormatToPostConnectionWhereArgs>;
 };
 
+/** Connection to postFormat Nodes */
+export type PostFormatConnection = {
+  /** A list of edges (relational context) between RootQuery and connected postFormat Nodes */
+  edges: Array<PostFormatConnectionEdge>;
+  /** A list of connected postFormat Nodes */
+  nodes: Array<PostFormat>;
+};
+
+/** Edge between a Node and a connected postFormat */
+export type PostFormatConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected postFormat Node */
+  node: PostFormat;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum PostFormatIdType {
   /** The Database ID for the node */
@@ -4865,24 +5133,24 @@ export enum PostFormatIdType {
   Uri = 'URI'
 }
 
-/** Connection between the postFormat type and the ContentNode type */
-export type PostFormatToContentNodeConnection = {
+/** Connection between the PostFormat type and the ContentNode type */
+export type PostFormatToContentNodeConnection = ContentNodeConnection & Connection & {
   __typename?: 'PostFormatToContentNodeConnection';
   /** Edges for the PostFormatToContentNodeConnection connection */
-  edges?: Maybe<Array<Maybe<PostFormatToContentNodeConnectionEdge>>>;
+  edges: Array<PostFormatToContentNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostFormatToContentNodeConnectionEdge = {
+export type PostFormatToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'PostFormatToContentNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the PostFormatToContentNodeConnection connection */
@@ -4893,7 +5161,7 @@ export type PostFormatToContentNodeConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -4925,24 +5193,24 @@ export type PostFormatToContentNodeConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the postFormat type and the post type */
-export type PostFormatToPostConnection = {
+/** Connection between the PostFormat type and the post type */
+export type PostFormatToPostConnection = PostConnection & Connection & {
   __typename?: 'PostFormatToPostConnection';
   /** Edges for the PostFormatToPostConnection connection */
-  edges?: Maybe<Array<Maybe<PostFormatToPostConnectionEdge>>>;
+  edges: Array<PostFormatToPostConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Post>>>;
+  nodes: Array<Post>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostFormatToPostConnectionEdge = {
+export type PostFormatToPostConnectionEdge = PostConnectionEdge & Edge & {
   __typename?: 'PostFormatToPostConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
 /** Arguments for filtering the PostFormatToPostConnection connection */
@@ -4967,7 +5235,7 @@ export type PostFormatToPostConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -5003,19 +5271,21 @@ export type PostFormatToPostConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
   tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of tag slugs, used to display objects from one tag OR another */
+  /** Array of tag slugs, used to display objects from one tag AND another */
   tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Array of tag slugs, used to exclude objects in specified tags */
+  /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the postFormat type and the Taxonomy type */
-export type PostFormatToTaxonomyConnectionEdge = {
+/** Connection between the PostFormat type and the Taxonomy type */
+export type PostFormatToTaxonomyConnectionEdge = OneToOneConnection & Edge & TaxonomyConnectionEdge & {
   __typename?: 'PostFormatToTaxonomyConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Taxonomy>;
+  node: Taxonomy;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -5030,13 +5300,13 @@ export enum PostIdType {
   Uri = 'URI'
 }
 
-export type PostModulesUnionType = EventSearch | EventSelected | LocationsSelected | LayoutCollection | LayoutContact | LayoutArticles | LayoutPages;
+export type PostModulesUnionType = EventSearch | EventSelected | EventSearchCarousel | EventSelectedCarousel | LocationsSelected | LocationsSelectedCarousel | LayoutCollection | LayoutContact | LayoutArticles | LayoutArticlesCarousel | LayoutArticleHighlights | LayoutPages | LayoutPagesCarousel;
 
 /** The format of post field data. */
 export enum PostObjectFieldFormatEnum {
-  /** Provide the field value directly from database */
+  /** Provide the field value directly from database. Null on unauthenticated requests. */
   Raw = 'RAW',
-  /** Apply the default WordPress rendering */
+  /** Provide the field value as rendered by WordPress. Default. */
   Rendered = 'RENDERED'
 }
 
@@ -5100,6 +5370,8 @@ export type PostPostFormatsNodeInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
+export type PostSidebarUnionType = LayoutLinkList | LayoutArticles | LayoutPages;
+
 /** The status of the object. */
 export enum PostStatusEnum {
   /** Objects with the acf-disabled status */
@@ -5156,24 +5428,24 @@ export type PostTagsNodeInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the post type and the category type */
-export type PostToCategoryConnection = {
+/** Connection between the Post type and the category type */
+export type PostToCategoryConnection = CategoryConnection & Connection & {
   __typename?: 'PostToCategoryConnection';
   /** Edges for the PostToCategoryConnection connection */
-  edges?: Maybe<Array<Maybe<PostToCategoryConnectionEdge>>>;
+  edges: Array<PostToCategoryConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Category>>>;
+  nodes: Array<Category>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostToCategoryConnectionEdge = {
+export type PostToCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
   __typename?: 'PostToCategoryConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Category>;
+  node: Category;
 };
 
 /** Arguments for filtering the PostToCategoryConnection connection */
@@ -5216,28 +5488,30 @@ export type PostToCategoryConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
-/** Connection between the post type and the postFormat type */
-export type PostToPostFormatConnection = {
+/** Connection between the Post type and the postFormat type */
+export type PostToPostFormatConnection = PostFormatConnection & Connection & {
   __typename?: 'PostToPostFormatConnection';
   /** Edges for the PostToPostFormatConnection connection */
-  edges?: Maybe<Array<Maybe<PostToPostFormatConnectionEdge>>>;
+  edges: Array<PostToPostFormatConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<PostFormat>>>;
+  nodes: Array<PostFormat>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostToPostFormatConnectionEdge = {
+export type PostToPostFormatConnectionEdge = PostFormatConnectionEdge & Edge & {
   __typename?: 'PostToPostFormatConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<PostFormat>;
+  node: PostFormat;
 };
 
 /** Arguments for filtering the PostToPostFormatConnection connection */
@@ -5280,38 +5554,42 @@ export type PostToPostFormatConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
-/** Connection between the post type and the post type */
-export type PostToPreviewConnectionEdge = {
+/** Connection between the Post type and the post type */
+export type PostToPreviewConnectionEdge = OneToOneConnection & Edge & PostConnectionEdge & {
   __typename?: 'PostToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
-/** Connection between the post type and the post type */
-export type PostToRevisionConnection = {
+/** Connection between the Post type and the post type */
+export type PostToRevisionConnection = PostConnection & Connection & {
   __typename?: 'PostToRevisionConnection';
-  /** Edges for the postToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<PostToRevisionConnectionEdge>>>;
+  /** Edges for the PostToRevisionConnection connection */
+  edges: Array<PostToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Post>>>;
+  nodes: Array<Post>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostToRevisionConnectionEdge = {
+export type PostToRevisionConnectionEdge = PostConnectionEdge & Edge & {
   __typename?: 'PostToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
-/** Arguments for filtering the postToRevisionConnection connection */
+/** Arguments for filtering the PostToRevisionConnection connection */
 export type PostToRevisionConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
   author?: Maybe<Scalars['Int']>;
@@ -5333,7 +5611,7 @@ export type PostToRevisionConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -5369,32 +5647,32 @@ export type PostToRevisionConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
   tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of tag slugs, used to display objects from one tag OR another */
+  /** Array of tag slugs, used to display objects from one tag AND another */
   tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Array of tag slugs, used to exclude objects in specified tags */
+  /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the post type and the tag type */
-export type PostToTagConnection = {
+/** Connection between the Post type and the tag type */
+export type PostToTagConnection = TagConnection & Connection & {
   __typename?: 'PostToTagConnection';
   /** Edges for the PostToTagConnection connection */
-  edges?: Maybe<Array<Maybe<PostToTagConnectionEdge>>>;
+  edges: Array<PostToTagConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Tag>>>;
+  nodes: Array<Tag>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostToTagConnectionEdge = {
+export type PostToTagConnectionEdge = TagConnectionEdge & Edge & {
   __typename?: 'PostToTagConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Tag>;
+  node: Tag;
 };
 
 /** Arguments for filtering the PostToTagConnection connection */
@@ -5437,28 +5715,30 @@ export type PostToTagConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
-/** Connection between the post type and the TermNode type */
-export type PostToTermNodeConnection = {
+/** Connection between the Post type and the TermNode type */
+export type PostToTermNodeConnection = TermNodeConnection & Connection & {
   __typename?: 'PostToTermNodeConnection';
   /** Edges for the PostToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<PostToTermNodeConnectionEdge>>>;
+  edges: Array<PostToTermNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
+  nodes: Array<TermNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type PostToTermNodeConnectionEdge = {
+export type PostToTermNodeConnectionEdge = TermNodeConnectionEdge & Edge & {
   __typename?: 'PostToTermNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
+  node: TermNode;
 };
 
 /** Arguments for filtering the PostToTermNodeConnection connection */
@@ -5503,6 +5783,8 @@ export type PostToTermNodeConnectionWhereArgs = {
   taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
@@ -5562,14 +5844,30 @@ export type PostTypeLabelDetails = {
   viewItems?: Maybe<Scalars['String']>;
 };
 
+/** Nodes that can be seen in a preview (unpublished) state. */
+export type Previewable = {
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+};
+
 /** The reading setting type */
 export type ReadingSettings = {
   __typename?: 'ReadingSettings';
+  /** Tunniste sivusta, joka näyttää uusimmat artikkelit */
+  pageForPosts?: Maybe<Scalars['Int']>;
+  /** Tunniste sivusta, joka näytetään etusivulla */
+  pageOnFront?: Maybe<Scalars['Int']>;
   /** Näytä enintään */
   postsPerPage?: Maybe<Scalars['Int']>;
+  /** Mitä näytetään etusivulla */
+  showOnFront?: Maybe<Scalars['String']>;
 };
 
-/** Input for the registerUser mutation */
+/** Input for the registerUser mutation. */
 export type RegisterUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
@@ -5607,7 +5905,7 @@ export type RegisterUserInput = {
   yim?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the registerUser mutation */
+/** The payload for the registerUser mutation. */
 export type RegisterUserPayload = {
   __typename?: 'RegisterUserPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -5625,12 +5923,14 @@ export enum RelationEnum {
 }
 
 /** The release type */
-export type Release = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithRevisions & {
+export type Release = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithContentEditor & NodeWithRevisions & {
   __typename?: 'Release';
   /** The content of the post. */
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -5673,7 +5973,7 @@ export type Release = Node & ContentNode & UniformResourceIdentifiable & Databas
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
-  /** Connection between the release type and the release type */
+  /** Connection between the Release type and the release type */
   preview?: Maybe<ReleaseToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -5686,7 +5986,7 @@ export type Release = Node & ContentNode & UniformResourceIdentifiable & Databas
   releaseId: Scalars['Int'];
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the release type and the release type */
+  /** Connection between the Release type and the release type */
   revisions?: Maybe<ReleaseToRevisionConnection>;
   /** The SEO Framework data of the release */
   seo?: Maybe<Seo>;
@@ -5696,8 +5996,6 @@ export type Release = Node & ContentNode & UniformResourceIdentifiable & Databas
   status?: Maybe<Scalars['String']>;
   /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
-  /** Connection between the release type and the TermNode type */
-  terms?: Maybe<ReleaseToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
   /** Get specific translation version of this object */
@@ -5744,16 +6042,6 @@ export type ReleaseRevisionsArgs = {
 
 
 /** The release type */
-export type ReleaseTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ReleaseToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The release type */
 export type ReleaseTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -5762,6 +6050,22 @@ export type ReleaseTitleArgs = {
 /** The release type */
 export type ReleaseTranslationArgs = {
   language: LanguageCodeEnum;
+};
+
+/** Connection to release Nodes */
+export type ReleaseConnection = {
+  /** A list of edges (relational context) between RootQuery and connected release Nodes */
+  edges: Array<ReleaseConnectionEdge>;
+  /** A list of connected release Nodes */
+  nodes: Array<Release>;
+};
+
+/** Edge between a Node and a connected release */
+export type ReleaseConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected release Node */
+  node: Release;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -5776,40 +6080,42 @@ export enum ReleaseIdType {
   Uri = 'URI'
 }
 
-/** Connection between the release type and the release type */
-export type ReleaseToPreviewConnectionEdge = {
+/** Connection between the Release type and the release type */
+export type ReleaseToPreviewConnectionEdge = OneToOneConnection & Edge & ReleaseConnectionEdge & {
   __typename?: 'ReleaseToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Release>;
+  node: Release;
 };
 
-/** Connection between the release type and the release type */
-export type ReleaseToRevisionConnection = {
+/** Connection between the Release type and the release type */
+export type ReleaseToRevisionConnection = ReleaseConnection & Connection & {
   __typename?: 'ReleaseToRevisionConnection';
-  /** Edges for the releaseToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<ReleaseToRevisionConnectionEdge>>>;
+  /** Edges for the ReleaseToRevisionConnection connection */
+  edges: Array<ReleaseToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Release>>>;
+  nodes: Array<Release>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type ReleaseToRevisionConnectionEdge = {
+export type ReleaseToRevisionConnectionEdge = ReleaseConnectionEdge & Edge & {
   __typename?: 'ReleaseToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Release>;
+  node: Release;
 };
 
-/** Arguments for filtering the releaseToRevisionConnection connection */
+/** Arguments for filtering the ReleaseToRevisionConnection connection */
 export type ReleaseToRevisionConnectionWhereArgs = {
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -5841,73 +6147,7 @@ export type ReleaseToRevisionConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the release type and the TermNode type */
-export type ReleaseToTermNodeConnection = {
-  __typename?: 'ReleaseToTermNodeConnection';
-  /** Edges for the ReleaseToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<ReleaseToTermNodeConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type ReleaseToTermNodeConnectionEdge = {
-  __typename?: 'ReleaseToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
-};
-
-/** Arguments for filtering the ReleaseToTermNodeConnection connection */
-export type ReleaseToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Direction the connection should be ordered in */
-  order?: Maybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
-};
-
-/** Input for the resetUserPassword mutation */
+/** Input for the resetUserPassword mutation. */
 export type ResetUserPasswordInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -5919,7 +6159,7 @@ export type ResetUserPasswordInput = {
   password?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the resetUserPassword mutation */
+/** The payload for the resetUserPassword mutation. */
 export type ResetUserPasswordPayload = {
   __typename?: 'ResetUserPasswordPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -5928,7 +6168,7 @@ export type ResetUserPasswordPayload = {
   user?: Maybe<User>;
 };
 
-/** Input for the restoreComment mutation */
+/** Input for the restoreComment mutation. */
 export type RestoreCommentInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -5936,7 +6176,7 @@ export type RestoreCommentInput = {
   id: Scalars['ID'];
 };
 
-/** The payload for the restoreComment mutation */
+/** The payload for the restoreComment mutation. */
 export type RestoreCommentPayload = {
   __typename?: 'RestoreCommentPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -5950,95 +6190,95 @@ export type RestoreCommentPayload = {
 /** The root mutation */
 export type RootMutation = {
   __typename?: 'RootMutation';
-  /** The payload for the createCategory mutation */
+  /** The createCategory mutation */
   createCategory?: Maybe<CreateCategoryPayload>;
-  /** The payload for the createCollection mutation */
+  /** The createCollection mutation */
   createCollection?: Maybe<CreateCollectionPayload>;
-  /** The payload for the createComment mutation */
+  /** The createComment mutation */
   createComment?: Maybe<CreateCommentPayload>;
-  /** The payload for the createContact mutation */
+  /** The createContact mutation */
   createContact?: Maybe<CreateContactPayload>;
-  /** The payload for the createLandingPage mutation */
+  /** The createLandingPage mutation */
   createLandingPage?: Maybe<CreateLandingPagePayload>;
-  /** The payload for the createMediaItem mutation */
+  /** The createMediaItem mutation */
   createMediaItem?: Maybe<CreateMediaItemPayload>;
-  /** The payload for the createPage mutation */
+  /** The createPage mutation */
   createPage?: Maybe<CreatePagePayload>;
-  /** The payload for the createPost mutation */
+  /** The createPost mutation */
   createPost?: Maybe<CreatePostPayload>;
-  /** The payload for the createPostFormat mutation */
+  /** The createPostFormat mutation */
   createPostFormat?: Maybe<CreatePostFormatPayload>;
-  /** The payload for the createRelease mutation */
+  /** The createRelease mutation */
   createRelease?: Maybe<CreateReleasePayload>;
-  /** The payload for the createTag mutation */
+  /** The createTag mutation */
   createTag?: Maybe<CreateTagPayload>;
-  /** The payload for the createTranslation mutation */
+  /** The createTranslation mutation */
   createTranslation?: Maybe<CreateTranslationPayload>;
-  /** The payload for the createUser mutation */
+  /** The createUser mutation */
   createUser?: Maybe<CreateUserPayload>;
-  /** The payload for the deleteCategory mutation */
+  /** The deleteCategory mutation */
   deleteCategory?: Maybe<DeleteCategoryPayload>;
-  /** The payload for the deleteCollection mutation */
+  /** The deleteCollection mutation */
   deleteCollection?: Maybe<DeleteCollectionPayload>;
-  /** The payload for the deleteComment mutation */
+  /** The deleteComment mutation */
   deleteComment?: Maybe<DeleteCommentPayload>;
-  /** The payload for the deleteContact mutation */
+  /** The deleteContact mutation */
   deleteContact?: Maybe<DeleteContactPayload>;
-  /** The payload for the deleteLandingPage mutation */
+  /** The deleteLandingPage mutation */
   deleteLandingPage?: Maybe<DeleteLandingPagePayload>;
-  /** The payload for the deleteMediaItem mutation */
+  /** The deleteMediaItem mutation */
   deleteMediaItem?: Maybe<DeleteMediaItemPayload>;
-  /** The payload for the deletePage mutation */
+  /** The deletePage mutation */
   deletePage?: Maybe<DeletePagePayload>;
-  /** The payload for the deletePost mutation */
+  /** The deletePost mutation */
   deletePost?: Maybe<DeletePostPayload>;
-  /** The payload for the deletePostFormat mutation */
+  /** The deletePostFormat mutation */
   deletePostFormat?: Maybe<DeletePostFormatPayload>;
-  /** The payload for the deleteRelease mutation */
+  /** The deleteRelease mutation */
   deleteRelease?: Maybe<DeleteReleasePayload>;
-  /** The payload for the deleteTag mutation */
+  /** The deleteTag mutation */
   deleteTag?: Maybe<DeleteTagPayload>;
-  /** The payload for the deleteTranslation mutation */
+  /** The deleteTranslation mutation */
   deleteTranslation?: Maybe<DeleteTranslationPayload>;
-  /** The payload for the deleteUser mutation */
+  /** The deleteUser mutation */
   deleteUser?: Maybe<DeleteUserPayload>;
   /** Increase the count. */
   increaseCount?: Maybe<Scalars['Int']>;
-  /** The payload for the registerUser mutation */
+  /** The registerUser mutation */
   registerUser?: Maybe<RegisterUserPayload>;
-  /** The payload for the resetUserPassword mutation */
+  /** The resetUserPassword mutation */
   resetUserPassword?: Maybe<ResetUserPasswordPayload>;
-  /** The payload for the restoreComment mutation */
+  /** The restoreComment mutation */
   restoreComment?: Maybe<RestoreCommentPayload>;
-  /** The payload for the sendPasswordResetEmail mutation */
+  /** Send password reset email to user */
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmailPayload>;
-  /** The payload for the UpdateCategory mutation */
+  /** The updateCategory mutation */
   updateCategory?: Maybe<UpdateCategoryPayload>;
-  /** The payload for the updateCollection mutation */
+  /** The updateCollection mutation */
   updateCollection?: Maybe<UpdateCollectionPayload>;
-  /** The payload for the updateComment mutation */
+  /** The updateComment mutation */
   updateComment?: Maybe<UpdateCommentPayload>;
-  /** The payload for the updateContact mutation */
+  /** The updateContact mutation */
   updateContact?: Maybe<UpdateContactPayload>;
-  /** The payload for the updateLandingPage mutation */
+  /** The updateLandingPage mutation */
   updateLandingPage?: Maybe<UpdateLandingPagePayload>;
-  /** The payload for the updateMediaItem mutation */
+  /** The updateMediaItem mutation */
   updateMediaItem?: Maybe<UpdateMediaItemPayload>;
-  /** The payload for the updatePage mutation */
+  /** The updatePage mutation */
   updatePage?: Maybe<UpdatePagePayload>;
-  /** The payload for the updatePost mutation */
+  /** The updatePost mutation */
   updatePost?: Maybe<UpdatePostPayload>;
-  /** The payload for the UpdatePostFormat mutation */
+  /** The updatePostFormat mutation */
   updatePostFormat?: Maybe<UpdatePostFormatPayload>;
-  /** The payload for the updateRelease mutation */
+  /** The updateRelease mutation */
   updateRelease?: Maybe<UpdateReleasePayload>;
-  /** The payload for the updateSettings mutation */
+  /** The updateSettings mutation */
   updateSettings?: Maybe<UpdateSettingsPayload>;
-  /** The payload for the UpdateTag mutation */
+  /** The updateTag mutation */
   updateTag?: Maybe<UpdateTagPayload>;
-  /** The payload for the updateTranslation mutation */
+  /** The updateTranslation mutation */
   updateTranslation?: Maybe<UpdateTranslationPayload>;
-  /** The payload for the updateUser mutation */
+  /** The updateUser mutation */
   updateUser?: Maybe<UpdateUserPayload>;
 };
 
@@ -6351,6 +6591,8 @@ export type RootQuery = {
   contentType?: Maybe<ContentType>;
   /** Connection between the RootQuery type and the ContentType type */
   contentTypes?: Maybe<RootQueryToContentTypeConnection>;
+  /** Default Images */
+  defaultImages?: Maybe<DefaultImages>;
   /** Get language list */
   defaultLanguage?: Maybe<Language>;
   /** Fields of the &#039;DiscussionSettings&#039; settings group */
@@ -6397,6 +6639,8 @@ export type RootQuery = {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   pageBy?: Maybe<Page>;
+  /** Returns ID of page that uses the given template */
+  pageByTemplate?: Maybe<Page>;
   /** Connection between the RootQuery type and the page type */
   pages?: Maybe<RootQueryToPageConnection>;
   /** A WordPress plugin */
@@ -6431,8 +6675,8 @@ export type RootQuery = {
   releaseBy?: Maybe<Release>;
   /** Connection between the RootQuery type and the release type */
   releases?: Maybe<RootQueryToReleaseConnection>;
-  /** Connection between the RootQuery type and the ContentRevisionUnion type */
-  revisions?: Maybe<RootQueryToContentRevisionUnionConnection>;
+  /** Connection between the RootQuery type and the ContentNode type */
+  revisions?: Maybe<RootQueryToRevisionsConnection>;
   /** The SEO Framework settings */
   seoSettings?: Maybe<SeoSettings>;
   /** Site Settings */
@@ -6526,6 +6770,7 @@ export type RootQueryCollectionsArgs = {
 /** The root entry point into the Graph */
 export type RootQueryCommentArgs = {
   id: Scalars['ID'];
+  idType?: Maybe<CommentNodeIdTypeEnum>;
 };
 
 
@@ -6598,6 +6843,12 @@ export type RootQueryContentTypesArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryDefaultImagesArgs = {
+  language: Scalars['String'];
 };
 
 
@@ -6724,6 +6975,13 @@ export type RootQueryPageByArgs = {
 
 
 /** The root entry point into the Graph */
+export type RootQueryPageByTemplateArgs = {
+  language?: Maybe<Scalars['String']>;
+  template?: Maybe<TemplateEnum>;
+};
+
+
+/** The root entry point into the Graph */
 export type RootQueryPagesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -6745,6 +7003,7 @@ export type RootQueryPluginsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  where?: Maybe<RootQueryToPluginConnectionWhereArgs>;
 };
 
 
@@ -6843,7 +7102,7 @@ export type RootQueryRevisionsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<RootQueryToContentRevisionUnionConnectionWhereArgs>;
+  where?: Maybe<RootQueryToRevisionsConnectionWhereArgs>;
 };
 
 
@@ -6985,23 +7244,23 @@ export type RootQueryUsersArgs = {
 };
 
 /** Connection between the RootQuery type and the category type */
-export type RootQueryToCategoryConnection = {
+export type RootQueryToCategoryConnection = CategoryConnection & Connection & {
   __typename?: 'RootQueryToCategoryConnection';
   /** Edges for the RootQueryToCategoryConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToCategoryConnectionEdge>>>;
+  edges: Array<RootQueryToCategoryConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Category>>>;
+  nodes: Array<Category>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToCategoryConnectionEdge = {
+export type RootQueryToCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
   __typename?: 'RootQueryToCategoryConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Category>;
+  node: Category;
 };
 
 /** Arguments for filtering the RootQueryToCategoryConnection connection */
@@ -7026,6 +7285,8 @@ export type RootQueryToCategoryConnectionWhereArgs = {
   include?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Categorys by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Categorys by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Array of names to return term(s) for. Default empty. */
   name?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
@@ -7046,28 +7307,30 @@ export type RootQueryToCategoryConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the collection type */
-export type RootQueryToCollectionConnection = {
+export type RootQueryToCollectionConnection = CollectionConnection & Connection & {
   __typename?: 'RootQueryToCollectionConnection';
   /** Edges for the RootQueryToCollectionConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToCollectionConnectionEdge>>>;
+  edges: Array<RootQueryToCollectionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Collection>>>;
+  nodes: Array<Collection>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToCollectionConnectionEdge = {
+export type RootQueryToCollectionConnectionEdge = CollectionConnectionEdge & Edge & {
   __typename?: 'RootQueryToCollectionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Collection>;
+  node: Collection;
 };
 
 /** Arguments for filtering the RootQueryToCollectionConnection connection */
@@ -7076,12 +7339,14 @@ export type RootQueryToCollectionConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Collections by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Collections by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7111,23 +7376,23 @@ export type RootQueryToCollectionConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Comment type */
-export type RootQueryToCommentConnection = {
+export type RootQueryToCommentConnection = CommentConnection & Connection & {
   __typename?: 'RootQueryToCommentConnection';
   /** Edges for the RootQueryToCommentConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToCommentConnectionEdge>>>;
+  edges: Array<RootQueryToCommentConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Comment>>>;
+  nodes: Array<Comment>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToCommentConnectionEdge = {
+export type RootQueryToCommentConnectionEdge = CommentConnectionEdge & Edge & {
   __typename?: 'RootQueryToCommentConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Comment>;
+  node: Comment;
 };
 
 /** Arguments for filtering the RootQueryToCommentConnection connection */
@@ -7162,7 +7427,7 @@ export type RootQueryToCommentConnectionWhereArgs = {
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Content object name to retrieve affiliated comments for. */
+  /** Content object name (i.e. slug ) to retrieve affiliated comments for. */
   contentName?: Maybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
   contentParent?: Maybe<Scalars['Int']>;
@@ -7193,23 +7458,23 @@ export type RootQueryToCommentConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the contact type */
-export type RootQueryToContactConnection = {
+export type RootQueryToContactConnection = ContactConnection & Connection & {
   __typename?: 'RootQueryToContactConnection';
   /** Edges for the RootQueryToContactConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToContactConnectionEdge>>>;
+  edges: Array<RootQueryToContactConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Contact>>>;
+  nodes: Array<Contact>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToContactConnectionEdge = {
+export type RootQueryToContactConnectionEdge = ContactConnectionEdge & Edge & {
   __typename?: 'RootQueryToContactConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Contact>;
+  node: Contact;
 };
 
 /** Arguments for filtering the RootQueryToContactConnection connection */
@@ -7218,12 +7483,14 @@ export type RootQueryToContactConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Contacts by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Contacts by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7253,23 +7520,23 @@ export type RootQueryToContactConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the ContentNode type */
-export type RootQueryToContentNodeConnection = {
+export type RootQueryToContentNodeConnection = ContentNodeConnection & Connection & {
   __typename?: 'RootQueryToContentNodeConnection';
   /** Edges for the RootQueryToContentNodeConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToContentNodeConnectionEdge>>>;
+  edges: Array<RootQueryToContentNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToContentNodeConnectionEdge = {
+export type RootQueryToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'RootQueryToContentNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the RootQueryToContentNodeConnection connection */
@@ -7280,72 +7547,14 @@ export type RootQueryToContentNodeConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter content nodes by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
-  /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
-  /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
-  /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
-  /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
-  /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
-  /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
-  /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
-  /** Title of the object */
-  title?: Maybe<Scalars['String']>;
-};
-
-/** Connection between the RootQuery type and the ContentRevisionUnion type */
-export type RootQueryToContentRevisionUnionConnection = {
-  __typename?: 'RootQueryToContentRevisionUnionConnection';
-  /** Edges for the RootQueryToContentRevisionUnionConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToContentRevisionUnionConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentRevisionUnion>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type RootQueryToContentRevisionUnionConnectionEdge = {
-  __typename?: 'RootQueryToContentRevisionUnionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<ContentRevisionUnion>;
-};
-
-/** Arguments for filtering the RootQueryToContentRevisionUnionConnection connection */
-export type RootQueryToContentRevisionUnionConnectionWhereArgs = {
-  /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
-  /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
-  /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Filter content nodes by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7375,83 +7584,83 @@ export type RootQueryToContentRevisionUnionConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the ContentType type */
-export type RootQueryToContentTypeConnection = {
+export type RootQueryToContentTypeConnection = ContentTypeConnection & Connection & {
   __typename?: 'RootQueryToContentTypeConnection';
   /** Edges for the RootQueryToContentTypeConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToContentTypeConnectionEdge>>>;
+  edges: Array<RootQueryToContentTypeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentType>>>;
+  nodes: Array<ContentType>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToContentTypeConnectionEdge = {
+export type RootQueryToContentTypeConnectionEdge = ContentTypeConnectionEdge & Edge & {
   __typename?: 'RootQueryToContentTypeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentType>;
+  node: ContentType;
 };
 
 /** Connection between the RootQuery type and the EnqueuedScript type */
-export type RootQueryToEnqueuedScriptConnection = {
+export type RootQueryToEnqueuedScriptConnection = EnqueuedScriptConnection & Connection & {
   __typename?: 'RootQueryToEnqueuedScriptConnection';
   /** Edges for the RootQueryToEnqueuedScriptConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToEnqueuedScriptConnectionEdge>>>;
+  edges: Array<RootQueryToEnqueuedScriptConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  nodes: Array<EnqueuedScript>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToEnqueuedScriptConnectionEdge = {
+export type RootQueryToEnqueuedScriptConnectionEdge = EnqueuedScriptConnectionEdge & Edge & {
   __typename?: 'RootQueryToEnqueuedScriptConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedScript>;
+  node: EnqueuedScript;
 };
 
 /** Connection between the RootQuery type and the EnqueuedStylesheet type */
-export type RootQueryToEnqueuedStylesheetConnection = {
+export type RootQueryToEnqueuedStylesheetConnection = EnqueuedStylesheetConnection & Connection & {
   __typename?: 'RootQueryToEnqueuedStylesheetConnection';
   /** Edges for the RootQueryToEnqueuedStylesheetConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToEnqueuedStylesheetConnectionEdge>>>;
+  edges: Array<RootQueryToEnqueuedStylesheetConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  nodes: Array<EnqueuedStylesheet>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToEnqueuedStylesheetConnectionEdge = {
+export type RootQueryToEnqueuedStylesheetConnectionEdge = EnqueuedStylesheetConnectionEdge & Edge & {
   __typename?: 'RootQueryToEnqueuedStylesheetConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedStylesheet>;
+  node: EnqueuedStylesheet;
 };
 
 /** Connection between the RootQuery type and the landingPage type */
-export type RootQueryToLandingPageConnection = {
+export type RootQueryToLandingPageConnection = LandingPageConnection & Connection & {
   __typename?: 'RootQueryToLandingPageConnection';
   /** Edges for the RootQueryToLandingPageConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToLandingPageConnectionEdge>>>;
+  edges: Array<RootQueryToLandingPageConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<LandingPage>>>;
+  nodes: Array<LandingPage>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToLandingPageConnectionEdge = {
+export type RootQueryToLandingPageConnectionEdge = LandingPageConnectionEdge & Edge & {
   __typename?: 'RootQueryToLandingPageConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<LandingPage>;
+  node: LandingPage;
 };
 
 /** Arguments for filtering the RootQueryToLandingPageConnection connection */
@@ -7460,12 +7669,14 @@ export type RootQueryToLandingPageConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by LandingPages by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter LandingPages by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7495,23 +7706,23 @@ export type RootQueryToLandingPageConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the mediaItem type */
-export type RootQueryToMediaItemConnection = {
+export type RootQueryToMediaItemConnection = MediaItemConnection & Connection & {
   __typename?: 'RootQueryToMediaItemConnection';
   /** Edges for the RootQueryToMediaItemConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToMediaItemConnectionEdge>>>;
+  edges: Array<RootQueryToMediaItemConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MediaItem>>>;
+  nodes: Array<MediaItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToMediaItemConnectionEdge = {
+export type RootQueryToMediaItemConnectionEdge = MediaItemConnectionEdge & Edge & {
   __typename?: 'RootQueryToMediaItemConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MediaItem>;
+  node: MediaItem;
 };
 
 /** Arguments for filtering the RootQueryToMediaItemConnection connection */
@@ -7528,12 +7739,14 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by MediaItems by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter MediaItems by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7563,28 +7776,28 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Menu type */
-export type RootQueryToMenuConnection = {
+export type RootQueryToMenuConnection = MenuConnection & Connection & {
   __typename?: 'RootQueryToMenuConnection';
   /** Edges for the RootQueryToMenuConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToMenuConnectionEdge>>>;
+  edges: Array<RootQueryToMenuConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Menu>>>;
+  nodes: Array<Menu>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToMenuConnectionEdge = {
+export type RootQueryToMenuConnectionEdge = MenuConnectionEdge & Edge & {
   __typename?: 'RootQueryToMenuConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Menu>;
+  node: Menu;
 };
 
 /** Arguments for filtering the RootQueryToMenuConnection connection */
 export type RootQueryToMenuConnectionWhereArgs = {
-  /** The ID of the object */
+  /** The database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** The menu location for the menu being queried */
   location?: Maybe<MenuLocationEnum>;
@@ -7593,28 +7806,28 @@ export type RootQueryToMenuConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the MenuItem type */
-export type RootQueryToMenuItemConnection = {
+export type RootQueryToMenuItemConnection = MenuItemConnection & Connection & {
   __typename?: 'RootQueryToMenuItemConnection';
   /** Edges for the RootQueryToMenuItemConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToMenuItemConnectionEdge>>>;
+  edges: Array<RootQueryToMenuItemConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MenuItem>>>;
+  nodes: Array<MenuItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToMenuItemConnectionEdge = {
+export type RootQueryToMenuItemConnectionEdge = MenuItemConnectionEdge & Edge & {
   __typename?: 'RootQueryToMenuItemConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MenuItem>;
+  node: MenuItem;
 };
 
 /** Arguments for filtering the RootQueryToMenuItemConnection connection */
 export type RootQueryToMenuItemConnectionWhereArgs = {
-  /** The ID of the object */
+  /** The database ID of the object */
   id?: Maybe<Scalars['Int']>;
   language?: Maybe<LanguageCodeFilterEnum>;
   /** The menu location for the menu being queried */
@@ -7626,23 +7839,23 @@ export type RootQueryToMenuItemConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the page type */
-export type RootQueryToPageConnection = {
+export type RootQueryToPageConnection = PageConnection & Connection & {
   __typename?: 'RootQueryToPageConnection';
   /** Edges for the RootQueryToPageConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToPageConnectionEdge>>>;
+  edges: Array<RootQueryToPageConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Page>>>;
+  nodes: Array<Page>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToPageConnectionEdge = {
+export type RootQueryToPageConnectionEdge = PageConnectionEdge & Edge & {
   __typename?: 'RootQueryToPageConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Page>;
+  node: Page;
 };
 
 /** Arguments for filtering the RootQueryToPageConnection connection */
@@ -7659,12 +7872,14 @@ export type RootQueryToPageConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Pages by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Pages by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7694,43 +7909,53 @@ export type RootQueryToPageConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Plugin type */
-export type RootQueryToPluginConnection = {
+export type RootQueryToPluginConnection = PluginConnection & Connection & {
   __typename?: 'RootQueryToPluginConnection';
   /** Edges for the RootQueryToPluginConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToPluginConnectionEdge>>>;
+  edges: Array<RootQueryToPluginConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Plugin>>>;
+  nodes: Array<Plugin>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToPluginConnectionEdge = {
+export type RootQueryToPluginConnectionEdge = PluginConnectionEdge & Edge & {
   __typename?: 'RootQueryToPluginConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Plugin>;
+  node: Plugin;
+};
+
+/** Arguments for filtering the RootQueryToPluginConnection connection */
+export type RootQueryToPluginConnectionWhereArgs = {
+  /** Show plugin based on a keyword search. */
+  search?: Maybe<Scalars['String']>;
+  /** Retrieve plugins where plugin status is in an array. */
+  stati?: Maybe<Array<Maybe<PluginStatusEnum>>>;
+  /** Show plugins with a specific status. */
+  status?: Maybe<PluginStatusEnum>;
 };
 
 /** Connection between the RootQuery type and the post type */
-export type RootQueryToPostConnection = {
+export type RootQueryToPostConnection = PostConnection & Connection & {
   __typename?: 'RootQueryToPostConnection';
   /** Edges for the RootQueryToPostConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToPostConnectionEdge>>>;
+  edges: Array<RootQueryToPostConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Post>>>;
+  nodes: Array<Post>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToPostConnectionEdge = {
+export type RootQueryToPostConnectionEdge = PostConnectionEdge & Edge & {
   __typename?: 'RootQueryToPostConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
 /** Arguments for filtering the RootQueryToPostConnection connection */
@@ -7755,12 +7980,14 @@ export type RootQueryToPostConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Posts by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Posts by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7793,32 +8020,32 @@ export type RootQueryToPostConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
   tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of tag slugs, used to display objects from one tag OR another */
+  /** Array of tag slugs, used to display objects from one tag AND another */
   tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Array of tag slugs, used to exclude objects in specified tags */
+  /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the RootQuery type and the postFormat type */
-export type RootQueryToPostFormatConnection = {
+export type RootQueryToPostFormatConnection = PostFormatConnection & Connection & {
   __typename?: 'RootQueryToPostFormatConnection';
   /** Edges for the RootQueryToPostFormatConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToPostFormatConnectionEdge>>>;
+  edges: Array<RootQueryToPostFormatConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<PostFormat>>>;
+  nodes: Array<PostFormat>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToPostFormatConnectionEdge = {
+export type RootQueryToPostFormatConnectionEdge = PostFormatConnectionEdge & Edge & {
   __typename?: 'RootQueryToPostFormatConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<PostFormat>;
+  node: PostFormat;
 };
 
 /** Arguments for filtering the RootQueryToPostFormatConnection connection */
@@ -7861,28 +8088,30 @@ export type RootQueryToPostFormatConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the release type */
-export type RootQueryToReleaseConnection = {
+export type RootQueryToReleaseConnection = ReleaseConnection & Connection & {
   __typename?: 'RootQueryToReleaseConnection';
   /** Edges for the RootQueryToReleaseConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToReleaseConnectionEdge>>>;
+  edges: Array<RootQueryToReleaseConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Release>>>;
+  nodes: Array<Release>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToReleaseConnectionEdge = {
+export type RootQueryToReleaseConnectionEdge = ReleaseConnectionEdge & Edge & {
   __typename?: 'RootQueryToReleaseConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Release>;
+  node: Release;
 };
 
 /** Arguments for filtering the RootQueryToReleaseConnection connection */
@@ -7891,12 +8120,74 @@ export type RootQueryToReleaseConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Releases by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Releases by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the RootQuery type and the ContentNode type */
+export type RootQueryToRevisionsConnection = ContentNodeConnection & Connection & {
+  __typename?: 'RootQueryToRevisionsConnection';
+  /** Edges for the RootQueryToRevisionsConnection connection */
+  edges: Array<RootQueryToRevisionsConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<ContentNode>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type RootQueryToRevisionsConnectionEdge = ContentNodeConnectionEdge & Edge & {
+  __typename?: 'RootQueryToRevisionsConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node: ContentNode;
+};
+
+/** Arguments for filtering the RootQueryToRevisionsConnection connection */
+export type RootQueryToRevisionsConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific database ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Get objects with a specific mimeType property */
   mimeType?: Maybe<MimeTypeEnum>;
   /** Slug / post_name of the object */
@@ -7926,23 +8217,23 @@ export type RootQueryToReleaseConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the tag type */
-export type RootQueryToTagConnection = {
+export type RootQueryToTagConnection = TagConnection & Connection & {
   __typename?: 'RootQueryToTagConnection';
   /** Edges for the RootQueryToTagConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToTagConnectionEdge>>>;
+  edges: Array<RootQueryToTagConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Tag>>>;
+  nodes: Array<Tag>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToTagConnectionEdge = {
+export type RootQueryToTagConnectionEdge = TagConnectionEdge & Edge & {
   __typename?: 'RootQueryToTagConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Tag>;
+  node: Tag;
 };
 
 /** Arguments for filtering the RootQueryToTagConnection connection */
@@ -7967,6 +8258,8 @@ export type RootQueryToTagConnectionWhereArgs = {
   include?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Filter by Tags by language code (Polylang) */
   language?: Maybe<LanguageCodeFilterEnum>;
+  /** Filter Tags by one or more languages (Polylang) */
+  languages?: Maybe<Array<LanguageCodeEnum>>;
   /** Array of names to return term(s) for. Default empty. */
   name?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Retrieve terms where the name is LIKE the input value. Default empty. */
@@ -7987,48 +8280,50 @@ export type RootQueryToTagConnectionWhereArgs = {
   slug?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the Taxonomy type */
-export type RootQueryToTaxonomyConnection = {
+export type RootQueryToTaxonomyConnection = TaxonomyConnection & Connection & {
   __typename?: 'RootQueryToTaxonomyConnection';
   /** Edges for the RootQueryToTaxonomyConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToTaxonomyConnectionEdge>>>;
+  edges: Array<RootQueryToTaxonomyConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Taxonomy>>>;
+  nodes: Array<Taxonomy>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToTaxonomyConnectionEdge = {
+export type RootQueryToTaxonomyConnectionEdge = TaxonomyConnectionEdge & Edge & {
   __typename?: 'RootQueryToTaxonomyConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Taxonomy>;
+  node: Taxonomy;
 };
 
 /** Connection between the RootQuery type and the TermNode type */
-export type RootQueryToTermNodeConnection = {
+export type RootQueryToTermNodeConnection = TermNodeConnection & Connection & {
   __typename?: 'RootQueryToTermNodeConnection';
   /** Edges for the RootQueryToTermNodeConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToTermNodeConnectionEdge>>>;
+  edges: Array<RootQueryToTermNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
+  nodes: Array<TermNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToTermNodeConnectionEdge = {
+export type RootQueryToTermNodeConnectionEdge = TermNodeConnectionEdge & Edge & {
   __typename?: 'RootQueryToTermNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<TermNode>;
+  node: TermNode;
 };
 
 /** Arguments for filtering the RootQueryToTermNodeConnection connection */
@@ -8073,48 +8368,50 @@ export type RootQueryToTermNodeConnectionWhereArgs = {
   taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
   /** Array of term taxonomy IDs, to match when querying terms. */
   termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Whether to prime meta caches for matched terms. Default true. */
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
 /** Connection between the RootQuery type and the Theme type */
-export type RootQueryToThemeConnection = {
+export type RootQueryToThemeConnection = ThemeConnection & Connection & {
   __typename?: 'RootQueryToThemeConnection';
   /** Edges for the RootQueryToThemeConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToThemeConnectionEdge>>>;
+  edges: Array<RootQueryToThemeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Theme>>>;
+  nodes: Array<Theme>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToThemeConnectionEdge = {
+export type RootQueryToThemeConnectionEdge = ThemeConnectionEdge & Edge & {
   __typename?: 'RootQueryToThemeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Theme>;
+  node: Theme;
 };
 
 /** Connection between the RootQuery type and the translation type */
-export type RootQueryToTranslationConnection = {
+export type RootQueryToTranslationConnection = TranslationConnection & Connection & {
   __typename?: 'RootQueryToTranslationConnection';
   /** Edges for the RootQueryToTranslationConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToTranslationConnectionEdge>>>;
+  edges: Array<RootQueryToTranslationConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Translation>>>;
+  nodes: Array<Translation>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToTranslationConnectionEdge = {
+export type RootQueryToTranslationConnectionEdge = TranslationConnectionEdge & Edge & {
   __typename?: 'RootQueryToTranslationConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Translation>;
+  node: Translation;
 };
 
 /** Arguments for filtering the RootQueryToTranslationConnection connection */
@@ -8123,7 +8420,7 @@ export type RootQueryToTranslationConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -8156,23 +8453,23 @@ export type RootQueryToTranslationConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the User type */
-export type RootQueryToUserConnection = {
+export type RootQueryToUserConnection = UserConnection & Connection & {
   __typename?: 'RootQueryToUserConnection';
   /** Edges for the RootQueryToUserConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToUserConnectionEdge>>>;
+  edges: Array<RootQueryToUserConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<User>>>;
+  nodes: Array<User>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToUserConnectionEdge = {
+export type RootQueryToUserConnectionEdge = UserConnectionEdge & Edge & {
   __typename?: 'RootQueryToUserConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<User>;
+  node: User;
 };
 
 /** Arguments for filtering the RootQueryToUserConnection connection */
@@ -8210,23 +8507,23 @@ export type RootQueryToUserConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the UserRole type */
-export type RootQueryToUserRoleConnection = {
+export type RootQueryToUserRoleConnection = UserRoleConnection & Connection & {
   __typename?: 'RootQueryToUserRoleConnection';
   /** Edges for the RootQueryToUserRoleConnection connection */
-  edges?: Maybe<Array<Maybe<RootQueryToUserRoleConnectionEdge>>>;
+  edges: Array<RootQueryToUserRoleConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<UserRole>>>;
+  nodes: Array<UserRole>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type RootQueryToUserRoleConnectionEdge = {
+export type RootQueryToUserRoleConnectionEdge = UserRoleConnectionEdge & Edge & {
   __typename?: 'RootQueryToUserRoleConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<UserRole>;
+  node: UserRole;
 };
 
 export type Seo = {
@@ -8264,7 +8561,7 @@ export type Seo = {
   twitterTitle?: Maybe<Scalars['String']>;
 };
 
-/** Input for the sendPasswordResetEmail mutation */
+/** Input for the sendPasswordResetEmail mutation. */
 export type SendPasswordResetEmailInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -8272,12 +8569,17 @@ export type SendPasswordResetEmailInput = {
   username: Scalars['String'];
 };
 
-/** The payload for the sendPasswordResetEmail mutation */
+/** The payload for the sendPasswordResetEmail mutation. */
 export type SendPasswordResetEmailPayload = {
   __typename?: 'SendPasswordResetEmailPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The user that the password reset email was sent to */
+  /** Whether the mutation completed successfully. This does NOT necessarily mean that an email was sent. */
+  success?: Maybe<Scalars['Boolean']>;
+  /**
+   * The user that the password reset email was sent to
+   * @deprecated This field will be removed in a future version of WPGraphQL
+   */
   user?: Maybe<User>;
 };
 
@@ -8309,7 +8611,13 @@ export type Settings = {
   /** Settings of the the string Settings Group */
   generalSettingsTitle?: Maybe<Scalars['String']>;
   /** Settings of the the integer Settings Group */
+  readingSettingsPageForPosts?: Maybe<Scalars['Int']>;
+  /** Settings of the the integer Settings Group */
+  readingSettingsPageOnFront?: Maybe<Scalars['Int']>;
+  /** Settings of the the integer Settings Group */
   readingSettingsPostsPerPage?: Maybe<Scalars['Int']>;
+  /** Settings of the the string Settings Group */
+  readingSettingsShowOnFront?: Maybe<Scalars['String']>;
   /** Settings of the the integer Settings Group */
   writingSettingsDefaultCategory?: Maybe<Scalars['Int']>;
   /** Settings of the the string Settings Group */
@@ -8329,11 +8637,11 @@ export type SiteSettings = {
 /** The tag type */
 export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
   __typename?: 'Tag';
-  /** Connection between the tag type and the ContentNode type */
+  /** Connection between the Tag type and the ContentNode type */
   contentNodes?: Maybe<TagToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -8355,7 +8663,7 @@ export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdenti
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
   name?: Maybe<Scalars['String']>;
-  /** Connection between the tag type and the post type */
+  /** Connection between the Tag type and the post type */
   posts?: Maybe<TagToPostConnection>;
   /** An alphanumeric identifier for the object unique to its type. */
   slug?: Maybe<Scalars['String']>;
@@ -8364,8 +8672,10 @@ export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdenti
    * @deprecated Deprecated in favor of databaseId
    */
   tagId?: Maybe<Scalars['Int']>;
-  /** Connection between the tag type and the Taxonomy type */
+  /** Connection between the Tag type and the Taxonomy type */
   taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
+  /** The name of the taxonomy that the object is associated with */
+  taxonomyName?: Maybe<Scalars['String']>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -8422,6 +8732,22 @@ export type TagTranslationArgs = {
   language: LanguageCodeEnum;
 };
 
+/** Connection to tag Nodes */
+export type TagConnection = {
+  /** A list of edges (relational context) between RootQuery and connected tag Nodes */
+  edges: Array<TagConnectionEdge>;
+  /** A list of connected tag Nodes */
+  nodes: Array<Tag>;
+};
+
+/** Edge between a Node and a connected tag */
+export type TagConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected tag Node */
+  node: Tag;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum TagIdType {
   /** The Database ID for the node */
@@ -8436,24 +8762,24 @@ export enum TagIdType {
   Uri = 'URI'
 }
 
-/** Connection between the tag type and the ContentNode type */
-export type TagToContentNodeConnection = {
+/** Connection between the Tag type and the ContentNode type */
+export type TagToContentNodeConnection = ContentNodeConnection & Connection & {
   __typename?: 'TagToContentNodeConnection';
   /** Edges for the TagToContentNodeConnection connection */
-  edges?: Maybe<Array<Maybe<TagToContentNodeConnectionEdge>>>;
+  edges: Array<TagToContentNodeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type TagToContentNodeConnectionEdge = {
+export type TagToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
   __typename?: 'TagToContentNodeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentNode>;
+  node: ContentNode;
 };
 
 /** Arguments for filtering the TagToContentNodeConnection connection */
@@ -8464,7 +8790,7 @@ export type TagToContentNodeConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -8496,24 +8822,24 @@ export type TagToContentNodeConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the tag type and the post type */
-export type TagToPostConnection = {
+/** Connection between the Tag type and the post type */
+export type TagToPostConnection = PostConnection & Connection & {
   __typename?: 'TagToPostConnection';
   /** Edges for the TagToPostConnection connection */
-  edges?: Maybe<Array<Maybe<TagToPostConnectionEdge>>>;
+  edges: Array<TagToPostConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Post>>>;
+  nodes: Array<Post>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type TagToPostConnectionEdge = {
+export type TagToPostConnectionEdge = PostConnectionEdge & Edge & {
   __typename?: 'TagToPostConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
 /** Arguments for filtering the TagToPostConnection connection */
@@ -8538,7 +8864,7 @@ export type TagToPostConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -8574,19 +8900,21 @@ export type TagToPostConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
   tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of tag slugs, used to display objects from one tag OR another */
+  /** Array of tag slugs, used to display objects from one tag AND another */
   tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Array of tag slugs, used to exclude objects in specified tags */
+  /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the tag type and the Taxonomy type */
-export type TagToTaxonomyConnectionEdge = {
+/** Connection between the Tag type and the Taxonomy type */
+export type TagToTaxonomyConnectionEdge = OneToOneConnection & Edge & TaxonomyConnectionEdge & {
   __typename?: 'TagToTaxonomyConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Taxonomy>;
+  node: Taxonomy;
 };
 
 /** A taxonomy object */
@@ -8643,6 +8971,22 @@ export type TaxonomyConnectedContentTypesArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
+/** Connection to Taxonomy Nodes */
+export type TaxonomyConnection = {
+  /** A list of edges (relational context) between RootQuery and connected Taxonomy Nodes */
+  edges: Array<TaxonomyConnectionEdge>;
+  /** A list of connected Taxonomy Nodes */
+  nodes: Array<Taxonomy>;
+};
+
+/** Edge between a Node and a connected Taxonomy */
+export type TaxonomyConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected Taxonomy Node */
+  node: Taxonomy;
+};
+
 /** Allowed taxonomies */
 export enum TaxonomyEnum {
   /** Taxonomy enum category */
@@ -8662,24 +9006,30 @@ export enum TaxonomyIdTypeEnum {
 }
 
 /** Connection between the Taxonomy type and the ContentType type */
-export type TaxonomyToContentTypeConnection = {
+export type TaxonomyToContentTypeConnection = ContentTypeConnection & Connection & {
   __typename?: 'TaxonomyToContentTypeConnection';
   /** Edges for the TaxonomyToContentTypeConnection connection */
-  edges?: Maybe<Array<Maybe<TaxonomyToContentTypeConnectionEdge>>>;
+  edges: Array<TaxonomyToContentTypeConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentType>>>;
+  nodes: Array<ContentType>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type TaxonomyToContentTypeConnectionEdge = {
+export type TaxonomyToContentTypeConnectionEdge = ContentTypeConnectionEdge & Edge & {
   __typename?: 'TaxonomyToContentTypeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<ContentType>;
+  node: ContentType;
 };
+
+/** Get page object by template */
+export enum TemplateEnum {
+  FrontPage = 'frontPage',
+  PostsPage = 'postsPage'
+}
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNode = {
@@ -8707,6 +9057,8 @@ export type TermNode = {
   name?: Maybe<Scalars['String']>;
   /** An alphanumeric identifier for the object unique to its type. */
   slug?: Maybe<Scalars['String']>;
+  /** The name of the taxonomy that the object is associated with */
+  taxonomyName?: Maybe<Scalars['String']>;
   /** The ID of the term group that this term object belongs to */
   termGroupId?: Maybe<Scalars['Int']>;
   /** The taxonomy ID that the object is associated with */
@@ -8733,6 +9085,22 @@ export type TermNodeEnqueuedStylesheetsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
+/** Connection to TermNode Nodes */
+export type TermNodeConnection = {
+  /** A list of edges (relational context) between RootQuery and connected TermNode Nodes */
+  edges: Array<TermNodeConnectionEdge>;
+  /** A list of connected TermNode Nodes */
+  nodes: Array<TermNode>;
+};
+
+/** Edge between a Node and a connected TermNode */
+export type TermNodeConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected TermNode Node */
+  node: TermNode;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is "ID". To be used along with the "id" field. */
 export enum TermNodeIdTypeEnum {
   /** The Database ID for the node */
@@ -8748,43 +9116,43 @@ export enum TermNodeIdTypeEnum {
 }
 
 /** Connection between the TermNode type and the EnqueuedScript type */
-export type TermNodeToEnqueuedScriptConnection = {
+export type TermNodeToEnqueuedScriptConnection = EnqueuedScriptConnection & Connection & {
   __typename?: 'TermNodeToEnqueuedScriptConnection';
   /** Edges for the TermNodeToEnqueuedScriptConnection connection */
-  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedScriptConnectionEdge>>>;
+  edges: Array<TermNodeToEnqueuedScriptConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  nodes: Array<EnqueuedScript>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type TermNodeToEnqueuedScriptConnectionEdge = {
+export type TermNodeToEnqueuedScriptConnectionEdge = EnqueuedScriptConnectionEdge & Edge & {
   __typename?: 'TermNodeToEnqueuedScriptConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedScript>;
+  node: EnqueuedScript;
 };
 
 /** Connection between the TermNode type and the EnqueuedStylesheet type */
-export type TermNodeToEnqueuedStylesheetConnection = {
+export type TermNodeToEnqueuedStylesheetConnection = EnqueuedStylesheetConnection & Connection & {
   __typename?: 'TermNodeToEnqueuedStylesheetConnection';
   /** Edges for the TermNodeToEnqueuedStylesheetConnection connection */
-  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedStylesheetConnectionEdge>>>;
+  edges: Array<TermNodeToEnqueuedStylesheetConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  nodes: Array<EnqueuedStylesheet>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type TermNodeToEnqueuedStylesheetConnectionEdge = {
+export type TermNodeToEnqueuedStylesheetConnectionEdge = EnqueuedStylesheetConnectionEdge & Edge & {
   __typename?: 'TermNodeToEnqueuedStylesheetConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedStylesheet>;
+  node: EnqueuedStylesheet;
 };
 
 /** Options for ordering the connection by */
@@ -8832,11 +9200,29 @@ export type Theme = Node & {
   version?: Maybe<Scalars['String']>;
 };
 
+/** Connection to Theme Nodes */
+export type ThemeConnection = {
+  /** A list of edges (relational context) between RootQuery and connected Theme Nodes */
+  edges: Array<ThemeConnectionEdge>;
+  /** A list of connected Theme Nodes */
+  nodes: Array<Theme>;
+};
+
+/** Edge between a Node and a connected Theme */
+export type ThemeConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected Theme Node */
+  node: Theme;
+};
+
 /** The translation type */
-export type Translation = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithRevisions & {
+export type Translation = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & Previewable & NodeWithTitle & NodeWithRevisions & {
   __typename?: 'Translation';
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -8875,7 +9261,7 @@ export type Translation = Node & ContentNode & UniformResourceIdentifiable & Dat
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
-  /** Connection between the translation type and the translation type */
+  /** Connection between the Translation type and the translation type */
   preview?: Maybe<TranslationToPreviewConnectionEdge>;
   /** The database id of the preview node */
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
@@ -8883,7 +9269,7 @@ export type Translation = Node & ContentNode & UniformResourceIdentifiable & Dat
   previewRevisionId?: Maybe<Scalars['ID']>;
   /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
   revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the translation type and the translation type */
+  /** Connection between the Translation type and the translation type */
   revisions?: Maybe<TranslationToRevisionConnection>;
   /** The SEO Framework data of the translation */
   seo?: Maybe<Seo>;
@@ -8940,6 +9326,22 @@ export type TranslationTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
 
+/** Connection to translation Nodes */
+export type TranslationConnection = {
+  /** A list of edges (relational context) between RootQuery and connected translation Nodes */
+  edges: Array<TranslationConnectionEdge>;
+  /** A list of connected translation Nodes */
+  nodes: Array<Translation>;
+};
+
+/** Edge between a Node and a connected translation */
+export type TranslationConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected translation Node */
+  node: Translation;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum TranslationIdType {
   /** Identify a resource by the Database ID. */
@@ -8972,40 +9374,42 @@ export type TranslationResponse = {
   translations?: Maybe<TranslationItems>;
 };
 
-/** Connection between the translation type and the translation type */
-export type TranslationToPreviewConnectionEdge = {
+/** Connection between the Translation type and the translation type */
+export type TranslationToPreviewConnectionEdge = OneToOneConnection & Edge & TranslationConnectionEdge & {
   __typename?: 'TranslationToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
   /** The node of the connection, without the edges */
-  node?: Maybe<Translation>;
+  node: Translation;
 };
 
-/** Connection between the translation type and the translation type */
-export type TranslationToRevisionConnection = {
+/** Connection between the Translation type and the translation type */
+export type TranslationToRevisionConnection = TranslationConnection & Connection & {
   __typename?: 'TranslationToRevisionConnection';
-  /** Edges for the translationToRevisionConnection connection */
-  edges?: Maybe<Array<Maybe<TranslationToRevisionConnectionEdge>>>;
+  /** Edges for the TranslationToRevisionConnection connection */
+  edges: Array<TranslationToRevisionConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Translation>>>;
+  nodes: Array<Translation>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type TranslationToRevisionConnectionEdge = {
+export type TranslationToRevisionConnectionEdge = TranslationConnectionEdge & Edge & {
   __typename?: 'TranslationToRevisionConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Translation>;
+  node: Translation;
 };
 
-/** Arguments for filtering the translationToRevisionConnection connection */
+/** Arguments for filtering the TranslationToRevisionConnection connection */
 export type TranslationToRevisionConnectionWhereArgs = {
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -9049,7 +9453,7 @@ export type UniformResourceIdentifiable = {
   uri?: Maybe<Scalars['String']>;
 };
 
-/** Input for the UpdateCategory mutation */
+/** Input for the updateCategory mutation. */
 export type UpdateCategoryInput = {
   /** The slug that the category will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
@@ -9068,7 +9472,7 @@ export type UpdateCategoryInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the UpdateCategory mutation */
+/** The payload for the updateCategory mutation. */
 export type UpdateCategoryPayload = {
   __typename?: 'UpdateCategoryPayload';
   /** The created category */
@@ -9077,7 +9481,7 @@ export type UpdateCategoryPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
-/** Input for the updateCollection mutation */
+/** Input for the updateCollection mutation. */
 export type UpdateCollectionInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -9098,7 +9502,7 @@ export type UpdateCollectionInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateCollection mutation */
+/** The payload for the updateCollection mutation. */
 export type UpdateCollectionPayload = {
   __typename?: 'UpdateCollectionPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9107,7 +9511,7 @@ export type UpdateCollectionPayload = {
   collection?: Maybe<Collection>;
 };
 
-/** Input for the updateComment mutation */
+/** Input for the updateComment mutation. */
 export type UpdateCommentInput = {
   /** The approval status of the comment. */
   approved?: Maybe<Scalars['String']>;
@@ -9119,7 +9523,7 @@ export type UpdateCommentInput = {
   authorUrl?: Maybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The ID of the post object the comment belongs to. */
+  /** The database ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
   /** Content of the comment. */
   content?: Maybe<Scalars['String']>;
@@ -9127,13 +9531,15 @@ export type UpdateCommentInput = {
   date?: Maybe<Scalars['String']>;
   /** The ID of the comment being updated. */
   id: Scalars['ID'];
-  /** Parent comment of current comment. */
+  /** Parent comment ID of current comment. */
   parent?: Maybe<Scalars['ID']>;
+  /** The approval status of the comment */
+  status?: Maybe<CommentStatusEnum>;
   /** Type of comment. */
   type?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateComment mutation */
+/** The payload for the updateComment mutation. */
 export type UpdateCommentPayload = {
   __typename?: 'UpdateCommentPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9144,7 +9550,7 @@ export type UpdateCommentPayload = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-/** Input for the updateContact mutation */
+/** Input for the updateContact mutation. */
 export type UpdateContactInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -9165,7 +9571,7 @@ export type UpdateContactInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateContact mutation */
+/** The payload for the updateContact mutation. */
 export type UpdateContactPayload = {
   __typename?: 'UpdateContactPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9174,7 +9580,7 @@ export type UpdateContactPayload = {
   contact?: Maybe<Contact>;
 };
 
-/** Input for the updateLandingPage mutation */
+/** Input for the updateLandingPage mutation. */
 export type UpdateLandingPageInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -9195,7 +9601,7 @@ export type UpdateLandingPageInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateLandingPage mutation */
+/** The payload for the updateLandingPage mutation. */
 export type UpdateLandingPagePayload = {
   __typename?: 'UpdateLandingPagePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9204,7 +9610,7 @@ export type UpdateLandingPagePayload = {
   landingPage?: Maybe<LandingPage>;
 };
 
-/** Input for the updateMediaItem mutation */
+/** Input for the updateMediaItem mutation. */
 export type UpdateMediaItemInput = {
   /** Alternative text to display when mediaItem is not displayed */
   altText?: Maybe<Scalars['String']>;
@@ -9229,7 +9635,7 @@ export type UpdateMediaItemInput = {
   /** The ID of the mediaItem object */
   id: Scalars['ID'];
   language?: Maybe<LanguageCodeEnum>;
-  /** The WordPress post ID or the graphQL postId of the parent object */
+  /** The ID of the parent object */
   parentId?: Maybe<Scalars['ID']>;
   /** The ping status for the mediaItem */
   pingStatus?: Maybe<Scalars['String']>;
@@ -9241,7 +9647,7 @@ export type UpdateMediaItemInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateMediaItem mutation */
+/** The payload for the updateMediaItem mutation. */
 export type UpdateMediaItemPayload = {
   __typename?: 'UpdateMediaItemPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9250,7 +9656,7 @@ export type UpdateMediaItemPayload = {
   mediaItem?: Maybe<MediaItem>;
 };
 
-/** Input for the updatePage mutation */
+/** Input for the updatePage mutation. */
 export type UpdatePageInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
@@ -9277,7 +9683,7 @@ export type UpdatePageInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updatePage mutation */
+/** The payload for the updatePage mutation. */
 export type UpdatePagePayload = {
   __typename?: 'UpdatePagePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9286,7 +9692,7 @@ export type UpdatePagePayload = {
   page?: Maybe<Page>;
 };
 
-/** Input for the UpdatePostFormat mutation */
+/** Input for the updatePostFormat mutation. */
 export type UpdatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
@@ -9302,7 +9708,7 @@ export type UpdatePostFormatInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the UpdatePostFormat mutation */
+/** The payload for the updatePostFormat mutation. */
 export type UpdatePostFormatPayload = {
   __typename?: 'UpdatePostFormatPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9311,7 +9717,7 @@ export type UpdatePostFormatPayload = {
   postFormat?: Maybe<PostFormat>;
 };
 
-/** Input for the updatePost mutation */
+/** Input for the updatePost mutation. */
 export type UpdatePostInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
@@ -9342,7 +9748,7 @@ export type UpdatePostInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updatePost mutation */
+/** The payload for the updatePost mutation. */
 export type UpdatePostPayload = {
   __typename?: 'UpdatePostPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9351,7 +9757,7 @@ export type UpdatePostPayload = {
   post?: Maybe<Post>;
 };
 
-/** Input for the updateRelease mutation */
+/** Input for the updateRelease mutation. */
 export type UpdateReleaseInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -9374,7 +9780,7 @@ export type UpdateReleaseInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateRelease mutation */
+/** The payload for the updateRelease mutation. */
 export type UpdateReleasePayload = {
   __typename?: 'UpdateReleasePayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9383,7 +9789,7 @@ export type UpdateReleasePayload = {
   release?: Maybe<Release>;
 };
 
-/** Input for the updateSettings mutation */
+/** Input for the updateSettings mutation. */
 export type UpdateSettingsInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -9405,8 +9811,14 @@ export type UpdateSettingsInput = {
   generalSettingsTimezone?: Maybe<Scalars['String']>;
   /** Sivuston otsikko. */
   generalSettingsTitle?: Maybe<Scalars['String']>;
+  /** Tunniste sivusta, joka näyttää uusimmat artikkelit */
+  readingSettingsPageForPosts?: Maybe<Scalars['Int']>;
+  /** Tunniste sivusta, joka näytetään etusivulla */
+  readingSettingsPageOnFront?: Maybe<Scalars['Int']>;
   /** Näytä enintään */
   readingSettingsPostsPerPage?: Maybe<Scalars['Int']>;
+  /** Mitä näytetään etusivulla */
+  readingSettingsShowOnFront?: Maybe<Scalars['String']>;
   /** Oletuskategoria artikkeleille. */
   writingSettingsDefaultCategory?: Maybe<Scalars['Int']>;
   /** Artikkelisivujen oletusmuoto. */
@@ -9415,24 +9827,24 @@ export type UpdateSettingsInput = {
   writingSettingsUseSmilies?: Maybe<Scalars['Boolean']>;
 };
 
-/** The payload for the updateSettings mutation */
+/** The payload for the updateSettings mutation. */
 export type UpdateSettingsPayload = {
   __typename?: 'UpdateSettingsPayload';
   /** Update all settings. */
   allSettings?: Maybe<Settings>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** Update the discussion setting. */
+  /** Update the DiscussionSettings setting. */
   discussionSettings?: Maybe<DiscussionSettings>;
-  /** Update the general setting. */
+  /** Update the GeneralSettings setting. */
   generalSettings?: Maybe<GeneralSettings>;
-  /** Update the reading setting. */
+  /** Update the ReadingSettings setting. */
   readingSettings?: Maybe<ReadingSettings>;
-  /** Update the writing setting. */
+  /** Update the WritingSettings setting. */
   writingSettings?: Maybe<WritingSettings>;
 };
 
-/** Input for the UpdateTag mutation */
+/** Input for the updateTag mutation. */
 export type UpdateTagInput = {
   /** The slug that the post_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
@@ -9449,7 +9861,7 @@ export type UpdateTagInput = {
   slug?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the UpdateTag mutation */
+/** The payload for the updateTag mutation. */
 export type UpdateTagPayload = {
   __typename?: 'UpdateTagPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9458,7 +9870,7 @@ export type UpdateTagPayload = {
   tag?: Maybe<Tag>;
 };
 
-/** Input for the updateTranslation mutation */
+/** Input for the updateTranslation mutation. */
 export type UpdateTranslationInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -9478,7 +9890,7 @@ export type UpdateTranslationInput = {
   title?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateTranslation mutation */
+/** The payload for the updateTranslation mutation. */
 export type UpdateTranslationPayload = {
   __typename?: 'UpdateTranslationPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9487,7 +9899,7 @@ export type UpdateTranslationPayload = {
   translation?: Maybe<Translation>;
 };
 
-/** Input for the updateUser mutation */
+/** Input for the updateUser mutation. */
 export type UpdateUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
@@ -9527,7 +9939,7 @@ export type UpdateUserInput = {
   yim?: Maybe<Scalars['String']>;
 };
 
-/** The payload for the updateUser mutation */
+/** The payload for the updateUser mutation. */
 export type UpdateUserPayload = {
   __typename?: 'UpdateUserPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -9588,7 +10000,7 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   /** The date the user registered or was created. The field follows a full ISO8601 date string format. */
   registeredDate?: Maybe<Scalars['String']>;
   /** Connection between the User and Revisions authored by the user */
-  revisions?: Maybe<UserToContentRevisionUnionConnection>;
+  revisions?: Maybe<UserToRevisionsConnection>;
   /** Connection between the User type and the UserRole type */
   roles?: Maybe<UserToUserRoleConnection>;
   /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
@@ -9679,7 +10091,7 @@ export type UserRevisionsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<UserToContentRevisionUnionConnectionWhereArgs>;
+  where?: Maybe<UserToRevisionsConnectionWhereArgs>;
 };
 
 
@@ -9689,6 +10101,22 @@ export type UserRolesArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+};
+
+/** Connection to User Nodes */
+export type UserConnection = {
+  /** A list of edges (relational context) between RootQuery and connected User Nodes */
+  edges: Array<UserConnectionEdge>;
+  /** A list of connected User Nodes */
+  nodes: Array<User>;
+};
+
+/** Edge between a Node and a connected User */
+export type UserConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected User Node */
+  node: User;
 };
 
 /** The Type of Identifier used to fetch a single User node. To be used along with the "id" field. Default is "ID". */
@@ -9722,6 +10150,22 @@ export type UserRole = Node & {
   name?: Maybe<Scalars['String']>;
 };
 
+/** Connection to UserRole Nodes */
+export type UserRoleConnection = {
+  /** A list of edges (relational context) between RootQuery and connected UserRole Nodes */
+  edges: Array<UserRoleConnectionEdge>;
+  /** A list of connected UserRole Nodes */
+  nodes: Array<UserRole>;
+};
+
+/** Edge between a Node and a connected UserRole */
+export type UserRoleConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']>;
+  /** The connected UserRole Node */
+  node: UserRole;
+};
+
 /** Names of available user roles */
 export enum UserRoleEnum {
   /** User role with specific capabilities */
@@ -9745,23 +10189,23 @@ export enum UserRoleEnum {
 }
 
 /** Connection between the User type and the Comment type */
-export type UserToCommentConnection = {
+export type UserToCommentConnection = CommentConnection & Connection & {
   __typename?: 'UserToCommentConnection';
   /** Edges for the UserToCommentConnection connection */
-  edges?: Maybe<Array<Maybe<UserToCommentConnectionEdge>>>;
+  edges: Array<UserToCommentConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Comment>>>;
+  nodes: Array<Comment>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToCommentConnectionEdge = {
+export type UserToCommentConnectionEdge = CommentConnectionEdge & Edge & {
   __typename?: 'UserToCommentConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Comment>;
+  node: Comment;
 };
 
 /** Arguments for filtering the UserToCommentConnection connection */
@@ -9796,7 +10240,7 @@ export type UserToCommentConnectionWhereArgs = {
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of content object IDs to exclude affiliated comments for. */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Content object name to retrieve affiliated comments for. */
+  /** Content object name (i.e. slug ) to retrieve affiliated comments for. */
   contentName?: Maybe<Scalars['String']>;
   /** Content Object parent ID to retrieve affiliated comments for. */
   contentParent?: Maybe<Scalars['Int']>;
@@ -9826,124 +10270,64 @@ export type UserToCommentConnectionWhereArgs = {
   userId?: Maybe<Scalars['ID']>;
 };
 
-/** Connection between the User type and the ContentRevisionUnion type */
-export type UserToContentRevisionUnionConnection = {
-  __typename?: 'UserToContentRevisionUnionConnection';
-  /** Edges for the UserToContentRevisionUnionConnection connection */
-  edges?: Maybe<Array<Maybe<UserToContentRevisionUnionConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<ContentRevisionUnion>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type UserToContentRevisionUnionConnectionEdge = {
-  __typename?: 'UserToContentRevisionUnionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<ContentRevisionUnion>;
-};
-
-/** Arguments for filtering the UserToContentRevisionUnionConnection connection */
-export type UserToContentRevisionUnionConnectionWhereArgs = {
-  /** The Types of content to filter */
-  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
-  /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>;
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>;
-  /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>;
-  /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>;
-  /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['ID']>;
-  /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>;
-  /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>;
-  /** Retrieve posts where post status is in an array. */
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
-  /** Show posts with a specific status. */
-  status?: Maybe<PostStatusEnum>;
-  /** Title of the object */
-  title?: Maybe<Scalars['String']>;
-};
-
 /** Connection between the User type and the EnqueuedScript type */
-export type UserToEnqueuedScriptConnection = {
+export type UserToEnqueuedScriptConnection = EnqueuedScriptConnection & Connection & {
   __typename?: 'UserToEnqueuedScriptConnection';
   /** Edges for the UserToEnqueuedScriptConnection connection */
-  edges?: Maybe<Array<Maybe<UserToEnqueuedScriptConnectionEdge>>>;
+  edges: Array<UserToEnqueuedScriptConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  nodes: Array<EnqueuedScript>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToEnqueuedScriptConnectionEdge = {
+export type UserToEnqueuedScriptConnectionEdge = EnqueuedScriptConnectionEdge & Edge & {
   __typename?: 'UserToEnqueuedScriptConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedScript>;
+  node: EnqueuedScript;
 };
 
 /** Connection between the User type and the EnqueuedStylesheet type */
-export type UserToEnqueuedStylesheetConnection = {
+export type UserToEnqueuedStylesheetConnection = EnqueuedStylesheetConnection & Connection & {
   __typename?: 'UserToEnqueuedStylesheetConnection';
   /** Edges for the UserToEnqueuedStylesheetConnection connection */
-  edges?: Maybe<Array<Maybe<UserToEnqueuedStylesheetConnectionEdge>>>;
+  edges: Array<UserToEnqueuedStylesheetConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  nodes: Array<EnqueuedStylesheet>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToEnqueuedStylesheetConnectionEdge = {
+export type UserToEnqueuedStylesheetConnectionEdge = EnqueuedStylesheetConnectionEdge & Edge & {
   __typename?: 'UserToEnqueuedStylesheetConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<EnqueuedStylesheet>;
+  node: EnqueuedStylesheet;
 };
 
 /** Connection between the User type and the mediaItem type */
-export type UserToMediaItemConnection = {
+export type UserToMediaItemConnection = MediaItemConnection & Connection & {
   __typename?: 'UserToMediaItemConnection';
   /** Edges for the UserToMediaItemConnection connection */
-  edges?: Maybe<Array<Maybe<UserToMediaItemConnectionEdge>>>;
+  edges: Array<UserToMediaItemConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<MediaItem>>>;
+  nodes: Array<MediaItem>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToMediaItemConnectionEdge = {
+export type UserToMediaItemConnectionEdge = MediaItemConnectionEdge & Edge & {
   __typename?: 'UserToMediaItemConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<MediaItem>;
+  node: MediaItem;
 };
 
 /** Arguments for filtering the UserToMediaItemConnection connection */
@@ -9960,7 +10344,7 @@ export type UserToMediaItemConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -9993,23 +10377,23 @@ export type UserToMediaItemConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the page type */
-export type UserToPageConnection = {
+export type UserToPageConnection = PageConnection & Connection & {
   __typename?: 'UserToPageConnection';
   /** Edges for the UserToPageConnection connection */
-  edges?: Maybe<Array<Maybe<UserToPageConnectionEdge>>>;
+  edges: Array<UserToPageConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Page>>>;
+  nodes: Array<Page>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToPageConnectionEdge = {
+export type UserToPageConnectionEdge = PageConnectionEdge & Edge & {
   __typename?: 'UserToPageConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Page>;
+  node: Page;
 };
 
 /** Arguments for filtering the UserToPageConnection connection */
@@ -10026,7 +10410,7 @@ export type UserToPageConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -10059,23 +10443,23 @@ export type UserToPageConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the post type */
-export type UserToPostConnection = {
+export type UserToPostConnection = PostConnection & Connection & {
   __typename?: 'UserToPostConnection';
   /** Edges for the UserToPostConnection connection */
-  edges?: Maybe<Array<Maybe<UserToPostConnectionEdge>>>;
+  edges: Array<UserToPostConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<Post>>>;
+  nodes: Array<Post>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToPostConnectionEdge = {
+export type UserToPostConnectionEdge = PostConnectionEdge & Edge & {
   __typename?: 'UserToPostConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<Post>;
+  node: Post;
 };
 
 /** Arguments for filtering the UserToPostConnection connection */
@@ -10100,7 +10484,7 @@ export type UserToPostConnectionWhereArgs = {
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
   hasPassword?: Maybe<Scalars['Boolean']>;
-  /** Specific ID of the object */
+  /** Specific database ID of the object */
   id?: Maybe<Scalars['Int']>;
   /** Array of IDs for the objects to retrieve */
   in?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -10136,32 +10520,92 @@ export type UserToPostConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** Array of tag IDs, used to display objects from one tag OR another */
   tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of tag slugs, used to display objects from one tag OR another */
+  /** Array of tag slugs, used to display objects from one tag AND another */
   tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Array of tag slugs, used to exclude objects in specified tags */
+  /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
 };
 
-/** Connection between the User type and the UserRole type */
-export type UserToUserRoleConnection = {
-  __typename?: 'UserToUserRoleConnection';
-  /** Edges for the UserToUserRoleConnection connection */
-  edges?: Maybe<Array<Maybe<UserToUserRoleConnectionEdge>>>;
+/** Connection between the User type and the ContentNode type */
+export type UserToRevisionsConnection = ContentNodeConnection & Connection & {
+  __typename?: 'UserToRevisionsConnection';
+  /** Edges for the UserToRevisionsConnection connection */
+  edges: Array<UserToRevisionsConnectionEdge>;
   /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<UserRole>>>;
+  nodes: Array<ContentNode>;
   /** Information about pagination in a connection. */
   pageInfo?: Maybe<WpPageInfo>;
 };
 
 /** An edge in a connection */
-export type UserToUserRoleConnectionEdge = {
+export type UserToRevisionsConnectionEdge = ContentNodeConnectionEdge & Edge & {
+  __typename?: 'UserToRevisionsConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node: ContentNode;
+};
+
+/** Arguments for filtering the UserToRevisionsConnection connection */
+export type UserToRevisionsConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific database ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the User type and the UserRole type */
+export type UserToUserRoleConnection = UserRoleConnection & Connection & {
+  __typename?: 'UserToUserRoleConnection';
+  /** Edges for the UserToUserRoleConnection connection */
+  edges: Array<UserToUserRoleConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<UserRole>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type UserToUserRoleConnectionEdge = UserRoleConnectionEdge & Edge & {
   __typename?: 'UserToUserRoleConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
-  node?: Maybe<UserRole>;
+  node: UserRole;
 };
 
 /** Field to order the connection by */
@@ -10236,9 +10680,9 @@ export type MenuQueryVariables = Exact<{
 }>;
 
 
-export type MenuQuery = { __typename?: 'RootQuery', menu?: Maybe<{ __typename?: 'Menu', id: string, name?: Maybe<string>, slug?: Maybe<string>, menuId?: Maybe<number>, menuItems?: Maybe<{ __typename?: 'MenuToMenuItemConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'MenuItem', connectedNode?: Maybe<{ __typename?: 'MenuItemToMenuItemLinkableConnectionEdge', node?: Maybe<{ __typename?: 'Category' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }>>> }>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Tag' }> }> }>>> }> }> };
+export type MenuQuery = { __typename?: 'RootQuery', menu?: Maybe<{ __typename?: 'Menu', id: string, name?: Maybe<string>, slug?: Maybe<string>, menuId?: Maybe<number>, menuItems?: Maybe<{ __typename?: 'MenuToMenuItemConnection', nodes: Array<{ __typename?: 'MenuItem', connectedNode?: Maybe<{ __typename?: 'MenuItemToMenuItemLinkableConnectionEdge', node: { __typename?: 'Category' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> }>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Tag' } }> }> }> }> };
 
-export type MenuPageFieldsFragment = { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> };
+export type MenuPageFieldsFragment = { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> };
 
 export type PageQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -10246,16 +10690,16 @@ export type PageQueryVariables = Exact<{
 }>;
 
 
-export type PageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, parent?: Maybe<{ __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge', node?: Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> }>, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }>>> }>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }> };
+export type PageQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, parent?: Maybe<{ __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' } }>, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> }>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }> };
 
-export type PageFieldsFragment = { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> };
+export type PageFieldsFragment = { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> };
 
 export type SeoFieldsFragment = { __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PagesQuery = { __typename?: 'RootQuery', pages?: Maybe<{ __typename?: 'RootQueryToPageConnection', edges?: Maybe<Array<Maybe<{ __typename?: 'RootQueryToPageConnectionEdge', node?: Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }> }>>> }> };
+export type PagesQuery = { __typename?: 'RootQuery', pages?: Maybe<{ __typename?: 'RootQueryToPageConnection', edges: Array<{ __typename?: 'RootQueryToPageConnectionEdge', node: { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> } }> }> };
 
 export type SubPagesSearchQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -10266,7 +10710,7 @@ export type SubPagesSearchQueryVariables = Exact<{
 }>;
 
 
-export type SubPagesSearchQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, hasNextPage: boolean }>, edges?: Maybe<Array<Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge', cursor?: Maybe<string>, node?: Maybe<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> }> }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node?: Maybe<{ __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> }> }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> }>>> }> }> };
+export type SubPagesSearchQuery = { __typename?: 'RootQuery', page?: Maybe<{ __typename?: 'Page', id: string, children?: Maybe<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', pageInfo?: Maybe<{ __typename?: 'WPPageInfo', endCursor?: Maybe<string>, hasNextPage: boolean }>, edges: Array<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge', cursor?: Maybe<string>, node: { __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, translations?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, content?: Maybe<string>, slug?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string>, lead?: Maybe<string>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> }>>>, seo?: Maybe<{ __typename?: 'SEO', title?: Maybe<string>, description?: Maybe<string>, openGraphTitle?: Maybe<string>, openGraphDescription?: Maybe<string>, openGraphType?: Maybe<string>, twitterTitle?: Maybe<string>, twitterDescription?: Maybe<string> }>, language?: Maybe<{ __typename?: 'Language', code?: Maybe<LanguageCodeEnum>, slug?: Maybe<string>, locale?: Maybe<string>, name?: Maybe<string> }>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: Maybe<string>, link?: Maybe<string>, altText?: Maybe<string>, mimeType?: Maybe<string>, title?: Maybe<string>, uri?: Maybe<string> } }>, sidebar?: Maybe<Array<Maybe<{ __typename?: 'LayoutLinkList', anchor?: Maybe<string>, title?: Maybe<string>, description?: Maybe<string>, links?: Maybe<Array<Maybe<{ __typename?: 'Link', target?: Maybe<string>, title?: Maybe<string>, url?: Maybe<string> }>>> } | { __typename?: 'LayoutArticles', articles?: Maybe<Array<Maybe<{ __typename?: 'Post', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> } | { __typename?: 'LayoutPages', pages?: Maybe<Array<Maybe<{ __typename?: 'Page', id: string, title?: Maybe<string>, uri?: Maybe<string>, featuredImage?: Maybe<{ __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: Maybe<string>, mediaItemUrl?: Maybe<string> } }> }>>> }>>> } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' } }> }> }> };
 
 export const SeoFieldsFragmentDoc = gql`
     fragment seoFields on SEO {

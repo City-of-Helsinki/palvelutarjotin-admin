@@ -275,16 +275,16 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
 
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelName')}
-                  value={enrolment.studyGroup.person.name}
+                  value={enrolment.studyGroup.person?.name}
                   space
                 />
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelEmail')}
-                  value={enrolment.studyGroup.person.emailAddress}
+                  value={enrolment.studyGroup.person?.emailAddress}
                 />
                 <EnrolmentInfoRow
                   label={t('enrolment.enrolmentDetails.labelPhoneNumber')}
-                  value={enrolment.studyGroup.person.phoneNumber}
+                  value={enrolment.studyGroup.person?.phoneNumber}
                 />
 
                 <EnrolmentInfoRow

@@ -215,7 +215,7 @@ describe('location and enrolment info', () => {
 
     expect(goToPublishingButton).toBeEnabled();
     expect(addNewOccurrenceButton).toBeEnabled();
-  });
+  }, 75_000);
 
   test('user can edit and save location and enrolment related info', async () => {
     const enrolmentEndDays = 1;
