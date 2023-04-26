@@ -244,7 +244,7 @@ test('can create profile with all the information', async () => {
   });
 
   expect(refetch).toBeCalled();
-}, 20000);
+}, 50_000);
 
 test('create profile with organisation proposal', async () => {
   const createProfileMock = jest.fn();

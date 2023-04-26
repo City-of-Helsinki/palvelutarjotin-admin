@@ -124,7 +124,7 @@ const EditorEnrolmentPage: React.FC = () => {
           enrolment?.notificationType === NotificationType.Sms ||
           enrolment?.notificationType === NotificationType.EmailSms,
         isSameResponsiblePerson:
-          enrolment?.person?.id === enrolment?.studyGroup.person.id,
+          enrolment?.person?.id === enrolment?.studyGroup.person?.id,
         studyGroup: {
           amountOfAdult: enrolment?.studyGroup.amountOfAdult?.toString() || '',
           groupSize: enrolment?.studyGroup.groupSize.toString() || '',
@@ -133,15 +133,15 @@ const EditorEnrolmentPage: React.FC = () => {
           unitName: enrolment?.studyGroup.unitName || '',
           studyLevels: studyLevels.map((s) => s.toUpperCase()) || [],
           person: {
-            name: enrolment?.studyGroup.person.name || '',
-            emailAddress: enrolment?.studyGroup.person.emailAddress || '',
+            name: enrolment?.studyGroup.person?.name || '',
+            emailAddress: enrolment?.studyGroup.person?.emailAddress || '',
             phoneNumber: enrolment?.person?.phoneNumber || '',
           },
           extraNeeds: enrolment?.studyGroup.extraNeeds || '',
         },
         language:
           enrolment?.person?.language ||
-          enrolment?.studyGroup.person.language ||
+          enrolment?.studyGroup.person?.language ||
           Language.Fi,
         person: {
           name: enrolment?.person?.name || '',
