@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/release-v.1.6.1...release-v.1.6.2) (2023-04-27)
+
+### Bug Fixes
+
+* node14 upgrade PT-1669 ([8c37cb4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8c37cb40e0af1e10d068d32bc293c32cedeb747e))
+
 ### [1.6.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.6.0...v1.6.1) (2023-03-27)
 
 
