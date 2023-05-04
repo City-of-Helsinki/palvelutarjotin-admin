@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Checkbox, IconAngleDown } from 'hds-react';
+import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -43,23 +43,6 @@ const EnrolmentTable: React.FC<Props> = ({
   const { search } = useLocation();
   const history = useHistory();
 
-  const [selectedEnrolments, setSelectedEnrolments] = React.useState<string[]>(
-    []
-  );
-
-  const isAllSelected = React.useMemo(
-    () => enrolments.every((e) => selectedEnrolments.includes(e.id)),
-    [enrolments, selectedEnrolments]
-  );
-
-  const selectAll = () => {
-    setSelectedEnrolments(enrolments.map((e) => e.id));
-  };
-
-  const unselectAll = () => {
-    setSelectedEnrolments([]);
-  };
-
   const goToEnrolmentDetailsPage = (row: Row<EnrolmentFieldsFragment>) => {
     if (eventId && occurrenceId) {
       // we need to preserve returnPath in url -> add query string
@@ -75,14 +58,6 @@ const EnrolmentTable: React.FC<Props> = ({
     }
   };
 
-  const handleCheckboxChange = (row: EnrolmentFieldsFragment) => {
-    setSelectedEnrolments(
-      selectedEnrolments.includes(row.id)
-        ? selectedEnrolments.filter((e) => e !== row.id)
-        : [...selectedEnrolments, row.id]
-    );
-  };
-
   const approvedCount = getNumberOfParticipants(
     enrolments,
     EnrolmentStatus.Approved
@@ -94,34 +69,6 @@ const EnrolmentTable: React.FC<Props> = ({
   );
 
   const columns = [
-    {
-      Header: (
-        <Checkbox
-          id={`${id}_select-all_checkbox`}
-          checked={isAllSelected}
-          onChange={isAllSelected ? unselectAll : selectAll}
-          aria-label={t(
-            'occurrenceDetails.enrolmentTable.labelSelectAllEnrolments'
-          )}
-        />
-      ),
-      accessor: (row: EnrolmentFieldsFragment) => (
-        <Checkbox
-          id={`${id}_${row.id}_checkbox`}
-          checked={selectedEnrolments.includes(row.id)}
-          onChange={() => handleCheckboxChange(row)}
-          aria-label={t(
-            'occurrenceDetails.enrolmentTable.labelSelectEnrolment',
-            {
-              info: `${formatLocalizedDate(new Date(row.enrolmentTime))} ${
-                row.person?.name
-              }`,
-            }
-          )}
-        />
-      ),
-      id: 'selectRow',
-    },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnEnrolmentTime'),
       accessor: (row: EnrolmentFieldsFragment) =>
