@@ -3,7 +3,7 @@ import * as React from 'react';
 import wait from 'waait';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { act, render, screen } from '../../../../../utils/testUtils';
+import { act, render, screen, waitFor } from '../../../../../utils/testUtils';
 import ApproveEnrolmentModal from '../ApproveEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -19,6 +19,13 @@ it('matches snapshot', async () => {
   );
 
   await act(wait);
+
+  await waitFor(() => {
+    // A small "hack" to wait for modal to open fully
+    expect(
+      baseElement.querySelector('.ReactModal__Content--after-open')
+    ).toBeInTheDocument();
+  });
 
   expect(baseElement).toMatchSnapshot();
 });
