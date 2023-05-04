@@ -4,6 +4,8 @@ import faker from 'faker';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../common/components/autoSuggest/contants';
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
+import { enrolmentInfoFormTestId } from '../domain/occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import { occurrencesFormTestId } from '../domain/occurrence/occurrencesFormPart/OccurrencesFormPart';
 import {
   AddOccurrenceDocument,
   DeleteOccurrenceDocument,
@@ -38,6 +40,7 @@ import {
   fakePlaces,
   fakeVenue,
 } from '../utils/mockDataUtils';
+import { act, screen, userEvent, waitFor, within } from '../utils/testUtils';
 import { DATETIME_FORMAT } from '../utils/time/format';
 
 type Languages = 'fi' | 'en' | 'sv';
@@ -618,3 +621,376 @@ const getEditEventVariables = ({
     },
   },
 });
+
+export const getVenueCheckbox = (
+  key: 'hasToiletNearby' | 'hasOutdoorPlayingArea'
+) => {
+  switch (key) {
+    case 'hasToiletNearby':
+      return screen.getByRole('checkbox', {
+        name: /wc lähellä tilaa/i,
+      });
+    case 'hasOutdoorPlayingArea':
+      return screen.getByRole('checkbox', {
+        name: /leikkitilaa ulkona/i,
+      });
+  }
+};
+
+export const getOccurrenceFormElement = (
+  key:
+    | 'location'
+    | 'startDate'
+    | 'startHours'
+    | 'startMinutes'
+    | 'endDate'
+    | 'endHours'
+    | 'endMinutes'
+    | 'language'
+    | 'seats'
+    | 'min'
+    | 'max'
+    | 'oneGroupFills'
+    | 'submit'
+    | 'multidayOccurrence'
+) => {
+  const occurrencesForm = within(screen.getByTestId(occurrencesFormTestId));
+  switch (key) {
+    case 'location':
+      return occurrencesForm.getByRole('textbox', {
+        name: 'Tapahtumapaikka',
+      });
+    case 'startDate':
+      return occurrencesForm.getByRole('textbox', {
+        name: 'Päivämäärä',
+      });
+    case 'startHours':
+      return occurrencesForm.getByRole('textbox', {
+        name: /Alkamisajankohdan tuntivalitsin/i,
+      });
+    case 'startMinutes':
+      return occurrencesForm.getByRole('textbox', {
+        name: /Alkamisajankohdan minuuttivalitsin/i,
+      });
+    case 'endHours':
+      return occurrencesForm.getByRole('textbox', {
+        name: /Loppumisajankohdan tuntivalitsin/i,
+      });
+    case 'endMinutes':
+      return occurrencesForm.getByRole('textbox', {
+        name: /Loppumisajankohdan minuuttivalitsin/i,
+      });
+    case 'endDate':
+      return occurrencesForm.getByRole('textbox', {
+        name: 'Päättyy',
+      });
+    case 'language':
+      return occurrencesForm.getByRole('button', {
+        name: 'Tapahtuman kieli',
+      });
+    case 'seats':
+      return occurrencesForm.queryByRole('spinbutton', {
+        name: 'Paikkoja',
+      });
+    case 'min':
+      return screen.queryByRole('spinbutton', {
+        name: /minimi henkilömäärä/i,
+      });
+    case 'max':
+      return screen.queryByRole('spinbutton', {
+        name: /maksimi henkilömäärä/i,
+      });
+    case 'oneGroupFills':
+      return screen.getByRole('checkbox', {
+        name: /yksi ryhmä täyttää tapahtuman/i,
+      });
+    case 'submit':
+      return screen.getByRole('button', {
+        name: /lisää uusi tapahtuma-aika/i,
+      });
+
+    case 'multidayOccurrence':
+      return screen.getByRole('checkbox', {
+        name: /Tapahtuma-aika on monipäiväinen/i,
+      });
+  }
+};
+
+export const getFormElement = (
+  key:
+    | 'location'
+    | 'enrolmentStartDate'
+    | 'enrolmentStartHours'
+    | 'enrolmentStartMinutes'
+    | 'enrolmentEndDays'
+    | 'neededOccurrences'
+    | 'autoAcceptance'
+    | 'autoAcceptanceMessage'
+    | 'virtualEvent'
+    | 'saveButton'
+    | 'goToPublishing'
+    | 'noEnrolmentButton'
+    | 'externalEnrolmentButton'
+    | 'enrolmentUrl'
+    | 'orderableEvent'
+) => {
+  const enrolmentForm = within(screen.getByTestId(enrolmentInfoFormTestId));
+  switch (key) {
+    case 'location':
+      return screen.getByRole('textbox', {
+        name: /oletustapahtumapaikka \*/i,
+      });
+    case 'enrolmentStartDate':
+      return enrolmentForm.getByRole('textbox', {
+        name: /ilmoittautuminen alkaa \*/i,
+      });
+    case 'enrolmentStartHours':
+      return enrolmentForm.getByRole('textbox', {
+        name: /alkamisajankohdan tuntivalitsin/i,
+      });
+    case 'enrolmentStartMinutes':
+      return enrolmentForm.getByRole('textbox', {
+        name: /alkamisajankohdan minuuttivalitsin/i,
+      });
+    case 'enrolmentEndDays':
+      return enrolmentForm.getByRole('spinbutton', {
+        name: /ilmoittautuminen sulkeutuu X päivää ennen tapahtuma-aikaa/i,
+      });
+    case 'neededOccurrences':
+      return enrolmentForm.getByRole('spinbutton', {
+        name: /tarvittavat käyntikerrat/i,
+      });
+    case 'autoAcceptance':
+      return enrolmentForm.getByRole('checkbox', {
+        name: /vahvista ilmoittautumiset automaattisesti osallistujamäärän puitteissa/i,
+      });
+    case 'autoAcceptanceMessage':
+      return screen.getByRole('textbox', {
+        name: /mahdolliset lisätiedot vahvistusviestiin/i,
+      });
+    case 'virtualEvent':
+      return screen.getByRole('checkbox', {
+        name: /tapahtuma järjestetään virtuaalisesti/i,
+      });
+    case 'orderableEvent':
+      return screen.getByRole('checkbox', {
+        name: /Tilattavissa omaan toimipaikkaan/i,
+      });
+    case 'saveButton':
+      return screen.getByRole('button', {
+        name: /tallenna tiedot/i,
+      });
+    case 'goToPublishing':
+      return screen.getByRole('button', {
+        name: /siirry julkaisuun/i,
+      });
+    case 'noEnrolmentButton':
+      return screen.getByRole('radio', {
+        name: /ei ilmoittautumista/i,
+      });
+    case 'externalEnrolmentButton':
+      return screen.getByRole('radio', {
+        name: /lmoittautuminen muulla sivustolla/i,
+      });
+    case 'enrolmentUrl':
+      return screen.getByRole('textbox', {
+        name: /Sähköposti- tai www-osoite ilmoittautumiseen/i,
+      });
+  }
+};
+
+export const selectLocation = async () => {
+  const locationInput = getFormElement('location');
+
+  act(() => userEvent.click(locationInput));
+  userEvent.type(locationInput, 'Sellon');
+
+  const place = await screen.findByText(/Sellon kirjasto/i);
+  act(() => userEvent.click(place));
+};
+
+export const fillAndSubmitOccurrenceForm = async ({
+  occurrenceStartDate,
+  occurrenceStartTime,
+  occurrenceEndDate,
+  occurrenceEndTime,
+  submit = true,
+  seatsInputs = true,
+}: {
+  occurrenceStartDate: string;
+  occurrenceStartTime: string;
+  occurrenceEndDate?: string;
+  occurrenceEndTime: string;
+  submit?: boolean;
+  seatsInputs?: boolean;
+}) => {
+  const withinOccurrencesForm = within(
+    screen.getByTestId(occurrencesFormTestId)
+  );
+  const locationInput = getOccurrenceFormElement('location')!;
+
+  act(() => userEvent.click(locationInput));
+  userEvent.type(locationInput, 'Sellon');
+
+  const place = await withinOccurrencesForm.findByText(/Sellon kirjasto/i);
+  act(() => userEvent.click(place));
+
+  const occurrenceLocationInput = getOccurrenceFormElement('location')!;
+
+  await waitFor(() => {
+    expect(occurrenceLocationInput.parentElement).toHaveTextContent(
+      'Sellon kirjasto'
+    );
+  });
+
+  const occurrenceStartsDateInput = getOccurrenceFormElement('startDate')!;
+  const occurrenceStartHoursInput = getOccurrenceFormElement('startHours')!;
+  const occurrenceStartMinutesInput = getOccurrenceFormElement('startMinutes')!;
+
+  const [startHours, startMinutes] = occurrenceStartTime.split(':');
+  const [endHours, endMinutes] = occurrenceEndTime.split(':');
+
+  // avoid act warning from react testing library (caused by autosuggest component)
+  act(() => userEvent.click(occurrenceStartsDateInput));
+
+  // get end date input visible by clicking multiday occurrence checkbox
+  if (occurrenceEndDate) {
+    userEvent.click(getOccurrenceFormElement('multidayOccurrence')!);
+  }
+
+  userEvent.type(occurrenceStartsDateInput, occurrenceStartDate);
+  expect(occurrenceStartsDateInput).toHaveValue(occurrenceStartDate);
+
+  userEvent.type(occurrenceStartHoursInput, startHours);
+  userEvent.type(occurrenceStartMinutesInput, startMinutes);
+
+  if (occurrenceEndDate) {
+    const endDateInput = getOccurrenceFormElement('endDate')!;
+    userEvent.type(endDateInput, occurrenceEndDate);
+  }
+
+  userEvent.type(getOccurrenceFormElement('endHours')!, endHours);
+  userEvent.type(getOccurrenceFormElement('endMinutes')!, endMinutes);
+
+  expect(occurrenceStartHoursInput).toHaveValue(startHours);
+
+  const languageSelector = getOccurrenceFormElement('language')!;
+  userEvent.click(languageSelector);
+  const withinLanguageSelector = within(languageSelector.parentElement!);
+
+  const optionFi = withinLanguageSelector.getByRole('option', {
+    name: /suomi/i,
+    hidden: true,
+  });
+  const optionEn = withinLanguageSelector.getByRole('option', {
+    name: /englanti/i,
+    hidden: true,
+  });
+
+  // select languages
+  userEvent.click(optionFi);
+  userEvent.click(optionEn);
+  userEvent.click(languageSelector);
+
+  if (seatsInputs) {
+    const seatsInput = getOccurrenceFormElement('seats')!;
+    const minGroupSizeInput = getOccurrenceFormElement('min')!;
+    const maxGroupSizeInput = getOccurrenceFormElement('max')!;
+
+    userEvent.type(seatsInput, '30');
+    userEvent.type(minGroupSizeInput, '10');
+    userEvent.type(maxGroupSizeInput, '20');
+
+    await waitFor(() => {
+      expect(seatsInput).toHaveValue(30);
+    });
+
+    expect(minGroupSizeInput).toHaveValue(10);
+    expect(maxGroupSizeInput).toHaveValue(20);
+  }
+
+  if (submit) {
+    const submitButton = getOccurrenceFormElement('submit')!;
+    userEvent.click(submitButton);
+
+    const goToPublishingButton = getFormElement('goToPublishing');
+    const saveEventDataButton = getFormElement('saveButton');
+    const addNewOccurrenceButton = getOccurrenceFormElement('submit');
+
+    // All buttons should be disabled when loading
+    await waitFor(() => {
+      expect(goToPublishingButton).toBeDisabled();
+      expect(addNewOccurrenceButton).toBeDisabled();
+      expect(saveEventDataButton).toBeDisabled();
+    });
+
+    await waitFor(() => {
+      expect(goToPublishingButton).toBeEnabled();
+      expect(addNewOccurrenceButton).toBeEnabled();
+    });
+  }
+};
+
+export const getLanguageCheckboxes = () => {
+  const finnishLanguageCheckbox = screen.getByRole('checkbox', {
+    name: 'Suomi',
+  });
+
+  const englishLanguageCheckbox = screen.getByRole('checkbox', {
+    name: 'Englanti',
+  });
+  const swedishLanguageCheckbox = screen.getByRole('checkbox', {
+    name: 'Ruotsi',
+  });
+
+  return {
+    finnishLanguageCheckbox,
+    englishLanguageCheckbox,
+    swedishLanguageCheckbox,
+  };
+};
+
+export const checkThatOnlyFinnishLanguageIsSelectedAndDisabled = () => {
+  const {
+    finnishLanguageCheckbox,
+    englishLanguageCheckbox,
+    swedishLanguageCheckbox,
+  } = getLanguageCheckboxes();
+
+  expect(finnishLanguageCheckbox).toBeChecked();
+  expect(finnishLanguageCheckbox).toBeDisabled();
+  expect(englishLanguageCheckbox).not.toBeChecked();
+  expect(swedishLanguageCheckbox).not.toBeChecked();
+};
+
+export const baseApolloMocks = [
+  myProfileMockResponse,
+
+  // mocked when place input is given search term (Sello)
+  placesMockResponse,
+
+  // Mock for single place query
+  placeMockResponse,
+
+  // mocked when place is selected and venue data fetched
+  selloVenueMockResponse,
+];
+
+export const getDefaultOccurrenceValues = ({
+  isMultiday = false,
+}: { isMultiday?: boolean } = {}) => {
+  const occurrenceStartDate = '10.5.2021';
+  const occurrenceStartTime = '10:00';
+  const occurrenceEndDate = '12.5.2021';
+  const occurrenceEndTime = '11:00';
+  return {
+    occurrenceStartDate,
+    occurrenceStartTime,
+    occurrenceEndDate,
+    occurrenceEndTime,
+    occurrenceStartDateTime: occurrenceStartDate + ' ' + occurrenceStartTime,
+    occurrenceEndDateTime: isMultiday
+      ? occurrenceEndDate + ' ' + occurrenceEndTime
+      : occurrenceStartDate + ' ' + occurrenceEndTime,
+  };
+};
