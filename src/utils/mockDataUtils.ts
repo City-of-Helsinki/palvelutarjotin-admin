@@ -157,7 +157,7 @@ export const fakeEnrolment = (
 export const fakeEventQueueEnrolment = (
   overrides?: Partial<EventQueueEnrolmentNode>
 ): EventQueueEnrolmentNode => ({
-  enrolmentTime: '2020-08-18T06:37:40.755109+00:00',
+  enrolmentTime: '2020-08-19T06:37:40.755109+00:00',
   id: faker.datatype.uuid(),
   pEvent: fakePEvent(),
   studyGroup: fakeStudyGroup(),

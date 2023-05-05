@@ -4,6 +4,7 @@ import * as React from 'react';
 import {
   EnrolmentStatus,
   EventDocument,
+  EventQueueEnrolmentsDocument,
   OccurrenceDocument,
   PlaceDocument,
   VenueDocument,
@@ -11,6 +12,7 @@ import {
 import {
   fakeEnrolments,
   fakeEvent,
+  fakeEventQueueEnrolment,
   fakeLanguages,
   fakeLocalizedObject,
   fakeOccurrence,
@@ -137,9 +139,11 @@ const occurrence = {
   ]),
 };
 
+const mockOccurrence = fakeOccurrence(occurrence);
+
 const occurrenceResult = {
   data: {
-    occurrence: fakeOccurrence(occurrence),
+    occurrence: mockOccurrence,
   },
 };
 
@@ -198,6 +202,32 @@ const occurrenceMock2 = {
   result: occurrenceResult2,
 };
 
+const person = fakePerson({ name: 'Test Guy' });
+const mockQueueEnrolment = fakeEventQueueEnrolment({
+  pEvent: mockOccurrence.pEvent!,
+  studyGroup: fakeStudyGroup({ person }),
+  person,
+});
+
+const eventsQueueEnrolmentsMock1 = {
+  request: {
+    query: EventQueueEnrolmentsDocument,
+    variables: {
+      pEventId: mockOccurrence.pEvent?.id,
+      orderBy: 'enrolment_time',
+    },
+  },
+  result: {
+    data: {
+      eventQueueEnrolments: {
+        count: 1,
+        edges: [{ cursor: 'abc123', node: mockQueueEnrolment }],
+      },
+      __typename: 'EventQueueEnrolmentNodeConnection',
+    },
+  },
+};
+
 const defaultMocks = [
   {
     request: {
@@ -231,7 +261,7 @@ const renderComponent = ({
   return renderWithRoute(<OccurrenceDetailsPage />, {
     routes,
     path,
-    mocks: [...defaultMocks, ...mocks],
+    mocks: [...defaultMocks, ...(mocks ?? [])],
   });
 };
 
@@ -330,4 +360,23 @@ test('enrolment table renders correct information', async () => {
       '/fi/events/palvelutarjotin:afzunowba4/occurrences/T2NjdXJyZW5jZU5vZGU6MTIz/enrolments/afdgsgfsdg23532',
     search: '',
   });
+});
+
+test('enrolment queue table renders correct information', async () => {
+  renderComponent({
+    mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
+
+  // wait for venue request to finish
+  await waitFor(() => {
+    expect(screen.queryByText('Soukan kirjasto')).toBeInTheDocument();
+  });
+
+  expect(screen.getAllByText('19.8.2020')).toHaveLength(1);
+  expect(screen.getAllByText('Jonossa')).toHaveLength(2);
+  expect(screen.queryByText('Test Guy')).toBeInTheDocument();
 });
