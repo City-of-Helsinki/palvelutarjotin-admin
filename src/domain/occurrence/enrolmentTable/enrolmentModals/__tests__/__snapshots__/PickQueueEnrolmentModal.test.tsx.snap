@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<body
+  aria-hidden="true"
+  class="bodyOpen"
+>
+  <div
+    data-react-modal-body-trap=""
+    style="position: absolute; opacity: 0;"
+    tabindex="0"
+  />
+  <div />
+  <div
+    data-react-modal-body-trap=""
+    style="position: absolute; opacity: 0;"
+    tabindex="0"
+  />
+  <div
+    class="ReactModalPortal"
+  >
+    <div
+      class="ReactModal__Overlay overlay"
+    >
+      <div
+        aria-modal="true"
+        class="ReactModal__Content modal"
+        role="dialog"
+        tabindex="-1"
+      >
+        <div
+          class="titleRow"
+        >
+          <p>
+            Lisää ilmoittautuminen
+          </p>
+          <button
+            class="closeButton"
+          >
+            <svg
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+              role="img"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g
+                fill="none"
+                fill-rule="evenodd"
+              >
+                <rect
+                  height="24"
+                  width="24"
+                />
+                <polygon
+                  fill="currentColor"
+                  points="18 7.5 13.5 12 18 16.5 16.5 18 12 13.5 7.5 18 6 16.5 10.5 12 6 7.5 7.5 6 12 10.5 16.5 6"
+                />
+              </g>
+            </svg>
+            Sulje
+          </button>
+        </div>
+        <div
+          class="buttonsContainer"
+        >
+          <button
+            class="Button-module_button__1msFE button_hds-button__2A0je Button-module_secondary__1nABp button_hds-button--secondary__1NOWS"
+            type="button"
+          >
+            <span
+              class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+            >
+              Peruuta
+            </span>
+          </button>
+          <div
+            class="buttonsRight"
+          >
+            <button
+              class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO"
+              type="button"
+            >
+              <span
+                class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+              >
+                Lisää ilmoittautumislistalle
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
