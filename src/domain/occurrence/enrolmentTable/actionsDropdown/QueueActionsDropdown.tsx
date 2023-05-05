@@ -146,6 +146,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
       {deleteModalOpen && (
         <DeleteEnrolmentModal
           onClose={() => setDeleteModalOpen(false)}
+          enrollees={enrollees}
           deleteEnrolment={handleDeleteEnrolment}
         />
       )}
