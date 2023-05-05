@@ -244,6 +244,8 @@
     "errorEventIsPublishedDescription": "Published events can't be edited."
   },
   "enrolment": {
+    "pickQueueEnrolmentDuplicateEntryError": "Group registration has already been added to this occurrence time",
+    "pickQueueEnrolmentError": "Failed to add registration from queue",
     "approveEnrolmentError": "Approving enrolment failed",
     "declineEnrolmentError": "Declining enrolment failed",
     "deleteEnrolmentError": "Deleting enrolment failed",
@@ -253,9 +255,13 @@
       "approved": "Approved",
       "cancelled": "Cancelled",
       "declined": "Declined",
-      "pending": "New"
+      "pending": "New",
+      "hasNoEnrolments": "In queue",
+      "hasEnrolments": "In queue (has enrolments)"
     },
     "enrolmentModal": {
+      "pickQueueEnrolmentTitle": "Pick from queue to the list of enrolments",
+      "pickQueueEnrolmentButton": "Pick from queue",
       "declineEnrolment": "Decline enrolment",
       "approveEnrolment": "Approve enrolment",
       "deleteEnrolment": "Delete enrolment",
@@ -676,6 +682,10 @@
         "menuItemDelete": "Delete",
         "menuItemEdit": "Edit"
       },
+      "queueActionsDropdown": {
+        "menuItemEnrol": "Add to a list of enrolments",
+        "menuItemDelete": "Remove from queue"
+      },
       "columnActions": "Actions",
       "columnAdditionalInfo": "Additional info",
       "columnEnrolmentTime": "Enrolled at",
@@ -684,10 +694,11 @@
       "columnStatus": "Status",
       "columnStudyGroupGroupName": "Group",
       "columnStudyGroupName": "Kindergarten / School / College",
-      "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} in line",
+      "count": "{{seatsTaken}} pcs, {{approvedCount}} confirmed, {{pendingCount}} unconfirmed",
       "messages": "Messages: {{language}}",
       "showEnrolmentDetails": "Show enrolment details",
       "titleEnrolled": "Registrations",
+      "titleEnrolledToQueue": "Event queue registrations",
       "labelSelectEnrolment": "Select enrolment {{info}}",
       "labelSelectAllEnrolments": "Select all enrolments"
     },

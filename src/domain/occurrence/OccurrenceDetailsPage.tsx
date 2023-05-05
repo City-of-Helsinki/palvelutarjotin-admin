@@ -7,7 +7,9 @@ import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EnrolmentFieldsFragment,
+  EventQueueEnrolmentFieldsFragment,
   useEventQuery,
+  useEventQueueEnrolmentsQuery,
   useOccurrenceQuery,
 } from '../../generated/graphql';
 import useGoBack from '../../hooks/useGoBack';
@@ -22,6 +24,7 @@ import { getEventFields } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { EnrolmentType, OCCURRENCE_URL_PARAMS } from './constants';
 import EnrolmentDetails from './enrolmentDetails/EnrolmentDetails';
+import EnrolmentQueueTable from './enrolmentTable/EnrolmentQueueTable';
 import EnrolmentTable from './enrolmentTable/EnrolmentTable';
 import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
 import styles from './occurrencePage.module.scss';
@@ -63,6 +66,16 @@ const OccurrenceDetailsPage: React.FC = () => {
     variables: { id: occurrenceId },
   });
   const occurrence = occurrenceData?.occurrence;
+
+  const { data: queuedEnrolmentsData, loading: loadingQueuedEnrolments } =
+    useEventQueueEnrolmentsQuery({
+      skip: !event?.pEvent?.id,
+      variables: { pEventId: event?.pEvent?.id, orderBy: 'enrolment_time' },
+    });
+  const queuedEnrolments =
+    queuedEnrolmentsData?.eventQueueEnrolments?.edges.map(
+      (e) => e?.node as EventQueueEnrolmentFieldsFragment
+    ) ?? [];
 
   const goToOccurrenceDetails = () => {
     history.pushWithLocale({
@@ -108,17 +121,28 @@ const OccurrenceDetailsPage: React.FC = () => {
                     refetchOccurrence={refetchOccurrence}
                   />
                 ) : hasInternalEnrolment ? (
-                  <EnrolmentTable
-                    enrolments={occurrence.enrolments.edges.map(
-                      (e) => e?.node as EnrolmentFieldsFragment
-                    )}
-                    occurrenceId={occurrenceId}
-                    eventId={event.id}
-                    id="enrolments-table"
-                    seatsTaken={occurrence.seatsTaken || 0}
-                    seatsRemaining={occurrence.remainingSeats}
-                    onEnrolmentsModified={handleEnrolmentsModified}
-                  />
+                  <>
+                    <EnrolmentTable
+                      enrolments={occurrence.enrolments.edges.map(
+                        (e) => e?.node as EnrolmentFieldsFragment
+                      )}
+                      occurrenceId={occurrenceId}
+                      eventId={event.id}
+                      id="enrolments-table"
+                      seatsTaken={occurrence.seatsTaken || 0}
+                      seatsRemaining={occurrence.remainingSeats}
+                      onEnrolmentsModified={handleEnrolmentsModified}
+                    />
+                    <LoadingSpinner isLoading={loadingQueuedEnrolments}>
+                      <EnrolmentQueueTable
+                        enrolments={queuedEnrolments}
+                        occurrenceId={occurrenceId}
+                        eventId={event.id}
+                        id="enrolments-queued-table"
+                        onEnrolmentsModified={handleEnrolmentsModified}
+                      />
+                    </LoadingSpinner>
+                  </>
                 ) : null}
               </div>
             </Container>

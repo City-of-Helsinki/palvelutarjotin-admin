@@ -218,6 +218,8 @@
     "title2": "Rekisteröitymisesi odottaa käsittelyä"
   },
   "enrolment": {
+    "pickQueueEnrolmentDuplicateEntryError": "Gruppregistrering har redan lagts till denna händelsetid",
+    "pickQueueEnrolmentError": "Det gick inte att lägga till registrering från kön",
     "approveEnrolmentError": "Godkännande av registreringen misslyckades",
     "declineEnrolmentError": "Avslag på registrering misslyckades",
     "deleteEnrolmentError": "Radering av registreringen misslyckades",
@@ -227,9 +229,13 @@
       "approved": "Godkänd",
       "cancelled": "Inställt",
       "declined": "Avböja",
-      "pending": "Ny"
+      "pending": "Ny",
+      "hasNoEnrolments": "Köad",
+      "hasEnrolments": "Köad (registrerad)"
     },
     "enrolmentModal": {
+      "pickQueueEnrolmentTitle": "Lägga till i registreringslistan",
+      "pickQueueEnrolmentButton": "Lägga till i listan",
       "declineEnrolment": "Avsluta anmälan",
       "approveEnrolment": "Godkänn anmälan",
       "deleteEnrolment": "Radera registrering",
@@ -684,6 +690,10 @@
         "menuItemDelete": "Radera",
         "menuItemEdit": "Redigera"
       },
+      "queueActionsDropdown": {
+        "menuItemEnrol": "Lägga till i registreringslistan",
+        "menuItemDelete": "Ta bort från kö"
+      },
       "columnActions": "Funktioner",
       "columnAdditionalInfo": "Ytterligare info",
       "columnEnrolmentTime": "Anmälan öppnar",
@@ -692,10 +702,11 @@
       "columnStatus": "Status",
       "columnStudyGroupGroupName": "Grupp",
       "columnStudyGroupName": "Daghem/skola/läroanstalt",
-      "count": "{{seatsTaken}} st., {{approvedCount}} godkänd, {{pendingCount}} i kö",
+      "count": "{{seatsTaken}} st., {{approvedCount}} godkänd, {{pendingCount}} icke godkänd",
       "messages": "Inlägg: {{language}}",
       "showEnrolmentDetails": "Visa mer registreringsinformation",
       "titleEnrolled": "Anmälda",
+      "titleEnrolledToQueue": "Eventköregistreringar",
       "labelSelectEnrolment": "Välj registrering {{info}}",
       "labelSelectAllEnrolments": "Välj alla anmälningar"
     },

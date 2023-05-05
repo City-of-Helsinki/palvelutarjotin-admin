@@ -3,6 +3,7 @@ import isNumber from 'lodash/isNumber';
 import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
+  EventQueueEnrolmentFieldsFragment,
   Language,
   NotificationType,
   OccurrenceSeatType,
@@ -12,7 +13,11 @@ import { assertUnreachable } from '../../utils/typescript.utils';
 import { EnrolmentFormFields } from './types';
 
 export const getEnrolmentFields = (
-  enrolment: EnrolmentFieldsFragment | undefined | null
+  enrolment:
+    | EnrolmentFieldsFragment
+    | EventQueueEnrolmentFieldsFragment
+    | undefined
+    | null
 ) =>
   enrolment
     ? {
