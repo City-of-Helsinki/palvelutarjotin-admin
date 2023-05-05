@@ -309,6 +309,8 @@ export type EnrolOccurrenceMutationInput = {
   captchaKey?: Maybe<Scalars['String']>;
   /** Occurrence ids of event */
   occurrenceIds: Array<Maybe<Scalars['ID']>>;
+  /** Should the related notifications be sent during the mutation. Default is True. */
+  sendNotifications?: Maybe<Scalars['Boolean']>;
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -682,6 +684,7 @@ export type Mutation = {
   cancelEnrolment?: Maybe<CancelEnrolmentMutationPayload>;
   enrolEventQueue?: Maybe<EnrolEventQueueMutationPayload>;
   unenrolEventQueue?: Maybe<UnenrolEventQueueMutationPayload>;
+  pickEnrolmentFromQueue?: Maybe<PickEnrolmentFromQueueMutationPayload>;
   createMyProfile?: Maybe<CreateMyProfileMutationPayload>;
   updateMyProfile?: Maybe<UpdateMyProfileMutationPayload>;
   addOrganisation?: Maybe<AddOrganisationMutationPayload>;
@@ -791,6 +794,11 @@ export type MutationEnrolEventQueueArgs = {
 
 export type MutationUnenrolEventQueueArgs = {
   input: UnenrolEventQueueMutationInput;
+};
+
+
+export type MutationPickEnrolmentFromQueueArgs = {
+  input: PickEnrolmentFromQueueMutationInput;
 };
 
 
@@ -1321,6 +1329,18 @@ export type PersonNodeInput = {
   /** Default `fi` */
   language?: Maybe<Language>;
   placeIds?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type PickEnrolmentFromQueueMutationInput = {
+  occurrenceId: Scalars['ID'];
+  eventQueueEnrolmentId: Scalars['ID'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type PickEnrolmentFromQueueMutationPayload = {
+  __typename?: 'PickEnrolmentFromQueueMutationPayload';
+  enrolment?: Maybe<EnrolmentNode>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type Place = {
@@ -2229,21 +2249,38 @@ export type EventQueryVariables = Exact<{
 
 export type EventQuery = { __typename?: 'Query', event?: Maybe<{ __typename?: 'Event', id: string, internalId: string, startTime?: Maybe<string>, publicationStatus?: Maybe<string>, datePublished?: Maybe<string>, endTime?: Maybe<string>, additionalCriteria: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, categories: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, name: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, shortDescription: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, description: { __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }, images: Array<{ __typename?: 'Image', id?: Maybe<string>, internalId: string, license?: Maybe<string>, name: string, url: string, cropping?: Maybe<string>, photographerName?: Maybe<string>, altText?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string, nextOccurrenceDatetime?: Maybe<any>, autoAcceptance: boolean, autoAcceptanceMessage?: Maybe<string>, contactEmail: string, contactPhoneNumber: string, enrolmentEndDays?: Maybe<number>, enrolmentStart?: Maybe<any>, externalEnrolmentUrl?: Maybe<string>, neededOccurrences: number, mandatoryAdditionalInformation: boolean, contactPerson?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, organisation?: Maybe<{ __typename?: 'OrganisationNode', id: string, name: string, phoneNumber: string, publisherId: string, type: OrganisationType, persons: { __typename?: 'PersonNodeConnection', edges: Array<Maybe<{ __typename?: 'PersonNodeEdge', node?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }> }>> } }>, occurrences?: Maybe<{ __typename?: 'OccurrenceNodeConnection', edges: Array<Maybe<{ __typename?: 'OccurrenceNodeEdge', node?: Maybe<{ __typename?: 'OccurrenceNode', id: string, amountOfSeats: number, minGroupSize?: Maybe<number>, maxGroupSize?: Maybe<number>, seatsTaken: number, seatsApproved: number, seatType: OccurrenceSeatType, remainingSeats: number, startTime: any, endTime: any, placeId: string, cancelled: boolean, pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', id: string }>, languages: { __typename?: 'LanguageNodeConnection', edges: Array<Maybe<{ __typename?: 'LanguageNodeEdge', node?: Maybe<{ __typename?: 'LanguageNode', id: string, name: string }> }>> } }> }>> }>, translations?: Maybe<Array<Maybe<{ __typename?: 'PalvelutarjotinEventTranslationType', autoAcceptanceMessage: string, languageCode: Language }>>> }, inLanguage: Array<{ __typename?: 'InLanguage', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, audience: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, keywords: Array<{ __typename?: 'Keyword', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, location?: Maybe<{ __typename?: 'Place', id?: Maybe<string>, internalId: string, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, streetAddress?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, addressLocality?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, telephone?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, venue?: Maybe<{ __typename?: 'VenueNode', id: string, hasClothingStorage: boolean, hasSnackEatingPlace: boolean, outdoorActivity: boolean, hasToiletNearby: boolean, hasAreaForGroupWork: boolean, hasIndoorPlayingArea: boolean, hasOutdoorPlayingArea: boolean, translations: Array<{ __typename?: 'VenueTranslationType', languageCode: Language, description: string }> }>, offers: Array<{ __typename?: 'Offer', isFree?: Maybe<boolean>, description?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, price?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }>, infoUrl?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }> }> };
 
-export type EnrolEventQueueMutationMutationVariables = Exact<{
+export type EnrolEventQueueMutationVariables = Exact<{
   input: EnrolEventQueueMutationInput;
 }>;
 
 
-export type EnrolEventQueueMutationMutation = { __typename?: 'Mutation', enrolEventQueue?: Maybe<{ __typename?: 'EnrolEventQueueMutationPayload', eventQueueEnrolment?: Maybe<{ __typename?: 'EventQueueEnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EventQueueEnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }> } }> }> };
+export type EnrolEventQueueMutation = { __typename?: 'Mutation', enrolEventQueue?: Maybe<{ __typename?: 'EnrolEventQueueMutationPayload', eventQueueEnrolment?: Maybe<{ __typename?: 'EventQueueEnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EventQueueEnrolmentStatus>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }> } }> }> };
 
-export type UnenrolEventQueueMutationMutationVariables = Exact<{
+export type UnenrolEventQueueMutationVariables = Exact<{
   input: UnenrolEventQueueMutationInput;
 }>;
 
 
-export type UnenrolEventQueueMutationMutation = { __typename?: 'Mutation', unenrolEventQueue?: Maybe<{ __typename?: 'UnenrolEventQueueMutationPayload', pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', linkedEventId: string }>, studyGroup?: Maybe<{ __typename?: 'StudyGroupNode', unitName: string }> }> };
+export type UnenrolEventQueueMutation = { __typename?: 'Mutation', unenrolEventQueue?: Maybe<{ __typename?: 'UnenrolEventQueueMutationPayload', pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', linkedEventId: string }>, studyGroup?: Maybe<{ __typename?: 'StudyGroupNode', unitName: string }> }> };
 
-export type EventQueueEnrolmentFieldsFragment = { __typename?: 'EventQueueEnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EventQueueEnrolmentStatus>, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }> } };
+export type PickEnrolmentFromQueueMutationVariables = Exact<{
+  input: PickEnrolmentFromQueueMutationInput;
+}>;
+
+
+export type PickEnrolmentFromQueueMutation = { __typename?: 'Mutation', pickEnrolmentFromQueue?: Maybe<{ __typename?: 'PickEnrolmentFromQueueMutationPayload', enrolment?: Maybe<{ __typename?: 'EnrolmentNode', id: string, studyGroup: { __typename?: 'StudyGroupNode', unitName: string }, occurrence: { __typename?: 'OccurrenceNode', pEvent?: Maybe<{ __typename?: 'PalvelutarjotinEventNode', linkedEventId: string }> } }> }> };
+
+export type EventQueueEnrolmentFieldsFragment = { __typename?: 'EventQueueEnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EventQueueEnrolmentStatus>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }> } };
+
+export type EventQueueEnrolmentsQueryVariables = Exact<{
+  pEventId?: Maybe<Scalars['ID']>;
+  orderBy?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type EventQueueEnrolmentsQuery = { __typename?: 'Query', eventQueueEnrolments?: Maybe<{ __typename?: 'EventQueueEnrolmentNodeConnection', count?: Maybe<number>, edges: Array<Maybe<{ __typename?: 'EventQueueEnrolmentNodeEdge', cursor: string, node?: Maybe<{ __typename?: 'EventQueueEnrolmentNode', id: string, notificationType?: Maybe<NotificationType>, enrolmentTime: any, status?: Maybe<EventQueueEnrolmentStatus>, pEvent: { __typename?: 'PalvelutarjotinEventNode', id: string }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }>, studyGroup: { __typename?: 'StudyGroupNode', id: string, groupSize: number, amountOfAdult: number, unitId?: Maybe<string>, unitName: string, groupName: string, extraNeeds: string, unit?: Maybe<{ __typename?: 'ExternalPlace', name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> } | { __typename?: 'Place', internalId: string, id?: Maybe<string>, name?: Maybe<{ __typename?: 'LocalisedObject', en?: Maybe<string>, fi?: Maybe<string>, sv?: Maybe<string> }> }>, studyLevels: { __typename?: 'StudyLevelNodeConnection', edges: Array<Maybe<{ __typename?: 'StudyLevelNodeEdge', node?: Maybe<{ __typename?: 'StudyLevelNode', id: string, label?: Maybe<string>, level: number, translations: Array<{ __typename?: 'StudyLevelTranslationType', languageCode: Language, label: string }> }> }>> }, person?: Maybe<{ __typename?: 'PersonNode', id: string, emailAddress: string, name: string, phoneNumber: string, language: Language, placeIds: Array<string> }> } }> }>> }> };
 
 export type MetaFieldsFragment = { __typename?: 'Meta', count?: Maybe<number>, next?: Maybe<string>, previous?: Maybe<string> };
 
@@ -2786,6 +2823,9 @@ export const EventQueueEnrolmentFieldsFragmentDoc = gql`
   notificationType
   enrolmentTime
   status
+  pEvent {
+    id
+  }
   person {
     ...personFields
   }
@@ -3457,8 +3497,8 @@ export function useEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Even
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
-export const EnrolEventQueueMutationDocument = gql`
-    mutation EnrolEventQueueMutation($input: EnrolEventQueueMutationInput!) {
+export const EnrolEventQueueDocument = gql`
+    mutation EnrolEventQueue($input: EnrolEventQueueMutationInput!) {
   enrolEventQueue(input: $input) {
     eventQueueEnrolment {
       ...eventQueueEnrolmentFields
@@ -3466,34 +3506,34 @@ export const EnrolEventQueueMutationDocument = gql`
   }
 }
     ${EventQueueEnrolmentFieldsFragmentDoc}`;
-export type EnrolEventQueueMutationMutationFn = Apollo.MutationFunction<EnrolEventQueueMutationMutation, EnrolEventQueueMutationMutationVariables>;
+export type EnrolEventQueueMutationFn = Apollo.MutationFunction<EnrolEventQueueMutation, EnrolEventQueueMutationVariables>;
 
 /**
- * __useEnrolEventQueueMutationMutation__
+ * __useEnrolEventQueueMutation__
  *
- * To run a mutation, you first call `useEnrolEventQueueMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEnrolEventQueueMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useEnrolEventQueueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEnrolEventQueueMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [enrolEventQueueMutationMutation, { data, loading, error }] = useEnrolEventQueueMutationMutation({
+ * const [enrolEventQueueMutation, { data, loading, error }] = useEnrolEventQueueMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useEnrolEventQueueMutationMutation(baseOptions?: Apollo.MutationHookOptions<EnrolEventQueueMutationMutation, EnrolEventQueueMutationMutationVariables>) {
+export function useEnrolEventQueueMutation(baseOptions?: Apollo.MutationHookOptions<EnrolEventQueueMutation, EnrolEventQueueMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<EnrolEventQueueMutationMutation, EnrolEventQueueMutationMutationVariables>(EnrolEventQueueMutationDocument, options);
+        return Apollo.useMutation<EnrolEventQueueMutation, EnrolEventQueueMutationVariables>(EnrolEventQueueDocument, options);
       }
-export type EnrolEventQueueMutationMutationHookResult = ReturnType<typeof useEnrolEventQueueMutationMutation>;
-export type EnrolEventQueueMutationMutationResult = Apollo.MutationResult<EnrolEventQueueMutationMutation>;
-export type EnrolEventQueueMutationMutationOptions = Apollo.BaseMutationOptions<EnrolEventQueueMutationMutation, EnrolEventQueueMutationMutationVariables>;
-export const UnenrolEventQueueMutationDocument = gql`
-    mutation UnenrolEventQueueMutation($input: UnenrolEventQueueMutationInput!) {
+export type EnrolEventQueueMutationHookResult = ReturnType<typeof useEnrolEventQueueMutation>;
+export type EnrolEventQueueMutationResult = Apollo.MutationResult<EnrolEventQueueMutation>;
+export type EnrolEventQueueMutationOptions = Apollo.BaseMutationOptions<EnrolEventQueueMutation, EnrolEventQueueMutationVariables>;
+export const UnenrolEventQueueDocument = gql`
+    mutation UnenrolEventQueue($input: UnenrolEventQueueMutationInput!) {
   unenrolEventQueue(input: $input) {
     pEvent {
       linkedEventId
@@ -3504,32 +3544,124 @@ export const UnenrolEventQueueMutationDocument = gql`
   }
 }
     `;
-export type UnenrolEventQueueMutationMutationFn = Apollo.MutationFunction<UnenrolEventQueueMutationMutation, UnenrolEventQueueMutationMutationVariables>;
+export type UnenrolEventQueueMutationFn = Apollo.MutationFunction<UnenrolEventQueueMutation, UnenrolEventQueueMutationVariables>;
 
 /**
- * __useUnenrolEventQueueMutationMutation__
+ * __useUnenrolEventQueueMutation__
  *
- * To run a mutation, you first call `useUnenrolEventQueueMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUnenrolEventQueueMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUnenrolEventQueueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnenrolEventQueueMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [unenrolEventQueueMutationMutation, { data, loading, error }] = useUnenrolEventQueueMutationMutation({
+ * const [unenrolEventQueueMutation, { data, loading, error }] = useUnenrolEventQueueMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useUnenrolEventQueueMutationMutation(baseOptions?: Apollo.MutationHookOptions<UnenrolEventQueueMutationMutation, UnenrolEventQueueMutationMutationVariables>) {
+export function useUnenrolEventQueueMutation(baseOptions?: Apollo.MutationHookOptions<UnenrolEventQueueMutation, UnenrolEventQueueMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UnenrolEventQueueMutationMutation, UnenrolEventQueueMutationMutationVariables>(UnenrolEventQueueMutationDocument, options);
+        return Apollo.useMutation<UnenrolEventQueueMutation, UnenrolEventQueueMutationVariables>(UnenrolEventQueueDocument, options);
       }
-export type UnenrolEventQueueMutationMutationHookResult = ReturnType<typeof useUnenrolEventQueueMutationMutation>;
-export type UnenrolEventQueueMutationMutationResult = Apollo.MutationResult<UnenrolEventQueueMutationMutation>;
-export type UnenrolEventQueueMutationMutationOptions = Apollo.BaseMutationOptions<UnenrolEventQueueMutationMutation, UnenrolEventQueueMutationMutationVariables>;
+export type UnenrolEventQueueMutationHookResult = ReturnType<typeof useUnenrolEventQueueMutation>;
+export type UnenrolEventQueueMutationResult = Apollo.MutationResult<UnenrolEventQueueMutation>;
+export type UnenrolEventQueueMutationOptions = Apollo.BaseMutationOptions<UnenrolEventQueueMutation, UnenrolEventQueueMutationVariables>;
+export const PickEnrolmentFromQueueDocument = gql`
+    mutation PickEnrolmentFromQueue($input: PickEnrolmentFromQueueMutationInput!) {
+  pickEnrolmentFromQueue(input: $input) {
+    enrolment {
+      id
+      studyGroup {
+        unitName
+      }
+      occurrence {
+        pEvent {
+          linkedEventId
+        }
+      }
+    }
+  }
+}
+    `;
+export type PickEnrolmentFromQueueMutationFn = Apollo.MutationFunction<PickEnrolmentFromQueueMutation, PickEnrolmentFromQueueMutationVariables>;
+
+/**
+ * __usePickEnrolmentFromQueueMutation__
+ *
+ * To run a mutation, you first call `usePickEnrolmentFromQueueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePickEnrolmentFromQueueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [pickEnrolmentFromQueueMutation, { data, loading, error }] = usePickEnrolmentFromQueueMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePickEnrolmentFromQueueMutation(baseOptions?: Apollo.MutationHookOptions<PickEnrolmentFromQueueMutation, PickEnrolmentFromQueueMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PickEnrolmentFromQueueMutation, PickEnrolmentFromQueueMutationVariables>(PickEnrolmentFromQueueDocument, options);
+      }
+export type PickEnrolmentFromQueueMutationHookResult = ReturnType<typeof usePickEnrolmentFromQueueMutation>;
+export type PickEnrolmentFromQueueMutationResult = Apollo.MutationResult<PickEnrolmentFromQueueMutation>;
+export type PickEnrolmentFromQueueMutationOptions = Apollo.BaseMutationOptions<PickEnrolmentFromQueueMutation, PickEnrolmentFromQueueMutationVariables>;
+export const EventQueueEnrolmentsDocument = gql`
+    query eventQueueEnrolments($pEventId: ID, $orderBy: [String], $first: Int, $after: String) {
+  eventQueueEnrolments(
+    pEventId: $pEventId
+    orderBy: $orderBy
+    first: $first
+    after: $after
+  ) {
+    count
+    edges {
+      cursor
+      node {
+        ...eventQueueEnrolmentFields
+      }
+    }
+  }
+}
+    ${EventQueueEnrolmentFieldsFragmentDoc}`;
+
+/**
+ * __useEventQueueEnrolmentsQuery__
+ *
+ * To run a query within a React component, call `useEventQueueEnrolmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventQueueEnrolmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventQueueEnrolmentsQuery({
+ *   variables: {
+ *      pEventId: // value for 'pEventId'
+ *      orderBy: // value for 'orderBy'
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useEventQueueEnrolmentsQuery(baseOptions?: Apollo.QueryHookOptions<EventQueueEnrolmentsQuery, EventQueueEnrolmentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EventQueueEnrolmentsQuery, EventQueueEnrolmentsQueryVariables>(EventQueueEnrolmentsDocument, options);
+      }
+export function useEventQueueEnrolmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventQueueEnrolmentsQuery, EventQueueEnrolmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EventQueueEnrolmentsQuery, EventQueueEnrolmentsQueryVariables>(EventQueueEnrolmentsDocument, options);
+        }
+export type EventQueueEnrolmentsQueryHookResult = ReturnType<typeof useEventQueueEnrolmentsQuery>;
+export type EventQueueEnrolmentsLazyQueryHookResult = ReturnType<typeof useEventQueueEnrolmentsLazyQuery>;
+export type EventQueueEnrolmentsQueryResult = Apollo.QueryResult<EventQueueEnrolmentsQuery, EventQueueEnrolmentsQueryVariables>;
 export const EventsDocument = gql`
     query Events($division: [String], $end: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: String, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $showAll: Boolean, $publicationStatus: String) {
   events(

@@ -273,7 +273,7 @@ test('occurrence details are rendered', async () => {
   // enrolment table title
   expect(screen.queryByText('Ilmoittautuneet')).toBeInTheDocument();
   expect(
-    screen.queryByText('20 kpl, 20 vahvistettu, 0 jonossa')
+    screen.queryByText('20 kpl, 20 vahvistettu, 0 vahvistamatta')
   ).toBeInTheDocument();
 });
 

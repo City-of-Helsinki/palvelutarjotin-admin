@@ -1,24 +1,23 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { EnrolmentFieldsFragment } from '../../../../generated/graphql';
+import {
+  EnrolmentFieldsFragment,
+  EventQueueEnrolmentFieldsFragment,
+} from '../../../../generated/graphql';
 import { translateValue } from '../../../../utils/translateUtils';
 import { getEnrolmentFields } from '../../../enrolment/utils';
 import styles from './additionalInfo.module.scss';
 
 interface Props {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: EnrolmentFieldsFragment | EventQueueEnrolmentFieldsFragment;
 }
 
 const AdditionalInfo: React.FC<Props> = ({ enrolment }) => {
   const { t } = useTranslation();
 
-  const {
-    language,
-    studyGroupPersonInfo,
-    personInfo,
-    extraNeeds,
-  } = getEnrolmentFields(enrolment);
+  const { language, studyGroupPersonInfo, personInfo, extraNeeds } =
+    getEnrolmentFields(enrolment);
 
   return (
     <div className={styles.additionalInfo}>

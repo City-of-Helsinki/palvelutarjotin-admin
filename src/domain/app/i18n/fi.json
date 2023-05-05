@@ -219,6 +219,8 @@
     "title2": "Rekisteröitymisesi odottaa käsittelyä"
   },
   "enrolment": {
+    "pickQueueEnrolmentDuplicateEntryError": "Ryhmän ilmoittautuminen on jo lisätty tähän tapahtuma-ajankohtaan",
+    "pickQueueEnrolmentError": "Ilmoittautumisen lisääminen jonosta epäonnistui",
     "approveEnrolmentError": "Ilmoittautumisen hyväksyminen epäonnistui",
     "declineEnrolmentError": "Ilmoittautumisen hylkääminen epäonnistui",
     "deleteEnrolmentError": "Ilmoittautumisen poistaminen epäonnistui",
@@ -228,9 +230,13 @@
       "approved": "Hyväksytty",
       "cancelled": "Peruttu",
       "declined": "Hylätty",
-      "pending": "Uusi"
+      "pending": "Uusi",
+      "hasNoEnrolments": "Jonossa",
+      "hasEnrolments": "Jonossa (ilmoittautunut)"
     },
     "enrolmentModal": {
+      "pickQueueEnrolmentTitle": "Lisää ilmoittautuminen",
+      "pickQueueEnrolmentButton": "Lisää ilmoittautumislistalle",
       "declineEnrolment": "Jätä ilman paikkaa",
       "approveEnrolment": "Hyväksy ilmoittautuminen",
       "deleteEnrolment": "Poista ilmoittautuminen",
@@ -681,6 +687,10 @@
         "menuItemDelete": "Poista",
         "menuItemEdit": "Muokkaa"
       },
+      "queueActionsDropdown": {
+        "menuItemEnrol": "Lisää ilmoittautumislistalle",
+        "menuItemDelete": "Poista jonosta"
+      },
       "columnActions": "Toiminnot",
       "columnAdditionalInfo": "Lisätiedot",
       "columnEnrolmentTime": "Ilmoittautunut",
@@ -689,10 +699,11 @@
       "columnStatus": "Tila",
       "columnStudyGroupGroupName": "Ryhmä",
       "columnStudyGroupName": "Päiväkoti / koulu / oppilaitos",
-      "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} jonossa",
+      "count": "{{seatsTaken}} kpl, {{approvedCount}} vahvistettu, {{pendingCount}} vahvistamatta",
       "messages": "Viestit: {{language}}",
       "showEnrolmentDetails": "Näytä ilmoittautumisen lisätiedot",
       "titleEnrolled": "Ilmoittautuneet",
+      "titleEnrolledToQueue": "Jonossa",
       "labelSelectEnrolment": "Valitse ilmoittautuminen {{info}}",
       "labelSelectAllEnrolments": "Valitse kaikki ilmoittautumiset"
     },

@@ -311,8 +311,8 @@ export const getAddOccurrenceMockResponse = ({
   endTime: string;
   languages: string[];
   amountOfSeats: number;
-  minGroupSize: number;
-  maxGroupSize: number;
+  minGroupSize: number | null;
+  maxGroupSize: number | null;
   seatType: OccurrenceSeatType;
   placeId?: string;
   id?: string;
@@ -374,8 +374,8 @@ export const getUpdateEventMockResponse = ({
 }: {
   autoAcceptance: boolean;
   autoAcceptanceMessage?: string | null;
-  enrolmentEndDays: number;
-  enrolmentStart: string;
+  enrolmentEndDays: number | null;
+  enrolmentStart: string | null;
   neededOccurrences: number;
   externalEnrolmentUrl?: string | null;
   languages?: Languages[];
@@ -474,12 +474,12 @@ const getEventResponse = ({
   languages = ['fi'],
   occurrences,
 }: {
-  location: Place;
+  location: Place | null;
   autoAcceptance: boolean;
   autoAcceptanceMessage: string | null;
-  enrolmentEndDays: number;
-  enrolmentStart: string;
-  externalEnrolmentUrl: string;
+  enrolmentEndDays: number | null;
+  enrolmentStart: string | null;
+  externalEnrolmentUrl: string | null;
   neededOccurrences: number;
   languages?: Languages[];
   occurrences?: OccurrenceNodeConnection;
@@ -566,8 +566,8 @@ const getEditEventVariables = ({
   placeId: string;
   autoAcceptance: boolean;
   translations: PalvelutarjotinEventTranslationsInput[];
-  enrolmentEndDays: number;
-  enrolmentStart: string;
+  enrolmentEndDays: number | null;
+  enrolmentStart: string | null;
   neededOccurrences: number;
   externalEnrolmentUrl?: string | null;
   languages?: Languages[];
