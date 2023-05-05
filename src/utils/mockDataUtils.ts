@@ -10,6 +10,8 @@ import {
   EnrolmentStatus,
   Event,
   EventListResponse,
+  EventQueueEnrolmentNode,
+  EventQueueEnrolmentStatus,
   ExternalPlace,
   Image,
   InLanguage,
@@ -152,6 +154,21 @@ export const fakeEnrolment = (
   ...overrides,
 });
 
+export const fakeEventQueueEnrolment = (
+  overrides?: Partial<EventQueueEnrolmentNode>
+): EventQueueEnrolmentNode => ({
+  enrolmentTime: '2020-08-18T06:37:40.755109+00:00',
+  id: faker.datatype.uuid(),
+  pEvent: fakePEvent(),
+  studyGroup: fakeStudyGroup(),
+  notificationType: NotificationType.EmailSms,
+  __typename: 'EventQueueEnrolmentNode',
+  person: fakePerson(),
+  status: EventQueueEnrolmentStatus.HasNoEnrolments,
+  updatedAt: '',
+  ...overrides,
+});
+
 export const fakeUnit = (
   overrides?: Partial<UnitNode>,
   unitType: 'ExternalPlace' | 'Place' = 'ExternalPlace'
@@ -174,6 +191,7 @@ export const fakeStudyGroup = (
   amountOfAdult: 1,
   createdAt: '',
   enrolments: [] as any,
+  queuedEnrolments: [] as any,
   extraNeeds: '',
   groupName: '',
   groupSize: 19,
@@ -297,6 +315,7 @@ export const fakePEvent = (
   neededOccurrences: 3,
   organisation: fakeOrganisation(),
   occurrences: fakeOccurrences(),
+  queuedEnrolments: [] as any,
   createdAt: '' as any,
   linkedEventId: '' as any,
   updatedAt: '' as any,
@@ -475,6 +494,7 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   phoneNumber: faker.phone.phoneNumber(),
   createdAt: '' as any,
   enrolmentSet: '' as any,
+  eventqueueenrolmentSet: [] as any,
   occurrences: [] as any,
   organisations: [] as any,
   studygroupSet: '' as any,
