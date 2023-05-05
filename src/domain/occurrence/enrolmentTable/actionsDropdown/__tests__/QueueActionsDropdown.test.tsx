@@ -102,20 +102,18 @@ const mocks = [
     },
     result: {
       data: {
-        count: 0,
         eventQueueEnrolments: {
+          count: 1,
           edges: [{ node: mockQueueEnrolment }],
         },
-        __typename: 'EventQueueEnrolmentNodeConnection',
       },
     },
     newData: jest.fn(() => ({
       data: {
-        count: 0,
         eventQueueEnrolments: {
+          count: 0,
           edges: [],
         },
-        __typename: 'EventQueueEnrolmentNodeConnection',
       },
     })),
   },
