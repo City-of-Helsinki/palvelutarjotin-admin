@@ -27,7 +27,7 @@ interface Props {
   seatsRemaining?: number;
   eventId?: string | null;
   occurrenceId?: string | null;
-  onEnrolmentsModified: () => void;
+  onEnrolmentsModified: () => Promise<void>;
 }
 
 const EnrolmentTable: React.FC<Props> = ({

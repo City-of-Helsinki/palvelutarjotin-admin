@@ -26,7 +26,7 @@ import styles from './actionsDropdown.module.scss';
 export interface Props {
   row: EnrolmentFieldsFragment;
   eventId?: string | null;
-  onEnrolmentsModified: () => void;
+  onEnrolmentsModified: () => Promise<void>;
 }
 
 const ActionsDropdown: React.FC<Props> = ({
@@ -54,7 +54,7 @@ const ActionsDropdown: React.FC<Props> = ({
     },
     onCompleted: () => {
       setApproveModalOpen(false);
-      onEnrolmentsModified();
+      (async () => await onEnrolmentsModified())();
     },
   });
 
@@ -69,7 +69,7 @@ const ActionsDropdown: React.FC<Props> = ({
     },
     onCompleted: () => {
       setDeclineModalOpen(false);
-      onEnrolmentsModified();
+      (async () => await onEnrolmentsModified())();
     },
   });
 
@@ -85,7 +85,7 @@ const ActionsDropdown: React.FC<Props> = ({
     // TODO: might need a check if component is mounted
     onCompleted: () => {
       setDeleteModalOpen(false);
-      onEnrolmentsModified();
+      (async () => await onEnrolmentsModified())();
     },
   });
 
@@ -93,48 +93,53 @@ const ActionsDropdown: React.FC<Props> = ({
     setApproveModalOpen(true);
   };
 
-  const handleApproveEnrolment = async (message: string) => {
-    approveEnrolment({
-      variables: {
-        input: { enrolmentId: row.id, customMessage: message },
-      },
-    });
+  const handleApproveEnrolment = (message: string) => {
+    (async () =>
+      await approveEnrolment({
+        variables: {
+          input: { enrolmentId: row.id, customMessage: message },
+        },
+      }))();
   };
 
   const handleDeclineEnrolment = (message?: string) => {
-    declineEnrolment({
-      variables: { input: { enrolmentId: row.id, customMessage: message } },
-    });
+    (async () =>
+      await declineEnrolment({
+        variables: { input: { enrolmentId: row.id, customMessage: message } },
+      }))();
   };
 
-  const handleDeleteEnrolment = async (message?: string) => {
+  const handleDeleteEnrolment = (message?: string) => {
     if (occurrenceId) {
-      await deleteEnrolment({
-        variables: { input: { occurrenceId, studyGroupId: row.studyGroup.id } },
-        // remove deleted enrolment from cache
-        update: (cache) => {
-          const occurrenceData = cache.readQuery<OccurrenceQuery>({
-            query: OccurrenceDocument,
-            variables: { id: occurrenceId },
-          });
-          const occurrence = occurrenceData?.occurrence;
-          // overwrite occurrence from cache (delete enrolment)
-          cache.writeQuery({
-            query: OccurrenceDocument,
-            data: {
-              occurrence: {
-                ...occurrence,
-                enrolments: {
-                  ...occurrence?.enrolments,
-                  edges: occurrence?.enrolments.edges.filter(
-                    (e) => e?.node?.id !== row.id
-                  ),
+      (async () =>
+        await deleteEnrolment({
+          variables: {
+            input: { occurrenceId, studyGroupId: row.studyGroup.id },
+          },
+          // remove deleted enrolment from cache
+          update: (cache) => {
+            const occurrenceData = cache.readQuery<OccurrenceQuery>({
+              query: OccurrenceDocument,
+              variables: { id: occurrenceId },
+            });
+            const occurrence = occurrenceData?.occurrence;
+            // overwrite occurrence from cache (delete enrolment)
+            cache.writeQuery({
+              query: OccurrenceDocument,
+              data: {
+                occurrence: {
+                  ...occurrence,
+                  enrolments: {
+                    ...occurrence?.enrolments,
+                    edges: occurrence?.enrolments.edges.filter(
+                      (e) => e?.node?.id !== row.id
+                    ),
+                  },
                 },
               },
-            },
-          });
-        },
-      });
+            });
+          },
+        }))();
     }
   };
 

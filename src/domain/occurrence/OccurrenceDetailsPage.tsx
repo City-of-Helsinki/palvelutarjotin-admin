@@ -67,11 +67,14 @@ const OccurrenceDetailsPage: React.FC = () => {
   });
   const occurrence = occurrenceData?.occurrence;
 
-  const { data: queuedEnrolmentsData, loading: loadingQueuedEnrolments } =
-    useEventQueueEnrolmentsQuery({
-      skip: !event?.pEvent?.id,
-      variables: { pEventId: event?.pEvent?.id, orderBy: 'enrolment_time' },
-    });
+  const {
+    data: queuedEnrolmentsData,
+    loading: loadingQueuedEnrolments,
+    refetch: refetchQueueEnrolments,
+  } = useEventQueueEnrolmentsQuery({
+    skip: !event?.pEvent?.id,
+    variables: { pEventId: event?.pEvent?.id, orderBy: 'enrolment_time' },
+  });
   const queuedEnrolments =
     queuedEnrolmentsData?.eventQueueEnrolments?.edges.map(
       (e) => e?.node as EventQueueEnrolmentFieldsFragment
@@ -87,8 +90,9 @@ const OccurrenceDetailsPage: React.FC = () => {
     });
   };
 
-  const handleEnrolmentsModified = () => {
-    refetchOccurrence();
+  const handleEnrolmentsModified = async () => {
+    await refetchOccurrence();
+    await refetchQueueEnrolments();
   };
 
   return (
