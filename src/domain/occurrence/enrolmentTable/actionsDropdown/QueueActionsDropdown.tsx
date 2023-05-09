@@ -8,7 +8,6 @@ import TableDropdown, {
 } from '../../../../common/components/tableDropdown/TableDropdown';
 import {
   EventQueueEnrolmentFieldsFragment,
-  EventQueueEnrolmentsDocument,
   usePickEnrolmentFromQueueMutation,
   useUnenrolEventQueueMutation,
 } from '../../../../generated/graphql';
@@ -20,7 +19,7 @@ export interface Props {
   row: EventQueueEnrolmentFieldsFragment;
   eventId: string;
   occurrenceId: string;
-  onEnrolmentsModified: () => void;
+  onEnrolmentsModified: () => Promise<void>;
 }
 
 const QueueActionsDropdown: React.FC<Props> = ({
@@ -55,7 +54,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
     },
     onCompleted: () => {
       setPickEnrolmentModalOpen(false);
-      onEnrolmentsModified();
+      (async () => await onEnrolmentsModified())();
     },
   });
 
@@ -69,7 +68,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
     },
     onCompleted: () => {
       setDeleteModalOpen(false);
-      onEnrolmentsModified();
+      (async () => await onEnrolmentsModified())();
     },
   });
 
@@ -77,28 +76,32 @@ const QueueActionsDropdown: React.FC<Props> = ({
     setPickEnrolmentModalOpen(true);
   };
 
-  const handlePickEnrolment = async () => {
-    pickEnrolment({
-      variables: {
-        input: {
-          eventQueueEnrolmentId: row.id,
-          occurrenceId,
+  const handlePickEnrolment = () => {
+    (async () =>
+      await pickEnrolment({
+        variables: {
+          input: {
+            eventQueueEnrolmentId: row.id,
+            occurrenceId,
+          },
         },
-      },
-      // move the enrolment from queue to the occurrence enrolments
-      refetchQueries: [EventQueueEnrolmentsDocument],
-    });
+        // TODO: Would be better handled here, but is now done with onEnrolmentsModified
+        // move the enrolment from queue to the occurrence enrolments
+        // refetchQueries: [EventQueueEnrolmentsDocument],
+      }))();
   };
 
-  const handleDeleteEnrolment = async (message?: string) => {
+  const handleDeleteEnrolment = (message?: string) => {
     if (eventId) {
-      await deleteEnrolment({
-        variables: {
-          input: { pEventId, studyGroupId: row.studyGroup.id },
-        },
-        // refetch the list of event queue enrolments
-        refetchQueries: [EventQueueEnrolmentsDocument],
-      });
+      (async () =>
+        await deleteEnrolment({
+          variables: {
+            input: { pEventId, studyGroupId: row.studyGroup.id },
+          },
+          // TODO: Would be better handled here, but is now done with onEnrolmentsModified
+          // refetch the list of event queue enrolments
+          // refetchQueries: [EventQueueEnrolmentsDocument],
+        }))();
     }
   };
 

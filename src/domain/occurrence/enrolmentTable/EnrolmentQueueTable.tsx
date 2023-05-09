@@ -17,7 +17,7 @@ interface Props {
   id: string;
   eventId: string;
   occurrenceId: string;
-  onEnrolmentsModified: () => void;
+  onEnrolmentsModified: () => Promise<void>;
 }
 
 const EnrolmentQueueTable: React.FC<Props> = ({
