@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.6.2...v1.7.0) (2023-05-10)
+
+
+### Features
+
+* **queue:** enrolment queue table ([b44f5e5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b44f5e569da5d9636f6f05892a4719f1ccab5529))
+
+
+### Bug Fixes
+
+* **queue:** refresh the queue table on enrolment changes ([abfb62f](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/abfb62f4c04309bea352f9a4e35fe3f3161b5791))
+
 ## [1.6.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/release-v.1.6.1...release-v.1.6.2) (2023-04-27)
 
 ### Bug Fixes
