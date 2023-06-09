@@ -1,9 +1,13 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import wait from 'waait';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { act, render, screen, waitFor } from '../../../../../utils/testUtils';
+import {
+  actWait,
+  render,
+  screen,
+  waitFor,
+} from '../../../../../utils/testUtils';
 import ApproveEnrolmentModal from '../ApproveEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -18,7 +22,7 @@ it('matches snapshot', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   await waitFor(() => {
     // A small "hack" to wait for modal to open fully
@@ -42,7 +46,7 @@ it('renders correctly and calls approve enrolment handler', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   expect(
     screen.queryByText(messages.enrolment.enrolmentModal.approveEnrolment)
@@ -81,7 +85,7 @@ it('opens message section when checkbox is clicked and text can be written', asy
     />
   );
 
-  await act(wait);
+  await actWait();
 
   const addMessageCheckbox = screen.getByLabelText(/lisää viesti/i);
   userEvent.click(addMessageCheckbox);
@@ -108,7 +112,7 @@ it('renders enrollees list correctly', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   persons.forEach((person) => {
     expect(screen.queryByText(person.personName)).toBeInTheDocument();

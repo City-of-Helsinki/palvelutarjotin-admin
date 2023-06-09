@@ -114,7 +114,7 @@ const OccurrencesForm: React.FC<{
       getValidationSchema({
         isVirtual,
         isBookable,
-        enrolmentEndDays,
+        enrolmentEndDays: (enrolmentEndDays as number) || undefined,
         enrolmentStart,
         enrolmentType,
       }),

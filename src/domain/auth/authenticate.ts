@@ -62,7 +62,7 @@ export const getApiToken =
 
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
-      dispatch(fetchTokenError(e));
+      dispatch(fetchTokenError(e as Error));
       toast(i18n.t('authentication.errorMessage'), {
         type: toast.TYPE.ERROR,
       });

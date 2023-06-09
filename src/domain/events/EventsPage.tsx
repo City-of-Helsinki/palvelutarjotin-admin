@@ -57,6 +57,7 @@ const EventsPage: React.FC = () => {
     hasNextPage: upcomingEventsHasNextPage,
     fetchMore: fetchMoreUpcomingEvents,
   } = useEventsQueryHelper({
+    skip: !baseVariables.publisher,
     variables: {
       ...baseVariables,
       // with start:now we can get events that have upcoming occurrences
@@ -71,6 +72,7 @@ const EventsPage: React.FC = () => {
     fetchMore: fetchMoreEventsWithoutOccurrences,
     hasNextPage: eventsWithoutOccurrencesHasNextPage,
   } = useEventsQueryHelper({
+    skip: !baseVariables.publisher,
     variables: {
       ...baseVariables,
       // when querying for events that are in draft should have no occurrences
@@ -85,6 +87,7 @@ const EventsPage: React.FC = () => {
     fetchMore: fetchMorePastEvents,
     hasNextPage: pastEventsHasNextPage,
   } = useEventsQueryHelper({
+    skip: !baseVariables.publisher,
     variables: {
       ...baseVariables,
       // we will egt past events with end:now

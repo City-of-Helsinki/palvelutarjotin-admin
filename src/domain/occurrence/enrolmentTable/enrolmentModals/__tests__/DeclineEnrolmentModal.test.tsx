@@ -1,9 +1,13 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import wait from 'waait';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { act, configure, render, screen } from '../../../../../utils/testUtils';
+import {
+  actWait,
+  configure,
+  render,
+  screen,
+} from '../../../../../utils/testUtils';
 import DeclineEnrolmentModal from '../DeclineEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -20,7 +24,7 @@ it('matches snapshot', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   expect(baseElement).toMatchSnapshot();
 });
@@ -37,7 +41,7 @@ it('renders correctly and calls decline enrolment handler', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   expect(
     screen.queryByText(messages.enrolment.enrolmentModal.declineEnrolment)
@@ -67,7 +71,7 @@ it('calls close handle when close button is clicked', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   const cancelButton = screen.getByRole('button', {
     name: messages.enrolment.enrolmentModal.cancelEnrolment,
@@ -89,7 +93,7 @@ it('renders enrollees list correctly', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   persons.forEach((person) => {
     expect(screen.queryByText(person.personName)).toBeInTheDocument();

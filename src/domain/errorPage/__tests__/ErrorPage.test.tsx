@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-// eslint-disable-next-line import/default
+// eslint-disable-next-line import/no-named-as-default
 import Router from 'react-router';
 
 import { render, screen } from '../../../utils/testUtils';
