@@ -11,6 +11,7 @@ import {
 import getPageNumberFromUrl from '../../utils/getPageNumberFromUrl';
 
 export const useEventsQueryHelper = ({
+  skip,
   variables,
 }: QueryHookOptions<EventsQuery, EventsQueryVariables>) => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
@@ -21,6 +22,7 @@ export const useEventsQueryHelper = ({
     data,
     ...helpers
   } = useEventsQuery({
+    skip,
     variables: variables,
   });
 

@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
-// eslint-disable-next-line import/default
+// eslint-disable-next-line import/default, import/no-named-as-default
 import Router from 'react-router';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
@@ -62,7 +62,6 @@ import {
   fakePlaces,
 } from '../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   fireEvent,
   pasteToTextEditor,
@@ -302,7 +301,7 @@ test('event can be created with form', async () => {
   const { history } = render(<CreateEventPage />, { mocks });
   const historyPush = jest.spyOn(history, 'push');
 
-  await fillForm(defaultFormData);
+  await fillForm(defaultFormData as unknown as CreateEventFormFields);
 
   await waitFor(() => {
     expect(
@@ -310,12 +309,10 @@ test('event can be created with form', async () => {
     ).toBeInTheDocument();
   });
 
-  act(() =>
-    userEvent.click(
-      screen.getByRole('button', {
-        name: 'Tallenna ja siirry tapahtuma-aikoihin',
-      })
-    )
+  userEvent.click(
+    screen.getByRole('button', {
+      name: 'Tallenna ja siirry tapahtuma-aikoihin',
+    })
   );
 
   await waitFor(() => {
@@ -352,9 +349,7 @@ describe('Event price section', () => {
     async (testText) => {
       render(<CreateEventPage />, { mocks });
       await screen.findByLabelText(/Tapahtuma on ilmainen/);
-      act(() => {
-        userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
-      });
+      userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
       userEvent.type(screen.getByLabelText(/Hinta/), testText);
       userEvent.tab();
       await waitFor(() => {
@@ -368,9 +363,7 @@ describe('Event price section', () => {
   test('price field in a required field when is free is not checked', async () => {
     render(<CreateEventPage />, { mocks });
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
-    act(() => {
-      userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
-    });
+    userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
     expect(
       screen.queryByText(/Tämä kenttä on pakollinen/i)
     ).not.toBeInTheDocument();
@@ -467,15 +460,13 @@ describe('Language selection', () => {
 
     const historyPush = jest.spyOn(history, 'push');
 
-    await fillForm(defaultFormData);
+    await fillForm(defaultFormData as unknown as CreateEventFormFields);
 
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
     // Select Swedish (with Finnish that is already selected)
-    act(() =>
-      userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i))
-    );
+    userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
 
     // Populate Swedish fields
     transletableFieldLabels.forEach((labelText) => {
@@ -528,7 +519,7 @@ describe('Language selection', () => {
       transletableFieldLabels.forEach((labelText) => {
         const labels = screen.getAllByText(labelText);
         const inputNames = labels.map((label) => label.getAttribute('for'));
-        const inputLangOrder = inputNames.map((name) => name.split('.').pop());
+        const inputLangOrder = inputNames.map((name) => name!.split('.').pop());
         expect(inputLangOrder).toEqual(languageOrder);
       });
     });
@@ -630,12 +621,12 @@ const testMultiDropdownValues = async ({
   }
 };
 
-const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
+const fillForm = async (eventFormData: CreateEventFormFields) => {
   await screen.findByText(defaultOrganizationName);
 
   userEvent.type(
     screen.getByLabelText(/Tapahtuman nimi/),
-    eventFormData.name.fi
+    eventFormData.name.fi!
   );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
@@ -644,7 +635,7 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
 
   userEvent.type(
     screen.getByLabelText(/lyhyt kuvaus/i),
-    eventFormData.shortDescription.fi
+    eventFormData.shortDescription.fi!
   );
 
   expect(screen.getByTestId('event-form')).toHaveFormValues({
@@ -652,14 +643,14 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
     'shortDescription.fi': eventFormData.shortDescription.fi,
   });
   const editor = screen.getByRole('textbox', { name: /Kuvaus/ });
-  pasteToTextEditor(editor, eventFormData.description.fi);
+  pasteToTextEditor(editor, eventFormData.description.fi!);
   editor.blur();
 
   userEvent.type(
     screen.getByLabelText(
       'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
     ),
-    eventFormData.infoUrl.fi
+    eventFormData.infoUrl.fi!
   );
 
   userEvent.click(
@@ -740,7 +731,7 @@ const fillForm = async (eventFormData: Partial<CreateEventFormFields>) => {
   jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
 
   const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
-  act(() => userEvent.click(keywordsInput));
+  userEvent.click(keywordsInput);
   userEvent.type(keywordsInput, 'perheet');
 
   const familyCategory = await screen.findByText(/perheet/i);

@@ -20,7 +20,6 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   renderWithRoute,
   screen,
@@ -127,11 +126,11 @@ describe('save occurrence and event info simultaneously', () => {
     const locationInput = getFormElement('location');
     expect(locationInput.parentElement).toHaveTextContent('');
 
-    act(() => userEvent.click(locationInput));
+    userEvent.click(locationInput);
     userEvent.type(locationInput, 'Sellon');
 
     const place = await screen.findByText(/Sellon kirjasto/i);
-    act(() => userEvent.click(place));
+    userEvent.click(place);
 
     await waitFor(() => {
       expect(
@@ -161,7 +160,7 @@ describe('save occurrence and event info simultaneously', () => {
 
     const [startHours, startMinutes] = formattedEnrolmentStartTime.split(':');
 
-    act(() => userEvent.click(enrolmentStartDateTimeInput));
+    userEvent.click(enrolmentStartDateTimeInput);
     userEvent.type(enrolmentStartDateTimeInput, formattedEnrolmentStartDate);
     userEvent.type(enrolmentStartHoursInput, startHours);
     userEvent.type(enrolmentStartMinutesInput, startMinutes);

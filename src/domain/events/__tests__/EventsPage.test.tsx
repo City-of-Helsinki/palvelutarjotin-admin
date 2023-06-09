@@ -25,7 +25,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import { EVENT_SORT_KEYS, PAGE_SIZE } from '../constants';
+import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from '../constants';
 import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
@@ -55,6 +55,14 @@ const eventOverrides: Partial<Event>[] = Array.from({ length: 10 }).map(
 const organisationsMock = fakeOrganisations();
 const eventsMock1 = fakeEvents(5, eventOverrides.slice(0, 5));
 const eventsMock2 = fakeEvents(5, eventOverrides.slice(5));
+const activePlaceEvents = fakeEvents(5);
+const pastEvents = fakeEvents(5);
+const draftEvents = fakeEvents(
+  5,
+  Array.from({ length: 5 }).map((_) => ({
+    publicationStatus: PUBLICATION_STATUS.DRAFT,
+  }))
+);
 
 eventsMock1.meta.next = 'https://test.fi?page=2';
 eventsMock2.meta.next = 'https://test.fi?page=3';
@@ -66,15 +74,63 @@ const baseVariables = {
   text: '',
   showAll: true,
   location: '',
-  start: 'now',
 };
 
 const apolloMocks: MockedResponse[] = [
+  // upcoming events
   {
     request: {
       query: EventsDocument,
       variables: {
         ...baseVariables,
+        start: 'now',
+      },
+    },
+    result: {
+      data: {
+        events: eventsMock1,
+      },
+    },
+  },
+  // eventsWithoutOccurrencesData - draft events
+  {
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        publicationStatus: PUBLICATION_STATUS.DRAFT,
+      },
+    },
+    result: {
+      data: {
+        events: draftEvents,
+      },
+    },
+  },
+  // past events
+  {
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        start: undefined,
+        end: 'now',
+        publicationStatus: PUBLICATION_STATUS.PUBLIC,
+      },
+    },
+    result: {
+      data: {
+        events: pastEvents,
+      },
+    },
+  },
+  // active events
+  {
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        start: 'now',
       },
     },
     result: {
@@ -89,6 +145,7 @@ const apolloMocks: MockedResponse[] = [
       query: EventsDocument,
       variables: {
         ...baseVariables,
+        start: 'now',
         page: 2,
       },
     },
@@ -103,6 +160,7 @@ const apolloMocks: MockedResponse[] = [
       query: EventsDocument,
       variables: {
         ...baseVariables,
+        start: 'now',
         page: 3,
       },
     },
@@ -137,6 +195,59 @@ const apolloMocks: MockedResponse[] = [
   })),
 ];
 
+const apolloPlaceEventMocks = [
+  // active place events
+  ...places.map(({ id, name }) => ({
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        location: id,
+        start: 'now',
+        publicationStatus: PUBLICATION_STATUS.PUBLIC,
+      },
+    },
+    result: {
+      data: {
+        events: activePlaceEvents,
+      },
+    },
+  })),
+  // past place events
+  ...places.map(({ id, name }) => ({
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        location: id,
+        end: 'now',
+        publicationStatus: PUBLICATION_STATUS.PUBLIC,
+      },
+    },
+    result: {
+      data: {
+        events: pastEvents,
+      },
+    },
+  })),
+  // draft place events
+  ...places.map(({ id, name }) => ({
+    request: {
+      query: EventsDocument,
+      variables: {
+        ...baseVariables,
+        location: id,
+        publicationStatus: PUBLICATION_STATUS.DRAFT,
+      },
+    },
+    result: {
+      data: {
+        events: pastEvents,
+      },
+    },
+  })),
+];
+
 const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
   return render(<EventsPage />, {
     mocks: [...apolloMocks, ...(mocks ?? [])],
@@ -161,25 +272,28 @@ test('renders events list and load more events button works', async () => {
   });
 
   eventOverrides.slice(0, 5).forEach((event) => {
-    expect(screen.queryByText(event.name.fi)).toBeInTheDocument();
-    expect(screen.queryByText(event.shortDescription.fi)).toBeInTheDocument();
-    expect(screen.queryByText(event.description.fi)).not.toBeInTheDocument();
+    expect(screen.queryByText(event.name!.fi!)).toBeInTheDocument();
+    expect(screen.queryByText(event.shortDescription!.fi!)).toBeInTheDocument();
+    expect(screen.queryByText(event.description!.fi!)).not.toBeInTheDocument();
   });
 
   // shouldn't be in the document before fetching more event
   expect(
-    screen.queryByText(eventOverrides[6].shortDescription.fi)
+    screen.queryByText(eventOverrides[6].shortDescription!.fi!)
   ).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
+  userEvent.click(screen.getAllByRole('button', { name: /näytä lisää/i })[0]);
 
   expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
+  await waitFor(() => {
+    screen.getByText(eventOverrides[5].name!.fi!);
+  });
   eventOverrides.slice(5, 11).forEach((event) => {
-    expect(screen.queryByText(event.name.fi)).toBeInTheDocument();
+    expect(screen.queryByText(event.name!.fi!)).toBeInTheDocument();
   });
 
   userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
@@ -214,6 +328,7 @@ test('events can be searched with text', async () => {
           query: EventsDocument,
           variables: {
             ...baseVariables,
+            start: 'now',
             text: eventName,
           },
         },
@@ -223,6 +338,20 @@ test('events can be searched with text', async () => {
           },
         },
       },
+      ...apolloMocks.map((mock) =>
+        mock.request.query === EventsDocument
+          ? {
+              ...mock,
+              request: {
+                ...mock.request,
+                variables: {
+                  ...mock.request.variables,
+                  text: eventName,
+                },
+              },
+            }
+          : mock
+      ),
     ],
   };
   renderComponent(searchMock);
@@ -255,25 +384,29 @@ test('events can be searched with places from user profile', async () => {
     },
   ];
   const searchMock = {
-    mocks: events.map((event) => ({
-      request: {
-        query: EventsDocument,
-        variables: {
-          ...baseVariables,
-          location: event.placeId,
+    mocks: [
+      ...events.map((event) => ({
+        request: {
+          query: EventsDocument,
+          variables: {
+            ...baseVariables,
+            start: 'now',
+            location: event.placeId,
+          },
         },
-      },
-      result: {
-        data: {
-          events: fakeEvents(1, [
-            fakeEvent({
-              name: fakeLocalizedObject(event.eventName),
-              shortDescription: fakeLocalizedObject(event.eventDescription),
-            }),
-          ]),
+        result: {
+          data: {
+            events: fakeEvents(1, [
+              fakeEvent({
+                name: fakeLocalizedObject(event.eventName),
+                shortDescription: fakeLocalizedObject(event.eventDescription),
+              }),
+            ]),
+          },
         },
-      },
-    })),
+      })),
+      ...apolloPlaceEventMocks,
+    ],
   };
   renderComponent(searchMock);
 
@@ -284,7 +417,7 @@ test('events can be searched with places from user profile', async () => {
     name: /paikat: avaa valikko/i,
   });
   userEvent.click(placesDropdownToggle);
-  userEvent.click(screen.getByRole('option', { name: places[0].name.fi }));
+  userEvent.click(screen.getByRole('option', { name: places[0].name!.fi! }));
 
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
   expect(screen.queryByText(events[0].eventName)).toBeInTheDocument();
@@ -298,7 +431,7 @@ test('events can be searched with places from user profile', async () => {
   await screen.findByRole('heading', { name: `Tapahtumat 5 kpl` });
 
   // Test second place filter
-  userEvent.click(screen.getByRole('option', { name: places[1].name.fi }));
+  userEvent.click(screen.getByRole('option', { name: places[1].name!.fi! }));
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
   expect(screen.queryByText(events[1].eventName)).toBeInTheDocument();
   expect(screen.queryByText(events[1].eventDescription)).toBeInTheDocument();

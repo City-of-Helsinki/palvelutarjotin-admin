@@ -11,7 +11,6 @@ import {
   fakePlaces,
 } from '../../../utils/mockDataUtils';
 import {
-  act,
   renderWithRoute,
   screen,
   userEvent,
@@ -160,7 +159,7 @@ test('can create profile with all the information', async () => {
   const locationField = screen.getByRole('textbox', {
     name: /tapahtumapaikat/i,
   });
-  act(() => userEvent.click(locationField));
+  userEvent.click(locationField);
 
   userEvent.type(locationField, places[0].placeSearchString);
   const locationOption = await screen.findByRole('option', {
@@ -193,13 +192,10 @@ test('can create profile with all the information', async () => {
   places.forEach((p) =>
     expect(screen.queryByText(p.placeName)).toBeInTheDocument()
   );
-
-  act(() =>
-    userEvent.click(
-      screen.getByRole('button', {
-        name: /organisaatio organisaatio, jonka tapahtumia hallinnoit/i,
-      })
-    )
+  userEvent.click(
+    screen.getByRole('button', {
+      name: /organisaatio organisaatio, jonka tapahtumia hallinnoit/i,
+    })
   );
   await waitFor(() => {
     expect(
@@ -210,16 +206,12 @@ test('can create profile with all the information', async () => {
   userEvent.click(screen.getByText('Organisaatio 1', { selector: 'li' }));
   userEvent.click(screen.getByText('Organisaatio 2', { selector: 'li' }));
 
-  act(() => {
-    userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
-  });
-  act(() => {
-    userEvent.click(
-      screen.getByText(
-        /annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa\./i
-      )
-    );
-  });
+  userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
+  userEvent.click(
+    screen.getByText(
+      /annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa\./i
+    )
+  );
 
   userEvent.click(
     screen.getByRole('button', {
@@ -284,16 +276,12 @@ test('create profile with organisation proposal', async () => {
     ).toBeDisabled();
   });
 
-  act(() => {
-    userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
-  });
-  act(() => {
-    userEvent.click(
-      screen.getByText(
-        /annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa\./i
-      )
-    );
-  });
+  userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
+  userEvent.click(
+    screen.getByText(
+      /annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa\./i
+    )
+  );
 
   userEvent.click(
     screen.getByRole('button', {

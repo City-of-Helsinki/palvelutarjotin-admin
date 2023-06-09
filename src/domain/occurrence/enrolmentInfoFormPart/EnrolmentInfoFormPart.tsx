@@ -27,7 +27,11 @@ const EnrolmentInfoFormPart: React.FC = () => {
   // Enrolments cannot be manually accepted if more than one occurrence is needed
   // So we se autoAcceptance to true id neededOccurrences is more than 1
   React.useEffect(() => {
-    if (neededOccurrences != null && neededOccurrences > 1 && !autoAcceptance) {
+    if (
+      neededOccurrences != null &&
+      (neededOccurrences as number) > 1 &&
+      !autoAcceptance
+    ) {
       setFieldValue('autoAcceptance', true);
     }
   }, [autoAcceptance, neededOccurrences, setFieldValue]);

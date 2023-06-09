@@ -184,7 +184,6 @@ export const deleteOccurrenceFromCache = ({
     query: EventDocument,
     variables: eventVariables,
   }) as EventQuery;
-
   proxy.writeQuery({
     query: EventDocument,
     data: {

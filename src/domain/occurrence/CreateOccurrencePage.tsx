@@ -98,6 +98,7 @@ const CreateOccurrencePage: React.FC = () => {
     refetch: refetchEvent,
     loading: loadingEvent,
   } = useBaseEventQuery({
+    skip: !eventId,
     variables: { id: eventId },
     fetchPolicy: 'network-only',
   });
@@ -292,39 +293,39 @@ const CreateOccurrencePage: React.FC = () => {
     }
   };
 
-  const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
-    () => {
-      // after saving, event data is refetched and it should include at least 1 ocurrences
-      const { pEvent: { occurrences = undefined } = {} } =
-        eventDataRef.current?.event ?? {};
-      const requiredFieldsSchema = Yup.object().shape({
-        occurrences: Yup.array().min(
-          1,
-          t('createOccurrence.missingEventInfo.occurrences')
-        ),
-      });
-
-      try {
-        // Check that that user has already filled and saved required fields in this form before
-        // navigatin to publishing / summary page
-        requiredFieldsSchema.validateSync(
-          {
-            occurrences: occurrences?.edges,
-          },
-          { abortEarly: false }
-        );
-        // All good, redirect user to summary page for publishing
-        goToSummaryPage();
-      } catch (e) {
-        if (e instanceof Yup.ValidationError) {
-          setMissingEventInfoError(e);
-          if (process.env.NODE_ENV === 'development') {
-            // eslint-disable-next-line no-console
-            console.log(e);
-          }
+  const handleGoToPublishingClick: React.MouseEventHandler<
+    HTMLButtonElement
+  > = () => {
+    // after saving, event data is refetched and it should include at least 1 ocurrences
+    const { pEvent: { occurrences = undefined } = {} } =
+      eventDataRef.current?.event ?? {};
+    const requiredFieldsSchema = Yup.object().shape({
+      occurrences: Yup.array().min(
+        1,
+        t('createOccurrence.missingEventInfo.occurrences')
+      ),
+    });
+    try {
+      // Check that that user has already filled and saved required fields in this form before
+      // navigatin to publishing / summary page
+      requiredFieldsSchema.validateSync(
+        {
+          occurrences: occurrences?.edges,
+        },
+        { abortEarly: false }
+      );
+      // All good, redirect user to summary page for publishing
+      goToSummaryPage();
+    } catch (e) {
+      if (e instanceof Yup.ValidationError) {
+        setMissingEventInfoError(e);
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.log(e);
         }
       }
-    };
+    }
+  };
 
   return (
     <PageWrapper title="createOccurrence.pageTitle">
@@ -456,31 +457,33 @@ const OccurrenceInfoForm: React.FC<{
       >
         {({ dirty, submitForm, isValid }) => {
           // Handle submitting both event info and occurrence form
-          const handleGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement> =
-            async (e) => {
-              try {
-                const hasBeenSubmitted = isValid && !dirty;
-                if (!hasBeenSubmitted) {
-                  await submitForm();
-                }
-                await submitOccurrenceFormIfNeeded();
-                if (isValid) {
-                  onGoToPublishingClick(e);
-                }
-                // async funcs in try block already handle errors
-              } catch {}
-            };
+          const handleGoToPublishingClick: React.MouseEventHandler<
+            HTMLButtonElement
+          > = async (e) => {
+            try {
+              const hasBeenSubmitted = isValid && !dirty;
+              if (!hasBeenSubmitted) {
+                await submitForm();
+              }
+              await submitOccurrenceFormIfNeeded();
+              if (isValid) {
+                onGoToPublishingClick(e);
+              }
+              // async funcs in try block already handle errors
+            } catch {}
+          };
 
           // Custom submit handler to also submit occurrence form if it is filled
-          const handleSaveClick: React.MouseEventHandler<HTMLButtonElement> =
-            async (e) => {
-              e.preventDefault();
-              try {
-                await submitForm();
-                await submitOccurrenceFormIfNeeded();
-                // async funcs in try block already handle errors
-              } catch {}
-            };
+          const handleSaveClick: React.MouseEventHandler<
+            HTMLButtonElement
+          > = async (e) => {
+            e.preventDefault();
+            try {
+              await submitForm();
+              await submitOccurrenceFormIfNeeded();
+              // async funcs in try block already handle errors
+            } catch {}
+          };
 
           return (
             <Form

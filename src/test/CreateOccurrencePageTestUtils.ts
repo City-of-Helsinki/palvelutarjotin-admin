@@ -40,7 +40,13 @@ import {
   fakePlaces,
   fakeVenue,
 } from '../utils/mockDataUtils';
-import { act, screen, userEvent, waitFor, within } from '../utils/testUtils';
+import {
+  actWait,
+  screen,
+  userEvent,
+  waitFor,
+  within,
+} from '../utils/testUtils';
 import { DATETIME_FORMAT } from '../utils/time/format';
 
 type Languages = 'fi' | 'en' | 'sv';
@@ -802,11 +808,11 @@ export const getFormElement = (
 export const selectLocation = async () => {
   const locationInput = getFormElement('location');
 
-  act(() => userEvent.click(locationInput));
+  userEvent.click(locationInput);
   userEvent.type(locationInput, 'Sellon');
-
-  const place = await screen.findByText(/Sellon kirjasto/i);
-  act(() => userEvent.click(place));
+  await actWait();
+  const places = await screen.findAllByText(/Sellon kirjasto/i);
+  userEvent.click(places[0]);
 };
 
 export const fillAndSubmitOccurrenceForm = async ({
@@ -824,16 +830,7 @@ export const fillAndSubmitOccurrenceForm = async ({
   submit?: boolean;
   seatsInputs?: boolean;
 }) => {
-  const withinOccurrencesForm = within(
-    screen.getByTestId(occurrencesFormTestId)
-  );
-  const locationInput = getOccurrenceFormElement('location')!;
-
-  act(() => userEvent.click(locationInput));
-  userEvent.type(locationInput, 'Sellon');
-
-  const place = await withinOccurrencesForm.findByText(/Sellon kirjasto/i);
-  act(() => userEvent.click(place));
+  await selectLocation();
 
   const occurrenceLocationInput = getOccurrenceFormElement('location')!;
 
@@ -851,7 +848,8 @@ export const fillAndSubmitOccurrenceForm = async ({
   const [endHours, endMinutes] = occurrenceEndTime.split(':');
 
   // avoid act warning from react testing library (caused by autosuggest component)
-  act(() => userEvent.click(occurrenceStartsDateInput));
+  userEvent.click(occurrenceStartsDateInput);
+  await actWait();
 
   // get end date input visible by clicking multiday occurrence checkbox
   if (occurrenceEndDate) {

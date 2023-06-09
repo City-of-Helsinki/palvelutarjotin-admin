@@ -1,8 +1,12 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import wait from 'waait';
 
-import { act, configure, render, screen } from '../../../../../utils/testUtils';
+import {
+  actWait,
+  configure,
+  render,
+  screen,
+} from '../../../../../utils/testUtils';
 import messages from '../../../../app/i18n/fi.json';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -62,7 +66,7 @@ it('renders enrollees list correctly', async () => {
     />
   );
 
-  await act(wait);
+  await actWait();
 
   persons.forEach((person) => {
     expect(screen.queryByText(person.personName)).toBeInTheDocument();
