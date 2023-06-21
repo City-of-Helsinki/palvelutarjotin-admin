@@ -18,8 +18,9 @@ ENV YARN_VERSION 1.19.1
 RUN yarn policies set-version $YARN_VERSION
 
 # set sass path to support scss import
-ARG SASS_PATH=./src/styles
-ENV SASS_PATH $SASS_PATH
+# New version needs an absolute path, but it should be served from the craco.config
+# ARG SASS_PATH=./src/styles
+# ENV SASS_PATH $SASS_PATH
 
 # Oidc authority
 ARG REACT_APP_OIDC_AUTHORITY
@@ -52,6 +53,10 @@ USER appuser
 
 # Install dependencies
 COPY --chown=appuser:appuser package*.json *yarn* /app/
+
+# Copy craco configuration
+COPY --chown=appuser:appuser craco.config.js /app/
+
 RUN yarn && yarn cache clean --force
 
 # Copy all files
@@ -69,7 +74,6 @@ FROM nginx:1.17 as production
 
 # Nginx runs with user "nginx" by default
 COPY --from=appbase --chown=nginx:nginx /app/build /usr/share/nginx/html
-
 
 COPY .prod/nginx.conf /etc/nginx/conf.d/default.conf
 

@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.15",
+    "@craco/craco": "^7.1.0",
     "@datepicker-react/hooks": "^2.8.4",
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/browser": "^7.55.2",
@@ -32,6 +33,7 @@
     "apollo-upload-client": "^17.0.0",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
+    "craco-swc": "^0.5.1",
     "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
     "dompurify": "^3.0.3",
@@ -112,7 +114,6 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
-    "@craco/craco": "^7.1.0",
     "@faker-js/faker": "^8.0.2",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@graphql-codegen/cli": "^4.0.1",
@@ -131,7 +132,6 @@
     "@typescript-eslint/parser": "^5.59.11",
     "babel-eslint": "^10.1.0",
     "craco-sass-resources-loader": "^1.1.0",
-    "craco-swc": "^0.5.1",
     "dequal": "^2.0.3",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
