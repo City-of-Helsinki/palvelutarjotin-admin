@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useAddOccurrenceMutation } from '../../generated/graphql';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -21,18 +21,19 @@ import styles from './editOccurrencesPage.module.scss';
 import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
 import { getEnrolmentType, useBaseEventQuery } from './utils';
 
-interface Params {
+type Params = {
   id: string;
-}
+};
 
 const EditOccurrencesPage: React.FC = () => {
   const { id: eventId } = useParams<Params>();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const { t } = useTranslation();
   const locale = useLocale();
 
   const { data: eventData, loading: loadingEvent } = useBaseEventQuery({
-    variables: { id: eventId },
+    skip: !eventId,
+    variables: { id: eventId! },
     fetchPolicy: 'network-only',
   });
   const event = eventData?.event;
@@ -41,7 +42,7 @@ const EditOccurrencesPage: React.FC = () => {
     useAddOccurrenceMutation();
 
   const goToEventSummaryPage = () => {
-    history.pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    eventId && pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
   };
 
   const { eventName } = getEventFields(event, locale);

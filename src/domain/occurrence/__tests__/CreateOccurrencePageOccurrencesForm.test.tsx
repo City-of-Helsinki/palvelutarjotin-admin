@@ -96,7 +96,7 @@ describe('occurrences form', () => {
     await screen.findByTestId('time-and-location-form');
 
     const virtualEventCheckbox = getFormElement('virtualEvent');
-    userEvent.click(virtualEventCheckbox);
+    await userEvent.click(virtualEventCheckbox);
     expect(virtualEventCheckbox).toBeChecked();
 
     const orderableEventCheckbox = getFormElement('orderableEvent');
@@ -108,14 +108,14 @@ describe('occurrences form', () => {
     const occurrenceLocationInput = getOccurrenceFormElement('location');
     expect(occurrenceLocationInput).toBeDisabled();
 
-    userEvent.click(virtualEventCheckbox);
+    await userEvent.click(virtualEventCheckbox);
 
     // await to get rid of act warnings
     await waitFor(() => {
-      expect(occurrenceLocationInput).toBeEnabled();
-      expect(placeInput).toBeEnabled();
       expect(virtualEventCheckbox).not.toBeChecked();
     });
+    expect(occurrenceLocationInput).toBeEnabled();
+    expect(placeInput).toBeEnabled();
     await actWait();
   });
 
@@ -128,7 +128,7 @@ describe('occurrences form', () => {
     await screen.findByTestId('time-and-location-form');
 
     const orderableEventCheckbox = getFormElement('orderableEvent');
-    userEvent.click(orderableEventCheckbox);
+    await userEvent.click(orderableEventCheckbox);
 
     expect(orderableEventCheckbox).toBeChecked();
 
@@ -141,14 +141,14 @@ describe('occurrences form', () => {
     const occurrenceLocationInput = getOccurrenceFormElement('location');
     expect(occurrenceLocationInput).toBeDisabled();
 
-    userEvent.click(orderableEventCheckbox);
+    await userEvent.click(orderableEventCheckbox);
 
     // await to get rid of act warnings
     await waitFor(() => {
-      expect(occurrenceLocationInput).toBeEnabled();
-      expect(placeInput).toBeEnabled();
       expect(orderableEventCheckbox).not.toBeChecked();
     });
+    expect(occurrenceLocationInput).toBeEnabled();
+    expect(placeInput).toBeEnabled();
     await actWait();
   });
 
@@ -161,7 +161,7 @@ describe('occurrences form', () => {
     await screen.findByTestId('time-and-location-form');
 
     const oneGroupFillsCheckbox = getOccurrenceFormElement('oneGroupFills')!;
-    userEvent.click(oneGroupFillsCheckbox);
+    await userEvent.click(oneGroupFillsCheckbox);
 
     await waitFor(() => {
       expect(oneGroupFillsCheckbox).toBeChecked();
@@ -171,12 +171,12 @@ describe('occurrences form', () => {
     expect(seatsInput).toBeDisabled();
     expect(seatsInput).toHaveValue(1);
 
-    userEvent.click(oneGroupFillsCheckbox);
+    await userEvent.click(oneGroupFillsCheckbox);
 
     await waitFor(() => {
-      expect(seatsInput).toBeEnabled();
       expect(oneGroupFillsCheckbox).not.toBeChecked();
     });
+    expect(seatsInput).toBeEnabled();
     await actWait();
   });
 
@@ -235,7 +235,7 @@ describe('occurrences form', () => {
       occurrenceStartTime,
       occurrenceEndTime,
     });
-    await waitFor(() => screen.getByTestId(occurrencesTableTestId));
+    await screen.findByTestId(occurrencesTableTestId);
 
     const occurrencesTable = within(screen.getByTestId(occurrencesTableTestId));
 
@@ -268,12 +268,12 @@ describe('occurrences form', () => {
     const [startHours, startMinutes] = occurrenceStartTime.split(':');
     const [endHours, endMinutes] = occurrenceEndTime.split(':');
     await waitFor(() => {
-      expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
-      expect(occurrenceStartHoursInput).toHaveValue(startHours);
-      expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
-      expect(occurrenceEndHoursInput).toHaveValue(endHours);
       expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
     });
+    expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
+    expect(occurrenceStartHoursInput).toHaveValue(startHours);
+    expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
+    expect(occurrenceEndHoursInput).toHaveValue(endHours);
 
     // Occurrence should still be in the document after event refetch
     expect(occurrencesTable.getAllByRole('row')[1]).toHaveTextContent(
@@ -370,13 +370,13 @@ describe('occurrences form', () => {
     const [startHours, startMinutes] = occurrenceStartTime.split(':');
     const [endHours, endMinutes] = occurrenceEndTime.split(':');
     await waitFor(() => {
-      expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
-      expect(occurrenceStartHoursInput).toHaveValue(startHours);
-      expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
-      expect(occurrenceEndDateInput).toHaveValue(occurrenceEndDate);
-      expect(occurrenceEndHoursInput).toHaveValue(endHours);
       expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
     });
+    expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
+    expect(occurrenceStartHoursInput).toHaveValue(startHours);
+    expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
+    expect(occurrenceEndDateInput).toHaveValue(occurrenceEndDate);
+    expect(occurrenceEndHoursInput).toHaveValue(endHours);
 
     // Occurrence should still be in the document after event refetch
     await waitFor(() => {
@@ -436,7 +436,7 @@ describe('occurrences form', () => {
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
 
-    userEvent.click(getFormElement('noEnrolmentButton'));
+    await userEvent.click(getFormElement('noEnrolmentButton'));
 
     await fillAndSubmitOccurrenceForm({
       occurrenceStartDate,
@@ -461,12 +461,12 @@ describe('occurrences form', () => {
     const [startHours, startMinutes] = occurrenceStartTime.split(':');
     const [endHours, endMinutes] = occurrenceEndTime.split(':');
     await waitFor(() => {
-      expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
-      expect(occurrenceStartHoursInput).toHaveValue(startHours);
-      expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
-      expect(occurrenceEndHoursInput).toHaveValue(endHours);
       expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
     });
+    expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
+    expect(occurrenceStartHoursInput).toHaveValue(startHours);
+    expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
+    expect(occurrenceEndHoursInput).toHaveValue(endHours);
 
     // Occurrence should still be in the document after event refetch
     expect(screen.getAllByRole('row')[1]).toHaveTextContent(occurrence1RowText);
@@ -521,14 +521,14 @@ describe('occurrences form', () => {
 
     const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrence.amountOfSeats}${occurrence.minGroupSize}${occurrence.maxGroupSize}`;
 
-    await waitFor(() => screen.getByTestId(occurrencesTableTestId));
+    await screen.findByTestId(occurrencesTableTestId);
     const occurrencesTable = within(screen.getByTestId(occurrencesTableTestId));
 
+    const [, occurrence1, occurrence2] = occurrencesTable.getAllByRole('row');
     await waitFor(() => {
-      const [, occurrence1, occurrence2] = occurrencesTable.getAllByRole('row');
-      expect(occurrence1).toHaveTextContent(occurrence1RowText);
       expect(occurrence2).toHaveTextContent(occurrence1RowText);
     });
+    expect(occurrence1).toHaveTextContent(occurrence1RowText);
 
     const [, occurrenceRow1] = occurrencesTable.getAllByRole('row');
 
@@ -536,7 +536,7 @@ describe('occurrences form', () => {
       name: 'Poista tapahtuma-aika',
     });
     expect(occurrencesTable.getAllByRole('row')).toHaveLength(3);
-    userEvent.click(deleteOccurrenceButton);
+    await userEvent.click(deleteOccurrenceButton);
     await waitFor(() => {
       expect(occurrencesTable.getAllByRole('row')).toHaveLength(2);
     });
@@ -546,7 +546,7 @@ describe('occurrences form', () => {
     const deleteOccurrenceButton2 = within(occurrenceRow2).getByRole('button', {
       name: 'Poista tapahtuma-aika',
     });
-    userEvent.click(deleteOccurrenceButton2);
+    await userEvent.click(deleteOccurrenceButton2);
     await waitFor(() => {
       expect(
         screen.queryByTestId(occurrencesTableTestId)
@@ -565,16 +565,19 @@ describe('occurrences form', () => {
     await screen.findByTestId('time-and-location-form');
 
     const dateInput = getOccurrenceFormElement('startDate')!;
-    userEvent.type(dateInput, format(addDays(currentDate, -1), DATE_FORMAT));
+    await userEvent.type(
+      dateInput,
+      format(addDays(currentDate, -1), DATE_FORMAT)
+    );
     fireEvent.blur(dateInput);
     expect(dateInput).toHaveValue('19.5.2021');
 
     await waitFor(() => {
-      expect(dateInput).toHaveAttribute('aria-describedby');
       expect(
-        screen.queryByText('Päivämäärä ei voi olla menneisyydessä')
+        screen.getByText('Päivämäärä ei voi olla menneisyydessä')
       ).toBeInTheDocument();
     });
+    expect(dateInput).toHaveAttribute('aria-describedby');
     await actWait();
   });
 
@@ -595,12 +598,12 @@ describe('occurrences form', () => {
     const dateInput = getOccurrenceFormElement('startDate')!;
     const startHoursInput = getOccurrenceFormElement('startHours')!;
     const startMinutesInput = getOccurrenceFormElement('startMinutes')!;
-    userEvent.type(
+    await userEvent.type(
       dateInput,
       format(addDays(enrolmentStart, enrolmentEndDays), DATE_FORMAT)
     );
-    userEvent.type(startHoursInput, '11');
-    userEvent.type(startMinutesInput, '00');
+    await userEvent.type(startHoursInput, '11');
+    await userEvent.type(startMinutesInput, '00');
     expect(dateInput).toHaveValue('23.5.2021');
 
     await screen.findByText(
@@ -608,7 +611,7 @@ describe('occurrences form', () => {
     );
 
     // enter valid time -> error text should disappear
-    userEvent.type(startHoursInput, '13');
+    await userEvent.type(startHoursInput, '13');
     await waitFor(() => {
       expect(
         screen.queryByText(

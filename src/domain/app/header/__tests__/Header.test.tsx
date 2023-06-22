@@ -14,7 +14,11 @@ import {
 } from '../../../../utils/testUtils';
 import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
-
+jest.mock('../../../auth/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../auth/selectors'),
+  isAuthenticatedSelector: jest.fn(),
+}));
 const profileResponse = {
   data: {
     myProfile: fakePerson(),
@@ -48,9 +52,9 @@ it('Header matches snapshot', () => {
   expect(container.firstChild).toMatchSnapshot();
 });
 
-it('focuses skip link first', () => {
+it('focuses skip link first', async () => {
   render(<Header />);
-  userEvent.tab();
+  await userEvent.tab();
   expect(screen.getByText('Siirry sisältöön')).toHaveFocus();
 });
 
@@ -99,7 +103,7 @@ test('header renders cms menu items', async () => {
         },
         { timeout: 2000 }
       );
-      userEvent.click(dropdownButton);
+      await userEvent.click(dropdownButton);
       for (const childItem of menuItem.children) {
         await screen.findByRole('link', {
           name: childItem.title,

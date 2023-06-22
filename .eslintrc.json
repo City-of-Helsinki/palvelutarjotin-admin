@@ -17,7 +17,16 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "import/named": "off",
-    "no-only-tests/no-only-tests": "error"
+    "no-only-tests/no-only-tests": "error",
+    "testing-library/prefer-screen-queries": "off",
+    "@typescript-eslint/no-restricted-imports": [
+      "warn",
+      {
+        "name": "react-redux",
+        "importNames": ["useSelector", "useDispatch"],
+        "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
+      }
+    ]
   },
   "overrides": [
     {

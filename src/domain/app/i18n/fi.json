@@ -477,11 +477,11 @@
     "eventCard": {
       "ariaLabelOpenOccurrences": "Siirry tapahtuman {{eventName}} tapahtuma-aikoihin",
       "textEnrolments": "{{count}} ilmoittautunut",
-      "textEnrolments_plural": "{{count}} ilmoittautunutta",
+      "textEnrolments_other": "{{count}} ilmoittautunutta",
       "textExternalEnrolments": "Ilmoittautuminen muulla sivustolla",
       "textUnenrollable": "Ei ilmoittautumista",
       "textOccurrences": "{{count}} tapahtuma-aika",
-      "textOccurrences_plural": "{{count}} tapahtuma-aikaa",
+      "textOccurrences_other": "{{count}} tapahtuma-aikaa",
       "statusPublished": "Julkaistu",
       "statusNotPublished": "Ei julkaistu",
       "free": "Maksuton",
@@ -550,7 +550,7 @@
   "eventOccurrenceForm": {
     "infoText1": "Lisää tapahtumalle tapahtuma-aika, johon asiakkaat voivat ilmoittautua. Huomaathan, että voit luoda kerralla suuremman määrän aikoja kopioimalla jo luomiasi tapahtuma-aikoja.",
     "infoText2": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivä ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
-    "infoText2_plural": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
+    "infoText2_other": "Ilmoittautuminen tähän tapahtuma-aikaan on mahdollista <strong>{{date}}</strong> jälkeen ja sulkeutuu <strong>{{count}}</strong> päivää ennen tapahtuma-ajan alkua. Voit muuttaa näitä asetuksia tapahtuman tiedoissa.",
     "helpTextFirstOccurrence": "Täydennä ensimmäisen tapahtuma-ajan tiedot",
     "labelStartDate": "Päivämäärä",
     "labelStartTime": "Alkaa klo",
@@ -712,8 +712,8 @@
     "textDateAndTime": "{{date}} klo {{time}}",
     "textAmountOfSeats": "{{count}} paikka",
     "textAmountOfGroups": "{{count}} ryhmä",
-    "textAmountOfGroups_plural": "{{count}} ryhmää",
-    "textAmountOfSeats_plural": "{{count}} paikkaa",
+    "textAmountOfGroups_other": "{{count}} ryhmää",
+    "textAmountOfSeats_other": "{{count}} paikkaa",
     "textGroupInfo": "ryhmän koko {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Kieli"
   },
@@ -797,7 +797,7 @@
   },
   "studyLevel": {
     "grade": "{{count}}. luokka",
-    "grade_plural": "{{count}}. luokka",
+    "grade_other": "{{count}}. luokka",
     "preschool": "5-6 -vuotiaat",
     "secondary": "Toisen asteen opiskelijat",
     "age02": "0-2 -vuotiaat",

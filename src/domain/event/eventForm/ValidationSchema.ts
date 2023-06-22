@@ -50,30 +50,38 @@ const createValidationSchemaYup = (selectedLanguages: Language[]) =>
       .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     keywords: Yup.array().min(0),
     image: Yup.string(),
-    imagePhotographerName: Yup.string().when('image', {
-      is: (image: string) => image,
-      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-      otherwise: Yup.string(),
-    }),
-    imageAltText: Yup.string().when('image', {
-      is: (image: string) => image,
-      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-      otherwise: Yup.string(),
-    }),
+    imagePhotographerName: Yup.string().when(
+      'image',
+      ([image], schema: Yup.StringSchema) => {
+        if (image)
+          return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
+        return schema;
+      }
+    ),
+    imageAltText: Yup.string().when(
+      'image',
+      ([image], schema: Yup.StringSchema) => {
+        if (image)
+          return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
+        return schema;
+      }
+    ),
     contactPersonId: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
     ),
     contactEmail: Yup.string().email(VALIDATION_MESSAGE_KEYS.EMAIL),
-    price: Yup.string().when('isFree', {
-      is: false,
-      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    price: Yup.string().when('isFree', ([isFree], schema: Yup.StringSchema) => {
+      if (!isFree)
+        return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
+      return schema;
     }),
-    priceDescription: Yup.object().when('isFree', {
-      is: false,
-      then: createMultiLanguageValidation(
-        selectedLanguages,
-        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      ),
+    priceDescription: Yup.object().when('isFree', ([isFree], schema) => {
+      if (!isFree)
+        return createMultiLanguageValidation(
+          selectedLanguages,
+          Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        );
+      return schema;
     }),
   });
 

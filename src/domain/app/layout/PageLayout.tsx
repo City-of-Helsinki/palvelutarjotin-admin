@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { TERMS_OF_SERVICE_SLUGS } from '../../../constants';
 import { useMyProfileQuery } from '../../../generated/graphql';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 import useLocale from '../../../hooks/useLocale';
 import {
   isAuthenticatedSelector,
@@ -22,11 +22,11 @@ import ProtectedPageWrapper from './ProtectedPageWrapper';
 
 export const MAIN_CONTENT_ID = 'main-content';
 
-const PageLayout: React.FC = ({ children }) => {
-  const { pathname } = useLocation();
+const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+  const { pathname } = useLocation() ?? { pathname: '' };
   const { isMobileMenuOpen } = useMobileMenuContext();
-  const isAuthenticated = useSelector(isAuthenticatedSelector);
-  const isLoadingUser = useSelector(isLoadingUserSelector);
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
+  const isLoadingUser = useAppSelector(isLoadingUserSelector);
   const { loading: loadingMyProfile } = useMyProfileQuery({
     skip: !isAuthenticated,
   });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../../domain/app/layout/Container';
@@ -18,10 +17,40 @@ import CmsPageSearch from './CmsPageSearch/CmsPageSearch';
 export const SEARCH_PANEL_TRESHOLD = 5;
 export const breadcrumbsContainerTestId = 'breadcrumbs-container';
 
+/**
+ * In React router V6 there is no chance to create a dynamic RegExp URL pattern,
+ * so all the stages must be handled explicitly.
+ * https://reactrouter.com/en/main/upgrading/v5.
+ * https://github.com/remix-run/react-router/discussions/8132
+ */
+const useReactRouterV6Uri = () => {
+  const { slug, subslug, subsubslug, subsubsubslug } = useParams<{
+    slug: string;
+    subslug: string;
+    subsubslug: string;
+    subsubsubslug: string;
+  }>();
+  let uri = `/${slug}`;
+  if (subslug) {
+    uri += `/${subslug}`;
+  }
+  if (subsubslug) {
+    uri += `/${subsubslug}`;
+  }
+  if (subsubsubslug) {
+    uri += `/${subsubsubslug}`;
+  }
+  return uri;
+};
+
 const CmsPage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const { data: pageData, loading: loadingPage } = usePageQuery(slug);
-  const { breadcrumbs, loading: loadingNavigation } = useCmsNavigation(slug);
+  const uri = useReactRouterV6Uri();
+  const { data: pageData, loading: loadingPage } = usePageQuery(uri ?? '', {
+    skip: !uri,
+  });
+  const { breadcrumbs, loading: loadingNavigation } = useCmsNavigation(
+    uri ?? ''
+  );
   const page = pageData?.page;
 
   const showSearch =

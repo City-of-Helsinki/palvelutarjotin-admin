@@ -30,8 +30,8 @@ import {
   VenueDocument,
   VenueQuery,
 } from '../../generated/graphql';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
@@ -69,12 +69,12 @@ import {
 import { getEditEventPayload, useBaseEventQuery } from './utils';
 import ValidationSchema from './ValidationSchema';
 
-interface Params {
+type Params = {
   id: string;
-}
+};
 
 const CreateOccurrencePage: React.FC = () => {
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const { t } = useTranslation();
   const locale = useLocale();
   const apolloClient = useApolloClient();
@@ -99,7 +99,7 @@ const CreateOccurrencePage: React.FC = () => {
     loading: loadingEvent,
   } = useBaseEventQuery({
     skip: !eventId,
-    variables: { id: eventId },
+    variables: { id: eventId! },
     fetchPolicy: 'network-only',
   });
 
@@ -212,13 +212,18 @@ const CreateOccurrencePage: React.FC = () => {
       EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
       NAVIGATED_FROM.OCCURRENCES
     );
-    history.pushWithLocale(
-      `${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(':id', eventId)
-    );
+    eventId &&
+      pushWithLocale(
+        `${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(
+          ':id',
+          eventId
+        )
+      );
   };
 
   const goToSummaryPage = () => {
-    history.pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
+    eventId &&
+      pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
   };
 
   const handleSelectedLanguagesChange = (

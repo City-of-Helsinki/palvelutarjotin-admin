@@ -1,14 +1,15 @@
 import { render } from '@testing-library/react';
 import * as React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import Footer from '../Footer';
 
 it('Footer matches snapshot', () => {
   const { container } = render(
-    <Router>
+    <BrowserRouter>
       <Footer />
-    </Router>
+    </BrowserRouter>
   );
+  // eslint-disable-next-line testing-library/no-node-access
   expect(container.firstChild).toMatchSnapshot();
 });

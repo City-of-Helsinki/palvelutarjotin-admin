@@ -15,16 +15,16 @@ const renderMenuDropdown = (props: MenuDropdownProps) => {
     selector: 'button',
   });
 
-  const clickOnToggleButton = () => {
-    userEvent.click(toggleButton);
+  const clickOnToggleButton = async () => {
+    await userEvent.click(toggleButton);
   };
 
   const getItems = () => screen.getAllByRole('menuitem');
 
   const getItemAtIndex = (index: number) => getItems()[index];
 
-  const clickOnItemAtIndex = (index: number) => {
-    userEvent.click(getItemAtIndex(index));
+  const clickOnItemAtIndex = async (index: number) => {
+    await userEvent.click(getItemAtIndex(index));
   };
 
   const keyDown = (key: string) => {
@@ -71,14 +71,10 @@ const defaultProps: MenuDropdownProps = {
 
 describe('MenuDropdown component', () => {
   it('changes focused item correctly', async () => {
-    const {
-      arrowDown,
-      arrowUp,
-      clickOnToggleButton,
-      getItemAtIndex,
-    } = renderMenuDropdown(defaultProps);
+    const { arrowDown, arrowUp, clickOnToggleButton, getItemAtIndex } =
+      renderMenuDropdown(defaultProps);
 
-    clickOnToggleButton();
+    await clickOnToggleButton();
 
     arrowDown();
 
@@ -103,9 +99,8 @@ describe('MenuDropdown component', () => {
   });
 
   it('calls onChange callback correctly', () => {
-    const { getItemAtIndex, clickOnToggleButton } = renderMenuDropdown(
-      defaultProps
-    );
+    const { getItemAtIndex, clickOnToggleButton } =
+      renderMenuDropdown(defaultProps);
 
     clickOnToggleButton();
 

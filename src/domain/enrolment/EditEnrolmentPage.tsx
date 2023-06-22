@@ -1,7 +1,7 @@
 import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import BackButton from '../../common/components/backButton/BackButton';
@@ -13,8 +13,8 @@ import {
   useUpdateEnrolmentMutation,
 } from '../../generated/graphql';
 import useGoBack from '../../hooks/useGoBack';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import { extractLatestReturnPath } from '../../utils/extractLatestReturnPath';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -34,7 +34,7 @@ const EditorEnrolmentPage: React.FC = () => {
     eventId: string;
   }>();
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const locale = useLocale();
   const { search } = useLocation();
   const [selectedLanguage] = React.useState(locale);
@@ -44,8 +44,9 @@ const EditorEnrolmentPage: React.FC = () => {
   const [updateEnrolment] = useUpdateEnrolmentMutation();
 
   const { data: enrolmentData, loading } = useEnrolmentQuery({
+    skip: !enrolmentId,
     variables: {
-      id: enrolmentId,
+      id: enrolmentId!,
     },
   });
   const organisationId =
@@ -54,7 +55,7 @@ const EditorEnrolmentPage: React.FC = () => {
 
   const defaultReturnPath = ROUTES.OCCURRENCE_DETAILS.replace(
     ':id',
-    eventId
+    eventId ?? ''
   ).replace(':occurrenceId', occurrenceId!);
 
   const goBack = useGoBack({
@@ -102,7 +103,7 @@ const EditorEnrolmentPage: React.FC = () => {
       if (enrolmentUpdated) {
         searchParams.append(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED, 'true');
       }
-      history.pushWithLocale({
+      pushWithLocale({
         pathname: returnPath,
         search: searchParams.toString(),
       });

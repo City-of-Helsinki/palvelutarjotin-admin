@@ -11,6 +11,7 @@ interface Props {
   onConfirm: () => void;
   title: string;
   toggleModal: () => void;
+  children?: React.ReactNode;
 }
 
 const NotificationModal: React.FC<Props> = ({

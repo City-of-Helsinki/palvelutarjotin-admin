@@ -1,10 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
+import * as Router from 'react-router-dom';
 
 import {
   EnrolmentStatus,
   EventDocument,
   EventQueueEnrolmentsDocument,
+  MyProfileDocument,
   OccurrenceDocument,
   PlaceDocument,
   VenueDocument,
@@ -16,6 +18,7 @@ import {
   fakeLanguages,
   fakeLocalizedObject,
   fakeOccurrence,
+  fakeOrganisations,
   fakePerson,
   fakePEvent,
   fakePlace,
@@ -31,7 +34,13 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
-
+const navigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router-dom'),
+  };
+});
 const placeId = 'tprek:15376';
 const eventId = 'palvelutarjotin:afzunowba4';
 const eventId2 = 'palvelutarjotin:afzunovba4';
@@ -98,6 +107,22 @@ const venueResult = {
       ],
     }),
   },
+};
+
+const profileResult = {
+  data: {
+    myProfile: fakePerson({
+      organisations: fakeOrganisations(1),
+      isStaff: true,
+    }),
+  },
+};
+
+const myProfileMock = {
+  request: {
+    query: MyProfileDocument,
+  },
+  result: profileResult,
 };
 
 const occurrence = {
@@ -247,6 +272,7 @@ const defaultMocks = [
     },
     result: venueResult,
   },
+  myProfileMock,
 ];
 
 const renderComponent = ({
@@ -266,51 +292,51 @@ const renderComponent = ({
 };
 
 test('occurrence details are rendered', async () => {
-  renderComponent({ mocks: [eventMock1, occurrenceMock1] });
+  renderComponent({
+    mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
+  });
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  expect(screen.queryByText('Tapahtuma 13.7.2020')).toBeInTheDocument();
+  expect(screen.getByText('Tapahtuma 13.7.2020')).toBeInTheDocument();
   expect(
-    screen.queryByText('Torstaina 10.9.2020 klo 12:00 – 12:30')
+    screen.getByText('Torstaina 10.9.2020 klo 12:00 – 12:30')
   ).toBeInTheDocument();
-  expect(
-    screen.queryByText('30 paikkaa, ryhmän koko 10–20')
-  ).toBeInTheDocument();
-  expect(screen.queryByText('Kieli: suomi, englanti')).toBeInTheDocument();
+  expect(screen.getByText('30 paikkaa, ryhmän koko 10–20')).toBeInTheDocument();
+  expect(screen.getByText('Kieli: suomi, englanti')).toBeInTheDocument();
 
   expect(
-    screen.queryByRole('button', { name: 'Näytä tapahtuman tiedot' })
+    screen.getByRole('button', { name: 'Näytä tapahtuman tiedot' })
   ).toBeInTheDocument();
   expect(
-    screen.queryByRole('button', { name: 'Muokkaa tapahtuma-aikaa' })
+    screen.getByRole('button', { name: 'Muokkaa tapahtuma-aikaa' })
   ).toBeInTheDocument();
 
   // wait for place request to finish
   await waitFor(() => {
-    expect(screen.queryByText('Soukan kirjasto')).toBeInTheDocument();
+    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument();
   });
 
   // wait for venue request to finish
   await waitFor(() => {
-    expect(screen.queryByText('Soukkas')).toBeInTheDocument();
+    expect(screen.getByText('Soukkas')).toBeInTheDocument();
   });
 
-  expect(screen.queryByText('Vaatesäilytys')).toBeInTheDocument();
-  expect(screen.queryByText('Tapahtuma 13.7.2020')).toBeInTheDocument();
+  expect(screen.getByText('Vaatesäilytys')).toBeInTheDocument();
+  expect(screen.getByText('Tapahtuma 13.7.2020')).toBeInTheDocument();
 
   // enrolment table title
-  expect(screen.queryByText('Ilmoittautuneet')).toBeInTheDocument();
+  expect(screen.getByText('Ilmoittautuneet')).toBeInTheDocument();
   expect(
-    screen.queryByText('20 kpl, 20 vahvistettu, 0 vahvistamatta')
+    screen.getByText('20 kpl, 20 vahvistettu, 0 vahvistamatta')
   ).toBeInTheDocument();
 });
 
 test('renders multiday occurrence date correctly', async () => {
   renderComponent({
     routes: [testPath2],
-    mocks: [eventMock2, occurrenceMock2],
+    mocks: [eventMock2, occurrenceMock2, eventsQueueEnrolmentsMock1],
   });
 
   await waitFor(() => {
@@ -318,14 +344,14 @@ test('renders multiday occurrence date correctly', async () => {
   });
 
   expect(
-    screen.queryByText('10.9.2020 klo 12:00 — 13.9.2020 klo 12:30')
+    screen.getByText('10.9.2020 klo 12:00 — 13.9.2020 klo 12:30')
   ).toBeInTheDocument();
 });
 
 test("hides enrolment table when event doesn't have internal enrolment", async () => {
   renderComponent({
     routes: [testPath2],
-    mocks: [eventMock2, occurrenceMock2],
+    mocks: [eventMock2, occurrenceMock2, eventsQueueEnrolmentsMock1],
   });
 
   await waitFor(() => {
@@ -336,8 +362,10 @@ test("hides enrolment table when event doesn't have internal enrolment", async (
 });
 
 test('enrolment table renders correct information', async () => {
-  const { history } = renderComponent({ mocks: [eventMock1, occurrenceMock1] });
-  const pushSpy = jest.spyOn(history, 'push');
+  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  renderComponent({
+    mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
+  });
 
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
@@ -345,21 +373,24 @@ test('enrolment table renders correct information', async () => {
 
   // wait for venue request to finish
   await waitFor(() => {
-    expect(screen.queryByText('Soukan kirjasto')).toBeInTheDocument();
+    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument();
   });
 
   expect(screen.getAllByText('18.8.2020')).toHaveLength(2);
   expect(screen.getAllByText('Hyväksytty')).toHaveLength(2);
-  expect(screen.queryByText('Testi Testaaja')).toBeInTheDocument();
-  expect(screen.queryByText('Ilmoittautuja')).toBeInTheDocument();
+  expect(screen.getByText('Testi Testaaja')).toBeInTheDocument();
+  expect(screen.getByText('Ilmoittautuja')).toBeInTheDocument();
 
-  userEvent.click(screen.getByText('Testi Testaaja'));
+  await userEvent.click(screen.getByText('Testi Testaaja'));
 
-  expect(pushSpy).toHaveBeenCalledWith({
-    pathname:
-      '/fi/events/palvelutarjotin:afzunowba4/occurrences/T2NjdXJyZW5jZU5vZGU6MTIz/enrolments/afdgsgfsdg23532',
-    search: '',
-  });
+  expect(navigate).toHaveBeenCalledWith(
+    {
+      pathname:
+        '/fi/events/palvelutarjotin:afzunowba4/occurrences/T2NjdXJyZW5jZU5vZGU6MTIz/enrolments/afdgsgfsdg23532',
+      search: '',
+    },
+    expect.anything()
+  );
 });
 
 test('enrolment queue table renders correct information', async () => {
@@ -373,10 +404,10 @@ test('enrolment queue table renders correct information', async () => {
 
   // wait for venue request to finish
   await waitFor(() => {
-    expect(screen.queryByText('Soukan kirjasto')).toBeInTheDocument();
+    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument();
   });
 
   expect(screen.getAllByText('19.8.2020')).toHaveLength(1);
   expect(screen.getAllByText('Jonossa')).toHaveLength(2);
-  expect(screen.queryByText('Test Guy')).toBeInTheDocument();
+  expect(screen.getByText('Test Guy')).toBeInTheDocument();
 });

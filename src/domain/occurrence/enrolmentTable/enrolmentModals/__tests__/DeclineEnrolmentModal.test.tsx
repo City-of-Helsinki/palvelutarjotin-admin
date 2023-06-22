@@ -44,17 +44,17 @@ it('renders correctly and calls decline enrolment handler', async () => {
   await actWait();
 
   expect(
-    screen.queryByText(messages.enrolment.enrolmentModal.declineEnrolment)
+    screen.getByText(messages.enrolment.enrolmentModal.declineEnrolment)
   ).toBeInTheDocument();
 
   expect(
-    screen.queryByText(messages.enrolment.enrolmentModal.declineEnrolmentNote)
+    screen.getByText(messages.enrolment.enrolmentModal.declineEnrolmentNote)
   ).toBeInTheDocument();
 
   const declineEnrolmentButton = screen.getByText(
     messages.enrolment.enrolmentModal.sendCancelMessage
   );
-  userEvent.click(declineEnrolmentButton);
+  await userEvent.click(declineEnrolmentButton);
 
   expect(declineEnrolmentHandler).toHaveBeenCalledTimes(1);
 });
@@ -77,7 +77,7 @@ it('calls close handle when close button is clicked', async () => {
     name: messages.enrolment.enrolmentModal.cancelEnrolment,
   });
 
-  userEvent.click(cancelButton);
+  await userEvent.click(cancelButton);
 
   expect(onCloseHandler).toHaveBeenCalledTimes(1);
 });
@@ -96,6 +96,6 @@ it('renders enrollees list correctly', async () => {
   await actWait();
 
   persons.forEach((person) => {
-    expect(screen.queryByText(person.personName)).toBeInTheDocument();
+    expect(screen.getByText(person.personName)).toBeInTheDocument();
   });
 });

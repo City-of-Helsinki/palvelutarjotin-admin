@@ -9,7 +9,7 @@ import {
   OccurrenceFieldsFragment,
   OccurrenceSeatType,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
+import useNavigate from '../../../hooks/useNavigate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
@@ -37,7 +37,7 @@ const OccurrencesTable: React.FC<Props> = ({
   onCancel,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const [selectedOccurrences, setSelectedOccurrences] = React.useState<
     string[]
   >([]);
@@ -67,7 +67,7 @@ const OccurrencesTable: React.FC<Props> = ({
   };
 
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
-    history.pushWithLocale(
+    pushWithLocale(
       ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.original.id

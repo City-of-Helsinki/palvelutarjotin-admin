@@ -12,13 +12,13 @@ it('matches snapshot', () => {
   expect(container).toMatchSnapshot();
 });
 
-it('render correct text and calls onClick callback when clicked', () => {
+it('render correct text and calls onClick callback when clicked', async () => {
   const onClickMock = jest.fn();
   render(<DeleteButton onClick={onClickMock}>Delete</DeleteButton>);
 
-  expect(screen.queryByText(/delete/i)).toBeInTheDocument();
+  expect(screen.getByText(/delete/i)).toBeInTheDocument();
 
-  userEvent.click(screen.getByText(/delete/i));
+  await userEvent.click(screen.getByText(/delete/i));
 
   expect(onClickMock).toHaveBeenCalled();
 });

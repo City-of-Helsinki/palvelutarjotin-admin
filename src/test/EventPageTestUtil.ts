@@ -5,6 +5,7 @@ import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import {
   EditEventDocument,
   EventDocument,
+  ImageDocument,
   KeywordDocument,
   KeywordSetType,
   Language,
@@ -30,6 +31,7 @@ import {
 import { getKeywordSetsMockResponses } from './apollo-mocks/keywordSetMocks';
 export const keywordId = 'yso:p4363';
 export const placeId = 'tprek:15417';
+export const imageId = '48598';
 export const eventId = 'palvelutarjotin:afz56bfiaq';
 export const shortDescription = 'Testitapahtuman kuvaus';
 export const description = 'Pidempi kuvaus';
@@ -121,7 +123,7 @@ export const basicKeywords = [...criteriaKeywords, ...categoryKeywords];
 const editEventVariables = {
   event: {
     id: eventId,
-    name: createFinnishLocalisedObject('TestitapahtumaTestinimi', true),
+    name: createFinnishLocalisedObject('Testitapahtuma', true),
     startTime: '2020-08-04T21:00:00.000Z',
     endTime: '',
     offers: [
@@ -199,7 +201,7 @@ const eventResponse = {
       offers: [fakeOffer()],
       images: [
         fakeImage({
-          id: '48598',
+          id: imageId,
           altText: photoAltText,
           photographerName: photographerName,
         }),
@@ -287,6 +289,12 @@ const placeResponse = {
   },
 };
 
+const iamgeResponse = {
+  data: {
+    image: fakeImage({ id: imageId }),
+  },
+};
+
 export const editMocks = [
   {
     request: {
@@ -305,6 +313,18 @@ export const editMocks = [
           location: {
             internalId: '/place/helsinki:internet/',
           },
+        },
+      },
+    },
+    result: updateEventResponse,
+  },
+  {
+    request: {
+      query: EditEventDocument,
+      variables: {
+        event: {
+          ...editEventVariables.event,
+          name: createFinnishLocalisedObject('Testinimi', true),
         },
       },
     },
@@ -344,6 +364,13 @@ export const editMocks = [
       },
     },
     result: placeResponse,
+  },
+  {
+    request: {
+      query: ImageDocument,
+      variables: { id: imageId },
+    },
+    result: iamgeResponse,
   },
   ...getKeywordSetsMockResponses([
     {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import { useMyProfileQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -7,7 +7,9 @@ import CreateMyProfile from '../../myProfile/CreateMyProfile';
 import RegistrationPendingPage from '../register/RegistrationPendingPage';
 import { ROUTES } from '../routes/constants';
 
-const ProtectedPageWrapper: React.FC = ({ children }) => {
+const ProtectedPageWrapper: React.FC<{ children?: React.ReactNode }> = ({
+  children,
+}) => {
   const { data, refetch } = useMyProfileQuery();
   const { pathname } = useLocation();
   const locale = useLocale();

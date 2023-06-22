@@ -31,10 +31,10 @@ it('matches snapshot', () => {
 it('displays correct texts and handles click', () => {
   const { rerender } = render(<EventCard {...defaultEventCardProps} />);
 
-  expect(screen.queryByRole('button')).toBeInTheDocument();
-  expect(screen.queryByText(/^8 tapahtuma-aikaa$/i)).toBeInTheDocument();
-  expect(screen.queryByText(/^2 ilmoittautunutta$/i)).toBeInTheDocument();
-  expect(screen.queryByText(/^julkaistu$/i)).toBeInTheDocument();
+  expect(screen.getByRole('button')).toBeInTheDocument();
+  expect(screen.getByText(/^8 tapahtuma-aikaa$/i)).toBeInTheDocument();
+  expect(screen.getByText(/^2 ilmoittautunutta$/i)).toBeInTheDocument();
+  expect(screen.getByText(/^julkaistu$/i)).toBeInTheDocument();
 
   rerender(
     <EventCard
@@ -44,7 +44,7 @@ it('displays correct texts and handles click', () => {
   );
 
   expect(screen.queryByText(/^julkaistu$/i)).not.toBeInTheDocument();
-  expect(screen.queryByText(/^ei julkaistu$/i)).toBeInTheDocument();
+  expect(screen.getByText(/^ei julkaistu$/i)).toBeInTheDocument();
 
   const image = screen.getByTestId(`event-image-${defaultEventCardProps.id}`);
   expect(image).toHaveStyle(
@@ -61,7 +61,7 @@ it('displays event with external enrolment correctly', () => {
   );
   expect(screen.queryByText(/^2 ilmoittautunutta$/i)).not.toBeInTheDocument();
   expect(
-    screen.queryByText(/ilmoittautuminen muulla sivustolla/i)
+    screen.getByText(/ilmoittautuminen muulla sivustolla/i)
   ).toBeInTheDocument();
 });
 
@@ -73,5 +73,5 @@ it('displays unenrollable event correctly', () => {
     />
   );
   expect(screen.queryByText(/^2 ilmoittautunutta$/i)).not.toBeInTheDocument();
-  expect(screen.queryByText(/ei ilmoittautumista/i)).toBeInTheDocument();
+  expect(screen.getByText(/ei ilmoittautumista/i)).toBeInTheDocument();
 });

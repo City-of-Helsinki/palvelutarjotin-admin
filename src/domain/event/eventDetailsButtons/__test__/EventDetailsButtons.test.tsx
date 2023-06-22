@@ -1,11 +1,18 @@
 import userEvent from '@testing-library/user-event';
 import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
+import * as Router from 'react-router-dom';
 
 import { fakeEvent } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import EventDetailsButtons from '../EventDetailsButtons';
-
+const navigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router-dom'),
+  };
+});
 const eventId = 'palvelutarjotin:afzunowba4';
 
 const event = fakeEvent({
@@ -35,39 +42,41 @@ afterEach(() => {
 //   expect(container).toMatchSnapshot();
 // });
 
-test('it renders correct texts and click events work', () => {
+test('it renders correct texts and click events work', async () => {
+  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   advanceTo(new Date(2020, 6, 10));
 
-  const clickLanguageMock = jest.fn();
-  const { history } = render(
+  render(
     <EventDetailsButtons
       eventData={{ event }}
-      onClickLanguage={clickLanguageMock}
+      onClickLanguage={jest.fn()}
       selectedLanguage="fi"
     />
   );
 
-  const pushSpy = jest.spyOn(history, 'push');
-
   const backButton = screen.getByRole('button', { name: 'Takaisin' });
-  userEvent.click(backButton);
+  await userEvent.click(backButton);
 
-  expect(pushSpy).toHaveBeenCalledTimes(1);
-  expect(pushSpy).toHaveBeenCalledWith({
-    pathname: '/fi',
-    search: '',
-    state: undefined,
-  });
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith(
+    {
+      pathname: '/fi',
+      search: '',
+    },
+    expect.anything()
+  );
 
   const editButton = screen.getByRole('button', { name: 'Muokkaa tapahtumaa' });
-  userEvent.click(editButton);
+  await userEvent.click(editButton);
 
-  expect(pushSpy).toHaveBeenCalledTimes(2);
-  expect(pushSpy).toHaveBeenCalledWith({
-    pathname: '/fi',
-    search: '',
-    state: undefined,
-  });
+  expect(navigate).toHaveBeenCalledTimes(2);
+  expect(navigate).toHaveBeenCalledWith(
+    {
+      pathname: '/fi',
+      search: '',
+    },
+    expect.anything()
+  );
 
   expect(screen.queryByText('Takaisin')).toBeVisible();
   expect(screen.queryByText('suomi')).toBeVisible();

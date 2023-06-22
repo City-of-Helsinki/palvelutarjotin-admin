@@ -8,8 +8,8 @@ import {
   EventFieldsFragment,
   OccurrenceFieldsFragment,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
+import useNavigate from '../../../hooks/useNavigate';
 import IconClock from '../../../icons/IconClock';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import {
@@ -36,7 +36,7 @@ interface Props {
 const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const { pushWithReturnPath } = useNavigate();
   const enrolmentType = getEnrolmentType(event);
   const hasInternalEnrolment = enrolmentType === EnrolmentType.Internal;
   const { eventName = '', id: eventId } = getEventFields(event, locale);
@@ -49,8 +49,8 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
   const placeId = occurrence.placeId || event.location?.id;
 
   const goToEventDetailsPage = () => {
-    history.pushWithReturnPath(
-      ROUTES.EVENT_DETAILS.replace(':id', eventId || '')
+    pushWithReturnPath(
+      `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId || '')}`
     );
   };
 
@@ -131,11 +131,11 @@ const EditOccurrenceButton: React.FC<{
   eventId?: string;
   occurrenceId: string;
 }> = ({ occurrenceId, eventId }) => {
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const { t } = useTranslation();
 
   const goToEditOccurrencePage = () => {
-    history.pushWithLocale(
+    pushWithLocale(
       ROUTES.CREATE_OCCURRENCE.replace(':id', eventId || '').replace(
         ':occurrenceId',
         occurrenceId

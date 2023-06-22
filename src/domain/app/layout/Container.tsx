@@ -6,6 +6,7 @@ import styles from './container.module.scss';
 const Container: FunctionComponent<{
   className?: string;
   size?: 'default' | 'xsmall' | 'small';
+  children?: React.ReactNode;
 }> = ({ children, className, size = 'default' }) => {
   return (
     <div className={classnames(styles.container, styles[size], className)}>

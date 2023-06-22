@@ -24,7 +24,8 @@ import {
   useDeleteEnrolmentMutation,
   useEnrolmentQuery,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
+import useLocale from '../../../hooks/useLocale';
+import useNavigate from '../../../hooks/useNavigate';
 import { formatIntoDateTime } from '../../../utils/time/format';
 import { translateValue } from '../../../utils/translateUtils';
 import { ROUTES } from '../../app/routes/constants';
@@ -53,7 +54,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   onGoBackClick,
   refetchOccurrence,
 }) => {
-  const history = useHistory();
+  const locale = useLocale();
+  const { pushWithReturnPath } = useNavigate();
   const { t } = useTranslation();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
   const [declineModalOpen, setDeclineModalOpen] = React.useState(false);
@@ -150,11 +152,11 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   };
 
   const handleEditEnrolment = () => {
-    history.pushWithReturnPath(
-      ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
+    pushWithReturnPath(
+      `/${locale}${ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
         ':enrolmentId',
         enrolmentId
-      )
+      )}`
     );
   };
 

@@ -8,12 +8,12 @@ it('matches snapshot', () => {
   render(<BackButton onClick={jest.fn()} />);
 });
 
-it('calls onClick callback when clicked and displays correct text', () => {
+it('calls onClick callback when clicked and displays correct text', async () => {
   const onClickMock = jest.fn();
   render(<BackButton onClick={onClickMock}>Back</BackButton>);
 
-  expect(screen.queryByText(/back/i)).toBeInTheDocument();
+  expect(screen.getByText(/back/i)).toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: 'Back' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Back' }));
   expect(onClickMock).toHaveBeenCalled();
 });

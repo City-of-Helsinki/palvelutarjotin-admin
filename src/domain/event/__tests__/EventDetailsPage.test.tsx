@@ -25,6 +25,13 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import EventDetailsPage from '../EventDetailsPage';
 
+jest.mock('../../../generated/graphql', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('../../../generated/graphql'),
+  };
+});
+
 beforeEach(() => {
   advanceTo(new Date(2021, 7, 20));
 });
@@ -69,7 +76,7 @@ const profileMock = fakePerson({
   name: 'Nimi niminen',
 });
 const venueMock = fakeVenue({
-  id: eventMock.location.id,
+  id: eventMock.location!.id!,
   hasSnackEatingPlace: true,
   hasClothingStorage: true,
   outdoorActivity: true,
@@ -134,7 +141,7 @@ const apolloMocks: MockedResponse[] = [
   {
     request: {
       query: graphql.PlaceDocument,
-      variables: { id: eventMock.location.id },
+      variables: { id: eventMock.location!.id },
     },
     result: {
       data: {
@@ -145,7 +152,7 @@ const apolloMocks: MockedResponse[] = [
   {
     request: {
       query: graphql.VenueDocument,
-      variables: { id: eventMock.location.id },
+      variables: { id: eventMock.location!.id },
     },
     result: {
       data: {
@@ -173,7 +180,7 @@ test('renders correct information and delete works', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.queryByText('TestiVenue')).toBeInTheDocument();
+    expect(screen.getByText('TestiVenue')).toBeInTheDocument();
   });
 
   // Suomi language is active
@@ -182,28 +189,28 @@ test('renders correct information and delete works', async () => {
   );
 
   expect(
-    screen.queryByRole('heading', { name: 'Testitapahtuma' })
+    screen.getByRole('heading', { name: 'Testitapahtuma' })
   ).toBeInTheDocument();
   expect(
-    screen.queryByRole('heading', { name: 'Tapahtuman perustiedot' })
+    screen.getByRole('heading', { name: 'Tapahtuman perustiedot' })
   ).toBeInTheDocument();
 
-  expect(screen.queryByText('Tapahtuman testikuvaus')).toBeInTheDocument();
+  expect(screen.getByText('Tapahtuman testikuvaus')).toBeInTheDocument();
 
   expect(
-    screen.queryByRole('heading', { name: 'Yhteyshenkilö' })
+    screen.getByRole('heading', { name: 'Yhteyshenkilö' })
   ).toBeInTheDocument();
 
   await waitFor(() => {
-    expect(screen.queryByText(personName)).toBeInTheDocument();
+    expect(screen.getByText(personName)).toBeInTheDocument();
   });
 
-  expect(screen.queryByText('test@email.com')).toBeInTheDocument();
-  expect(screen.queryByText('1233211234')).toBeInTheDocument();
+  expect(screen.getByText('test@email.com')).toBeInTheDocument();
+  expect(screen.getByText('1233211234')).toBeInTheDocument();
 
-  expect(screen.queryByText('TestiVenue')).toBeInTheDocument();
-  expect(screen.queryByText('Eväidensyöntipaikka')).toBeInTheDocument();
-  expect(screen.queryByText('Vaatesäilytys')).toBeInTheDocument();
+  expect(screen.getByText('TestiVenue')).toBeInTheDocument();
+  expect(screen.getByText('Eväidensyöntipaikka')).toBeInTheDocument();
+  expect(screen.getByText('Vaatesäilytys')).toBeInTheDocument();
   expect(screen.getByText(/ilmoittautuminen alkaa/i)).toBeInTheDocument();
   expect(
     screen.getByText(/ilmoittautuminen sulkeutuu, päivää/i)
@@ -216,11 +223,11 @@ test('renders correct information and delete works', async () => {
   );
 
   const deleteButton = screen.getByRole('button', { name: 'Poista tapahtuma' });
-  userEvent.click(deleteButton);
+  await userEvent.click(deleteButton);
 
   const modal = within(screen.getByRole('dialog'));
   expect(
-    modal.queryByText('Poista tapahtuma', { selector: 'div' })
+    modal.getByText('Poista tapahtuma', { selector: 'div' })
   ).toBeInTheDocument();
 
   const modalTexts = [
@@ -230,14 +237,16 @@ test('renders correct information and delete works', async () => {
   ];
 
   modalTexts.forEach((t) => {
-    expect(modal.queryByText(t)).toBeInTheDocument();
+    expect(modal.getByText(t)).toBeInTheDocument();
   });
 
-  expect(modal.queryByText('26.8.2021 klo 00:00')).toBeInTheDocument();
-  expect(modal.queryByTestId('dots')).toBeInTheDocument();
-  expect(modal.queryByText('31.8.2021 klo 00:00')).toBeInTheDocument();
+  expect(modal.getByText('26.8.2021 klo 00:00')).toBeInTheDocument();
+  expect(modal.getByTestId('dots')).toBeInTheDocument();
+  expect(modal.getByText('31.8.2021 klo 00:00')).toBeInTheDocument();
 
-  userEvent.click(modal.getByRole('button', { name: 'Poista tapahtuma' }));
+  await userEvent.click(
+    modal.getByRole('button', { name: 'Poista tapahtuma' })
+  );
 
   expect(deleteMock).toHaveBeenCalledWith({
     variables: {
@@ -280,7 +289,7 @@ test('enrolment info is not shown when enrolments are not done internally', asyn
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
   expect(
-    screen.queryByRole('heading', { name: 'Tapahtuman perustiedot' })
+    screen.getByRole('heading', { name: 'Tapahtuman perustiedot' })
   ).toBeInTheDocument();
   expect(screen.queryByText(/ilmoittautuminen alkaa/i)).not.toBeInTheDocument();
   expect(

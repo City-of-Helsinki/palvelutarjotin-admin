@@ -7,6 +7,7 @@ import styles from './loadingSpinner.module.scss';
 interface Props {
   hasPadding?: boolean;
   isLoading: boolean;
+  children?: React.ReactNode;
 }
 
 const LoadingSpinner: React.FC<Props> = ({

@@ -16,6 +16,11 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import MyProfilePage from '../MyProfilePage';
 
+jest.mock('../../../generated/graphql', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../generated/graphql'),
+}));
+
 const organisationMocks1 = fakeOrganisations(2, [
   {
     name: 'Organisaatio 1',
@@ -91,7 +96,7 @@ test('render profile page correctly', async () => {
   });
 
   expect(
-    screen.queryByRole('heading', { name: 'Omat tiedot' })
+    screen.getByRole('heading', { name: 'Omat tiedot' })
   ).toBeInTheDocument();
 
   expect(screen.getByLabelText('Nimi')).toHaveValue('Testi Testaaja');
@@ -115,22 +120,24 @@ test('profile can be edited', async () => {
   });
 
   expect(
-    screen.queryByRole('heading', { name: 'Omat tiedot' })
+    screen.getByRole('heading', { name: 'Omat tiedot' })
   ).toBeInTheDocument();
 
-  userEvent.clear(screen.getByLabelText('Nimi'));
-  userEvent.type(screen.getByLabelText('Nimi'), 'Changed Name');
-  userEvent.clear(screen.getByLabelText('Sähköpostiosoite yhteydenotoille'));
-  userEvent.type(
+  await userEvent.clear(screen.getByLabelText('Nimi'));
+  await userEvent.type(screen.getByLabelText('Nimi'), 'Changed Name');
+  await userEvent.clear(
+    screen.getByLabelText('Sähköpostiosoite yhteydenotoille')
+  );
+  await userEvent.type(
     screen.getByLabelText('Sähköpostiosoite yhteydenotoille'),
     'changed@testaaja.com'
   );
-  userEvent.clear(screen.getByLabelText('Puhelinnumero'));
-  userEvent.type(screen.getByLabelText('Puhelinnumero'), '321123321');
-  userEvent.click(screen.getByText(/suomi/i));
-  userEvent.click(screen.getByText(/englanti/i));
+  await userEvent.clear(screen.getByLabelText('Puhelinnumero'));
+  await userEvent.type(screen.getByLabelText('Puhelinnumero'), '321123321');
+  await userEvent.click(screen.getByText(/suomi/i));
+  await userEvent.click(screen.getByText(/englanti/i));
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', { name: 'Tallenna päivitetyt tiedot' })
   );
 

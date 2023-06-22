@@ -1,16 +1,16 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 // eslint-disable-next-line import/no-named-as-default
-import Router from 'react-router';
+import * as Router from 'react-router-dom';
 
 import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import ErrorPage from '../ErrorPage';
-
-beforeEach(() => {
-  jest.spyOn(Router, 'useHistory').mockReturnValue({} as any);
-});
-
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}));
+const navigate = jest.fn();
 it('matches snapshot', () => {
   const { container } = render(<ErrorPage />);
 
@@ -26,19 +26,18 @@ it('renders correct texts when props are provided', () => {
   expect(screen.queryByText(description)).toBeVisible();
 });
 
-it('render correct default texts', () => {
-  const pushMock = jest.fn();
-  jest.spyOn(Router, 'useHistory').mockReturnValue({ push: pushMock } as any);
+it('render correct default texts', async () => {
+  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   render(<ErrorPage />);
 
   expect(screen.queryByText(messages.errorPage.description)).toBeVisible();
   expect(screen.queryByText(messages.errorPage.returnToHome)).toBeVisible();
   expect(screen.queryByText(messages.errorPage.title)).toBeVisible();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', { name: messages.errorPage.returnToHome })
   );
 
-  expect(pushMock).toHaveBeenCalledTimes(1);
-  expect(pushMock).toHaveBeenCalledWith('/fi');
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith('/fi', expect.anything());
 });

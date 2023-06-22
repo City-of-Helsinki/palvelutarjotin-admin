@@ -2,16 +2,15 @@ import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
-import { Row } from 'react-table';
+import { useLocation } from 'react-router-dom';
+import { Column, Row } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
-import { UseExpandedColumnCell } from '../../../common/components/table/types';
 import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
+import useNavigate from '../../../hooks/useNavigate';
 import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
@@ -41,12 +40,12 @@ const EnrolmentTable: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const { search } = useLocation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
 
   const goToEnrolmentDetailsPage = (row: Row<EnrolmentFieldsFragment>) => {
     if (eventId && occurrenceId) {
       // we need to preserve returnPath in url -> add query string
-      history.pushWithLocale({
+      pushWithLocale({
         pathname: ROUTES.ENROLMENT_DETAILS.replace(
           ':enrolmentId',
           row.original.id
@@ -68,31 +67,30 @@ const EnrolmentTable: React.FC<Props> = ({
     EnrolmentStatus.Pending
   );
 
-  const columns = [
+  const columns: Array<Column<EnrolmentFieldsFragment>> = [
     {
       Header: t('occurrenceDetails.enrolmentTable.columnEnrolmentTime'),
-      accessor: (row: EnrolmentFieldsFragment) =>
-        formatLocalizedDate(new Date(row.enrolmentTime)),
+      accessor: (row) => formatLocalizedDate(new Date(row.enrolmentTime)),
       id: 'enrolmentTime',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnPersonName'),
-      accessor: (row: EnrolmentFieldsFragment) => row.person?.name,
+      accessor: (row) => row.person?.name,
       id: 'personName',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupName'),
-      accessor: (row: EnrolmentFieldsFragment) => row.studyGroup.unitName,
+      accessor: (row) => row.studyGroup.unitName,
       id: 'studyGroupName',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupGroupName'),
-      accessor: (row: EnrolmentFieldsFragment) => row.studyGroup.groupName,
+      accessor: (row) => row.studyGroup.groupName,
       id: 'studyGroupGroupName',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnGroupSize'),
-      accessor: (row: EnrolmentFieldsFragment) => (
+      accessor: (row) => (
         <>
           {row.studyGroup.groupSize} / {row.studyGroup.amountOfAdult}
         </>
@@ -101,13 +99,13 @@ const EnrolmentTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStatus'),
-      accessor: (row: EnrolmentFieldsFragment) =>
+      accessor: (row) =>
         row.status ? <EnrolmentStatusBadge status={row.status} /> : null,
       id: 'status',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnActions'),
-      accessor: (row: EnrolmentFieldsFragment) => (
+      accessor: (row) => (
         <ActionsDropdown
           row={row}
           eventId={eventId}
@@ -115,12 +113,12 @@ const EnrolmentTable: React.FC<Props> = ({
         />
       ),
       id: 'actions',
-      rowClickDisabled: true,
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
-      accessor: (row: EnrolmentFieldsFragment) => row,
-      Cell: ({ row }: UseExpandedColumnCell<EnrolmentFieldsFragment>) => {
+      accessor: (row) => row,
+      // TODO: type with UseExpandedColumnCell
+      Cell: ({ row }: any) => {
         return (
           <button
             aria-label={t(
@@ -138,10 +136,11 @@ const EnrolmentTable: React.FC<Props> = ({
           </button>
         );
       },
-      style: {
-        textAlign: 'center',
-        width: '1%',
-      },
+      // TODO: Styling after deps update
+      // style: {
+      //   textAlign: 'center',
+      //   width: '1%',
+      // },
       id: 'additionalInfo',
     },
   ];

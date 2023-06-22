@@ -20,7 +20,7 @@ export const getErrorText = (
 
   return !!error && get(touched, name)
     ? typeof error === 'string'
-      ? t(error)
-      : t(error.key, error)
+      ? (t(error) as string)
+      : (t(error.key, error) as unknown as string)
     : '';
 };

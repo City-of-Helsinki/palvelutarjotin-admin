@@ -87,27 +87,27 @@ it('renders correct information', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.queryByText(eventName)).toBeInTheDocument();
+    expect(screen.getByText(eventName)).toBeInTheDocument();
   });
 
-  expect(screen.queryByAltText(photoAltText)).toBeInTheDocument();
-  expect(screen.queryByText(`Kuva: ${photographerName}`)).toBeInTheDocument();
+  expect(screen.getByAltText(photoAltText)).toBeInTheDocument();
+  expect(screen.getByText(`Kuva: ${photographerName}`)).toBeInTheDocument();
 
-  expect(screen.queryByText(eventDescription)).toBeInTheDocument();
-  expect(screen.queryByText(eventShortDescription)).toBeInTheDocument();
+  expect(screen.getByText(eventDescription)).toBeInTheDocument();
+  expect(screen.getByText(eventShortDescription)).toBeInTheDocument();
 
-  expect(screen.queryByText(keyword1)).toBeInTheDocument();
-  expect(screen.queryByText(keyword2)).toBeInTheDocument();
+  expect(screen.getByText(keyword1)).toBeInTheDocument();
+  expect(screen.getByText(keyword2)).toBeInTheDocument();
 
-  expect(screen.queryByText(organisationName)).toBeInTheDocument();
+  expect(screen.getByText(organisationName)).toBeInTheDocument();
 
   expect(screen.queryAllByText('Maksuton')).toHaveLength(2);
 
-  expect(screen.queryByText(contactPersonEmail)).toBeInTheDocument();
-  expect(screen.queryByText(contactPersonName)).toBeInTheDocument();
-  expect(screen.queryByText(contactPersonPhoneNumber)).toBeInTheDocument();
+  expect(screen.getByText(contactPersonEmail)).toBeInTheDocument();
+  expect(screen.getByText(contactPersonName)).toBeInTheDocument();
+  expect(screen.getByText(contactPersonPhoneNumber)).toBeInTheDocument();
 
   expect(
-    screen.queryByRole('button', { name: 'Takaisin tapahtuman julkaisuun' })
+    screen.getByRole('button', { name: 'Takaisin tapahtuman julkaisuun' })
   ).toBeInTheDocument();
 });

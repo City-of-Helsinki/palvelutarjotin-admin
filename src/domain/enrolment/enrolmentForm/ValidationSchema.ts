@@ -54,6 +54,9 @@ export default function getValidationSchema({
   };
 
   return Yup.object().shape({
+    minGroupSize: Yup.number(),
+    maxGroupSize: Yup.number(),
+    amountOfSeats: Yup.number(),
     isSharingDataAccepted: Yup.bool().oneOf(
       [true],
       'enrolment:enrolmentForm.validation.isSharingDataAccepted'
@@ -61,7 +64,7 @@ export default function getValidationSchema({
     language: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     person: Yup.object().when(
       ['isSameResponsiblePerson'],
-      (isSameResponsiblePerson: boolean, schema: Yup.AnyObjectSchema) => {
+      ([isSameResponsiblePerson], schema: Yup.AnyObjectSchema) => {
         return isSameResponsiblePerson
           ? schema
           : schema.shape({
@@ -85,7 +88,7 @@ export default function getValidationSchema({
         }),
         unitName: Yup.string().when(
           ['unitId'],
-          (unitId: string, schema: Yup.StringSchema) => {
+          ([unitId], schema: Yup.StringSchema) => {
             if (!unitId) {
               return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
             }
@@ -94,7 +97,7 @@ export default function getValidationSchema({
         ),
         unitId: Yup.string().when(
           ['unitName'],
-          (unitName: string, schema: Yup.StringSchema) => {
+          (unitName, schema: Yup.StringSchema) => {
             if (!unitName) {
               return schema
                 .nullable()
@@ -109,20 +112,18 @@ export default function getValidationSchema({
         // NOTE: GroupSize is (currently) the amount of children
         groupSize: Yup.number()
           .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-          .when(
-            ['amountOfAdult'],
-            (sizePair: number, schema: Yup.NumberSchema) =>
-              validateSumOfSizePair(
-                sizePair,
-                schema,
-                VALIDATION_MESSAGE_KEYS.STUDYGROUP_MIN_CHILDREN_WITH_ADULTS,
-                VALIDATION_MESSAGE_KEYS.STUDYGROUP_MAX_WITH_ADULTS,
-                VALIDATION_MESSAGE_KEYS.STUDYGROUP_MAX_CHILDREN_WITH_ADULTS
-              )
+          .when(['amountOfAdult'], ([sizePair], schema: Yup.NumberSchema) =>
+            validateSumOfSizePair(
+              sizePair,
+              schema,
+              VALIDATION_MESSAGE_KEYS.STUDYGROUP_MIN_CHILDREN_WITH_ADULTS,
+              VALIDATION_MESSAGE_KEYS.STUDYGROUP_MAX_WITH_ADULTS,
+              VALIDATION_MESSAGE_KEYS.STUDYGROUP_MAX_CHILDREN_WITH_ADULTS
+            )
           ),
         amountOfAdult: Yup.number()
           .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-          .when(['groupSize'], (sizePair: number, schema: Yup.NumberSchema) =>
+          .when(['groupSize'], ([sizePair], schema: Yup.NumberSchema) =>
             validateSumOfSizePair(
               sizePair,
               schema,

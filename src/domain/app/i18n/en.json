@@ -471,11 +471,11 @@
     "eventCard": {
       "ariaLabelOpenOccurrences": "Go to event times of {{eventName}}",
       "textEnrolments": "{{count}} enrolments",
-      "textEnrolments_plural": "{{count}} enrolments",
+      "textEnrolments_other": "{{count}} enrolments",
       "textExternalEnrolments": "Enrolments on another site",
       "textUnenrollable": "No enrolments",
       "textOccurrences": "{{count}} occurrence",
-      "textOccurrences_plural": "{{count}} occurrences",
+      "textOccurrences_other": "{{count}} occurrences",
       "statusPublished": "Published",
       "statusNotPublished": "Not published",
       "free": "Free of charge",
@@ -544,7 +544,7 @@
   "eventOccurrenceForm": {
     "infoText1": "Add an event time for the event that customers can sign up for. Please note that you can create more times at once by copying the event times you have already created.",
     "infoText2": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> day before the start of the event time. You can change these settings in the event information.",
-    "infoText2_plural": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> days before the start of the event time. You can change these settings in the event information.",
+    "infoText2_other": "Registration for this event time is possible after <strong>{{date}}</strong> and closes <strong>{{count}}</strong> days before the start of the event time. You can change these settings in the event information.",
     "helpTextFirstOccurrence": "Fill in the information for the first event time",
     "labelStartDate": "Date",
     "labelStartTime": "Start time",
@@ -706,9 +706,9 @@
     "pageTitle": "Event time",
     "textDateAndTime": "{{date}} at {{time}}",
     "textAmountOfSeats": "{{count}} seat",
-    "textAmountOfSeats_plural": "{{count}} seats",
+    "textAmountOfSeats_other": "{{count}} seats",
     "textAmountOfGroups": "{{count}} group",
-    "textAmountOfGroups_plural": "{{count}} groups",
+    "textAmountOfGroups_other": "{{count}} groups",
     "textGroupInfo": "group size {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Language"
   },
@@ -792,7 +792,7 @@
   },
   "studyLevel": {
     "grade_interval": "(1){1st grade};(2){2nd grade};",
-    "grade_plural": "{{count}}th grade",
+    "grade_other": "{{count}}th grade",
     "preschool": "5-6 aged",
     "secondary": "Secondary level students",
     "age02": "0-2 aged",

@@ -27,6 +27,7 @@ it('matches snapshot', async () => {
   await waitFor(() => {
     // A small "hack" to wait for modal to open fully
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       baseElement.querySelector('.ReactModal__Content--after-open')
     ).toBeInTheDocument();
   });
@@ -49,15 +50,15 @@ it('renders correctly and calls approve enrolment handler', async () => {
   await actWait();
 
   expect(
-    screen.queryByText(messages.enrolment.enrolmentModal.approveEnrolment)
+    screen.getByText(messages.enrolment.enrolmentModal.approveEnrolment)
   ).toBeInTheDocument();
 
   expect(
-    screen.queryByText(messages.enrolment.enrolmentModal.approveEnrolmentNote)
+    screen.getByText(messages.enrolment.enrolmentModal.approveEnrolmentNote)
   ).toBeInTheDocument();
 
   expect(
-    screen.queryByText(
+    screen.getByText(
       /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i
     )
   ).toBeInTheDocument();
@@ -70,7 +71,7 @@ it('renders correctly and calls approve enrolment handler', async () => {
   const approveEnrolmentButton = screen.getByText(
     messages.enrolment.enrolmentModal.sendConfirmationMessage
   );
-  userEvent.click(approveEnrolmentButton);
+  await userEvent.click(approveEnrolmentButton);
 
   expect(approveEnrolmentHandler).toHaveBeenCalledTimes(1);
 });
@@ -88,7 +89,7 @@ it('opens message section when checkbox is clicked and text can be written', asy
   await actWait();
 
   const addMessageCheckbox = screen.getByLabelText(/lisää viesti/i);
-  userEvent.click(addMessageCheckbox);
+  await userEvent.click(addMessageCheckbox);
 
   const messageTextArea = screen.getByLabelText(
     messages.enrolment.enrolmentModal.messageToParticipants
@@ -96,7 +97,7 @@ it('opens message section when checkbox is clicked and text can be written', asy
 
   expect(messageTextArea).toBeInTheDocument();
 
-  userEvent.type(messageTextArea, 'Tässä testiviesti');
+  await userEvent.type(messageTextArea, 'Tässä testiviesti');
 
   expect(messageTextArea).toHaveTextContent('Tässä testiviesti');
 });
@@ -115,6 +116,6 @@ it('renders enrollees list correctly', async () => {
   await actWait();
 
   persons.forEach((person) => {
-    expect(screen.queryByText(person.personName)).toBeInTheDocument();
+    expect(screen.getByText(person.personName)).toBeInTheDocument();
   });
 });

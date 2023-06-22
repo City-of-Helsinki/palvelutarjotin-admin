@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Column } from 'react-table';
 
 import Table from '../../../common/components/table/Table';
-import { UseExpandedColumnCell } from '../../../common/components/table/types';
 import { EventQueueEnrolmentFieldsFragment } from '../../../generated/graphql';
 import { formatLocalizedDate } from '../../../utils/time/format';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
@@ -31,33 +31,30 @@ const EnrolmentQueueTable: React.FC<Props> = ({
 
   const queuedEnrolmentsCount = enrolments.length;
 
-  const columns = [
+  const columns: Array<Column<EventQueueEnrolmentFieldsFragment>> = [
     {
       Header: t('occurrenceDetails.enrolmentTable.columnEnrolmentTime'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) =>
-        formatLocalizedDate(new Date(row.enrolmentTime)),
+      accessor: (row) => formatLocalizedDate(new Date(row.enrolmentTime)),
       id: 'enrolmentTime',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnPersonName'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) => row.person?.name,
+      accessor: (row) => row.person?.name,
       id: 'personName',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupName'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) =>
-        row.studyGroup.unitName,
+      accessor: (row) => row.studyGroup.unitName,
       id: 'studyGroupName',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupGroupName'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) =>
-        row.studyGroup.groupName,
+      accessor: (row) => row.studyGroup.groupName,
       id: 'studyGroupGroupName',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnGroupSize'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) => (
+      accessor: (row) => (
         <>
           {row.studyGroup.groupSize} / {row.studyGroup.amountOfAdult}
         </>
@@ -66,13 +63,13 @@ const EnrolmentQueueTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnStatus'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) =>
+      accessor: (row) =>
         row.status ? <EnrolmentStatusBadge status={row.status} /> : null,
       id: 'status',
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnActions'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) => (
+      accessor: (row) => (
         <QueueActionsDropdown
           row={row}
           eventId={eventId}
@@ -81,14 +78,13 @@ const EnrolmentQueueTable: React.FC<Props> = ({
         />
       ),
       id: 'actions',
-      rowClickDisabled: true,
+      // rowClickDisabled: true,
     },
     {
       Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
-      accessor: (row: EventQueueEnrolmentFieldsFragment) => row,
-      Cell: ({
-        row,
-      }: UseExpandedColumnCell<EventQueueEnrolmentFieldsFragment>) => {
+      accessor: (row) => row,
+      // TODO: type with UseExpandedColumnCell
+      Cell: ({ row }: any) => {
         return (
           <button
             aria-label={t(
@@ -106,10 +102,11 @@ const EnrolmentQueueTable: React.FC<Props> = ({
           </button>
         );
       },
-      style: {
-        textAlign: 'center',
-        width: '1%',
-      },
+      // TODO: Styling after deps update
+      // styles: {
+      //   textAlign: 'center',
+      //   width: '1%',
+      // },
       id: 'additionalInfo',
     },
   ];

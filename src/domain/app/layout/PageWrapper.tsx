@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import useLocale from '../../../hooks/useLocale';
 import styles from './pageWrapper.module.scss';
@@ -10,6 +10,7 @@ import styles from './pageWrapper.module.scss';
 interface Props {
   className?: string;
   title?: string;
+  children?: React.ReactNode;
 }
 
 const PageWrapper: React.FC<Props> = ({

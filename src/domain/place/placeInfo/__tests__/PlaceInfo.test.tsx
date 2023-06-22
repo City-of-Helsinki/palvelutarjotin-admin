@@ -32,12 +32,12 @@ const mocks = [
 ];
 
 test('PlaceInfo should match snapshot', async () => {
-  const { container } = render(<PlaceInfo language="fi" id={placeId} />, {
+  const { container } = render(<PlaceInfo language="fi" id={placeId!} />, {
     mocks,
   });
 
   await waitFor(() => {
-    expect(screen.queryByText('Sellon kirjasto')).toBeInTheDocument();
+    expect(screen.getByText('Sellon kirjasto')).toBeInTheDocument();
   });
 
   expect(container.firstChild).toMatchSnapshot();

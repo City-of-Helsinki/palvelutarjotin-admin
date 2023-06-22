@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import { Field, useFormikContext } from 'formik';
+import { Field, FormikErrors, useFormikContext } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,7 +21,7 @@ const VenueDataFields: React.FC<{
     field: string,
     value: string | boolean,
     shouldValidate?: boolean | undefined
-  ) => void;
+  ) => Promise<void | FormikErrors<TimeAndLocationFormFields>>;
 }> = ({ locationId, selectedLanguages, setFieldValue }) => {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -44,27 +44,29 @@ const VenueDataFields: React.FC<{
             // Inititalize all venue description translation fields
             // (doesn't matter if they are not visible/rendered)
             data.venue.translations.forEach((t) =>
-              setFieldValue(
-                `locationDescription.${
-                  t.languageCode.toLowerCase() as Language
-                }`,
-                t.description || ''
-              )
+              (async () =>
+                setFieldValue(
+                  `locationDescription.${
+                    t.languageCode.toLowerCase() as Language
+                  }`,
+                  t.description || ''
+                ))()
             );
           } else {
             // If venue data missing for location, empty all description fields.
             Object.keys(locationDescription).forEach((key) => {
-              setFieldValue(`locationDescription.${key as Language}`, '');
+              (async () =>
+                setFieldValue(`locationDescription.${key as Language}`, ''))();
             });
           }
 
           VENUE_AMENITIES.forEach((v) => {
-            setFieldValue(v, data.venue?.[v] || false);
+            (async () => setFieldValue(v, data.venue?.[v] || false))();
           });
         } catch (err) {
           // clear description when error happens
           // TODO: fix this to include all languages...
-          setFieldValue('locationDescription.fi', '');
+          (async () => setFieldValue('locationDescription.fi', ''))();
         }
       }
     };

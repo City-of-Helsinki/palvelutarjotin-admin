@@ -1,6 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { faker } from '@faker-js/faker';
 import parseDate from 'date-fns/parse';
-import faker from 'faker';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../common/components/autoSuggest/contants';
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
@@ -180,7 +180,12 @@ export const placeMockResponse: MockedResponse = {
   },
   result: {
     data: {
-      place: fakePlace({ name: fakeLocalizedObject(placeName), id: placeId }),
+      place: fakePlace({
+        name: fakeLocalizedObject(placeName),
+        streetAddress: fakeLocalizedObject('Test street'),
+        addressLocality: fakeLocalizedObject('Test city'),
+        id: placeId,
+      }),
     },
   },
 };
@@ -304,7 +309,7 @@ export const getDeleteOccurrenceMockResponse = (
 });
 
 export const getAddOccurrenceMockResponse = ({
-  id = faker.datatype.uuid(),
+  id = faker.string.uuid(),
   amountOfSeats,
   endTime,
   languages,
@@ -377,6 +382,7 @@ export const getUpdateEventMockResponse = ({
   neededOccurrences,
   externalEnrolmentUrl = null,
   languages = ['fi'],
+  occurrences,
 }: {
   autoAcceptance: boolean;
   autoAcceptanceMessage?: string | null;
@@ -385,6 +391,7 @@ export const getUpdateEventMockResponse = ({
   neededOccurrences: number;
   externalEnrolmentUrl?: string | null;
   languages?: Languages[];
+  occurrences?: OccurrenceNodeConnection;
 }): MockedResponse => ({
   request: {
     query: EditEventDocument,
@@ -414,6 +421,10 @@ export const getUpdateEventMockResponse = ({
           statusCode: 200,
           body: fakeEvent({
             id: 'palvelutarjotin:afz52lpyta',
+            venue: fakeVenue({ id: placeId }),
+            pEvent: fakePEvent({
+              occurrences: occurrences ?? fakeOccurrences(1, [{ placeId }]),
+            }),
           }),
           __typename: 'EventMutationResponse',
         },
@@ -550,7 +561,7 @@ const getEventResponse = ({
         externalEnrolmentUrl,
         neededOccurrences,
         mandatoryAdditionalInformation: false,
-        occurrences: occurrences ?? fakeOccurrences(),
+        occurrences: occurrences ?? fakeOccurrences(1, [{ placeId }]),
         contactPerson: fakePerson({
           id: contactPersonId,
         }),
@@ -808,11 +819,11 @@ export const getFormElement = (
 export const selectLocation = async () => {
   const locationInput = getFormElement('location');
 
-  userEvent.click(locationInput);
-  userEvent.type(locationInput, 'Sellon');
+  await userEvent.click(locationInput);
+  await userEvent.type(locationInput, 'Sellon');
   await actWait();
   const places = await screen.findAllByText(/Sellon kirjasto/i);
-  userEvent.click(places[0]);
+  await userEvent.click(places[0]);
 };
 
 export const fillAndSubmitOccurrenceForm = async ({
@@ -848,32 +859,35 @@ export const fillAndSubmitOccurrenceForm = async ({
   const [endHours, endMinutes] = occurrenceEndTime.split(':');
 
   // avoid act warning from react testing library (caused by autosuggest component)
-  userEvent.click(occurrenceStartsDateInput);
-  await actWait();
+  await userEvent.click(occurrenceStartsDateInput);
 
   // get end date input visible by clicking multiday occurrence checkbox
   if (occurrenceEndDate) {
-    userEvent.click(getOccurrenceFormElement('multidayOccurrence')!);
+    await userEvent.click(getOccurrenceFormElement('multidayOccurrence')!);
   }
 
-  userEvent.type(occurrenceStartsDateInput, occurrenceStartDate);
+  await userEvent.type(occurrenceStartsDateInput, occurrenceStartDate);
   expect(occurrenceStartsDateInput).toHaveValue(occurrenceStartDate);
 
-  userEvent.type(occurrenceStartHoursInput, startHours);
-  userEvent.type(occurrenceStartMinutesInput, startMinutes);
+  await userEvent.type(occurrenceStartHoursInput, startHours);
+  await userEvent.type(occurrenceStartMinutesInput, startMinutes);
+  expect(occurrenceStartHoursInput).toHaveValue(startHours);
+  expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
 
   if (occurrenceEndDate) {
     const endDateInput = getOccurrenceFormElement('endDate')!;
-    userEvent.type(endDateInput, occurrenceEndDate);
+    await userEvent.type(endDateInput, occurrenceEndDate);
   }
 
-  userEvent.type(getOccurrenceFormElement('endHours')!, endHours);
-  userEvent.type(getOccurrenceFormElement('endMinutes')!, endMinutes);
+  await userEvent.type(getOccurrenceFormElement('endHours')!, endHours);
+  await userEvent.type(getOccurrenceFormElement('endMinutes')!, endMinutes);
+  expect(getOccurrenceFormElement('endHours')).toHaveValue(endHours);
+  expect(getOccurrenceFormElement('endMinutes')).toHaveValue(endMinutes);
 
   expect(occurrenceStartHoursInput).toHaveValue(startHours);
 
   const languageSelector = getOccurrenceFormElement('language')!;
-  userEvent.click(languageSelector);
+  await userEvent.click(languageSelector);
   const withinLanguageSelector = within(languageSelector.parentElement!);
 
   const optionFi = withinLanguageSelector.getByRole('option', {
@@ -886,18 +900,18 @@ export const fillAndSubmitOccurrenceForm = async ({
   });
 
   // select languages
-  userEvent.click(optionFi);
-  userEvent.click(optionEn);
-  userEvent.click(languageSelector);
+  await userEvent.click(optionFi);
+  await userEvent.click(optionEn);
+  await userEvent.click(languageSelector);
 
   if (seatsInputs) {
     const seatsInput = getOccurrenceFormElement('seats')!;
     const minGroupSizeInput = getOccurrenceFormElement('min')!;
     const maxGroupSizeInput = getOccurrenceFormElement('max')!;
 
-    userEvent.type(seatsInput, '30');
-    userEvent.type(minGroupSizeInput, '10');
-    userEvent.type(maxGroupSizeInput, '20');
+    await userEvent.type(seatsInput, '30');
+    await userEvent.type(minGroupSizeInput, '10');
+    await userEvent.type(maxGroupSizeInput, '20');
 
     await waitFor(() => {
       expect(seatsInput).toHaveValue(30);
@@ -909,7 +923,7 @@ export const fillAndSubmitOccurrenceForm = async ({
 
   if (submit) {
     const submitButton = getOccurrenceFormElement('submit')!;
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
 
     const goToPublishingButton = getFormElement('goToPublishing');
     const saveEventDataButton = getFormElement('saveButton');

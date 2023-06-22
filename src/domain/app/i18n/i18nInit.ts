@@ -8,6 +8,7 @@ import en from './en.json';
 import fi from './fi.json';
 import sv from './sv.json';
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -28,7 +29,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    whitelist: Object.values(ROUTER_LANGUAGES),
+    supportedLngs: Object.values(ROUTER_LANGUAGES),
     resources: {
       en: {
         translation: en,

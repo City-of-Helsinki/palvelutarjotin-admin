@@ -1,21 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MockedProvider } from '@apollo/client/testing';
-import { mount } from 'enzyme';
 import i18n from 'i18next';
 import { graphql } from 'msw';
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import { store } from '../../store';
+import { act, render, waitFor } from '../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
-import LocaleRoutes from '../LocaleRoutes';
 
 const profileResponse = {
   data: {
@@ -43,69 +37,49 @@ beforeEach(() => {
       );
     })
   );
+
+  // eslint-disable-next-line import/no-named-as-default-member
+  (async () => await act(() => i18n.changeLanguage('fi')))();
 });
 
 const wrapperCreator = (route: string) =>
-  mount(
-    <MockedProvider mocks={mocks}>
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[route]}>
-          <AppRoutes />
-        </MemoryRouter>
-      </Provider>
-    </MockedProvider>
-  );
+  render(<AppRoutes />, { routes: [route], mocks });
 
-beforeEach(() => {
-  act(() => {
-    i18n.changeLanguage('fi');
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+it('redirect user from root to /fi by default', async () => {
+  wrapperCreator('/');
+  await waitFor(() => {
+    expect(window.location.pathname).toBe('/fi');
   });
 });
 
-it('redirect user from root to /fi by default', () => {
-  const wrapper = wrapperCreator('/');
-  const app: any = wrapper.find(LocaleRoutes);
-
-  expect(app).toBeDefined();
-  expect(app.props().history.location.pathname).toBe('/fi');
+test('user from supported locale will be redirect to LocaleRoutes with that locale', async () => {
+  wrapperCreator('/en/');
+  await waitFor(() => {
+    expect(window.location.pathname).toBe('/en/');
+  });
 });
 
-it('user from root will be redirect to LocaleRoutes with guarantee fi locale', () => {
-  const wrapper = wrapperCreator('/');
-  const app: any = wrapper.find(LocaleRoutes);
-
-  expect(app).toBeDefined();
-  expect(app.props().match.params.locale).toEqual('fi');
+test('user from unsupported locale prefix will be redirect to route with support prefix', async () => {
+  wrapperCreator('/vi/');
+  await waitFor(() => {
+    expect(window.location.pathname).toContain('/fi/vi/');
+  });
 });
 
-test('user from supported locale will be redirect to LocaleRoutes with that locale', () => {
-  const wrapper = wrapperCreator('/en/');
-  const app: any = wrapper.find(LocaleRoutes);
-
-  expect(app).toBeDefined();
-  expect(app.props().match.params.locale).toEqual('en');
+it('user without locale prefix will be redirect to route with support prefix', async () => {
+  wrapperCreator('/foo-url');
+  await waitFor(() => {
+    expect(window.location.pathname).toContain('/fi/foo-url');
+  });
 });
 
-test('user from unsupported locale prefix will be redirect to route with support prefix', () => {
-  const wrapper = wrapperCreator('/vi/');
-  const app: any = wrapper.find(LocaleRoutes);
-
-  expect(app.props().match.params.locale).toEqual('fi');
-  expect(app.props().location.pathname).toContain('/fi/vi/');
-});
-
-it('user without locale prefix will be redirect to route with support prefix', () => {
-  const wrapper = wrapperCreator('/foo-url');
-  const app: any = wrapper.find(LocaleRoutes);
-
-  expect(app.props().match.params.locale).toEqual('fi');
-  expect(app.props().location.pathname).toContain('/fi/foo-url');
-});
-
-it('user with route with unsupport locale will be redirect to LocaleRoutes anyway, with supported locale', () => {
-  const wrapper = wrapperCreator('/dk/foo');
-  const app: any = wrapper.find(LocaleRoutes);
-
-  expect(app.props().match.params.locale).toEqual('fi');
-  expect(app.props().location.pathname).toContain('/fi/dk/foo');
+it('user with route with unsupport locale will be redirect to LocaleRoutes anyway, with supported locale', async () => {
+  wrapperCreator('/dk/foo');
+  await waitFor(() => {
+    expect(window.location.pathname).toContain('/fi/dk/foo');
+  });
 });

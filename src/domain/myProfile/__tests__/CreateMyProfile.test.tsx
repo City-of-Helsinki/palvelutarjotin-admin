@@ -18,7 +18,10 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateMyProfile from '../CreateMyProfile';
-
+jest.mock('../../../generated/graphql', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../generated/graphql'),
+}));
 const places = [
   {
     placeSearchString: 'Sellon',
@@ -140,7 +143,7 @@ test('can create profile with all the information', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
   expect(
-    screen.queryByRole('heading', { name: 'Täydennä tietosi' })
+    screen.getByRole('heading', { name: 'Täydennä tietosi' })
   ).toBeInTheDocument();
 
   const name = screen.getByLabelText('Nimi');
@@ -151,26 +154,26 @@ test('can create profile with all the information', async () => {
   expect(email).toHaveValue(''); // No auth mocked, so the input stays empty
   expect(screen.getByText(/suomi/i)).toBeInTheDocument();
 
-  userEvent.type(name, myProfile.name);
-  userEvent.type(phone, myProfile.phoneNumber);
-  userEvent.type(email, myProfile.emailAddress);
+  await userEvent.type(name, myProfile.name);
+  await userEvent.type(phone, myProfile.phoneNumber);
+  await userEvent.type(email, myProfile.emailAddress);
 
   // Add location
   const locationField = screen.getByRole('textbox', {
     name: /tapahtumapaikat/i,
   });
-  userEvent.click(locationField);
+  await userEvent.click(locationField);
 
-  userEvent.type(locationField, places[0].placeSearchString);
+  await userEvent.type(locationField, places[0].placeSearchString);
   const locationOption = await screen.findByRole('option', {
     name: new RegExp(places[0].placeName, 'i'),
   });
   expect(locationField).toHaveValue(places[0].placeSearchString);
-  userEvent.click(locationOption);
+  await userEvent.click(locationOption);
   expect(locationField).toHaveValue('');
 
   // Add second location
-  userEvent.type(locationField, places[1].placeSearchString);
+  await userEvent.type(locationField, places[1].placeSearchString);
 
   // this has failed couple of times in commit tests
   // if it fails again, try adding these lines
@@ -185,14 +188,14 @@ test('can create profile with all the information', async () => {
     { timeout: 20000 }
   );
   expect(locationField).toHaveValue(places[1].placeSearchString);
-  userEvent.click(locationOption2);
+  await userEvent.click(locationOption2);
   expect(locationField).toHaveValue('');
 
   // places should be listed below location input
   places.forEach((p) =>
-    expect(screen.queryByText(p.placeName)).toBeInTheDocument()
+    expect(screen.getByText(p.placeName)).toBeInTheDocument()
   );
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: /organisaatio organisaatio, jonka tapahtumia hallinnoit/i,
     })
@@ -203,17 +206,17 @@ test('can create profile with all the information', async () => {
     ).toBeInTheDocument();
   });
 
-  userEvent.click(screen.getByText('Organisaatio 1', { selector: 'li' }));
-  userEvent.click(screen.getByText('Organisaatio 2', { selector: 'li' }));
+  await userEvent.click(screen.getByText('Organisaatio 1', { selector: 'li' }));
+  await userEvent.click(screen.getByText('Organisaatio 2', { selector: 'li' }));
 
-  userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
-  userEvent.click(
+  await userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
+  await userEvent.click(
     screen.getByText(
       /annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa\./i
     )
   );
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: /tallenna ja jatka/i,
     })
@@ -249,41 +252,43 @@ test('create profile with organisation proposal', async () => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
-  userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
-  userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
-  userEvent.clear(screen.getByLabelText('Sähköpostiosoite yhteydenotoille'));
-  userEvent.type(
+  await userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
+  await userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
+  await userEvent.clear(
+    screen.getByLabelText('Sähköpostiosoite yhteydenotoille')
+  );
+  await userEvent.type(
     screen.getByLabelText('Sähköpostiosoite yhteydenotoille'),
     'changed@testaaja.fi'
   );
 
-  userEvent.type(
+  await userEvent.type(
     screen.getByLabelText('Lähetä uusi organisaatio pyyntö'),
     'Org1'
   );
 
   await waitFor(() => {
     expect(
-      screen.queryByText('Organisaatio 1', { selector: 'span' })
-    ).not.toBeInTheDocument();
-    expect(
       screen.queryByText('Organisaatio 2', { selector: 'span' })
     ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole('button', {
-        name: /Organisaatio Organisaatio, jonka tapahtumia hallinnoit/i,
-      })
-    ).toBeDisabled();
   });
+  expect(
+    screen.queryByText('Organisaatio 1', { selector: 'span' })
+  ).not.toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: /Organisaatio Organisaatio, jonka tapahtumia hallinnoit/i,
+    })
+  ).toBeDisabled();
 
-  userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
-  userEvent.click(
+  await userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
+  await userEvent.click(
     screen.getByText(
       /annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa\./i
     )
   );
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: /tallenna ja jatka/i,
     })

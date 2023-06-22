@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Modal from 'react-modal';
+import * as Router from 'react-router-dom';
 
 import { tableDropdownTestId } from '../../../../common/components/tableDropdown/TableDropdown';
 import { fakeOccurrence } from '../../../../utils/mockDataUtils';
@@ -8,6 +9,13 @@ import { ROUTES } from '../../../app/routes/constants';
 import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
+const navigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router-dom'),
+  };
+});
 const eventId = 'testEventId123';
 const occurrenceId = 'occurrenceId123';
 
@@ -27,36 +35,39 @@ const renderComponent = (props?: Partial<Props>) => {
   );
 };
 
-it('open menu correctly', () => {
+it('open menu correctly', async () => {
   renderComponent();
 
   expect(screen.getByRole('menu')).not.toHaveClass('isOpen');
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
   expect(screen.getByTestId(tableDropdownTestId)).toHaveClass('isMenuOpen');
 });
 
-it('navigates correctly from actions', () => {
-  const { history } = renderComponent();
+it('navigates correctly from actions', async () => {
+  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  renderComponent();
 
-  const historyPush = jest.spyOn(history, 'push');
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
-
-  userEvent.click(screen.getByRole('menuitem', { name: 'Ilmoittautuneet' }));
-
-  expect(historyPush).toHaveBeenCalledWith(
-    '/fi/events/testEventId123/occurrences/occurrenceId123?returnPath=%2F'
+  await userEvent.click(
+    screen.getByRole('menuitem', { name: 'Ilmoittautuneet' })
   );
 
-  userEvent.click(screen.getByRole('menuitem', { name: 'Muokkaa' }));
+  expect(navigate).toHaveBeenCalledWith(
+    '/fi/events/testEventId123/occurrences/occurrenceId123?returnPath=%2F',
+    expect.anything()
+  );
 
-  expect(historyPush).toHaveBeenCalledWith(
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Muokkaa' }));
+
+  expect(navigate).toHaveBeenCalledWith(
     `/fi${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId).replace(
       ':occurrenceId',
       occurrenceId
-    )}`
+    )}`,
+    expect.anything()
   );
 });
 
@@ -70,24 +81,24 @@ it.each([EnrolmentType.External, EnrolmentType.Unenrollable])(
   }
 );
 
-it('renders cancel modal and cancel functionality works', () => {
+it('renders cancel modal and cancel functionality works', async () => {
   const onCancelMock = jest.fn();
   const { container } = renderComponent({ onCancel: onCancelMock });
 
   Modal.setAppElement(container);
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  userEvent.click(screen.getByRole('menuitem', { name: 'Peruuta' }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Peruuta' }));
 
   expect(
-    screen.queryByText(
+    screen.getByText(
       'Oletko varma, että haluat peruuttaa valitun tapahtuma-ajan?'
     )
   ).toBeInTheDocument();
 
   expect(
-    screen.queryByText(
+    screen.getByText(
       'Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti'
     )
   ).toBeInTheDocument();
@@ -96,14 +107,14 @@ it('renders cancel modal and cancel functionality works', () => {
 
   expect(addMessageCheckbox).toBeInTheDocument();
 
-  userEvent.click(addMessageCheckbox);
+  await userEvent.click(addMessageCheckbox!);
 
-  userEvent.type(
+  await userEvent.type(
     screen.getByLabelText('Viesti osallistujille'),
     'Viesti osallistujille'
   );
 
-  userEvent.click(screen.getByRole('button', { name: 'Lähetä' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Lähetä' }));
 
   expect(onCancelMock).toHaveBeenCalledWith(
     mockOccurrence,
@@ -117,7 +128,7 @@ it('renders cancel modal and cancel functionality works', () => {
   ).not.toBeInTheDocument();
 });
 
-it('renders delete modal correctly and delete functionality works', () => {
+it('renders delete modal correctly and delete functionality works', async () => {
   const onDeleteMock = jest.fn();
   const { container } = renderComponent({ onDelete: onDeleteMock });
 
@@ -125,19 +136,19 @@ it('renders delete modal correctly and delete functionality works', () => {
 
   expect(screen.getByRole('menu')).not.toHaveClass('isOpen');
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  userEvent.click(screen.getByRole('menuitem', { name: 'Poista' }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Poista' }));
 
   expect(
-    screen.queryByText('Oletko varma että haluat poistaa tapahtuma-ajan?')
+    screen.getByText('Oletko varma että haluat poistaa tapahtuma-ajan?')
   ).toBeInTheDocument();
 
   expect(
-    screen.queryByText('Poistettua tapahtuma-aikaa ei voi palauttaa.')
+    screen.getByText('Poistettua tapahtuma-aikaa ei voi palauttaa.')
   ).toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', { name: 'Poista tapahtuma-aika' })
   );
 

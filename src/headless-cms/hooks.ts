@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { isAuthenticatedSelector } from '../domain/auth/selectors';
 import {
@@ -8,6 +7,7 @@ import {
   MenuPageFieldsFragment,
   useMenuQuery,
 } from '../generated/graphql-cms';
+import { useAppSelector } from '../hooks/useAppSelector';
 import useIsMounted from '../hooks/useIsMounted';
 import useLocale from '../hooks/useLocale';
 import { isFeatureEnabled } from '../utils/featureFlags';
@@ -24,7 +24,7 @@ import {
 export const useCmsMenuItems = () => {
   const locale = useLocale();
   const { slug } = useParams<{ slug: string }>();
-  const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const { data: navigationData, loading: cmsMenuLoading } = useMenuQuery({
     client: cmsClient,
     skip: !isFeatureEnabled('HEADLESS_CMS') || !locale || !isAuthenticated,
@@ -130,7 +130,6 @@ export const useCmsNavigation = (slug: string) => {
 
   React.useEffect(() => {
     const uriSegments = uriToBreadcrumbs(slug);
-    fetchNavigation();
     async function fetchNavigation() {
       setLoading(true);
       try {
@@ -153,6 +152,9 @@ export const useCmsNavigation = (slug: string) => {
           setLoading(false);
         }
       }
+    }
+    if (slug) {
+      fetchNavigation();
     }
   }, [slug, locale, isMounted]);
 

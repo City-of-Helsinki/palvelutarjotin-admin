@@ -1,7 +1,7 @@
 import { Button, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import AlertModal from '../../common/components/modal/AlertModal';
@@ -9,8 +9,8 @@ import {
   useDeleteSingleEventMutation,
   useEventQuery,
 } from '../../generated/graphql';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import { Language } from '../../types';
 import { addParamsToQueryString } from '../../utils/addParamsToQueryString';
 import getLocalizedString from '../../utils/getLocalizedString';
@@ -37,11 +37,7 @@ const EventDetailsPage = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const variables = {
-    id,
-    include: ['audience', 'in_language', 'keywords', 'location'],
-  };
-  const history = useHistory();
+  const { navigate, pushWithLocale, pushWithReturnPath } = useNavigate();
   const locale = useLocale();
   const { search } = useLocation();
   const language = getEventLanguageFromUrl(search);
@@ -51,7 +47,11 @@ const EventDetailsPage = () => {
 
   const { data: eventData, loading } = useEventQuery({
     fetchPolicy: 'network-only',
-    variables,
+    skip: !id,
+    variables: {
+      id: id!,
+      include: ['audience', 'in_language', 'keywords', 'location'],
+    },
   });
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
@@ -73,10 +73,12 @@ const EventDetailsPage = () => {
     const queryString = addParamsToQueryString(searchParams.toString(), {
       language: newLanguage,
     });
-    history.pushWithLocale({
-      pathname: ROUTES.EVENT_DETAILS.replace(':id', id),
-      search: queryString,
-    });
+
+    id &&
+      pushWithLocale({
+        pathname: ROUTES.EVENT_DETAILS.replace(':id', id),
+        search: queryString,
+      });
   };
 
   const toggleModal = () => {
@@ -97,7 +99,7 @@ const EventDetailsPage = () => {
       // https://github.com/apollographql/apollo-client/blob/v3.0.0-rc.0/CHANGELOG.md
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
-      history.replace(ROUTES.HOME);
+      navigate(ROUTES.HOME, { replace: true });
     } catch (e) {
       // Check apolloClient to see error handling
     }
@@ -147,7 +149,8 @@ const EventDetailsPage = () => {
   };
 
   const handleEditEventClick = () => {
-    history.pushWithReturnPath(ROUTES.EDIT_EVENT.replace(':id', id));
+    id &&
+      pushWithReturnPath(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
   };
 
   return (

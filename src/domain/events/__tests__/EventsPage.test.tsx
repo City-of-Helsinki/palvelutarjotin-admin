@@ -267,13 +267,13 @@ test('renders events list and load more events button works', async () => {
 
   await waitFor(() => {
     expect(
-      screen.queryByRole('heading', { name: `Tapahtumat 5 kpl` })
+      screen.getByRole('heading', { name: `Tapahtumat 5 kpl` })
     ).toBeInTheDocument();
   });
 
   eventOverrides.slice(0, 5).forEach((event) => {
-    expect(screen.queryByText(event.name!.fi!)).toBeInTheDocument();
-    expect(screen.queryByText(event.shortDescription!.fi!)).toBeInTheDocument();
+    expect(screen.getByText(event.name!.fi!)).toBeInTheDocument();
+    expect(screen.getByText(event.shortDescription!.fi!)).toBeInTheDocument();
     expect(screen.queryByText(event.description!.fi!)).not.toBeInTheDocument();
   });
 
@@ -282,9 +282,11 @@ test('renders events list and load more events button works', async () => {
     screen.queryByText(eventOverrides[6].shortDescription!.fi!)
   ).not.toBeInTheDocument();
 
-  userEvent.click(screen.getAllByRole('button', { name: /näytä lisää/i })[0]);
+  await userEvent.click(
+    screen.getAllByRole('button', { name: /näytä lisää/i })[0]
+  );
 
-  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+  expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
@@ -293,10 +295,10 @@ test('renders events list and load more events button works', async () => {
     screen.getByText(eventOverrides[5].name!.fi!);
   });
   eventOverrides.slice(5, 11).forEach((event) => {
-    expect(screen.queryByText(event.name!.fi!)).toBeInTheDocument();
+    expect(screen.getByText(event.name!.fi!)).toBeInTheDocument();
   });
 
-  userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
+  await userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
 
   await waitFor(() => {
     expect(toastErrorSpy).toHaveBeenCalled();
@@ -359,13 +361,13 @@ test('events can be searched with text', async () => {
   const searchInput = screen.getByRole('textbox', {
     name: /haku/i,
   });
-  userEvent.type(searchInput, eventName);
+  await userEvent.type(searchInput, eventName);
 
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-  expect(screen.queryByText(eventName)).toBeInTheDocument();
-  expect(screen.queryByText(eventDescription)).toBeInTheDocument();
+  expect(screen.getByText(eventName)).toBeInTheDocument();
+  expect(screen.getByText(eventDescription)).toBeInTheDocument();
 
-  userEvent.clear(searchInput);
+  await userEvent.clear(searchInput);
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
 });
 
@@ -416,23 +418,29 @@ test('events can be searched with places from user profile', async () => {
   const placesDropdownToggle = screen.getByRole('button', {
     name: /paikat: avaa valikko/i,
   });
-  userEvent.click(placesDropdownToggle);
-  userEvent.click(screen.getByRole('option', { name: places[0].name!.fi! }));
+  await userEvent.click(placesDropdownToggle);
+  await userEvent.click(
+    screen.getByRole('option', { name: places[0].name!.fi! })
+  );
 
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-  expect(screen.queryByText(events[0].eventName)).toBeInTheDocument();
-  expect(screen.queryByText(events[0].eventDescription)).toBeInTheDocument();
+  expect(screen.getByText(events[0].eventName)).toBeInTheDocument();
+  expect(screen.getByText(events[0].eventDescription)).toBeInTheDocument();
 
   const clearPlacesButton = screen.getByRole('button', {
     name: /tyhjennä kaikki paikat/i,
   });
-  userEvent.click(clearPlacesButton);
+  await userEvent.click(clearPlacesButton);
 
   await screen.findByRole('heading', { name: `Tapahtumat 5 kpl` });
 
+  await userEvent.click(placesDropdownToggle);
+
   // Test second place filter
-  userEvent.click(screen.getByRole('option', { name: places[1].name!.fi! }));
+  await userEvent.click(
+    screen.getByRole('option', { name: places[1].name!.fi! })
+  );
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-  expect(screen.queryByText(events[1].eventName)).toBeInTheDocument();
-  expect(screen.queryByText(events[1].eventDescription)).toBeInTheDocument();
+  expect(screen.getByText(events[1].eventName)).toBeInTheDocument();
+  expect(screen.getByText(events[1].eventDescription)).toBeInTheDocument();
 });

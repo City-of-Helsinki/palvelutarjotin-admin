@@ -19,7 +19,7 @@ it('matches snapshot', () => {
   expect(baseElement).toMatchSnapshot();
 });
 
-it('renders correctly and calls delete enrolment handler when button is clicked', () => {
+it('renders correctly and calls delete enrolment handler when button is clicked', async () => {
   const onCloseHandler = jest.fn();
   const deleteEnrolmentHandler = jest.fn();
   render(
@@ -31,7 +31,7 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
   );
 
   expect(
-    screen.queryByText(messages.enrolment.enrolmentModal.deleteEnrolment, {
+    screen.getByText(messages.enrolment.enrolmentModal.deleteEnrolment, {
       selector: 'p',
     })
   ).toBeInTheDocument();
@@ -41,7 +41,7 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
     // for some reason react-modal sets aria-hidden attribute true in the tests.
   });
 
-  userEvent.click(deleteEnrolmentButton);
+  await userEvent.click(deleteEnrolmentButton);
 
   expect(deleteEnrolmentHandler).toHaveBeenCalledTimes(1);
 });

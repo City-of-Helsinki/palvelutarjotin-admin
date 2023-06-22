@@ -3,7 +3,6 @@ import isBefore from 'date-fns/isBefore';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
-import { MessageParams } from 'yup/lib/types';
 
 import { isInFuture } from '../../../utils/dateUtils';
 import { DATE_FORMAT, formatIntoDateTime } from '../../../utils/time/format';
@@ -17,20 +16,12 @@ import {
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { EnrolmentType } from '../constants';
 
-const addMinValidationMessage = (
-  param: {
-    min: number;
-  } & Partial<MessageParams>
-) => ({
+const addMinValidationMessage = (param: { min: number }) => ({
   min: param.min,
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
 });
 
-const addMaxValidationMessage = (
-  param: {
-    max: number;
-  } & Partial<MessageParams>
-) => ({
+const addMaxValidationMessage = (param: { max: number }) => ({
   max: param.max,
   key: VALIDATION_MESSAGE_KEYS.NUMBER_MAX,
 });
@@ -50,39 +41,6 @@ const getTimeValidation = () => {
       (time?: string) => (time ? isValidTimeString(time) : false)
     );
 };
-
-const isAfterEnrolmentStartTime = (
-  enrolmentEndDays?: number,
-  enrolmentStart?: Date | null
-) =>
-  ((startTime: string, schema: Yup.StringSchema) => {
-    if (
-      isValidTimeString(startTime) &&
-      enrolmentEndDays != null &&
-      enrolmentStart
-    ) {
-      const minDate =
-        enrolmentEndDays > 0
-          ? addDays(enrolmentStart, enrolmentEndDays)
-          : enrolmentStart;
-      return schema.test(
-        'isAfterEnrolmentStart',
-        () => ({
-          key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-          min: formatIntoDateTime(minDate),
-        }),
-        (startDate?: string) => {
-          if (startDate) {
-            const startDateString = startDate + ' ' + startTime;
-            const startDateObject = parseDateTimeString(startDateString);
-            return isBefore(minDate, startDateObject);
-          }
-          return false;
-        }
-      );
-    }
-    return schema;
-  }) as any;
 
 const validateIsInFuture = (value?: string) => {
   if (!value) return false;
@@ -120,24 +78,51 @@ const getValidationSchema = ({
         VALIDATION_MESSAGE_KEYS.DATE_IN_THE_FUTURE,
         validateIsInFuture
       )
-      .when(
-        'startTime',
-        isAfterEnrolmentStartTime(enrolmentEndDays, enrolmentStart)
-      ),
+      .when('startTime', ([startTime], schema: Yup.StringSchema) => {
+        if (
+          isValidTimeString(startTime) &&
+          enrolmentEndDays != null &&
+          enrolmentStart
+        ) {
+          const minDate =
+            enrolmentEndDays > 0
+              ? addDays(enrolmentStart, enrolmentEndDays)
+              : enrolmentStart;
+          return schema.test(
+            'isAfterEnrolmentStart',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+              min: formatIntoDateTime(minDate),
+            }),
+            (startDate?: string) => {
+              if (startDate) {
+                const startDateString = startDate + ' ' + startTime;
+                const startDateObject = parseDateTimeString(startDateString);
+                return isBefore(minDate, startDateObject);
+              }
+              return false;
+            }
+          );
+        }
+        return schema;
+      }),
     startTime: getTimeValidation(),
     endDate: Yup.string()
-      .when('isMultidayOccurrence', {
-        is: true,
-        then: Yup.string()
-          .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          .test(
-            'isValidDate',
-            VALIDATION_MESSAGE_KEYS.DATE_INVALID,
-            isValidDateValidation
-          ),
-        otherwise: Yup.string(),
-      })
-      .when('startDate', ((startDate: string, schema: Yup.StringSchema) => {
+      .when(
+        ['isMultidayOccurrence'],
+        ([isMultidayOccurrence], schema: Yup.StringSchema) => {
+          return isMultidayOccurrence
+            ? schema
+                .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                .test(
+                  'isValidDate',
+                  VALIDATION_MESSAGE_KEYS.DATE_INVALID,
+                  isValidDateValidation
+                )
+            : schema;
+        }
+      )
+      .when('startDate', ([startDate], schema: Yup.StringSchema) => {
         if (isValidDateString(startDate)) {
           return schema.test(
             'isAfterStartDate',
@@ -155,27 +140,26 @@ const getValidationSchema = ({
           );
         }
         return schema;
-      }) as any),
-    endTime: getTimeValidation().when(['startTime', 'isMultidayOccurrence'], ((
-      startTime: string,
-      isMultidayOccurrence: boolean,
-      schema: Yup.StringSchema
-    ) => {
-      if (startTime && !isMultidayOccurrence) {
-        return schema.test(
-          'isAfterStartTime',
-          'eventOccurrenceForm.validation.errorEndTimeBeforeStartTime',
-          (endTime?: string) => {
-            if (!endTime) return true;
-            if (isValidTimeString(startTime) && isValidTimeString(endTime)) {
-              return isTimeStringBefore(startTime, endTime);
+      }),
+    endTime: getTimeValidation().when(
+      ['startTime', 'isMultidayOccurrence'],
+      ([startTime, isMultidayOccurrence], schema: Yup.StringSchema) => {
+        if (startTime && !isMultidayOccurrence) {
+          return schema.test(
+            'isAfterStartTime',
+            'eventOccurrenceForm.validation.errorEndTimeBeforeStartTime',
+            (endTime?: string) => {
+              if (!endTime) return true;
+              if (isValidTimeString(startTime) && isValidTimeString(endTime)) {
+                return isTimeStringBefore(startTime, endTime);
+              }
+              return true;
             }
-            return true;
-          }
-        );
+          );
+        }
+        return schema;
       }
-      return schema;
-    }) as any),
+    ),
     languages: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
@@ -187,23 +171,20 @@ const getValidationSchema = ({
         : Yup.number(),
     minGroupSize: Yup.number()
       .min(1, addMinValidationMessage)
-      .when(
-        ['maxGroupSize'],
-        (maxGroupSize: number, schema: Yup.NumberSchema) =>
-          maxGroupSize
-            ? schema.max(maxGroupSize, addMaxValidationMessage)
-            : schema
+      .when(['maxGroupSize'], ([maxGroupSize], schema: Yup.NumberSchema) =>
+        maxGroupSize
+          ? schema.max(maxGroupSize, addMaxValidationMessage)
+          : schema
       ),
     maxGroupSize: Yup.number()
       .min(1, addMinValidationMessage)
-      .when(['amountOfSeats', 'oneGroupFills'], ((
-        amountOfSeats: number,
-        oneGroupFills: boolean,
-        schema: Yup.NumberSchema
-      ) =>
-        amountOfSeats && !oneGroupFills
-          ? schema.max(amountOfSeats, addMaxValidationMessage)
-          : schema) as any),
+      .when(
+        ['amountOfSeats', 'oneGroupFills'],
+        ([amountOfSeats, oneGroupFills], schema: Yup.NumberSchema) =>
+          amountOfSeats && !oneGroupFills
+            ? schema.max(amountOfSeats, addMaxValidationMessage)
+            : schema
+      ),
   });
 
 export default getValidationSchema;

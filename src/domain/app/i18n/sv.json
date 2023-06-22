@@ -478,11 +478,11 @@
     "eventCard": {
       "ariaLabelOpenOccurrences": "Gå till evenemangstid  av {{eventName}}",
       "textEnrolments": "{{count}} registrerad",
-      "textEnrolments_plural": "{{count}} registrerade",
+      "textEnrolments_other": "{{count}} registrerade",
       "textExternalEnrolments": "Anmälan på en annan webbplats",
       "textUnenrollable": "Ingen anmälan",
       "textOccurrences": "{{count}} evenemangstid",
-      "textOccurrences_plural": "{{count}} evenemangtider",
+      "textOccurrences_other": "{{count}} evenemangtider",
       "statusPublished": "Publicerat",
       "statusNotPublished": "Ej publicerat",
       "free": "Gratis",
@@ -552,7 +552,7 @@
   "eventOccurrenceForm": {
     "infoText1": "Lägg till en evenemangstid för det evenemang som kunder kan registrera sig för. Observera att du kan skapa fler gånger samtidigt genom att kopiera evenemangstiderna som du redan har skapat.",
     "infoText2": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dag före evenemangstiden. Du kan ändra dessa inställningar i evenemangsinformationen.",
-    "infoText2_plural": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i evenemangsinformationen.",
+    "infoText2_other": "Registrering för denna evenemangtid är möjlig efter <strong>{{date}}</strong> och stängs <strong>{{count}}</strong> dagar före evenemangstiden. Du kan ändra dessa inställningar i evenemangsinformationen.",
     "helpTextFirstOccurrence": "Fyll i informationen för den första evenemang",
     "labelStartDate": "Datum",
     "labelStartTime": "Börjar kl.",
@@ -714,9 +714,9 @@
     "pageTitle": "Evenemangstid",
     "textDateAndTime": "{{date}} kl. {{time}}",
     "textAmountOfSeats": "{{count}} plats",
-    "textAmountOfSeats_plural": "{{count}} platser",
+    "textAmountOfSeats_other": "{{count}} platser",
     "textAmountOfGroups": "{{count}} grupp",
-    "textAmountOfGroups_plural": "{{count}} grupper",
+    "textAmountOfGroups_other": "{{count}} grupper",
     "textGroupInfo": "Gruppstorlek {{minGroupSize}}–{{maxGroupSize}}",
     "labelLanguages": "Språk"
   },
@@ -800,7 +800,7 @@
   },
   "studyLevel": {
     "grade": "Åk {{count}} ",
-    "grade_plural": "Åk {{count}} ",
+    "grade_other": "Åk {{count}} ",
     "preschool": "5-6 åringar",
     "secondary": "Gymnasie- och yrkesutbildning",
     "age02": "0-2 åringar",

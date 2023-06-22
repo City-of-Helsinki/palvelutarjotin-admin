@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 
 import { useMyProfileQuery } from '../../../generated/graphql';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 import { getSelectedOrganisation } from '../../myProfile/utils';
 import { activeOrganisationSelector } from '../selector';
 import styles from './activeOrganisationInfo.module.scss';
@@ -17,7 +17,7 @@ const ActiveOrganisationInfo = ({
   organisationId,
 }: Props): ReactElement | null => {
   const { data: myProfileData } = useMyProfileQuery();
-  const activeOrganisation = useSelector(activeOrganisationSelector);
+  const activeOrganisation = useAppSelector(activeOrganisationSelector);
 
   const organisation = myProfileData?.myProfile
     ? getSelectedOrganisation(

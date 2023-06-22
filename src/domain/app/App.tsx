@@ -24,6 +24,7 @@ const App = () => {
         loading={<LoadingSpinner isLoading={true} />}
         persistor={persistor}
       ></PersistGate>
+      {/* @ts-ignore Property 'children' does not exist on type */}
       <OidcProvider store={store} userManager={userManager}>
         <ApolloProvider client={apolloClient}>
           <BrowserRouter>

@@ -64,9 +64,9 @@ it('renders and shows all the event details', async () => {
   );
 
   const displayedTexts: string[] = [
-    event.description.fi,
-    event.shortDescription.fi,
-    event.pEvent.enrolmentEndDays.toString(),
+    event.description.fi!,
+    event.shortDescription.fi!,
+    event.pEvent.enrolmentEndDays!.toString(),
   ];
 
   const localizedTexts = [
@@ -79,14 +79,14 @@ it('renders and shows all the event details', async () => {
   ];
 
   localizedTexts.forEach((text) =>
-    expect(screen.queryByText(text)).toBeInTheDocument()
+    expect(screen.getByText(text)).toBeInTheDocument()
   );
 
   displayedTexts.forEach((text) =>
     expect(screen.getByText(text)).toBeInTheDocument()
   );
 
-  const eventImage = await screen.findByAltText(event.images[0].altText);
+  const eventImage = await screen.findByAltText(event.images[0].altText!);
 
   expect(eventImage).toHaveProperty('src', event.images[0].url);
 });

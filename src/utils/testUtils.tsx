@@ -7,11 +7,11 @@ import {
   render,
   RenderResult,
 } from '@testing-library/react';
-import { createMemoryHistory, History } from 'history';
+import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
 import { Provider } from 'react-redux';
-import { Route, Router } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import wait from 'waait';
 
 import { createApolloCache } from '../domain/app/apollo/apolloClient';
@@ -30,11 +30,14 @@ export const escKeyPressHelper = () =>
 export const tabKeyPressHelper = () =>
   fireEvent.keyDown(document, { code: 9, key: 'Tab' });
 
+type CustomRenderResult = RenderResult & {
+  user: ReturnType<(typeof userEvent)['setup']>;
+};
+
 const customRender: CustomRender = (
   ui,
   {
     routes = ['/'],
-    history = createMemoryHistory({ initialEntries: routes }),
     mocks = [],
     initialState = {},
     store = configureStore({
@@ -42,17 +45,21 @@ const customRender: CustomRender = (
       preloadedState: initialState,
     }),
   } = {}
-) => {
-  const Wrapper: React.FC = ({ children }) => (
+): CustomRenderResult => {
+  routes.forEach((route) => {
+    window.history.pushState({}, 'Test page', route);
+  });
+  const user = userEvent.setup();
+  const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>
       <MockedProvider mocks={mocks} cache={createApolloCache()}>
-        <Router history={history}>{children}</Router>
+        <BrowserRouter>{children}</BrowserRouter>
       </MockedProvider>
     </Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
-  return { ...renderResult, history };
+  return { ...renderResult, user };
 };
 
 const renderWithRoute: CustomRender = (
@@ -60,7 +67,6 @@ const renderWithRoute: CustomRender = (
   {
     routes = ['/'],
     path = '/',
-    history = createMemoryHistory({ initialEntries: routes }),
     initialState = {},
     store = configureStore({
       reducer: reducers,
@@ -68,22 +74,27 @@ const renderWithRoute: CustomRender = (
     }),
     mocks = [],
   } = {}
-) => {
-  const Wrapper: React.FC = ({ children }) => (
+): CustomRenderResult => {
+  routes.forEach((route) => {
+    window.history.pushState({}, 'Test page', route);
+  });
+  const user = userEvent.setup();
+  const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>
       <MockedProvider mocks={mocks} cache={createApolloCache()}>
-        <Router history={history}>
-          <Route exact path={path}>
-            {children}
-          </Route>
-        </Router>
+        <BrowserRouter>
+          <Routes>
+            <Route path={'/'} element={<>{children}</>} />
+            <Route path={path} element={<>{children}</>} />
+          </Routes>
+        </BrowserRouter>
       </MockedProvider>
     </Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
   Modal.setAppElement(renderResult.container);
-  return { ...renderResult, history };
+  return { ...renderResult, user };
 };
 
 type CustomRender = {
@@ -92,7 +103,6 @@ type CustomRender = {
     options?: {
       routes?: string[];
       path?: string;
-      history?: History;
       mocks?: MockedResponse[];
       initialState?: Record<string, any>;
       /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -100,8 +110,6 @@ type CustomRender = {
     }
   ): CustomRenderResult;
 };
-
-export type CustomRenderResult = RenderResult & { history: History };
 
 const actWait = (amount?: number) => act(() => wait(amount));
 
@@ -139,3 +147,35 @@ export const pasteToTextEditor = (
 export * from '@testing-library/react';
 export { render as defaultRender } from '@testing-library/react';
 export { default as userEvent } from '@testing-library/user-event';
+
+// /**
+//  * There is a problem in userEvent clear and userEvent type
+//  * and some reason why the field needs to be touched, so it would act properly.
+//  * Issue: https://github.com/testing-library/user-event/discussions/970
+//  * */
+// export const fixUserEventWrapper = async (
+//   action:
+//     | {
+//         element: Element;
+//         check: () => Promise<void>;
+//       }
+//     | {
+//         element: Element;
+//         type: () => Promise<void>;
+//       }
+//     | {
+//         element: Element;
+//         clear: () => Promise<void>;
+//       }
+// ) => {
+//   if ('type' in action) {
+//     await userEvent.type(action.element, 'fix');
+//     await action.type();
+//   } else if ('clear' in action) {
+//     await action.clear();
+//     await action.clear();
+//   } else if ('check' in action) {
+//     await action.check();
+//     await action.check();
+//   }
+// };
