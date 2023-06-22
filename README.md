@@ -22,7 +22,7 @@ Testing environment:
 
 ## Requirements
 
-- Node 12.x
+- Node 20.x
 - Yarn
 - Git
 - Docker
