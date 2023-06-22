@@ -43,30 +43,33 @@ const VenueDataFields: React.FC<{
           if (data.venue) {
             // Inititalize all venue description translation fields
             // (doesn't matter if they are not visible/rendered)
-            data.venue.translations.forEach((t) =>
+            data.venue.translations.forEach((t) => {
               (async () =>
-                setFieldValue(
+                await setFieldValue(
                   `locationDescription.${
                     t.languageCode.toLowerCase() as Language
                   }`,
                   t.description || ''
-                ))()
-            );
+                ))();
+            });
           } else {
             // If venue data missing for location, empty all description fields.
             Object.keys(locationDescription).forEach((key) => {
               (async () =>
-                setFieldValue(`locationDescription.${key as Language}`, ''))();
+                await setFieldValue(
+                  `locationDescription.${key as Language}`,
+                  ''
+                ))();
             });
           }
 
           VENUE_AMENITIES.forEach((v) => {
-            (async () => setFieldValue(v, data.venue?.[v] || false))();
+            (async () => await setFieldValue(v, data.venue?.[v] || false))();
           });
         } catch (err) {
           // clear description when error happens
           // TODO: fix this to include all languages...
-          (async () => setFieldValue('locationDescription.fi', ''))();
+          (async () => await setFieldValue('locationDescription.fi', ''))();
         }
       }
     };

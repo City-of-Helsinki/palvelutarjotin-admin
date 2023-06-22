@@ -362,12 +362,18 @@ test('events can be searched with text', async () => {
     name: /haku/i,
   });
   await userEvent.type(searchInput, eventName);
+  await waitFor(() => {
+    expect(searchInput).toHaveValue(eventName);
+  });
 
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
   expect(screen.getByText(eventName)).toBeInTheDocument();
   expect(screen.getByText(eventDescription)).toBeInTheDocument();
 
   await userEvent.clear(searchInput);
+  await waitFor(() => {
+    expect(searchInput).toHaveValue('');
+  });
   await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
 });
 

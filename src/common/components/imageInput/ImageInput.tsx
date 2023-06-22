@@ -1,3 +1,4 @@
+import { FormikErrors } from 'formik';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +15,7 @@ type ImageInputProps = {
     field: string,
     value: string,
     shouldValidate?: boolean | undefined
-  ) => void;
+  ) => Promise<void | FormikErrors<any>>;
   name?: string;
 } & InputWrapperProps;
 
@@ -57,10 +58,11 @@ const ImageInput: React.FC<ImageInputProps> = ({
           },
         });
 
-        setFieldValue(
-          props.id,
-          data.data?.uploadImageMutation?.response?.body?.id || ''
-        );
+        (async () =>
+          await setFieldValue(
+            props.id,
+            data.data?.uploadImageMutation?.response?.body?.id || ''
+          ))();
       } catch (e) {
         // Check apolloClient to see error handling
       }

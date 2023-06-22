@@ -464,31 +464,33 @@ const OccurrenceInfoForm: React.FC<{
           // Handle submitting both event info and occurrence form
           const handleGoToPublishingClick: React.MouseEventHandler<
             HTMLButtonElement
-          > = async (e) => {
-            try {
-              const hasBeenSubmitted = isValid && !dirty;
-              if (!hasBeenSubmitted) {
-                await submitForm();
-              }
-              await submitOccurrenceFormIfNeeded();
-              if (isValid) {
-                onGoToPublishingClick(e);
-              }
-              // async funcs in try block already handle errors
-            } catch {}
-          };
+          > = (e) =>
+            (async (e) => {
+              try {
+                const hasBeenSubmitted = isValid && !dirty;
+                if (!hasBeenSubmitted) {
+                  await submitForm();
+                }
+                await submitOccurrenceFormIfNeeded();
+                if (isValid) {
+                  onGoToPublishingClick(e);
+                }
+                // async funcs in try block already handle errors
+              } catch {}
+            })(e);
 
           // Custom submit handler to also submit occurrence form if it is filled
-          const handleSaveClick: React.MouseEventHandler<
-            HTMLButtonElement
-          > = async (e) => {
-            e.preventDefault();
-            try {
-              await submitForm();
-              await submitOccurrenceFormIfNeeded();
-              // async funcs in try block already handle errors
-            } catch {}
-          };
+          const handleSaveClick: React.MouseEventHandler<HTMLButtonElement> = (
+            e
+          ) =>
+            (async (e) => {
+              e.preventDefault();
+              try {
+                await submitForm();
+                await submitOccurrenceFormIfNeeded();
+                // async funcs in try block already handle errors
+              } catch {}
+            })(e);
 
           return (
             <Form

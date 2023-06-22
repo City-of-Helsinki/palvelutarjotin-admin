@@ -285,7 +285,7 @@ const OrganisationsField: React.FC<{
 
   React.useEffect(() => {
     if (!!organisationProposals) {
-      setFieldValue(name, []);
+      (async () => await setFieldValue(name, []))();
     }
   }, [name, organisationProposals, setFieldValue]);
 

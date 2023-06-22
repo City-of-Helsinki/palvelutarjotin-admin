@@ -1,4 +1,4 @@
-import { Field } from 'formik';
+import { Field, FormikErrors } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +14,7 @@ interface Props {
     field: string,
     value: string | string[],
     shouldValidate?: boolean | undefined
-  ) => void;
+  ) => Promise<void | FormikErrors<any>>;
   setFieldTouched: (
     field: string,
     isTouched?: boolean | undefined,
@@ -40,7 +40,7 @@ const ImageSelectedFormPart: React.FC<Props> = ({
 
   const clearImageFormFields = () => {
     ['image', 'imageAltText', 'imagePhotographerName'].forEach((field) => {
-      setFieldValue(field, '');
+      (async () => await setFieldValue(field, ''))();
     });
   };
 

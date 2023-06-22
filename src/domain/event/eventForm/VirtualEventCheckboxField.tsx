@@ -14,10 +14,10 @@ const VirtualEventCheckboxField = ({
   const { setFieldValue } = form;
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('isVirtual', e.target.checked);
+    (async () => await setFieldValue('isVirtual', e.target.checked))();
     if (e.target.checked) {
-      setFieldValue('location', '');
-      setFieldValue('isBookable', false);
+      (async () => await setFieldValue('location', ''))();
+      (async () => await setFieldValue('isBookable', false))();
     }
   };
 
