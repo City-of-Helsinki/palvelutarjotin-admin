@@ -44,6 +44,12 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 const navigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router-dom'),
+  };
+});
 configure({ defaultHidden: true });
 
 afterAll(() => {
@@ -238,8 +244,8 @@ describe('location and enrolment info', () => {
     expect(neededOccurrencesInput).toHaveValue(1);
 
     await userEvent.click(enrolmentStartDateInput);
-    enrolmentStartDateInput.setSelectionRange(0, 15);
-    await userEvent.type(enrolmentStartDateInput, '{backspace}1.5.2021');
+    await userEvent.clear(enrolmentStartDateInput);
+    await userEvent.type(enrolmentStartDateInput, '1.5.2021');
     await userEvent.type(enrolmentStartHoursInput, '00');
     await userEvent.type(enrolmentStartMinutesInput, '00');
 
@@ -553,7 +559,7 @@ describe('location and enrolment info', () => {
     await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
   });
 
-  test.only('user can add external enrolment and save form', async () => {
+  test('user can add external enrolment and save form', async () => {
     const externalEnrolmentUrl = 'https://kultus.fi/';
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
       getEventMockedResponse({
