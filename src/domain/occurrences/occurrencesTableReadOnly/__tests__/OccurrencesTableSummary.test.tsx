@@ -19,7 +19,7 @@ const mockOccurrence = fakeOccurrence({
   startTime: startTime,
   endTime: endTime,
   amountOfSeats: 240,
-  placeId: null,
+  placeId: undefined,
   pEvent: fakePEvent({
     id: 'UGFsdmVsdXRhcmpvdGluRXZlbnROb2RlOjcw',
     enrolmentStart: new Date(),

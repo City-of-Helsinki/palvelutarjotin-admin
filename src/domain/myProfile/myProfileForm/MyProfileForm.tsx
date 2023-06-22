@@ -8,7 +8,6 @@ import {
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import ErrorMessage from '../../../common/components/form/ErrorMessage';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
@@ -22,13 +21,17 @@ import FocusToFirstError from '../../../common/components/form/FocusToFirstError
 import FormGroup from '../../../common/components/form/FormGroup';
 import HelperText from '../../../common/components/form/HelperText';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
-import { PRIVACY_POLICY_LINKS, TERMS_OF_SERVICE_SLUGS } from '../../../constants';
+import {
+  PRIVACY_POLICY_LINKS,
+  TERMS_OF_SERVICE_SLUGS,
+} from '../../../constants';
 import {
   Language,
   OrganisationType,
   useOrganisationsQuery,
 } from '../../../generated/graphql';
 import { LanguageCodeEnum } from '../../../generated/graphql-cms';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 import useLocale from '../../../hooks/useLocale';
 import { getCmsPath } from '../../app/routes/utils';
 import { userSelector } from '../../auth/selectors';
@@ -86,7 +89,7 @@ function MyProfileForm<T extends FormType>({
 }: Props<T>) {
   const { t } = useTranslation();
   const locale = useLocale();
-  const user = useSelector(userSelector);
+  const user = useAppSelector(userSelector);
   const validationSchema = React.useMemo(
     () => getMyProfileValidationSchema(type),
     [type]
@@ -130,7 +133,7 @@ function MyProfileForm<T extends FormType>({
                   <span
                     dangerouslySetInnerHTML={{
                       __html: t('myProfileForm.checkboxTermsOfService', {
-                        url: getCmsPath(`/${TERMS_OF_SERVICE_SLUGS[locale]}`)
+                        url: getCmsPath(`/${TERMS_OF_SERVICE_SLUGS[locale]}`),
                       }),
                     }}
                   />

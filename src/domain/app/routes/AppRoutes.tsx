@@ -1,35 +1,38 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Redirect, Route, Switch } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
-import { ROUTER_LANGUAGES } from '../../../constants';
 import OidcCallback from '../../auth/oidcCallback/OidcCallback';
 import SilentRenew from '../../auth/silentRenew/SilentRenew';
 import { ROUTES } from './constants';
 import LocaleRoutes from './LocaleRoutes';
 
-const localeParam = `:locale(${Object.values(ROUTER_LANGUAGES).join('|')})`;
-
 const AppRoutes = () => {
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
-
   return (
-    <Switch>
-      <Redirect exact path="/" to={`/${currentLocale}`} />
-      <Route exact path={ROUTES.SILENT_CALLBACK} component={SilentRenew} />
-      <Route exact path={ROUTES.CALLBACK} component={OidcCallback} />
-      <Route path={`/${localeParam}`} component={LocaleRoutes} />
-      <Route
-        render={(props) => {
-          return (
-            <Redirect
-              to={`/${currentLocale}${props.location.pathname}${props.location.search}`}
-            />
-          );
-        }}
-      />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<Navigate to={`/${currentLocale}`} replace />} />
+      <Route path={ROUTES.SILENT_CALLBACK} element={<SilentRenew />} />
+      <Route path={ROUTES.CALLBACK} element={<OidcCallback />} />
+      <Route path={`/fi/*`} element={<LocaleRoutes locale={'fi'} />} />
+      <Route path={`/sv/*`} element={<LocaleRoutes locale={'sv'} />} />
+      <Route path={`/en/*`} element={<LocaleRoutes locale={'en'} />} />
+      <Route path="*" element={<NavigateToLocalePath />} />
+    </Routes>
+  );
+};
+
+const NavigateToLocalePath = () => {
+  const {
+    i18n: { language: currentLocale },
+  } = useTranslation();
+  const location = useLocation();
+  return (
+    <Navigate
+      to={`/${currentLocale}${location.pathname}${location.search}`}
+      replace
+    />
   );
 };
 

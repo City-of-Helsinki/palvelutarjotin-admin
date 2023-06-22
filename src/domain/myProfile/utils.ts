@@ -36,7 +36,7 @@ export const getSelectedOrganisation = (
   useFirstAsDefault = true
 ): OrganisationNodeFieldsFragment | null => {
   const organisations =
-    myProfile.organisations.edges.map((edge) => ({
+    myProfile.organisations.edges?.map((edge) => ({
       ...(edge?.node as OrganisationNodeFieldsFragment),
     })) || [];
 

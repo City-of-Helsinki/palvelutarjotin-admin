@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { matchPath, useLocation } from 'react-router';
+import { matchPath, useLocation } from 'react-router-dom';
 
 import useLocale from '../../hooks/useLocale';
 
@@ -16,13 +16,7 @@ const ScrollToTop: React.FC<{
 
   const isMatch = React.useCallback(
     (paths: string[]) =>
-      paths.some((path) =>
-        matchPath(pathname, {
-          path: `/${locale}${path}`,
-          exact: true,
-          strict: true,
-        })
-      ),
+      paths.some((path) => matchPath(pathname, `/${locale}${path}`)),
     [locale, pathname]
   );
 

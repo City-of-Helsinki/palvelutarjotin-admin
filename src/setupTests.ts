@@ -2,12 +2,16 @@
 import './test/testi18nInit';
 import '@testing-library/jest-dom/extend-expect';
 
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-import { configure } from 'enzyme';
 import { toHaveNoViolations } from 'jest-axe';
 import * as React from 'react';
+import { TextDecoder, TextEncoder } from 'util';
 
 import { server } from './test/msw/server';
+// To avoid error: ReferenceError: TextEncoder is not defined
+// discussed here: https://github.com/jsdom/jsdom/issues/2524
+global.TextEncoder = TextEncoder;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+global.TextDecoder = TextDecoder as any;
 
 expect.extend(toHaveNoViolations);
 
@@ -17,8 +21,6 @@ jest.setTimeout(50000);
 
 // Mock scrollTo function
 window.scrollTo = jest.fn();
-
-configure({ adapter: new Adapter() });
 
 beforeAll(() => {
   server.listen();

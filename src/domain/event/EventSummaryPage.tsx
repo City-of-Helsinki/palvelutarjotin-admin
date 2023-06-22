@@ -2,7 +2,7 @@ import { isPast } from 'date-fns';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useDownloadEventsEnrolmentsCsvQuery } from '../../clients/apiReportClient/useReportClientQuery';
@@ -17,8 +17,8 @@ import {
   useDeleteOccurrenceMutation,
   useEventQuery,
 } from '../../generated/graphql';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import getLocalizedString from '../../utils/getLocalizedString';
 import useQueryStringWithReturnPath from '../../utils/useQueryStringWithReturnPath';
 import Container from '../app/layout/Container';
@@ -35,13 +35,13 @@ import EventPublish from './eventPublish/EventPublish';
 import styles from './eventSummaryPage.module.scss';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
-interface Params {
+type Params = {
   id: string;
-}
+};
 
 const EventSummaryPage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const history = useHistory();
+  const { pushWithReturnPath, pushWithLocale } = useNavigate();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { id: eventId } = useParams<Params>();
   const locale = useLocale();
@@ -55,8 +55,9 @@ const EventSummaryPage: React.FC = () => {
     loading,
     refetch: refetchEventData,
   } = useEventQuery({
+    skip: !eventId,
     variables: {
-      id: eventId,
+      id: eventId!,
       include: ['location', 'keywords', 'in_language'],
     },
   });
@@ -85,10 +86,9 @@ const EventSummaryPage: React.FC = () => {
     isPast(new Date(item.endTime))
   );
 
-  const eventPreviewLink = `/${lang}${ROUTES.EVENT_PREVIEW.replace(
-    ':id',
-    eventId
-  )}`;
+  const eventPreviewLink = eventId
+    ? `/${lang}${ROUTES.EVENT_PREVIEW.replace(':id', eventId)}`
+    : '#';
 
   const addLoadingOccurrence = (id: string) => {
     setLoadingOccurrences((ids) => [...ids, id]);
@@ -99,18 +99,21 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const goToEventDetailsPage = () => {
-    history.pushWithReturnPath(ROUTES.EVENT_DETAILS.replace(':id', eventId));
+    eventId &&
+      pushWithReturnPath(`${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
   };
 
   const goToCreateOccurrence = () => {
-    history.pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', eventId));
+    eventId &&
+      pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`);
   };
 
   const copyEventToNewTemplate = () => {
-    history.pushWithReturnPath(ROUTES.COPY_EVENT.replace(':id', eventId));
+    eventId &&
+      pushWithReturnPath(`${ROUTES.COPY_EVENT.replace(':id', eventId)}`);
   };
 
-  const goToHome = () => history.pushWithLocale(ROUTES.HOME);
+  const goToHome = () => pushWithLocale(ROUTES.HOME);
 
   // Export CSV file from API reports view
   const downloadEnrolments = () => {
@@ -118,10 +121,12 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const getEditLink = () => {
-    return `/${lang}${ROUTES.EDIT_EVENT.replace(
-      ':id',
-      eventId
-    )}${queryStringWithReturnPath}`;
+    return eventId
+      ? `/${lang}${ROUTES.EDIT_EVENT.replace(
+          ':id',
+          eventId
+        )}${queryStringWithReturnPath}`
+      : '#';
   };
 
   const handleCancelOccurrence = async (
@@ -159,9 +164,11 @@ const EventSummaryPage: React.FC = () => {
     }
   };
 
-  const editOccurrencesButtonLink = isEventDraft
-    ? `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
-    : `/${locale}${ROUTES.EDIT_OCCURRENCES.replace(':id', eventId)}`;
+  const editOccurrencesButtonLink = eventId
+    ? isEventDraft
+      ? `/${locale}${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`
+      : `/${locale}${ROUTES.EDIT_OCCURRENCES.replace(':id', eventId)}`
+    : '#';
 
   return (
     <PageWrapper title="occurrences.pageTitle">

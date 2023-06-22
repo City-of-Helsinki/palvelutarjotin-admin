@@ -1,7 +1,7 @@
 import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -13,8 +13,8 @@ import {
   useOccurrenceQuery,
 } from '../../generated/graphql';
 import useGoBack from '../../hooks/useGoBack';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import { useSearchParams } from '../../hooks/useQuery';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -29,16 +29,16 @@ import EnrolmentTable from './enrolmentTable/EnrolmentTable';
 import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
 import styles from './occurrencePage.module.scss';
 
-interface Params {
+type Params = {
   id: string;
   eventId: string;
   occurrenceId: string;
   enrolmentId?: string;
-}
+};
 
 const OccurrenceDetailsPage: React.FC = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const locale = useLocale();
   const { search } = useLocation();
   const { id, occurrenceId, enrolmentId } = useParams<Params>();
@@ -47,10 +47,11 @@ const OccurrenceDetailsPage: React.FC = () => {
     searchParams.get(OCCURRENCE_URL_PARAMS.ENROLMENT_UPDATED)
   );
   const { data: eventData, loading: loadingEvent } = useEventQuery({
-    variables: { id, include: ['keywords', 'location'] },
+    skip: !id,
+    variables: { id: id!, include: ['keywords', 'location'] },
   });
   const goBack = useGoBack({
-    defaultReturnPath: ROUTES.EVENT_SUMMARY.replace(':id', id),
+    defaultReturnPath: ROUTES.EVENT_SUMMARY.replace(':id', id ?? ''),
     pageQueryParams: Object.values(OCCURRENCE_URL_PARAMS),
   });
 
@@ -63,7 +64,8 @@ const OccurrenceDetailsPage: React.FC = () => {
     loading: loadingOccurrence,
     refetch: refetchOccurrence,
   } = useOccurrenceQuery({
-    variables: { id: occurrenceId },
+    skip: !occurrenceId,
+    variables: { id: occurrenceId! },
   });
   const occurrence = occurrenceData?.occurrence;
 
@@ -81,13 +83,15 @@ const OccurrenceDetailsPage: React.FC = () => {
     ) ?? [];
 
   const goToOccurrenceDetails = () => {
-    history.pushWithLocale({
-      pathname: ROUTES.OCCURRENCE_DETAILS.replace(':id', id).replace(
-        ':occurrenceId',
-        occurrenceId
-      ),
-      search,
-    });
+    occurrenceId &&
+      id &&
+      pushWithLocale({
+        pathname: ROUTES.OCCURRENCE_DETAILS.replace(':id', id).replace(
+          ':occurrenceId',
+          occurrenceId
+        ),
+        search,
+      });
   };
 
   const handleEnrolmentsModified = async () => {
@@ -116,7 +120,7 @@ const OccurrenceDetailsPage: React.FC = () => {
 
                 <div className={styles.divider} />
 
-                {enrolmentId ? (
+                {enrolmentId && id && occurrenceId ? (
                   <EnrolmentDetails
                     enrolmentId={enrolmentId}
                     occurrenceId={occurrenceId}
@@ -137,10 +141,12 @@ const OccurrenceDetailsPage: React.FC = () => {
                       seatsRemaining={occurrence.remainingSeats}
                       onEnrolmentsModified={handleEnrolmentsModified}
                     />
-                    <LoadingSpinner isLoading={loadingQueuedEnrolments}>
+                    <LoadingSpinner
+                      isLoading={loadingQueuedEnrolments || !occurrenceId}
+                    >
                       <EnrolmentQueueTable
                         enrolments={queuedEnrolments}
-                        occurrenceId={occurrenceId}
+                        occurrenceId={occurrenceId!}
                         eventId={event.id}
                         id="enrolments-queued-table"
                         onEnrolmentsModified={handleEnrolmentsModified}

@@ -26,6 +26,8 @@ const settings: UserManagerSettings = {
   silent_redirect_uri: `${location}${ROUTES.SILENT_CALLBACK}`,
   scope: process.env.REACT_APP_OIDC_SCOPE,
   post_logout_redirect_uri: `${location}${ROUTES.HOME}`,
+  includeIdTokenInSilentRenew: true,
+  monitorSession: true,
 };
 
 const userManager = createUserManager(settings);

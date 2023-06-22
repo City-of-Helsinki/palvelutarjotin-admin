@@ -9,8 +9,8 @@ import {
   OccurrenceFieldsFragment,
   OccurrenceSeatType,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
+import useNavigate from '../../../hooks/useNavigate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import {
   DATE_FORMAT,
@@ -41,14 +41,14 @@ const OccurrencesTableSummary: React.FC<Props> = ({
   loadingOccurrences,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithReturnPath } = useNavigate();
   const locale = useLocale();
   const event = eventData?.event;
   const eventId = event?.id || '';
   const eventLocationId = event?.location?.id || '';
 
   const goToOccurrenceDetailsPage = (row: Row<OccurrenceFieldsFragment>) => {
-    history.pushWithReturnPath(
+    pushWithReturnPath(
       ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.original.id

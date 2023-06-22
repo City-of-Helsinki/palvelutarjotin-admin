@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 
-import { ROUTER_LANGUAGES } from '../../../constants';
 import CmsPage from '../../../headless-cms/components/CmsPage';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { Language } from '../../../types';
 import { resetApiTokenData } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import { userSelector } from '../../auth/selectors';
@@ -21,25 +22,18 @@ import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import EditOccurrencesPage from '../../occurrence/EditOccurrencesPage';
 import OccurrenceDetailsPage from '../../occurrence/OccurrenceDetailsPage';
 import PageLayout from '../layout/PageLayout';
+import { AppDispatch } from '../store';
 import { ROUTES } from './constants';
 
-const LocaleRoutes: React.FC<
-  RouteComponentProps<{
-    locale: ROUTER_LANGUAGES;
-  }>
-> = ({
-  match: {
-    params: { locale },
-  },
-}) => {
+const LocaleRoutes: React.FC<{ locale: Language }> = ({ locale }) => {
   const { i18n } = useTranslation();
-  const dispatch = useDispatch();
-  const user = useSelector(userSelector);
+  const dispatch: AppDispatch = useAppDispatch();
+  const user = useAppSelector(userSelector);
 
   React.useEffect(() => {
     // Get new api token after new access token
     if (user?.access_token) {
-      dispatch(getApiToken(user.access_token));
+      dispatch(getApiToken(user.access_token) as any);
     } else {
       dispatch(resetApiTokenData());
     }
@@ -51,73 +45,47 @@ const LocaleRoutes: React.FC<
 
   return (
     <PageLayout>
-      <Switch>
-        <Route exact path={`/${locale}`} component={EventsPage} />
+      <Routes>
+        <Route index element={<EventsPage />} />
+        <Route path={ROUTES.MY_PROFILE} element={<MyProfilePage />} />
+        <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
+        <Route path={ROUTES.COPY_EVENT} element={<CreateEventPage />} />
+        <Route path={ROUTES.EVENT_DETAILS} element={<EventDetailsPage />} />
+        <Route path={ROUTES.EVENT_SUMMARY} element={<EventSummaryPage />} />
+        <Route path={ROUTES.EVENT_PREVIEW} element={<EventPreviewPage />} />
+        <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
         <Route
-          exact
-          path={`/${locale}${ROUTES.MY_PROFILE}`}
-          component={MyProfilePage}
+          path={ROUTES.EDIT_OCCURRENCES}
+          element={<EditOccurrencesPage />}
         />
         <Route
-          exact
-          path={`/${locale}${ROUTES.CREATE_EVENT}`}
-          component={CreateEventPage}
+          path={ROUTES.CREATE_OCCURRENCE}
+          element={<CreateEventOccurrencePage />}
+        />
+        <Route path={ROUTES.EDIT_ENROLMENT} element={<EditEnrolmentPage />} />
+        <Route
+          path={ROUTES.OCCURRENCE_DETAILS}
+          element={<OccurrenceDetailsPage />}
         />
         <Route
-          exact
-          path={`/${locale}${ROUTES.COPY_EVENT}`}
-          component={CreateEventPage}
+          path={ROUTES.ENROLMENT_DETAILS}
+          element={<OccurrenceDetailsPage />}
         />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.EVENT_DETAILS}`}
-          component={EventDetailsPage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.EVENT_SUMMARY}`}
-          component={EventSummaryPage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.EVENT_PREVIEW}`}
-          component={EventPreviewPage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.EDIT_EVENT}`}
-          component={EditEventPage}
-        />
-        <Route
-          exact
-          path={[`/${locale}${ROUTES.EDIT_OCCURRENCES}`]}
-          component={EditOccurrencesPage}
-        />
-        <Route
-          exact
-          path={[`/${locale}${ROUTES.CREATE_OCCURRENCE}`]}
-          component={CreateEventOccurrencePage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.EDIT_ENROLMENT}`}
-          component={EditEnrolmentPage}
-        />
-        <Route
-          exact
-          path={[
-            `/${locale}${ROUTES.OCCURRENCE_DETAILS}`,
-            `/${locale}${ROUTES.ENROLMENT_DETAILS}`,
-          ]}
-          component={OccurrenceDetailsPage}
-        />
-        <Route
-          exact
-          path={`/${locale}${ROUTES.CMS_PAGE}+`}
-          component={CmsPage}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
+        <Route path={ROUTES.CMS_PAGE} element={<CmsPage />}>
+          <Route path={`${ROUTES.CMS_PAGE}/:subslug`} element={<CmsPage />}>
+            <Route
+              path={`${ROUTES.CMS_PAGE}/:subslug/:subsubslug`}
+              element={<CmsPage />}
+            >
+              <Route
+                path={`${ROUTES.CMS_PAGE}/:subslug/:subsubslug/:subsubsubslug`}
+                element={<CmsPage />}
+              />
+            </Route>
+          </Route>
+        </Route>
+        <Route element={<NotFoundPage />} />
+      </Routes>
     </PageLayout>
   );
 };

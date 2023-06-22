@@ -26,3 +26,7 @@ loadUser(store, userManager);
 const persistor = persistStore(store);
 
 export { persistor, store };
+
+// Define a pretyped dispatcher and root state: redux.js.org/usage/usage-with-typescript#define-typed-hooks
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -29,7 +29,7 @@ FAIL src/common/components/textEditor/__tests__/TextEditor.test.tsx
       at node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.js:7:210080
       at Timeout.task [as _onTimeout] (node_modules/jsdom/lib/jsdom/browser/Window.js:391:19)
 */
-test.skip('should call onChange', () => {
+test.skip('should call onChange', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
@@ -39,6 +39,6 @@ test.skip('should call onChange', () => {
   expect(onChange).toBeCalledWith('<p>test</p>\n');
 
   const undoButton = screen.getByTitle(/peruuta/i);
-  userEvent.click(undoButton);
+  await userEvent.click(undoButton);
   expect(onChange).toBeCalledWith('');
 });

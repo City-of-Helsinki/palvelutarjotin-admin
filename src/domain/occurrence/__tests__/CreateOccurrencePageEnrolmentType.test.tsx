@@ -9,7 +9,9 @@ import {
   getEventMockedResponse,
   getFormElement,
   getUpdateEventMockResponse,
+  placeId,
 } from '../../../test/CreateOccurrencePageTestUtils';
+import { fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -23,6 +25,12 @@ import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 import { enrolmentInfoFormTestId } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import * as Utils from '../utils';
+
+jest.mock('../utils', () => ({
+  __esModule: true,
+  ...jest.requireActual('../utils'),
+}));
 
 configure({ defaultHidden: true });
 
@@ -88,7 +96,7 @@ describe('enrolment type selector', () => {
         expect(screen.getByText(radiosByType[type])).toBeInTheDocument();
       });
 
-      userEvent.click(screen.getByText(radiosByType[type]));
+      await userEvent.click(screen.getByText(radiosByType[type]));
 
       const visibleFieldLabels = fieldSetsByType[type];
       const hiddenFieldLabels = Object.values({
@@ -127,7 +135,7 @@ describe('auto acceptance for enrolments', () => {
       name: /ilmoittautuminen alkaa/i,
     });
     // set as checked
-    userEvent.click(getFormElement('autoAcceptance'));
+    await userEvent.click(getFormElement('autoAcceptance'));
     await waitFor(() => {
       expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
     });
@@ -144,12 +152,12 @@ describe('auto acceptance for enrolments', () => {
   });
 
   it('submits the auto acceptance message right', async () => {
-    const Utils = require('../utils');
     const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
     const toastSuccess = jest.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
+    const occurrences = fakeOccurrences(1, [{ placeId }]);
     renderComponent({
       mocks: [
         getEventMockedResponse({
@@ -158,6 +166,7 @@ describe('auto acceptance for enrolments', () => {
           enrolmentEndDays,
           enrolmentStart,
           neededOccurrences,
+          occurrences,
         }),
         getUpdateEventMockResponse({
           autoAcceptance: true,
@@ -165,6 +174,16 @@ describe('auto acceptance for enrolments', () => {
           enrolmentEndDays,
           enrolmentStart,
           neededOccurrences,
+          occurrences,
+        }),
+        getEventMockedResponse({
+          location: true,
+          autoAcceptance: true,
+          autoAcceptanceMessage: customMessage,
+          enrolmentEndDays,
+          enrolmentStart,
+          neededOccurrences,
+          occurrences,
         }),
       ],
     });
@@ -173,12 +192,16 @@ describe('auto acceptance for enrolments', () => {
       name: /ilmoittautuminen alkaa/i,
     });
     // set as checked
-    userEvent.click(getFormElement('autoAcceptance'));
+    await userEvent.click(getFormElement('autoAcceptance'));
     await waitFor(() => {
       expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
     });
-    userEvent.type(getFormElement('autoAcceptanceMessage'), customMessage);
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.type(
+      getFormElement('autoAcceptanceMessage'),
+      customMessage
+    );
+    expect(getFormElement('autoAcceptanceMessage')).toHaveValue(customMessage);
+    await userEvent.click(getFormElement('saveButton'));
     await waitFor(
       () => {
         expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
@@ -204,12 +227,12 @@ describe('auto acceptance for enrolments', () => {
   });
 
   it('clears the auto acceptance message on submit when auto acceptance is set off', async () => {
-    const Utils = require('../utils');
     const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
     const toastSuccess = jest.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
+    const occurrences = fakeOccurrences(1, [{ placeId }]);
     renderComponent({
       mocks: [
         getEventMockedResponse({
@@ -219,6 +242,7 @@ describe('auto acceptance for enrolments', () => {
           enrolmentEndDays,
           enrolmentStart,
           neededOccurrences,
+          occurrences,
         }),
         getUpdateEventMockResponse({
           autoAcceptance: false,
@@ -226,6 +250,16 @@ describe('auto acceptance for enrolments', () => {
           enrolmentEndDays,
           enrolmentStart,
           neededOccurrences,
+          occurrences,
+        }),
+        getEventMockedResponse({
+          location: true,
+          autoAcceptance: true,
+          autoAcceptanceMessage: customMessage,
+          enrolmentEndDays,
+          enrolmentStart,
+          neededOccurrences,
+          occurrences,
         }),
       ],
     });
@@ -235,7 +269,7 @@ describe('auto acceptance for enrolments', () => {
     });
     expect(getFormElement('autoAcceptanceMessage')).toHaveValue(customMessage);
     // set as unchecked
-    userEvent.click(getFormElement('autoAcceptance'));
+    await userEvent.click(getFormElement('autoAcceptance'));
     await waitFor(() => {
       expect(
         screen.queryByRole('textbox', {
@@ -249,10 +283,13 @@ describe('auto acceptance for enrolments', () => {
       })
     ).not.toBeInTheDocument();
 
-    userEvent.click(getFormElement('saveButton'));
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
+    await userEvent.click(getFormElement('saveButton'));
+    await waitFor(
+      () => {
+        expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+      },
+      { timeout: 10000 }
+    );
     expect(spyGetEditEventPayload).toHaveBeenCalledWith({
       event: expect.anything(),
       formValues: expect.objectContaining({

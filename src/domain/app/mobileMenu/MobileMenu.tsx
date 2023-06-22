@@ -2,17 +2,17 @@ import classNames from 'classnames';
 import { IconAngleRight, IconArrowRight, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import {
   OrganisationNodeFieldsFragment,
   useMyProfileQuery,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 import useLocale from '../../../hooks/useLocale';
+import useNavigate from '../../../hooks/useNavigate';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
@@ -69,12 +69,12 @@ interface Props {
 
 const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   const { t } = useTranslation();
-  const activeOrganisation = useSelector(activeOrganisationSelector);
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const activeOrganisation = useAppSelector(activeOrganisationSelector);
+  const dispatch = useAppDispatch();
+  const { pushWithLocale } = useNavigate();
   const locale = useLocale();
   const location = useLocation();
-  const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
 
   const getUrl = (newLanguage: string) => {
@@ -84,7 +84,7 @@ const MobileMenuModal: React.FC<Props> = ({ isMenuOpen, onClose }) => {
   };
 
   const goToEditMyProfile = () => {
-    history.pushWithLocale(ROUTES.MY_PROFILE);
+    pushWithLocale(ROUTES.MY_PROFILE);
     onClose();
   };
 

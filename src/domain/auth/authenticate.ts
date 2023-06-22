@@ -22,7 +22,7 @@ export const loginTunnistamo = (path?: string): void => {
       data: { path: path || '/' },
       ui_locales: i18n.language,
     })
-    .catch((error) => {
+    .catch((error: any) => {
       if (error.message === 'Network Error') {
         toast(i18n.t('authentication.networkError.message'), {
           type: toast.TYPE.ERROR,

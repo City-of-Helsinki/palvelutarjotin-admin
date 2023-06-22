@@ -2,25 +2,35 @@ import * as Sentry from '@sentry/browser';
 import { User } from 'oidc-client';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteChildrenProps, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { CallbackComponent } from 'redux-oidc';
 
+import { ROUTES } from '../../app/routes/constants';
 import userManager from '../userManager';
 
-function OidcCallback(props: RouteChildrenProps): JSX.Element {
+type UserStateType = {
+  state?: {
+    path?: string;
+  };
+};
+
+function OidcCallback(): JSX.Element {
   const { t } = useTranslation();
   const location = useLocation();
-
-  const onSuccess = (user: User) => {
-    if (user.state.path) props.history.push(user.state.path);
-    else props.history.replace('/');
+  const navigate = useNavigate();
+  const onSuccess = (user: User & UserStateType) => {
+    if (user.state?.path) navigate(user.state.path);
+    else navigate('/');
   };
   const onError = (error: Error) => {
     // In case used denies the access
-    if (new URLSearchParams(location.hash.replace('#', '?')).get('error')) {
+    if (
+      new URLSearchParams(location.hash.replace('#', '?')).get('error') ||
+      location.pathname === ROUTES.CALLBACK
+    ) {
       // TODO: Store url where user clicked log in to session storage and navigate to that url
-      props.history.replace('/');
+      navigate('/');
     } else {
       toast(t('authentication.errorMessage'), {
         type: toast.TYPE.ERROR,
@@ -32,13 +42,16 @@ function OidcCallback(props: RouteChildrenProps): JSX.Element {
   };
 
   return (
-    <CallbackComponent
-      successCallback={onSuccess}
-      errorCallback={onError}
-      userManager={userManager}
-    >
-      <div />
-    </CallbackComponent>
+    <>
+      {/* @ts-ignore to allow children for the <CallbackComponent/> */}
+      <CallbackComponent
+        successCallback={onSuccess}
+        errorCallback={onError}
+        userManager={userManager}
+      >
+        <div>...</div>
+      </CallbackComponent>
+    </>
   );
 }
 

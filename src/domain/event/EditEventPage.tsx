@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -12,7 +12,7 @@ import {
   useEventQuery,
 } from '../../generated/graphql';
 import useGoBack from '../../hooks/useGoBack';
-import useHistory from '../../hooks/useHistory';
+import useNavigate from '../../hooks/useNavigate';
 import { useSearchParams } from '../../hooks/useQuery';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
@@ -49,7 +49,7 @@ const useEventFormEditSubmit = (
 ) => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const goBack = useGoBack({ defaultReturnPath: ROUTES.HOME });
   const [editEvent, { loading: editEventLoading }] = useEditEventMutation();
   const [updateImageRequestHandler, updateImageLoading] =
@@ -59,7 +59,7 @@ const useEventFormEditSubmit = (
   );
 
   const goToOccurrencesPage = () => {
-    history.pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
+    id && pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
   };
 
   const navigateAfterSave = () => {
@@ -145,14 +145,15 @@ const useEventFormEditSubmit = (
 const EditEventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const [initialValues, setInitialValues] =
     useState<CreateEventFormFields>(eventInitialValues);
 
   const { data: eventData, loading } = useEventQuery({
     fetchPolicy: 'network-only',
+    skip: !id,
     variables: {
-      id,
+      id: id!,
       include: ['audience', 'in_language', 'keywords', 'location'],
     },
   });
@@ -161,7 +162,7 @@ const EditEventPage: React.FC = () => {
   const persons = getPersons(organisation);
 
   const goToEventDetailsPage = () => {
-    history.pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+    id && pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
   };
 
   useEffect(() => {

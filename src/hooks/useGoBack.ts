@@ -1,8 +1,8 @@
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import deleteParamsFromQueryString from '../utils/deleteParamsFromQueryString';
 import { extractLatestReturnPath } from '../utils/extractLatestReturnPath';
-import useHistory from './useHistory';
+import useNavigate from './useNavigate';
 
 type Props<S> = {
   defaultReturnPath: string;
@@ -17,7 +17,7 @@ function useGoBack<S>({
   state,
 }: Props<S>): () => void {
   const { search } = useLocation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
 
   const goBack = () => {
     let queryString = search;
@@ -30,11 +30,13 @@ function useGoBack<S>({
       defaultReturnPath
     );
 
-    history.pushWithLocale({
-      pathname: returnPath,
-      search: remainingQueryString,
-      state,
-    });
+    pushWithLocale(
+      {
+        pathname: returnPath,
+        search: remainingQueryString,
+      },
+      { state }
+    );
   };
 
   return goBack;

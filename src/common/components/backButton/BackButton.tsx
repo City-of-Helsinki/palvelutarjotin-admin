@@ -5,6 +5,7 @@ import styles from './backButton.module.scss';
 
 interface Props {
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  children?: React.ReactNode;
 }
 
 const BackButton: React.FC<Props> = ({ onClick, children }) => {

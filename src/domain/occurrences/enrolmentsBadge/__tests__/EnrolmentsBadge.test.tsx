@@ -24,6 +24,6 @@ it('renders seat numbers', () => {
     />
   );
 
-  expect(screen.queryByText('10')).toBeInTheDocument();
-  expect(screen.queryByText('20')).toBeInTheDocument();
+  expect(screen.getByText('10')).toBeInTheDocument();
+  expect(screen.getByText('20')).toBeInTheDocument();
 });

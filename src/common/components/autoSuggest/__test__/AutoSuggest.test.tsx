@@ -11,6 +11,7 @@ const options = [
 ];
 
 function keyDown(key: string) {
+  // eslint-disable-next-line testing-library/no-node-access
   fireEvent.keyDown(document.activeElement || document.body, {
     key,
   });
@@ -55,15 +56,15 @@ describe('<AutoSuggest />', () => {
     const { labelText } = renderAutoSuggest({ inputValue: value });
 
     expect(screen.getByLabelText(labelText)).toHaveValue(value);
-    expect(screen.queryByText(/ei tuloksia/i)).toBeInTheDocument();
+    expect(screen.getByText(/ei tuloksia/i)).toBeInTheDocument();
   });
 
-  it('calls setInputValue correctly when user types to input', () => {
+  it('calls setInputValue correctly when user types to input', async () => {
     const { labelText, setInputValue } = renderAutoSuggest();
 
     const input = screen.getByLabelText(labelText);
 
-    userEvent.type(input, 'testi');
+    await userEvent.type(input, 'testi');
 
     expect(setInputValue.mock.calls).toEqual([
       ['t'],
@@ -77,23 +78,23 @@ describe('<AutoSuggest />', () => {
   it('shows autocomplete list when using arrow key', async () => {
     renderAutoSuggest({ options });
 
-    userEvent.tab();
-
+    await userEvent.tab();
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.keyDown(document.activeElement || document.body, {
       key: 'ArrowDown',
     });
 
     options.forEach((option) => {
       expect(
-        screen.queryByRole('option', { name: option.label })
+        screen.getByRole('option', { name: option.label })
       ).toBeInTheDocument();
     });
   });
 
-  it('show focused autocomplete item correctly and calls onChange when item selected', () => {
+  it('show focused autocomplete item correctly and calls onChange when item selected', async () => {
     const { onChange } = renderAutoSuggest({ options });
 
-    userEvent.tab();
+    await userEvent.tab();
 
     keyDown('ArrowDown');
 
@@ -131,7 +132,7 @@ describe('<AutoSuggest />', () => {
     });
   });
 
-  it('calls onChange when clicking one of the options', () => {
+  it('calls onChange when clicking one of the options', async () => {
     const { labelText, onChange } = renderAutoSuggest({
       options,
       inputValue: 'test',
@@ -139,7 +140,7 @@ describe('<AutoSuggest />', () => {
 
     const input = screen.getByLabelText(labelText);
 
-    userEvent.click(input);
+    await userEvent.click(input);
 
     const selectedOption = screen.getByRole('option', {
       name: options[2].label,

@@ -59,9 +59,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const editorRef = React.useRef<Editor>(null);
   const [focused, setFocused] = React.useState(false);
   const { t } = useTranslation();
-
   const [editorState, setEditorState] = React.useState(() =>
-    convertHtmlToEditorState(value)
+    value ? convertHtmlToEditorState(value) : ''
   );
 
   const onEditorStateChange = (editorState: EditorState) => {

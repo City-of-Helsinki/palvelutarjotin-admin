@@ -1,8 +1,7 @@
 import { IconAngleRight, IconSignout, IconUser, Navigation } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useMatch } from 'react-router-dom';
 
 import { MenuItem } from '../../../common/components/menuDropdown/MenuDropdown';
 import { ROUTER_LANGUAGES, SUPPORT_LANGUAGES } from '../../../constants';
@@ -15,7 +14,9 @@ import {
   useCmsMenuItems,
 } from '../../../headless-cms/hooks';
 import { stripLocaleFromUri } from '../../../headless-cms/utils';
-import useHistory from '../../../hooks/useHistory';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import useNavigate from '../../../hooks/useNavigate';
 import { LanguageSelectorLanguage } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
@@ -30,7 +31,7 @@ import HeaderLink from './HeaderLink';
 
 const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const locale = i18n.language;
   const [menuOpen, setMenuOpen] = React.useState(false);
   const { cmsMenuLoading, menuItems } = useCmsMenuItems();
@@ -50,11 +51,11 @@ const Header: React.FC = () => {
     (pathname: string) =>
     (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
       event?.preventDefault();
-      history.pushWithLocale(pathname);
+      pushWithLocale(pathname);
       closeMenu();
     };
 
-  const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
 
   const organisations: OrganisationNodeFieldsFragment[] =
@@ -134,18 +135,18 @@ const UserNavigation: React.FC<{
   userLabel: string;
 }> = ({ organisations, userLabel }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const { pushWithLocale } = useNavigate();
+  const dispatch = useAppDispatch();
 
   const goToEditMyProfile = () => {
-    history.pushWithLocale(ROUTES.MY_PROFILE);
+    pushWithLocale(ROUTES.MY_PROFILE);
   };
 
   const logout = () => {
     logoutTunnistamo();
   };
 
-  const activeOrganisation = useSelector(activeOrganisationSelector);
+  const activeOrganisation = useAppSelector(activeOrganisationSelector);
 
   const changeActiveOrganisation = (id: string) => {
     dispatch(setActiveOrganisation(id));
@@ -194,8 +195,8 @@ const LanguageNavigation: React.FC = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { pathname, search } = useLocation();
-  const history = useHistory();
-  const isCmsPage = !!useRouteMatch(`/${locale}${ROUTES.CMS_PAGE}`);
+  const { navigate } = useNavigate();
+  const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
   const languageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
 
   const getCmsHref = (lang: string) => {
@@ -209,7 +210,7 @@ const LanguageNavigation: React.FC = () => {
   };
 
   const changeLanguage = (newLanguage: LanguageSelectorLanguage) => {
-    history.push({
+    navigate({
       pathname: updateLocaleParam(pathname, locale, newLanguage),
       search,
     });
@@ -238,7 +239,7 @@ const LanguageNavigation: React.FC = () => {
     >
       {getLanguageOptions().map((option) => {
         const handleOnClick = isCmsPage
-          ? () => history.push(getCmsHref(option.value))
+          ? () => navigate(getCmsHref(option.value))
           : () => handleLanguageChange(option);
         return (
           <Navigation.Item

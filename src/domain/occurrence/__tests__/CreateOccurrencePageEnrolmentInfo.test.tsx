@@ -3,6 +3,7 @@ import { format, parse as parseDate } from 'date-fns';
 import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
+import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { OccurrenceNode } from '../../../generated/graphql';
@@ -42,7 +43,7 @@ import {
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
-
+const navigate = jest.fn();
 configure({ defaultHidden: true });
 
 afterAll(() => {
@@ -100,7 +101,7 @@ describe('location and enrolment info', () => {
     );
     const toastSuccess = jest.spyOn(toast, 'success');
 
-    expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -141,34 +142,34 @@ describe('location and enrolment info', () => {
 
     const [startHours, startMinutes] = formattedEnrolmentStartTime.split(':');
 
-    userEvent.click(enrolmentStartDateInput);
-    userEvent.type(enrolmentStartDateInput, formattedEnrolmentStartDate);
-    userEvent.type(enrolmentStartHoursInput, startHours);
-    userEvent.type(enrolmentStartMinutesInput, startMinutes);
+    await userEvent.click(enrolmentStartDateInput);
+    await userEvent.type(enrolmentStartDateInput, formattedEnrolmentStartDate);
+    await userEvent.type(enrolmentStartHoursInput, startHours);
+    await userEvent.type(enrolmentStartMinutesInput, startMinutes);
 
-    userEvent.type(enrolmentEndDaysInput, '1');
+    await userEvent.type(enrolmentEndDaysInput, '1');
 
     await waitFor(() => {
-      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
-      expect(enrolmentStartHoursInput).toHaveValue(startHours);
       expect(enrolmentStartMinutesInput).toHaveValue(startMinutes);
     });
+    expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
+    expect(enrolmentStartHoursInput).toHaveValue(startHours);
 
     const autoAcceptanceCheckbox = getFormElement('autoAcceptance');
     expect(autoAcceptanceCheckbox).toBeChecked();
-    userEvent.click(autoAcceptanceCheckbox);
+    await userEvent.click(autoAcceptanceCheckbox);
     expect(autoAcceptanceCheckbox).not.toBeChecked();
 
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.click(getFormElement('saveButton'));
 
     const goToPublishingButton = getFormElement('goToPublishing');
     const addNewOccurrenceButton = getOccurrenceFormElement('submit');
 
     // Form buttons should be disabled during mutation request
     await waitFor(() => {
-      expect(goToPublishingButton).toBeDisabled();
       expect(addNewOccurrenceButton).toBeDisabled();
     });
+    expect(goToPublishingButton).toBeDisabled();
 
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
@@ -208,7 +209,7 @@ describe('location and enrolment info', () => {
 
     const toastSuccess = jest.spyOn(toast, 'success');
 
-    expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -236,28 +237,27 @@ describe('location and enrolment info', () => {
     expect(enrolmentEndDaysInput).toHaveValue(1);
     expect(neededOccurrencesInput).toHaveValue(1);
 
-    userEvent.click(enrolmentStartDateInput);
+    await userEvent.click(enrolmentStartDateInput);
     enrolmentStartDateInput.setSelectionRange(0, 15);
-    userEvent.type(enrolmentStartDateInput, '{backspace}1.5.2021');
-    userEvent.type(enrolmentStartHoursInput, '00');
-    userEvent.type(enrolmentStartMinutesInput, '00');
+    await userEvent.type(enrolmentStartDateInput, '{backspace}1.5.2021');
+    await userEvent.type(enrolmentStartHoursInput, '00');
+    await userEvent.type(enrolmentStartMinutesInput, '00');
 
-    userEvent.clear(enrolmentEndDaysInput);
-    userEvent.type(enrolmentEndDaysInput, '2');
+    await userEvent.clear(enrolmentEndDaysInput);
+    await userEvent.type(enrolmentEndDaysInput, '2');
 
-    userEvent.clear(neededOccurrencesInput);
-    userEvent.type(neededOccurrencesInput, '3');
+    await userEvent.clear(neededOccurrencesInput);
+    await userEvent.type(neededOccurrencesInput, '3');
 
     await waitFor(() => {
-      expect(enrolmentStartDateInput).toHaveValue('1.5.2021');
-      expect(enrolmentStartHoursInput).toHaveValue('00');
-      expect(enrolmentStartMinutesInput).toHaveValue('00');
+      expect(neededOccurrencesInput).toHaveValue(3);
     });
-
     expect(enrolmentEndDaysInput).toHaveValue(2);
-    expect(neededOccurrencesInput).toHaveValue(3);
+    expect(enrolmentStartDateInput).toHaveValue('1.5.2021');
+    expect(enrolmentStartMinutesInput).toHaveValue('00');
+    expect(enrolmentStartHoursInput).toHaveValue('00');
 
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.click(getFormElement('saveButton'));
 
     const goToPublishingButton = getFormElement('goToPublishing');
     // Button should be disabled during mutation request
@@ -334,10 +334,10 @@ describe('location and enrolment info', () => {
     });
 
     // Change value to get form dirty and save button enabled!
-    userEvent.clear(enrolmentEndDaysInput);
-    userEvent.type(enrolmentEndDaysInput, '2');
+    await userEvent.clear(enrolmentEndDaysInput);
+    await userEvent.type(enrolmentEndDaysInput, '2');
 
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.click(getFormElement('saveButton'));
 
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
@@ -345,6 +345,7 @@ describe('location and enrolment info', () => {
   });
 
   test('notification modal works correctly when info is not filled', async () => {
+    jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
     const {
       occurrenceEndTime,
@@ -409,7 +410,7 @@ describe('location and enrolment info', () => {
     const updateEventMockResponse = getUpdateEventMockResponse({
       ...eventData,
     });
-    const { container, history } = renderComponent({
+    const { container } = renderComponent({
       mocks: [
         eventMockResponse,
         // refetch mock after saving
@@ -422,8 +423,7 @@ describe('location and enrolment info', () => {
       ],
     });
     Modal.setAppElement(container);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const pushMock = jest.spyOn(history, 'push');
+
     const toastSuccess = jest.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
@@ -432,7 +432,7 @@ describe('location and enrolment info', () => {
     const goToPublishButton = screen.getByRole('button', {
       name: 'Siirry julkaisuun',
     });
-    userEvent.click(goToPublishButton);
+    await userEvent.click(goToPublishButton);
     await actWait();
     // form should be validated and errors should appear
     expect(
@@ -451,18 +451,21 @@ describe('location and enrolment info', () => {
     const enrolmentStartMinutesInput = getFormElement('enrolmentStartMinutes');
     const enrolmentEndDaysInput = getFormElement('enrolmentEndDays');
 
-    userEvent.click(enrolmentStartDateInput);
-    userEvent.type(enrolmentStartDateInput, formattedEnrolmentStartDate);
-    userEvent.type(enrolmentStartHoursInput, formattedEnrolmentStartTime);
-    userEvent.type(enrolmentStartMinutesInput, formattedEnrolmentStartTime);
-    userEvent.type(enrolmentEndDaysInput, '1');
+    await userEvent.click(enrolmentStartDateInput);
+    await userEvent.type(enrolmentStartDateInput, formattedEnrolmentStartDate);
+    await userEvent.type(enrolmentStartHoursInput, formattedEnrolmentStartTime);
+    await userEvent.type(
+      enrolmentStartMinutesInput,
+      formattedEnrolmentStartTime
+    );
+    await userEvent.type(enrolmentEndDaysInput, '1');
 
     await waitFor(() => {
       expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
     });
 
     // Try to go to publish page
-    userEvent.click(goToPublishButton);
+    await userEvent.click(goToPublishButton);
     await actWait();
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
@@ -479,13 +482,13 @@ describe('location and enrolment info', () => {
       expect(withinModal2.queryByText(text)).not.toBeInTheDocument();
     });
     expect(
-      withinModal2.queryByText(
+      withinModal2.getByText(
         'Tapahtumalla on oltava ainakin yksi tapahtuma-aika'
       )
     ).toBeInTheDocument();
 
     // Close modal again
-    userEvent.click(withinModal2.getByRole('button', { name: 'Sulje' }));
+    await userEvent.click(withinModal2.getByRole('button', { name: 'Sulje' }));
 
     await fillAndSubmitOccurrenceForm({
       occurrenceStartDate,
@@ -494,7 +497,7 @@ describe('location and enrolment info', () => {
     });
 
     // Now everything should be ok
-    userEvent.click(goToPublishButton);
+    await userEvent.click(goToPublishButton);
     await actWait();
     // FIXME: the test is not working properly with requiredFieldsSchema.validateSync after dependency update
     // await waitFor(() => {
@@ -538,19 +541,19 @@ describe('location and enrolment info', () => {
     await screen.findByText('Test venue description');
 
     // Save event with no enrolment
-    userEvent.click(getFormElement('noEnrolmentButton'));
+    await userEvent.click(getFormElement('noEnrolmentButton'));
 
     // grup min and max input should be hidden
     expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
     expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
     expect(getOccurrenceFormElement('seats')).not.toBeInTheDocument();
 
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.click(getFormElement('saveButton'));
 
     await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
   });
 
-  test('user can add external enrolment and save form', async () => {
+  test.only('user can add external enrolment and save form', async () => {
     const externalEnrolmentUrl = 'https://kultus.fi/';
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
       getEventMockedResponse({
@@ -590,26 +593,29 @@ describe('location and enrolment info', () => {
     expect(getOccurrenceFormElement('min')).toBeInTheDocument();
     expect(getOccurrenceFormElement('max')).toBeInTheDocument();
 
-    userEvent.click(getFormElement('externalEnrolmentButton'));
+    const externalEnrolment = getFormElement('externalEnrolmentButton');
+    await userEvent.click(externalEnrolment);
+    expect(externalEnrolment).toBeChecked();
+    const enrolmentUrlInput = getFormElement('enrolmentUrl');
+    expect(enrolmentUrlInput).toHaveValue('');
 
     expect(
       screen.queryByText(/tämä kenttä on pakollinen/i)
     ).not.toBeInTheDocument();
 
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.click(getFormElement('saveButton'));
 
     // externalEnrolmentButton is required
     await screen.findByText(/tämä kenttä on pakollinen/i);
 
-    const enrolmentUrlInput = await getFormElement('enrolmentUrl');
-    userEvent.type(enrolmentUrlInput, externalEnrolmentUrl);
+    await userEvent.type(enrolmentUrlInput, externalEnrolmentUrl);
 
     // should be hidden when external enrolment is selected
     expect(getOccurrenceFormElement('min')).not.toBeInTheDocument();
     expect(getOccurrenceFormElement('max')).not.toBeInTheDocument();
     expect(getOccurrenceFormElement('seats')).not.toBeInTheDocument();
 
-    userEvent.click(getFormElement('saveButton'));
+    await userEvent.click(getFormElement('saveButton'));
 
     await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
   });

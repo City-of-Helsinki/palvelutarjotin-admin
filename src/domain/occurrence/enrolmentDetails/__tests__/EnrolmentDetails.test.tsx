@@ -80,7 +80,7 @@ test('matches snapshot', async () => {
   const { container } = renderEnrolmentDetails();
 
   await waitFor(() => {
-    expect(screen.queryByText('Ilmoittautuneet')).toBeInTheDocument();
+    expect(screen.getByText('Ilmoittautuneet')).toBeInTheDocument();
   });
 
   expect(container).toMatchSnapshot();
@@ -89,21 +89,21 @@ test('matches snapshot', async () => {
 test('renders correct information', async () => {
   renderEnrolmentDetails();
 
-  expect(screen.queryByTestId('loading-spinner')).toBeInTheDocument();
+  expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
 
   // values
-  expect(screen.queryByText('14.8.2020 10:15')).toBeInTheDocument();
-  expect(screen.queryByText('Hyväksytty')).toBeInTheDocument();
+  expect(screen.getByText('14.8.2020 10:15')).toBeInTheDocument();
+  expect(screen.getByText('Hyväksytty')).toBeInTheDocument();
   expect(
-    screen.queryByText('Tekstiviestillä, sähköpostilla, kieli: suomi')
+    screen.getByText('Tekstiviestillä, sähköpostilla, kieli: suomi')
   ).toBeInTheDocument();
-  expect(screen.queryByText('Yläaste')).toBeInTheDocument();
-  expect(screen.queryByText('Ryhmän nimi')).toBeInTheDocument();
-  expect(screen.queryByText('Lisätietoja tässä')).toBeInTheDocument();
+  expect(screen.getByText('Yläaste')).toBeInTheDocument();
+  expect(screen.getByText('Ryhmän nimi')).toBeInTheDocument();
+  expect(screen.getByText('Lisätietoja tässä')).toBeInTheDocument();
   expect(screen.queryByText(/5\. luokka/i)).toBeVisible();
 });
 
@@ -124,7 +124,7 @@ test('enrolment action buttons work correctly', async () => {
     name: 'Jätä ilman paikkaa',
   });
 
-  userEvent.click(declineButton);
+  await userEvent.click(declineButton);
 
   expect(
     screen.queryByText(
@@ -132,7 +132,7 @@ test('enrolment action buttons work correctly', async () => {
     )
   ).toBeVisible();
 
-  userEvent.click(screen.getByText('Sulje'));
+  await userEvent.click(screen.getByText('Sulje'));
 });
 
 test('renders multiple studygroups correctly', async () => {

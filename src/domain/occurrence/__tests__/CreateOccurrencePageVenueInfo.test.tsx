@@ -16,7 +16,6 @@ import {
   configure,
   renderWithRoute,
   screen,
-  userEvent,
   waitFor,
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
@@ -64,7 +63,7 @@ describe('venue info', () => {
         enrolmentStart: enrolmentStartDateTimeValue,
         neededOccurrences,
       });
-    renderComponent({
+    const { user } = renderComponent({
       mocks: [
         editVenueMockResponse,
         eventWithMultipleLanguagesMockedResponse,
@@ -82,18 +81,22 @@ describe('venue info', () => {
       name: /tapahtumapaikan kuvaus \(en\)/i,
     });
 
-    userEvent.clear(venueDescriptionInput);
-    userEvent.type(venueDescriptionInput, 'Changed venue description');
+    await user.type(venueDescriptionInput, 'fixme'); // FIXME: https://github.com/testing-library/user-event/discussions/970
+    await user.clear(venueDescriptionInput);
+    await user.type(venueDescriptionInput, 'Changed venue description');
+    expect(venueDescriptionInput).toHaveValue('Changed venue description');
 
     const hasOutdoorPlayingAreaCheckbox = getVenueCheckbox(
       'hasOutdoorPlayingArea'
     );
     const hasToiletNearby = getVenueCheckbox('hasToiletNearby');
 
-    userEvent.click(hasToiletNearby);
-    userEvent.click(hasOutdoorPlayingAreaCheckbox);
+    await user.click(hasToiletNearby);
+    await user.click(hasOutdoorPlayingAreaCheckbox);
+    expect(hasToiletNearby).toBeChecked();
+    expect(hasOutdoorPlayingAreaCheckbox).toBeChecked();
 
-    userEvent.click(getFormElement('saveButton'));
+    await user.click(getFormElement('saveButton'));
 
     await waitFor(
       () => {

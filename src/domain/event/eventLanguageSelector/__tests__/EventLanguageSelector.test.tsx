@@ -39,7 +39,7 @@ const languagesProp = [
 //   expect(result).toHaveNoViolations();
 // });
 
-test('language selector button are rendered correctly', () => {
+test('language selector button are rendered correctly', async () => {
   const onClickMock = jest.fn();
   render(
     <EventLanguageSelector
@@ -53,17 +53,17 @@ test('language selector button are rendered correctly', () => {
   const enButton = screen.getByRole('button', { name: 'Englanti' });
   const svButton = screen.getByRole('button', { name: 'Ruotsi' });
 
-  userEvent.click(finButton);
+  await userEvent.click(finButton);
 
   expect(onClickMock).toHaveBeenCalledWith('fi');
   expect(onClickMock).toHaveBeenCalledTimes(1);
 
-  userEvent.click(enButton);
+  await userEvent.click(enButton);
 
   expect(onClickMock).toHaveBeenCalledWith('en');
   expect(onClickMock).toHaveBeenCalledTimes(2);
 
-  userEvent.click(svButton);
+  await userEvent.click(svButton);
 
   expect(onClickMock).toHaveBeenCalledWith('sv');
   expect(onClickMock).toHaveBeenCalledTimes(3);

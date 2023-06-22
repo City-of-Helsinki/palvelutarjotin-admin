@@ -1,16 +1,16 @@
 import { Button, Combobox, TextInput } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EventFieldsFragment,
   useMyProfileQuery,
 } from '../../generated/graphql';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import useDebounce from '../../hooks/useDebounce';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import useProfilePlaces from '../../hooks/useProfilePlaces';
 import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
@@ -33,10 +33,10 @@ const EventsPage: React.FC = () => {
   const [placesValue, setPlacesValue] = React.useState<PlaceOption[]>([]);
   const searchValue = useDebounce(inputValue, 100);
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const { data: myProfileData } = useMyProfileQuery();
 
-  const activeOrganisation = useSelector(activeOrganisationSelector);
+  const activeOrganisation = useAppSelector(activeOrganisationSelector);
   const selectedOrganisation =
     myProfileData?.myProfile &&
     getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
@@ -97,11 +97,11 @@ const EventsPage: React.FC = () => {
   });
 
   const goToCreateEventPage = () => {
-    history.pushWithLocale(ROUTES.CREATE_EVENT);
+    pushWithLocale(ROUTES.CREATE_EVENT);
   };
 
   const goToEventSummaryPage = (id: string) => {
-    history.pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', id));
+    pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', id));
   };
 
   const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];

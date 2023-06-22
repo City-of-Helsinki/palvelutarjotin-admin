@@ -62,7 +62,7 @@ test('renders and displays information correctly', () => {
   expect(screen.queryByText('Musiikki, Teatteri')).toBeVisible();
   expect(screen.queryByText('Tapahtuma on ilmainen')).toBeVisible();
   expect(screen.queryByText('3')).toBeVisible();
-  expect(screen.queryByText('-')).toBeInTheDocument();
+  expect(screen.getByText('-')).toBeInTheDocument();
 });
 
 test('show correct texts with different data', () => {

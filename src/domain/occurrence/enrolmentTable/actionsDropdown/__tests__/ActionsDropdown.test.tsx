@@ -52,12 +52,12 @@ const renderComponent = (props?: Partial<Props>) => {
   );
 };
 
-it('open menu correctly', () => {
+it('open menu correctly', async () => {
   renderComponent();
 
   expect(screen.getByRole('menu')).not.toHaveClass('isOpen');
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
   expect(screen.getByTestId(tableDropdownTestId)).toHaveClass('isMenuOpen');
 });
@@ -67,24 +67,26 @@ it('canceling enrolment works from dropdown', async () => {
 
   Modal.setAppElement(container);
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  userEvent.click(screen.getByRole('menuitem', { name: 'Jätä ilman paikkaa' }));
+  await userEvent.click(
+    screen.getByRole('menuitem', { name: 'Jätä ilman paikkaa' })
+  );
 
   expect(
-    screen.queryByText(
+    screen.getByText(
       'Valittujien ilmoittautujien osallistumista ei vahvisteta. Heille lähetetään tieto jäämisestä ilman paikkaa.'
     )
   ).toBeInTheDocument();
 
-  userEvent.click(screen.getByLabelText('Lisää viesti'));
+  await userEvent.click(screen.getByLabelText('Lisää viesti'));
 
-  userEvent.type(
+  await userEvent.type(
     screen.getByLabelText('Viesti osallistujille'),
     'Tapahtuma peruttu'
   );
 
-  userEvent.click(screen.getByRole('button', { name: 'Lähetä' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Lähetä' }));
 
   await waitFor(() => {
     expect(

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { graphql } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 import wait from 'waait';
 
 import {
@@ -97,6 +97,7 @@ it('PageLayout matches snapshot', () => {
       </Provider>
     </MockedProvider>
   );
+  // eslint-disable-next-line testing-library/no-node-access
   expect(container.firstChild).toMatchSnapshot();
 });
 
@@ -177,11 +178,11 @@ it('Pagelayout renders profile page and registration pending page after submitti
   ).not.toBeInTheDocument();
 
   expect(
-    screen.queryByRole('heading', { name: 'Täydennä tietosi' })
+    screen.getByRole('heading', { name: 'Täydennä tietosi' })
   ).toBeInTheDocument();
-  expect(screen.queryByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
+  expect(screen.getByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
 
-  expect(screen.queryByText(userEmail)).toBeInTheDocument();
+  expect(screen.getByText(userEmail)).toBeInTheDocument();
 
   await fillAndSubmitProfileForm();
 
@@ -191,7 +192,7 @@ it('Pagelayout renders profile page and registration pending page after submitti
     { timeout: 20000 }
   );
   expect(
-    screen.queryByRole('heading', {
+    screen.getByRole('heading', {
       name: 'Rekisteröitymisesi odottaa käsittelyä',
     })
   ).toBeInTheDocument();
@@ -221,7 +222,7 @@ it('Pagelayout renders children when user has profile, organisations and has sta
   });
 
   await waitFor(() => {
-    expect(screen.queryByText('TextChildren')).toBeInTheDocument();
+    expect(screen.getByText('TextChildren')).toBeInTheDocument();
   });
 });
 
@@ -259,7 +260,7 @@ it('render registration pending page', async () => {
   await screen.findByRole('heading', { name: 'Kiitos rekisteröitymisestä' });
 
   expect(
-    screen.queryByRole('heading', {
+    screen.getByRole('heading', {
       name: 'Rekisteröitymisesi odottaa käsittelyä',
     })
   ).toBeInTheDocument();
@@ -268,8 +269,8 @@ it('render registration pending page', async () => {
 });
 
 async function fillAndSubmitProfileForm() {
-  userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
-  userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
+  await userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
+  await userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
 
   // wait for organisation to load
   await act(wait);
@@ -277,26 +278,28 @@ async function fillAndSubmitProfileForm() {
   const languageSelectorButton = screen.getByLabelText(/Organisaatio/i, {
     selector: 'button',
   });
-  userEvent.click(languageSelectorButton);
-  userEvent.click(screen.getByText(/organisaatio 1/i));
-  userEvent.click(screen.getByText(/organisaatio 2/i));
+  await userEvent.click(languageSelectorButton);
+  await userEvent.click(screen.getByText(/organisaatio 1/i));
+  await userEvent.click(screen.getByText(/organisaatio 2/i));
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByLabelText(/Organisaatio/i, { selector: 'button' })
   );
 
-  expect(screen.queryByLabelText('Organisaatio 1')).toBeInTheDocument();
-  expect(screen.queryByLabelText('Organisaatio 2')).toBeInTheDocument();
+  expect(screen.getByLabelText('Organisaatio 1')).toBeInTheDocument();
+  expect(screen.getByLabelText('Organisaatio 2')).toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByLabelText('Olen hyväksynyt palvelut käyttöehdot')
   );
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByLabelText(
       'Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. Tietosuojaseloste'
     )
   );
 
-  userEvent.click(screen.getByRole('button', { name: 'Tallenna ja jatka' }));
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Tallenna ja jatka' })
+  );
 }

@@ -127,12 +127,12 @@ const renderComponent = (props?: Partial<Props>) => {
   );
 };
 
-it('open menu correctly', () => {
+it('open menu correctly', async () => {
   renderComponent();
 
   expect(screen.getByRole('menu')).not.toHaveClass('isOpen');
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
   expect(screen.getByTestId(tableDropdownTestId)).toHaveClass('isMenuOpen');
 });
@@ -142,16 +142,16 @@ it('add to the enrolments list works from dropdown', async () => {
 
   Modal.setAppElement(container);
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('menuitem', { name: 'Lisää ilmoittautumislistalle' })
   );
 
   expect(screen.getByText(/valitut osallistujat:/i)).toBeInTheDocument();
-  expect(screen.queryByText(person.name)).toBeInTheDocument();
+  expect(screen.getByText(person.name)).toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', { name: 'Lisää ilmoittautumislistalle' })
   );
 
@@ -167,14 +167,16 @@ it('removing queued enrolment works from dropdown', async () => {
 
   Modal.setAppElement(container);
 
-  userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
-  userEvent.click(screen.getByRole('menuitem', { name: 'Poista jonosta' }));
+  await userEvent.click(
+    screen.getByRole('menuitem', { name: 'Poista jonosta' })
+  );
 
   expect(screen.getByText(/valitut osallistujat:/i)).toBeInTheDocument();
-  expect(screen.queryByText(person.name)).toBeInTheDocument();
+  expect(screen.getByText(person.name)).toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', { name: 'Poista ilmoittautuminen' })
   );
 

@@ -8,6 +8,7 @@ import { invalidFieldClass } from '../constants';
 import { getErrorText } from '../utils';
 
 export type Option = {
+  key?: string;
   label: string;
   value: string;
 };

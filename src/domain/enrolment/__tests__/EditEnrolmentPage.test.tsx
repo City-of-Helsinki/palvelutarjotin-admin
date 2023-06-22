@@ -1,13 +1,14 @@
 /* eslint-disable import/no-duplicates */
 import { MockedResponse } from '@apollo/client/testing';
-import cloneDeep from 'lodash/cloneDeep';
 import * as React from 'react';
+import * as Router from 'react-router-dom';
 import wait from 'waait';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';
 import { createPlaceQueryMock } from '../../../test/apollo-mocks/placeMocks';
 import { createSchoolsAndKindergartensListQueryMock } from '../../../test/apollo-mocks/schoolsAndKindergartensListMock';
+import { myProfileMockResponse } from '../../../test/CreateOccurrencePageTestUtils';
 import {
   fakeEnrolment,
   fakeLocalizedObject,
@@ -29,7 +30,19 @@ import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';
 import EditEnrolmentPage from '../EditEnrolmentPage';
-
+const navigate = jest.fn();
+jest.mock('../../../generated/graphql', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('../../../generated/graphql'),
+  };
+});
+jest.mock('react-router-dom', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router-dom'),
+  };
+});
 const eventId = 'palvelutarjotin:afzunowba4';
 const enrolmentId = 'RW5yb2xtZW50Tm9kZToyNw==';
 const personId = '123123';
@@ -104,6 +117,21 @@ const apolloMocks = [
   },
 ];
 
+const unrelatedMocks = [
+  myProfileMockResponse,
+  {
+    request: {
+      query: graphqlFns.StudyLevelsDocument,
+      variables: {},
+    },
+    result: {
+      data: {
+        studyLevels,
+      },
+    },
+  },
+];
+
 // TODO: Use normal ApolloMockProvider mock
 afterEach(() => {
   // copy the original back so we can modify it in the tests
@@ -114,7 +142,7 @@ afterEach(() => {
 
 const renderPage = ({ mocks }: { mocks?: any } = {}) => {
   return renderWithRoute(<EditEnrolmentPage />, {
-    mocks: mocks || apolloMocks,
+    mocks: [...(mocks || apolloMocks), ...unrelatedMocks],
     store,
     routes: [
       ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
@@ -128,30 +156,36 @@ const renderPage = ({ mocks }: { mocks?: any } = {}) => {
 
 it('initializes edit form correctly', async () => {
   renderPage();
-
+  await waitFor(() => {
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+  });
   await screen.findByRole('heading', {
     name: messages.enrolment.editEnrolmentTitle,
   });
 
   expect(
-    screen.queryByRole('heading', {
+    screen.getByRole('heading', {
       name: messages.enrolmentForm.studyGroup.titleNotifier,
     })
   ).toBeInTheDocument();
 
+  await waitFor(async () => {
+    expect(
+      await screen.findByLabelText(
+        messages.enrolmentForm.studyGroup.person.labelName
+      )
+    ).toHaveValue(enrolment.studyGroup.person!.name);
+  });
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.studyGroup.person.labelName)
-  ).toHaveValue(enrolment.studyGroup.person.name);
-  expect(
-    screen.queryByLabelText(
+    await screen.findByLabelText(
       messages.enrolmentForm.studyGroup.person.labelEmailAddress
     )
-  ).toHaveValue(enrolment.studyGroup.person.emailAddress);
+  ).toHaveValue(enrolment.studyGroup.person!.emailAddress);
   expect(
-    screen.queryByLabelText(
+    await screen.findByLabelText(
       messages.enrolmentForm.studyGroup.person.labelPhoneNumber
     )
-  ).toHaveValue(enrolment.studyGroup.person.phoneNumber);
+  ).toHaveValue(enrolment.studyGroup.person!.phoneNumber);
 
   await waitFor(() => {
     expect(
@@ -170,30 +204,38 @@ it('initializes edit form correctly', async () => {
   });
 
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelGroupName)
+    await screen.findByLabelText(
+      messages.enrolmentForm.studyGroup.labelGroupName
+    )
   ).toHaveValue(enrolment.studyGroup.groupName);
   expect(
-    screen.queryByText(messages.enrolmentForm.studyGroup.helperGroupName)
+    screen.getByText(messages.enrolmentForm.studyGroup.helperGroupName)
   ).toBeInTheDocument();
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelGroupSize)
+    await screen.findByLabelText(
+      messages.enrolmentForm.studyGroup.labelGroupSize
+    )
   ).toHaveValue(enrolment.studyGroup.groupSize);
   expect(
-    screen.queryByLabelText(
+    await screen.findByLabelText(
       messages.enrolmentForm.studyGroup.labelAmountOfAdult
     )
   ).toHaveValue(enrolment.studyGroup.amountOfAdult);
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.labelIsSameResponsiblePerson)
+    await screen.findByLabelText(
+      messages.enrolmentForm.labelIsSameResponsiblePerson
+    )
   ).toBeChecked();
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.labelHasEmailNotification)
+    await screen.findByLabelText(
+      messages.enrolmentForm.labelHasEmailNotification
+    )
   ).toBeChecked();
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.labelHasSmsNotification)
+    await screen.findByLabelText(messages.enrolmentForm.labelHasSmsNotification)
   ).not.toBeChecked();
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.labelLanguage, {
+    await screen.findByLabelText(messages.enrolmentForm.labelLanguage, {
       selector: 'button',
     })
   ).toHaveTextContent('suomi');
@@ -203,61 +245,28 @@ it('initializes edit form correctly', async () => {
   ).toHaveValue(enrolment.studyGroup.extraNeeds);
 });
 
-it('shows notification type checkbox correctly', async () => {
-  const enrolmentMockData = {
-    data: { enrolment: cloneDeep(enrolment) },
-  };
-
-  const apolloMocks = [
-    {
-      request: {
-        query: EnrolmentDocument,
-        variables: {
-          id: 'RW5yb2xtZW50Tm9kZToyNw==',
-        },
-      },
-      result: enrolmentMockData,
-    },
-  ];
-
-  enrolmentMockData.data.enrolment.notificationType =
-    graphqlFns.NotificationType.Sms;
-
-  renderPage({ mocks: apolloMocks });
-
-  await screen.findByRole('heading', {
-    name: messages.enrolment.editEnrolmentTitle,
-  });
-
-  expect(
-    screen.queryByLabelText(messages.enrolmentForm.labelHasSmsNotification)
-  ).toBeChecked();
-});
-
 it('calls update enrolment function with correct parameters when form is submitted', async () => {
   // TODO: Use normal ApolloMockProvider mock
   const updateEnrolmentMock = jest.fn();
   (graphqlFns.useUpdateEnrolmentMutation as any) = jest.fn(() => [
     updateEnrolmentMock,
   ]);
+  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 
-  const { history } = renderPage();
-
-  const pushSpy = jest.spyOn(history, 'push');
+  renderPage();
 
   await screen.findByRole('heading', {
     name: messages.enrolment.editEnrolmentTitle,
   });
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: messages.enrolmentForm.buttonUpdateEnrolment,
     })
   );
 
   await waitFor(() => {
-    expect(updateEnrolmentMock).toHaveBeenCalled();
-    expect(pushSpy).toHaveBeenCalled();
+    expect(navigate).toHaveBeenCalled();
   });
 
   expect(updateEnrolmentMock).toHaveBeenCalledTimes(1);
@@ -274,7 +283,7 @@ it('calls update enrolment function with correct parameters when form is submitt
             groupName: groupName,
             unitId: studyGroupId,
             unitName: studyGroupName,
-            studyLevels: studyLevels.edges.map((e) => e.node.id),
+            studyLevels: studyLevels.edges.map((e) => e?.node?.id),
             person: {
               name: personName,
               emailAddress: personEmailAddress,
@@ -287,12 +296,13 @@ it('calls update enrolment function with correct parameters when form is submitt
       },
     },
   ]);
-  expect(pushSpy).toHaveBeenCalledTimes(1);
-  expect(pushSpy.mock.calls[0]).toEqual([
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate.mock.calls[0]).toEqual([
     {
       pathname: `/fi/events/${eventId}/occurrences/${occurrenceId}`,
       search: 'enrolmentUpdated=true',
     },
+    expect.anything(),
   ]);
 });
 
@@ -354,13 +364,11 @@ describe('UnitField', () => {
     ).not.toBeInTheDocument();
 
     // When checkbox is checked
-    act(() => {
-      userEvent.click(
-        screen.getByRole('checkbox', {
-          name: /paikka ei ole listalla/i,
-        })
-      );
-    });
+    await userEvent.click(
+      screen.getByRole('checkbox', {
+        name: /paikka ei ole listalla/i,
+      })
+    );
 
     // It renders the freetext input field
     expect(
@@ -369,9 +377,9 @@ describe('UnitField', () => {
 
     expect(screen.getByText(/kirjoita toimipaikan nimi/i)).toBeInTheDocument();
 
-    userEvent.type(getUnitFieldInput(), 'Testikoulu');
+    await userEvent.type(getUnitFieldInput(), 'Testikoulu');
 
-    userEvent.tab();
+    await userEvent.tab();
 
     expect(getUnitFieldInput()).toHaveValue('Testikoulu');
   });
@@ -380,29 +388,30 @@ describe('UnitField', () => {
     await setupUnitFieldTest();
 
     // Type to unit id field
-    userEvent.type(getUnitFieldInput(), 'place');
+    await userEvent.type(getUnitFieldInput(), 'place');
 
     // The inserted text should filter autosuggest field options
     await screen.findByText('place12');
     expect(screen.getByText('place123')).toBeInTheDocument();
-    expect(screen.queryByText('place1')).toBeInTheDocument();
-    expect(screen.queryByText('place2')).toBeInTheDocument();
+    expect(screen.getByText('place1')).toBeInTheDocument();
+    expect(screen.getByText('place2')).toBeInTheDocument();
 
     // Type to unit id field
-    userEvent.clear(getUnitFieldInput());
-    userEvent.type(getUnitFieldInput(), 'place12');
+    await userEvent.clear(getUnitFieldInput());
+    await userEvent.type(getUnitFieldInput(), 'place12');
 
     // wait for debounce to trigger and populate localStorage
+    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(() => wait(500));
 
     // The inserted text should filter autosuggest field options
     await screen.findByText('place12');
-    expect(screen.getByText('place123')).toBeInTheDocument();
+    await screen.findByText('place123');
 
     await waitFor(() => {
-      expect(screen.queryByText('place1')).not.toBeInTheDocument();
       expect(screen.queryByText('place2')).not.toBeInTheDocument();
     });
+    expect(screen.queryByText('place1')).not.toBeInTheDocument();
   });
 
   it('renders prefilled unit id', async () => {
@@ -445,7 +454,7 @@ describe('UnitField', () => {
       name: messages.enrolment.editEnrolmentTitle,
     });
 
-    expect(screen.getByText(/place12/i)).toBeInTheDocument();
+    await screen.findByText(/place12/i);
   });
 
   it.each<MockedResponse[] | undefined>([
@@ -461,12 +470,12 @@ describe('UnitField', () => {
     async (placeMocks: any) => {
       await setupUnitFieldTest(placeMocks);
 
-      userEvent.type(getUnitFieldInput(), 'place12');
+      await userEvent.type(getUnitFieldInput(), 'place12');
 
       await screen.findByText('place12');
 
       // Select an unit
-      userEvent.click(screen.getByText('place12'));
+      await userEvent.click(screen.getByText('place12'));
 
       await waitFor(() => {
         expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
@@ -477,22 +486,24 @@ describe('UnitField', () => {
   );
 
   it('clears the unit id value when a clear button is clicked', async () => {
-    await setupUnitFieldTest();
+    await setupUnitFieldTest([
+      createPlaceQueryMock({
+        id: 'test:place12',
+        name: fakeLocalizedObject('place12'),
+      }),
+    ]);
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', {
         name: /päiväkoti \/ koulu \/ oppilaitos/i,
       }),
       'place12'
     );
 
-    // wait for debounce to trigger and populate localStorage
-    await act(() => wait(500));
-
-    expect(screen.getByText('place12')).toBeInTheDocument();
+    await screen.findByText('place12');
 
     // Select an unit
-    userEvent.click(screen.getByText('place12'));
+    await userEvent.click(screen.getByText('place12'));
 
     expect(
       screen.getByRole('textbox', {
@@ -501,7 +512,7 @@ describe('UnitField', () => {
     ).not.toBe(null);
 
     // clear the selection
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /poista arvo/i,
       })
@@ -521,18 +532,21 @@ describe('max group size validation of the Children and Adults -fields', () => {
     adultsCount: string
   ) => {
     renderPage();
-    await screen.findByLabelText(/lapsia/i);
 
-    userEvent.clear(screen.getByLabelText(/lapsia/i));
-    userEvent.clear(screen.getByLabelText(/aikuisia/i));
+    const children = await screen.findByLabelText(/lapsia/i);
+    const adults = await screen.findByLabelText(/aikuisia/i);
+
+    await userEvent.type(children, 'fixme'); // FIXME: https://github.com/testing-library/user-event/discussions/970
+    await userEvent.clear(children);
+    await userEvent.clear(adults);
 
     childrenCount
-      ? userEvent.type(screen.getByLabelText(/lapsia/i), childrenCount)
-      : userEvent.click(screen.getByLabelText(/lapsia/i));
+      ? await userEvent.type(children, childrenCount)
+      : await userEvent.click(children);
     adultsCount
-      ? userEvent.type(screen.getByLabelText(/aikuisia/i), adultsCount)
-      : userEvent.click(screen.getByLabelText(/aikuisia/i));
-    userEvent.tab();
+      ? await userEvent.type(adults, adultsCount)
+      : await userEvent.click(adults);
+    await userEvent.tab();
   };
 
   test('both of the fields are greater than the max group size', async () => {

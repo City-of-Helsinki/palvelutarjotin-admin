@@ -14,29 +14,10 @@ const isValidDateValidation = (value?: string) => {
   return isValidDate(parsedDate);
 };
 
-const getTimeValidation = () => {
-  return Yup.string().when(
-    ['enrolmentType'],
-    (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {
-      if (enrolmentType !== EnrolmentType.Internal) {
-        return schema;
-      }
-      // if enrolment type is internal, then enrolment start time is required
-      return schema
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .test(
-          'isValidTime',
-          VALIDATION_MESSAGE_KEYS.TIME_INVALID,
-          (time?: string) => (time ? isValidTimeString(time) : false)
-        );
-    }
-  );
-};
-
 const ValidationSchema = Yup.object().shape({
   enrolmentEndDays: Yup.number().when(
     ['enrolmentType'],
-    (enrolmentType: EnrolmentType, schema: Yup.NumberSchema) => {
+    ([enrolmentType], schema: Yup.NumberSchema) => {
       if (enrolmentType !== EnrolmentType.Internal) {
         return schema;
       }
@@ -50,11 +31,7 @@ const ValidationSchema = Yup.object().shape({
   ),
   enrolmentStartDate: Yup.string().when(
     ['enrolmentType', 'enrolmentStartTime'],
-    ((
-      enrolmentType: EnrolmentType,
-      enrolmentStartTime: string,
-      schema: Yup.StringSchema
-    ) => {
+    ([enrolmentType, enrolmentStartTime], schema: Yup.StringSchema) => {
       if (enrolmentType !== EnrolmentType.Internal) {
         return schema;
       }
@@ -79,41 +56,63 @@ const ValidationSchema = Yup.object().shape({
         );
       }
       return schema;
-    }) as any
+    }
   ),
-  enrolmentStartTime: getTimeValidation(),
+  enrolmentStartTime: Yup.string().when(
+    ['enrolmentType'],
+    ([enrolmentType], schema: Yup.StringSchema) => {
+      if (enrolmentType !== EnrolmentType.Internal) {
+        return schema;
+      }
+      // if enrolment type is internal, then enrolment start time is required
+      return schema
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .test(
+          'isValidTime',
+          VALIDATION_MESSAGE_KEYS.TIME_INVALID,
+          (time?: string) => (time ? isValidTimeString(time) : false)
+        );
+    }
+  ),
   externalEnrolmentUrl: Yup.string().when(
     'enrolmentType',
-    (enrolmentType: EnrolmentType, schema: Yup.StringSchema) => {
+    ([enrolmentType], schema: Yup.StringSchema) => {
       if (enrolmentType === EnrolmentType.External) {
         return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
       }
       return schema;
     }
   ),
-  neededOccurrences: Yup.number().when('enrolmentType', {
-    is: EnrolmentType.Internal,
-    then: Yup.number()
-      .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-      .min(1, (param) => ({
-        min: param.min,
-        key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
-      })),
-    otherwise: Yup.number().nullable(),
-  }),
-  location: Yup.string().when(['isVirtual', 'isBookable'], {
-    is: (isVirtual: boolean, isBookable: boolean) => isVirtual || isBookable,
-    then: Yup.string(),
-    otherwise: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  }),
+  neededOccurrences: Yup.number().when(
+    'enrolmentType',
+    ([enrolmentType], schema: Yup.NumberSchema) => {
+      if (enrolmentType === EnrolmentType.Internal)
+        return schema
+          .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+          .min(1, (param) => ({
+            min: param.min,
+            key: VALIDATION_MESSAGE_KEYS.NUMBER_MIN,
+          }));
+      return schema.nullable();
+    }
+  ),
+  location: Yup.string().when(
+    ['isVirtual', 'isBookable'],
+    ([isVirtual, isBookable], schema: Yup.StringSchema) => {
+      if (isVirtual || isBookable) return schema;
+      return schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
+    }
+  ),
   isVirtual: Yup.boolean(),
   isBookable: Yup.boolean(),
   // TODO make this reauired to be true when more than one 1 needed occurrence
-  autoAcceptance: Yup.boolean().when('neededOccurrences', {
-    is: (val: number) => val > 1,
-    then: Yup.bool().oneOf([true]),
-    otherwise: Yup.boolean(),
-  }),
+  autoAcceptance: Yup.boolean().when(
+    'neededOccurrences',
+    ([neededOccurrences], schema: Yup.BooleanSchema) => {
+      if (neededOccurrences > 1) return schema.oneOf([true]);
+      return schema;
+    }
+  ),
 });
 
 export default ValidationSchema;

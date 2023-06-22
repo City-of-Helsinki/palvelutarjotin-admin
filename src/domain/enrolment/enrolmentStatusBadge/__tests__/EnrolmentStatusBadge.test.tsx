@@ -19,24 +19,24 @@ it('show correct status text', () => {
   );
 
   expect(
-    screen.queryByText(messages.enrolment.status.approved)
+    screen.getByText(messages.enrolment.status.approved)
   ).toBeInTheDocument();
 
   rerender(<EnrolmentStatusBadge status={EnrolmentStatus.Cancelled} />);
 
   expect(
-    screen.queryByText(messages.enrolment.status.cancelled)
+    screen.getByText(messages.enrolment.status.cancelled)
   ).toBeInTheDocument();
 
   rerender(<EnrolmentStatusBadge status={EnrolmentStatus.Declined} />);
 
   expect(
-    screen.queryByText(messages.enrolment.status.declined)
+    screen.getByText(messages.enrolment.status.declined)
   ).toBeInTheDocument();
 
   rerender(<EnrolmentStatusBadge status={EnrolmentStatus.Pending} />);
 
   expect(
-    screen.queryByText(messages.enrolment.status.pending)
+    screen.getByText(messages.enrolment.status.pending)
   ).toBeInTheDocument();
 });

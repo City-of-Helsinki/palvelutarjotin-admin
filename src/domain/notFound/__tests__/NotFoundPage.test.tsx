@@ -1,10 +1,15 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import * as Router from 'react-router-dom';
 
 import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import NotFoundPage from '../NotFoundPage';
-
+const navigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...(jest.requireActual('react-router-dom') as any),
+}));
 test('it matches snapshot', async () => {
   const { container } = render(<NotFoundPage />);
 
@@ -14,8 +19,8 @@ test('it matches snapshot', async () => {
 });
 
 test('it renders correct texts and handle back button click', async () => {
-  const { history } = render(<NotFoundPage />);
-  const pushSpy = jest.spyOn(history, 'push');
+  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  render(<NotFoundPage />);
 
   expect(
     screen.queryByRole('heading', { name: 'Etsimääsi sivua ei löytynyt' })
@@ -27,8 +32,8 @@ test('it renders correct texts and handle back button click', async () => {
     name: messages.errorPage.returnToHome,
   });
 
-  userEvent.click(returnHomeButton);
+  await userEvent.click(returnHomeButton);
 
-  expect(pushSpy).toHaveBeenCalledTimes(1);
-  expect(pushSpy).toHaveBeenCalledWith('/fi');
+  expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith('/fi', expect.anything());
 });

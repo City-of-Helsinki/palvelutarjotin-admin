@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useEventQuery } from '../../generated/graphql';
-import useHistory from '../../hooks/useHistory';
 import useLocale from '../../hooks/useLocale';
+import useNavigate from '../../hooks/useNavigate';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -17,7 +17,7 @@ import EventPreviewBasicInfo from './eventPreviewBasicInfo/EventPreviewBasicInfo
 import { getEventFields } from './utils';
 
 const EventPage: React.FC = () => {
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const { t } = useTranslation();
   const locale = useLocale();
 
@@ -31,7 +31,8 @@ const EventPage: React.FC = () => {
     getEventFields(eventData?.event, locale);
 
   const goToSummaryPage = () => {
-    history.pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
+    eventId &&
+      pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
   };
 
   return (

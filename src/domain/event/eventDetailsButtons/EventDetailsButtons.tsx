@@ -6,7 +6,7 @@ import BackButton from '../../../common/components/backButton/BackButton';
 import { SUPPORT_LANGUAGES } from '../../../constants';
 import { EventQuery } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
-import useHistory from '../../../hooks/useHistory';
+import useNavigate from '../../../hooks/useNavigate';
 import { Language } from '../../../types';
 import useQueryStringWithReturnPath from '../../../utils/useQueryStringWithReturnPath';
 import { ROUTES } from '../../app/routes/constants';
@@ -26,7 +26,7 @@ const EventDetailsButtons: React.FC<Props> = ({
   selectedLanguage,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithLocale } = useNavigate();
   const eventId = eventData.event?.id || '';
   const goBack = useGoBack({
     defaultReturnPath: ROUTES.HOME,
@@ -37,7 +37,7 @@ const EventDetailsButtons: React.FC<Props> = ({
   const goToEditPage = () => {
     const searchParams = new URLSearchParams(queryStringWithReturnPath);
     searchParams.append('language', selectedLanguage);
-    history.pushWithLocale({
+    pushWithLocale({
       pathname: ROUTES.EDIT_EVENT.replace(':id', eventId),
       search: searchParams.toString(),
     });

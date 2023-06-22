@@ -15,5 +15,6 @@ it.each([
       className={'textWithHTMLOrLineBreaks'}
     />
   );
+  // eslint-disable-next-line testing-library/no-node-access
   expect(container.firstChild).toMatchSnapshot();
 });

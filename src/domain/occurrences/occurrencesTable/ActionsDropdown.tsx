@@ -20,8 +20,8 @@ import {
   OccurrenceFieldsFragment,
   usePlaceQuery,
 } from '../../../generated/graphql';
-import useHistory from '../../../hooks/useHistory';
 import useLocale from '../../../hooks/useLocale';
+import useNavigate from '../../../hooks/useNavigate';
 import getDateArray from '../../../utils/getDateArray';
 import { getDomain } from '../../../utils/getDomain';
 import getLocalisedString from '../../../utils/getLocalizedString';
@@ -51,7 +51,7 @@ const ActionsDropdown: React.FC<Props> = ({
   row,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const { pushWithReturnPath, pushWithLocale } = useNavigate();
   const locale = useLocale();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = React.useState(false);
@@ -97,7 +97,7 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const goToOccurrenceDetailsPage = () => {
-    history.pushWithReturnPath(
+    pushWithReturnPath(
       ROUTES.OCCURRENCE_DETAILS.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id
@@ -106,7 +106,7 @@ const ActionsDropdown: React.FC<Props> = ({
   };
 
   const goToEditOccurrencePage = () => {
-    history.pushWithLocale(
+    pushWithLocale(
       ROUTES.CREATE_OCCURRENCE.replace(':id', eventId).replace(
         ':occurrenceId',
         row.id

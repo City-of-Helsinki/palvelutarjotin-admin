@@ -10,6 +10,7 @@ interface Props {
   isOpen: boolean;
   title: string;
   toggleModal: () => void;
+  children?: React.ReactNode;
 }
 
 const Modal: React.FC<Props> = ({

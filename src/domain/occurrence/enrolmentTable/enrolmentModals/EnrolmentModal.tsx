@@ -31,6 +31,7 @@ interface EnrolmentModalProps {
   showPreviewButton?: boolean;
   messageText?: string;
   submitting?: boolean;
+  children?: React.ReactNode;
 }
 
 const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
