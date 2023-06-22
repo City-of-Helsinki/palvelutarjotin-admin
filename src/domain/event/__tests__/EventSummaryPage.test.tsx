@@ -602,7 +602,7 @@ it('can cancel occurrences from occurrence table actions', async () => {
   }
 
   async function checkThatOccurrenHasUpdated() {
-    expect(occurrenceRow.getByText('Peruttu')).toBeInTheDocument();
+    expect(await occurrenceRow.findByText('Peruttu')).toBeInTheDocument();
 
     const actionsButton = occurrenceRow.getByRole('button', {
       name: 'Valitse',

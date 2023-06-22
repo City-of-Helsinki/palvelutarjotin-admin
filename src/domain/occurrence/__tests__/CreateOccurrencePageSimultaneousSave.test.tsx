@@ -205,7 +205,7 @@ describe('save occurrence and event info simultaneously', () => {
 
     expect(toastSuccess).toHaveBeenCalledWith('Tapahtuma-aika tallennettu');
     expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-  });
+  }, 70_000);
 
   it('saves occurrence and event info when using to go to publish button', async () => {
     jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);

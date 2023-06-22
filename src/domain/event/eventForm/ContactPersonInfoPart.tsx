@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import { Field, FormikTouched } from 'formik';
+import { Field, FormikErrors, FormikTouched } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,30 +18,33 @@ const ContactPersonInfoPart: React.FC<{
     field: string,
     value: any,
     shouldValidate?: boolean | undefined
-  ) => void;
+  ) => Promise<void | FormikErrors<any>>;
   touched: FormikTouched<any>;
 }> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient();
 
   const setContactPersonId = async (name: string, value: string) => {
-    setFieldValue(name, value);
+    await setFieldValue(name, value);
     if (value && value !== contactPersonId) {
       try {
         const { data } = await apolloClient.query<PersonQuery>({
           query: PersonDocument,
           variables: { id: value },
         });
-        setFieldValue('contactEmail', data.person?.emailAddress || '');
-        setFieldValue('contactPhoneNumber', data.person?.phoneNumber || '');
+        await setFieldValue('contactEmail', data.person?.emailAddress || '');
+        await setFieldValue(
+          'contactPhoneNumber',
+          data.person?.phoneNumber || ''
+        );
       } catch (err) {
         if (isTestEnv()) {
           // eslint-disable-next-line no-console
           console.log(err);
         }
         // clear description when error happens
-        setFieldValue('contactEmail', '');
-        setFieldValue('contactPhoneNumber', '');
+        await setFieldValue('contactEmail', '');
+        await setFieldValue('contactPhoneNumber', '');
       }
     }
   };

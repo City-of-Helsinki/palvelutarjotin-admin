@@ -32,7 +32,7 @@ const EnrolmentInfoFormPart: React.FC = () => {
       (neededOccurrences as number) > 1 &&
       !autoAcceptance
     ) {
-      setFieldValue('autoAcceptance', true);
+      (async () => await setFieldValue('autoAcceptance', true))();
     }
   }, [autoAcceptance, neededOccurrences, setFieldValue]);
 

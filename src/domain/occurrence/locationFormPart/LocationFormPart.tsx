@@ -31,14 +31,18 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
       Object.keys(locationDescription).forEach((key) => {
         // check if description is set to avoid unnecessary rerenders
         if (locationDescription[key as keyof LocationDescriptions]) {
-          setFieldValue(`locationDescription.${key as Language}`, '');
+          (async () =>
+            await setFieldValue(
+              `locationDescription.${key as Language}`,
+              ''
+            ))();
         }
       });
 
       VENUE_AMENITIES.forEach((amenity) => {
         // check if amenity is checked to avoid unnecessary rerenders
         if (values[amenity]) {
-          setFieldValue(amenity, false);
+          (async () => await setFieldValue(amenity, false))();
         }
       });
     }

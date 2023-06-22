@@ -11,10 +11,10 @@ const OrderableEventCheckboxField = ({
   const { setFieldValue } = form;
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('isBookable', e.target.checked);
+    (async () => await setFieldValue('isBookable', e.target.checked))();
     if (e.target.checked) {
-      setFieldValue('location', '');
-      setFieldValue('isVirtual', false);
+      (async () => await setFieldValue('location', ''))();
+      (async () => await setFieldValue('isVirtual', false))();
     }
   };
 
