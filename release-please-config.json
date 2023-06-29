@@ -1,0 +1,11 @@
+{
+  "bootstrap-sha": "2ce81977e9436f6a8910c5f87255b9cd059fdd7e",
+  "sequential-calls": true,
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "palvelutarjotin-admin"
+    }
+  },
+  "plugins": ["sentence-case"]
+}
