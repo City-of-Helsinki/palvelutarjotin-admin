@@ -17,7 +17,7 @@ const Readiness = () => {
     const packageVersion = process.env.REACT_APP_VERSION ?? '';
     const release = process.env.REACT_APP_RELEASE ?? '';
     const commitHash = process.env.REACT_APP_COMMITHASH ?? '';
-    const buildTime = process.env.REACT_APP_BUILD_TIME ?? '';
+    const buildTime = process.env.REACT_APP_BUILDTIME ?? '';
 
     console.log(process.env);
     return JSON.stringify({
