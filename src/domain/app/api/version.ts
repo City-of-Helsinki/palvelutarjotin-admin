@@ -1,5 +1,5 @@
 
-const Readiness = () => {
+const Version = () => {
     // const packageVersion = process.env.APP_VERSION ?? '';
     // const release = process.env.NEXT_PUBLIC_RELEASE ?? '';
     // const commitHash = process.env.NEXT_PUBLIC_COMMITHASH ?? '';
@@ -29,4 +29,4 @@ const Readiness = () => {
     });
 };
 
-export default Readiness;
+export default Version;

@@ -18,7 +18,7 @@ export enum ROUTES {
   SILENT_CALLBACK = '/silent-callback',
   ENROLMENT_REPORT = '/events/:id/export-enrolments',
   CMS_PAGE = `/cms-page/:slug`,
-  API_READINESS = '/api/readiness',
+  API_VERSION = '/api/version',
 }
 
 export const IGNORE_SCROLL_TO_TOP = [
