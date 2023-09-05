@@ -47,5 +47,19 @@ extends:
   # Django example: azure-pipelines-PROJECTNAME-api-release.yml
   # Drupal example: azure-pipelines-drupal-release.yml
   template: azure-pipelines-kultus-admin-ui-review.yml@kultus-pipelines
-  #parameters:
-    #imagetag: ${{ parameters.imagetag }}
+  parameters:
+    # Application build arguments and config map values as key value pairs.
+    # Does not contain all buildArguments, the rest located in kultus-pipelines/kultus-admin-ui-development.yml and kultus-admin-ui-common.yml
+    # The values here will override the values defined in the harrastukset-pipelines repository.
+    buildArgs:
+      REACT_APP_API_URI: 'https://kultus-local.api.dev.hel.ninja/graphql'
+      REACT_APP_API_REPORT_URI: 'https://kultus-local.api.dev.hel.ninja/reports'
+
+      REACT_APP_LINKEDEVENTS_API_URI: 'https://api.hel.fi/linkedevents-test/v1'
+
+    # FIXME: The kultus.hkih -server responded several days with gateway timeout and internal server error, 
+    # so it was changed to the production cms.
+    # REACT_APP_CMS_URI: 'https://kultus.hkih.stage.geniem.io/graphql'
+      REACT_APP_CMS_URI: 'https://kultus.content.api.hel.fi/graphql'
+
+    # configMap: # pod environment variables
