@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.1...palvelutarjotin-admin-v1.7.2) (2023-09-20)
+
+
+### Bug Fixes
+
+* App version information PT-1652 ([#302](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/302)) ([10007d6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/10007d6442cbc410074f923565108f6162fe39e3))
+
 ### [1.7.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.7.0...v1.7.1) (2023-06-29)
 
 ### Updates
