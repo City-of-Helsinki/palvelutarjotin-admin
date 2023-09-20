@@ -54,7 +54,7 @@ extends:
       REACT_APP_API_URI: 'https://kultus-local.api.dev.hel.ninja/graphql'
       REACT_APP_API_REPORT_URI: 'https://kultus-local.api.dev.hel.ninja/reports'
 
-      REACT_APP_LINKEDEVENTS_API_URI: 'https://linkedevents.api.test.hel.ninja/v1/event/'
+      REACT_APP_LINKEDEVENTS_API_URI: 'https://linkedevents.api.test.hel.ninja/v1'
 
       REACT_APP_CMS_URI: 'https://kultus.hkih.stage.geniem.io/graphql'
 
