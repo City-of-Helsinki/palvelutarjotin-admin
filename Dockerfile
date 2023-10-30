@@ -1,6 +1,14 @@
 # ===============================================
-FROM helsinkitest/node:20-slim as appbase
+FROM registry.access.redhat.com/ubi9/nodejs-18 AS appbase
 # ===============================================
+
+# install yarn
+USER root
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+RUN yum -y install yarn
+
+WORKDIR /app
+
 # Offical image has npm log verbosity as info. More info - https://github.com/nodejs/docker-node#verbosity
 ENV NPM_CONFIG_LOGLEVEL warn
 
@@ -14,13 +22,20 @@ ENV NPM_CONFIG_PREFIX=/app/.npm-global
 ENV PATH=$PATH:/app/.npm-global/bin
 
 # Yarn
-ENV YARN_VERSION 1.19.1
-RUN yarn policies set-version $YARN_VERSION
+ENV YARN_VERSION 1.22.4
+RUN yarn policies set-version ${YARN_VERSION}
 
-# set sass path to support scss import
-# New version needs an absolute path, but it should be served from the craco.config
-# ARG SASS_PATH=./src/styles
-# ENV SASS_PATH $SASS_PATH
+# Copy package.json and package-lock.json/yarn.lock files
+COPY package*.json *yarn* ./
+
+# Install npm dependencies
+ENV PATH /app/node_modules/.bin:$PATH
+
+RUN yarn && yarn cache clean --force
+
+# ===================================
+FROM appbase AS staticbuilder
+# ===================================
 
 # Oidc authority
 ARG REACT_APP_OIDC_AUTHORITY
@@ -50,37 +65,30 @@ ARG REACT_APP_RELEASE
 ARG REACT_APP_COMMITHASH
 ARG REACT_APP_BUILDTIME
 
-USER root
-RUN apt-install.sh build-essential
-
-# Use non-root user
-USER appuser
-
-# Install dependencies
-COPY --chown=appuser:appuser package*.json *yarn* /app/
-
-# Copy craco configuration
-COPY --chown=appuser:appuser craco.config.js /app/
-
-RUN yarn && yarn cache clean --force
+# Use template and inject the environment variables into .prod/nginx.conf
+ENV REACT_APP_BUILDTIME=${REACT_APP_BUILDTIME:-""}
+ENV REACT_APP_RELEASE=${REACT_APP_RELEASE:-""}
+ENV REACT_APP_COMMITHASH=${REACT_APP_COMMITHASH:-""}
+COPY .prod/nginx.conf.template /tmp/.prod/nginx.conf.template
+RUN export APP_VERSION=$(yarn --silent app:version) && \
+    envsubst '${APP_VERSION},${REACT_APP_BUILDTIME},${REACT_APP_RELEASE},${REACT_APP_COMMITHASH}' < \
+    "/tmp/.prod/nginx.conf.template" > \
+    "/tmp/.prod/nginx.conf"
 
 # Copy all files
-COPY --chown=appuser:appuser . .
+COPY . /app
 
 # Build
 RUN yarn build
 
-USER root
-RUN apt-cleanup.sh build-essential
-
 # =============================
-FROM nginx:1.17 as production
+FROM nginx:1.22 AS production
+# FROM registry.access.redhat.com/ubi9/nginx-122 AS production
 # =============================
 
 # Nginx runs with user "nginx" by default
-COPY --from=appbase --chown=nginx:nginx /app/build /usr/share/nginx/html
-
-COPY .prod/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=staticbuilder --chown=nginx:nginx /app/build /usr/share/nginx/html
+COPY --from=staticbuilder --chown=nginx:nginx /tmp/.prod/nginx.conf /etc/nginx/conf.d/default.conf
 
 # OpenShift write accesses, runtime is created "/var/cache/nginx/client_temp" 
 RUN chgrp -R 0 /var/cache/nginx && chmod g+w -R /var/cache/nginx
