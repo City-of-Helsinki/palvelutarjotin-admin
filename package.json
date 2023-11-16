@@ -11,7 +11,7 @@
     "@craco/craco": "^7.1.0",
     "@datepicker-react/hooks": "^2.8.4",
     "@reduxjs/toolkit": "^1.9.5",
-    "@sentry/browser": "^7.55.2",
+    "@sentry/browser": "^7.75.1",
     "@types/apollo-upload-client": "^17.0.2",
     "@types/dompurify": "^3.0.2",
     "@types/draft-js": "^0.11.12",
