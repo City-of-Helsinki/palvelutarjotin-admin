@@ -55,8 +55,8 @@ interface Props {
 
 const EnrolmentForm: React.FC<Props> = ({
   initialValues = defaultInitialValues,
-  minGroupSize = 10,
-  maxGroupSize = 20,
+  minGroupSize = 1,
+  maxGroupSize,
   onSubmit,
 }) => {
   const { t } = useTranslation();
