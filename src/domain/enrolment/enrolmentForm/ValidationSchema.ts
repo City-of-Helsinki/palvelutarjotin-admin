@@ -7,7 +7,7 @@ export default function getValidationSchema({
   maxGroupSize,
 }: {
   minGroupSize: number;
-  maxGroupSize: number;
+  maxGroupSize?: number;
 }) {
   const validateSumOfSizePair = (
     sizePair: number | undefined,
@@ -19,23 +19,20 @@ export default function getValidationSchema({
     // Validate a single field against the total min and max sizes.
     // The used validation error message will be the same for both the fields.
     // This is also preventing negative param.max to occur in validation.
+    schema = schema
+      // Min-limit is current a gap to minimum group size.
+      .min(sizePair != null ? minGroupSize - sizePair : minGroupSize, () => ({
+        min: minGroupSize,
+        key: totalMinLimitValidationMessage,
+      }));
 
-    if (
-      !sizePair ||
-      sizePair < 0 ||
-      sizePair < minGroupSize ||
-      sizePair > maxGroupSize
-    ) {
+    if (!maxGroupSize) {
+      return schema;
+    }
+
+    if (!sizePair || sizePair > maxGroupSize) {
       return (
         schema
-          // Min-limit is current a gap to minimum group size.
-          .min(
-            sizePair != null ? minGroupSize - sizePair : minGroupSize,
-            () => ({
-              min: minGroupSize,
-              key: totalMinLimitValidationMessage,
-            })
-          )
           // Max-limit is maximum group size
           .max(maxGroupSize, (param) => ({
             max: param.max,
