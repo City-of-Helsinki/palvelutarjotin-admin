@@ -170,18 +170,12 @@ const EditorEnrolmentPage: React.FC = () => {
                 {t('enrolment.editEnrolmentBackButton')}
               </BackButton>
               <h1>{t('enrolment.editEnrolmentTitle')}</h1>
-              {!!minGroupSize && !!maxGroupSize ? (
-                <EnrolmentForm
-                  onSubmit={handleSubmit}
-                  initialValues={initialValues}
-                  minGroupSize={minGroupSize}
-                  maxGroupSize={maxGroupSize}
-                />
-              ) : (
-                <Notification label="Virhe" type="error">
-                  Virhe lomakkeen alustuksessa
-                </Notification>
-              )}
+              <EnrolmentForm
+                onSubmit={handleSubmit}
+                initialValues={initialValues}
+                minGroupSize={minGroupSize}
+                maxGroupSize={maxGroupSize}
+              />
             </Container>
           </div>
         )}
