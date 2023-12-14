@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.2...palvelutarjotin-admin-v1.7.3) (2023-12-14)
+
+
+### Bug Fixes
+
+* Enrolment edit link ([9e5ff5c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9e5ff5c5065cc381009227cccb5f546a853a64b8))
+* Enrolment edit when no audience limits are set ([6330af9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6330af93fb083be2f56c20fe9b49d7064904271b))
+* No defaults should be given as a group size limit ([fbf1eb5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fbf1eb589f1da39c6b01f68f80098d4099d7914e))
+
 ## [1.7.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.1...palvelutarjotin-admin-v1.7.2) (2023-09-20)
 
 
