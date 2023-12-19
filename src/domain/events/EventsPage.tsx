@@ -1,49 +1,45 @@
-import { Button, Combobox, TextInput } from 'hds-react';
+import { Button, TextInput } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { EventFieldsFragment } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
 import useNavigate from '../../hooks/useNavigate';
-import useProfilePlaces from '../../hooks/useProfilePlaces';
-import getLocalizedString from '../../utils/getLocalizedString';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
-import EventCard from '../event/eventCard/EventCard';
-import { getEventFields } from '../event/utils';
-import { getEnrolmentType } from '../occurrence/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
+import EventsCategoryList from './eventsCategoryList/EventsCategoryList';
 import styles from './eventsPage.module.scss';
 import useEventsPageContext from './hooks/useEventsPageContext';
 import useEventsPageQueries from './hooks/useEventsPageQueries';
-import { PlaceOption } from './types';
+import PlaceSelector from './PlaceSelector';
 
 const EventsPage: React.FC = () => {
   const { t } = useTranslation();
   const { pushWithLocale } = useNavigate();
   const eventsContext = useEventsPageContext();
+  const { inputValue, setInputValue, placesValue, setPlacesValue } =
+    eventsContext;
   const {
-    upcomingEventsData,
     loadingUpcomingEvents,
     isLoadingMoreUpcomingEvents,
     upcomingEventsHasNextPage,
     fetchMoreUpcomingEvents,
-    pastEventsData,
     loadingPastEvents,
     loadingMorePastEvents,
     fetchMorePastEvents,
     pastEventsHasNextPage,
-    eventsWithoutOccurrencesData,
     loadingEventsWithoutOccurrences,
     loadingMoreEventsWithoutOccurrences,
     fetchMoreEventsWithoutOccurrences,
     eventsWithoutOccurrencesHasNextPage,
+    eventsWithComingOccurrences,
+    eventsWithComingOccurrencesCount,
+    eventsWithoutOccurrences,
+    eventsWithoutOccurrencesCount,
+    eventsWithPastOccurrences,
+    eventsWithPastOccurrencesCount,
   } = useEventsPageQueries(eventsContext);
-
-  const { inputValue, setInputValue, placesValue, setPlacesValue } =
-    eventsContext;
 
   const goToCreateEventPage = () => {
     pushWithLocale(ROUTES.CREATE_EVENT);
@@ -52,18 +48,6 @@ const EventsPage: React.FC = () => {
   const goToEventSummaryPage = (id: string) => {
     pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', id));
   };
-
-  const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];
-  const eventsWithComingOccurrencesCount =
-    upcomingEventsData?.events?.meta.count;
-
-  const eventsWithoutOccurrences =
-    eventsWithoutOccurrencesData?.events?.data || [];
-  const eventsWithoutOccurrencesCount =
-    eventsWithoutOccurrencesData?.events?.meta.count;
-
-  const eventsWithPastOccurrences = pastEventsData?.events?.data || [];
-  const eventsWithPastOccurrencesCount = pastEventsData?.events?.meta.count;
 
   const handleSearchFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -145,156 +129,6 @@ const EventsPage: React.FC = () => {
         </div>
       </Container>
     </PageWrapper>
-  );
-};
-
-const PlaceSelector: React.FC<{
-  onChange: (selected: PlaceOption[]) => void;
-  value: PlaceOption[];
-}> = ({ onChange, value }) => {
-  const { t } = useTranslation();
-  const locale = useLocale();
-  const { places } = useProfilePlaces();
-
-  const placeOptions: PlaceOption[] = places
-    ? places.map((place) => ({
-        label: getLocalizedString(place.name, locale),
-        value: place.id ?? '',
-      }))
-    : [];
-
-  return (
-    <Combobox
-      value={value as any}
-      label={t('events.search.labelPlaces')}
-      multiselect
-      placeholder={t('events.search.placeholderPlaces')}
-      toggleButtonAriaLabel={t('events.search.placesToggleButtonAriaLabel')}
-      clearButtonAriaLabel={t('events.search.placesClearButtonAriaLabel')}
-      selectedItemRemoveButtonAriaLabel={t(
-        'events.search.placesSelectedItemRemoveButtonAriaLabel'
-      )}
-      onChange={onChange as any}
-      options={placeOptions}
-    />
-  );
-};
-
-interface EventsCategoryListProps {
-  eventsCount: number;
-  title: string;
-  events: EventFieldsFragment[];
-  onGoToEventSummaryPage: (id: string) => void;
-  isLoadingMoreEvents: boolean;
-  onFetchMoreEvents: () => Promise<void>;
-  hasNextPage: boolean;
-  notFoundText?: string;
-}
-
-const EventsCategoryList: React.FC<EventsCategoryListProps> = ({
-  eventsCount,
-  title,
-  events,
-  onGoToEventSummaryPage,
-  isLoadingMoreEvents,
-  onFetchMoreEvents,
-  hasNextPage,
-  notFoundText,
-}) => {
-  if (!!events.length) {
-    return (
-      <>
-        <EventsTitle count={eventsCount} title={title} />
-        <Events events={events} goToEventSummaryPage={onGoToEventSummaryPage} />
-        {hasNextPage && (
-          <ShowMoreButton
-            loading={isLoadingMoreEvents}
-            onClick={onFetchMoreEvents}
-          />
-        )}
-      </>
-    );
-  }
-
-  if (notFoundText) {
-    return (
-      <>
-        <EventsTitle count={eventsCount} title={title} />
-        <p>{notFoundText}</p>
-      </>
-    );
-  }
-
-  return null;
-};
-
-const EventsTitle: React.FC<{ count: number; title: string }> = ({
-  count,
-  title,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <h2>
-      {title}{' '}
-      <span className={styles.eventCount}>
-        {t('events.textEventCount', {
-          count: count,
-        })}
-      </span>
-    </h2>
-  );
-};
-
-const Events: React.FC<{
-  events: EventFieldsFragment[];
-  goToEventSummaryPage: (id: string) => void;
-}> = ({ events, goToEventSummaryPage }) => {
-  const locale = useLocale();
-
-  return (
-    <div className={styles.eventsContainer}>
-      {events?.map((event) => {
-        const {
-          shortDescription,
-          eventName = '',
-          id,
-          imageUrl,
-          occurrences,
-          totalSeatsTakes = 0,
-          publicationStatus,
-        } = getEventFields(event, locale);
-        const enrolmentType = getEnrolmentType(event);
-        return (
-          <EventCard
-            key={id || ''}
-            description={shortDescription}
-            enrolmentsCount={totalSeatsTakes}
-            id={id || ''}
-            image={imageUrl}
-            name={eventName}
-            occurrencesCount={occurrences?.length || 0}
-            publicationStatus={publicationStatus}
-            enrolmentType={enrolmentType}
-            onClick={goToEventSummaryPage}
-          />
-        );
-      })}
-    </div>
-  );
-};
-
-const ShowMoreButton: React.FC<{
-  loading: boolean;
-  onClick: () => Promise<void>;
-}> = ({ loading, onClick }) => {
-  const { t } = useTranslation();
-
-  return (
-    <LoadingSpinner hasPadding={false} isLoading={loading}>
-      <button onClick={onClick} className={styles.showMoreButton}>
-        {t('events.buttonLoadMore')}
-      </button>
-    </LoadingSpinner>
   );
 };
 

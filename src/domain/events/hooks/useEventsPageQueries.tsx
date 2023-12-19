@@ -27,6 +27,18 @@ export default function useEventsPageQueries(eventsContext: any) {
     hasNextPage: eventsWithoutOccurrencesHasNextPage,
   } = useDraftEvents(eventsContext);
 
+  const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];
+  const eventsWithComingOccurrencesCount =
+    upcomingEventsData?.events?.meta.count;
+
+  const eventsWithoutOccurrences =
+    eventsWithoutOccurrencesData?.events?.data || [];
+  const eventsWithoutOccurrencesCount =
+    eventsWithoutOccurrencesData?.events?.meta.count;
+
+  const eventsWithPastOccurrences = pastEventsData?.events?.data || [];
+  const eventsWithPastOccurrencesCount = pastEventsData?.events?.meta.count;
+
   return {
     upcomingEventsData,
     loadingUpcomingEvents,
@@ -43,5 +55,11 @@ export default function useEventsPageQueries(eventsContext: any) {
     loadingMoreEventsWithoutOccurrences,
     fetchMoreEventsWithoutOccurrences,
     eventsWithoutOccurrencesHasNextPage,
+    eventsWithComingOccurrences,
+    eventsWithComingOccurrencesCount,
+    eventsWithoutOccurrences,
+    eventsWithoutOccurrencesCount,
+    eventsWithPastOccurrences,
+    eventsWithPastOccurrencesCount,
   };
 }

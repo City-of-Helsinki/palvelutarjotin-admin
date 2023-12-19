@@ -1,0 +1,23 @@
+@import 'layout';
+@import 'variables';
+
+.eventsContainer {
+  display: grid;
+  grid-gap: var(--grid-gap);
+  margin: var(--margin-events-container);
+}
+
+.showMoreButton {
+  text-align: center;
+  color: var(--color-show-more-button);
+  font-size: var(--fontsize-show-more-button);
+  font-weight: var(--fontweight-show-more-button);
+  text-decoration: none;
+  margin: 0 auto;
+  display: block;
+}
+
+.eventCount {
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
