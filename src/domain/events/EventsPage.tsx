@@ -8,11 +8,13 @@ import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import EventsCategoryList from './eventsCategoryList/EventsCategoryList';
 import styles from './eventsPage.module.scss';
 import useEventsPageContext from './hooks/useEventsPageContext';
 import useEventsPageQueries from './hooks/useEventsPageQueries';
 import PlaceSelector from './PlaceSelector';
+import DraftEventsList from './sections/DraftEventsList';
+import PastEventsList from './sections/PastEventsList';
+import UpcomingEventsList from './sections/UpcomingEventsList';
 
 const EventsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -22,23 +24,8 @@ const EventsPage: React.FC = () => {
     eventsContext;
   const {
     loadingUpcomingEvents,
-    isLoadingMoreUpcomingEvents,
-    upcomingEventsHasNextPage,
-    fetchMoreUpcomingEvents,
     loadingPastEvents,
-    loadingMorePastEvents,
-    fetchMorePastEvents,
-    pastEventsHasNextPage,
     loadingEventsWithoutOccurrences,
-    loadingMoreEventsWithoutOccurrences,
-    fetchMoreEventsWithoutOccurrences,
-    eventsWithoutOccurrencesHasNextPage,
-    eventsWithComingOccurrences,
-    eventsWithComingOccurrencesCount,
-    eventsWithoutOccurrences,
-    eventsWithoutOccurrencesCount,
-    eventsWithPastOccurrences,
-    eventsWithPastOccurrencesCount,
   } = useEventsPageQueries(eventsContext);
 
   const goToCreateEventPage = () => {
@@ -89,41 +76,17 @@ const EventsPage: React.FC = () => {
             </div>
           </div>
           <LoadingSpinner isLoading={loadingEvents}>
-            <EventsCategoryList
-              eventsCount={
-                eventsWithComingOccurrencesCount ||
-                eventsWithComingOccurrences.length
-              }
-              title={t('events.titleComingEvents')}
-              events={eventsWithComingOccurrences}
-              onGoToEventSummaryPage={goToEventSummaryPage}
-              isLoadingMoreEvents={isLoadingMoreUpcomingEvents}
-              onFetchMoreEvents={fetchMoreUpcomingEvents}
-              hasNextPage={upcomingEventsHasNextPage}
-              notFoundText={t('events.textNoComingEvents')}
+            <UpcomingEventsList
+              eventsContext={eventsContext}
+              goToEventSummaryPage={goToEventSummaryPage}
             />
-            <EventsCategoryList
-              eventsCount={
-                eventsWithoutOccurrencesCount || eventsWithoutOccurrences.length
-              }
-              title={t('events.titleEventsWithoutOccurrences')}
-              events={eventsWithoutOccurrences}
-              onGoToEventSummaryPage={goToEventSummaryPage}
-              isLoadingMoreEvents={loadingMoreEventsWithoutOccurrences}
-              onFetchMoreEvents={fetchMoreEventsWithoutOccurrences}
-              hasNextPage={eventsWithoutOccurrencesHasNextPage}
+            <DraftEventsList
+              eventsContext={eventsContext}
+              goToEventSummaryPage={goToEventSummaryPage}
             />
-            <EventsCategoryList
-              eventsCount={
-                eventsWithPastOccurrencesCount ||
-                eventsWithPastOccurrences.length
-              }
-              title={t('events.titleEventsWithPastOccurrences')}
-              events={eventsWithPastOccurrences}
-              onGoToEventSummaryPage={goToEventSummaryPage}
-              isLoadingMoreEvents={loadingMorePastEvents}
-              onFetchMoreEvents={fetchMorePastEvents}
-              hasNextPage={pastEventsHasNextPage}
+            <PastEventsList
+              eventsContext={eventsContext}
+              goToEventSummaryPage={goToEventSummaryPage}
             />
           </LoadingSpinner>
         </div>
