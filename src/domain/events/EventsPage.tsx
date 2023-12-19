@@ -3,13 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import {
-  EventFieldsFragment,
-  EventsQueryVariables,
-  useMyProfileQuery,
-} from '../../generated/graphql';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import useDebounce from '../../hooks/useDebounce';
+import { EventFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import useNavigate from '../../hooks/useNavigate';
 import useProfilePlaces from '../../hooks/useProfilePlaces';
@@ -19,133 +13,12 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import EventCard from '../event/eventCard/EventCard';
 import { getEventFields } from '../event/utils';
-import { getSelectedOrganisation } from '../myProfile/utils';
 import { getEnrolmentType } from '../occurrence/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { activeOrganisationSelector } from '../organisation/selector';
-import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from './constants';
 import styles from './eventsPage.module.scss';
-import { useEventsQueryHelper } from './utils';
-
-type PlaceOption = { label: string; value: string };
-
-const useEventsPageContext = () => {
-  const [inputValue, setInputValue] = React.useState('');
-
-  const [placesValue, setPlacesValue] = React.useState<PlaceOption[]>([]);
-
-  const searchValue = useDebounce(inputValue, 100);
-  const { data: myProfileData } = useMyProfileQuery();
-
-  const activeOrganisation = useAppSelector(activeOrganisationSelector);
-  const selectedOrganisation =
-    myProfileData?.myProfile &&
-    getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
-  return {
-    inputValue,
-    setInputValue,
-    placesValue,
-    setPlacesValue,
-    searchValue,
-    selectedOrganisation,
-  };
-};
-
-const useEventsQueryBaseVariables = ({
-  searchValue,
-  placesValue,
-  selectedOrganisation,
-}: any): EventsQueryVariables => {
-  return {
-    pageSize: PAGE_SIZE,
-    publisher: selectedOrganisation?.publisherId,
-    sort: EVENT_SORT_KEYS.START_TIME,
-    text: searchValue,
-    location: placesValue.map((p: PlaceOption) => p.value).join(','),
-    showAll: true,
-  };
-};
-
-const useEventsPageQueries = (eventsContext: any) => {
-  const {
-    data: upcomingEventsData,
-    loading: loadingUpcomingEvents,
-    isLoadingMore: isLoadingMoreUpcomingEvents,
-    hasNextPage: upcomingEventsHasNextPage,
-    fetchMore: fetchMoreUpcomingEvents,
-  } = useUpcomingEvents(eventsContext);
-
-  const {
-    data: pastEventsData,
-    loading: loadingPastEvents,
-    isLoadingMore: loadingMorePastEvents,
-    fetchMore: fetchMorePastEvents,
-    hasNextPage: pastEventsHasNextPage,
-  } = usePastEvents(eventsContext);
-
-  const {
-    data: eventsWithoutOccurrencesData,
-    loading: loadingEventsWithoutOccurrences,
-    isLoadingMore: loadingMoreEventsWithoutOccurrences,
-    fetchMore: fetchMoreEventsWithoutOccurrences,
-    hasNextPage: eventsWithoutOccurrencesHasNextPage,
-  } = useDraftEvents(eventsContext);
-
-  return {
-    upcomingEventsData,
-    loadingUpcomingEvents,
-    isLoadingMoreUpcomingEvents,
-    upcomingEventsHasNextPage,
-    fetchMoreUpcomingEvents,
-    pastEventsData,
-    loadingPastEvents,
-    loadingMorePastEvents,
-    fetchMorePastEvents,
-    pastEventsHasNextPage,
-    eventsWithoutOccurrencesData,
-    loadingEventsWithoutOccurrences,
-    loadingMoreEventsWithoutOccurrences,
-    fetchMoreEventsWithoutOccurrences,
-    eventsWithoutOccurrencesHasNextPage,
-  };
-};
-
-const useUpcomingEvents = (eventsContext: any) => {
-  const baseVariables = useEventsQueryBaseVariables(eventsContext);
-  return useEventsQueryHelper({
-    skip: !baseVariables.publisher,
-    variables: {
-      ...baseVariables,
-      // with start:now we can get events that have upcoming occurrences
-      start: 'now',
-    },
-  });
-};
-
-const usePastEvents = (eventsContext: any) => {
-  const baseVariables = useEventsQueryBaseVariables(eventsContext);
-  return useEventsQueryHelper({
-    skip: !baseVariables.publisher,
-    variables: {
-      ...baseVariables,
-      // we will egt past events with end:now
-      end: 'now',
-      publicationStatus: PUBLICATION_STATUS.PUBLIC,
-    },
-  });
-};
-
-const useDraftEvents = (eventsContext: any) => {
-  const baseVariables = useEventsQueryBaseVariables(eventsContext);
-  return useEventsQueryHelper({
-    skip: !baseVariables.publisher,
-    variables: {
-      ...baseVariables,
-      // when querying for events that are in draft should have no occurrences
-      publicationStatus: PUBLICATION_STATUS.DRAFT,
-    },
-  });
-};
+import useEventsPageContext from './hooks/useEventsPageContext';
+import useEventsPageQueries from './hooks/useEventsPageQueries';
+import { PlaceOption } from './types';
 
 const EventsPage: React.FC = () => {
   const { t } = useTranslation();
