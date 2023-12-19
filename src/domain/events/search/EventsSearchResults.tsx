@@ -1,12 +1,12 @@
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import useNavigate from '../../../hooks/useNavigate';
 import { ROUTES } from '../../app/routes/constants';
-import useEventsPageQueries from '../hooks/useEventsPageQueries';
+import { useEventsSearchQueryContext } from '../hooks/useEventsSearchQueryContext';
 import DraftEventsList from './DraftEventsList';
 import PastEventsList from './PastEventsList';
 import UpcomingEventsList from './UpcomingEventsList';
 
-export default function EventsSearchResults({ eventsContext }: any) {
+export default function EventsSearchResults() {
   const { pushWithLocale } = useNavigate();
   const goToEventSummaryPage = (id: string) => {
     pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', id));
@@ -16,7 +16,7 @@ export default function EventsSearchResults({ eventsContext }: any) {
     loadingUpcomingEvents,
     loadingPastEvents,
     loadingEventsWithoutOccurrences,
-  } = useEventsPageQueries(eventsContext);
+  } = useEventsSearchQueryContext();
 
   const loadingEvents =
     loadingUpcomingEvents ||
@@ -25,18 +25,9 @@ export default function EventsSearchResults({ eventsContext }: any) {
 
   return (
     <LoadingSpinner isLoading={loadingEvents}>
-      <UpcomingEventsList
-        eventsContext={eventsContext}
-        goToEventSummaryPage={goToEventSummaryPage}
-      />
-      <DraftEventsList
-        eventsContext={eventsContext}
-        goToEventSummaryPage={goToEventSummaryPage}
-      />
-      <PastEventsList
-        eventsContext={eventsContext}
-        goToEventSummaryPage={goToEventSummaryPage}
-      />
+      <UpcomingEventsList goToEventSummaryPage={goToEventSummaryPage} />
+      <DraftEventsList goToEventSummaryPage={goToEventSummaryPage} />
+      <PastEventsList goToEventSummaryPage={goToEventSummaryPage} />
     </LoadingSpinner>
   );
 }

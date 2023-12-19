@@ -1,10 +1,10 @@
 import { Combobox } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import useLocale from '../../hooks/useLocale';
-import useProfilePlaces from '../../hooks/useProfilePlaces';
-import getLocalizedString from '../../utils/getLocalizedString';
-import { PlaceOption } from './types';
+import useLocale from '../../../hooks/useLocale';
+import useProfilePlaces from '../../../hooks/useProfilePlaces';
+import getLocalizedString from '../../../utils/getLocalizedString';
+import { PlaceOption } from '../types';
 
 const PlaceSelector: React.FC<{
   onChange: (selected: PlaceOption[]) => void;
