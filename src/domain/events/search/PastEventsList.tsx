@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next';
 
-import EventsCategoryList from '../eventsCategoryList/EventsCategoryList';
-import useEventsPageQueries from '../hooks/useEventsPageQueries';
+import EventsCategoryList, {
+  EventsCategoryListProps,
+} from '../eventsCategoryList/EventsCategoryList';
+import { useEventsSearchQueryContext } from '../hooks/useEventsSearchQueryContext';
 
 export default function PastEventsList({
-  eventsContext,
   goToEventSummaryPage,
-}: any) {
+}: {
+  goToEventSummaryPage: EventsCategoryListProps['onGoToEventSummaryPage'];
+}) {
   const { t } = useTranslation();
   const {
     loadingMorePastEvents,
@@ -14,7 +17,7 @@ export default function PastEventsList({
     pastEventsHasNextPage,
     eventsWithPastOccurrences,
     eventsWithPastOccurrencesCount,
-  } = useEventsPageQueries(eventsContext);
+  } = useEventsSearchQueryContext();
   return (
     <EventsCategoryList
       eventsCount={

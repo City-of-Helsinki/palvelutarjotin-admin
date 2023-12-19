@@ -2,8 +2,8 @@ import { PUBLICATION_STATUS } from '../constants';
 import { useEventsQueryHelper } from '../utils';
 import useEventsQueryBaseVariables from './useEventsQueryBaseVariables';
 
-export default function usePastEvents(eventsContext: any) {
-  const baseVariables = useEventsQueryBaseVariables(eventsContext);
+export default function usePastEvents() {
+  const baseVariables = useEventsQueryBaseVariables();
   return useEventsQueryHelper({
     skip: !baseVariables.publisher,
     variables: {

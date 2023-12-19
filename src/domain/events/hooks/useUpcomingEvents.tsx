@@ -1,8 +1,8 @@
 import { useEventsQueryHelper } from '../utils';
 import useEventsQueryBaseVariables from './useEventsQueryBaseVariables';
 
-export default function useUpcomingEvents(eventsContext: any) {
-  const baseVariables = useEventsQueryBaseVariables(eventsContext);
+export default function useUpcomingEvents() {
+  const baseVariables = useEventsQueryBaseVariables();
   return useEventsQueryHelper({
     skip: !baseVariables.publisher,
     variables: {

@@ -7,6 +7,9 @@ import { getSelectedOrganisation } from '../../myProfile/utils';
 import { activeOrganisationSelector } from '../../organisation/selector';
 import { PlaceOption } from '../types';
 
+/**
+ * @protected Should only be called from EventsSearchProvider!
+ */
 export default function useEventsPageContext() {
   const [inputValue, setInputValue] = React.useState('');
 

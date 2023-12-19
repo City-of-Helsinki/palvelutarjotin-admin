@@ -2,14 +2,17 @@ import useDraftEvents from './useDraftEvents';
 import usePastEvents from './usePastEvents';
 import useUpcomingEvents from './useUpcomingEvents';
 
-export default function useEventsPageQueries(eventsContext: any) {
+/**
+ * @protected Should only be called from EventsSearchQueryProvider!
+ */
+export default function useEventsPageQueries() {
   const {
     data: upcomingEventsData,
     loading: loadingUpcomingEvents,
     isLoadingMore: isLoadingMoreUpcomingEvents,
     hasNextPage: upcomingEventsHasNextPage,
     fetchMore: fetchMoreUpcomingEvents,
-  } = useUpcomingEvents(eventsContext);
+  } = useUpcomingEvents();
 
   const {
     data: pastEventsData,
@@ -17,7 +20,7 @@ export default function useEventsPageQueries(eventsContext: any) {
     isLoadingMore: loadingMorePastEvents,
     fetchMore: fetchMorePastEvents,
     hasNextPage: pastEventsHasNextPage,
-  } = usePastEvents(eventsContext);
+  } = usePastEvents();
 
   const {
     data: eventsWithoutOccurrencesData,
@@ -25,7 +28,7 @@ export default function useEventsPageQueries(eventsContext: any) {
     isLoadingMore: loadingMoreEventsWithoutOccurrences,
     fetchMore: fetchMoreEventsWithoutOccurrences,
     hasNextPage: eventsWithoutOccurrencesHasNextPage,
-  } = useDraftEvents(eventsContext);
+  } = useDraftEvents();
 
   const eventsWithComingOccurrences = upcomingEventsData?.events?.data || [];
   const eventsWithComingOccurrencesCount =

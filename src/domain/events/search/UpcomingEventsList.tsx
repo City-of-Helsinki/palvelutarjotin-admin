@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next';
 
-import EventsCategoryList from '../eventsCategoryList/EventsCategoryList';
-import useEventsPageQueries from '../hooks/useEventsPageQueries';
+import EventsCategoryList, {
+  EventsCategoryListProps,
+} from '../eventsCategoryList/EventsCategoryList';
+import { useEventsSearchQueryContext } from '../hooks/useEventsSearchQueryContext';
 
 export default function UpcomingEventsList({
-  eventsContext,
   goToEventSummaryPage,
-}: any) {
+}: {
+  goToEventSummaryPage: EventsCategoryListProps['onGoToEventSummaryPage'];
+}) {
   const { t } = useTranslation();
   const {
     isLoadingMoreUpcomingEvents,
@@ -14,7 +17,7 @@ export default function UpcomingEventsList({
     fetchMoreUpcomingEvents,
     eventsWithComingOccurrences,
     eventsWithComingOccurrencesCount,
-  } = useEventsPageQueries(eventsContext);
+  } = useEventsSearchQueryContext();
   return (
     <EventsCategoryList
       eventsCount={

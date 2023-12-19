@@ -3,7 +3,7 @@ import Events from './Events';
 import EventsTitle from './EventsTitle';
 import ShowMoreButton from './ShowMoreButton';
 
-interface EventsCategoryListProps {
+export interface EventsCategoryListProps {
   eventsCount: number;
   title: string;
   events: EventFieldsFragment[];
