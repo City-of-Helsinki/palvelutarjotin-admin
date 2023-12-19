@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EventFieldsFragment,
+  EventsQueryVariables,
   useMyProfileQuery,
 } from '../../generated/graphql';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -28,57 +29,51 @@ import { useEventsQueryHelper } from './utils';
 
 type PlaceOption = { label: string; value: string };
 
-const EventsPage: React.FC = () => {
+const useEventsPageContext = () => {
   const [inputValue, setInputValue] = React.useState('');
+
   const [placesValue, setPlacesValue] = React.useState<PlaceOption[]>([]);
+
   const searchValue = useDebounce(inputValue, 100);
-  const { t } = useTranslation();
-  const { pushWithLocale } = useNavigate();
   const { data: myProfileData } = useMyProfileQuery();
 
   const activeOrganisation = useAppSelector(activeOrganisationSelector);
   const selectedOrganisation =
     myProfileData?.myProfile &&
     getSelectedOrganisation(myProfileData.myProfile, activeOrganisation);
+  return {
+    inputValue,
+    setInputValue,
+    placesValue,
+    setPlacesValue,
+    searchValue,
+    selectedOrganisation,
+  };
+};
 
-  const baseVariables = {
+const useEventsQueryBaseVariables = ({
+  searchValue,
+  placesValue,
+  selectedOrganisation,
+}: any): EventsQueryVariables => {
+  return {
     pageSize: PAGE_SIZE,
     publisher: selectedOrganisation?.publisherId,
     sort: EVENT_SORT_KEYS.START_TIME,
     text: searchValue,
-    location: placesValue.map((p) => p.value).join(','),
+    location: placesValue.map((p: PlaceOption) => p.value).join(','),
     showAll: true,
   };
+};
 
+const useEventsPageQueries = (eventsContext: any) => {
   const {
     data: upcomingEventsData,
     loading: loadingUpcomingEvents,
     isLoadingMore: isLoadingMoreUpcomingEvents,
     hasNextPage: upcomingEventsHasNextPage,
     fetchMore: fetchMoreUpcomingEvents,
-  } = useEventsQueryHelper({
-    skip: !baseVariables.publisher,
-    variables: {
-      ...baseVariables,
-      // with start:now we can get events that have upcoming occurrences
-      start: 'now',
-    },
-  });
-
-  const {
-    data: eventsWithoutOccurrencesData,
-    loading: loadingEventsWithoutOccurrences,
-    isLoadingMore: loadingMoreEventsWithoutOccurrences,
-    fetchMore: fetchMoreEventsWithoutOccurrences,
-    hasNextPage: eventsWithoutOccurrencesHasNextPage,
-  } = useEventsQueryHelper({
-    skip: !baseVariables.publisher,
-    variables: {
-      ...baseVariables,
-      // when querying for events that are in draft should have no occurrences
-      publicationStatus: PUBLICATION_STATUS.DRAFT,
-    },
-  });
+  } = useUpcomingEvents(eventsContext);
 
   const {
     data: pastEventsData,
@@ -86,7 +81,50 @@ const EventsPage: React.FC = () => {
     isLoadingMore: loadingMorePastEvents,
     fetchMore: fetchMorePastEvents,
     hasNextPage: pastEventsHasNextPage,
-  } = useEventsQueryHelper({
+  } = usePastEvents(eventsContext);
+
+  const {
+    data: eventsWithoutOccurrencesData,
+    loading: loadingEventsWithoutOccurrences,
+    isLoadingMore: loadingMoreEventsWithoutOccurrences,
+    fetchMore: fetchMoreEventsWithoutOccurrences,
+    hasNextPage: eventsWithoutOccurrencesHasNextPage,
+  } = useDraftEvents(eventsContext);
+
+  return {
+    upcomingEventsData,
+    loadingUpcomingEvents,
+    isLoadingMoreUpcomingEvents,
+    upcomingEventsHasNextPage,
+    fetchMoreUpcomingEvents,
+    pastEventsData,
+    loadingPastEvents,
+    loadingMorePastEvents,
+    fetchMorePastEvents,
+    pastEventsHasNextPage,
+    eventsWithoutOccurrencesData,
+    loadingEventsWithoutOccurrences,
+    loadingMoreEventsWithoutOccurrences,
+    fetchMoreEventsWithoutOccurrences,
+    eventsWithoutOccurrencesHasNextPage,
+  };
+};
+
+const useUpcomingEvents = (eventsContext: any) => {
+  const baseVariables = useEventsQueryBaseVariables(eventsContext);
+  return useEventsQueryHelper({
+    skip: !baseVariables.publisher,
+    variables: {
+      ...baseVariables,
+      // with start:now we can get events that have upcoming occurrences
+      start: 'now',
+    },
+  });
+};
+
+const usePastEvents = (eventsContext: any) => {
+  const baseVariables = useEventsQueryBaseVariables(eventsContext);
+  return useEventsQueryHelper({
     skip: !baseVariables.publisher,
     variables: {
       ...baseVariables,
@@ -95,6 +133,44 @@ const EventsPage: React.FC = () => {
       publicationStatus: PUBLICATION_STATUS.PUBLIC,
     },
   });
+};
+
+const useDraftEvents = (eventsContext: any) => {
+  const baseVariables = useEventsQueryBaseVariables(eventsContext);
+  return useEventsQueryHelper({
+    skip: !baseVariables.publisher,
+    variables: {
+      ...baseVariables,
+      // when querying for events that are in draft should have no occurrences
+      publicationStatus: PUBLICATION_STATUS.DRAFT,
+    },
+  });
+};
+
+const EventsPage: React.FC = () => {
+  const { t } = useTranslation();
+  const { pushWithLocale } = useNavigate();
+  const eventsContext = useEventsPageContext();
+  const {
+    upcomingEventsData,
+    loadingUpcomingEvents,
+    isLoadingMoreUpcomingEvents,
+    upcomingEventsHasNextPage,
+    fetchMoreUpcomingEvents,
+    pastEventsData,
+    loadingPastEvents,
+    loadingMorePastEvents,
+    fetchMorePastEvents,
+    pastEventsHasNextPage,
+    eventsWithoutOccurrencesData,
+    loadingEventsWithoutOccurrences,
+    loadingMoreEventsWithoutOccurrences,
+    fetchMoreEventsWithoutOccurrences,
+    eventsWithoutOccurrencesHasNextPage,
+  } = useEventsPageQueries(eventsContext);
+
+  const { inputValue, setInputValue, placesValue, setPlacesValue } =
+    eventsContext;
 
   const goToCreateEventPage = () => {
     pushWithLocale(ROUTES.CREATE_EVENT);
