@@ -20,6 +20,7 @@ const AppRoutes = () => {
       <Route path={`/fi/*`} element={<LocaleRoutes locale={'fi'} />} />
       <Route path={`/sv/*`} element={<LocaleRoutes locale={'sv'} />} />
       <Route path={`/en/*`} element={<LocaleRoutes locale={'en'} />} />
+      <Route path={`/cimode/*`} element={<LocaleRoutes locale={'cimode'} />} />
       <Route path="*" element={<NavigateToLocalePath />} />
     </Routes>
   );
