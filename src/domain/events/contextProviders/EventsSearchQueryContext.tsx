@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { EventsSearchQueryContextType } from '../types';
+import type { EventsSearchQueryContextType } from './EventsSearchQueryProvider';
 
 const EventsSearchQueryContext =
   React.createContext<EventsSearchQueryContextType | null>(null);

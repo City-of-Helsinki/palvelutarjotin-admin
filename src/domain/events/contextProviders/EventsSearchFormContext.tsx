@@ -1,8 +1,8 @@
-import React from 'react';
+import { createContext } from 'react';
 
-import { EventsSearchFormContextType } from '../types';
+import type { EventsSearchFormContextType } from './EventsSearchProvider';
 
 const EventsSearchFormContext =
-  React.createContext<EventsSearchFormContextType | null>(null);
+  createContext<EventsSearchFormContextType | null>(null);
 
 export default EventsSearchFormContext;
