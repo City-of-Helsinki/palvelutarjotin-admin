@@ -24,8 +24,9 @@ const PlaceSelector: React.FC<{
   return (
     <Combobox
       value={value as any}
-      label={t('events.search.labelPlaces')}
       multiselect
+      label={t('events.search.labelPlaces')}
+      helper={t('events.search.helperPlaces')}
       placeholder={t('events.search.placeholderPlaces')}
       toggleButtonAriaLabel={t('events.search.placesToggleButtonAriaLabel')}
       clearButtonAriaLabel={t('events.search.placesClearButtonAriaLabel')}

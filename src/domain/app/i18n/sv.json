@@ -496,7 +496,8 @@
       "placeholderSearch": "Sökning",
       "labelSearch": "Sök",
       "labelPlaces": "Platser",
-      "placeholderPlaces": "Sök platser",
+      "helperPlaces": "Filtrera efter dina egna platser. Du kan lägga till platser i listan under Min profil/plats för evenemang -sektionen.",
+      "placeholderPlaces": "Sök från dina egna platser...",
       "placesToggleButtonAriaLabel": "Öppna dropdown för at hitta de du söker",
       "placesClearButtonAriaLabel": "Radera ut de utvalda platserna",
       "placesSelectedItemRemoveButtonAriaLabel": "Tabort (det här) stället"

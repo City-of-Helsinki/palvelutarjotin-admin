@@ -495,7 +495,8 @@
       "placeholderSearch": "Haku",
       "labelSearch": "Haku",
       "labelPlaces": "Paikat",
-      "placeholderPlaces": "Hae paikkoja...",
+      "helperPlaces": "Suodata omien paikkojesi mukaan. Voit lisätä paikkoja listaan Omat tiedot/tapahtumapaikat -osiossa.",
+      "placeholderPlaces": "Hae omista paikoista...",
       "placesToggleButtonAriaLabel": "Avaa valikko",
       "placesClearButtonAriaLabel": "Tyhjennä kaikki paikat",
       "placesSelectedItemRemoveButtonAriaLabel": "Poista paikka"

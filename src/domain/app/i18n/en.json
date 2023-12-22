@@ -195,7 +195,7 @@
     "labelName": "Name",
     "labelOrganisations": "Organisation",
     "labelPhoneNumber": "Phone number",
-    "labelLocations": "Tapahtumapaikat",
+    "labelLocations": "Venues",
     "labelLanguage": "Language",
     "helperLanguage": "The language used in communication",
     "placeholderOrganisations": "Select organisation",
@@ -489,7 +489,8 @@
       "placeholderSearch": "Search",
       "labelSearch": "Search",
       "labelPlaces": "Places",
-      "placeholderPlaces": "Search places...",
+      "helperPlaces": "Filter by your own places. You can add places to the list in the My profile/venues -section.",
+      "placeholderPlaces": "Search among your own places...",
       "placesToggleButtonAriaLabel": "Open dropdown",
       "placesClearButtonAriaLabel": "Clear place selections",
       "placesSelectedItemRemoveButtonAriaLabel": "Remove place"
