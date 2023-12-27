@@ -10,3 +10,13 @@
   width: 1px;
   white-space: nowrap;
 }
+
+header {
+  a[class^='Navigation-module_title'] {
+    cursor: pointer;
+
+    & > * {
+      cursor: pointer;
+    }
+  }
+}
