@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.3...palvelutarjotin-admin-v1.8.0) (2023-12-27)
+
+
+### Features
+
+* Add helper text to the own places filter ([ebfedb7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ebfedb7a64b2af18bf10c35368b73f6656cc173c))
+
+
+### Bug Fixes
+
+* Cimode localization ([5249ce0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5249ce02eaff415959d065d646392e3a759cef80))
+* Header logo should use a pointer as a cursor ([ab64715](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ab64715a36128e7c59f56bd4ef59b22bb7db77d7))
+
 ## [1.7.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.2...palvelutarjotin-admin-v1.7.3) (2023-12-14)
 
 
