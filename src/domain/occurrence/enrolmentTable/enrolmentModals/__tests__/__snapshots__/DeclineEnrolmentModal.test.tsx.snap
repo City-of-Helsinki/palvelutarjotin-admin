@@ -102,22 +102,6 @@ exports[`matches snapshot 1`] = `
             class="buttonsRight"
           >
             <button
-              class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV"
-              type="button"
-            >
-              <div
-                aria-hidden="true"
-                class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
-              >
-                <div />
-              </div>
-              <span
-                class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-              >
-                Esikatselu
-              </span>
-            </button>
-            <button
               class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO"
               type="button"
             >

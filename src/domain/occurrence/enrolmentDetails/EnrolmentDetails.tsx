@@ -24,7 +24,6 @@ import {
   useDeleteEnrolmentMutation,
   useEnrolmentQuery,
 } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import { formatIntoDateTime } from '../../../utils/time/format';
 import { translateValue } from '../../../utils/translateUtils';
@@ -54,7 +53,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   onGoBackClick,
   refetchOccurrence,
 }) => {
-  const locale = useLocale();
   const { pushWithReturnPath } = useNavigate();
   const { t } = useTranslation();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
