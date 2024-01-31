@@ -26,9 +26,7 @@ interface EnrolmentModalProps {
   submitButtonText: string;
   handleSubmit: () => void;
   preview?: ReactNode | null;
-  handlePreviewClick?: () => void;
   onMessageTextChange?: (message: string) => void;
-  showPreviewButton?: boolean;
   messageText?: string;
   submitting?: boolean;
   children?: React.ReactNode;
@@ -45,10 +43,8 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
   submitButtonText,
   preview,
   messageText,
-  showPreviewButton,
   submitting = false,
   handleSubmit,
-  handlePreviewClick,
   onMessageTextChange,
   onClose,
 }) => {
@@ -106,16 +102,6 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
             {t('enrolment.enrolmentModal.cancelEnrolment')}
           </Button>
           <div className={styles.buttonsRight}>
-            {/* TODO: preview functionality */}
-            {showPreviewButton && (
-              <Button
-                iconLeft={<div></div>}
-                variant="supplementary"
-                onClick={handlePreviewClick}
-              >
-                {t('enrolment.enrolmentModal.preview')}
-              </Button>
-            )}
             <Button
               variant="primary"
               onClick={handleSubmit}
