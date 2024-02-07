@@ -15,6 +15,7 @@
     }
   },
   "common": {
+    "cityOfHelsinki": "Helsingin kaupunki",
     "back": "Takaisin",
     "leave": "Poistu",
     "close": "Sulje",
@@ -642,7 +643,9 @@
     }
   },
   "footer": {
-    "copyrightText": "© Copyright 2020 • Kaikki oikeudet pidätetään",
+    "backToTop": "Takaisin alkuun",
+    "copyright": "Copyright",
+    "allRightsReserved": "Kaikki oikeudet pidätetään",
     "privacyPolicy": "Rekisteriseloste",
     "teacherUI": "Kouluille ja päiväkodeille"
   },
@@ -654,8 +657,7 @@
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
-      "sv": "På svenska",
-      "cimode": "CIMODE"
+      "sv": "På svenska"
     },
     "logout": "Kirjaudu ulos",
     "userMenu": {

@@ -1,99 +1,10 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { isAuthenticatedSelector } from '../domain/auth/selectors';
-import {
-  MenuNodeIdTypeEnum,
-  MenuPageFieldsFragment,
-  useMenuQuery,
-} from '../generated/graphql-cms';
-import { useAppSelector } from '../hooks/useAppSelector';
 import useIsMounted from '../hooks/useIsMounted';
 import useLocale from '../hooks/useLocale';
-import { isFeatureEnabled } from '../utils/featureFlags';
-import { skipFalsyType } from '../utils/typescript.utils';
-import cmsClient from './client';
-import { MENU_NAME } from './constants';
 import { usePageQuery } from './usePageQuery';
-import {
-  queryPageWithUri,
-  stripLocaleFromUri,
-  uriToBreadcrumbs,
-} from './utils';
-
-export const useCmsMenuItems = () => {
-  const locale = useLocale();
-  const { slug } = useParams<{ slug: string }>();
-  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
-  const { data: navigationData, loading: cmsMenuLoading } = useMenuQuery({
-    client: cmsClient,
-    skip: !isFeatureEnabled('HEADLESS_CMS') || !locale || !isAuthenticated,
-    variables: {
-      id: MENU_NAME.Header,
-      idType: MenuNodeIdTypeEnum.Name,
-    },
-  });
-
-  // contains menu items as arrays with all the translations
-  const menuItemArrays = React.useMemo(
-    () =>
-      navigationData?.menu?.menuItems?.nodes?.map((menuItem) => {
-        const item = menuItem?.connectedNode?.node;
-        if (isPageNode(item)) {
-          const translationItems = item.translations?.map((translation) => ({
-            ...translation,
-            locale: translation?.language?.code,
-            uri: stripLocaleFromUri(translation?.uri ?? ''),
-            // find all child translations that have same language
-            children: item.children?.nodes
-              ?.filter(isPageNode)
-              .map((childNode) =>
-                childNode.translations?.find(
-                  (childTranslation) =>
-                    translation?.language === childTranslation?.language
-                )
-              )
-              .filter(skipFalsyType),
-          }));
-
-          return [
-            {
-              ...item,
-              locale: item?.language?.code,
-              uri: stripLocaleFromUri(item.uri ?? ''),
-              children: item.children?.nodes?.filter(isPageNode),
-            },
-            ...(translationItems ?? []),
-          ];
-        }
-
-        return null;
-      }),
-    [navigationData]
-  );
-
-  const menuItems = menuItemArrays
-    ?.map((item) => {
-      return item?.find((i) => i.locale?.toLowerCase() === (locale as string));
-    })
-    .filter((i) => i);
-
-  const navigationSlugs = menuItemArrays?.find((a) => {
-    return a?.some((b) => {
-      if (Array.isArray(slug)) {
-        return b.slug === slug?.[0];
-      }
-      return false;
-    });
-  });
-
-  return {
-    navigationData,
-    cmsMenuLoading,
-    menuItems,
-    navigationSlugs,
-  };
-};
+import { queryPageWithUri, uriToBreadcrumbs } from './utils';
 
 export const useCmsLanguageOptions = ({
   skip = false,
@@ -159,8 +70,4 @@ export const useCmsNavigation = (slug: string) => {
   }, [slug, locale, isMounted]);
 
   return { breadcrumbs, loading };
-};
-
-const isPageNode = (node?: any): node is MenuPageFieldsFragment => {
-  return Boolean(node && 'title' in node);
 };

@@ -25,9 +25,7 @@ import PageLayout from '../layout/PageLayout';
 import { AppDispatch } from '../store';
 import { ROUTES } from './constants';
 
-const LocaleRoutes: React.FC<{ locale: Language | 'cimode' }> = ({
-  locale,
-}) => {
+const LocaleRoutes: React.FC<{ locale: Language }> = ({ locale }) => {
   const { i18n } = useTranslation();
   const dispatch: AppDispatch = useAppDispatch();
   const user = useAppSelector(userSelector);

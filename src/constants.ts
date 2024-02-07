@@ -17,15 +17,6 @@ export enum SUPPORT_LANGUAGES {
   EN = 'en',
 }
 
-export enum DEV_LANGUAGES {
-  CIMODE = 'cimode',
-}
-
-// ROUTER_LANGUAGES are used to set cimode language without breaking locales related to datepickers etc.
-export const ROUTER_LANGUAGES = { ...SUPPORT_LANGUAGES, ...DEV_LANGUAGES };
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ROUTER_LANGUAGES = SUPPORT_LANGUAGES | DEV_LANGUAGES;
-
 export enum LINKEDEVENTS_CONTENT_TYPE {
   IMAGE = 'image',
   KEYWORD = 'keyword',

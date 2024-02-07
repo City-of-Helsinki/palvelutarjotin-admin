@@ -15,6 +15,7 @@
     }
   },
   "common": {
+    "cityOfHelsinki": "Helsingfors stad",
     "back": "Tillbacka",
     "leave": "Lämn",
     "close": "Stäng",
@@ -645,7 +646,9 @@
     }
   },
   "footer": {
-    "copyrightText": "© Copyright 2020 • Alla rättigheter förbehållna",
+    "backToTop": "Tillbaka upp",
+    "copyright": "Copyright",
+    "allRightsReserved": "Alla rättigheter förbehållna",
     "privacyPolicy": "Integritetspolicy",
     "teacherUI": "För skolor och daghem"
   },
@@ -657,8 +660,7 @@
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
-      "sv": "På svenska",
-      "cimode": "CIMODE"
+      "sv": "På svenska"
     },
     "logout": "Logga ut",
     "userMenu": {
