@@ -15,6 +15,7 @@
     }
   },
   "common": {
+    "cityOfHelsinki": "City of Helsinki",
     "back": "Back",
     "leave": "Leave",
     "close": "Close",
@@ -637,7 +638,9 @@
     }
   },
   "footer": {
-    "copyrightText": "© Copyright 2020 • All rights reserved",
+    "backToTop": "Back to top",
+    "copyright": "Copyright",
+    "allRightsReserved": "All rights reserved",
     "privacyPolicy": "Privacy policy",
     "teacherUI": "For daycare and schools"
   },
@@ -649,8 +652,7 @@
     "languages": {
       "en": "In English",
       "fi": "Suomeksi",
-      "sv": "På svenska",
-      "cimode": "CIMODE"
+      "sv": "På svenska"
     },
     "logout": "Log out",
     "userMenu": {

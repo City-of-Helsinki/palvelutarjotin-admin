@@ -1,9 +1,42 @@
-@import 'common';
+@import 'variables';
 
-.activeOrganisation {
-  color: var(--color-black-40);
+@mixin active {
+  color: var(--color-white);
+  background-color: var(--color-bus);
+}
+
+.userMenuDropdown {
+  border-color: var(--color-black-90);
+}
+
+.dropdownButton {
+  min-width: $breakpoint-xs;
+  text-align: left;
+  justify-content: left;
+  max-height: 40px !important;
+  --min-size: 40px;
+  font-weight: normal;
+  color: var(--color-black-90);
 
   svg {
-    color: var(--color-black);
+    // To make sure the icon size stays the same,
+    // even if the text splits on multiple lines
+    min-width: var(--icon-size) !important;
+    width: var(--icon-size) !important;
+    min-height: var(--icon-size) !important;
+    height: var(--icon-size) !important;
   }
+
+  &:focus {
+    outline-color: var(--color-focus-outline);
+  }
+
+  &:hover {
+    @include active;
+  }
+}
+
+.activeDropdownButton {
+  @extend .dropdownButton;
+  @include active;
 }

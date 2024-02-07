@@ -1,50 +1,82 @@
-import { IconAngleRight, IconSignout, IconUser, Navigation } from 'hds-react';
+import {
+  Button as HDSButton,
+  Header as HDSHeader,
+  IconAngleRight,
+  IconSignout,
+  IconUser,
+  useMediaQueryLessThan,
+} from 'hds-react';
 import * as React from 'react';
+import {
+  Language as RHHCLanguage,
+  LanguageCodeEnum,
+  MenuItem,
+  Navigation,
+} from 'react-helsinki-headless-cms';
+import {
+  useLanguagesQuery,
+  useMenuQuery,
+} from 'react-helsinki-headless-cms/apollo';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useMatch } from 'react-router-dom';
 
-import { MenuItem } from '../../../common/components/menuDropdown/MenuDropdown';
-import { ROUTER_LANGUAGES, SUPPORT_LANGUAGES } from '../../../constants';
 import {
   OrganisationNodeFieldsFragment,
   useMyProfileQuery,
 } from '../../../generated/graphql';
-import {
-  useCmsLanguageOptions,
-  useCmsMenuItems,
-} from '../../../headless-cms/hooks';
+import { HEADER_MENU_NAME } from '../../../headless-cms/constants';
+import { useCmsLanguageOptions } from '../../../headless-cms/hooks';
 import { stripLocaleFromUri } from '../../../headless-cms/utils';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { useAppSelector } from '../../../hooks/useAppSelector';
+import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
-import { LanguageSelectorLanguage } from '../../../types';
+import { skipFalsyType } from '../../../utils/typescript.utils';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { logoutTunnistamo } from '../../auth/authenticate';
 import { isAuthenticatedSelector } from '../../auth/selectors';
 import { setActiveOrganisation } from '../../organisation/actions';
 import { activeOrganisationSelector } from '../../organisation/selector';
-import { MAIN_CONTENT_ID } from '../layout/PageLayout';
+import AppConfig from '../AppConfig';
 import { ROUTES } from '../routes/constants';
 import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
-import HeaderLink from './HeaderLink';
 
 const Header: React.FC = () => {
-  const { t, i18n } = useTranslation();
   const { pushWithLocale } = useNavigate();
-  const locale = i18n.language;
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const { cmsMenuLoading, menuItems } = useCmsMenuItems();
+  const locale = useLocale();
+  const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
+  const cmsLanguageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
+  const { pathname, search } = useLocation();
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-  const closeMenu = () => setMenuOpen(false);
+  const getCmsHref = (language: LanguageCodeEnum) => {
+    const nav = cmsLanguageOptions?.find((cmsLanguageOption) => {
+      return cmsLanguageOption.locale?.toLowerCase() === language.toLowerCase();
+    });
 
-  const isTabActive = (path: string): boolean => {
-    const pathWithoutTrailingSlash = path.replace(/\/$/, '');
+    return `/${language.toLowerCase()}${getCmsPath(
+      nav?.uri ? stripLocaleFromUri(nav?.uri) : ''
+    )}`;
+  };
+
+  const getOriginHref = (language: LanguageCodeEnum): string => {
+    const url = new URL(AppConfig.origin);
+    url.pathname = updateLocaleParam(pathname, locale, language);
+    url.search = search;
+    return url.toString();
+  };
+
+  const getIsItemActive = (menuItem: MenuItem): boolean => {
+    const pathWithoutTrailingSlash = (menuItem.path ?? '').replace(/\/$/, '');
     return (
       typeof window !== 'undefined' &&
       window.location.pathname.includes(getCmsPath(pathWithoutTrailingSlash))
     );
+  };
+
+  const getPathnameForLanguage = (language: RHHCLanguage): string => {
+    const languageCode = language.code ?? LanguageCodeEnum.Fi;
+    return isCmsPage ? getCmsHref(languageCode) : getOriginHref(languageCode);
   };
 
   const goToPage =
@@ -52,7 +84,6 @@ const Header: React.FC = () => {
     (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
       event?.preventDefault();
       pushWithLocale(pathname);
-      closeMenu();
     };
 
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
@@ -61,72 +92,33 @@ const Header: React.FC = () => {
   const organisations: OrganisationNodeFieldsFragment[] =
     myProfileData?.myProfile?.organisations?.edges?.map((edge) => ({
       ...(edge?.node as OrganisationNodeFieldsFragment),
-    })) || [];
+    })) ?? [];
+
+  const languagesQuery = useLanguagesQuery();
+  const languages = languagesQuery.data?.languages?.filter(skipFalsyType<RHHCLanguage | null>);
+
+  const menuQuery = useMenuQuery({
+    skip: !isAuthenticated,
+    variables: { id: HEADER_MENU_NAME[locale], menuIdentifiersOnly: true },
+  });
+  const menu = menuQuery.data?.menu;
 
   return (
     <Navigation
-      menuOpen={menuOpen}
-      onMenuToggle={toggleMenu}
-      menuToggleAriaLabel={t('header.menuToggleAriaLabel')}
-      skipTo={`#${MAIN_CONTENT_ID}`}
-      skipToContentLabel={t('common.linkSkipToContent')}
+      languages={languages}
+      menu={menu}
       onTitleClick={goToPage(ROUTES.HOME)}
-      logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
-      title={t('appName')}
-    >
-      {!cmsMenuLoading && menuItems?.length && (
-        <Navigation.Row variant="inline">
-          {menuItems
-            ?.map((item, index) => {
-              if (!item?.id) return null;
-              if (!!item.children?.length) {
-                return (
-                  <Navigation.Dropdown label={item.title} key={item.id}>
-                    <Navigation.Item
-                      label={item.title}
-                      as={HeaderLink}
-                      to={`/${locale}${getCmsPath(
-                        stripLocaleFromUri(item.uri ?? '')
-                      )}`}
-                    />
-                    {item.children.map((child) => (
-                      <Navigation.Item
-                        key={child.id}
-                        label={child?.title}
-                        as={HeaderLink}
-                        to={`/${locale}${getCmsPath(
-                          stripLocaleFromUri(child?.uri ?? '')
-                        )}`}
-                      />
-                    ))}
-                  </Navigation.Dropdown>
-                );
-              } else {
-                const translatedPageUri = `/${item.slug}` as string;
-                return (
-                  <Navigation.Item
-                    key={index}
-                    active={isTabActive(item.uri)}
-                    label={item.title}
-                    as={HeaderLink}
-                    to={`/${locale}${getCmsPath(translatedPageUri)}`}
-                  />
-                );
-              }
-            })
-            .filter((item) => item != null)}
-        </Navigation.Row>
-      )}
-      <Navigation.Actions>
-        {isAuthenticated && (
+      getIsItemActive={getIsItemActive}
+      getPathnameForLanguage={getPathnameForLanguage}
+      userNavigation={
+        isAuthenticated && (
           <UserNavigation
             organisations={organisations}
-            userLabel={myProfileData?.myProfile?.name || ''}
+            userLabel={myProfileData?.myProfile?.name ?? ''}
           />
-        )}
-        <LanguageNavigation />
-      </Navigation.Actions>
-    </Navigation>
+        )
+      }
+    />
   );
 };
 
@@ -137,6 +129,7 @@ const UserNavigation: React.FC<{
   const { t } = useTranslation();
   const { pushWithLocale } = useNavigate();
   const dispatch = useAppDispatch();
+  const isUnderSmallBreakpoint = useMediaQueryLessThan('s');
 
   const goToEditMyProfile = () => {
     pushWithLocale(ROUTES.MY_PROFILE);
@@ -153,104 +146,49 @@ const UserNavigation: React.FC<{
   };
 
   return (
-    <Navigation.User
-      buttonAriaLabel={t('header.userMenu.ariaLabelButton')}
+    <HDSHeader.ActionBarItem
+      id="user-menu"
+      dropdownClassName={styles.userMenuDropdown}
+      fullWidth={isUnderSmallBreakpoint}
+      icon={<IconUser />}
+      ariaLabel={t('header.userMenu.ariaLabelButton')}
       label={userLabel}
-      userName={userLabel}
-      authenticated={true}
+      preventButtonResize
     >
-      <Navigation.Item
+      <HDSButton
         key={`edit-profile`}
-        icon={<IconUser />}
-        label={t('header.userMenu.openMyProfile')}
+        className={styles.dropdownButton}
+        iconLeft={<IconUser />}
         onClick={goToEditMyProfile}
         variant="supplementary"
-      />
+      >
+        {t('header.userMenu.openMyProfile')}
+      </HDSButton>
       {organisations?.map((organisation) => (
-        <Navigation.Item
+        <HDSButton
           key={`organisation-${organisation.id}`}
           className={
             activeOrganisation === organisation.id
-              ? styles.activeOrganisation
-              : undefined
+              ? styles.activeDropdownButton
+              : styles.dropdownButton
           }
-          icon={<IconAngleRight />}
-          label={organisation.name || ''}
+          iconLeft={<IconAngleRight />}
           onClick={() => changeActiveOrganisation(organisation.id)}
           variant="supplementary"
-        />
+        >
+          {organisation.name || ''}
+        </HDSButton>
       ))}
-      <Navigation.Item
+      <HDSButton
         key={`sign-out`}
-        icon={<IconSignout aria-hidden />}
-        label={t('header.userMenu.logout')}
+        className={styles.dropdownButton}
+        iconLeft={<IconSignout aria-hidden />}
         onClick={logout}
         variant="supplementary"
-      />
-    </Navigation.User>
-  );
-};
-
-const LanguageNavigation: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language;
-  const { pathname, search } = useLocation();
-  const { navigate } = useNavigate();
-  const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
-  const languageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
-
-  const getCmsHref = (lang: string) => {
-    const nav = languageOptions?.find((languageOption) => {
-      return languageOption.locale?.toLowerCase() === lang;
-    });
-
-    return `/${lang}${getCmsPath(
-      nav?.uri ? stripLocaleFromUri(nav?.uri) : ''
-    )}`;
-  };
-
-  const changeLanguage = (newLanguage: LanguageSelectorLanguage) => {
-    navigate({
-      pathname: updateLocaleParam(pathname, locale, newLanguage),
-      search,
-    });
-  };
-  const getLanguageOptions = (): MenuItem[] => {
-    const createOptions = (languages: LanguageSelectorLanguage[]) =>
-      languages.map((language) => ({
-        language,
-        text: t(`header.languages.${language}`),
-        value: language,
-      }));
-
-    if (process.env.REACT_APP_LANGUAGE_CIMODE_VISIBLE === 'true') {
-      return createOptions(Object.values(ROUTER_LANGUAGES));
-    }
-    return createOptions(Object.values(SUPPORT_LANGUAGES));
-  };
-  const handleLanguageChange = (item: MenuItem) => {
-    changeLanguage(item.language || 'fi');
-  };
-  return (
-    <Navigation.LanguageSelector
-      buttonAriaLabel={t('header.changeLanguage')}
-      label={locale.toUpperCase()}
-      closeOnItemClick
-    >
-      {getLanguageOptions().map((option) => {
-        const handleOnClick = isCmsPage
-          ? () => navigate(getCmsHref(option.value))
-          : () => handleLanguageChange(option);
-        return (
-          <Navigation.Item
-            key={option.value}
-            lang={option.value}
-            label={option.text}
-            onClick={handleOnClick}
-          />
-        );
-      })}
-    </Navigation.LanguageSelector>
+      >
+        {t('header.userMenu.logout')}
+      </HDSButton>
+    </HDSHeader.ActionBarItem>
   );
 };
 

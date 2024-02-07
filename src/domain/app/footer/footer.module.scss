@@ -1,63 +1,7 @@
-@import 'layout';
-@import 'mixins';
 @import 'variables';
-
-$logoHeight: 3rem;
-$logoWidth: 5rem;
 
 .footer {
   display: grid;
-  color: var(--color-black);
-
-  .links {
-    display: flex;
-
-    a {
-      color: var(--color-black);
-      margin-left: $baseMargin;
-    }
-  }
-}
-
-.footerWrapper {
-  background-color: var(--color-black-5);
-  position: relative;
-  display: grid;
-  align-items: center;
-  padding: $basePadding 0;
-
-  > div {
-    padding: 0;
-  }
-}
-
-.helsinkiLogo {
-  @include helsinki-logo(var(--color-black));
-
-  background-position: center;
-  height: $logoHeight;
-  width: $logoWidth;
-  margin-bottom: $baseMargin;
-}
-
-.copyright {
-  border-top: 1px solid var(--color-black-60);
-  padding-top: $basePadding;
-  display: flex;
-  justify-content: space-between;
-
-  p {
-    margin: 0;
-    color: var(--color-black-60);
-  }
-}
-
-.koros {
-  position: absolute;
-  top: -1.25rem;
-
-  svg {
-    height: 1.25rem;
-    fill: var(--color-black-5);
-  }
+  margin-top: calc(var(--spacing-xl) * -1);
+  --footer-background: var(--color-black-10);
 }
