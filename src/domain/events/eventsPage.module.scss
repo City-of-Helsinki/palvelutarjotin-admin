@@ -25,11 +25,11 @@
   .comingEventsTitleWrapper {
     display: grid;
 
-    @include respond_above(sm) {
+    @include respond_above(m) {
       grid-template-columns: 1fr auto;
     }
 
-    @include respond_below(sm) {
+    @include respond_below(m) {
       h2 {
         order: 1;
       }
@@ -40,7 +40,7 @@
     display: grid;
     grid-gap: var(--grid-gap);
 
-    @include respond_above(sm) {
+    @include respond_above(m) {
       grid-template-columns: var(--width-input) 1fr auto;
     }
   }

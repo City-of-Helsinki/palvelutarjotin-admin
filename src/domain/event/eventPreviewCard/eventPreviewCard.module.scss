@@ -35,7 +35,7 @@
   text-decoration: none;
   color: black;
 
-  @include respond_above(sm) {
+  @include respond_above(m) {
     grid-template-columns: var(--width-image) 1fr;
   }
 
@@ -45,7 +45,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 
-    @include respond_above(sm) {
+    @include respond_above(m) {
       min-height: var(--height-image);
     }
   }
@@ -75,7 +75,7 @@
     grid-gap: var(--spacing-m);
     margin-top: var(--spacing-m);
 
-    @include respond_above(sm) {
+    @include respond_above(m) {
       grid-template-columns: 1fr 1fr;
     }
   }

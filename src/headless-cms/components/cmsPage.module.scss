@@ -63,19 +63,19 @@
     margin: 0;
   }
 
-  @include respond-above(sm) {
+  @include respond-above(m) {
     flex-direction: row;
   }
 
   &Main {
-    @include respond-above(sm) {
+    @include respond-above(m) {
       flex-basis: 66.666%;
       margin-right: var(--spacing-xs);
     }
   }
 
   &Aside {
-    @include respond-above(sm) {
+    @include respond-above(m) {
       flex-basis: 33.333%;
       margin-left: var(--spacing-xs);
     }

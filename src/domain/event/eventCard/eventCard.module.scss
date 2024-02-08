@@ -32,7 +32,7 @@
     outline: 2px var(--color-coat-of-arms) solid;
   }
 
-  @include respond_above(sm) {
+  @include respond_above(m) {
     grid-template-columns: var(--width-image) 1fr;
   }
 
@@ -42,7 +42,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 
-    @include respond_above(sm) {
+    @include respond_above(m) {
       min-height: var(--height-image);
     }
   }
