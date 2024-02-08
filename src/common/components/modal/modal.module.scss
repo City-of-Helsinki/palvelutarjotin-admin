@@ -47,7 +47,7 @@
   padding: var(--spacing-modal);
   outline: none;
 
-  @include respond-below(md) {
+  @include respond-below(l-plus) {
     position: fixed;
     top: 0;
     left: 0;
@@ -55,7 +55,7 @@
     bottom: 0;
   }
 
-  @include respond-above(md) {
+  @include respond-above(l-plus) {
     width: var(--width-modal);
   }
 }

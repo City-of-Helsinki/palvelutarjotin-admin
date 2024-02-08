@@ -7,7 +7,7 @@
   grid-gap: var(--grid-gap);
   align-items: center;
 
-  @include respond_above(sm) {
+  @include respond_above(m) {
     grid-template-columns: 1fr auto auto;
   }
 }

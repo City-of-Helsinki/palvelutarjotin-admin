@@ -35,7 +35,7 @@
     width: 300px;
     margin-top: var(--content-spacing);
 
-    @include respond_above(sm) {
+    @include respond_above(m) {
       margin-top: 4rem;
     }
   }

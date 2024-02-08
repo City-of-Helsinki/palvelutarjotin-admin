@@ -1,21 +1,29 @@
+@import '~hds-design-tokens/lib/breakpoint/all.scss';
+
 //
 //  MEDIA QUERIES
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
+// Custom breakpoints for backward (i.e. pre HDS v3.5 upgrade) layout compatibility
+$custom-breakpoint-l-plus: $breakpoint-l + 32px; // 1024px
+$custom-breakpoint-xxl: $breakpoint-xl + $breakpoint-xs + 32px; // 1600px
+
 // A map of breakpoints.
 $breakpoints: (
-  xs: 576px,
-  sm: 768px,
-  md: 1024px,
-  lg: 1200px,
-  xlg: 1600px,
+  xs: $breakpoint-xs,
+  s: $breakpoint-s,
+  m: $breakpoint-m,
+  l: $breakpoint-l,
+  l-plus: $custom-breakpoint-l-plus,
+  xl: $breakpoint-xl,
+  xxl: $custom-breakpoint-xxl,
 );
 
 //
 //  RESPOND ABOVE
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
-// @include respond-above(sm) {}
+// @include respond-above(m) {}
 @mixin respond-above($breakpoint) {
   // If the breakpoint exists in the map.
   @if map-has-key($breakpoints, $breakpoint) {
@@ -38,7 +46,7 @@ $breakpoints: (
 //  RESPOND BELOW
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
-// @include respond-below(sm) {}
+// @include respond-below(m) {}
 @mixin respond-below($breakpoint) {
   // If the breakpoint exists in the map.
   @if map-has-key($breakpoints, $breakpoint) {
@@ -61,7 +69,7 @@ $breakpoints: (
 //  RESPOND BETWEEN
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
-// @include respond-between(sm, md) {}
+// @include respond-between(m, l-plus) {}
 @mixin respond-between($lower, $upper) {
   // If both the lower and upper breakpoints exist in the map.
   @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {

@@ -20,7 +20,7 @@
   grid-gap: var(--grid-gap);
   margin-bottom: var(--spacing-l);
 
-  @include respond_above(md) {
+  @include respond_above(l-plus) {
     grid-template-columns: 1fr var(--date-column-width) 100px 180px repeat(
         3,
         100px
@@ -28,7 +28,7 @@
   }
 
   &Multiday {
-    @include respond_above(md) {
+    @include respond_above(l-plus) {
       grid-template-columns:
         1fr var(--date-column-width) calc(280px + var(--grid-gap))
         repeat(3, 100px);
@@ -40,7 +40,7 @@
   display: grid;
   grid-gap: var(--grid-gap);
 
-  @include respond_above(md) {
+  @include respond_above(l-plus) {
     grid-template-columns: 170px 100px;
   }
 }
