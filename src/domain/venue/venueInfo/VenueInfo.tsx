@@ -1,10 +1,9 @@
-import { IconGroup, IconSignout } from 'hds-react';
+import { IconGroup, IconRestaurant, IconSignout } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { useVenueQuery } from '../../../generated/graphql';
-import IconFood from '../../../icons/IconFood';
 import IconGarderobe from '../../../icons/IconGarderobe';
 import IconPlayIndoor from '../../../icons/IconPlayIndoor';
 import IconPlayOutdoor from '../../../icons/IconPlayOutdoor';
@@ -50,7 +49,7 @@ const VenueInfo: React.FC<Props> = ({ language, placeId }) => {
         <div className={styles.venueAmenities}>
           {hasSnackEatingPlace && (
             <div>
-              <IconFood />
+              <IconRestaurant />
               {t('eventDetails.location.snackEatingPlace')}
             </div>
           )}

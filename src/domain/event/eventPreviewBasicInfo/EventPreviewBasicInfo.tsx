@@ -1,11 +1,10 @@
-import { IconFaceSmile, IconInfoCircle } from 'hds-react';
+import { IconFaceSmile, IconInfoCircle, IconTicket } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import IconTicket from '../../../icons/IconTicket';
 import addUrlSlashes from '../../../utils/addUrlSlashes';
 import EventKeywords from '../eventKeywords/EventKeywords';
 import { getEventFields } from '../utils';

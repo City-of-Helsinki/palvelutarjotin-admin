@@ -1,8 +1,7 @@
-import { IconEye, IconUser } from 'hds-react';
+import { IconClock, IconEye, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import IconClock from '../../../icons/IconClock';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEventPlaceholderImage } from '../utils';
