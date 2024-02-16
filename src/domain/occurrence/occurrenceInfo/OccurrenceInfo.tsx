@@ -1,5 +1,5 @@
 import isSameDay from 'date-fns/isSameDay';
-import { Button, IconLocation, IconPen, IconUser } from 'hds-react';
+import { Button, IconClock, IconLocation, IconPen, IconUser } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,6 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
-import IconClock from '../../../icons/IconClock';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import {
   DATE_FORMAT,

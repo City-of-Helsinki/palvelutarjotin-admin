@@ -1,6 +1,6 @@
 import { saveAs } from 'file-saver';
 import {
-  IconCalendar,
+  IconCalendarPlus,
   IconCross,
   IconCrossCircle,
   IconPenLine,
@@ -158,7 +158,7 @@ const ActionsDropdown: React.FC<Props> = ({
       onClick: downloadIcsFile,
       children: (
         <>
-          <IconCalendar />
+          <IconCalendarPlus />
           {t('occurrences.actionsDropdown.menuItemAddToCalendar')}
         </>
       ),
