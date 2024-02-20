@@ -54,6 +54,9 @@ ARG REACT_APP_API_REPORT_URI
 # Linkedevents api url
 ARG REACT_APP_LINKEDEVENTS_API_URI
 
+# Application's origin (i.e. where this application is hosted)
+ARG REACT_APP_ORIGIN
+
 # Release information
 ARG REACT_APP_RELEASE
 ARG REACT_APP_COMMITHASH
