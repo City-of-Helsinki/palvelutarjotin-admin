@@ -82,7 +82,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Codegen settings in <b>codegen.yml</b>
 
-- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_ADD_API_URL in .env.development.local
+- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_APP_API_URI in .env file.
 - Generate react hooks for GraphQL queries from <b>query.ts</b> and <b>mutation.ts</b> files.
 
 ### `yarn storybook`
@@ -172,7 +172,7 @@ Clone the [palvelutarjotin repository](https://github.com/City-of-Helsinki/palve
 
 ### palvelutarjotin-admin-ui
 
-Copy `cp .env.development.local.example .env.development.local`
+Copy `cp .env.example .env`
 
 Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
 `docker-compose down` stops the container.
