@@ -1,22 +1,25 @@
+// WORKAROUND: Marked all styles !important so they apply even if CSS order varies.
+//             Switching from CRA/Craco to Vite might remove the need for this hack.
+@import 'layout';
 @import 'variables';
 
 @mixin active {
-  color: var(--color-white);
-  background-color: var(--color-bus);
+  color: var(--color-white) !important;
+  background-color: var(--color-bus) !important;
 }
 
 .userMenuDropdown {
-  border-color: var(--color-black-90);
+  border-color: var(--color-black-90) !important;
 }
 
 .dropdownButton {
-  min-width: $breakpoint-xs;
-  text-align: left;
-  justify-content: left;
+  min-width: $breakpoint-xs !important;
+  text-align: left !important;
+  justify-content: left !important;
   max-height: 40px !important;
-  --min-size: 40px;
-  font-weight: normal;
-  color: var(--color-black-90);
+  --min-size: 40px !important;
+  font-weight: normal !important;
+  color: var(--color-black-90) !important;
 
   svg {
     // To make sure the icon size stays the same,
@@ -28,7 +31,7 @@
   }
 
   &:focus {
-    outline-color: var(--color-focus-outline);
+    outline-color: var(--color-focus-outline) !important;
   }
 
   &:hover {
