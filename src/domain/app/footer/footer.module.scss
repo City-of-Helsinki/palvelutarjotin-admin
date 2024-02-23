@@ -3,5 +3,5 @@
 .footer {
   display: grid;
   margin-top: calc(var(--spacing-xl) * -1);
-  --footer-background: var(--color-black-10);
+  --footer-background: var(--color-black-10) !important;
 }
