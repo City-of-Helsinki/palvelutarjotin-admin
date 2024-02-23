@@ -55,7 +55,7 @@ const Header: React.FC = () => {
     });
 
     return `/${language.toLowerCase()}${getCmsPath(
-      nav?.uri ? stripLocaleFromUri(nav?.uri) : ''
+      stripLocaleFromUri(nav?.uri ?? '')
     )}`;
   };
 
@@ -95,7 +95,9 @@ const Header: React.FC = () => {
     })) ?? [];
 
   const languagesQuery = useLanguagesQuery();
-  const languages = languagesQuery.data?.languages?.filter(skipFalsyType<RHHCLanguage | null>);
+  const languages = languagesQuery.data?.languages?.filter(
+    skipFalsyType<RHHCLanguage | null>
+  );
 
   const menuQuery = useMenuQuery({
     skip: !isAuthenticated,

@@ -1,23 +1,19 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import React from 'react';
-import type { Config, ModuleItemTypeEnum } from 'react-helsinki-headless-cms';
+import type { Config } from 'react-helsinki-headless-cms';
 import { defaultConfig as rhhcDefaultConfig } from 'react-helsinki-headless-cms';
 import { useTranslation } from 'react-i18next';
 
 import AppConfig from '../domain/app/AppConfig';
 import { MAIN_CONTENT_ID } from '../domain/app/layout/PageLayout';
 import { getCmsPath } from '../domain/app/routes/utils';
+import { stripLocaleFromUri } from '../headless-cms/utils';
 import getLanguageCode from '../utils/getLanguageCode';
 import useLocale from './useLocale';
 
 const getIsHrefExternal = (href: string) =>
   !href?.startsWith('/') &&
   !AppConfig.internalHrefOrigins.some((origin) => href?.includes(origin));
-
-const getRoutedInternalHref = (
-  link?: string | null,
-  type?: ModuleItemTypeEnum
-): string => getCmsPath(link ?? '');
 
 type Props = {
   apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -49,7 +45,10 @@ export default function useRHHCConfig({
       utils: {
         ...rhhcDefaultConfig.utils,
         getIsHrefExternal,
-        getRoutedInternalHref,
+        getRoutedInternalHref: (link?: string | null) =>
+          `/${locale.toLowerCase()}${getCmsPath(
+            stripLocaleFromUri(link ?? '')
+          )}`,
       },
       internalHrefOrigins: AppConfig.internalHrefOrigins,
       copy: {
