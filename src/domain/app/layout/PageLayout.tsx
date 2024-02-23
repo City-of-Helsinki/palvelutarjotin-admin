@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -14,7 +13,6 @@ import {
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import LoginPage from '../login/LoginPage';
-import { useMobileMenuContext } from '../mobileMenu/MobileMenu';
 import { ROUTES } from '../routes/constants';
 import { getCmsPath } from '../routes/utils';
 import styles from './pageLayout.module.scss';
@@ -24,7 +22,6 @@ export const MAIN_CONTENT_ID = 'main-content';
 
 const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { pathname } = useLocation() ?? { pathname: '' };
-  const { isMobileMenuOpen } = useMobileMenuContext();
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const isLoadingUser = useAppSelector(isLoadingUserSelector);
   const { loading: loadingMyProfile } = useMyProfileQuery({
@@ -38,13 +35,7 @@ const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <div className={styles.pageLayout}>
       <Header />
-      <div
-        aria-hidden={isMobileMenuOpen}
-        className={classNames(styles.pageBody, {
-          [styles.mobileMenuOpen]: isMobileMenuOpen,
-        })}
-        id={MAIN_CONTENT_ID}
-      >
+      <div className={styles.pageBody} id={MAIN_CONTENT_ID}>
         {/* Make sure that loading spinner is not restarted on callback page */}
         <LoadingSpinner
           isLoading={
