@@ -14,7 +14,6 @@ import cmsClient from '../../headless-cms/client';
 import useRHHCConfig from '../../hooks/useRHHCConfig';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
-import { MobileMenuProvider } from './mobileMenu/MobileMenu';
 import AppRoutes from './routes/AppRoutes';
 import { FORCE_SCROLL_TO_TOP, IGNORE_SCROLL_TO_TOP } from './routes/constants';
 import ScrollToTop from './ScrollToTop';
@@ -37,13 +36,11 @@ const App = () => {
         <ApolloProvider client={apolloClient}>
           <RHHCConfigProvider config={rhhcConfig}>
             <BrowserRouter>
-              <MobileMenuProvider>
-                <ScrollToTop
-                  ignoredPaths={IGNORE_SCROLL_TO_TOP}
-                  forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}
-                />
-                <AppRoutes />
-              </MobileMenuProvider>
+              <ScrollToTop
+                ignoredPaths={IGNORE_SCROLL_TO_TOP}
+                forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}
+              />
+              <AppRoutes />
             </BrowserRouter>
           </RHHCConfigProvider>
         </ApolloProvider>
