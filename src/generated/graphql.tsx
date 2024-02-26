@@ -1509,6 +1509,9 @@ export type QueryEventsArgs = {
   keyword?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   keywordAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   keywordNot?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  keywordOrSet1?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  keywordOrSet2?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  keywordOrSet3?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   language?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   nearbyDistance?: InputMaybe<Scalars['Float']['input']>;

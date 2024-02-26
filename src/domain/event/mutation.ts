@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 export const MUTATION_EVENT = gql`
   mutation CreateEvent($event: AddEventMutationInput!) {
