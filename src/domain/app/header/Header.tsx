@@ -70,7 +70,9 @@ const Header: React.FC = () => {
     const pathWithoutTrailingSlash = (menuItem.path ?? '').replace(/\/$/, '');
     return (
       typeof window !== 'undefined' &&
-      window.location.pathname.includes(getCmsPath(pathWithoutTrailingSlash))
+      window.location.pathname.includes(
+        `/${locale}${getCmsPath(stripLocaleFromUri(pathWithoutTrailingSlash))}`
+      )
     );
   };
 
