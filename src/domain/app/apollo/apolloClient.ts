@@ -2,13 +2,12 @@ import {
   ApolloClient,
   ApolloLink,
   defaultDataIdFromObject,
+  HttpLink,
   InMemoryCache,
   StoreObject,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import * as Sentry from '@sentry/browser';
-import { createUploadLink } from 'apollo-upload-client';
 import { ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 
@@ -86,7 +85,7 @@ export const createApolloCache = () =>
     },
   });
 
-const httpLink = createUploadLink({
+const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_URI,
 });
 
@@ -120,20 +119,22 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = apiTokenSelector(store.getState());
-
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : null,
-      'Accept-language': i18n.language,
-    },
-  };
+const authLink = new ApolloLink((operation, forward) => {
+  operation.setContext(({ headers = {} }) => {
+    const token = apiTokenSelector(store.getState());
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : null,
+        'Accept-language': i18n.language,
+      },
+    };
+  });
+  return forward(operation);
 });
 
 const apolloClient = new ApolloClient({
-  link: ApolloLink.from([errorLink, authLink, httpLink as any]),
+  link: ApolloLink.from([errorLink, authLink, httpLink]),
   cache: createApolloCache(),
 });
 

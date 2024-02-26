@@ -56,27 +56,18 @@ export enum AvatarRatingEnum {
   X = 'X'
 }
 
-/** Breadcumb field */
-export type Breadcrumb = {
-  __typename?: 'Breadcrumb';
-  /** The title of the page */
-  title?: Maybe<Scalars['String']['output']>;
-  /** The link of the page. */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
-/** Kortin kenttä */
+/** Card field */
 export type Card = {
   __typename?: 'Card';
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Ikoni */
+  /** Icon */
   icon?: Maybe<Scalars['String']['output']>;
-  /** Linkki */
+  /** Link */
   link?: Maybe<Link>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -490,7 +481,7 @@ export type CategoryToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxon
 /** The collection type */
 export type Collection = ContentNode & DatabaseIdentifier & Node & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
   __typename?: 'Collection';
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -507,7 +498,7 @@ export type Collection = ContentNode & DatabaseIdentifier & Node & NodeWithRevis
   date?: Maybe<Scalars['String']['output']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
   /** The desired slug of the post */
   desiredSlug?: Maybe<Scalars['String']['output']>;
@@ -525,7 +516,7 @@ export type Collection = ContentNode & DatabaseIdentifier & Node & NodeWithRevis
   guid?: Maybe<Scalars['String']['output']>;
   /** The globally unique identifier of the collection-cpt object. */
   id: Scalars['ID']['output'];
-  /** Kuva */
+  /** Image */
   image?: Maybe<Scalars['String']['output']>;
   /** Whether the node is a Content Node */
   isContentNode: Scalars['Boolean']['output'];
@@ -547,7 +538,7 @@ export type Collection = ContentNode & DatabaseIdentifier & Node & NodeWithRevis
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /** Connection between the Collection type and the collection type */
   preview?: Maybe<CollectionToPreviewConnectionEdge>;
@@ -561,7 +552,7 @@ export type Collection = ContentNode & DatabaseIdentifier & Node & NodeWithRevis
   revisions?: Maybe<CollectionToRevisionConnection>;
   /** The SEO Framework data of the collection */
   seo?: Maybe<Seo>;
-  /** Näytä etusivulla */
+  /** Show on front page */
   showOnFrontPage?: Maybe<Scalars['Boolean']['output']>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']['output']>;
@@ -1109,7 +1100,7 @@ export type Contact = ContentNode & DatabaseIdentifier & Node & NodeWithFeatured
   date?: Maybe<Scalars['String']['output']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
   /** The desired slug of the post */
   desiredSlug?: Maybe<Scalars['String']['output']>;
@@ -1127,7 +1118,7 @@ export type Contact = ContentNode & DatabaseIdentifier & Node & NodeWithFeatured
   featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** Globally unique ID of the featured image assigned to the node */
   featuredImageId?: Maybe<Scalars['ID']['output']>;
-  /** Etunimi */
+  /** First name */
   firstName?: Maybe<Scalars['String']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
@@ -1149,7 +1140,7 @@ export type Contact = ContentNode & DatabaseIdentifier & Node & NodeWithFeatured
   language?: Maybe<Language>;
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Sukunimi */
+  /** Last name */
   lastName?: Maybe<Scalars['String']['output']>;
   /** The permalink of the post */
   link?: Maybe<Scalars['String']['output']>;
@@ -2187,7 +2178,7 @@ export type DateQueryInput = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Oletuskuva */
+/** Default images of different post types. Returns url of image of queried post type. Values come from Sivuston Asetukset -&gt; Oletuskuvat. */
 export type DefaultImages = {
   __typename?: 'DefaultImages';
   /** Attachment URL for article image */
@@ -2579,14 +2570,14 @@ export type EnqueuedStylesheetConnectionEdge = {
   node: EnqueuedStylesheet;
 };
 
-/** Kokoelmamoduuli: EventSearch */
+/** Collection Module: EventSearch */
 export type EventSearch = {
   __typename?: 'EventSearch';
-  /** Listattujen tapahtumien määrä “Näytä lisää” -painiketta */
+  /** Amount of events listed before &quot;show more -button&quot; */
   initAmountOfEvents?: Maybe<Scalars['Int']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /**
    * Show all -link, final link is combination of Tapahtuma- ja kurssikarusellin
@@ -2595,26 +2586,26 @@ export type EventSearch = {
    *
    */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLinkCustom?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
-  /** Hakukysely */
+  /** Search query */
   url?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: EventSearchCarousel */
+/** Collection Module: EventSearchCarousel */
 export type EventSearchCarousel = {
   __typename?: 'EventSearchCarousel';
-  /** Korttien määrä karusellissa */
+  /** Amount of cards in carousel */
   amountOfCards?: Maybe<Scalars['Int']['output']>;
-  /** Tapahtumat lähellä */
+  /** Events nearby */
   eventsNearby?: Maybe<Scalars['Boolean']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Tapahtumien järjestys */
+  /** Events order */
   orderNewestFirst?: Maybe<Scalars['Boolean']['output']>;
   /**
    * Show all -link, final link is combination of Tapahtuma- ja kurssikarusellin
@@ -2623,70 +2614,68 @@ export type EventSearchCarousel = {
    *
    */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLinkCustom?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
-  /** Hakukysely */
+  /** Search query */
   url?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: EventSelected */
+/** Collection Module: EventSelected */
 export type EventSelected = {
   __typename?: 'EventSelected';
-  /** Lista tapahtumien ID-tiedoista */
+  /** List of event IDs */
   events?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Listattujen tapahtumien määrä “Näytä lisää” -painiketta */
+  /** Amount of events listed before &quot;show more -button&quot; */
   initAmountOfEvents?: Maybe<Scalars['Int']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: EventSelectedCarousel */
+/** Collection Module: EventSelectedCarousel */
 export type EventSelectedCarousel = {
   __typename?: 'EventSelectedCarousel';
-  /** Korttien määrä karusellissa */
+  /** Amount of cards in carousel */
   amountOfCards?: Maybe<Scalars['Int']['output']>;
-  /** Korttien määrä riviä kohden */
+  /** Amount of cards per row */
   amountOfCardsPerRow?: Maybe<Scalars['Int']['output']>;
-  /** Lista tapahtumien ID-tiedoista */
+  /** List of event IDs */
   events?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Tapahtumat lähellä */
+  /** Events nearby */
   eventsNearby?: Maybe<Scalars['Boolean']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
-export type FooterBlocksUnion = LayoutEditor | LayoutImage | LayoutMenu;
-
-/** Galleriakuva */
+/** Gallery Image */
 export type GalleryImage = {
   __typename?: 'GalleryImage';
-  /** Kuvan lainaus */
+  /** Caption of the image */
   caption?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description of the image */
   description?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (large) URL-osoite */
+  /** The url of the large image */
   large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium) URL-osoite */
+  /** The url of the medium image */
   medium?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium large) URL-osoite */
+  /** The url of the medium large image */
   medium_large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan URL-osoite */
+  /** The url of the thumbnail image */
   thumbnail?: Maybe<Scalars['String']['output']>;
-  /** Kuvan otsikko */
+  /** Title of the image */
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2711,22 +2700,20 @@ export type GeneralSettings = {
   url?: Maybe<Scalars['String']['output']>;
 };
 
-export type GlobalSidebarBlocksUnion = LayoutArticleHighlights | LayoutArticles | LayoutEditor;
-
-/** Hero kenttä */
+/** Hero field */
 export type Hero = {
   __typename?: 'Hero';
-  /** Hero taustaväri */
+  /** The background color of the hero */
   background_color?: Maybe<Scalars['String']['output']>;
-  /** Hero taustaväri */
+  /** The background color of the hero */
   background_image_url?: Maybe<Scalars['String']['output']>;
-  /** Hero sisältö */
+  /** The desctiption of the hero */
   description?: Maybe<Scalars['String']['output']>;
-  /** Hero linkin otsikko */
+  /** The title of the hero link */
   link?: Maybe<Link>;
-  /** Hero otsikko */
+  /** The title of the hero */
   title?: Maybe<Scalars['String']['output']>;
-  /** Heron koro */
+  /** The wave motif of the hero */
   wave_motif?: Maybe<Scalars['String']['output']>;
 };
 
@@ -3033,29 +3020,29 @@ export type HierarchicalTermNodeEnqueuedStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Kuva */
+/** Image */
 export type Image = {
   __typename?: 'Image';
-  /** Kuvan lainaus */
+  /** Caption of the image */
   caption?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description of the image */
   description?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (large) URL-osoite */
+  /** The url of the large image */
   large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium) URL-osoite */
+  /** The url of the medium image */
   medium?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium large) URL-osoite */
+  /** The url of the medium large image */
   medium_large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan URL-osoite */
+  /** The url of the thumbnail image */
   thumbnail?: Maybe<Scalars['String']['output']>;
-  /** Kuvan otsikko */
+  /** Title of the image */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** The landingPage type */
 export type LandingPage = ContentNode & DatabaseIdentifier & Node & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
   __typename?: 'LandingPage';
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
   /** Box Color */
   boxColor?: Maybe<Scalars['String']['output']>;
@@ -3069,7 +3056,7 @@ export type LandingPage = ContentNode & DatabaseIdentifier & Node & NodeWithRevi
   date?: Maybe<Scalars['String']['output']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
   /** The desired slug of the post */
   desiredSlug?: Maybe<Scalars['String']['output']>;
@@ -3118,7 +3105,7 @@ export type LandingPage = ContentNode & DatabaseIdentifier & Node & NodeWithRevi
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /** Connection between the LandingPage type and the landingPage type */
   preview?: Maybe<LandingPageToPreviewConnectionEdge>;
@@ -3529,89 +3516,89 @@ export enum LanguageCodeFilterEnum {
 /** Layout: LayoutArticleHighlights */
 export type LayoutArticleHighlights = {
   __typename?: 'LayoutArticleHighlights';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Artikkelit */
+  /** Articles */
   articles?: Maybe<Array<Maybe<Post>>>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kategoria */
+  /** Category */
   category?: Maybe<Scalars['Int']['output']>;
-  /** Valitse montako artikkelia näytetään */
+  /** Amount of articles to list */
   limit?: Maybe<Scalars['Int']['output']>;
-  /** Näytä lisää linkki */
+  /** Show more link */
   showMore?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Tagi */
+  /** Tag */
   tag?: Maybe<Scalars['Int']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutArticles */
 export type LayoutArticles = {
   __typename?: 'LayoutArticles';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Artikkelit */
+  /** Articles */
   articles?: Maybe<Array<Maybe<Post>>>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kategoria */
+  /** Category */
   category?: Maybe<Scalars['Int']['output']>;
-  /** Tagi */
+  /** Tag */
   limit?: Maybe<Scalars['Int']['output']>;
-  /** Näytä lisää linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Tagi */
+  /** Tag */
   tag?: Maybe<Scalars['Int']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutArticlesCarousel */
 export type LayoutArticlesCarousel = {
   __typename?: 'LayoutArticlesCarousel';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Artikkelit */
+  /** Articles */
   articles?: Maybe<Array<Maybe<Post>>>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kategoria */
+  /** Category */
   category?: Maybe<Scalars['Int']['output']>;
-  /** Valitse montako artikkelia näytetään */
+  /** Amount of articles to list */
   limit?: Maybe<Scalars['Int']['output']>;
-  /** Näytä lisää linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Näytä lisää linkki */
+  /** Show more link */
   showMore?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Tagi */
+  /** Tag */
   tag?: Maybe<Scalars['Int']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutCard */
 export type LayoutCard = {
   __typename?: 'LayoutCard';
-  /** Tasaus */
+  /** Alignment */
   alignment?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Kuva */
+  /** Image */
   image?: Maybe<Image>;
-  /** Linkki */
+  /** Link */
   link?: Maybe<Link>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutCards */
 export type LayoutCards = {
   __typename?: 'LayoutCards';
-  /** Ikoni kortti */
+  /** Cards */
   cards?: Maybe<Array<Maybe<Card>>>;
 };
 
@@ -3636,153 +3623,139 @@ export type LayoutContact = {
 /** Layout: LayoutContent */
 export type LayoutContent = {
   __typename?: 'LayoutContent';
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   content?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
-};
-
-/** Layout: LayoutEditor */
-export type LayoutEditor = {
-  __typename?: 'LayoutEditor';
-  /** Editor */
-  editor?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutImage */
 export type LayoutImage = {
   __typename?: 'LayoutImage';
-  /** Reunus */
+  /** Border */
   border?: Maybe<Scalars['Boolean']['output']>;
-  /** Kuva */
+  /** Image */
   image?: Maybe<Image>;
-  /** Valokuvaajan nimi (ylikirjoitus) */
+  /** Photographer name (overwrite) */
   photographer_name?: Maybe<Scalars['String']['output']>;
-  /** Näytä lighboxissa */
+  /** Show on lightbox */
   show_on_lightbox?: Maybe<Scalars['Boolean']['output']>;
 };
 
 /** Layout: LayoutImageGallery */
 export type LayoutImageGallery = {
   __typename?: 'LayoutImageGallery';
-  /** Galleria */
+  /** Gallery */
   gallery?: Maybe<Array<Maybe<GalleryImage>>>;
 };
 
 /** Layout: LayoutLinkList */
 export type LayoutLinkList = {
   __typename?: 'LayoutLinkList';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   description?: Maybe<Scalars['String']['output']>;
-  /** Linkit */
+  /** Links */
   links?: Maybe<Array<Maybe<Link>>>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
-};
-
-/** Layout: LayoutMenu */
-export type LayoutMenu = {
-  __typename?: 'LayoutMenu';
-  /** Menu */
-  menu?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutPages */
 export type LayoutPages = {
   __typename?: 'LayoutPages';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Sivut */
+  /** Pages */
   pages?: Maybe<Array<Maybe<Page>>>;
-  /** Näytä lisää linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutPagesCarousel */
 export type LayoutPagesCarousel = {
   __typename?: 'LayoutPagesCarousel';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Sivut */
+  /** Pages */
   pages?: Maybe<Array<Maybe<Page>>>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutSocialMediaFeed */
 export type LayoutSocialMediaFeed = {
   __typename?: 'LayoutSocialMediaFeed';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Scripti */
+  /** Script */
   script?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutSteps */
 export type LayoutSteps = {
   __typename?: 'LayoutSteps';
-  /** Väri */
+  /** Color */
   color?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Vaiheistus */
+  /** Steps */
   steps?: Maybe<Array<Maybe<Step>>>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
-  /** Tyyppi */
+  /** Type */
   type?: Maybe<Scalars['String']['output']>;
 };
 
-/** Linkin kenttä */
+/** Link field */
 export type Link = {
   __typename?: 'Link';
-  /** Linkin kohde */
+  /** The target of the link */
   target?: Maybe<Scalars['String']['output']>;
-  /** Linkin otsikko */
+  /** The title of the link */
   title?: Maybe<Scalars['String']['output']>;
-  /** Linkin URL osoite */
+  /** The url of the link */
   url?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: LocationsSelected */
+/** Collection Module: LocationsSelected */
 export type LocationsSelected = {
   __typename?: 'LocationsSelected';
   /** List of location IDs */
   locations?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
   /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /** Module title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: LocationsSelectedCarousel */
+/** Collection Module: LocationsSelectedCarousel */
 export type LocationsSelectedCarousel = {
   __typename?: 'LocationsSelectedCarousel';
   /** List of location IDs */
   locations?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
   /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /** Module title */
   title?: Maybe<Scalars['String']['output']>;
@@ -4575,22 +4548,22 @@ export type NodeWithTitleTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
-/** Selitä mikä CustomType on */
+/** Describe what a CustomType is */
 export type Notification = {
   __typename?: 'Notification';
-  /** Ilmoituksen sisältö */
+  /** Notification content */
   content?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen päättymispäivä */
+  /** Notification end date */
   endDate?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen tärkeys */
+  /** Notification level */
   level?: Maybe<Scalars['String']['output']>;
-  /** Ilmoitus linkin teksti */
+  /** Notification link text */
   linkText?: Maybe<Scalars['String']['output']>;
-  /** Ilmoitus linkin url */
+  /** Notification link url */
   linkUrl?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen aloituspäivä */
+  /** Notification start date */
   startDate?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen otsikko */
+  /** Notification title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -4621,8 +4594,6 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   authorDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']['output']>;
-  /** Breadcrumb fields */
-  breadcrumbs?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** Connection between the HierarchicalContentNode type and the ContentNode type */
   children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
   /** The content of the post. */
@@ -4657,7 +4628,7 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
-  /** Hero kentät */
+  /** Hero fields */
   hero?: Maybe<Hero>;
   /** The globally unique identifier of the page object. */
   id: Scalars['ID']['output'];
@@ -4691,7 +4662,7 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduuli listaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<PageModulesUnionType>>>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
@@ -4718,7 +4689,7 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   seo?: Maybe<Seo>;
   /** Näytä alisivut */
   showChildPages?: Maybe<Scalars['Boolean']['output']>;
-  /** Moduuli listaus */
+  /** List of modules */
   sidebar?: Maybe<Array<Maybe<PageSidebarUnionType>>>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']['output']>;
@@ -4977,8 +4948,6 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   authorDatabaseId?: Maybe<Scalars['Int']['output']>;
   /** The globally unique identifier of the author of the node */
   authorId?: Maybe<Scalars['ID']['output']>;
-  /** Breadcrumb fields */
-  breadcrumbs?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** Connection between the Post type and the category type */
   categories?: Maybe<PostToCategoryConnection>;
   /** The content of the post. */
@@ -5013,7 +4982,7 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   featuredImageId?: Maybe<Scalars['ID']['output']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']['output']>;
-  /** Piilota julkaisupäivämäärä */
+  /** Hide Published Date */
   hidePublishedDate?: Maybe<Scalars['Boolean']['output']>;
   /** The globally unique identifier of the post object. */
   id: Scalars['ID']['output'];
@@ -5041,7 +5010,7 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   modified?: Maybe<Scalars['String']['output']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduuli listaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<PostModulesUnionType>>>;
   /** Connection between the Post type and the postFormat type */
   postFormats?: Maybe<PostToPostFormatConnection>;
@@ -5062,7 +5031,7 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   revisions?: Maybe<PostToRevisionConnection>;
   /** The SEO Framework data of the post */
   seo?: Maybe<Seo>;
-  /** Moduuli listaus */
+  /** List of modules */
   sidebar?: Maybe<Array<Maybe<PostSidebarUnionType>>>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']['output']>;
@@ -6750,7 +6719,7 @@ export type RootQuery = {
   categories?: Maybe<RootQueryToCategoryConnection>;
   /** A 0bject */
   category?: Maybe<Category>;
-  /** An object of the collection Type. Kokoelmat */
+  /** An object of the collection Type. Collections */
   collection?: Maybe<Collection>;
   /**
    * A collection object
@@ -6763,7 +6732,7 @@ export type RootQuery = {
   comment?: Maybe<Comment>;
   /** Connection between the RootQuery type and the Comment type */
   comments?: Maybe<RootQueryToCommentConnection>;
-  /** An object of the contact Type. Yhteystiedot */
+  /** An object of the contact Type. Contacts */
   contact?: Maybe<Contact>;
   /**
    * A contact object
@@ -6780,19 +6749,15 @@ export type RootQuery = {
   contentType?: Maybe<ContentType>;
   /** Connection between the RootQuery type and the ContentType type */
   contentTypes?: Maybe<RootQueryToContentTypeConnection>;
-  /** Oletuskuvat */
+  /** Default Images */
   defaultImages?: Maybe<DefaultImages>;
   /** Get language list */
   defaultLanguage?: Maybe<Language>;
   /** Fields of the &#039;DiscussionSettings&#039; settings group */
   discussionSettings?: Maybe<DiscussionSettings>;
-  /** Footer blocks */
-  footerBlocks?: Maybe<Array<Maybe<FooterBlocksUnion>>>;
   /** Fields of the &#039;GeneralSettings&#039; settings group */
   generalSettings?: Maybe<GeneralSettings>;
-  /** Global Sidebar blocks */
-  globalSidebarBlocks?: Maybe<Array<Maybe<GlobalSidebarBlocksUnion>>>;
-  /** An object of the landingPage Type. Laskeutumissivut */
+  /** An object of the landingPage Type. Landing Pages */
   landingPage?: Maybe<LandingPage>;
   /**
    * A landingPage object
@@ -6832,7 +6797,7 @@ export type RootQuery = {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   pageBy?: Maybe<Page>;
-  /** Palauttaa sivun ID:n, joka käyttää annettua sivupohjaa */
+  /** Returns ID of page that uses the given template */
   pageByTemplate?: Maybe<Page>;
   /** Connection between the RootQuery type and the page type */
   pages?: Maybe<RootQueryToPageConnection>;
@@ -6859,7 +6824,7 @@ export type RootQuery = {
   registeredScripts?: Maybe<RootQueryToEnqueuedScriptConnection>;
   /** Connection between the RootQuery type and the EnqueuedStylesheet type */
   registeredStylesheets?: Maybe<RootQueryToEnqueuedStylesheetConnection>;
-  /** An object of the release Type. Tiedotteet */
+  /** An object of the release Type. Releases */
   release?: Maybe<Release>;
   /**
    * A release object
@@ -6872,7 +6837,7 @@ export type RootQuery = {
   revisions?: Maybe<RootQueryToRevisionsConnection>;
   /** The SEO Framework settings */
   seoSettings?: Maybe<SeoSettings>;
-  /** Sivuston asetukset */
+  /** Site Settings */
   siteSettings?: Maybe<SiteSettings>;
   /** A 0bject */
   tag?: Maybe<Tag>;
@@ -6892,7 +6857,7 @@ export type RootQuery = {
   themes?: Maybe<RootQueryToThemeConnection>;
   /** Translate string using pll_translate_string() (Polylang) */
   translateString?: Maybe<Scalars['String']['output']>;
-  /** An object of the translation Type. Käännökset */
+  /** An object of the translation Type. Translations */
   translation?: Maybe<Translation>;
   /**
    * A translation object
@@ -7041,18 +7006,6 @@ export type RootQueryContentTypesArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryDefaultImagesArgs = {
-  language: Scalars['String']['input'];
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryFooterBlocksArgs = {
-  language: Scalars['String']['input'];
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryGlobalSidebarBlocksArgs = {
   language: Scalars['String']['input'];
 };
 
@@ -8839,12 +8792,12 @@ export type SiteSettings = {
   siteName?: Maybe<Scalars['String']['output']>;
 };
 
-/** Vaiheen kenttä */
+/** Step field */
 export type Step = {
   __typename?: 'Step';
-  /** Vaiheen sisältö */
+  /** The content of the step */
   content?: Maybe<Scalars['String']['output']>;
-  /** Vaiheen otsikko */
+  /** The title of the step */
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -9239,7 +9192,7 @@ export type TaxonomyToContentTypeConnectionEdge = ContentTypeConnectionEdge & Ed
   node: ContentType;
 };
 
-/** Hae sivuobjekti sivupohjan mukaan */
+/** Get page object by template */
 export enum TemplateEnum {
   FrontPage = 'frontPage',
   PostsPage = 'postsPage'
@@ -9500,7 +9453,7 @@ export type Translation = ContentNode & DatabaseIdentifier & Node & NodeWithRevi
    * @deprecated Deprecated in favor of the databaseId field
    */
   translationId: Scalars['Int']['output'];
-  /** Käännökset */
+  /** Translations */
   translations?: Maybe<Array<Maybe<TranslationResponse>>>;
   /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']['output']>;
@@ -9568,23 +9521,23 @@ export enum TranslationIdType {
   Uri = 'URI'
 }
 
-/** Käännöksen kieli/arvo-parit */
+/** Translation with language/value pairs */
 export type TranslationItems = {
   __typename?: 'TranslationItems';
-  /** Käännöksen merkkijono */
+  /** Translation string */
   en?: Maybe<Scalars['String']['output']>;
-  /** Käännöksen merkkijono */
+  /** Translation string */
   fi?: Maybe<Scalars['String']['output']>;
-  /** Käännöksen merkkijono */
+  /** Translation string */
   sv?: Maybe<Scalars['String']['output']>;
 };
 
-/** Käännösvastaus sisältää käännösavaimen ja käännökset */
+/** Translation response contains translation key and translations */
 export type TranslationResponse = {
   __typename?: 'TranslationResponse';
-  /** Käyttöliittymän käännösavain */
+  /** Translation key for frontend */
   key?: Maybe<Scalars['String']['output']>;
-  /** Käännökset käyttöliittymälle */
+  /** Translations for frontend */
   translations?: Maybe<TranslationItems>;
 };
 
@@ -10896,7 +10849,7 @@ export type MenuQueryVariables = Exact<{
 
 export type MenuQuery = { __typename?: 'RootQuery', menu?: { __typename?: 'Menu', id: string, name?: string | null, slug?: string | null, menuId?: number | null, menuItems?: { __typename?: 'MenuToMenuItemConnection', nodes: Array<{ __typename?: 'MenuItem', connectedNode?: { __typename?: 'MenuItemToMenuItemLinkableConnectionEdge', node: { __typename?: 'Category' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, children?: { __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> } | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Tag' } } | null }> } | null } | null };
 
-export type MenuPageFieldsFragment = { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null };
+export type KultusMenuPageFieldsFragment = { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null };
 
 export type PageQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -11004,8 +10957,8 @@ export const PageFieldsFragmentDoc = gql`
   }
 }
     ${SeoFieldsFragmentDoc}`;
-export const MenuPageFieldsFragmentDoc = gql`
-    fragment menuPageFields on Page {
+export const KultusMenuPageFieldsFragmentDoc = gql`
+    fragment kultusMenuPageFields on Page {
   ...pageFields
   translations {
     ...pageFields
@@ -11024,10 +10977,10 @@ export const MenuDocument = gql`
         connectedNode {
           node {
             ... on Page {
-              ...menuPageFields
+              ...kultusMenuPageFields
               children {
                 nodes {
-                  ...menuPageFields
+                  ...kultusMenuPageFields
                 }
               }
             }
@@ -11037,7 +10990,7 @@ export const MenuDocument = gql`
     }
   }
 }
-    ${MenuPageFieldsFragmentDoc}`;
+    ${KultusMenuPageFieldsFragmentDoc}`;
 
 /**
  * __useMenuQuery__

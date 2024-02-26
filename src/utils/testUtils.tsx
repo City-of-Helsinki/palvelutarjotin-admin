@@ -1,8 +1,5 @@
-import {
-  ApolloClient,
-  NormalizedCacheObject,
-  useApolloClient,
-} from '@apollo/client';
+import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, configureStore, Store } from '@reduxjs/toolkit';
 import {
@@ -48,20 +45,15 @@ type Props = {
 function RHHCConfigProviderWithProvidedApolloClient({ children }: Props) {
   // Use apollo client from enclosing apollo provider, e.g. MockedProvider
   const apolloClient = useApolloClient();
-
   // FIXME: Fix types of apolloClient/RHHCConfig so they are compatible without casting
   const normalizedCacheObjectApolloClient =
     apolloClient as ApolloClient<NormalizedCacheObject>;
 
   const rhhcConfig = useRHHCConfig({
-    // @ts-ignore
-    apolloClient,
-    // @ts-ignore
-    eventsApolloClient: apolloClient,
-    // @ts-ignore
-    venuesApolloClient: apolloClient,
+    apolloClient: normalizedCacheObjectApolloClient,
+    eventsApolloClient: normalizedCacheObjectApolloClient,
+    venuesApolloClient: normalizedCacheObjectApolloClient,
   });
-
   return (
     <RHHCConfigProvider config={rhhcConfig}>{children}</RHHCConfigProvider>
   );
