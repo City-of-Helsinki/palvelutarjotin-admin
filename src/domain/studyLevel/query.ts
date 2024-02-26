@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 export const QUERY_STUDY_LEVEL = gql`
   fragment studyLevelFields on StudyLevelNode {
