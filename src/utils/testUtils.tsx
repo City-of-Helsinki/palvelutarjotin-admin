@@ -42,9 +42,12 @@ type Props = {
   children: React.ReactNode;
 };
 
-function RHHCConfigProviderWithProvidedApolloClient({ children }: Props) {
+export function RHHCConfigProviderWithProvidedApolloClient({
+  children,
+}: Props) {
   // Use apollo client from enclosing apollo provider, e.g. MockedProvider
   const apolloClient = useApolloClient();
+
   // FIXME: Fix types of apolloClient/RHHCConfig so they are compatible without casting
   const normalizedCacheObjectApolloClient =
     apolloClient as ApolloClient<NormalizedCacheObject>;
