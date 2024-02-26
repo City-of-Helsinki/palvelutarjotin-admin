@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 export const QUERY_ORGANISATIONS = gql`
   fragment pageInfoFields on PageInfo {

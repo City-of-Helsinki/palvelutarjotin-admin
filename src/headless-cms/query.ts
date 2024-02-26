@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core';
+import { gql } from 'graphql-tag';
 
 export const MENU_QUERY = gql`
   query Menu($id: ID!, $idType: MenuNodeIdTypeEnum) {
@@ -12,10 +12,10 @@ export const MENU_QUERY = gql`
           connectedNode {
             node {
               ... on Page {
-                ...menuPageFields
+                ...kultusMenuPageFields
                 children {
                   nodes {
-                    ...menuPageFields
+                    ...kultusMenuPageFields
                   }
                 }
               }
@@ -26,7 +26,7 @@ export const MENU_QUERY = gql`
     }
   }
 
-  fragment menuPageFields on Page {
+  fragment kultusMenuPageFields on Page {
     ...pageFields
     translations {
       ...pageFields
