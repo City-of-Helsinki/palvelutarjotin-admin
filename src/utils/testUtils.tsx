@@ -1,3 +1,8 @@
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useApolloClient,
+} from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, configureStore, Store } from '@reduxjs/toolkit';
 import {
@@ -9,6 +14,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import Modal from 'react-modal';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -17,6 +23,7 @@ import wait from 'waait';
 import { createApolloCache } from '../domain/app/apollo/apolloClient';
 import reducers from '../domain/app/reducers';
 import { store as reduxStore } from '../domain/app/store';
+import useRHHCConfig from '../hooks/useRHHCConfig';
 
 export const arrowUpKeyPressHelper = () =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
@@ -33,6 +40,32 @@ export const tabKeyPressHelper = () =>
 type CustomRenderResult = RenderResult & {
   user: ReturnType<(typeof userEvent)['setup']>;
 };
+
+type Props = {
+  children: React.ReactNode;
+};
+
+function RHHCConfigProviderWithProvidedApolloClient({ children }: Props) {
+  // Use apollo client from enclosing apollo provider, e.g. MockedProvider
+  const apolloClient = useApolloClient();
+
+  // FIXME: Fix types of apolloClient/RHHCConfig so they are compatible without casting
+  const normalizedCacheObjectApolloClient =
+    apolloClient as ApolloClient<NormalizedCacheObject>;
+
+  const rhhcConfig = useRHHCConfig({
+    // @ts-ignore
+    apolloClient,
+    // @ts-ignore
+    eventsApolloClient: apolloClient,
+    // @ts-ignore
+    venuesApolloClient: apolloClient,
+  });
+
+  return (
+    <RHHCConfigProvider config={rhhcConfig}>{children}</RHHCConfigProvider>
+  );
+}
 
 const customRender: CustomRender = (
   ui,
@@ -53,7 +86,9 @@ const customRender: CustomRender = (
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>
       <MockedProvider mocks={mocks} cache={createApolloCache()}>
-        <BrowserRouter>{children}</BrowserRouter>
+        <RHHCConfigProviderWithProvidedApolloClient>
+          <BrowserRouter>{children}</BrowserRouter>
+        </RHHCConfigProviderWithProvidedApolloClient>
       </MockedProvider>
     </Provider>
   );
@@ -82,12 +117,14 @@ const renderWithRoute: CustomRender = (
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>
       <MockedProvider mocks={mocks} cache={createApolloCache()}>
-        <BrowserRouter>
-          <Routes>
-            <Route path={'/'} element={<>{children}</>} />
-            <Route path={path} element={<>{children}</>} />
-          </Routes>
-        </BrowserRouter>
+        <RHHCConfigProviderWithProvidedApolloClient>
+          <BrowserRouter>
+            <Routes>
+              <Route path={'/'} element={<>{children}</>} />
+              <Route path={path} element={<>{children}</>} />
+            </Routes>
+          </BrowserRouter>
+        </RHHCConfigProviderWithProvidedApolloClient>
       </MockedProvider>
     </Provider>
   );
