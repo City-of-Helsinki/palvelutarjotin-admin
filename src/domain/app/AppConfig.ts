@@ -7,7 +7,7 @@ function getEnvOrError(variable?: string, name?: string) {
 
 class AppConfig {
   static get origin() {
-    return getEnvOrError(process.env.REACT_APP_ORIGIN, 'REACT_APP_ORIGIN');
+    return getEnvOrError(import.meta.env.VITE_APP_ORIGIN, 'VITE_APP_ORIGIN');
   }
 
   /** Domain of the application. */
@@ -21,7 +21,7 @@ class AppConfig {
   }
 
   static get apiUri() {
-    return getEnvOrError(process.env.REACT_APP_API_URI, 'REACT_APP_API_URI');
+    return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
   }
 
   static get apiDomain() {
@@ -30,13 +30,13 @@ class AppConfig {
 
   static get oidcAuthority() {
     return getEnvOrError(
-      process.env.REACT_APP_OIDC_AUTHORITY,
-      'REACT_APP_OIDC_AUTHORITY'
+      import.meta.env.VITE_APP_OIDC_AUTHORITY,
+      'VITE_APP_OIDC_AUTHORITY'
     );
   }
 
   static get cmsUri() {
-    return getEnvOrError(process.env.REACT_APP_CMS_URI, 'REACT_APP_CMS_URI');
+    return getEnvOrError(import.meta.env.VITE_APP_CMS_URI, 'VITE_APP_CMS_URI');
   }
 
   static get cmsDomain() {
@@ -45,8 +45,8 @@ class AppConfig {
 
   static get linkedEventsApiUri() {
     return getEnvOrError(
-      process.env.REACT_APP_LINKEDEVENTS_API_URI,
-      'REACT_APP_LINKEDEVENTS_API_URI'
+      import.meta.env.VITE_APP_LINKEDEVENTS_API_URI,
+      'VITE_APP_LINKEDEVENTS_API_URI'
     );
   }
 

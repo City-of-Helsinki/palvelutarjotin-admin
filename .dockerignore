@@ -8,5 +8,4 @@
 !package.json
 !tsconfig.json
 !yarn.lock
-!craco.config.js
 */*/testUtils.tsx

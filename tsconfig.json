@@ -1,22 +1,37 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": [
+      "node",
+      "vitest/globals",
+      "vite/client"
+    ]
   },
-  "include": ["src"],
+  "lib": [
+    "WebWorker"
+  ],
+  "include": [
+    "src"
+  ],
   "exclude": [
     "**/__mocks__/*",
     "src/**/*.stories.*",
@@ -24,7 +39,11 @@
     "src/test/**",
     "src/utils/testUtils.tsx",
     "src/utils/mockDataUtils.ts",
-    "src/utils/cmsMockDataUtils.ts",
-    "src/utils/CommonEventFormTests.ts"
+    "src/utils/cmsMockDataUtils.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }

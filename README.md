@@ -82,7 +82,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Codegen settings in <b>codegen.yml</b>
 
-- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to REACT_ADD_API_URL in .env.development.local
+- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to VITE_APP_API_URI in .env.development.local
 - Generate react hooks for GraphQL queries from <b>query.ts</b> and <b>mutation.ts</b> files.
 
 ### `yarn storybook`

@@ -1,5 +1,5 @@
-@import 'layout';
-@import 'variables';
+@import '~styles/layout';
+@import '~styles/variables';
 
 .eventsPage {
   --color-show-more-button: var(--color-bus);

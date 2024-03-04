@@ -1,7 +1,7 @@
 // WORKAROUND: Marked all styles !important so they apply even if CSS order varies.
 //             Switching from CRA/Craco to Vite might remove the need for this hack.
-@import 'layout';
-@import 'variables';
+@import '~styles/layout';
+@import '~styles/variables';
 
 @mixin active {
   color: var(--color-white) !important;

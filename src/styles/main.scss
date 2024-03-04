@@ -1,7 +1,7 @@
-@import './vendor/normalize';
-@import 'fonts';
-@import 'layout';
-@import 'variables';
+@import '~styles/vendor/normalize';
+@import '~styles/fonts';
+@import '~styles/layout';
+@import '~styles/variables';
 
 html {
   height: 100%;

@@ -8,7 +8,9 @@ export const IS_CLIENT = typeof window !== 'undefined';
 /**
  * Endpoint to get api token
  */
-export const TUNNISTAMO_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;
+export const TUNNISTAMO_API_TOKEN_ENDPOINT = `${
+  import.meta.env.VITE_APP_OIDC_AUTHORITY
+}/api-tokens/`;
 
 // Supported languages
 export enum SUPPORT_LANGUAGES {
@@ -46,10 +48,13 @@ export const PRIVACY_POLICY_LINKS = {
 };
 
 export const TERMS_OF_SERVICE_SLUGS = {
-  fi: process.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_FI ?? 'kayttoehdot',
+  fi: import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_FI ?? 'kayttoehdot',
   en:
-    process.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_EN ?? 'terms-of-service',
-  sv: process.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_SV ?? 'anvandarvillkor',
+    import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_EN ??
+    'terms-of-service',
+  sv:
+    import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_SV ??
+    'anvandarvillkor',
 };
 
 export const TEACHER_UI_LINKS = {
