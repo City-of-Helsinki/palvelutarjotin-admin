@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { relayStylePagination } from '@apollo/client/utilities';
 
 const apolloClient = new ApolloClient({
-  uri: process.env.REACT_APP_CMS_URI,
+  uri: import.meta.env.VITE_APP_CMS_URI,
   cache: new InMemoryCache({
     typePolicies: {
       Page: {

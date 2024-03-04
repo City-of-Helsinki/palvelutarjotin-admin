@@ -2,18 +2,22 @@
   "extends": [
     "react-app",
     "react-app/jest",
-    "plugin:testcafe/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript"
+    "plugin:testcafe/recommended"
   ],
-  "plugins": ["simple-import-sort", "testcafe", "no-only-tests"],
+  "plugins": [
+    "simple-import-sort",
+    "testcafe",
+    "no-only-tests"
+  ],
   "rules": {
     "no-console": "warn",
     "no-plusplus": "error",
     "no-undef": "warn",
     "no-unused-expressions": "off",
-    "object-curly-spacing": ["warn", "always"],
+    "object-curly-spacing": [
+      "warn",
+      "always"
+    ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "import/named": "off",
@@ -23,21 +27,29 @@
       "warn",
       {
         "name": "react-redux",
-        "importNames": ["useSelector", "useDispatch"],
+        "importNames": [
+          "useSelector",
+          "useDispatch"
+        ],
         "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
       }
     ]
   },
   "overrides": [
     {
-      "files": ["responses.ts", "*.test.tsx"],
+      "files": [
+        "responses.ts",
+        "*.test.tsx"
+      ],
       "rules": {
         "max-len": 0,
         "@typescript-eslint/no-explicit-any": 0
       }
     },
     {
-      "files": ["*.{ts,tsx}"],
+      "files": [
+        "*.{ts,tsx,mts}"
+      ],
       "rules": {
         "no-undef": "off"
       }

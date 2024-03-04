@@ -12,19 +12,19 @@ const enableOidcLogging = () => {
   // Oidc.Log.level = Oidc.Log.DEBUG;
 };
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   enableOidcLogging();
 }
 
 const settings: UserManagerSettings = {
-  authority: process.env.REACT_APP_OIDC_AUTHORITY,
+  authority: import.meta.env.VITE_APP_OIDC_AUTHORITY,
   automaticSilentRenew: true,
-  client_id: process.env.REACT_APP_OIDC_CLIENT_ID,
+  client_id: import.meta.env.VITE_APP_OIDC_CLIENT_ID,
   redirect_uri: `${location}${ROUTES.CALLBACK}`,
   loadUserInfo: true,
   response_type: 'id_token token',
   silent_redirect_uri: `${location}${ROUTES.SILENT_CALLBACK}`,
-  scope: process.env.REACT_APP_OIDC_SCOPE,
+  scope: import.meta.env.VITE_APP_OIDC_SCOPE,
   post_logout_redirect_uri: `${location}${ROUTES.HOME}`,
   includeIdTokenInSilentRenew: true,
   monitorSession: true,
