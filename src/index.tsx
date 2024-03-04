@@ -1,3 +1,4 @@
+import './setWindowGlobal';
 import './styles/main.scss';
 import './domain/app/i18n/i18nInit';
 
@@ -9,11 +10,13 @@ import Modal from 'react-modal';
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
 
-if (process.env.NODE_ENV === 'production') {
+if (import.meta.env.PROD) {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_APP_ENVIRONMENT,
-    release: `${process.env.REACT_APP_APPLICATION_NAME}@${process.env.REACT_APP_VERSION}`,
+    dsn: import.meta.env.VITE_APP_SENTRY_DSN,
+    environment: import.meta.env.VITE_APP_ENVIRONMENT,
+    release: `${import.meta.env.VITE_APP_APPLICATION_NAME}@${
+      import.meta.env.VITE_APP_VERSION
+    }`,
   });
 }
 

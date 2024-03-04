@@ -1,5 +1,5 @@
-@import 'layout';
-@import 'variables';
+@import '~styles/layout';
+@import '~styles/variables';
 
 .eventForm {
   --fontsize-header: var(--fontsize-heading-s);

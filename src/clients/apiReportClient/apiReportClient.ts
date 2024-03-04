@@ -4,7 +4,7 @@ import { store } from '../../domain/app/store';
 import { apiTokenSelector } from '../../domain/auth/selectors';
 
 const axiosClient = axios.create({
-  baseURL: `${process.env.REACT_APP_API_REPORT_URI}`,
+  baseURL: `${import.meta.env.VITE_APP_API_REPORT_URI}`,
   timeout: 30000,
 });
 

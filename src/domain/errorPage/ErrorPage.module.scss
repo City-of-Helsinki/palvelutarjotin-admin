@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'layout';
+@import '~styles/variables';
+@import '~styles/layout';
 
 .container {
   --header-fontsize: var(--fontsize-heading-l);

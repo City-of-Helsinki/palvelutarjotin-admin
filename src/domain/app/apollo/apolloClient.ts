@@ -86,7 +86,7 @@ export const createApolloCache = () =>
   });
 
 const httpLink = new HttpLink({
-  uri: process.env.REACT_APP_API_URI,
+  uri: import.meta.env.VITE_APP_API_URI,
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -104,7 +104,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           });
           break;
         default:
-          if (process.env.NODE_ENV === 'development') {
+          if (import.meta.env.DEV) {
             // eslint-disable-next-line no-console
             console.error(errorMessage);
           }
@@ -112,7 +112,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     });
 
   if (networkError) {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       // eslint-disable-next-line no-console
       console.error(`[Network error]: ${networkError}`);
     }

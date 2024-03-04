@@ -1,8 +1,8 @@
 ### nginx.conf.template -- The following environment variables should be set by the Dockerfile.
 # - APP_VERSION
-# - REACT_APP_BUILDTIME
-# - REACT_APP_RELEASE
-# - REACT_APP_COMMITHASH
+# - VITE_APP_BUILDTIME
+# - VITE_APP_RELEASE
+# - VITE_APP_COMMITHASH
 ###
 server {
     listen       8080;
@@ -16,7 +16,7 @@ server {
 
     location /readiness {
         default_type application/json;
-        return 200 '{ "status": "ok", "release": "${REACT_APP_RELEASE}", "packageVersion": "${APP_VERSION}", "commitHash": "${REACT_APP_COMMITHASH}", "buildTime": "${REACT_APP_BUILDTIME}" }';
+        return 200 '{ "status": "ok", "release": "${VITE_APP_RELEASE}", "packageVersion": "${APP_VERSION}", "commitHash": "${VITE_APP_COMMITHASH}", "buildTime": "${VITE_APP_BUILDTIME}" }';
     }
 
     location /static {

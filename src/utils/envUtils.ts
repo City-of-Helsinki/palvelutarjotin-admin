@@ -1,3 +1,3 @@
 export const isTestEnv = () => {
-  return process.env.NODE_ENV === 'test';
+  return import.meta.env.NODE_ENV === 'test';
 };

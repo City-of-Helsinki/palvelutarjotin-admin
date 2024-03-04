@@ -324,7 +324,7 @@ const CreateOccurrencePage: React.FC = () => {
     } catch (e) {
       if (e instanceof Yup.ValidationError) {
         setMissingEventInfoError(e);
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
           // eslint-disable-next-line no-console
           console.log(e);
         }
