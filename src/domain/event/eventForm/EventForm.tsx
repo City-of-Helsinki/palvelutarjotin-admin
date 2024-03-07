@@ -389,7 +389,6 @@ const EventForm = <T extends FormFields>({
                             contactPersonId={contactPersonId}
                             personOptions={personOptions}
                             setFieldValue={setFieldValue}
-                            touched={touched}
                           />
                         </div>
                       </FormGroup>

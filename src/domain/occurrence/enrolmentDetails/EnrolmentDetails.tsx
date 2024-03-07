@@ -186,7 +186,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
               </div>
               {approveModalOpen && (
                 <ApproveEnrolmentModal
-                  enrolmentId={enrolmentId}
                   onClose={() => setApproveModalOpen(false)}
                   // TODO: Will there be a way to approve many at the same time?
                   enrollees={enrollees}
@@ -196,7 +195,6 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
               )}
               {declineModalOpen && (
                 <DeclineEnrolmentModal
-                  enrolmentId={enrolmentId}
                   onClose={() => setDeclineModalOpen(false)}
                   // TODO: Will there be a way to decline many at the same time?
                   enrollees={enrollees}

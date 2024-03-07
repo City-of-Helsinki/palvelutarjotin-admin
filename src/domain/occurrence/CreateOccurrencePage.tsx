@@ -379,7 +379,6 @@ const CreateOccurrencePage: React.FC = () => {
                 <NotificationModal
                   isOpen={!!missingEventInfoError}
                   title={t('createOccurrence.missingEventInfo.modalTitle')}
-                  confirmButtonText={t('common.notificationModal.buttonClose')}
                   toggleModal={() => setMissingEventInfoError(null)}
                   onConfirm={() => setMissingEventInfoError(null)}
                 >

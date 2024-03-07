@@ -38,6 +38,20 @@ type CustomRenderResult = RenderResult & {
   user: ReturnType<(typeof userEvent)['setup']>;
 };
 
+type CustomRender = {
+  (
+    ui: React.ReactElement,
+    options?: {
+      routes?: string[];
+      path?: string;
+      mocks?: MockedResponse[];
+      initialState?: Record<string, any>;
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      store?: Store<any, AnyAction>;
+    }
+  ): CustomRenderResult;
+};
+
 type Props = {
   children: React.ReactNode;
 };
@@ -127,20 +141,6 @@ const renderWithRoute: CustomRender = (
   const renderResult = render(ui, { wrapper: Wrapper });
   Modal.setAppElement(renderResult.container);
   return { ...renderResult, user };
-};
-
-type CustomRender = {
-  (
-    ui: React.ReactElement,
-    options?: {
-      routes?: string[];
-      path?: string;
-      mocks?: MockedResponse[];
-      initialState?: Record<string, any>;
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      store?: Store<any, AnyAction>;
-    }
-  ): CustomRenderResult;
 };
 
 const actWait = (amount?: number) => act(() => wait(amount));
