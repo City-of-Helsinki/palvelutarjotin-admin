@@ -17,9 +17,8 @@ configure({ defaultHidden: true });
 it('matches snapshot', async () => {
   const { baseElement } = render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      declineEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      declineEnrolment={vi.fn()}
       appElement={document.body}
     />
   );
@@ -30,11 +29,10 @@ it('matches snapshot', async () => {
 });
 
 it('renders correctly and calls decline enrolment handler', async () => {
-  const onCloseHandler = jest.fn();
-  const declineEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const declineEnrolmentHandler = vi.fn();
   render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
       appElement={document.body}
@@ -60,11 +58,10 @@ it('renders correctly and calls decline enrolment handler', async () => {
 });
 
 it('calls close handle when close button is clicked', async () => {
-  const onCloseHandler = jest.fn();
-  const declineEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const declineEnrolmentHandler = vi.fn();
   render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
       appElement={document.body}
@@ -85,9 +82,8 @@ it('calls close handle when close button is clicked', async () => {
 it('renders enrollees list correctly', async () => {
   render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      declineEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      declineEnrolment={vi.fn()}
       appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />

@@ -34,11 +34,11 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => {
+const navigate = vi.fn();
+vi.mock('react-router-dom', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('react-router-dom'),
+    ...vi.importActual('react-router-dom'),
   };
 });
 const placeId = 'tprek:15376';
@@ -362,7 +362,7 @@ test("hides enrolment table when event doesn't have internal enrolment", async (
 });
 
 test('enrolment table renders correct information', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   renderComponent({
     mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
   });

@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import AutoSuggest, { AutoSuggestProps } from '../AutoSuggest';
 
@@ -11,16 +12,15 @@ const options = [
 ];
 
 function keyDown(key: string) {
-  // eslint-disable-next-line testing-library/no-node-access
   fireEvent.keyDown(document.activeElement || document.body, {
     key,
   });
 }
 
 function renderAutoSuggest(props?: Partial<AutoSuggestProps>) {
-  const onChange = jest.fn();
-  const onBlur = jest.fn();
-  const setInputValue = jest.fn();
+  const onChange = vi.fn();
+  const onBlur = vi.fn();
+  const setInputValue = vi.fn();
 
   const defaultProps: AutoSuggestProps = {
     id: 'id',
@@ -79,7 +79,6 @@ describe('<AutoSuggest />', () => {
     renderAutoSuggest({ options });
 
     await userEvent.tab();
-    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.keyDown(document.activeElement || document.body, {
       key: 'ArrowDown',
     });

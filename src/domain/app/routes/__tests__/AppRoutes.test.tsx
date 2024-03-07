@@ -46,7 +46,7 @@ const wrapperCreator = (route: string) =>
   render(<AppRoutes />, { routes: [route], mocks });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 it('redirect user from root to /fi by default', async () => {

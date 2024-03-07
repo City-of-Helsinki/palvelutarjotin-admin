@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -50,9 +51,9 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
 
     const ApolloNavigationComponent = () => (
       <Navigation
-        onTitleClick={jest.fn()}
+        onTitleClick={vi.fn()}
         menuName={''}
-        getPathnameForLanguage={jest.fn()}
+        getPathnameForLanguage={vi.fn()}
       />
     );
 

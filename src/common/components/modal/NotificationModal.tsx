@@ -6,7 +6,6 @@ import Modal from './Modal';
 import styles from './modal.module.scss';
 
 interface Props {
-  confirmButtonText: string;
   isOpen: boolean;
   onConfirm: () => void;
   title: string;

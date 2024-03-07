@@ -25,6 +25,7 @@ import {
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
+
 const userEmail = 'test@test.fi';
 const profileResponse = {
   data: {
@@ -46,7 +47,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const authenticatedInitialState = {
@@ -97,106 +98,109 @@ it('PageLayout matches snapshot', () => {
       </Provider>
     </MockedProvider>
   );
-  // eslint-disable-next-line testing-library/no-node-access
   expect(container.firstChild).toMatchSnapshot();
 });
 
-it('Pagelayout renders profile page and registration pending page after submitting (for 3rd party providers)', async () => {
-  const mocks = [
-    {
-      request: {
-        query: MyProfileDocument,
-      },
-      result: {
-        data: {
-          myProfile: null,
+it(
+  'Pagelayout renders profile page and registration pending page after submitting' +
+    ' (for 3rd party providers)',
+  async () => {
+    const mocks = [
+      {
+        request: {
+          query: MyProfileDocument,
         },
-      },
-    },
-    {
-      request: {
-        query: MyProfileDocument,
-      },
-      result: {
-        data: {
-          myProfile: fakePerson({
-            organisations: fakeOrganisations(0),
-            isStaff: false,
-          }),
-        },
-      },
-    },
-    {
-      request: {
-        query: OrganisationsDocument,
-        variables: {
-          type: 'provider',
-        },
-      },
-      result: {
-        data: {
-          organisations: organisationMocks,
-        },
-      },
-    },
-    {
-      request: {
-        query: CreateMyProfileDocument,
-        variables: {
-          myProfile: {
-            emailAddress: userEmail,
-            name: 'Testi Testaaja',
-            organisations: ['organisation1', 'organisation2'],
-            phoneNumber: '123321123',
-            language: 'FI',
-            placeIds: [],
-            organisationProposals: [],
+        result: {
+          data: {
+            myProfile: null,
           },
         },
       },
-      result: {
-        data: {
-          createMyProfile: {
-            myProfile: fakePerson(),
+      {
+        request: {
+          query: MyProfileDocument,
+        },
+        result: {
+          data: {
+            myProfile: fakePerson({
+              organisations: fakeOrganisations(0),
+              isStaff: false,
+            }),
           },
         },
       },
-    },
-  ];
+      {
+        request: {
+          query: OrganisationsDocument,
+          variables: {
+            type: 'provider',
+          },
+        },
+        result: {
+          data: {
+            organisations: organisationMocks,
+          },
+        },
+      },
+      {
+        request: {
+          query: CreateMyProfileDocument,
+          variables: {
+            myProfile: {
+              emailAddress: userEmail,
+              name: 'Testi Testaaja',
+              organisations: ['organisation1', 'organisation2'],
+              phoneNumber: '123321123',
+              language: 'FI',
+              placeIds: [],
+              organisationProposals: [],
+            },
+          },
+        },
+        result: {
+          data: {
+            createMyProfile: {
+              myProfile: fakePerson(),
+            },
+          },
+        },
+      },
+    ];
 
-  renderWithRoute(<PageLayout>Test</PageLayout>, {
-    routes: ['/'],
-    mocks,
-    initialState: authenticatedInitialState,
-  });
+    renderWithRoute(<PageLayout>Test</PageLayout>, {
+      routes: ['/'],
+      mocks,
+      initialState: authenticatedInitialState,
+    });
 
-  await act(wait);
+    await act(wait);
 
-  expect(screen.queryByText('Ilmoitus')).not.toBeInTheDocument();
-  expect(
-    screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
-  ).not.toBeInTheDocument();
+    expect(screen.queryByText('Ilmoitus')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
+    ).not.toBeInTheDocument();
 
-  expect(
-    screen.getByRole('heading', { name: 'Täydennä tietosi' })
-  ).toBeInTheDocument();
-  expect(screen.getByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Täydennä tietosi' })
+    ).toBeInTheDocument();
+    expect(screen.getByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
 
-  expect(screen.getByText(userEmail)).toBeInTheDocument();
+    expect(screen.getByText(userEmail)).toBeInTheDocument();
 
-  await fillAndSubmitProfileForm();
+    await fillAndSubmitProfileForm();
 
-  await screen.findByRole(
-    'heading',
-    { name: 'Kiitos rekisteröitymisestä' },
-    { timeout: 20000 }
-  );
-  expect(
-    screen.getByRole('heading', {
-      name: 'Rekisteröitymisesi odottaa käsittelyä',
-    })
-  ).toBeInTheDocument();
-});
+    await screen.findByRole(
+      'heading',
+      { name: 'Kiitos rekisteröitymisestä' },
+      { timeout: 20000 }
+    );
+    expect(
+      screen.getByRole('heading', {
+        name: 'Rekisteröitymisesi odottaa käsittelyä',
+      })
+    ).toBeInTheDocument();
+  }
+);
 
 it('Pagelayout renders children when user has profile, organisations and has staff role', async () => {
   const mocks = [

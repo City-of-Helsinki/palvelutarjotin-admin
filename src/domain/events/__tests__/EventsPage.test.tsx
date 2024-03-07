@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
@@ -261,8 +260,8 @@ const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
 };
 
 test('renders events list and load more events button works', async () => {
-  advanceTo(new Date(2020, 5, 20));
-  const toastErrorSpy = jest.spyOn(toast, 'error');
+  vi.setSystemTime(new Date(2020, 5, 20));
+  const toastErrorSpy = vi.spyOn(toast, 'error');
   renderComponent();
 
   await waitFor(() => {

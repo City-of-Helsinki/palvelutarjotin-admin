@@ -1,58 +1,50 @@
 {
   "extends": [
     "react-app",
-    "react-app/jest",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
     "plugin:testcafe/recommended"
   ],
-  "plugins": [
-    "simple-import-sort",
-    "testcafe",
-    "no-only-tests"
-  ],
   "rules": {
+    "@typescript-eslint/brace-style": [
+      "error",
+      "1tbs",
+      { "allowSingleLine": true }
+    ],
+    "no-use-before-define": "off",
+    "react/no-unused-prop-types": ["warn", { "skipShapeProps": true }],
+    "array-bracket-spacing": ["warn", "never"],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          ["internal", "parent", "sibling", "index"]
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "max-len": ["warn", { "code": 120 }],
     "no-console": "warn",
     "no-plusplus": "error",
     "no-undef": "warn",
-    "no-unused-expressions": "off",
-    "object-curly-spacing": [
-      "warn",
-      "always"
-    ],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/named": "off",
-    "no-only-tests/no-only-tests": "error",
-    "testing-library/prefer-screen-queries": "off",
-    "@typescript-eslint/no-restricted-imports": [
-      "warn",
-      {
-        "name": "react-redux",
-        "importNames": [
-          "useSelector",
-          "useDispatch"
-        ],
-        "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
-      }
-    ]
+    "object-curly-spacing": ["warn", "always"],
+    "import/no-named-as-default": "off"
   },
   "overrides": [
     {
-      "files": [
-        "responses.ts",
-        "*.test.tsx"
-      ],
-      "rules": {
-        "max-len": 0,
-        "@typescript-eslint/no-explicit-any": 0
-      }
-    },
-    {
-      "files": [
-        "*.{ts,tsx,mts}"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "rules": {
         "no-undef": "off"
       }
     }
-  ]
+  ],
+  "globals": {
+    "React": true,
+    "JSX": true,
+    "vi": true
+  }
 }

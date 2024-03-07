@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as ICS from 'ics';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { vi, Mock } from 'vitest';
 
 import {
   CancelOccurrenceDocument,
@@ -48,10 +48,10 @@ const originalCreateEvent = ICS.createEvent;
 
 beforeAll(() => {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  (ICS as any).createEvent = jest.fn();
+  (ICS as any).createEvent = vi.fn();
 });
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 afterAll(() => {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -277,7 +277,7 @@ const renderComponent = (
     routes: [`/events/${eventId1}/summary`],
   });
 
-advanceTo(new Date(2020, 10, 10));
+vi.setSystemTime(new Date(2020, 10, 10));
 
 it('displays event and occurrences correctly', async () => {
   renderWithRoute(<EventSummaryPage />, {
@@ -533,7 +533,7 @@ it('can cancel occurrences from occurrence table actions', async () => {
   let cancelDialog: BoundFunctions<typeof queries>;
   renderComponent({ mocks: [eventResponseWithOneCancelledOccurrence] });
 
-  const toastSuccessSpy = jest.spyOn(toast, 'success');
+  const toastSuccessSpy = vi.spyOn(toast, 'success');
 
   await getOccurrenceRow();
   await clickOccurrenceDropdownCancelAction();
@@ -641,8 +641,7 @@ it('can download ics file from actions dropdown', async () => {
     expect(ICS.createEvent).toHaveBeenCalledTimes(1);
   });
 
-  expect((ICS.createEvent as jest.Mock<any, any>).mock.calls[0])
-    .toMatchInlineSnapshot(`
+  expect((ICS.createEvent as Mock).mock.calls[0]).toMatchInlineSnapshot(`
     Array [
       Object {
         "description": "Tapahtuman lyhyt kuvaus",

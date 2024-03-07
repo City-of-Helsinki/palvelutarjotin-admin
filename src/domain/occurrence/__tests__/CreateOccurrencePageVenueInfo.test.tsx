@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 import { toast } from 'react-toastify';
 
@@ -24,11 +23,11 @@ import CreateOccurrencePage from '../CreateOccurrencePage';
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -39,11 +38,11 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('venue info', () => {
   test('venue data can be changed and saved', async () => {
-    advanceTo('2021-04-02');
+    vi.setSystemTime('2021-04-02');
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
@@ -72,7 +71,7 @@ describe('venue info', () => {
       ],
     });
 
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -81,7 +80,8 @@ describe('venue info', () => {
       name: /tapahtumapaikan kuvaus \(en\)/i,
     });
 
-    await user.type(venueDescriptionInput, 'fixme'); // FIXME: https://github.com/testing-library/user-event/discussions/970
+    // FIXME: https://github.com/testing-library/user-event/discussions/970
+    await user.type(venueDescriptionInput, 'fixme');
     await user.clear(venueDescriptionInput);
     await user.type(venueDescriptionInput, 'Changed venue description');
     expect(venueDescriptionInput).toHaveValue('Changed venue description');

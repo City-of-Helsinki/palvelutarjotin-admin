@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
@@ -27,19 +26,19 @@ import CreateOccurrencePage from '../CreateOccurrencePage';
 import { enrolmentInfoFormTestId } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import * as Utils from '../utils';
 
-jest.mock('../utils', () => ({
+vi.mock('../utils', () => ({
   __esModule: true,
-  ...jest.requireActual('../utils'),
+  ...vi.importActual('../utils'),
 }));
 
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -50,7 +49,7 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('enrolment type selector', () => {
   const radiosByType = {
@@ -144,16 +143,26 @@ describe('auto acceptance for enrolments', () => {
         name: /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i,
       })
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot\./i
-      )
-    ).toBeInTheDocument();
+    const columnsRegExp = new RegExp(
+      [
+        'personoitu tervehdys',
+        'ilmoittautuminen vahvistettu',
+        'tapahtuman tiedot',
+        'aika',
+        'varattujen paikkojen lukumäärä',
+        'kieli',
+        'paikka',
+        'osoite',
+        'järjestäjän yhteystiedot',
+      ].join(', ') + '\\.',
+      'i'
+    );
+    expect(screen.getByText(columnsRegExp)).toBeInTheDocument();
   });
 
   it('submits the auto acceptance message right', async () => {
-    const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const spyGetEditEventPayload = vi.spyOn(Utils, 'getEditEventPayload');
+    const toastSuccess = vi.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
@@ -227,8 +236,8 @@ describe('auto acceptance for enrolments', () => {
   });
 
   it('clears the auto acceptance message on submit when auto acceptance is set off', async () => {
-    const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const spyGetEditEventPayload = vi.spyOn(Utils, 'getEditEventPayload');
+    const toastSuccess = vi.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;

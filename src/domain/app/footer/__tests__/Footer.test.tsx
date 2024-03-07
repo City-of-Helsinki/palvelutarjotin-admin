@@ -10,6 +10,5 @@ it('Footer matches snapshot', () => {
       <Footer />
     </BrowserRouter>
   );
-  // eslint-disable-next-line testing-library/no-node-access
   expect(container.firstChild).toMatchSnapshot();
 });

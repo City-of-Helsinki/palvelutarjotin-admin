@@ -17,8 +17,8 @@ configure({ defaultHidden: true });
 it('matches snapshot', () => {
   const { baseElement } = render(
     <PickQueueEnrolmentModal
-      onClose={jest.fn()}
-      pickQueueEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      pickQueueEnrolment={vi.fn()}
       appElement={document.body}
     />
   );
@@ -27,8 +27,8 @@ it('matches snapshot', () => {
 });
 
 it('renders correctly and calls delete enrolment handler when button is clicked', async () => {
-  const onCloseHandler = jest.fn();
-  const pickQueueEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const pickQueueEnrolmentHandler = vi.fn();
   render(
     <PickQueueEnrolmentModal
       onClose={onCloseHandler}
@@ -59,8 +59,8 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
 it('renders enrollees list correctly', async () => {
   render(
     <PickQueueEnrolmentModal
-      onClose={jest.fn()}
-      pickQueueEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      pickQueueEnrolment={vi.fn()}
       appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />

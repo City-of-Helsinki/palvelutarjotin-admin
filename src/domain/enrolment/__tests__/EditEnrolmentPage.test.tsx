@@ -30,17 +30,17 @@ import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';
 import EditEnrolmentPage from '../EditEnrolmentPage';
-const navigate = jest.fn();
-jest.mock('../../../generated/graphql', () => {
+const navigate = vi.fn();
+vi.mock('../../../generated/graphql', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('../../../generated/graphql'),
+    ...vi.importActual('../../../generated/graphql'),
   };
 });
-jest.mock('react-router-dom', () => {
+vi.mock('react-router-dom', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('react-router-dom'),
+    ...vi.importActual('react-router-dom'),
   };
 });
 const eventId = 'palvelutarjotin:afzunowba4';
@@ -103,7 +103,7 @@ const originalUseUpdateEnrolmentMutation =
   graphqlFns.useUpdateEnrolmentMutation;
 
 // act errors from formik that I couldn't resolve
-jest.spyOn(console, 'error').mockImplementation(jest.fn());
+vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
 const apolloMocks = [
   {
@@ -137,7 +137,7 @@ afterEach(() => {
   // copy the original back so we can modify it in the tests
   (graphqlFns.useUpdateEnrolmentMutation as any) =
     originalUseUpdateEnrolmentMutation;
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 const renderPage = ({ mocks }: { mocks?: any } = {}) => {
@@ -247,11 +247,11 @@ it('initializes edit form correctly', async () => {
 
 it('calls update enrolment function with correct parameters when form is submitted', async () => {
   // TODO: Use normal ApolloMockProvider mock
-  const updateEnrolmentMock = jest.fn();
-  (graphqlFns.useUpdateEnrolmentMutation as any) = jest.fn(() => [
+  const updateEnrolmentMock = vi.fn();
+  (graphqlFns.useUpdateEnrolmentMutation as any) = vi.fn(() => [
     updateEnrolmentMock,
   ]);
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 
   renderPage();
 
@@ -401,7 +401,6 @@ describe('UnitField', () => {
     await userEvent.type(getUnitFieldInput(), 'place12');
 
     // wait for debounce to trigger and populate localStorage
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(() => wait(500));
 
     // The inserted text should filter autosuggest field options
