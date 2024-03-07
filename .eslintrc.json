@@ -13,7 +13,7 @@
       "1tbs",
       { "allowSingleLine": true }
     ],
-    "no-use-before-define": "off",
+    "no-use-before-define": "error",
     "react/no-unused-prop-types": ["warn", { "skipShapeProps": true }],
     "array-bracket-spacing": ["warn", "never"],
     "import/order": [

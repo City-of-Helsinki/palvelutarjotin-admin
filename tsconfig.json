@@ -25,9 +25,12 @@
   "lib": ["WebWorker"],
   "include": ["src"],
   "exclude": [
-    "src/**/*.stories.*",
-    "src/domain/api/generatedTypes/**/*.ts",
-    "src/utils/cmsMockDataUtils.ts"
+    "**/*.test.*",
+    "src/generated/*",
+    "src/test/**",
+    "src/utils/cmsMockDataUtils.ts",
+    "src/utils/mockDataUtils.ts",
+    "src/utils/testUtils.tsx"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
