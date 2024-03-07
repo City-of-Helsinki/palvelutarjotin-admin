@@ -219,8 +219,8 @@ export const getEditEventPayload = ({
         isVirtual
           ? VIRTUAL_EVENT_LOCATION_ID
           : isBookable
-          ? BOOKABLE_TO_SCHOOL_LOCATION_ID
-          : location
+            ? BOOKABLE_TO_SCHOOL_LOCATION_ID
+            : location
       ),
     },
     draft: eventData.publicationStatus === PUBLICATION_STATUS.DRAFT,

@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react-swc';
+import eslint from 'vite-plugin-eslint';
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -28,6 +29,6 @@ export default ({ mode }) => {
     preview: {
       port: 3000,
     },
-    plugins: [react(), tsconfigPaths()],
+    plugins: [react(), eslint(), tsconfigPaths()],
   });
 };

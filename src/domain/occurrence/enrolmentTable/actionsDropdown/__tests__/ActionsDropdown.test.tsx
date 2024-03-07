@@ -45,7 +45,7 @@ const renderComponent = (props?: Partial<Props>) => {
     <ActionsDropdown
       eventId={eventId}
       row={mockEnrolment}
-      onEnrolmentsModified={jest.fn()}
+      onEnrolmentsModified={vi.fn()}
       {...props}
     />,
     { mocks }

@@ -69,8 +69,8 @@ const renderEnrolmentDetails = (mocks = getMocks()) => {
       enrolmentId={enrolmentId}
       eventId=""
       occurrenceId=""
-      onGoBackClick={jest.fn()}
-      refetchOccurrence={jest.fn()}
+      onGoBackClick={vi.fn()}
+      refetchOccurrence={vi.fn()}
     />,
     { mocks }
   );

@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import { Field, FormikErrors, FormikTouched } from 'formik';
+import { Field, FormikErrors } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -19,7 +19,6 @@ const ContactPersonInfoPart: React.FC<{
     value: any,
     shouldValidate?: boolean | undefined
   ) => Promise<void | FormikErrors<any>>;
-  touched: FormikTouched<any>;
 }> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient();

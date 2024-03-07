@@ -18,9 +18,9 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateMyProfile from '../CreateMyProfile';
-jest.mock('../../../generated/graphql', () => ({
+vi.mock('../../../generated/graphql', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../generated/graphql'),
+  ...vi.importActual('../../../generated/graphql'),
 }));
 const places = [
   {
@@ -121,7 +121,7 @@ const apolloMocks: MockedResponse[] = [
   ...placesMockResponses,
 ];
 
-const refetch = jest.fn();
+const refetch = vi.fn();
 
 const renderComponent = () => {
   return renderWithRoute(<CreateMyProfile refetch={refetch} />, {
@@ -132,10 +132,10 @@ const renderComponent = () => {
 };
 
 test('can create profile with all the information', async () => {
-  const createProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useCreateMyProfileMutation')
-    .mockReturnValue([createProfileMock] as any);
+  const createProfileMock = vi.fn();
+  vi.spyOn(graphql, 'useCreateMyProfileMutation').mockReturnValue([
+    createProfileMock,
+  ] as any);
 
   renderComponent();
 
@@ -242,10 +242,10 @@ test('can create profile with all the information', async () => {
 }, 50_000);
 
 test('create profile with organisation proposal', async () => {
-  const createProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useCreateMyProfileMutation')
-    .mockReturnValue([createProfileMock] as any);
+  const createProfileMock = vi.fn();
+  vi.spyOn(graphql, 'useCreateMyProfileMutation').mockReturnValue([
+    createProfileMock,
+  ] as any);
   renderComponent();
 
   await waitFor(() => {

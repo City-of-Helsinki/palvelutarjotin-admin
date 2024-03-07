@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 
@@ -30,24 +29,24 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
-const navigate = jest.fn();
-jest.mock('../../../hooks/useLocale', () => {
+const navigate = vi.fn();
+vi.mock('../../../hooks/useLocale', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('../../../hooks/useLocale'),
+    ...vi.importActual('../../../hooks/useLocale'),
   };
 });
-jest.mock('react-router-dom', () => {
+vi.mock('react-router-dom', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('react-router-dom'),
+    ...vi.importActual('react-router-dom'),
   };
 });
 
 afterEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
 });
-advanceTo(new Date(2020, 7, 5));
+vi.setSystemTime(new Date(2020, 7, 5));
 const renderComponent = ({
   path = `/fi${ROUTES.EDIT_EVENT}`,
   routes = [`/fi${ROUTES.EDIT_EVENT.replace(':id', eventId)}`],
@@ -65,7 +64,7 @@ const renderComponent = ({
 };
 
 test('edit event form initializes and submits correctly', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   const { user } = renderComponent();
 
   await waitFor(() => {
@@ -121,7 +120,7 @@ test('edit event form initializes and submits correctly', async () => {
 });
 
 test('returns to create occurrences page when it should after saving', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 
   const { user } = renderComponent({
     routes: [
@@ -187,7 +186,7 @@ describe('Language selection', () => {
   ];
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
   });
   it('has Finnish, Swedish and English as language options', async () => {
     renderComponent();
@@ -249,7 +248,7 @@ describe('Language selection', () => {
     and it would test the right spot.
     It could be achieved by doing something like this:
     ```
-      const omitUnselectedLanguagesFromValuesSpy = jest.spyOn(
+      const omitUnselectedLanguagesFromValuesSpy = vi.spyOn(
         Utils,
         'omitUnselectedLanguagesFromValues'
       );
@@ -266,7 +265,7 @@ describe('Language selection', () => {
     NOTE: CreateEventPAge testes this too, but there all the fields are newly filled and not presaved.
   */
   test.skip('filled fields for unselected languages are cleared when submitting the form', async () => {
-    jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+    vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
     const genericSwedishValue = 'SV translation';
 
     const { user } = renderComponent();
@@ -327,7 +326,7 @@ describe('Language selection', () => {
   }).forEach(([locale, languageOrder]) => {
     it(`renders current UI language (${locale}) first when translatable fields are rendered`, async () => {
       // mock ui language
-      jest.spyOn(useLocale, 'default').mockReturnValue(locale as Language);
+      vi.spyOn(useLocale, 'default').mockReturnValue(locale as Language);
       const { user } = renderComponent();
 
       await waitFor(() => {

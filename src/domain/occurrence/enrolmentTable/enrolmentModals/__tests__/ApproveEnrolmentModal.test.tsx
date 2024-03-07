@@ -15,9 +15,8 @@ import persons from '../mocks/persons';
 it('matches snapshot', async () => {
   const { baseElement } = render(
     <ApproveEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      approveEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      approveEnrolment={vi.fn()}
       appElement={document.body}
     />
   );
@@ -27,7 +26,6 @@ it('matches snapshot', async () => {
   await waitFor(() => {
     // A small "hack" to wait for modal to open fully
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       baseElement.querySelector('.ReactModal__Content--after-open')
     ).toBeInTheDocument();
   });
@@ -36,11 +34,10 @@ it('matches snapshot', async () => {
 });
 
 it('renders correctly and calls approve enrolment handler', async () => {
-  const onCloseHandler = jest.fn();
-  const approveEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const approveEnrolmentHandler = vi.fn();
   render(
     <ApproveEnrolmentModal
-      enrolmentId="123"
       onClose={onCloseHandler}
       approveEnrolment={approveEnrolmentHandler}
       appElement={document.body}
@@ -62,11 +59,22 @@ it('renders correctly and calls approve enrolment handler', async () => {
       /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i
     )
   ).toBeInTheDocument();
-  expect(
-    screen.getByText(
-      /personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot\./i
-    )
-  ).toBeInTheDocument();
+
+  const columnsRegExp = new RegExp(
+    [
+      'personoitu tervehdys',
+      'ilmoittautuminen vahvistettu',
+      'tapahtuman tiedot',
+      'aika',
+      'varattujen paikkojen lukumäärä',
+      'kieli',
+      'paikka',
+      'osoite',
+      'järjestäjän yhteystiedot',
+    ].join(', ') + '\\.',
+    'i'
+  );
+  expect(screen.getByText(columnsRegExp)).toBeInTheDocument();
 
   const approveEnrolmentButton = screen.getByText(
     messages.enrolment.enrolmentModal.sendConfirmationMessage
@@ -79,9 +87,8 @@ it('renders correctly and calls approve enrolment handler', async () => {
 it('opens message section when checkbox is clicked and text can be written', async () => {
   render(
     <ApproveEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      approveEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      approveEnrolment={vi.fn()}
       appElement={document.body}
     />
   );
@@ -105,9 +112,8 @@ it('opens message section when checkbox is clicked and text can be written', asy
 it('renders enrollees list correctly', async () => {
   render(
     <ApproveEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      approveEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      approveEnrolment={vi.fn()}
       appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />

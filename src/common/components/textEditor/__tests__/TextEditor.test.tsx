@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   pasteToTextEditor,
@@ -13,8 +14,8 @@ const label = 'Text editor label';
 const defaultProps: TextEditorProps = {
   id: 'text-editor-1',
   label,
-  onBlur: jest.fn(),
-  onChange: jest.fn(),
+  onBlur: vi.fn(),
+  onChange: vi.fn(),
   value: '',
 };
 
@@ -30,7 +31,7 @@ FAIL src/common/components/textEditor/__tests__/TextEditor.test.tsx
       at Timeout.task [as _onTimeout] (node_modules/jsdom/lib/jsdom/browser/Window.js:391:19)
 */
 test.skip('should call onChange', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ onChange });
 
   const editor = screen.getByRole('textbox', { name: label });

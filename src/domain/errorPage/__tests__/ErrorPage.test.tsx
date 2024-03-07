@@ -1,16 +1,18 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { vi } from 'vitest';
 // eslint-disable-next-line import/no-named-as-default
 import * as Router from 'react-router-dom';
 
 import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import ErrorPage from '../ErrorPage';
-jest.mock('react-router-dom', () => ({
+
+vi.mock('react-router-dom', () => ({
   __esModule: true,
-  ...jest.requireActual('react-router-dom'),
+  ...vi.importActual('react-router-dom'),
 }));
-const navigate = jest.fn();
+const navigate = vi.fn();
 it('matches snapshot', () => {
   const { container } = render(<ErrorPage />);
 
@@ -27,7 +29,7 @@ it('renders correct texts when props are provided', () => {
 });
 
 it('render correct default texts', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   render(<ErrorPage />);
 
   expect(screen.queryByText(messages.errorPage.description)).toBeVisible();

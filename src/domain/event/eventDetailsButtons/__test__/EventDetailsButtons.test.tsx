@@ -1,16 +1,15 @@
 import userEvent from '@testing-library/user-event';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 
 import { fakeEvent } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import EventDetailsButtons from '../EventDetailsButtons';
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => {
+const navigate = vi.fn();
+vi.mock('react-router-dom', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('react-router-dom'),
+    ...vi.importActual('react-router-dom'),
   };
 });
 const eventId = 'palvelutarjotin:afzunowba4';
@@ -20,18 +19,18 @@ const event = fakeEvent({
 });
 
 afterAll(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 // test('is accessible and matches snapshot', async () => {
 //   const { container } = render(
 //     <EventDetailsButtons
 //       eventData={{ event }}
-//       onClickLanguage={jest.fn()}
+//       onClickLanguage={vi.fn()}
 //       selectedLanguage="fi"
 //     />
 //   );
@@ -43,13 +42,13 @@ afterEach(() => {
 // });
 
 test('it renders correct texts and click events work', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
-  advanceTo(new Date(2020, 6, 10));
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.setSystemTime(new Date(2020, 6, 10));
 
   render(
     <EventDetailsButtons
       eventData={{ event }}
-      onClickLanguage={jest.fn()}
+      onClickLanguage={vi.fn()}
       selectedLanguage="fi"
     />
   );

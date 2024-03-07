@@ -14,10 +14,11 @@ import {
 } from '../../../../utils/testUtils';
 import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
-jest.mock('../../../auth/selectors', () => ({
+
+vi.mock('../../../auth/selectors', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../auth/selectors'),
-  isAuthenticatedSelector: jest.fn(),
+  ...vi.importActual('../../../auth/selectors'),
+  isAuthenticatedSelector: vi.fn(),
 }));
 const profileResponse = {
   data: {
@@ -59,7 +60,7 @@ it('focuses skip link first', async () => {
 });
 
 test('header renders cms menu items', async () => {
-  jest.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   const { menuItems } = initCmsMenuItemsMocks();
   render(<Header />, { mocks });
   await waitFor(() => {
@@ -87,7 +88,6 @@ test('header renders cms menu items', async () => {
       }
     } else {
       const link = await screen.findByRole('link', { name: menuItem.title });
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
     }
   }

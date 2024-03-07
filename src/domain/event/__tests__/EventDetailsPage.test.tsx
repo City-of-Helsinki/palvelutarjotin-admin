@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
 
@@ -25,15 +24,15 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import EventDetailsPage from '../EventDetailsPage';
 
-jest.mock('../../../generated/graphql', () => {
+vi.mock('../../../generated/graphql', () => {
   return {
     __esModule: true,
-    ...jest.requireActual('../../../generated/graphql'),
+    ...vi.importActual('../../../generated/graphql'),
   };
 });
 
 beforeEach(() => {
-  advanceTo(new Date(2021, 7, 20));
+  vi.setSystemTime(new Date(2021, 7, 20));
 });
 
 const personId = 'personId1';
@@ -163,10 +162,10 @@ const apolloMocks: MockedResponse[] = [
 ];
 
 test('renders correct information and delete works', async () => {
-  const deleteMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useDeleteSingleEventMutation')
-    .mockReturnValue([deleteMock] as any);
+  const deleteMock = vi.fn();
+  vi.spyOn(graphql, 'useDeleteSingleEventMutation').mockReturnValue([
+    deleteMock,
+  ] as any);
   const { container } = renderWithRoute(<EventDetailsPage />, {
     routes: ['/events/palvelutarjotin:afzunowba4'],
     path: ROUTES.EVENT_DETAILS,
@@ -256,10 +255,10 @@ test('renders correct information and delete works', async () => {
 });
 
 test('enrolment info is not shown when enrolments are not done internally', async () => {
-  const deleteMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useDeleteSingleEventMutation')
-    .mockReturnValue([deleteMock] as any);
+  const deleteMock = vi.fn();
+  vi.spyOn(graphql, 'useDeleteSingleEventMutation').mockReturnValue([
+    deleteMock,
+  ] as any);
 
   const { container } = renderWithRoute(<EventDetailsPage />, {
     routes: ['/events/palvelutarjotin:afzunowba4'],

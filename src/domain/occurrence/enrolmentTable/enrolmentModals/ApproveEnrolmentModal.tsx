@@ -10,7 +10,6 @@ interface ApproveModalProps {
   // appElement for testing purposes
   appElement?: HTMLElement;
   loading?: boolean;
-  enrolmentId: string;
 }
 
 const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({

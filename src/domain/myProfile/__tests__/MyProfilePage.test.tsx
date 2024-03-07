@@ -16,9 +16,9 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import MyProfilePage from '../MyProfilePage';
 
-jest.mock('../../../generated/graphql', () => ({
+vi.mock('../../../generated/graphql', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../generated/graphql'),
+  ...vi.importActual('../../../generated/graphql'),
 }));
 
 const organisationMocks1 = fakeOrganisations(2, [
@@ -105,10 +105,10 @@ test('render profile page correctly', async () => {
 });
 
 test('profile can be edited', async () => {
-  const updateProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useUpdateMyProfileMutation')
-    .mockReturnValue([updateProfileMock] as any);
+  const updateProfileMock = vi.fn();
+  vi.spyOn(graphql, 'useUpdateMyProfileMutation').mockReturnValue([
+    updateProfileMock,
+  ] as any);
   renderWithRoute(<MyProfilePage />, {
     mocks: apolloMocks,
     path: ROUTES.MY_PROFILE,

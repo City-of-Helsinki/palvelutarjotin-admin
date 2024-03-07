@@ -27,9 +27,9 @@ import {
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
 
-jest.mock('../../../domain/auth/authenticate', () => ({
+vi.mock('../../../domain/auth/authenticate', () => ({
   __esModule: true,
-  ...(jest.requireActual('../../../domain/auth/authenticate') as any),
+  ...(vi.importActual('../../../domain/auth/authenticate') as any),
   // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
   // in useEffect
   getApiToken: () => ({
@@ -410,7 +410,6 @@ test.skip('renders CMS page and navigation flow works', async () => {
         await userEvent.click(dropdownButton);
       } else {
         const link = await screen.findByRole('link', { name: menuItem.title });
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
       }
     }

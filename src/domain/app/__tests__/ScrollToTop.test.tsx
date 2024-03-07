@@ -32,7 +32,7 @@ const TestComponent = () => {
 
 // FIXME: change the history to navigate
 test.skip('focuses and scrolls to top when route changes', async () => {
-  const scrollSpy = jest.spyOn(window, 'scrollTo');
+  const scrollSpy = vi.spyOn(window, 'scrollTo');
   render(<TestComponent />, { routes: ['/fi'] });
 
   const loginButton = await screen.findByRole('button', {

@@ -6,9 +6,16 @@ export default defineConfig((configEnv) =>
     viteConfig(configEnv),
     defineConfig({
       test: {
+        css: {
+          modules: {
+            // Set class name strategy to 'non-scoped' so tests can easily test
+            // for class names, e.g. 'hds-button' instead of 'hds-button-1af82':
+            classNameStrategy: 'non-scoped',
+          },
+        },
         globals: true,
         environment: 'jsdom',
-        setupFiles: './tests/vitest-setup.ts',
+        setupFiles: './src/test/vitest-setup.ts',
         reporters: ['json', 'verbose', 'vitest-sonar-reporter'],
         outputFile: {
           json: 'sonar-report.json',
@@ -18,14 +25,13 @@ export default defineConfig((configEnv) =>
           provider: 'v8',
           reporter: ['lcov', 'html'],
           exclude: [
-            'node_modules/',
-            'src/index.tsx',
-            'src/domain/api/generatedTypes',
-            'public/mockServiceWorker.js',
-            'src/setupTests.ts',
+            '**/__snapshots__/**',
+            '**/__tests__/**',
+            '**/node_modules/**',
+            'src/generated/**',
           ],
         },
       },
-    }),
-  ),
+    })
+  )
 );

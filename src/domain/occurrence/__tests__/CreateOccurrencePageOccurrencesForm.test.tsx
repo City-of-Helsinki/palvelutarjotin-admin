@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { addDays, format, parse as parseDate } from 'date-fns';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 
 import { OccurrenceNode } from '../../../generated/graphql';
@@ -38,11 +37,11 @@ import { occurrencesTableTestId } from '../occurrencesFormPart/OccurrencesFormPa
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const mockOccurrences = fakeOccurrences(
@@ -58,7 +57,7 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('occurrences form', () => {
   test('location input is prefilled when default location has been selected', async () => {
@@ -225,7 +224,11 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}${occurrenceData1.maxGroupSize}`;
+    const occurrence1RowText =
+      `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}` +
+      'englanti, suomi' +
+      `${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}` +
+      `${occurrenceData1.maxGroupSize}`;
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -328,7 +331,11 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}${occurrenceData1.maxGroupSize}`;
+    const occurrence1RowText =
+      `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}` +
+      'englanti, suomi' +
+      `${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}` +
+      `${occurrenceData1.maxGroupSize}`;
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -519,7 +526,11 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrence.amountOfSeats}${occurrence.minGroupSize}${occurrence.maxGroupSize}`;
+    const occurrence1RowText =
+      `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}` +
+      'englanti, suomi' +
+      `${occurrence.amountOfSeats}${occurrence.minGroupSize}` +
+      `${occurrence.maxGroupSize}`;
 
     await screen.findByTestId(occurrencesTableTestId);
     const occurrencesTable = within(screen.getByTestId(occurrencesTableTestId));
@@ -556,7 +567,7 @@ describe('occurrences form', () => {
 
   test('yesterday is not valid event start day', async () => {
     const currentDate = new Date('2021-05-20');
-    advanceTo(currentDate);
+    vi.setSystemTime(currentDate);
     renderComponent({
       mocks: [getEventMockedResponse({ occurrences: mockOccurrences })],
     });
@@ -582,7 +593,7 @@ describe('occurrences form', () => {
   });
 
   test('occurrence date time cannot be before enrolments ending day', async () => {
-    advanceTo(new Date('2021-05-20'));
+    vi.setSystemTime(new Date('2021-05-20'));
     const enrolmentStart = new Date('2021-05-21T12:00:00');
     const enrolmentEndDays = 2;
     const eventMockResponse = getEventMockedResponse({

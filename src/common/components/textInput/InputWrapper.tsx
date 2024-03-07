@@ -19,7 +19,6 @@ export type InputWrapperProps = {
   tooltipLabel?: string;
   tooltipText?: string;
   tooltipOpenButtonLabelText?: string;
-  tooltipCloseButtonLabelText?: string;
   required?: boolean;
 };
 

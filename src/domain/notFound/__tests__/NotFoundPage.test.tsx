@@ -5,10 +5,10 @@ import * as Router from 'react-router-dom';
 import { render, screen } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import NotFoundPage from '../NotFoundPage';
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => ({
+const navigate = vi.fn();
+vi.mock('react-router-dom', () => ({
   __esModule: true,
-  ...(jest.requireActual('react-router-dom') as any),
+  ...(vi.importActual('react-router-dom') as any),
 }));
 test('it matches snapshot', async () => {
   const { container } = render(<NotFoundPage />);
@@ -19,7 +19,7 @@ test('it matches snapshot', async () => {
 });
 
 test('it renders correct texts and handle back button click', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   render(<NotFoundPage />);
 
   expect(
