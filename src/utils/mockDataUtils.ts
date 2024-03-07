@@ -11,6 +11,7 @@ import {
   Event,
   EventListResponse,
   EventQueueEnrolmentNode,
+  EventQueueEnrolmentNodeConnection,
   EventQueueEnrolmentStatus,
   ExternalPlace,
   Image,
@@ -42,6 +43,7 @@ import {
   PersonNodeEdge,
   Place,
   StudyGroupNode,
+  StudyGroupNodeConnection,
   StudyLevelNode,
   StudyLevelNodeConnection,
   StudyLevelNodeEdge,
@@ -211,7 +213,10 @@ export const fakeInLanguage = (
   overrides?: Partial<InLanguage>
 ): InLanguage => ({
   id: 'fi',
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/language/fi/',
+  internalId: getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+    'fi'
+  ),
   name: {
     en: null,
     fi: 'suomi',
@@ -224,7 +229,10 @@ export const fakeInLanguage = (
 
 export const fakePlace = (overrides?: Partial<Place>): Place => ({
   id: faker.string.uuid(),
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+  internalId: getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.PLACE,
+    'tprek:15376'
+  ),
   name: fakeLocalizedObject(),
   streetAddress: fakeLocalizedObject(),
   addressLocality: fakeLocalizedObject(),
@@ -291,7 +299,10 @@ export const fakeVenue = (overrides?: Partial<VenueNode>): VenueNode => ({
 
 export const fakeImage = (overrides?: Partial<Image>): Image => ({
   id: faker.string.uuid(),
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/image/48566/',
+  internalId: getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+    '48566'
+  ),
   license: 'cc_by',
   name: faker.word.words(),
   url: 'https://api.hel.fi/linkedevents-test/media/images/test.png',
@@ -485,6 +496,42 @@ export const fakePersonNodeEdge = (
   node: fakePerson(overrides),
 });
 
+const emptyNodeConnectionBase = {
+  count: 0,
+  edges: [],
+  pageInfo: {
+    __typename: 'PageInfo' as const,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
+
+export const emptyEnrolmentNodeConnection: EnrolmentNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'EnrolmentNodeConnection',
+};
+
+export const emptyEventQueueEnrolmentNodeConnection: EventQueueEnrolmentNodeConnection =
+  {
+    ...emptyNodeConnectionBase,
+    __typename: 'EventQueueEnrolmentNodeConnection',
+  };
+
+export const emptyOccurrenceNodeConnection: OccurrenceNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'OccurrenceNodeConnection',
+};
+
+export const emptyOrganisationNodeConnection: OrganisationNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'OrganisationNodeConnection',
+};
+
+export const emptyStudyGroupNodeConnection: StudyGroupNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'StudyGroupNodeConnection',
+};
+
 export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   __typename: 'PersonNode',
   id: faker.string.uuid(),
@@ -492,13 +539,13 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   language: 'FI' as Language,
   name: faker.person.firstName(),
   phoneNumber: faker.phone.number(),
-  createdAt: '' as any,
-  enrolmentSet: '' as any,
-  eventqueueenrolmentSet: [] as any,
-  occurrences: [] as any,
-  organisations: [] as any,
-  studygroupSet: '' as any,
-  updatedAt: '' as any,
+  createdAt: '',
+  enrolmentSet: emptyEnrolmentNodeConnection,
+  eventqueueenrolmentSet: emptyEventQueueEnrolmentNodeConnection,
+  occurrences: emptyOccurrenceNodeConnection,
+  organisations: emptyOrganisationNodeConnection,
+  studygroupSet: emptyStudyGroupNodeConnection,
+  updatedAt: '',
   isStaff: true,
   organisationproposalSet: fakeOrganisationProposals(),
   placeIds: [],

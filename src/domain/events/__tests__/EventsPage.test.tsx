@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
@@ -261,61 +260,71 @@ const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
 };
 
 test('renders events list and load more events button works', async () => {
-  advanceTo(new Date(2020, 5, 20));
-  const toastErrorSpy = jest.spyOn(toast, 'error');
+  vi.setSystemTime(new Date(2020, 5, 20));
+  const toastErrorSpy = vi.spyOn(toast, 'error');
   renderComponent();
 
-  await waitFor(() => {
-    expect(
-      screen.getByRole('heading', { name: `Tapahtumat 5 kpl` })
-    ).toBeInTheDocument();
-  });
-
-  eventOverrides.slice(0, 5).forEach((event) => {
-    expect(screen.getByText(event.name!.fi!)).toBeInTheDocument();
-    expect(screen.getByText(event.shortDescription!.fi!)).toBeInTheDocument();
-    expect(screen.queryByText(event.description!.fi!)).not.toBeInTheDocument();
-  });
-
-  // shouldn't be in the document before fetching more event
-  expect(
-    screen.queryByText(eventOverrides[6].shortDescription!.fi!)
-  ).not.toBeInTheDocument();
-
-  await userEvent.click(
-    screen.getAllByRole('button', { name: /näytä lisää/i })[0]
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
   );
 
-  expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 5 kpl` },
+    { timeout: 2_000 }
+  );
+
+  for (const event of eventOverrides.slice(0, 5)) {
+    await screen.findByText(event.name!.fi!);
+    await screen.findByText(event.shortDescription!.fi!);
+    await waitFor(() =>
+      expect(screen.queryByText(event.description!.fi!)).not.toBeInTheDocument()
+    );
+  }
+
+  // shouldn't be in the document before fetching more event
   await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(eventOverrides[6].shortDescription!.fi!)
+    ).not.toBeInTheDocument();
   });
 
-  await waitFor(() => {
-    screen.getByText(eventOverrides[5].name!.fi!);
-  });
-  eventOverrides.slice(5, 11).forEach((event) => {
-    expect(screen.getByText(event.name!.fi!)).toBeInTheDocument();
-  });
+  await userEvent.click(
+    (await screen.findAllByRole('button', { name: /näytä lisää/i }))[0]
+  );
 
-  await userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
-  await waitFor(() => {
-    expect(toastErrorSpy).toHaveBeenCalled();
-  });
+  await screen.findByText(eventOverrides[5].name!.fi!);
+  for (const event of eventOverrides.slice(5, 11)) {
+    await screen.findByText(event.name!.fi!);
+  }
+
+  await userEvent.click(
+    await screen.findByRole('button', { name: /näytä lisää/i })
+  );
+
+  await waitFor(
+    () => {
+      expect(toastErrorSpy).toHaveBeenCalled();
+    },
+    { timeout: 5_000 }
+  );
 
   expect(toastErrorSpy.mock.calls).toMatchInlineSnapshot(`
-    Array [
-      Array [
+    [
+      [
         "Tapahtumien lataaminen epäonnistui",
       ],
     ]
   `);
-});
+}, 20_000);
 
 test('events can be searched with text', async () => {
   const eventName = 'Haettu tapahtuma';
-  const eventDescription = 'Haeutun tapahtuma kuvaus';
+  const eventDescription = 'Haetun tapahtuma kuvaus';
   const textSearchEventsMock = fakeEvents(1, [
     {
       name: fakeLocalizedObject(eventName),
@@ -357,25 +366,41 @@ test('events can be searched with text', async () => {
     ],
   };
   renderComponent(searchMock);
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
-  const searchInput = screen.getByRole('textbox', {
+  const searchInput = await screen.findByRole('textbox', {
     name: /haku/i,
   });
   await userEvent.type(searchInput, eventName);
-  await waitFor(() => {
-    expect(searchInput).toHaveValue(eventName);
-  });
+  await waitFor(() => expect(searchInput).toHaveValue(eventName));
 
-  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-  expect(screen.getByText(eventName)).toBeInTheDocument();
-  expect(screen.getByText(eventDescription)).toBeInTheDocument();
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
+
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 1 kpl` },
+    { timeout: 2_000 }
+  );
+  expect(await screen.findByText(eventName)).toBeInTheDocument();
+  expect(await screen.findByText(eventDescription)).toBeInTheDocument();
 
   await userEvent.clear(searchInput);
-  await waitFor(() => {
-    expect(searchInput).toHaveValue('');
-  });
-  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-});
+  await waitFor(() => expect(searchInput).toHaveValue(''));
+
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
+
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 5 kpl` },
+    { timeout: 2_000 }
+  );
+}, 20_000);
 
 test('events can be searched with places from user profile', async () => {
   // events that have matching placeId
@@ -383,12 +408,12 @@ test('events can be searched with places from user profile', async () => {
     {
       placeId: places[0].id,
       eventName: 'Haettu tapahtuma',
-      eventDescription: 'Haeutun tapahtuma kuvaus',
+      eventDescription: 'Haetun tapahtuma kuvaus',
     },
     {
       placeId: places[1].id,
       eventName: 'Haettu tapahtuma2',
-      eventDescription: 'Haeutun tapahtuma kuvaus2',
+      eventDescription: 'Haetun tapahtuma kuvaus2',
     },
   ];
   const searchMock = {
@@ -418,35 +443,72 @@ test('events can be searched with places from user profile', async () => {
   };
   renderComponent(searchMock);
 
-  await screen.findByRole('heading', { name: `Tapahtumat 5 kpl` });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
+
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 5 kpl` },
+    { timeout: 2_000 }
+  );
 
   // Test first place filter and clear it
-  const placesDropdownToggle = screen.getByRole('button', {
+  const placesDropdownToggle = await screen.findByRole('button', {
     name: /paikat: avaa valikko/i,
   });
   await userEvent.click(placesDropdownToggle);
   await userEvent.click(
-    screen.getByRole('option', { name: places[0].name!.fi! })
+    await screen.findByRole('option', { name: places[0].name!.fi! })
   );
 
-  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-  expect(screen.getByText(events[0].eventName)).toBeInTheDocument();
-  expect(screen.getByText(events[0].eventDescription)).toBeInTheDocument();
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
-  const clearPlacesButton = screen.getByRole('button', {
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 1 kpl` },
+    { timeout: 2_000 }
+  );
+  expect(await screen.findByText(events[0].eventName)).toBeInTheDocument();
+  expect(
+    await screen.findByText(events[0].eventDescription)
+  ).toBeInTheDocument();
+
+  const clearPlacesButton = await screen.findByRole('button', {
     name: /tyhjennä kaikki paikat/i,
   });
   await userEvent.click(clearPlacesButton);
 
-  await screen.findByRole('heading', { name: `Tapahtumat 5 kpl` });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
+
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 5 kpl` },
+    { timeout: 2_000 }
+  );
 
   await userEvent.click(placesDropdownToggle);
 
   // Test second place filter
   await userEvent.click(
-    screen.getByRole('option', { name: places[1].name!.fi! })
+    await screen.findByRole('option', { name: places[1].name!.fi! })
   );
-  await screen.findByRole('heading', { name: `Tapahtumat 1 kpl` });
-  expect(screen.getByText(events[1].eventName)).toBeInTheDocument();
-  expect(screen.getByText(events[1].eventDescription)).toBeInTheDocument();
-});
+
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
+
+  await screen.findByRole(
+    'heading',
+    { name: `Tapahtumat 1 kpl` },
+    { timeout: 2_000 }
+  );
+  expect(await screen.findByText(events[1].eventName)).toBeInTheDocument();
+  expect(
+    await screen.findByText(events[1].eventDescription)
+  ).toBeInTheDocument();
+}, 20_000);

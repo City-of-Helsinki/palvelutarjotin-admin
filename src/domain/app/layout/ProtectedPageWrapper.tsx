@@ -30,28 +30,4 @@ const ProtectedPageWrapper: React.FC<{ children?: React.ReactNode }> = ({
   );
 };
 
-// TODO: Delete if not needed in the future
-// const formUrl =
-//   // eslint-disable-next-line max-len
-//   'https://forms.office.com/pages/responsepage.aspx?id=wWvrPyLXJkeWbFtYtk33Ur0bt-wUL5dOlM97YAn7aadUNUhZVjdXMlRZTlBQUUNLT01VWlpVR1o2NiQlQCN0PWcu';
-
-// const StaffRightsNotification: React.FC = () => {
-//   const { t } = useTranslation();
-
-//   return (
-//     <Container>
-//       <Notification type="alert" label={t('common.notification')}>
-//         <span
-//           dangerouslySetInnerHTML={{
-//             __html: t('common.getStaffRightsInstructionsText', {
-//               url: formUrl,
-//               openInNewTab: t('common.openInNewTab'),
-//             }),
-//           }}
-//         ></span>
-//       </Notification>
-//     </Container>
-//   );
-// };
-
 export default ProtectedPageWrapper;

@@ -12,7 +12,7 @@ const enableOidcLogging = () => {
   // Oidc.Log.level = Oidc.Log.DEBUG;
 };
 
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && import.meta.env.MODE !== 'test') {
   enableOidcLogging();
 }
 

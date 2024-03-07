@@ -10,8 +10,8 @@ configure({ defaultHidden: true });
 it('matches snapshot', () => {
   const { baseElement } = render(
     <DeleteEnrolmentModal
-      onClose={jest.fn()}
-      deleteEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      deleteEnrolment={vi.fn()}
       appElement={document.body}
     />
   );
@@ -20,8 +20,8 @@ it('matches snapshot', () => {
 });
 
 it('renders correctly and calls delete enrolment handler when button is clicked', async () => {
-  const onCloseHandler = jest.fn();
-  const deleteEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const deleteEnrolmentHandler = vi.fn();
   render(
     <DeleteEnrolmentModal
       onClose={onCloseHandler}

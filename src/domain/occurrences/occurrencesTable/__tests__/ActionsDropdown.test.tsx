@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { tableDropdownTestId } from '../../../../common/components/tableDropdown/TableDropdown';
 import { fakeOccurrence } from '../../../../utils/mockDataUtils';
@@ -9,12 +10,10 @@ import { ROUTES } from '../../../app/routes/constants';
 import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
-  };
+const navigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 const eventId = 'testEventId123';
 const occurrenceId = 'occurrenceId123';
@@ -27,8 +26,8 @@ const renderComponent = (props?: Partial<Props>) => {
       enrolmentType={EnrolmentType.Internal}
       eventId={eventId}
       isEventDraft
-      onDelete={jest.fn()}
-      onCancel={jest.fn()}
+      onDelete={vi.fn()}
+      onCancel={vi.fn()}
       row={mockOccurrence}
       {...props}
     />
@@ -46,7 +45,7 @@ it('open menu correctly', async () => {
 });
 
 it('navigates correctly from actions', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   renderComponent();
 
   await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
@@ -82,7 +81,7 @@ it.each([EnrolmentType.External, EnrolmentType.Unenrollable])(
 );
 
 it('renders cancel modal and cancel functionality works', async () => {
-  const onCancelMock = jest.fn();
+  const onCancelMock = vi.fn();
   const { container } = renderComponent({ onCancel: onCancelMock });
 
   Modal.setAppElement(container);
@@ -129,7 +128,7 @@ it('renders cancel modal and cancel functionality works', async () => {
 });
 
 it('renders delete modal correctly and delete functionality works', async () => {
-  const onDeleteMock = jest.fn();
+  const onDeleteMock = vi.fn();
   const { container } = renderComponent({ onDelete: onDeleteMock });
 
   Modal.setAppElement(container);

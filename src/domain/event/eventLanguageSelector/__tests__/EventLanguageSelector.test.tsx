@@ -31,7 +31,7 @@ const languagesProp = [
 //     <EventLanguageSelector
 //       selectedLanguage="fi"
 //       languages={languagesProp}
-//       onClick={jest.fn()}
+//       onClick={vi.fn()}
 //     />
 //   );
 
@@ -40,7 +40,7 @@ const languagesProp = [
 // });
 
 test('language selector button are rendered correctly', async () => {
-  const onClickMock = jest.fn();
+  const onClickMock = vi.fn();
   render(
     <EventLanguageSelector
       selectedLanguage="fi"

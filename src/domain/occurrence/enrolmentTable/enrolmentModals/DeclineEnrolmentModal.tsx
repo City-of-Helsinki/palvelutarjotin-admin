@@ -9,7 +9,6 @@ interface DeclineEnrolmentModalProps {
   enrollees?: EnrolleeProps[];
   appElement?: HTMLElement;
   loading?: boolean;
-  enrolmentId: string;
 }
 
 const DeclineEnrolmentModal: React.FC<DeclineEnrolmentModalProps> = ({

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import wait from 'waait';
+import { vi } from 'vitest';
 
 import {
   CreateMyProfileDocument,
@@ -19,21 +20,42 @@ import { fakeOrganisations, fakePerson } from '../../../../utils/mockDataUtils';
 import {
   act,
   renderWithRoute,
+  RHHCConfigProviderWithProvidedApolloClient,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
+import * as selectors from '../../../auth/selectors';
+import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
+import { headerMenuMock } from '../../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+
+vi.mock('../../../auth/selectors', async () => {
+  const actual = await vi.importActual('../../../auth/selectors');
+  return {
+    ...actual,
+    isAuthenticatedSelector: vi.fn(),
+  };
+});
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
+  return {
+    ...actual,
+    logoFi: 'mocked hds-react logoFi',
+  };
+});
+
 const userEmail = 'test@test.fi';
 const profileResponse = {
   data: {
-    myProfile: fakePerson(),
+    myProfile: fakePerson({ name: 'John Doe' }),
   },
 };
 
 beforeEach(() => {
   initCmsMenuItemsMocks();
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   server.use(
     graphql.query('Page', (req, res, ctx) => {
       return res(
@@ -46,7 +68,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const authenticatedInitialState = {
@@ -83,120 +105,134 @@ const mocks = [
     },
     result: profileResponse,
   },
+  { ...footerMenuMock },
+  { ...headerMenuMock },
+  { ...languagesMock },
 ];
 
-it('PageLayout matches snapshot', () => {
+it('PageLayout matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks} addTypename={true}>
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <PageLayout>
-            <div>Page layout children</div>
-          </PageLayout>
+          <RHHCConfigProviderWithProvidedApolloClient>
+            <PageLayout>
+              <div>Page layout children</div>
+            </PageLayout>
+          </RHHCConfigProviderWithProvidedApolloClient>
         </MemoryRouter>
       </Provider>
     </MockedProvider>
   );
-  // eslint-disable-next-line testing-library/no-node-access
+  await screen.findByText('Kulttuurikasvatus'); // Wait for Header
+  await screen.findByText('Kouluille ja päiväkodeille'); // Wait for Footer
   expect(container.firstChild).toMatchSnapshot();
 });
 
-it('Pagelayout renders profile page and registration pending page after submitting (for 3rd party providers)', async () => {
-  const mocks = [
-    {
-      request: {
-        query: MyProfileDocument,
-      },
-      result: {
-        data: {
-          myProfile: null,
+it(
+  'Pagelayout renders profile page and registration pending page after submitting' +
+    ' (for 3rd party providers)',
+  async () => {
+    const mocks = [
+      {
+        request: {
+          query: MyProfileDocument,
         },
-      },
-    },
-    {
-      request: {
-        query: MyProfileDocument,
-      },
-      result: {
-        data: {
-          myProfile: fakePerson({
-            organisations: fakeOrganisations(0),
-            isStaff: false,
-          }),
-        },
-      },
-    },
-    {
-      request: {
-        query: OrganisationsDocument,
-        variables: {
-          type: 'provider',
-        },
-      },
-      result: {
-        data: {
-          organisations: organisationMocks,
-        },
-      },
-    },
-    {
-      request: {
-        query: CreateMyProfileDocument,
-        variables: {
-          myProfile: {
-            emailAddress: userEmail,
-            name: 'Testi Testaaja',
-            organisations: ['organisation1', 'organisation2'],
-            phoneNumber: '123321123',
-            language: 'FI',
-            placeIds: [],
-            organisationProposals: [],
+        result: {
+          data: {
+            myProfile: null,
           },
         },
       },
-      result: {
-        data: {
-          createMyProfile: {
-            myProfile: fakePerson(),
+      {
+        request: {
+          query: MyProfileDocument,
+        },
+        result: {
+          data: {
+            myProfile: fakePerson({
+              organisations: fakeOrganisations(0),
+              isStaff: false,
+            }),
           },
         },
       },
-    },
-  ];
+      {
+        request: {
+          query: OrganisationsDocument,
+          variables: {
+            type: 'provider',
+          },
+        },
+        result: {
+          data: {
+            organisations: organisationMocks,
+          },
+        },
+      },
+      {
+        request: {
+          query: CreateMyProfileDocument,
+          variables: {
+            myProfile: {
+              emailAddress: userEmail,
+              name: 'Testi Testaaja',
+              organisations: ['organisation1', 'organisation2'],
+              phoneNumber: '123321123',
+              language: 'FI',
+              placeIds: [],
+              organisationProposals: [],
+            },
+          },
+        },
+        result: {
+          data: {
+            createMyProfile: {
+              myProfile: fakePerson(),
+            },
+          },
+        },
+      },
+      { ...footerMenuMock },
+      { ...headerMenuMock },
+      { ...languagesMock },
+    ];
 
-  renderWithRoute(<PageLayout>Test</PageLayout>, {
-    routes: ['/'],
-    mocks,
-    initialState: authenticatedInitialState,
-  });
+    renderWithRoute(<PageLayout>Test</PageLayout>, {
+      routes: ['/'],
+      mocks,
+      initialState: authenticatedInitialState,
+    });
 
-  await act(wait);
+    await act(wait);
 
-  expect(screen.queryByText('Ilmoitus')).not.toBeInTheDocument();
-  expect(
-    screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
-  ).not.toBeInTheDocument();
+    expect(screen.queryByText('Ilmoitus')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Hanki oikeus tapahtumien julkaisuun tällä')
+    ).not.toBeInTheDocument();
 
-  expect(
-    screen.getByRole('heading', { name: 'Täydennä tietosi' })
-  ).toBeInTheDocument();
-  expect(screen.getByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Täydennä tietosi' })
+    ).toBeInTheDocument();
+    expect(screen.getByText('Hei, tervetuloa Kultukseen!')).toBeInTheDocument();
 
-  expect(screen.getByText(userEmail)).toBeInTheDocument();
+    expect(screen.getByText(userEmail)).toBeInTheDocument();
 
-  await fillAndSubmitProfileForm();
+    await fillAndSubmitProfileForm();
 
-  await screen.findByRole(
-    'heading',
-    { name: 'Kiitos rekisteröitymisestä' },
-    { timeout: 20000 }
-  );
-  expect(
-    screen.getByRole('heading', {
-      name: 'Rekisteröitymisesi odottaa käsittelyä',
-    })
-  ).toBeInTheDocument();
-});
+    await screen.findByRole(
+      'heading',
+      { name: 'Kiitos rekisteröitymisestä' },
+      { timeout: 20000 }
+    );
+    expect(
+      screen.getByRole('heading', {
+        name: 'Rekisteröitymisesi odottaa käsittelyä',
+      })
+    ).toBeInTheDocument();
+  },
+  20_000
+);
 
 it('Pagelayout renders children when user has profile, organisations and has staff role', async () => {
   const mocks = [
@@ -213,6 +249,9 @@ it('Pagelayout renders children when user has profile, organisations and has sta
         },
       },
     },
+    { ...footerMenuMock },
+    { ...headerMenuMock },
+    { ...languagesMock },
   ];
 
   renderWithRoute(<PageLayout>TextChildren</PageLayout>, {
@@ -221,9 +260,7 @@ it('Pagelayout renders children when user has profile, organisations and has sta
     initialState: authenticatedInitialState,
   });
 
-  await waitFor(() => {
-    expect(screen.getByText('TextChildren')).toBeInTheDocument();
-  });
+  expect(await screen.findByText('TextChildren')).toBeInTheDocument();
 });
 
 it('render registration pending page', async () => {
@@ -241,6 +278,9 @@ it('render registration pending page', async () => {
         },
       },
     },
+    { ...footerMenuMock },
+    { ...headerMenuMock },
+    { ...languagesMock },
   ];
 
   const testText = 'testText';

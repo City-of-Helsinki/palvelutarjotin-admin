@@ -103,7 +103,7 @@ const mocks = [
         },
       },
     },
-    newData: jest.fn(() => ({
+    newData: vi.fn(() => ({
       data: {
         eventQueueEnrolments: {
           count: 0,
@@ -120,7 +120,7 @@ const renderComponent = (props?: Partial<Props>) => {
       occurrenceId={occurrenceId}
       eventId={linkedEventId}
       row={mockQueueEnrolment}
-      onEnrolmentsModified={jest.fn()}
+      onEnrolmentsModified={vi.fn()}
       {...props}
     />,
     { mocks }

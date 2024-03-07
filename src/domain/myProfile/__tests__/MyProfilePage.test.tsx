@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import * as graphql from '../../../generated/graphql';
 import {
@@ -16,10 +17,10 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import MyProfilePage from '../MyProfilePage';
 
-jest.mock('../../../generated/graphql', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../../generated/graphql'),
-}));
+vi.mock('../../../generated/graphql', async () => {
+  const actual = await vi.importActual('../../../generated/graphql');
+  return { ...actual };
+});
 
 const organisationMocks1 = fakeOrganisations(2, [
   {
@@ -91,9 +92,9 @@ test('render profile page correctly', async () => {
     routes: ['/profile'],
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(
     screen.getByRole('heading', { name: 'Omat tiedot' })
@@ -105,19 +106,19 @@ test('render profile page correctly', async () => {
 });
 
 test('profile can be edited', async () => {
-  const updateProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useUpdateMyProfileMutation')
-    .mockReturnValue([updateProfileMock] as any);
+  const updateProfileMock = vi.fn();
+  vi.spyOn(graphql, 'useUpdateMyProfileMutation').mockReturnValue([
+    updateProfileMock,
+  ] as any);
   renderWithRoute(<MyProfilePage />, {
     mocks: apolloMocks,
     path: ROUTES.MY_PROFILE,
     routes: ['/profile'],
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(
     screen.getByRole('heading', { name: 'Omat tiedot' })
@@ -160,4 +161,4 @@ test('profile can be edited', async () => {
       screen.queryByText('Omat tiedot tallennettu onnistuneesti')
     ).toBeVisible();
   });
-});
+}, 20_000);

@@ -196,6 +196,6 @@ describe('queryPageWithUri', () => {
     );
 
     const { data: pageResponse } = await queryPageWithUri(uri);
-    expect(page.id).toEqual(pageResponse.page.id);
+    expect(page.id).toEqual(pageResponse?.page?.id);
   });
 });

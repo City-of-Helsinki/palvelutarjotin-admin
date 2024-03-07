@@ -1,59 +1,46 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import MenuDropdown, { MenuDropdownProps, MenuItem } from '../MenuDropdown';
 
-const renderMenuDropdown = (props: MenuDropdownProps) => {
+const renderMenuDropdown = async (props: MenuDropdownProps) => {
   const ui = <MenuDropdown {...props} />;
 
-  const { container } = render(ui);
+  // FIXME: Remove act() wrapping workaround, see if warning can be fixed better:
+  const { container } = await act(() => render(ui));
 
-  const menu = screen.getByRole('menu');
-
-  const toggleButton = screen.getByLabelText(props.buttonText, {
+  const toggleButton = await screen.findByLabelText(props.buttonText, {
     selector: 'button',
   });
 
-  const clickOnToggleButton = async () => {
-    await userEvent.click(toggleButton);
-  };
-
-  const getItems = () => screen.getAllByRole('menuitem');
-
-  const getItemAtIndex = (index: number) => getItems()[index];
-
-  const clickOnItemAtIndex = async (index: number) => {
-    await userEvent.click(getItemAtIndex(index));
-  };
-
-  const keyDown = (key: string) => {
-    fireEvent.keyDown(container, { key });
-  };
+  const getItemAtIndex = async (index: number) =>
+    (await screen.findAllByRole('menuitem'))[index];
 
   const arrowDown = () => {
-    keyDown('ArrowDown');
+    fireEvent.keyDown(container, { key: 'ArrowDown' });
   };
 
   const arrowUp = () => {
-    keyDown('ArrowUp');
+    fireEvent.keyDown(container, { key: 'ArrowUp' });
   };
 
   return {
-    menu,
     toggleButton,
     getItemAtIndex,
-    getItems,
-    keyDown,
     arrowDown,
     arrowUp,
-    escape,
-    clickOnItemAtIndex,
-    clickOnToggleButton,
   };
 };
 
-const onClickMock = jest.fn();
+const onClickMock = vi.fn();
 
 const items: MenuItem[] = [1, 2, 3, 4].map((item) => ({
   onClick: onClickMock,
@@ -71,43 +58,43 @@ const defaultProps: MenuDropdownProps = {
 
 describe('MenuDropdown component', () => {
   it('changes focused item correctly', async () => {
-    const { arrowDown, arrowUp, clickOnToggleButton, getItemAtIndex } =
-      renderMenuDropdown(defaultProps);
+    const { arrowDown, arrowUp, toggleButton, getItemAtIndex } =
+      await renderMenuDropdown(defaultProps);
 
-    await clickOnToggleButton();
-
-    arrowDown();
-
-    expect(getItemAtIndex(0)).toHaveClass('isFocused');
-
-    arrowDown();
-    arrowDown();
-
-    expect(getItemAtIndex(2)).toHaveClass('isFocused');
+    await userEvent.click(toggleButton);
 
     arrowDown();
 
-    expect(getItemAtIndex(3)).toHaveClass('isFocused');
+    expect(await getItemAtIndex(0)).toHaveClass('isFocused');
+
+    arrowDown();
+    arrowDown();
+
+    expect(await getItemAtIndex(2)).toHaveClass('isFocused');
 
     arrowDown();
 
-    expect(getItemAtIndex(0)).toHaveClass('isFocused');
+    expect(await getItemAtIndex(3)).toHaveClass('isFocused');
+
+    arrowDown();
+
+    expect(await getItemAtIndex(0)).toHaveClass('isFocused');
 
     arrowUp();
 
-    expect(getItemAtIndex(3)).toHaveClass('isFocused');
+    expect(await getItemAtIndex(3)).toHaveClass('isFocused');
   });
 
-  it('calls onChange callback correctly', () => {
-    const { getItemAtIndex, clickOnToggleButton } =
-      renderMenuDropdown(defaultProps);
+  it('calls onChange callback correctly', async () => {
+    const { getItemAtIndex, toggleButton } =
+      await renderMenuDropdown(defaultProps);
 
-    clickOnToggleButton();
+    await userEvent.click(toggleButton);
 
-    items.forEach(async (item, index) => {
-      getItemAtIndex(index).click();
-      expect(onClickMock).toHaveBeenCalledTimes(index + 1);
-      expect(onClickMock).toHaveBeenCalledWith(item.value);
-    });
+    for (const [index, item] of items.entries()) {
+      await userEvent.click(await getItemAtIndex(index));
+      await waitFor(() => expect(onClickMock).toHaveBeenCalledTimes(index + 1));
+      await waitFor(() => expect(onClickMock).toHaveBeenCalledWith(item.value));
+    }
   });
 });

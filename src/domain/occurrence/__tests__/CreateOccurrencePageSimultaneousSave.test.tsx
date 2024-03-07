@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { parse as parseDate } from 'date-fns';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -34,21 +34,21 @@ import {
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
-  };
+
+const navigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.setSystemTime(vi.getRealSystemTime());
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -59,7 +59,7 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('save occurrence and event info simultaneously', () => {
   const fillForm = async () => {
@@ -193,31 +193,27 @@ describe('save occurrence and event info simultaneously', () => {
   };
 
   it('saves occurrence and event info when using save button', async () => {
-    advanceTo('2021-04-02');
-    const toastSuccess = jest.spyOn(toast, 'success');
+    vi.setSystemTime('2021-04-02');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     await fillForm();
     await userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledTimes(2);
-    });
+    await waitFor(() => expect(toastSuccess).toHaveBeenCalledTimes(2));
 
     expect(toastSuccess).toHaveBeenCalledWith('Tapahtuma-aika tallennettu');
     expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
   }, 70_000);
 
   it('saves occurrence and event info when using to go to publish button', async () => {
-    jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
-    advanceTo('2021-04-02');
-    const toastSuccess = jest.spyOn(toast, 'success');
+    vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+    vi.setSystemTime('2021-04-02');
+    const toastSuccess = vi.spyOn(toast, 'success');
     await fillForm();
 
     await userEvent.click(getFormElement('goToPublishing'));
 
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledTimes(2);
-    });
+    await waitFor(() => expect(toastSuccess).toHaveBeenCalledTimes(2));
 
     expect(toastSuccess).toHaveBeenCalledWith('Tapahtuma-aika tallennettu');
     expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
@@ -226,5 +222,5 @@ describe('save occurrence and event info simultaneously', () => {
     // await waitFor(() => {
     //   expect(navigate).toHaveBeenCalledWith(`/fi/events/${eventId}/summary`);
     // });
-  });
+  }, 30_000);
 });

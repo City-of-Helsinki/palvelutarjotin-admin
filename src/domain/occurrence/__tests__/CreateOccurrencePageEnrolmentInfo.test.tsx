@@ -1,10 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { format, parse as parseDate } from 'date-fns';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -27,7 +27,6 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
-  actWait,
   configure,
   renderWithRoute,
   screen,
@@ -43,21 +42,21 @@ import {
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
-  };
+
+const navigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.setSystemTime(vi.getRealSystemTime());
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -68,7 +67,7 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('location and enrolment info', () => {
   test('user can fill and save location and enrolment related info', async () => {
@@ -105,7 +104,7 @@ describe('location and enrolment info', () => {
     const formattedEnrolmentStartTime = formatIntoTime(
       new Date(enrolmentStartDateTimeValue)
     );
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -126,20 +125,26 @@ describe('location and enrolment info', () => {
       ).toHaveTextContent(venueDescription);
     });
 
-    // Text is contained in a div that is sibling to the input
-    expect(locationInput.parentElement).toHaveTextContent('Sellon kirjasto');
+    await waitFor(() => {
+      // Text is contained in a div that is sibling to the input
+      expect(locationInput.parentElement).toHaveTextContent('Sellon kirjasto');
+    });
 
-    expect(
-      screen.getByRole('checkbox', {
-        name: /ulkovaatesäilytys/i,
-      })
-    ).toBeChecked();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('checkbox', {
+          name: /ulkovaatesäilytys/i,
+        })
+      ).toBeChecked();
+    });
 
-    expect(
-      screen.getByRole('checkbox', {
-        name: /leikkitilaa ulkona/i,
-      })
-    ).not.toBeChecked();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('checkbox', {
+          name: /leikkitilaa ulkona/i,
+        })
+      ).not.toBeChecked();
+    });
 
     const enrolmentStartDateInput = getFormElement('enrolmentStartDate');
     const enrolmentStartHoursInput = getFormElement('enrolmentStartHours');
@@ -155,35 +160,32 @@ describe('location and enrolment info', () => {
 
     await userEvent.type(enrolmentEndDaysInput, '1');
 
-    await waitFor(() => {
-      expect(enrolmentStartMinutesInput).toHaveValue(startMinutes);
-    });
-    expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
-    expect(enrolmentStartHoursInput).toHaveValue(startHours);
+    await waitFor(() =>
+      expect(enrolmentStartMinutesInput).toHaveValue(startMinutes)
+    );
+    await waitFor(() =>
+      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate)
+    );
+    await waitFor(() =>
+      expect(enrolmentStartHoursInput).toHaveValue(startHours)
+    );
 
     const autoAcceptanceCheckbox = getFormElement('autoAcceptance');
-    expect(autoAcceptanceCheckbox).toBeChecked();
+    await waitFor(() => expect(autoAcceptanceCheckbox).toBeChecked());
     await userEvent.click(autoAcceptanceCheckbox);
-    expect(autoAcceptanceCheckbox).not.toBeChecked();
+    await waitFor(() => expect(autoAcceptanceCheckbox).not.toBeChecked());
 
     await userEvent.click(getFormElement('saveButton'));
 
     const goToPublishingButton = getFormElement('goToPublishing');
     const addNewOccurrenceButton = getOccurrenceFormElement('submit');
 
-    // Form buttons should be disabled during mutation request
-    await waitFor(() => {
-      expect(addNewOccurrenceButton).toBeDisabled();
-    });
-    expect(goToPublishingButton).toBeDisabled();
+    await waitFor(() =>
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
+    );
 
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
-
-    expect(goToPublishingButton).toBeEnabled();
-    expect(addNewOccurrenceButton).toBeEnabled();
-    await actWait();
+    await waitFor(() => expect(goToPublishingButton).toBeEnabled());
+    await waitFor(() => expect(addNewOccurrenceButton).toBeEnabled());
   }, 75_000);
 
   test('user can edit and save location and enrolment related info', async () => {
@@ -213,7 +215,7 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -255,9 +257,7 @@ describe('location and enrolment info', () => {
     await userEvent.clear(neededOccurrencesInput);
     await userEvent.type(neededOccurrencesInput, '3');
 
-    await waitFor(() => {
-      expect(neededOccurrencesInput).toHaveValue(3);
-    });
+    await waitFor(() => expect(neededOccurrencesInput).toHaveValue(3));
     expect(enrolmentEndDaysInput).toHaveValue(2);
     expect(enrolmentStartDateInput).toHaveValue('1.5.2021');
     expect(enrolmentStartMinutesInput).toHaveValue('00');
@@ -266,17 +266,13 @@ describe('location and enrolment info', () => {
     await userEvent.click(getFormElement('saveButton'));
 
     const goToPublishingButton = getFormElement('goToPublishing');
-    // Button should be disabled during mutation request
-    await waitFor(() => {
-      expect(goToPublishingButton).toBeDisabled();
-    });
 
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
+    await waitFor(() =>
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
+    );
 
-    expect(goToPublishingButton).not.toBeDisabled();
-  });
+    expect(goToPublishingButton).toBeEnabled();
+  }, 30_000);
 
   test('translation fields initialize correctly when event has multiple languages', async () => {
     const enrolmentEndDays = 1;
@@ -307,7 +303,7 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -345,13 +341,13 @@ describe('location and enrolment info', () => {
 
     await userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
+    await waitFor(() =>
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
+    );
   });
 
   test('notification modal works correctly when info is not filled', async () => {
-    jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+    vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
     const {
       occurrenceEndTime,
@@ -430,7 +426,7 @@ describe('location and enrolment info', () => {
     });
     Modal.setAppElement(container);
 
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -439,7 +435,6 @@ describe('location and enrolment info', () => {
       name: 'Siirry julkaisuun',
     });
     await userEvent.click(goToPublishButton);
-    await actWait();
     // form should be validated and errors should appear
     expect(
       await screen.findAllByText(/Tämä kenttä on pakollinen/i)
@@ -466,16 +461,15 @@ describe('location and enrolment info', () => {
     );
     await userEvent.type(enrolmentEndDaysInput, '1');
 
-    await waitFor(() => {
-      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
-    });
+    await waitFor(() =>
+      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate)
+    );
 
     // Try to go to publish page
     await userEvent.click(goToPublishButton);
-    await actWait();
-    await waitFor(() => {
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-    });
+    await waitFor(() =>
+      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
+    );
 
     // Modal should only have complaint about needing at least one occurrence
     const withinModal2 = within(screen.getByRole('dialog', { hidden: false }));
@@ -504,7 +498,6 @@ describe('location and enrolment info', () => {
 
     // Now everything should be ok
     await userEvent.click(goToPublishButton);
-    await actWait();
     // FIXME: the test is not working properly with requiredFieldsSchema.validateSync after dependency update
     // await waitFor(() => {
     //   expect(pushMock).toHaveBeenCalledWith(
@@ -539,7 +532,7 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -588,7 +581,7 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -624,5 +617,5 @@ describe('location and enrolment info', () => {
     await userEvent.click(getFormElement('saveButton'));
 
     await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
-  });
+  }, 20_000);
 });

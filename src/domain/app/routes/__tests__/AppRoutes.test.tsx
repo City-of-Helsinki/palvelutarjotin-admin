@@ -2,6 +2,7 @@
 import i18n from 'i18next';
 import { graphql } from 'msw';
 import * as React from 'react';
+import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
@@ -10,6 +11,19 @@ import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { act, render, waitFor } from '../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+import {
+  emptyFooterMenuQueryResponse,
+  footerMenuMock,
+} from '../../../../test/apollo-mocks/footerMenuMock';
+import {
+  emptyHeaderMenuQueryResponse,
+  headerMenuMock,
+} from '../../../../test/apollo-mocks/headerMenuMock';
+import {
+  FOOTER_MENU_NAME,
+  HEADER_MENU_NAME,
+} from '../../../../headless-cms/constants';
 
 const profileResponse = {
   data: {
@@ -23,6 +37,40 @@ const mocks = [
       query: MyProfileDocument,
     },
     result: profileResponse,
+  },
+  { ...languagesMock },
+  { ...headerMenuMock },
+  { ...footerMenuMock },
+  // Just to make sure all queries are matched with mocks—even empty mocks:
+  {
+    request: {
+      query: MenuDocument,
+      variables: {
+        id: HEADER_MENU_NAME['en'],
+        menuIdentifiersOnly: false,
+      },
+    },
+    result: emptyHeaderMenuQueryResponse,
+  },
+  {
+    request: {
+      query: MenuDocument,
+      variables: {
+        id: HEADER_MENU_NAME['en'],
+        menuIdentifiersOnly: true,
+      },
+    },
+    result: emptyHeaderMenuQueryResponse,
+  },
+  {
+    request: {
+      query: MenuDocument,
+      variables: {
+        id: FOOTER_MENU_NAME['en'],
+        menuIdentifiersOnly: true,
+      },
+    },
+    result: emptyFooterMenuQueryResponse,
   },
 ];
 
@@ -42,44 +90,39 @@ beforeEach(() => {
   (async () => await act(() => i18n.changeLanguage('fi')))();
 });
 
-const wrapperCreator = (route: string) =>
-  render(<AppRoutes />, { routes: [route], mocks });
+const wrapperCreator = async (route: string) =>
+  // FIXME: Remove this workaround and see if warning can be fixed in better way:
+  await act(async () => {
+    render(<AppRoutes />, { routes: [route], mocks });
+  });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 it('redirect user from root to /fi by default', async () => {
-  wrapperCreator('/');
-  await waitFor(() => {
-    expect(window.location.pathname).toBe('/fi');
-  });
+  await wrapperCreator('/');
+  await waitFor(() => expect(window.location.pathname).toBe('/fi'));
 });
 
 test('user from supported locale will be redirect to LocaleRoutes with that locale', async () => {
-  wrapperCreator('/en/');
-  await waitFor(() => {
-    expect(window.location.pathname).toBe('/en/');
-  });
+  await wrapperCreator('/en/');
+  await waitFor(() => expect(window.location.pathname).toBe('/en/'));
 });
 
 test('user from unsupported locale prefix will be redirect to route with support prefix', async () => {
-  wrapperCreator('/vi/');
-  await waitFor(() => {
-    expect(window.location.pathname).toContain('/fi/vi/');
-  });
+  await wrapperCreator('/vi/');
+  await waitFor(() => expect(window.location.pathname).toContain('/fi/vi/'));
 });
 
 it('user without locale prefix will be redirect to route with support prefix', async () => {
-  wrapperCreator('/foo-url');
-  await waitFor(() => {
-    expect(window.location.pathname).toContain('/fi/foo-url');
-  });
+  await wrapperCreator('/foo-url');
+  await waitFor(() =>
+    expect(window.location.pathname).toContain('/fi/foo-url')
+  );
 });
 
 it('user with route with unsupport locale will be redirect to LocaleRoutes anyway, with supported locale', async () => {
-  wrapperCreator('/dk/foo');
-  await waitFor(() => {
-    expect(window.location.pathname).toContain('/fi/dk/foo');
-  });
+  await wrapperCreator('/dk/foo');
+  await waitFor(() => expect(window.location.pathname).toContain('/fi/dk/foo'));
 });

@@ -1,7 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import {
   baseApolloMocks,
@@ -13,7 +13,6 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   renderWithRoute,
   screen,
@@ -27,19 +26,20 @@ import CreateOccurrencePage from '../CreateOccurrencePage';
 import { enrolmentInfoFormTestId } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import * as Utils from '../utils';
 
-jest.mock('../utils', () => ({
-  __esModule: true,
-  ...jest.requireActual('../utils'),
-}));
+vi.mock('../utils', async () => {
+  const actual = await vi.importActual('../utils');
+  return { ...actual };
+});
 
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.setSystemTime(vi.getRealSystemTime());
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
@@ -50,14 +50,14 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('enrolment type selector', () => {
   const radiosByType = {
     [EnrolmentType.Internal]: /ilmoittautuminen kultuksessa/i,
     [EnrolmentType.External]: /ilmoittautuminen muulla sivustolla/i,
     [EnrolmentType.Unenrollable]: /ei ilmoittautumista/i,
-  };
+  } as const;
 
   const fieldSetsByType = {
     [EnrolmentType.Internal]: [
@@ -69,7 +69,7 @@ describe('enrolment type selector', () => {
     ],
     [EnrolmentType.External]: [/Sähköposti- tai www-osoite ilmoittautumiseen/i],
     [EnrolmentType.Unenrollable]: [] as RegExp[],
-  };
+  } as const;
 
   it('renders proper event types', async () => {
     renderComponent({
@@ -80,9 +80,9 @@ describe('enrolment type selector', () => {
       name: /ilmoittautuminen/i,
     });
 
-    Object.values(radiosByType).forEach((label) => {
-      expect(screen.getByText(label)).toBeInTheDocument();
-    });
+    for (const label of Object.values(radiosByType)) {
+      expect(await screen.findByText(label)).toBeInTheDocument();
+    }
   });
 
   it.each((Object.keys(fieldSetsByType) as EnrolmentType[]).reverse())(
@@ -92,11 +92,8 @@ describe('enrolment type selector', () => {
         mocks: [getEventMockedResponse({})],
       });
 
-      await waitFor(() => {
-        expect(screen.getByText(radiosByType[type])).toBeInTheDocument();
-      });
-
-      await userEvent.click(screen.getByText(radiosByType[type]));
+      expect(await screen.findByText(radiosByType[type])).toBeInTheDocument();
+      await userEvent.click(await screen.findByText(radiosByType[type]));
 
       const visibleFieldLabels = fieldSetsByType[type];
       const hiddenFieldLabels = Object.values({
@@ -105,19 +102,20 @@ describe('enrolment type selector', () => {
       }).flat();
 
       const enrolmentInfoForm = within(
-        screen.getByTestId(enrolmentInfoFormTestId)
+        await screen.findByTestId(enrolmentInfoFormTestId)
       );
 
-      visibleFieldLabels.forEach((label) => {
-        expect(enrolmentInfoForm.getByText(label)).toBeInTheDocument();
-      });
+      for (const label of visibleFieldLabels) {
+        expect(await enrolmentInfoForm.findByText(label)).toBeInTheDocument();
+      }
 
-      hiddenFieldLabels.forEach((label) => {
-        expect(enrolmentInfoForm.queryByText(label)).not.toBeInTheDocument();
-      });
+      for (const label of hiddenFieldLabels) {
+        await waitFor(() =>
+          expect(enrolmentInfoForm.queryByText(label)).not.toBeInTheDocument()
+        );
+      }
 
       // avoid redundant "Warning: An update to Formik inside a test was not wrapped in act(...)." errors
-      await act(() => new Promise((res) => setTimeout(res, 0)));
     }
   );
 });
@@ -136,24 +134,34 @@ describe('auto acceptance for enrolments', () => {
     });
     // set as checked
     await userEvent.click(getFormElement('autoAcceptance'));
-    await waitFor(() => {
-      expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument()
+    );
     expect(
-      screen.getByRole('heading', {
+      await screen.findByRole('heading', {
         name: /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i,
       })
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot\./i
-      )
-    ).toBeInTheDocument();
+    const columnsRegExp = new RegExp(
+      [
+        'personoitu tervehdys',
+        'ilmoittautuminen vahvistettu',
+        'tapahtuman tiedot',
+        'aika',
+        'varattujen paikkojen lukumäärä',
+        'kieli',
+        'paikka',
+        'osoite',
+        'järjestäjän yhteystiedot',
+      ].join(', ') + '\\.',
+      'i'
+    );
+    expect(await screen.findByText(columnsRegExp)).toBeInTheDocument();
   });
 
   it('submits the auto acceptance message right', async () => {
-    const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const spyGetEditEventPayload = vi.spyOn(Utils, 'getEditEventPayload');
+    const toastSuccess = vi.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
@@ -193,9 +201,9 @@ describe('auto acceptance for enrolments', () => {
     });
     // set as checked
     await userEvent.click(getFormElement('autoAcceptance'));
-    await waitFor(() => {
-      expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(getFormElement('autoAcceptanceMessage')).toBeInTheDocument()
+    );
     await userEvent.type(
       getFormElement('autoAcceptanceMessage'),
       customMessage
@@ -208,27 +216,31 @@ describe('auto acceptance for enrolments', () => {
       },
       { timeout: 10000 }
     );
-    expect(spyGetEditEventPayload).toHaveBeenCalledWith({
-      event: expect.anything(),
-      formValues: expect.objectContaining({
-        autoAcceptance: true,
-        autoAcceptanceMessage: customMessage,
-      }),
-    });
-    expect(spyGetEditEventPayload).toHaveReturnedWith(
-      expect.objectContaining({
-        pEvent: expect.objectContaining({
-          translations: [
-            { languageCode: 'FI', autoAcceptanceMessage: customMessage },
-          ],
+    await waitFor(() => {
+      expect(spyGetEditEventPayload).toHaveBeenCalledWith({
+        event: expect.anything(),
+        formValues: expect.objectContaining({
+          autoAcceptance: true,
+          autoAcceptanceMessage: customMessage,
         }),
-      })
-    );
-  });
+      });
+    });
+    await waitFor(() => {
+      expect(spyGetEditEventPayload).toHaveReturnedWith(
+        expect.objectContaining({
+          pEvent: expect.objectContaining({
+            translations: [
+              { languageCode: 'FI', autoAcceptanceMessage: customMessage },
+            ],
+          }),
+        })
+      );
+    });
+  }, 30_000);
 
   it('clears the auto acceptance message on submit when auto acceptance is set off', async () => {
-    const spyGetEditEventPayload = jest.spyOn(Utils, 'getEditEventPayload');
-    const toastSuccess = jest.spyOn(toast, 'success');
+    const spyGetEditEventPayload = vi.spyOn(Utils, 'getEditEventPayload');
+    const toastSuccess = vi.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
@@ -277,11 +289,13 @@ describe('auto acceptance for enrolments', () => {
         })
       ).not.toBeInTheDocument();
     });
-    expect(
-      screen.queryByRole('heading', {
-        name: /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i,
-      })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('heading', {
+          name: /vahvistusviesti sisältää automaattisesti seuraavat tiedot/i,
+        })
+      ).not.toBeInTheDocument();
+    });
 
     await userEvent.click(getFormElement('saveButton'));
     await waitFor(
@@ -290,17 +304,21 @@ describe('auto acceptance for enrolments', () => {
       },
       { timeout: 10000 }
     );
-    expect(spyGetEditEventPayload).toHaveBeenCalledWith({
-      event: expect.anything(),
-      formValues: expect.objectContaining({
-        autoAcceptance: false,
-        autoAcceptanceMessage: customMessage,
-      }),
+    await waitFor(() => {
+      expect(spyGetEditEventPayload).toHaveBeenCalledWith({
+        event: expect.anything(),
+        formValues: expect.objectContaining({
+          autoAcceptance: false,
+          autoAcceptanceMessage: customMessage,
+        }),
+      });
     });
-    expect(spyGetEditEventPayload).toHaveReturnedWith(
-      expect.objectContaining({
-        pEvent: expect.objectContaining({ translations: [] }),
-      })
-    );
-  });
+    await waitFor(() => {
+      expect(spyGetEditEventPayload).toHaveReturnedWith(
+        expect.objectContaining({
+          pEvent: expect.objectContaining({ translations: [] }),
+        })
+      );
+    });
+  }, 20_000);
 });

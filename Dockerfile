@@ -25,8 +25,8 @@ ENV PATH=$PATH:/app/.npm-global/bin
 ENV YARN_VERSION 1.22.4
 RUN yarn policies set-version ${YARN_VERSION}
 
-# Copy package.json and package-lock.json/yarn.lock files
-COPY package*.json *yarn* ./
+# Copy package.json, package-lock.json, yarn.lock & printVersion.js files
+COPY package*.json *yarn* printVersion.js ./
 
 # Install npm dependencies
 ENV PATH /app/node_modules/.bin:$PATH

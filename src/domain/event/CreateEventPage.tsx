@@ -69,6 +69,7 @@ const CreateEventPage: React.FC = () => {
   );
 
   useEffect(() => {
+    let isCancelled = false;
     const getInitialValues = async () => {
       try {
         if (eventIdToCopy) {
@@ -80,18 +81,28 @@ const CreateEventPage: React.FC = () => {
               include: ['audience', 'in_language', 'keywords', 'location'],
             },
           });
-          setEventOrganisation(data.event?.pEvent?.organisation);
-          setInitialValues(getEventFormValues(data));
+          if (!isCancelled) {
+            setEventOrganisation(data.event?.pEvent?.organisation);
+            setInitialValues(getEventFormValues(data));
+          }
         } else {
-          setInitialValues(createEventInitialValues);
+          if (!isCancelled) {
+            setInitialValues(createEventInitialValues);
+          }
         }
       } catch (err: any) {
         handleError(err);
       } finally {
-        setLoading(false);
+        if (!isCancelled) {
+          setLoading(false);
+        }
       }
     };
     getInitialValues();
+
+    return () => {
+      isCancelled = true; // Clean up
+    };
   }, [eventIdToCopy, apolloClient, handleError, setInitialValues, setLoading]);
 
   const organisation = eventOrganisation ?? selectedOrganisation;

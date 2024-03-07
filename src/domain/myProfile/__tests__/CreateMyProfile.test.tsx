@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import * as graphql from '../../../generated/graphql';
@@ -18,10 +19,11 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateMyProfile from '../CreateMyProfile';
-jest.mock('../../../generated/graphql', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../../generated/graphql'),
-}));
+
+vi.mock('../../../generated/graphql', async () => {
+  const actual = await vi.importActual('../../../generated/graphql');
+  return { ...actual };
+});
 const places = [
   {
     placeSearchString: 'Sellon',
@@ -121,7 +123,7 @@ const apolloMocks: MockedResponse[] = [
   ...placesMockResponses,
 ];
 
-const refetch = jest.fn();
+const refetch = vi.fn();
 
 const renderComponent = () => {
   return renderWithRoute(<CreateMyProfile refetch={refetch} />, {
@@ -132,16 +134,16 @@ const renderComponent = () => {
 };
 
 test('can create profile with all the information', async () => {
-  const createProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useCreateMyProfileMutation')
-    .mockReturnValue([createProfileMock] as any);
+  const createProfileMock = vi.fn();
+  vi.spyOn(graphql, 'useCreateMyProfileMutation').mockReturnValue([
+    createProfileMock,
+  ] as any);
 
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
   expect(
     screen.getByRole('heading', { name: 'Täydennä tietosi' })
   ).toBeInTheDocument();
@@ -175,11 +177,6 @@ test('can create profile with all the information', async () => {
   // Add second location
   await userEvent.type(locationField, places[1].placeSearchString);
 
-  // this has failed couple of times in commit tests
-  // if it fails again, try adding these lines
-  // await act(() => new Promise((res) => setTimeout(res, 500)));
-  // screen.logTestingPlaygroundURL();
-  // and try to commit again
   const locationOption2 = await screen.findByRole(
     'option',
     {
@@ -242,15 +239,15 @@ test('can create profile with all the information', async () => {
 }, 50_000);
 
 test('create profile with organisation proposal', async () => {
-  const createProfileMock = jest.fn();
-  jest
-    .spyOn(graphql, 'useCreateMyProfileMutation')
-    .mockReturnValue([createProfileMock] as any);
+  const createProfileMock = vi.fn();
+  vi.spyOn(graphql, 'useCreateMyProfileMutation').mockReturnValue([
+    createProfileMock,
+  ] as any);
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   await userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
   await userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');

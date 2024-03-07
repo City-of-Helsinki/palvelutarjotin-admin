@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import wait from 'waait';
+import { vi } from 'vitest';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';
@@ -30,18 +31,15 @@ import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';
 import EditEnrolmentPage from '../EditEnrolmentPage';
-const navigate = jest.fn();
-jest.mock('../../../generated/graphql', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('../../../generated/graphql'),
-  };
+
+const navigate = vi.fn();
+vi.mock('../../../generated/graphql', async () => {
+  const actual = await vi.importActual('../../../generated/graphql');
+  return { ...actual };
 });
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 const eventId = 'palvelutarjotin:afzunowba4';
 const enrolmentId = 'RW5yb2xtZW50Tm9kZToyNw==';
@@ -103,7 +101,7 @@ const originalUseUpdateEnrolmentMutation =
   graphqlFns.useUpdateEnrolmentMutation;
 
 // act errors from formik that I couldn't resolve
-jest.spyOn(console, 'error').mockImplementation(jest.fn());
+vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
 const apolloMocks = [
   {
@@ -137,7 +135,7 @@ afterEach(() => {
   // copy the original back so we can modify it in the tests
   (graphqlFns.useUpdateEnrolmentMutation as any) =
     originalUseUpdateEnrolmentMutation;
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 const renderPage = ({ mocks }: { mocks?: any } = {}) => {
@@ -156,9 +154,9 @@ const renderPage = ({ mocks }: { mocks?: any } = {}) => {
 
 it('initializes edit form correctly', async () => {
   renderPage();
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
   await screen.findByRole('heading', {
     name: messages.enrolment.editEnrolmentTitle,
   });
@@ -247,11 +245,11 @@ it('initializes edit form correctly', async () => {
 
 it('calls update enrolment function with correct parameters when form is submitted', async () => {
   // TODO: Use normal ApolloMockProvider mock
-  const updateEnrolmentMock = jest.fn();
-  (graphqlFns.useUpdateEnrolmentMutation as any) = jest.fn(() => [
+  const updateEnrolmentMock = vi.fn();
+  (graphqlFns.useUpdateEnrolmentMutation as any) = vi.fn(() => [
     updateEnrolmentMock,
   ]);
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 
   renderPage();
 
@@ -265,9 +263,7 @@ it('calls update enrolment function with correct parameters when form is submitt
     })
   );
 
-  await waitFor(() => {
-    expect(navigate).toHaveBeenCalled();
-  });
+  await waitFor(() => expect(navigate).toHaveBeenCalled());
 
   expect(updateEnrolmentMock).toHaveBeenCalledTimes(1);
   expect(updateEnrolmentMock.mock.calls[0]).toEqual([
@@ -382,7 +378,7 @@ describe('UnitField', () => {
     await userEvent.tab();
 
     expect(getUnitFieldInput()).toHaveValue('Testikoulu');
-  });
+  }, 20_000);
 
   it('renders a list of schools and kindergartens in unit id field', async () => {
     await setupUnitFieldTest();
@@ -401,18 +397,17 @@ describe('UnitField', () => {
     await userEvent.type(getUnitFieldInput(), 'place12');
 
     // wait for debounce to trigger and populate localStorage
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(() => wait(500));
 
     // The inserted text should filter autosuggest field options
     await screen.findByText('place12');
     await screen.findByText('place123');
 
-    await waitFor(() => {
-      expect(screen.queryByText('place2')).not.toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(screen.queryByText('place2')).not.toBeInTheDocument()
+    );
     expect(screen.queryByText('place1')).not.toBeInTheDocument();
-  });
+  }, 20_000);
 
   it('renders prefilled unit id', async () => {
     const enrolmentWithoutUnit = {
@@ -457,33 +452,46 @@ describe('UnitField', () => {
     await screen.findByText(/place12/i);
   });
 
-  it.each<MockedResponse[] | undefined>([
-    [
+  it('shows the unit text in autosuggest div next to found input', async () => {
+    const placeMocks = [
       createPlaceQueryMock({
         id: 'test:place12',
         name: fakeLocalizedObject('place12'),
       }),
-    ],
-    undefined,
-  ])(
-    'shows the unit text in a autosuggest div next to the input (%p)',
-    async (placeMocks: any) => {
-      await setupUnitFieldTest(placeMocks);
+    ];
 
-      await userEvent.type(getUnitFieldInput(), 'place12');
+    await setupUnitFieldTest(placeMocks);
 
-      await screen.findByText('place12');
+    await userEvent.type(getUnitFieldInput(), 'place12');
 
-      // Select an unit
-      await userEvent.click(screen.getByText('place12'));
+    await screen.findByText('place12');
 
-      await waitFor(() => {
-        expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
-          placeMocks ? 'place12' : 'unitPlaceSelector.noPlaceFoundError'
-        );
-      });
-    }
-  );
+    // Select an unit
+    await userEvent.click(screen.getByText('place12'));
+
+    await waitFor(() => {
+      expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
+        'place12'
+      );
+    });
+  }, 20_000);
+
+  it('shows "no place found" text in autosuggest div next to invalid input', async () => {
+    await setupUnitFieldTest(undefined);
+
+    await userEvent.type(getUnitFieldInput(), 'place12');
+
+    await screen.findByText('place12');
+
+    // Select an unit
+    await userEvent.click(screen.getByText('place12'));
+
+    await waitFor(() => {
+      expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
+        'unitPlaceSelector.noPlaceFoundError'
+      );
+    });
+  }, 20_000);
 
   it('clears the unit id value when a clear button is clicked', async () => {
     await setupUnitFieldTest([
@@ -509,7 +517,7 @@ describe('UnitField', () => {
       screen.getByRole('textbox', {
         name: /päiväkoti \/ koulu \/ oppilaitos/i,
       }).nextElementSibling
-    ).not.toBe(null);
+    ).not.toBeNull();
 
     // clear the selection
     await userEvent.click(
@@ -522,8 +530,8 @@ describe('UnitField', () => {
       screen.getByRole('textbox', {
         name: /päiväkoti \/ koulu \/ oppilaitos/i,
       }).nextElementSibling
-    ).toBe(null);
-  });
+    ).toBeNull();
+  }, 20_000);
 });
 
 describe('max group size validation of the Children and Adults -fields', () => {

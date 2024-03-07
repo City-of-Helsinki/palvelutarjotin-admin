@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { addDays, format, parse as parseDate } from 'date-fns';
-import { advanceTo, clear } from 'jest-date-mock';
 import * as React from 'react';
 
 import { OccurrenceNode } from '../../../generated/graphql';
@@ -21,7 +20,6 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import {
-  actWait,
   configure,
   fireEvent,
   renderWithRoute,
@@ -38,11 +36,12 @@ import { occurrencesTableTestId } from '../occurrencesFormPart/OccurrencesFormPa
 configure({ defaultHidden: true });
 
 afterAll(() => {
-  clear();
+  vi.setSystemTime(vi.getRealSystemTime());
+  vi.useRealTimers();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 const mockOccurrences = fakeOccurrences(
@@ -58,7 +57,7 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-advanceTo('2021-04-02');
+vi.setSystemTime('2021-04-02');
 
 describe('occurrences form', () => {
   test('location input is prefilled when default location has been selected', async () => {
@@ -84,7 +83,6 @@ describe('occurrences form', () => {
         'Sellon kirjasto'
       );
     });
-    await actWait();
   });
 
   test('location input and orderable event checkbox are disabled when virtual event checkbox is checked', async () => {
@@ -111,12 +109,9 @@ describe('occurrences form', () => {
     await userEvent.click(virtualEventCheckbox);
 
     // await to get rid of act warnings
-    await waitFor(() => {
-      expect(virtualEventCheckbox).not.toBeChecked();
-    });
+    await waitFor(() => expect(virtualEventCheckbox).not.toBeChecked());
     expect(occurrenceLocationInput).toBeEnabled();
     expect(placeInput).toBeEnabled();
-    await actWait();
   });
 
   test('location input and virtual event checkbox are disabled when orderable event checkbox is checked', async () => {
@@ -144,12 +139,9 @@ describe('occurrences form', () => {
     await userEvent.click(orderableEventCheckbox);
 
     // await to get rid of act warnings
-    await waitFor(() => {
-      expect(orderableEventCheckbox).not.toBeChecked();
-    });
+    await waitFor(() => expect(orderableEventCheckbox).not.toBeChecked());
     expect(occurrenceLocationInput).toBeEnabled();
     expect(placeInput).toBeEnabled();
-    await actWait();
   });
 
   test('seats input is disabled and has value 1 when one group fills checkbox is checked', async () => {
@@ -163,9 +155,7 @@ describe('occurrences form', () => {
     const oneGroupFillsCheckbox = getOccurrenceFormElement('oneGroupFills')!;
     await userEvent.click(oneGroupFillsCheckbox);
 
-    await waitFor(() => {
-      expect(oneGroupFillsCheckbox).toBeChecked();
-    });
+    await waitFor(() => expect(oneGroupFillsCheckbox).toBeChecked());
 
     const seatsInput = getOccurrenceFormElement('seats');
     expect(seatsInput).toBeDisabled();
@@ -173,11 +163,8 @@ describe('occurrences form', () => {
 
     await userEvent.click(oneGroupFillsCheckbox);
 
-    await waitFor(() => {
-      expect(oneGroupFillsCheckbox).not.toBeChecked();
-    });
+    await waitFor(() => expect(oneGroupFillsCheckbox).not.toBeChecked());
     expect(seatsInput).toBeEnabled();
-    await actWait();
   });
 
   // FIXME: After upgrading the dependencies, the apollo-query's update command is no longer mocked properly.
@@ -225,7 +212,11 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}${occurrenceData1.maxGroupSize}`;
+    const occurrence1RowText =
+      `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}` +
+      'englanti, suomi' +
+      `${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}` +
+      `${occurrenceData1.maxGroupSize}`;
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -267,9 +258,9 @@ describe('occurrences form', () => {
 
     const [startHours, startMinutes] = occurrenceStartTime.split(':');
     const [endHours, endMinutes] = occurrenceEndTime.split(':');
-    await waitFor(() => {
-      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
-    });
+    await waitFor(() =>
+      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes)
+    );
     expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
     expect(occurrenceStartHoursInput).toHaveValue(startHours);
     expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
@@ -279,7 +270,6 @@ describe('occurrences form', () => {
     expect(occurrencesTable.getAllByRole('row')[1]).toHaveTextContent(
       occurrence1RowText
     );
-    await actWait();
   });
 
   // FIXME: After upgrading the dependencies, the apollo-query's update command is no longer mocked properly.
@@ -328,7 +318,11 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}${occurrenceData1.maxGroupSize}`;
+    const occurrence1RowText =
+      `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}` +
+      'englanti, suomi' +
+      `${occurrenceData1.amountOfSeats}${occurrenceData1.minGroupSize}` +
+      `${occurrenceData1.maxGroupSize}`;
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -369,9 +363,9 @@ describe('occurrences form', () => {
 
     const [startHours, startMinutes] = occurrenceStartTime.split(':');
     const [endHours, endMinutes] = occurrenceEndTime.split(':');
-    await waitFor(() => {
-      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
-    });
+    await waitFor(() =>
+      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes)
+    );
     expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
     expect(occurrenceStartHoursInput).toHaveValue(startHours);
     expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
@@ -460,9 +454,9 @@ describe('occurrences form', () => {
 
     const [startHours, startMinutes] = occurrenceStartTime.split(':');
     const [endHours, endMinutes] = occurrenceEndTime.split(':');
-    await waitFor(() => {
-      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes);
-    });
+    await waitFor(() =>
+      expect(occurrenceEndMinutesInput).toHaveValue(endMinutes)
+    );
     expect(occurrenceStartDateInput).toHaveValue(occurrenceStartDate);
     expect(occurrenceStartHoursInput).toHaveValue(startHours);
     expect(occurrenceStartMinutesInput).toHaveValue(startMinutes);
@@ -519,15 +513,19 @@ describe('occurrences form', () => {
       ],
     });
 
-    const occurrence1RowText = `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}englanti, suomi${occurrence.amountOfSeats}${occurrence.minGroupSize}${occurrence.maxGroupSize}`;
+    const occurrence1RowText =
+      `${placeName}${occurrenceStartDateTime}${occurrenceEndDateTime}` +
+      'englanti, suomi' +
+      `${occurrence.amountOfSeats}${occurrence.minGroupSize}` +
+      `${occurrence.maxGroupSize}`;
 
     await screen.findByTestId(occurrencesTableTestId);
     const occurrencesTable = within(screen.getByTestId(occurrencesTableTestId));
 
     const [, occurrence1, occurrence2] = occurrencesTable.getAllByRole('row');
-    await waitFor(() => {
-      expect(occurrence2).toHaveTextContent(occurrence1RowText);
-    });
+    await waitFor(() =>
+      expect(occurrence2).toHaveTextContent(occurrence1RowText)
+    );
     expect(occurrence1).toHaveTextContent(occurrence1RowText);
 
     const [, occurrenceRow1] = occurrencesTable.getAllByRole('row');
@@ -537,9 +535,9 @@ describe('occurrences form', () => {
     });
     expect(occurrencesTable.getAllByRole('row')).toHaveLength(3);
     await userEvent.click(deleteOccurrenceButton);
-    await waitFor(() => {
-      expect(occurrencesTable.getAllByRole('row')).toHaveLength(2);
-    });
+    await waitFor(() =>
+      expect(occurrencesTable.getAllByRole('row')).toHaveLength(2)
+    );
 
     const occurrenceRow2 = occurrencesTable.getAllByRole('row')[1];
 
@@ -556,7 +554,7 @@ describe('occurrences form', () => {
 
   test('yesterday is not valid event start day', async () => {
     const currentDate = new Date('2021-05-20');
-    advanceTo(currentDate);
+    vi.setSystemTime(currentDate);
     renderComponent({
       mocks: [getEventMockedResponse({ occurrences: mockOccurrences })],
     });
@@ -578,11 +576,10 @@ describe('occurrences form', () => {
       ).toBeInTheDocument();
     });
     expect(dateInput).toHaveAttribute('aria-describedby');
-    await actWait();
   });
 
   test('occurrence date time cannot be before enrolments ending day', async () => {
-    advanceTo(new Date('2021-05-20'));
+    vi.setSystemTime(new Date('2021-05-20'));
     const enrolmentStart = new Date('2021-05-21T12:00:00');
     const enrolmentEndDays = 2;
     const eventMockResponse = getEventMockedResponse({
@@ -619,6 +616,5 @@ describe('occurrences form', () => {
         )
       ).not.toBeInTheDocument();
     });
-    await actWait();
   });
 });

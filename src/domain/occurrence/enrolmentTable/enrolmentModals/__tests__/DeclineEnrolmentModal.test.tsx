@@ -1,13 +1,9 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { waitFor } from '@testing-library/react';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import {
-  actWait,
-  configure,
-  render,
-  screen,
-} from '../../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../../utils/testUtils';
 import DeclineEnrolmentModal from '../DeclineEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -17,85 +13,91 @@ configure({ defaultHidden: true });
 it('matches snapshot', async () => {
   const { baseElement } = render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      declineEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      declineEnrolment={vi.fn()}
       appElement={document.body}
     />
   );
 
-  await actWait();
+  // Wait until the modal has opened so the snapshot is consistent
+  await waitFor(() => {
+    expect(
+      baseElement.querySelector(
+        '.ReactModal__Overlay.ReactModal__Overlay--after-open'
+      )
+    ).toBeInTheDocument();
+  });
+  await waitFor(() => {
+    expect(
+      baseElement.querySelector(
+        '.ReactModal__Content.ReactModal__Content--after-open'
+      )
+    ).toBeInTheDocument();
+  });
 
   expect(baseElement).toMatchSnapshot();
 });
 
 it('renders correctly and calls decline enrolment handler', async () => {
-  const onCloseHandler = jest.fn();
-  const declineEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const declineEnrolmentHandler = vi.fn();
   render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
       appElement={document.body}
     />
   );
 
-  await actWait();
-
   expect(
-    screen.getByText(messages.enrolment.enrolmentModal.declineEnrolment)
+    await screen.findByText(messages.enrolment.enrolmentModal.declineEnrolment)
   ).toBeInTheDocument();
 
   expect(
-    screen.getByText(messages.enrolment.enrolmentModal.declineEnrolmentNote)
+    await screen.findByText(
+      messages.enrolment.enrolmentModal.declineEnrolmentNote
+    )
   ).toBeInTheDocument();
 
-  const declineEnrolmentButton = screen.getByText(
+  const declineEnrolmentButton = await screen.findByText(
     messages.enrolment.enrolmentModal.sendCancelMessage
   );
   await userEvent.click(declineEnrolmentButton);
 
-  expect(declineEnrolmentHandler).toHaveBeenCalledTimes(1);
+  await waitFor(() => expect(declineEnrolmentHandler).toHaveBeenCalledTimes(1));
 });
 
 it('calls close handle when close button is clicked', async () => {
-  const onCloseHandler = jest.fn();
-  const declineEnrolmentHandler = jest.fn();
+  const onCloseHandler = vi.fn();
+  const declineEnrolmentHandler = vi.fn();
   render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
       appElement={document.body}
     />
   );
 
-  await actWait();
-
-  const cancelButton = screen.getByRole('button', {
+  const cancelButton = await screen.findByRole('button', {
     name: messages.enrolment.enrolmentModal.cancelEnrolment,
   });
 
   await userEvent.click(cancelButton);
 
-  expect(onCloseHandler).toHaveBeenCalledTimes(1);
+  await waitFor(() => expect(onCloseHandler).toHaveBeenCalledTimes(1));
 });
 
 it('renders enrollees list correctly', async () => {
   render(
     <DeclineEnrolmentModal
-      enrolmentId="123"
-      onClose={jest.fn()}
-      declineEnrolment={jest.fn()}
+      onClose={vi.fn()}
+      declineEnrolment={vi.fn()}
       appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />
   );
 
-  await actWait();
-
-  persons.forEach((person) => {
-    expect(screen.getByText(person.personName)).toBeInTheDocument();
-  });
+  for (const person of persons) {
+    expect(await screen.findByText(person.personName)).toBeInTheDocument();
+  }
 });

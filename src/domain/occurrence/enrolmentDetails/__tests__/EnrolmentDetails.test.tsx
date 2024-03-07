@@ -69,8 +69,8 @@ const renderEnrolmentDetails = (mocks = getMocks()) => {
       enrolmentId={enrolmentId}
       eventId=""
       occurrenceId=""
-      onGoBackClick={jest.fn()}
-      refetchOccurrence={jest.fn()}
+      onGoBackClick={vi.fn()}
+      refetchOccurrence={vi.fn()}
     />,
     { mocks }
   );
@@ -79,9 +79,9 @@ const renderEnrolmentDetails = (mocks = getMocks()) => {
 test('matches snapshot', async () => {
   const { container } = renderEnrolmentDetails();
 
-  await waitFor(() => {
-    expect(screen.getByText('Ilmoittautuneet')).toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.getByText('Ilmoittautuneet')).toBeInTheDocument()
+  );
 
   expect(container).toMatchSnapshot();
 });
@@ -91,9 +91,9 @@ test('renders correct information', async () => {
 
   expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   // values
   expect(screen.getByText('14.8.2020 10:15')).toBeInTheDocument();
@@ -112,9 +112,9 @@ test('enrolment action buttons work correctly', async () => {
 
   Modal.setAppElement(container);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(
     screen.queryByText('Hyväksy ilmoittautuminen')
@@ -145,9 +145,9 @@ test('renders multiple studygroups correctly', async () => {
   );
   Modal.setAppElement(container);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(screen.queryByText(/5\. luokka, 6\. luokka/i)).toBeVisible();
 });

@@ -1,4 +1,3 @@
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 
 import {
@@ -12,7 +11,7 @@ import { render, screen } from '../../../../utils/testUtils';
 import EventPreviewCard from '../EventPreviewCard';
 
 it('renders event information correctly and matches snapshot', () => {
-  advanceTo(new Date(2021, 9, 20));
+  vi.setSystemTime(new Date(2021, 9, 20));
   const eventName = 'Testinimi';
   const description = 'Testikuvaus';
   const keywords = ['avainsana1', 'avainsana2'];
@@ -54,7 +53,7 @@ it('renders event information correctly and matches snapshot', () => {
 });
 
 it('render multiday occurrence dates correctly', () => {
-  advanceTo(new Date(2021, 9, 20));
+  vi.setSystemTime(new Date(2021, 9, 20));
 
   render(
     <EventPreviewCard

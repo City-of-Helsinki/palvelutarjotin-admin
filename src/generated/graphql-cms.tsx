@@ -2,19 +2,32 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
 };
 
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
@@ -53,7 +66,7 @@ export enum AvatarRatingEnum {
   /** Indicates an R level avatar rating level. */
   R = 'R',
   /** Indicates an X level avatar rating level. */
-  X = 'X'
+  X = 'X',
 }
 
 /** Breadcumb field */
@@ -65,85 +78,90 @@ export type Breadcrumb = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kortin kenttä */
+/** Card field */
 export type Card = {
   __typename?: 'Card';
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Ikoni */
+  /** Icon */
   icon?: Maybe<Scalars['String']['output']>;
-  /** Linkki */
+  /** Link */
   link?: Maybe<Link>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** The category type */
-export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermNode & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
-  __typename?: 'Category';
-  /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  categoryId?: Maybe<Scalars['Int']['output']>;
-  /** Connection between the category type and its children categories. */
-  children?: Maybe<CategoryToCategoryConnection>;
-  /** Connection between the Category type and the ContentNode type */
-  contentNodes?: Maybe<CategoryToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']['output']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']['output']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The unique resource identifier path */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** List available translations for this post */
-  language?: Maybe<Language>;
-  /** The link to the term */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']['output']>;
-  /** Connection between the category type and its parent category. */
-  parent?: Maybe<CategoryToParentCategoryConnectionEdge>;
-  /** Database id of the parent node */
-  parentDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the parent node. */
-  parentId?: Maybe<Scalars['ID']['output']>;
-  /** Connection between the Category type and the post type */
-  posts?: Maybe<CategoryToPostConnection>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** Connection between the Category type and the Taxonomy type */
-  taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
-  /** The name of the taxonomy that the object is associated with */
-  taxonomyName?: Maybe<Scalars['String']['output']>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']['output']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Category>;
-  /** List all translated versions of this term */
-  translations?: Maybe<Array<Maybe<Category>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Category = DatabaseIdentifier &
+  HierarchicalNode &
+  HierarchicalTermNode &
+  MenuItemLinkable &
+  Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'Category';
+    /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
+    ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    categoryId?: Maybe<Scalars['Int']['output']>;
+    /** Connection between the category type and its children categories. */
+    children?: Maybe<CategoryToCategoryConnection>;
+    /** Connection between the Category type and the ContentNode type */
+    contentNodes?: Maybe<CategoryToContentNodeConnection>;
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']['output']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** The description of the object */
+    description?: Maybe<Scalars['String']['output']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+    /** The unique resource identifier path */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** List available translations for this post */
+    language?: Maybe<Language>;
+    /** The link to the term */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']['output']>;
+    /** Connection between the category type and its parent category. */
+    parent?: Maybe<CategoryToParentCategoryConnectionEdge>;
+    /** Database id of the parent node */
+    parentDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the parent node. */
+    parentId?: Maybe<Scalars['ID']['output']>;
+    /** Connection between the Category type and the post type */
+    posts?: Maybe<CategoryToPostConnection>;
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** Connection between the Category type and the Taxonomy type */
+    taxonomy?: Maybe<CategoryToTaxonomyConnectionEdge>;
+    /** The name of the taxonomy that the object is associated with */
+    taxonomyName?: Maybe<Scalars['String']['output']>;
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']['output']>;
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Category>;
+    /** List all translated versions of this term */
+    translations?: Maybe<Array<Maybe<Category>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The category type */
 export type CategoryAncestorsArgs = {
@@ -152,7 +170,6 @@ export type CategoryAncestorsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The category type */
 export type CategoryChildrenArgs = {
@@ -163,7 +180,6 @@ export type CategoryChildrenArgs = {
   where?: InputMaybe<CategoryToCategoryConnectionWhereArgs>;
 };
 
-
 /** The category type */
 export type CategoryContentNodesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -173,7 +189,6 @@ export type CategoryContentNodesArgs = {
   where?: InputMaybe<CategoryToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The category type */
 export type CategoryEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -181,7 +196,6 @@ export type CategoryEnqueuedScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The category type */
 export type CategoryEnqueuedStylesheetsArgs = {
@@ -191,7 +205,6 @@ export type CategoryEnqueuedStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The category type */
 export type CategoryPostsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -200,7 +213,6 @@ export type CategoryPostsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<CategoryToPostConnectionWhereArgs>;
 };
-
 
 /** The category type */
 export type CategoryTranslationArgs = {
@@ -234,48 +246,52 @@ export enum CategoryIdType {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the Category type and the category type */
-export type CategoryToAncestorsCategoryConnection = CategoryConnection & Connection & {
-  __typename?: 'CategoryToAncestorsCategoryConnection';
-  /** Edges for the CategoryToAncestorsCategoryConnection connection */
-  edges: Array<CategoryToAncestorsCategoryConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Category>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type CategoryToAncestorsCategoryConnection = CategoryConnection &
+  Connection & {
+    __typename?: 'CategoryToAncestorsCategoryConnection';
+    /** Edges for the CategoryToAncestorsCategoryConnection connection */
+    edges: Array<CategoryToAncestorsCategoryConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Category>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type CategoryToAncestorsCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
-  __typename?: 'CategoryToAncestorsCategoryConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Category;
-};
+export type CategoryToAncestorsCategoryConnectionEdge = CategoryConnectionEdge &
+  Edge & {
+    __typename?: 'CategoryToAncestorsCategoryConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Category;
+  };
 
 /** Connection between the Category type and the category type */
-export type CategoryToCategoryConnection = CategoryConnection & Connection & {
-  __typename?: 'CategoryToCategoryConnection';
-  /** Edges for the CategoryToCategoryConnection connection */
-  edges: Array<CategoryToCategoryConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Category>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type CategoryToCategoryConnection = CategoryConnection &
+  Connection & {
+    __typename?: 'CategoryToCategoryConnection';
+    /** Edges for the CategoryToCategoryConnection connection */
+    edges: Array<CategoryToCategoryConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Category>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type CategoryToCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
-  __typename?: 'CategoryToCategoryConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Category;
-};
+export type CategoryToCategoryConnectionEdge = CategoryConnectionEdge &
+  Edge & {
+    __typename?: 'CategoryToCategoryConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Category;
+  };
 
 /** Arguments for filtering the CategoryToCategoryConnection connection */
 export type CategoryToCategoryConnectionWhereArgs = {
@@ -324,24 +340,26 @@ export type CategoryToCategoryConnectionWhereArgs = {
 };
 
 /** Connection between the Category type and the ContentNode type */
-export type CategoryToContentNodeConnection = Connection & ContentNodeConnection & {
-  __typename?: 'CategoryToContentNodeConnection';
-  /** Edges for the CategoryToContentNodeConnection connection */
-  edges: Array<CategoryToContentNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type CategoryToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'CategoryToContentNodeConnection';
+    /** Edges for the CategoryToContentNodeConnection connection */
+    edges: Array<CategoryToContentNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type CategoryToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'CategoryToContentNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type CategoryToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'CategoryToContentNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the CategoryToContentNodeConnection connection */
 export type CategoryToContentNodeConnectionWhereArgs = {
@@ -384,33 +402,37 @@ export type CategoryToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the Category type and the category type */
-export type CategoryToParentCategoryConnectionEdge = CategoryConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'CategoryToParentCategoryConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Category;
-};
+export type CategoryToParentCategoryConnectionEdge = CategoryConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'CategoryToParentCategoryConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Category;
+  };
 
 /** Connection between the Category type and the post type */
-export type CategoryToPostConnection = Connection & PostConnection & {
-  __typename?: 'CategoryToPostConnection';
-  /** Edges for the CategoryToPostConnection connection */
-  edges: Array<CategoryToPostConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Post>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type CategoryToPostConnection = Connection &
+  PostConnection & {
+    __typename?: 'CategoryToPostConnection';
+    /** Edges for the CategoryToPostConnection connection */
+    edges: Array<CategoryToPostConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Post>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type CategoryToPostConnectionEdge = Edge & PostConnectionEdge & {
-  __typename?: 'CategoryToPostConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Post;
-};
+export type CategoryToPostConnectionEdge = Edge &
+  PostConnectionEdge & {
+    __typename?: 'CategoryToPostConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Post;
+  };
 
 /** Arguments for filtering the CategoryToPostConnection connection */
 export type CategoryToPostConnectionWhereArgs = {
@@ -479,106 +501,114 @@ export type CategoryToPostConnectionWhereArgs = {
 };
 
 /** Connection between the Category type and the Taxonomy type */
-export type CategoryToTaxonomyConnectionEdge = Edge & OneToOneConnection & TaxonomyConnectionEdge & {
-  __typename?: 'CategoryToTaxonomyConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Taxonomy;
-};
+export type CategoryToTaxonomyConnectionEdge = Edge &
+  OneToOneConnection &
+  TaxonomyConnectionEdge & {
+    __typename?: 'CategoryToTaxonomyConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Taxonomy;
+  };
 
 /** The collection type */
-export type Collection = ContentNode & DatabaseIdentifier & Node & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'Collection';
-  /** Taustaväri */
-  backgroundColor?: Maybe<Scalars['String']['output']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  collectionId: Scalars['Int']['output'];
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']['output']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier of the collection-cpt object. */
-  id: Scalars['ID']['output'];
-  /** Kuva */
-  image?: Maybe<Scalars['String']['output']>;
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
-  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Connection between the Collection type and the collection type */
-  preview?: Maybe<CollectionToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the Collection type and the collection type */
-  revisions?: Maybe<CollectionToRevisionConnection>;
-  /** The SEO Framework data of the collection */
-  seo?: Maybe<Seo>;
-  /** Näytä etusivulla */
-  showOnFrontPage?: Maybe<Scalars['Boolean']['output']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Collection>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Collection>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Collection = ContentNode &
+  DatabaseIdentifier &
+  Node &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'Collection';
+    /** Background Color */
+    backgroundColor?: Maybe<Scalars['String']['output']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    collectionId: Scalars['Int']['output'];
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** Description */
+    description?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']['output']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier of the collection-cpt object. */
+    id: Scalars['ID']['output'];
+    /** Image */
+    image?: Maybe<Scalars['String']['output']>;
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+    /** Connection between the Collection type and the collection type */
+    preview?: Maybe<CollectionToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the Collection type and the collection type */
+    revisions?: Maybe<CollectionToRevisionConnection>;
+    /** The SEO Framework data of the collection */
+    seo?: Maybe<Seo>;
+    /** Show on front page */
+    showOnFrontPage?: Maybe<Scalars['Boolean']['output']>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Collection>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Collection>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The collection type */
 export type CollectionEnqueuedScriptsArgs = {
@@ -588,7 +618,6 @@ export type CollectionEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The collection type */
 export type CollectionEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -596,7 +625,6 @@ export type CollectionEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The collection type */
 export type CollectionRevisionsArgs = {
@@ -607,12 +635,10 @@ export type CollectionRevisionsArgs = {
   where?: InputMaybe<CollectionToRevisionConnectionWhereArgs>;
 };
 
-
 /** The collection type */
 export type CollectionTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The collection type */
 export type CollectionTranslationArgs = {
@@ -644,39 +670,49 @@ export enum CollectionIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
-export type CollectionModulesUnionType = EventSearch | EventSearchCarousel | EventSelected | EventSelectedCarousel | LocationsSelected | LocationsSelectedCarousel;
+export type CollectionModulesUnionType =
+  | EventSearch
+  | EventSearchCarousel
+  | EventSelected
+  | EventSelectedCarousel
+  | LocationsSelected
+  | LocationsSelectedCarousel;
 
 /** Connection between the Collection type and the collection type */
-export type CollectionToPreviewConnectionEdge = CollectionConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'CollectionToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Collection;
-};
+export type CollectionToPreviewConnectionEdge = CollectionConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'CollectionToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Collection;
+  };
 
 /** Connection between the Collection type and the collection type */
-export type CollectionToRevisionConnection = CollectionConnection & Connection & {
-  __typename?: 'CollectionToRevisionConnection';
-  /** Edges for the CollectionToRevisionConnection connection */
-  edges: Array<CollectionToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Collection>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type CollectionToRevisionConnection = CollectionConnection &
+  Connection & {
+    __typename?: 'CollectionToRevisionConnection';
+    /** Edges for the CollectionToRevisionConnection connection */
+    edges: Array<CollectionToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Collection>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type CollectionToRevisionConnectionEdge = CollectionConnectionEdge & Edge & {
-  __typename?: 'CollectionToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Collection;
-};
+export type CollectionToRevisionConnectionEdge = CollectionConnectionEdge &
+  Edge & {
+    __typename?: 'CollectionToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Collection;
+  };
 
 /** Arguments for filtering the CollectionToRevisionConnection connection */
 export type CollectionToRevisionConnectionWhereArgs = {
@@ -717,66 +753,64 @@ export type CollectionToRevisionConnectionWhereArgs = {
 };
 
 /** A Comment object */
-export type Comment = DatabaseIdentifier & Node & {
-  __typename?: 'Comment';
-  /** User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL. */
-  agent?: Maybe<Scalars['String']['output']>;
-  /**
-   * The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL.
-   * @deprecated Deprecated in favor of the `status` field
-   */
-  approved?: Maybe<Scalars['Boolean']['output']>;
-  /** The author of the comment */
-  author?: Maybe<CommentToCommenterConnectionEdge>;
-  /** IP address for the author. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL. */
-  authorIp?: Maybe<Scalars['String']['output']>;
-  /**
-   * ID for the comment, unique among comments.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  commentId?: Maybe<Scalars['Int']['output']>;
-  /** Connection between the Comment type and the ContentNode type */
-  commentedOn?: Maybe<CommentToContentNodeConnectionEdge>;
-  /** Content of the comment. This field is equivalent to WP_Comment-&gt;comment_content and the value matching the &quot;comment_content&quot; column in SQL. */
-  content?: Maybe<Scalars['String']['output']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Date the comment was posted in local time. This field is equivalent to WP_Comment-&gt;date and the value matching the &quot;date&quot; column in SQL. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier for the comment object */
-  id: Scalars['ID']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Karma value for the comment. This field is equivalent to WP_Comment-&gt;comment_karma and the value matching the &quot;comment_karma&quot; column in SQL. */
-  karma?: Maybe<Scalars['Int']['output']>;
-  /** Connection between the Comment type and the Comment type */
-  parent?: Maybe<CommentToParentCommentConnectionEdge>;
-  /** The database id of the parent comment node or null if it is the root comment */
-  parentDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the parent comment node. */
-  parentId?: Maybe<Scalars['ID']['output']>;
-  /** Connection between the Comment type and the Comment type */
-  replies?: Maybe<CommentToCommentConnection>;
-  /** The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL. */
-  status?: Maybe<CommentStatusEnum>;
-  /** Type of comment. This field is equivalent to WP_Comment-&gt;comment_type and the value matching the &quot;comment_type&quot; column in SQL. */
-  type?: Maybe<Scalars['String']['output']>;
-};
-
+export type Comment = DatabaseIdentifier &
+  Node & {
+    __typename?: 'Comment';
+    /** User agent used to post the comment. This field is equivalent to WP_Comment-&gt;comment_agent and the value matching the &quot;comment_agent&quot; column in SQL. */
+    agent?: Maybe<Scalars['String']['output']>;
+    /**
+     * The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL.
+     * @deprecated Deprecated in favor of the `status` field
+     */
+    approved?: Maybe<Scalars['Boolean']['output']>;
+    /** The author of the comment */
+    author?: Maybe<CommentToCommenterConnectionEdge>;
+    /** IP address for the author. This field is equivalent to WP_Comment-&gt;comment_author_IP and the value matching the &quot;comment_author_IP&quot; column in SQL. */
+    authorIp?: Maybe<Scalars['String']['output']>;
+    /**
+     * ID for the comment, unique among comments.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    commentId?: Maybe<Scalars['Int']['output']>;
+    /** Connection between the Comment type and the ContentNode type */
+    commentedOn?: Maybe<CommentToContentNodeConnectionEdge>;
+    /** Content of the comment. This field is equivalent to WP_Comment-&gt;comment_content and the value matching the &quot;comment_content&quot; column in SQL. */
+    content?: Maybe<Scalars['String']['output']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Date the comment was posted in local time. This field is equivalent to WP_Comment-&gt;date and the value matching the &quot;date&quot; column in SQL. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier for the comment object */
+    id: Scalars['ID']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Karma value for the comment. This field is equivalent to WP_Comment-&gt;comment_karma and the value matching the &quot;comment_karma&quot; column in SQL. */
+    karma?: Maybe<Scalars['Int']['output']>;
+    /** Connection between the Comment type and the Comment type */
+    parent?: Maybe<CommentToParentCommentConnectionEdge>;
+    /** The database id of the parent comment node or null if it is the root comment */
+    parentDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the parent comment node. */
+    parentId?: Maybe<Scalars['ID']['output']>;
+    /** Connection between the Comment type and the Comment type */
+    replies?: Maybe<CommentToCommentConnection>;
+    /** The approval status of the comment. This field is equivalent to WP_Comment-&gt;comment_approved and the value matching the &quot;comment_approved&quot; column in SQL. */
+    status?: Maybe<CommentStatusEnum>;
+    /** Type of comment. This field is equivalent to WP_Comment-&gt;comment_type and the value matching the &quot;comment_type&quot; column in SQL. */
+    type?: Maybe<Scalars['String']['output']>;
+  };
 
 /** A Comment object */
 export type CommentContentArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
-
 /** A Comment object */
 export type CommentParentArgs = {
   where?: InputMaybe<CommentToParentCommentConnectionWhereArgs>;
 };
-
 
 /** A Comment object */
 export type CommentRepliesArgs = {
@@ -788,24 +822,25 @@ export type CommentRepliesArgs = {
 };
 
 /** A Comment Author object */
-export type CommentAuthor = Commenter & DatabaseIdentifier & Node & {
-  __typename?: 'CommentAuthor';
-  /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
-  avatar?: Maybe<Avatar>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The email for the comment author */
-  email?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier for the comment author object */
-  id: Scalars['ID']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** The name for the comment author. */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The url the comment author. */
-  url?: Maybe<Scalars['String']['output']>;
-};
-
+export type CommentAuthor = Commenter &
+  DatabaseIdentifier &
+  Node & {
+    __typename?: 'CommentAuthor';
+    /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
+    avatar?: Maybe<Avatar>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** The email for the comment author */
+    email?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier for the comment author object */
+    id: Scalars['ID']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** The name for the comment author. */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The url the comment author. */
+    url?: Maybe<Scalars['String']['output']>;
+  };
 
 /** A Comment Author object */
 export type CommentAuthorAvatarArgs = {
@@ -835,7 +870,7 @@ export enum CommentNodeIdTypeEnum {
   /** Identify a resource by the Database ID. */
   DatabaseId = 'DATABASE_ID',
   /** Identify a resource by the (hashed) Global ID. */
-  Id = 'ID'
+  Id = 'ID',
 }
 
 /** The status of the comment object. */
@@ -847,28 +882,30 @@ export enum CommentStatusEnum {
   /** Comments with the Roskaviesti status */
   Spam = 'SPAM',
   /** Comments with the Roskakorissa status */
-  Trash = 'TRASH'
+  Trash = 'TRASH',
 }
 
 /** Connection between the Comment type and the Comment type */
-export type CommentToCommentConnection = CommentConnection & Connection & {
-  __typename?: 'CommentToCommentConnection';
-  /** Edges for the CommentToCommentConnection connection */
-  edges: Array<CommentToCommentConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Comment>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type CommentToCommentConnection = CommentConnection &
+  Connection & {
+    __typename?: 'CommentToCommentConnection';
+    /** Edges for the CommentToCommentConnection connection */
+    edges: Array<CommentToCommentConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Comment>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type CommentToCommentConnectionEdge = CommentConnectionEdge & Edge & {
-  __typename?: 'CommentToCommentConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Comment;
-};
+export type CommentToCommentConnectionEdge = CommentConnectionEdge &
+  Edge & {
+    __typename?: 'CommentToCommentConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Comment;
+  };
 
 /** Arguments for filtering the CommentToCommentConnection connection */
 export type CommentToCommentConnectionWhereArgs = {
@@ -933,31 +970,37 @@ export type CommentToCommentConnectionWhereArgs = {
 };
 
 /** Connection between the Comment type and the Commenter type */
-export type CommentToCommenterConnectionEdge = CommenterConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'CommentToCommenterConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Commenter;
-};
+export type CommentToCommenterConnectionEdge = CommenterConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'CommentToCommenterConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Commenter;
+  };
 
 /** Connection between the Comment type and the ContentNode type */
-export type CommentToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'CommentToContentNodeConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: ContentNode;
-};
+export type CommentToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'CommentToContentNodeConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: ContentNode;
+  };
 
 /** Connection between the Comment type and the Comment type */
-export type CommentToParentCommentConnectionEdge = CommentConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'CommentToParentCommentConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Comment;
-};
+export type CommentToParentCommentConnectionEdge = CommentConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'CommentToParentCommentConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Comment;
+  };
 
 /** Arguments for filtering the CommentToParentCommentConnection connection */
 export type CommentToParentCommentConnectionWhereArgs = {
@@ -1080,7 +1123,7 @@ export enum CommentsConnectionOrderbyEnum {
   /** Order by the the type of comment, such as 'comment', 'pingback', or 'trackback'. */
   CommentType = 'COMMENT_TYPE',
   /** Order by the user ID. */
-  UserId = 'USER_ID'
+  UserId = 'USER_ID',
 }
 
 /** A plural connection from one Node Type in the Graph to another Node Type, with support for relational data via &quot;edges&quot;. */
@@ -1092,99 +1135,106 @@ export type Connection = {
 };
 
 /** The contact type */
-export type Contact = ContentNode & DatabaseIdentifier & Node & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'Contact';
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  contactId: Scalars['Int']['output'];
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-  /** The database identifier for the featured image node assigned to the content node */
-  featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Globally unique ID of the featured image assigned to the node */
-  featuredImageId?: Maybe<Scalars['ID']['output']>;
-  /** Etunimi */
-  firstName?: Maybe<Scalars['String']['output']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier of the contact-cpt object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Job Title */
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Sukunimi */
-  lastName?: Maybe<Scalars['String']['output']>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Connection between the Contact type and the contact type */
-  preview?: Maybe<ContactToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the Contact type and the contact type */
-  revisions?: Maybe<ContactToRevisionConnection>;
-  /** The SEO Framework data of the contact */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Contact>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Contact>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Contact = ContentNode &
+  DatabaseIdentifier &
+  Node &
+  NodeWithFeaturedImage &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'Contact';
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    contactId: Scalars['Int']['output'];
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** Description */
+    description?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars['ID']['output']>;
+    /** First name */
+    firstName?: Maybe<Scalars['String']['output']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier of the contact-cpt object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Job Title */
+    jobTitle?: Maybe<Scalars['String']['output']>;
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Last name */
+    lastName?: Maybe<Scalars['String']['output']>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** Connection between the Contact type and the contact type */
+    preview?: Maybe<ContactToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the Contact type and the contact type */
+    revisions?: Maybe<ContactToRevisionConnection>;
+    /** The SEO Framework data of the contact */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Contact>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Contact>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The contact type */
 export type ContactEnqueuedScriptsArgs = {
@@ -1194,7 +1244,6 @@ export type ContactEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The contact type */
 export type ContactEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -1202,7 +1251,6 @@ export type ContactEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The contact type */
 export type ContactRevisionsArgs = {
@@ -1213,12 +1261,10 @@ export type ContactRevisionsArgs = {
   where?: InputMaybe<ContactToRevisionConnectionWhereArgs>;
 };
 
-
 /** The contact type */
 export type ContactTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The contact type */
 export type ContactTranslationArgs = {
@@ -1250,37 +1296,41 @@ export enum ContactIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the Contact type and the contact type */
-export type ContactToPreviewConnectionEdge = ContactConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'ContactToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Contact;
-};
+export type ContactToPreviewConnectionEdge = ContactConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'ContactToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Contact;
+  };
 
 /** Connection between the Contact type and the contact type */
-export type ContactToRevisionConnection = Connection & ContactConnection & {
-  __typename?: 'ContactToRevisionConnection';
-  /** Edges for the ContactToRevisionConnection connection */
-  edges: Array<ContactToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Contact>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type ContactToRevisionConnection = Connection &
+  ContactConnection & {
+    __typename?: 'ContactToRevisionConnection';
+    /** Edges for the ContactToRevisionConnection connection */
+    edges: Array<ContactToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Contact>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type ContactToRevisionConnectionEdge = ContactConnectionEdge & Edge & {
-  __typename?: 'ContactToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Contact;
-};
+export type ContactToRevisionConnectionEdge = ContactConnectionEdge &
+  Edge & {
+    __typename?: 'ContactToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Contact;
+  };
 
 /** Arguments for filtering the ContactToRevisionConnection connection */
 export type ContactToRevisionConnectionWhereArgs = {
@@ -1376,7 +1426,6 @@ export type ContentNode = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** Nodes used to manage content */
 export type ContentNodeEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -1384,7 +1433,6 @@ export type ContentNodeEnqueuedScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Nodes used to manage content */
 export type ContentNodeEnqueuedStylesheetsArgs = {
@@ -1417,77 +1465,87 @@ export enum ContentNodeIdTypeEnum {
   /** Identify a resource by the (hashed) Global ID. */
   Id = 'ID',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the ContentNode type and the ContentType type */
-export type ContentNodeToContentTypeConnectionEdge = ContentTypeConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'ContentNodeToContentTypeConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: ContentType;
-};
+export type ContentNodeToContentTypeConnectionEdge = ContentTypeConnectionEdge &
+  Edge &
+  OneToOneConnection & {
+    __typename?: 'ContentNodeToContentTypeConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: ContentType;
+  };
 
 /** Connection between the ContentNode type and the User type */
-export type ContentNodeToEditLastConnectionEdge = Edge & OneToOneConnection & UserConnectionEdge & {
-  __typename?: 'ContentNodeToEditLastConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: User;
-};
+export type ContentNodeToEditLastConnectionEdge = Edge &
+  OneToOneConnection &
+  UserConnectionEdge & {
+    __typename?: 'ContentNodeToEditLastConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: User;
+  };
 
 /** Connection between the ContentNode type and the User type */
-export type ContentNodeToEditLockConnectionEdge = Edge & OneToOneConnection & UserConnectionEdge & {
-  __typename?: 'ContentNodeToEditLockConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The timestamp for when the node was last edited */
-  lockTimestamp?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: User;
-};
+export type ContentNodeToEditLockConnectionEdge = Edge &
+  OneToOneConnection &
+  UserConnectionEdge & {
+    __typename?: 'ContentNodeToEditLockConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The timestamp for when the node was last edited */
+    lockTimestamp?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: User;
+  };
 
 /** Connection between the ContentNode type and the EnqueuedScript type */
-export type ContentNodeToEnqueuedScriptConnection = Connection & EnqueuedScriptConnection & {
-  __typename?: 'ContentNodeToEnqueuedScriptConnection';
-  /** Edges for the ContentNodeToEnqueuedScriptConnection connection */
-  edges: Array<ContentNodeToEnqueuedScriptConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedScript>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type ContentNodeToEnqueuedScriptConnection = Connection &
+  EnqueuedScriptConnection & {
+    __typename?: 'ContentNodeToEnqueuedScriptConnection';
+    /** Edges for the ContentNodeToEnqueuedScriptConnection connection */
+    edges: Array<ContentNodeToEnqueuedScriptConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedScript>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type ContentNodeToEnqueuedScriptConnectionEdge = Edge & EnqueuedScriptConnectionEdge & {
-  __typename?: 'ContentNodeToEnqueuedScriptConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedScript;
-};
+export type ContentNodeToEnqueuedScriptConnectionEdge = Edge &
+  EnqueuedScriptConnectionEdge & {
+    __typename?: 'ContentNodeToEnqueuedScriptConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedScript;
+  };
 
 /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-export type ContentNodeToEnqueuedStylesheetConnection = Connection & EnqueuedStylesheetConnection & {
-  __typename?: 'ContentNodeToEnqueuedStylesheetConnection';
-  /** Edges for the ContentNodeToEnqueuedStylesheetConnection connection */
-  edges: Array<ContentNodeToEnqueuedStylesheetConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedStylesheet>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type ContentNodeToEnqueuedStylesheetConnection = Connection &
+  EnqueuedStylesheetConnection & {
+    __typename?: 'ContentNodeToEnqueuedStylesheetConnection';
+    /** Edges for the ContentNodeToEnqueuedStylesheetConnection connection */
+    edges: Array<ContentNodeToEnqueuedStylesheetConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedStylesheet>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type ContentNodeToEnqueuedStylesheetConnectionEdge = Edge & EnqueuedStylesheetConnectionEdge & {
-  __typename?: 'ContentNodeToEnqueuedStylesheetConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedStylesheet;
-};
+export type ContentNodeToEnqueuedStylesheetConnectionEdge = Edge &
+  EnqueuedStylesheetConnectionEdge & {
+    __typename?: 'ContentNodeToEnqueuedStylesheetConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedStylesheet;
+  };
 
 /** The template assigned to a node of content */
 export type ContentTemplate = {
@@ -1496,74 +1554,74 @@ export type ContentTemplate = {
 };
 
 /** An Post Type object */
-export type ContentType = Node & UniformResourceIdentifiable & {
-  __typename?: 'ContentType';
-  /** Whether this content type should can be exported. */
-  canExport?: Maybe<Scalars['Boolean']['output']>;
-  /** Connection between the ContentType type and the Taxonomy type */
-  connectedTaxonomies?: Maybe<ContentTypeToTaxonomyConnection>;
-  /** Connection between the ContentType type and the ContentNode type */
-  contentNodes?: Maybe<ContentTypeToContentNodeConnection>;
-  /** Whether content of this type should be deleted when the author of it is deleted from the system. */
-  deleteWithUser?: Maybe<Scalars['Boolean']['output']>;
-  /** Description of the content type. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** Whether to exclude nodes of this content type from front end search results. */
-  excludeFromSearch?: Maybe<Scalars['Boolean']['output']>;
-  /** The plural name of the content type within the GraphQL Schema. */
-  graphqlPluralName?: Maybe<Scalars['String']['output']>;
-  /** The singular name of the content type within the GraphQL Schema. */
-  graphqlSingleName?: Maybe<Scalars['String']['output']>;
-  /** Whether this content type should have archives. Content archives are generated by type and by date. */
-  hasArchive?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the content type is hierarchical, for example pages. */
-  hierarchical?: Maybe<Scalars['Boolean']['output']>;
-  /** The globally unique identifier of the post-type object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether this page is set to the static front page. */
-  isFrontPage: Scalars['Boolean']['output'];
-  /** Whether this page is set to the blog posts page. */
-  isPostsPage: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Display name of the content type. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** Details about the content type labels. */
-  labels?: Maybe<PostTypeLabelDetails>;
-  /** The name of the icon file to display as a menu icon. */
-  menuIcon?: Maybe<Scalars['String']['output']>;
-  /** The position of this post type in the menu. Only applies if show_in_menu is true. */
-  menuPosition?: Maybe<Scalars['Int']['output']>;
-  /** The internal name of the post type. This should not be used for display purposes. */
-  name?: Maybe<Scalars['String']['output']>;
-  /** Whether a content type is intended for use publicly either via the admin interface or by front-end users. While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are inherited from public, each does not rely on this relationship and controls a very specific intention. */
-  public?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether queries can be performed on the front end for the content type as part of parse_request(). */
-  publiclyQueryable?: Maybe<Scalars['Boolean']['output']>;
-  /** Name of content type to display in REST API &quot;wp/v2&quot; namespace. */
-  restBase?: Maybe<Scalars['String']['output']>;
-  /** The REST Controller class assigned to handling this content type. */
-  restControllerClass?: Maybe<Scalars['String']['output']>;
-  /** Makes this content type available via the admin bar. */
-  showInAdminBar?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether to add the content type to the GraphQL Schema. */
-  showInGraphql?: Maybe<Scalars['Boolean']['output']>;
-  /** Where to show the content type in the admin menu. To work, $show_ui must be true. If true, the post type is shown in its own top level menu. If false, no menu is shown. If a string of an existing top level menu (eg. &quot;tools.php&quot; or &quot;edit.php?post_type=page&quot;), the post type will be placed as a sub-menu of that. */
-  showInMenu?: Maybe<Scalars['Boolean']['output']>;
-  /** Makes this content type available for selection in navigation menus. */
-  showInNavMenus?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the content type is associated with a route under the the REST API &quot;wp/v2&quot; namespace. */
-  showInRest?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether to generate and allow a UI for managing this content type in the admin. */
-  showUi?: Maybe<Scalars['Boolean']['output']>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type ContentType = Node &
+  UniformResourceIdentifiable & {
+    __typename?: 'ContentType';
+    /** Whether this content type should can be exported. */
+    canExport?: Maybe<Scalars['Boolean']['output']>;
+    /** Connection between the ContentType type and the Taxonomy type */
+    connectedTaxonomies?: Maybe<ContentTypeToTaxonomyConnection>;
+    /** Connection between the ContentType type and the ContentNode type */
+    contentNodes?: Maybe<ContentTypeToContentNodeConnection>;
+    /** Whether content of this type should be deleted when the author of it is deleted from the system. */
+    deleteWithUser?: Maybe<Scalars['Boolean']['output']>;
+    /** Description of the content type. */
+    description?: Maybe<Scalars['String']['output']>;
+    /** Whether to exclude nodes of this content type from front end search results. */
+    excludeFromSearch?: Maybe<Scalars['Boolean']['output']>;
+    /** The plural name of the content type within the GraphQL Schema. */
+    graphqlPluralName?: Maybe<Scalars['String']['output']>;
+    /** The singular name of the content type within the GraphQL Schema. */
+    graphqlSingleName?: Maybe<Scalars['String']['output']>;
+    /** Whether this content type should have archives. Content archives are generated by type and by date. */
+    hasArchive?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the content type is hierarchical, for example pages. */
+    hierarchical?: Maybe<Scalars['Boolean']['output']>;
+    /** The globally unique identifier of the post-type object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether this page is set to the static front page. */
+    isFrontPage: Scalars['Boolean']['output'];
+    /** Whether this page is set to the blog posts page. */
+    isPostsPage: Scalars['Boolean']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Display name of the content type. */
+    label?: Maybe<Scalars['String']['output']>;
+    /** Details about the content type labels. */
+    labels?: Maybe<PostTypeLabelDetails>;
+    /** The name of the icon file to display as a menu icon. */
+    menuIcon?: Maybe<Scalars['String']['output']>;
+    /** The position of this post type in the menu. Only applies if show_in_menu is true. */
+    menuPosition?: Maybe<Scalars['Int']['output']>;
+    /** The internal name of the post type. This should not be used for display purposes. */
+    name?: Maybe<Scalars['String']['output']>;
+    /** Whether a content type is intended for use publicly either via the admin interface or by front-end users. While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are inherited from public, each does not rely on this relationship and controls a very specific intention. */
+    public?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether queries can be performed on the front end for the content type as part of parse_request(). */
+    publiclyQueryable?: Maybe<Scalars['Boolean']['output']>;
+    /** Name of content type to display in REST API &quot;wp/v2&quot; namespace. */
+    restBase?: Maybe<Scalars['String']['output']>;
+    /** The REST Controller class assigned to handling this content type. */
+    restControllerClass?: Maybe<Scalars['String']['output']>;
+    /** Makes this content type available via the admin bar. */
+    showInAdminBar?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether to add the content type to the GraphQL Schema. */
+    showInGraphql?: Maybe<Scalars['Boolean']['output']>;
+    /** Where to show the content type in the admin menu. To work, $show_ui must be true. If true, the post type is shown in its own top level menu. If false, no menu is shown. If a string of an existing top level menu (eg. &quot;tools.php&quot; or &quot;edit.php?post_type=page&quot;), the post type will be placed as a sub-menu of that. */
+    showInMenu?: Maybe<Scalars['Boolean']['output']>;
+    /** Makes this content type available for selection in navigation menus. */
+    showInNavMenus?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the content type is associated with a route under the the REST API &quot;wp/v2&quot; namespace. */
+    showInRest?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether to generate and allow a UI for managing this content type in the admin. */
+    showUi?: Maybe<Scalars['Boolean']['output']>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** An Post Type object */
 export type ContentTypeConnectedTaxonomiesArgs = {
@@ -1572,7 +1630,6 @@ export type ContentTypeConnectedTaxonomiesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** An Post Type object */
 export type ContentTypeContentNodesArgs = {
@@ -1616,7 +1673,7 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   ReleaseCpt = 'RELEASE_CPT',
   /** The Type of Content object */
-  TranslationCpt = 'TRANSLATION_CPT'
+  TranslationCpt = 'TRANSLATION_CPT',
 }
 
 /** The Type of Identifier used to fetch a single Content Type node. To be used along with the "id" field. Default is "ID". */
@@ -1624,28 +1681,30 @@ export enum ContentTypeIdTypeEnum {
   /** The globally unique ID */
   Id = 'ID',
   /** The name of the content type. */
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 /** Connection between the ContentType type and the ContentNode type */
-export type ContentTypeToContentNodeConnection = Connection & ContentNodeConnection & {
-  __typename?: 'ContentTypeToContentNodeConnection';
-  /** Edges for the ContentTypeToContentNodeConnection connection */
-  edges: Array<ContentTypeToContentNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type ContentTypeToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'ContentTypeToContentNodeConnection';
+    /** Edges for the ContentTypeToContentNodeConnection connection */
+    edges: Array<ContentTypeToContentNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type ContentTypeToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'ContentTypeToContentNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type ContentTypeToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'ContentTypeToContentNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the ContentTypeToContentNodeConnection connection */
 export type ContentTypeToContentNodeConnectionWhereArgs = {
@@ -1688,41 +1747,43 @@ export type ContentTypeToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the ContentType type and the Taxonomy type */
-export type ContentTypeToTaxonomyConnection = Connection & TaxonomyConnection & {
-  __typename?: 'ContentTypeToTaxonomyConnection';
-  /** Edges for the ContentTypeToTaxonomyConnection connection */
-  edges: Array<ContentTypeToTaxonomyConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Taxonomy>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type ContentTypeToTaxonomyConnection = Connection &
+  TaxonomyConnection & {
+    __typename?: 'ContentTypeToTaxonomyConnection';
+    /** Edges for the ContentTypeToTaxonomyConnection connection */
+    edges: Array<ContentTypeToTaxonomyConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Taxonomy>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type ContentTypeToTaxonomyConnectionEdge = Edge & TaxonomyConnectionEdge & {
-  __typename?: 'ContentTypeToTaxonomyConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Taxonomy;
-};
+export type ContentTypeToTaxonomyConnectionEdge = Edge &
+  TaxonomyConnectionEdge & {
+    __typename?: 'ContentTypeToTaxonomyConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Taxonomy;
+  };
 
 /** Allowed Content Types of the Category taxonomy. */
 export enum ContentTypesOfCategoryEnum {
   /** The Type of Content object */
-  Post = 'POST'
+  Post = 'POST',
 }
 
 /** Allowed Content Types of the PostFormat taxonomy. */
 export enum ContentTypesOfPostFormatEnum {
   /** The Type of Content object */
-  Post = 'POST'
+  Post = 'POST',
 }
 
 /** Allowed Content Types of the Tag taxonomy. */
 export enum ContentTypesOfTagEnum {
   /** The Type of Content object */
-  Post = 'POST'
+  Post = 'POST',
 }
 
 /** Input for the createCategory mutation. */
@@ -2187,7 +2248,7 @@ export type DateQueryInput = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Oletuskuva */
+/** Default images of different post types. Returns url of image of queried post type. Values come from Sivuston Asetukset -&gt; Oletuskuvat. */
 export type DefaultImages = {
   __typename?: 'DefaultImages';
   /** Attachment URL for article image */
@@ -2510,23 +2571,24 @@ export type EnqueuedAsset = {
 };
 
 /** Script enqueued by the CMS */
-export type EnqueuedScript = EnqueuedAsset & Node & {
-  __typename?: 'EnqueuedScript';
-  /** @todo */
-  args?: Maybe<Scalars['Boolean']['output']>;
-  /** Dependencies needed to use this asset */
-  dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-  /** Extra information needed for the script */
-  extra?: Maybe<Scalars['String']['output']>;
-  /** The handle of the enqueued asset */
-  handle?: Maybe<Scalars['String']['output']>;
-  /** The ID of the enqueued asset */
-  id: Scalars['ID']['output'];
-  /** The source of the asset */
-  src?: Maybe<Scalars['String']['output']>;
-  /** The version of the enqueued asset */
-  version?: Maybe<Scalars['String']['output']>;
-};
+export type EnqueuedScript = EnqueuedAsset &
+  Node & {
+    __typename?: 'EnqueuedScript';
+    /** @todo */
+    args?: Maybe<Scalars['Boolean']['output']>;
+    /** Dependencies needed to use this asset */
+    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+    /** Extra information needed for the script */
+    extra?: Maybe<Scalars['String']['output']>;
+    /** The handle of the enqueued asset */
+    handle?: Maybe<Scalars['String']['output']>;
+    /** The ID of the enqueued asset */
+    id: Scalars['ID']['output'];
+    /** The source of the asset */
+    src?: Maybe<Scalars['String']['output']>;
+    /** The version of the enqueued asset */
+    version?: Maybe<Scalars['String']['output']>;
+  };
 
 /** Connection to EnqueuedScript Nodes */
 export type EnqueuedScriptConnection = {
@@ -2545,23 +2607,24 @@ export type EnqueuedScriptConnectionEdge = {
 };
 
 /** Stylesheet enqueued by the CMS */
-export type EnqueuedStylesheet = EnqueuedAsset & Node & {
-  __typename?: 'EnqueuedStylesheet';
-  /** @todo */
-  args?: Maybe<Scalars['Boolean']['output']>;
-  /** Dependencies needed to use this asset */
-  dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-  /** Extra information needed for the script */
-  extra?: Maybe<Scalars['String']['output']>;
-  /** The handle of the enqueued asset */
-  handle?: Maybe<Scalars['String']['output']>;
-  /** The ID of the enqueued asset */
-  id: Scalars['ID']['output'];
-  /** The source of the asset */
-  src?: Maybe<Scalars['String']['output']>;
-  /** The version of the enqueued asset */
-  version?: Maybe<Scalars['String']['output']>;
-};
+export type EnqueuedStylesheet = EnqueuedAsset &
+  Node & {
+    __typename?: 'EnqueuedStylesheet';
+    /** @todo */
+    args?: Maybe<Scalars['Boolean']['output']>;
+    /** Dependencies needed to use this asset */
+    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+    /** Extra information needed for the script */
+    extra?: Maybe<Scalars['String']['output']>;
+    /** The handle of the enqueued asset */
+    handle?: Maybe<Scalars['String']['output']>;
+    /** The ID of the enqueued asset */
+    id: Scalars['ID']['output'];
+    /** The source of the asset */
+    src?: Maybe<Scalars['String']['output']>;
+    /** The version of the enqueued asset */
+    version?: Maybe<Scalars['String']['output']>;
+  };
 
 /** Connection to EnqueuedStylesheet Nodes */
 export type EnqueuedStylesheetConnection = {
@@ -2579,14 +2642,14 @@ export type EnqueuedStylesheetConnectionEdge = {
   node: EnqueuedStylesheet;
 };
 
-/** Kokoelmamoduuli: EventSearch */
+/** Collection Module: EventSearch */
 export type EventSearch = {
   __typename?: 'EventSearch';
-  /** Listattujen tapahtumien määrä “Näytä lisää” -painiketta */
+  /** Amount of events listed before &quot;show more -button&quot; */
   initAmountOfEvents?: Maybe<Scalars['Int']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /**
    * Show all -link, final link is combination of Tapahtuma- ja kurssikarusellin
@@ -2595,26 +2658,26 @@ export type EventSearch = {
    *
    */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLinkCustom?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
-  /** Hakukysely */
+  /** Search query */
   url?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: EventSearchCarousel */
+/** Collection Module: EventSearchCarousel */
 export type EventSearchCarousel = {
   __typename?: 'EventSearchCarousel';
-  /** Korttien määrä karusellissa */
+  /** Amount of cards in carousel */
   amountOfCards?: Maybe<Scalars['Int']['output']>;
-  /** Tapahtumat lähellä */
+  /** Events nearby */
   eventsNearby?: Maybe<Scalars['Boolean']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Tapahtumien järjestys */
+  /** Events order */
   orderNewestFirst?: Maybe<Scalars['Boolean']['output']>;
   /**
    * Show all -link, final link is combination of Tapahtuma- ja kurssikarusellin
@@ -2623,70 +2686,68 @@ export type EventSearchCarousel = {
    *
    */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLinkCustom?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
-  /** Hakukysely */
+  /** Search query */
   url?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: EventSelected */
+/** Collection Module: EventSelected */
 export type EventSelected = {
   __typename?: 'EventSelected';
-  /** Lista tapahtumien ID-tiedoista */
+  /** List of event IDs */
   events?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Listattujen tapahtumien määrä “Näytä lisää” -painiketta */
+  /** Amount of events listed before &quot;show more -button&quot; */
   initAmountOfEvents?: Maybe<Scalars['Int']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: EventSelectedCarousel */
+/** Collection Module: EventSelectedCarousel */
 export type EventSelectedCarousel = {
   __typename?: 'EventSelectedCarousel';
-  /** Korttien määrä karusellissa */
+  /** Amount of cards in carousel */
   amountOfCards?: Maybe<Scalars['Int']['output']>;
-  /** Korttien määrä riviä kohden */
+  /** Amount of cards per row */
   amountOfCardsPerRow?: Maybe<Scalars['Int']['output']>;
-  /** Lista tapahtumien ID-tiedoista */
+  /** List of event IDs */
   events?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Tapahtumat lähellä */
+  /** Events nearby */
   eventsNearby?: Maybe<Scalars['Boolean']['output']>;
-  /** Moduulin tyyppi */
+  /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Näytä kaikki -linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Moduulin otsikko */
+  /** Module title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
-export type FooterBlocksUnion = LayoutEditor | LayoutImage | LayoutMenu;
-
-/** Galleriakuva */
+/** Gallery Image */
 export type GalleryImage = {
   __typename?: 'GalleryImage';
-  /** Kuvan lainaus */
+  /** Caption of the image */
   caption?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description of the image */
   description?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (large) URL-osoite */
+  /** The url of the large image */
   large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium) URL-osoite */
+  /** The url of the medium image */
   medium?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium large) URL-osoite */
+  /** The url of the medium large image */
   medium_large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan URL-osoite */
+  /** The url of the thumbnail image */
   thumbnail?: Maybe<Scalars['String']['output']>;
-  /** Kuvan otsikko */
+  /** Title of the image */
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2711,22 +2772,20 @@ export type GeneralSettings = {
   url?: Maybe<Scalars['String']['output']>;
 };
 
-export type GlobalSidebarBlocksUnion = LayoutArticleHighlights | LayoutArticles | LayoutEditor;
-
-/** Hero kenttä */
+/** Hero field */
 export type Hero = {
   __typename?: 'Hero';
-  /** Hero taustaväri */
+  /** The background color of the hero */
   background_color?: Maybe<Scalars['String']['output']>;
-  /** Hero taustaväri */
+  /** The background color of the hero */
   background_image_url?: Maybe<Scalars['String']['output']>;
-  /** Hero sisältö */
+  /** The desctiption of the hero */
   description?: Maybe<Scalars['String']['output']>;
-  /** Hero linkin otsikko */
+  /** The title of the hero link */
   link?: Maybe<Link>;
-  /** Hero otsikko */
+  /** The title of the hero */
   title?: Maybe<Scalars['String']['output']>;
-  /** Heron koro */
+  /** The wave motif of the hero */
   wave_motif?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2796,7 +2855,6 @@ export type HierarchicalContentNode = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeAncestorsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2805,7 +2863,6 @@ export type HierarchicalContentNodeAncestorsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
-
 
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeChildrenArgs = {
@@ -2816,7 +2873,6 @@ export type HierarchicalContentNodeChildrenArgs = {
   where?: InputMaybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
-
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2824,7 +2880,6 @@ export type HierarchicalContentNodeEnqueuedScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNodeEnqueuedStylesheetsArgs = {
@@ -2835,24 +2890,28 @@ export type HierarchicalContentNodeEnqueuedStylesheetsArgs = {
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToContentNodeAncestorsConnection = Connection & ContentNodeConnection & {
-  __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnection';
-  /** Edges for the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
-  edges: Array<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type HierarchicalContentNodeToContentNodeAncestorsConnection =
+  Connection &
+    ContentNodeConnection & {
+      __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnection';
+      /** Edges for the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
+      edges: Array<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>;
+      /** The nodes of the connection, without the edges */
+      nodes: Array<ContentNode>;
+      /** Information about pagination in a connection. */
+      pageInfo?: Maybe<WpPageInfo>;
+    };
 
 /** An edge in a connection */
-export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge =
+  ContentNodeConnectionEdge &
+    Edge & {
+      __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnectionEdge';
+      /** A cursor for use in pagination */
+      cursor?: Maybe<Scalars['String']['output']>;
+      /** The item at the end of the edge */
+      node: ContentNode;
+    };
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
 export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
@@ -2895,24 +2954,28 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToContentNodeChildrenConnection = Connection & ContentNodeConnection & {
-  __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
-  /** Edges for the HierarchicalContentNodeToContentNodeChildrenConnection connection */
-  edges: Array<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type HierarchicalContentNodeToContentNodeChildrenConnection =
+  Connection &
+    ContentNodeConnection & {
+      __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
+      /** Edges for the HierarchicalContentNodeToContentNodeChildrenConnection connection */
+      edges: Array<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>;
+      /** The nodes of the connection, without the edges */
+      nodes: Array<ContentNode>;
+      /** Information about pagination in a connection. */
+      pageInfo?: Maybe<WpPageInfo>;
+    };
 
 /** An edge in a connection */
-export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge =
+  ContentNodeConnectionEdge &
+    Edge & {
+      __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge';
+      /** A cursor for use in pagination */
+      cursor?: Maybe<Scalars['String']['output']>;
+      /** The item at the end of the edge */
+      node: ContentNode;
+    };
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeChildrenConnection connection */
 export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
@@ -2955,13 +3018,16 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToParentContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: ContentNode;
-};
+export type HierarchicalContentNodeToParentContentNodeConnectionEdge =
+  ContentNodeConnectionEdge &
+    Edge &
+    OneToOneConnection & {
+      __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
+      /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+      cursor?: Maybe<Scalars['String']['output']>;
+      /** The node of the connection, without the edges */
+      node: ContentNode;
+    };
 
 /** Node with hierarchical (parent/child) relationships */
 export type HierarchicalNode = {
@@ -3015,7 +3081,6 @@ export type HierarchicalTermNode = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** Term node with hierarchical (parent/child) relationships */
 export type HierarchicalTermNodeEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -3023,7 +3088,6 @@ export type HierarchicalTermNodeEnqueuedScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Term node with hierarchical (parent/child) relationships */
 export type HierarchicalTermNodeEnqueuedStylesheetsArgs = {
@@ -3033,121 +3097,127 @@ export type HierarchicalTermNodeEnqueuedStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Kuva */
+/** Image */
 export type Image = {
   __typename?: 'Image';
-  /** Kuvan lainaus */
+  /** Caption of the image */
   caption?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description of the image */
   description?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (large) URL-osoite */
+  /** The url of the large image */
   large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium) URL-osoite */
+  /** The url of the medium image */
   medium?: Maybe<Scalars['String']['output']>;
-  /** Kuvan (medium large) URL-osoite */
+  /** The url of the medium large image */
   medium_large?: Maybe<Scalars['String']['output']>;
-  /** Kuvan URL-osoite */
+  /** The url of the thumbnail image */
   thumbnail?: Maybe<Scalars['String']['output']>;
-  /** Kuvan otsikko */
+  /** Title of the image */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** The landingPage type */
-export type LandingPage = ContentNode & DatabaseIdentifier & Node & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'LandingPage';
-  /** Taustaväri */
-  backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Box Color */
-  boxColor?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** Desktop Image */
-  desktopImage?: Maybe<LandingPageToMediaItemConnection>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Float Image */
-  floatImage?: Maybe<LandingPageToFloatImageConnection>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** Link */
-  heroLink?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** The globally unique identifier of the landing-page-cpt object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  landingPageId: Scalars['Int']['output'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** Mobile Image */
-  mobileImage?: Maybe<LandingPageToMobileImageConnection>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
-  modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
-  /** Connection between the LandingPage type and the landingPage type */
-  preview?: Maybe<LandingPageToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the LandingPage type and the landingPage type */
-  revisions?: Maybe<LandingPageToRevisionConnection>;
-  /** The SEO Framework data of the landingPage */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<LandingPage>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<LandingPage>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type LandingPage = ContentNode &
+  DatabaseIdentifier &
+  Node &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'LandingPage';
+    /** Background Color */
+    backgroundColor?: Maybe<Scalars['String']['output']>;
+    /** Box Color */
+    boxColor?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** Description */
+    description?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** Desktop Image */
+    desktopImage?: Maybe<LandingPageToMediaItemConnection>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Float Image */
+    floatImage?: Maybe<LandingPageToFloatImageConnection>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** Link */
+    heroLink?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    /** The globally unique identifier of the landing-page-cpt object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    landingPageId: Scalars['Int']['output'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** Mobile Image */
+    mobileImage?: Maybe<LandingPageToMobileImageConnection>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
+    /** Connection between the LandingPage type and the landingPage type */
+    preview?: Maybe<LandingPageToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the LandingPage type and the landingPage type */
+    revisions?: Maybe<LandingPageToRevisionConnection>;
+    /** The SEO Framework data of the landingPage */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<LandingPage>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<LandingPage>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The landingPage type */
 export type LandingPageDesktopImageArgs = {
@@ -3158,7 +3228,6 @@ export type LandingPageDesktopImageArgs = {
   where?: InputMaybe<LandingPageToMediaItemConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -3167,7 +3236,6 @@ export type LandingPageEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The landingPage type */
 export type LandingPageEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -3175,7 +3243,6 @@ export type LandingPageEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The landingPage type */
 export type LandingPageFloatImageArgs = {
@@ -3186,7 +3253,6 @@ export type LandingPageFloatImageArgs = {
   where?: InputMaybe<LandingPageToFloatImageConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageMobileImageArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -3195,7 +3261,6 @@ export type LandingPageMobileImageArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<LandingPageToMobileImageConnectionWhereArgs>;
 };
-
 
 /** The landingPage type */
 export type LandingPageRevisionsArgs = {
@@ -3206,12 +3271,10 @@ export type LandingPageRevisionsArgs = {
   where?: InputMaybe<LandingPageToRevisionConnectionWhereArgs>;
 };
 
-
 /** The landingPage type */
 export type LandingPageTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The landingPage type */
 export type LandingPageTranslationArgs = {
@@ -3243,28 +3306,30 @@ export enum LandingPageIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the landingPage type and the MediaItem type */
-export type LandingPageToFloatImageConnection = Connection & MediaItemConnection & {
-  __typename?: 'LandingPageToFloatImageConnection';
-  /** Edges for the LandingPageToFloatImageConnection connection */
-  edges: Array<LandingPageToFloatImageConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MediaItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type LandingPageToFloatImageConnection = Connection &
+  MediaItemConnection & {
+    __typename?: 'LandingPageToFloatImageConnection';
+    /** Edges for the LandingPageToFloatImageConnection connection */
+    edges: Array<LandingPageToFloatImageConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MediaItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type LandingPageToFloatImageConnectionEdge = Edge & MediaItemConnectionEdge & {
-  __typename?: 'LandingPageToFloatImageConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MediaItem;
-};
+export type LandingPageToFloatImageConnectionEdge = Edge &
+  MediaItemConnectionEdge & {
+    __typename?: 'LandingPageToFloatImageConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MediaItem;
+  };
 
 /** Arguments for filtering the LandingPageToFloatImageConnection connection */
 export type LandingPageToFloatImageConnectionWhereArgs = {
@@ -3307,24 +3372,26 @@ export type LandingPageToFloatImageConnectionWhereArgs = {
 };
 
 /** Connection between the landingPage type and the MediaItem type */
-export type LandingPageToMediaItemConnection = Connection & MediaItemConnection & {
-  __typename?: 'LandingPageToMediaItemConnection';
-  /** Edges for the LandingPageToMediaItemConnection connection */
-  edges: Array<LandingPageToMediaItemConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MediaItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type LandingPageToMediaItemConnection = Connection &
+  MediaItemConnection & {
+    __typename?: 'LandingPageToMediaItemConnection';
+    /** Edges for the LandingPageToMediaItemConnection connection */
+    edges: Array<LandingPageToMediaItemConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MediaItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type LandingPageToMediaItemConnectionEdge = Edge & MediaItemConnectionEdge & {
-  __typename?: 'LandingPageToMediaItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MediaItem;
-};
+export type LandingPageToMediaItemConnectionEdge = Edge &
+  MediaItemConnectionEdge & {
+    __typename?: 'LandingPageToMediaItemConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MediaItem;
+  };
 
 /** Arguments for filtering the LandingPageToMediaItemConnection connection */
 export type LandingPageToMediaItemConnectionWhereArgs = {
@@ -3367,24 +3434,26 @@ export type LandingPageToMediaItemConnectionWhereArgs = {
 };
 
 /** Connection between the landingPage type and the MediaItem type */
-export type LandingPageToMobileImageConnection = Connection & MediaItemConnection & {
-  __typename?: 'LandingPageToMobileImageConnection';
-  /** Edges for the LandingPageToMobileImageConnection connection */
-  edges: Array<LandingPageToMobileImageConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MediaItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type LandingPageToMobileImageConnection = Connection &
+  MediaItemConnection & {
+    __typename?: 'LandingPageToMobileImageConnection';
+    /** Edges for the LandingPageToMobileImageConnection connection */
+    edges: Array<LandingPageToMobileImageConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MediaItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type LandingPageToMobileImageConnectionEdge = Edge & MediaItemConnectionEdge & {
-  __typename?: 'LandingPageToMobileImageConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MediaItem;
-};
+export type LandingPageToMobileImageConnectionEdge = Edge &
+  MediaItemConnectionEdge & {
+    __typename?: 'LandingPageToMobileImageConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MediaItem;
+  };
 
 /** Arguments for filtering the LandingPageToMobileImageConnection connection */
 export type LandingPageToMobileImageConnectionWhereArgs = {
@@ -3427,33 +3496,37 @@ export type LandingPageToMobileImageConnectionWhereArgs = {
 };
 
 /** Connection between the LandingPage type and the landingPage type */
-export type LandingPageToPreviewConnectionEdge = Edge & LandingPageConnectionEdge & OneToOneConnection & {
-  __typename?: 'LandingPageToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: LandingPage;
-};
+export type LandingPageToPreviewConnectionEdge = Edge &
+  LandingPageConnectionEdge &
+  OneToOneConnection & {
+    __typename?: 'LandingPageToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: LandingPage;
+  };
 
 /** Connection between the LandingPage type and the landingPage type */
-export type LandingPageToRevisionConnection = Connection & LandingPageConnection & {
-  __typename?: 'LandingPageToRevisionConnection';
-  /** Edges for the LandingPageToRevisionConnection connection */
-  edges: Array<LandingPageToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<LandingPage>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type LandingPageToRevisionConnection = Connection &
+  LandingPageConnection & {
+    __typename?: 'LandingPageToRevisionConnection';
+    /** Edges for the LandingPageToRevisionConnection connection */
+    edges: Array<LandingPageToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<LandingPage>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type LandingPageToRevisionConnectionEdge = Edge & LandingPageConnectionEdge & {
-  __typename?: 'LandingPageToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: LandingPage;
-};
+export type LandingPageToRevisionConnectionEdge = Edge &
+  LandingPageConnectionEdge & {
+    __typename?: 'LandingPageToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: LandingPage;
+  };
 
 /** Arguments for filtering the LandingPageToRevisionConnection connection */
 export type LandingPageToRevisionConnectionWhereArgs = {
@@ -3514,7 +3587,7 @@ export type Language = {
 export enum LanguageCodeEnum {
   En = 'EN',
   Fi = 'FI',
-  Sv = 'SV'
+  Sv = 'SV',
 }
 
 /** Filter item by specific language, default language or list all languages */
@@ -3523,95 +3596,95 @@ export enum LanguageCodeFilterEnum {
   Default = 'DEFAULT',
   En = 'EN',
   Fi = 'FI',
-  Sv = 'SV'
+  Sv = 'SV',
 }
 
 /** Layout: LayoutArticleHighlights */
 export type LayoutArticleHighlights = {
   __typename?: 'LayoutArticleHighlights';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Artikkelit */
+  /** Articles */
   articles?: Maybe<Array<Maybe<Post>>>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kategoria */
+  /** Category */
   category?: Maybe<Scalars['Int']['output']>;
-  /** Valitse montako artikkelia näytetään */
+  /** Amount of articles to list */
   limit?: Maybe<Scalars['Int']['output']>;
-  /** Näytä lisää linkki */
+  /** Show more link */
   showMore?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Tagi */
+  /** Tag */
   tag?: Maybe<Scalars['Int']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutArticles */
 export type LayoutArticles = {
   __typename?: 'LayoutArticles';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Artikkelit */
+  /** Articles */
   articles?: Maybe<Array<Maybe<Post>>>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kategoria */
+  /** Category */
   category?: Maybe<Scalars['Int']['output']>;
-  /** Tagi */
+  /** Tag */
   limit?: Maybe<Scalars['Int']['output']>;
-  /** Näytä lisää linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Tagi */
+  /** Tag */
   tag?: Maybe<Scalars['Int']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutArticlesCarousel */
 export type LayoutArticlesCarousel = {
   __typename?: 'LayoutArticlesCarousel';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Artikkelit */
+  /** Articles */
   articles?: Maybe<Array<Maybe<Post>>>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kategoria */
+  /** Category */
   category?: Maybe<Scalars['Int']['output']>;
-  /** Valitse montako artikkelia näytetään */
+  /** Amount of articles to list */
   limit?: Maybe<Scalars['Int']['output']>;
-  /** Näytä lisää linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Näytä lisää linkki */
+  /** Show more link */
   showMore?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Tagi */
+  /** Tag */
   tag?: Maybe<Scalars['Int']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutCard */
 export type LayoutCard = {
   __typename?: 'LayoutCard';
-  /** Tasaus */
+  /** Alignment */
   alignment?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Kuva */
+  /** Image */
   image?: Maybe<Image>;
-  /** Linkki */
+  /** Link */
   link?: Maybe<Link>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutCards */
 export type LayoutCards = {
   __typename?: 'LayoutCards';
-  /** Ikoni kortti */
+  /** Cards */
   cards?: Maybe<Array<Maybe<Card>>>;
 };
 
@@ -3636,153 +3709,139 @@ export type LayoutContact = {
 /** Layout: LayoutContent */
 export type LayoutContent = {
   __typename?: 'LayoutContent';
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   content?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
-};
-
-/** Layout: LayoutEditor */
-export type LayoutEditor = {
-  __typename?: 'LayoutEditor';
-  /** Editor */
-  editor?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutImage */
 export type LayoutImage = {
   __typename?: 'LayoutImage';
-  /** Reunus */
+  /** Border */
   border?: Maybe<Scalars['Boolean']['output']>;
-  /** Kuva */
+  /** Image */
   image?: Maybe<Image>;
-  /** Valokuvaajan nimi (ylikirjoitus) */
+  /** Photographer name (overwrite) */
   photographer_name?: Maybe<Scalars['String']['output']>;
-  /** Näytä lighboxissa */
+  /** Show on lightbox */
   show_on_lightbox?: Maybe<Scalars['Boolean']['output']>;
 };
 
 /** Layout: LayoutImageGallery */
 export type LayoutImageGallery = {
   __typename?: 'LayoutImageGallery';
-  /** Galleria */
+  /** Gallery */
   gallery?: Maybe<Array<Maybe<GalleryImage>>>;
 };
 
 /** Layout: LayoutLinkList */
 export type LayoutLinkList = {
   __typename?: 'LayoutLinkList';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   description?: Maybe<Scalars['String']['output']>;
-  /** Linkit */
+  /** Links */
   links?: Maybe<Array<Maybe<Link>>>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
-};
-
-/** Layout: LayoutMenu */
-export type LayoutMenu = {
-  __typename?: 'LayoutMenu';
-  /** Menu */
-  menu?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutPages */
 export type LayoutPages = {
   __typename?: 'LayoutPages';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Sivut */
+  /** Pages */
   pages?: Maybe<Array<Maybe<Page>>>;
-  /** Näytä lisää linkki */
+  /** Show all -link */
   showAllLink?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutPagesCarousel */
 export type LayoutPagesCarousel = {
   __typename?: 'LayoutPagesCarousel';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Taustaväri */
+  /** Background Color */
   backgroundColor?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Sivut */
+  /** Pages */
   pages?: Maybe<Array<Maybe<Page>>>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutSocialMediaFeed */
 export type LayoutSocialMediaFeed = {
   __typename?: 'LayoutSocialMediaFeed';
-  /** Ankkuri */
+  /** Anchor */
   anchor?: Maybe<Scalars['String']['output']>;
-  /** Scripti */
+  /** Script */
   script?: Maybe<Scalars['String']['output']>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** Layout: LayoutSteps */
 export type LayoutSteps = {
   __typename?: 'LayoutSteps';
-  /** Väri */
+  /** Color */
   color?: Maybe<Scalars['String']['output']>;
-  /** Kuvaus */
+  /** Description */
   description?: Maybe<Scalars['String']['output']>;
-  /** Vaiheistus */
+  /** Steps */
   steps?: Maybe<Array<Maybe<Step>>>;
-  /** Sivuston otsikko */
+  /** Title */
   title?: Maybe<Scalars['String']['output']>;
-  /** Tyyppi */
+  /** Type */
   type?: Maybe<Scalars['String']['output']>;
 };
 
-/** Linkin kenttä */
+/** Link field */
 export type Link = {
   __typename?: 'Link';
-  /** Linkin kohde */
+  /** The target of the link */
   target?: Maybe<Scalars['String']['output']>;
-  /** Linkin otsikko */
+  /** The title of the link */
   title?: Maybe<Scalars['String']['output']>;
-  /** Linkin URL osoite */
+  /** The url of the link */
   url?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: LocationsSelected */
+/** Collection Module: LocationsSelected */
 export type LocationsSelected = {
   __typename?: 'LocationsSelected';
   /** List of location IDs */
   locations?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
   /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /** Module title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
-/** Kokoelmamoduuli: LocationsSelectedCarousel */
+/** Collection Module: LocationsSelectedCarousel */
 export type LocationsSelectedCarousel = {
   __typename?: 'LocationsSelectedCarousel';
   /** List of location IDs */
   locations?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
   /** Module type */
   module?: Maybe<Scalars['String']['output']>;
-  /** Moduulilistaus */
+  /** List of modules */
   modules?: Maybe<Array<Maybe<CollectionModulesUnionType>>>;
   /** Module title */
   title?: Maybe<Scalars['String']['output']>;
@@ -3803,7 +3862,6 @@ export type MediaDetails = {
   width?: Maybe<Scalars['Int']['output']>;
 };
 
-
 /** File details for a Media Item */
 export type MediaDetailsSizesArgs = {
   exclude?: InputMaybe<Array<InputMaybe<MediaItemSizeEnum>>>;
@@ -3811,117 +3869,124 @@ export type MediaDetailsSizesArgs = {
 };
 
 /** The mediaItem type */
-export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNode & HierarchicalNode & Node & NodeWithAuthor & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & {
-  __typename?: 'MediaItem';
-  /** Alternative text to display when resource is not displayed */
-  altText?: Maybe<Scalars['String']['output']>;
-  /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
-  /** Connection between the NodeWithAuthor type and the User type */
-  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
-  /** The database identifier of the author of the node */
-  authorDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the author of the node */
-  authorId?: Maybe<Scalars['ID']['output']>;
-  /** The caption for the resource */
-  caption?: Maybe<Scalars['String']['output']>;
-  /** Connection between the HierarchicalContentNode type and the ContentNode type */
-  children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** Description of the image (stored as post_content) */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** The filesize in bytes of the resource */
-  fileSize?: Maybe<Scalars['Int']['output']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier of the attachment object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** Details about the mediaItem */
-  mediaDetails?: Maybe<MediaDetails>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  mediaItemId: Scalars['Int']['output'];
-  /** Url of the mediaItem */
-  mediaItemUrl?: Maybe<Scalars['String']['output']>;
-  /** Type of resource */
-  mediaType?: Maybe<Scalars['String']['output']>;
-  /** The mime type of the mediaItem */
-  mimeType?: Maybe<Scalars['String']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** The parent of the node. The parent object can be of various types */
-  parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
-  /** Database id of the parent node */
-  parentDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the parent node. */
-  parentId?: Maybe<Scalars['ID']['output']>;
-  /** Valokuvaajan tiedot */
-  photographerName?: Maybe<Scalars['String']['output']>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** The SEO Framework data of the mediaItem */
-  seo?: Maybe<Seo>;
-  /** The sizes attribute value for an image. */
-  sizes?: Maybe<Scalars['String']['output']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** Url of the mediaItem */
-  sourceUrl?: Maybe<Scalars['String']['output']>;
-  /** The srcset attribute specifies the URL of the image to use in different situations. It is a comma separated string of urls and their widths. */
-  srcSet?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to a node of content */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<MediaItem>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<MediaItem>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type MediaItem = ContentNode &
+  DatabaseIdentifier &
+  HierarchicalContentNode &
+  HierarchicalNode &
+  Node &
+  NodeWithAuthor &
+  NodeWithTemplate &
+  NodeWithTitle &
+  UniformResourceIdentifiable & {
+    __typename?: 'MediaItem';
+    /** Alternative text to display when resource is not displayed */
+    altText?: Maybe<Scalars['String']['output']>;
+    /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
+    ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']['output']>;
+    /** The caption for the resource */
+    caption?: Maybe<Scalars['String']['output']>;
+    /** Connection between the HierarchicalContentNode type and the ContentNode type */
+    children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** Description of the image (stored as post_content) */
+    description?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** The filesize in bytes of the resource */
+    fileSize?: Maybe<Scalars['Int']['output']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier of the attachment object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** Details about the mediaItem */
+    mediaDetails?: Maybe<MediaDetails>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    mediaItemId: Scalars['Int']['output'];
+    /** Url of the mediaItem */
+    mediaItemUrl?: Maybe<Scalars['String']['output']>;
+    /** Type of resource */
+    mediaType?: Maybe<Scalars['String']['output']>;
+    /** The mime type of the mediaItem */
+    mimeType?: Maybe<Scalars['String']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** The parent of the node. The parent object can be of various types */
+    parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
+    /** Database id of the parent node */
+    parentDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the parent node. */
+    parentId?: Maybe<Scalars['ID']['output']>;
+    /** Valokuvaajan tiedot */
+    photographerName?: Maybe<Scalars['String']['output']>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** The SEO Framework data of the mediaItem */
+    seo?: Maybe<Seo>;
+    /** The sizes attribute value for an image. */
+    sizes?: Maybe<Scalars['String']['output']>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** Url of the mediaItem */
+    sourceUrl?: Maybe<Scalars['String']['output']>;
+    /** The srcset attribute specifies the URL of the image to use in different situations. It is a comma separated string of urls and their widths. */
+    srcSet?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to a node of content */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<MediaItem>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<MediaItem>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The mediaItem type */
 export type MediaItemAncestorsArgs = {
@@ -3932,12 +3997,10 @@ export type MediaItemAncestorsArgs = {
   where?: InputMaybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemCaptionArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemChildrenArgs = {
@@ -3948,12 +4011,10 @@ export type MediaItemChildrenArgs = {
   where?: InputMaybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemDescriptionArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemEnqueuedScriptsArgs = {
@@ -3963,7 +4024,6 @@ export type MediaItemEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -3972,36 +4032,30 @@ export type MediaItemEnqueuedStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemFileSizeArgs = {
   size?: InputMaybe<MediaItemSizeEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemSizesArgs = {
   size?: InputMaybe<MediaItemSizeEnum>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemSourceUrlArgs = {
   size?: InputMaybe<MediaItemSizeEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemSrcSetArgs = {
   size?: InputMaybe<MediaItemSizeEnum>;
 };
 
-
 /** The mediaItem type */
 export type MediaItemTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The mediaItem type */
 export type MediaItemTranslationArgs = {
@@ -4035,7 +4089,7 @@ export enum MediaItemIdType {
   /** Identify a media item by its source url */
   SourceUrl = 'SOURCE_URL',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Meta connected to a MediaItem */
@@ -4080,7 +4134,7 @@ export enum MediaItemSizeEnum {
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
   /** MediaItem with the 2048x2048 size */
-  '2048X2048' = '_2048X2048'
+  '2048X2048' = '_2048X2048',
 }
 
 /** The status of the media item object. */
@@ -4092,7 +4146,7 @@ export enum MediaItemStatusEnum {
   /** Objects with the private status */
   Private = 'PRIVATE',
   /** Objects with the trash status */
-  Trash = 'TRASH'
+  Trash = 'TRASH',
 }
 
 /** Details of an available size for a media item */
@@ -4115,31 +4169,31 @@ export type MediaSize = {
 };
 
 /** Menus are the containers for navigation items. Menus can be assigned to menu locations, which are typically registered by the active theme. */
-export type Menu = DatabaseIdentifier & Node & {
-  __typename?: 'Menu';
-  /** The number of items in the menu */
-  count?: Maybe<Scalars['Int']['output']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The globally unique identifier of the nav menu object. */
-  id: Scalars['ID']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** The locations a menu is assigned to */
-  locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
-  /**
-   * WP ID of the nav menu.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  menuId?: Maybe<Scalars['Int']['output']>;
-  /** Connection between the Menu type and the MenuItem type */
-  menuItems?: Maybe<MenuToMenuItemConnection>;
-  /** Display name of the menu. Equivalent to WP_Term-&gt;name. */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The url friendly name of the menu. Equivalent to WP_Term-&gt;slug */
-  slug?: Maybe<Scalars['String']['output']>;
-};
-
+export type Menu = DatabaseIdentifier &
+  Node & {
+    __typename?: 'Menu';
+    /** The number of items in the menu */
+    count?: Maybe<Scalars['Int']['output']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** The globally unique identifier of the nav menu object. */
+    id: Scalars['ID']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** The locations a menu is assigned to */
+    locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
+    /**
+     * WP ID of the nav menu.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    menuId?: Maybe<Scalars['Int']['output']>;
+    /** Connection between the Menu type and the MenuItem type */
+    menuItems?: Maybe<MenuToMenuItemConnection>;
+    /** Display name of the menu. Equivalent to WP_Term-&gt;name. */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The url friendly name of the menu. Equivalent to WP_Term-&gt;slug */
+    slug?: Maybe<Scalars['String']['output']>;
+  };
 
 /** Menus are the containers for navigation items. Menus can be assigned to menu locations, which are typically registered by the active theme. */
 export type MenuMenuItemsArgs = {
@@ -4167,58 +4221,58 @@ export type MenuConnectionEdge = {
 };
 
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
-export type MenuItem = DatabaseIdentifier & Node & {
-  __typename?: 'MenuItem';
-  /** Connection between the MenuItem type and the MenuItem type */
-  childItems?: Maybe<MenuItemToMenuItemConnection>;
-  /** Connection from MenuItem to it&#039;s connected node */
-  connectedNode?: Maybe<MenuItemToMenuItemLinkableConnectionEdge>;
-  /**
-   * The object connected to this menu item.
-   * @deprecated Deprecated in favor of the connectedNode field
-   */
-  connectedObject?: Maybe<MenuItemObjectUnion>;
-  /** Class attribute for the menu item link */
-  cssClasses?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Description of the menu item. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier of the nav menu item object. */
-  id: Scalars['ID']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Label or title of the menu item. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** Link relationship (XFN) of the menu item. */
-  linkRelationship?: Maybe<Scalars['String']['output']>;
-  /** The locations the menu item&#039;s Menu is assigned to */
-  locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
-  /** The Menu a MenuItem is part of */
-  menu?: Maybe<MenuItemToMenuConnectionEdge>;
-  /**
-   * WP ID of the menu item.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  menuItemId?: Maybe<Scalars['Int']['output']>;
-  /** Menu item order */
-  order?: Maybe<Scalars['Int']['output']>;
-  /** The database id of the parent menu item or null if it is the root */
-  parentDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the parent nav menu item object. */
-  parentId?: Maybe<Scalars['ID']['output']>;
-  /** Path for the resource. Relative path for internal resources. Absolute path for external resources. */
-  path?: Maybe<Scalars['String']['output']>;
-  /** Target attribute for the menu item link. */
-  target?: Maybe<Scalars['String']['output']>;
-  /** Title attribute for the menu item link */
-  title?: Maybe<Scalars['String']['output']>;
-  /** The uri of the resource the menu item links to */
-  uri?: Maybe<Scalars['String']['output']>;
-  /** URL or destination of the menu item. */
-  url?: Maybe<Scalars['String']['output']>;
-};
-
+export type MenuItem = DatabaseIdentifier &
+  Node & {
+    __typename?: 'MenuItem';
+    /** Connection between the MenuItem type and the MenuItem type */
+    childItems?: Maybe<MenuItemToMenuItemConnection>;
+    /** Connection from MenuItem to it&#039;s connected node */
+    connectedNode?: Maybe<MenuItemToMenuItemLinkableConnectionEdge>;
+    /**
+     * The object connected to this menu item.
+     * @deprecated Deprecated in favor of the connectedNode field
+     */
+    connectedObject?: Maybe<MenuItemObjectUnion>;
+    /** Class attribute for the menu item link */
+    cssClasses?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Description of the menu item. */
+    description?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier of the nav menu item object. */
+    id: Scalars['ID']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Label or title of the menu item. */
+    label?: Maybe<Scalars['String']['output']>;
+    /** Link relationship (XFN) of the menu item. */
+    linkRelationship?: Maybe<Scalars['String']['output']>;
+    /** The locations the menu item&#039;s Menu is assigned to */
+    locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
+    /** The Menu a MenuItem is part of */
+    menu?: Maybe<MenuItemToMenuConnectionEdge>;
+    /**
+     * WP ID of the menu item.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    menuItemId?: Maybe<Scalars['Int']['output']>;
+    /** Menu item order */
+    order?: Maybe<Scalars['Int']['output']>;
+    /** The database id of the parent menu item or null if it is the root */
+    parentDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the parent nav menu item object. */
+    parentId?: Maybe<Scalars['ID']['output']>;
+    /** Path for the resource. Relative path for internal resources. Absolute path for external resources. */
+    path?: Maybe<Scalars['String']['output']>;
+    /** Target attribute for the menu item link. */
+    target?: Maybe<Scalars['String']['output']>;
+    /** Title attribute for the menu item link */
+    title?: Maybe<Scalars['String']['output']>;
+    /** The uri of the resource the menu item links to */
+    uri?: Maybe<Scalars['String']['output']>;
+    /** URL or destination of the menu item. */
+    url?: Maybe<Scalars['String']['output']>;
+  };
 
 /** Navigation menu items are the individual items assigned to a menu. These are rendered as the links in a navigation menu. */
 export type MenuItemChildItemsArgs = {
@@ -4272,40 +4326,44 @@ export enum MenuItemNodeIdTypeEnum {
   /** Identify a resource by the Database ID. */
   DatabaseId = 'DATABASE_ID',
   /** Identify a resource by the (hashed) Global ID. */
-  Id = 'ID'
+  Id = 'ID',
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
 export type MenuItemObjectUnion = Category | Page | Post | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
-export type MenuItemToMenuConnectionEdge = Edge & MenuConnectionEdge & OneToOneConnection & {
-  __typename?: 'MenuItemToMenuConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Menu;
-};
+export type MenuItemToMenuConnectionEdge = Edge &
+  MenuConnectionEdge &
+  OneToOneConnection & {
+    __typename?: 'MenuItemToMenuConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Menu;
+  };
 
 /** Connection between the MenuItem type and the MenuItem type */
-export type MenuItemToMenuItemConnection = Connection & MenuItemConnection & {
-  __typename?: 'MenuItemToMenuItemConnection';
-  /** Edges for the MenuItemToMenuItemConnection connection */
-  edges: Array<MenuItemToMenuItemConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MenuItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type MenuItemToMenuItemConnection = Connection &
+  MenuItemConnection & {
+    __typename?: 'MenuItemToMenuItemConnection';
+    /** Edges for the MenuItemToMenuItemConnection connection */
+    edges: Array<MenuItemToMenuItemConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MenuItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type MenuItemToMenuItemConnectionEdge = Edge & MenuItemConnectionEdge & {
-  __typename?: 'MenuItemToMenuItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MenuItem;
-};
+export type MenuItemToMenuItemConnectionEdge = Edge &
+  MenuItemConnectionEdge & {
+    __typename?: 'MenuItemToMenuItemConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MenuItem;
+  };
 
 /** Arguments for filtering the MenuItemToMenuItemConnection connection */
 export type MenuItemToMenuItemConnectionWhereArgs = {
@@ -4320,13 +4378,15 @@ export type MenuItemToMenuItemConnectionWhereArgs = {
 };
 
 /** Connection between the MenuItem type and the MenuItemLinkable type */
-export type MenuItemToMenuItemLinkableConnectionEdge = Edge & MenuItemLinkableConnectionEdge & OneToOneConnection & {
-  __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: MenuItemLinkable;
-};
+export type MenuItemToMenuItemLinkableConnectionEdge = Edge &
+  MenuItemLinkableConnectionEdge &
+  OneToOneConnection & {
+    __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: MenuItemLinkable;
+  };
 
 /** Registered menu locations */
 export enum MenuLocationEnum {
@@ -4347,7 +4407,7 @@ export enum MenuLocationEnum {
   /** Put the menu in the tertiary___en location */
   TertiaryEn = 'TERTIARY___EN',
   /** Put the menu in the tertiary___sv location */
-  TertiarySv = 'TERTIARY___SV'
+  TertiarySv = 'TERTIARY___SV',
 }
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -4361,28 +4421,30 @@ export enum MenuNodeIdTypeEnum {
   /** Identify a menu node by its name */
   Name = 'NAME',
   /** Identify a menu node by its slug */
-  Slug = 'SLUG'
+  Slug = 'SLUG',
 }
 
 /** Connection between the Menu type and the MenuItem type */
-export type MenuToMenuItemConnection = Connection & MenuItemConnection & {
-  __typename?: 'MenuToMenuItemConnection';
-  /** Edges for the MenuToMenuItemConnection connection */
-  edges: Array<MenuToMenuItemConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MenuItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type MenuToMenuItemConnection = Connection &
+  MenuItemConnection & {
+    __typename?: 'MenuToMenuItemConnection';
+    /** Edges for the MenuToMenuItemConnection connection */
+    edges: Array<MenuToMenuItemConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MenuItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type MenuToMenuItemConnectionEdge = Edge & MenuItemConnectionEdge & {
-  __typename?: 'MenuToMenuItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MenuItem;
-};
+export type MenuToMenuItemConnectionEdge = Edge &
+  MenuItemConnectionEdge & {
+    __typename?: 'MenuToMenuItemConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MenuItem;
+  };
 
 /** Arguments for filtering the MenuToMenuItemConnection connection */
 export type MenuToMenuItemConnectionWhereArgs = {
@@ -4461,7 +4523,7 @@ export enum MimeTypeEnum {
   /** MimeType video/webm */
   VideoWebm = 'VIDEO_WEBM',
   /** MimeType video/x-flv */
-  VideoXFlv = 'VIDEO_X_FLV'
+  VideoXFlv = 'VIDEO_X_FLV',
 }
 
 /** An object with an ID */
@@ -4483,13 +4545,15 @@ export type NodeWithAuthor = {
 };
 
 /** Connection between the NodeWithAuthor type and the User type */
-export type NodeWithAuthorToUserConnectionEdge = Edge & OneToOneConnection & UserConnectionEdge & {
-  __typename?: 'NodeWithAuthorToUserConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: User;
-};
+export type NodeWithAuthorToUserConnectionEdge = Edge &
+  OneToOneConnection &
+  UserConnectionEdge & {
+    __typename?: 'NodeWithAuthorToUserConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: User;
+  };
 
 /** A node that supports the content editor */
 export type NodeWithContentEditor = {
@@ -4498,7 +4562,6 @@ export type NodeWithContentEditor = {
   /** The globally unique ID for the object */
   id: Scalars['ID']['output'];
 };
-
 
 /** A node that supports the content editor */
 export type NodeWithContentEditorContentArgs = {
@@ -4518,13 +4581,15 @@ export type NodeWithFeaturedImage = {
 };
 
 /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-export type NodeWithFeaturedImageToMediaItemConnectionEdge = Edge & MediaItemConnectionEdge & OneToOneConnection & {
-  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: MediaItem;
-};
+export type NodeWithFeaturedImageToMediaItemConnectionEdge = Edge &
+  MediaItemConnectionEdge &
+  OneToOneConnection & {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: MediaItem;
+  };
 
 /** A node that can have page attributes */
 export type NodeWithPageAttributes = {
@@ -4545,13 +4610,16 @@ export type NodeWithRevisions = {
 };
 
 /** Connection between the NodeWithRevisions type and the ContentNode type */
-export type NodeWithRevisionsToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & OneToOneConnection & {
-  __typename?: 'NodeWithRevisionsToContentNodeConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: ContentNode;
-};
+export type NodeWithRevisionsToContentNodeConnectionEdge =
+  ContentNodeConnectionEdge &
+    Edge &
+    OneToOneConnection & {
+      __typename?: 'NodeWithRevisionsToContentNodeConnectionEdge';
+      /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+      cursor?: Maybe<Scalars['String']['output']>;
+      /** The node of the connection, without the edges */
+      node: ContentNode;
+    };
 
 /** A node that can have a template associated with it */
 export type NodeWithTemplate = {
@@ -4569,28 +4637,27 @@ export type NodeWithTitle = {
   title?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** A node that NodeWith a title */
 export type NodeWithTitleTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
-/** Selitä mikä CustomType on */
+/** Describe what a CustomType is */
 export type Notification = {
   __typename?: 'Notification';
-  /** Ilmoituksen sisältö */
+  /** Notification content */
   content?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen päättymispäivä */
+  /** Notification end date */
   endDate?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen tärkeys */
+  /** Notification level */
   level?: Maybe<Scalars['String']['output']>;
-  /** Ilmoitus linkin teksti */
+  /** Notification link text */
   linkText?: Maybe<Scalars['String']['output']>;
-  /** Ilmoitus linkin url */
+  /** Notification link url */
   linkUrl?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen aloituspäivä */
+  /** Notification start date */
   startDate?: Maybe<Scalars['String']['output']>;
-  /** Ilmoituksen otsikko */
+  /** Notification title */
   title?: Maybe<Scalars['String']['output']>;
 };
 
@@ -4607,135 +4674,148 @@ export enum OrderEnum {
   /** Sort the query result set in an ascending order */
   Asc = 'ASC',
   /** Sort the query result set in a descending order */
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 /** The page type */
-export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & HierarchicalNode & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithPageAttributes & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'Page';
-  /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
-  /** Connection between the NodeWithAuthor type and the User type */
-  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
-  /** The database identifier of the author of the node */
-  authorDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the author of the node */
-  authorId?: Maybe<Scalars['ID']['output']>;
-  /** Breadcrumb fields */
-  breadcrumbs?: Maybe<Array<Maybe<Breadcrumb>>>;
-  /** Connection between the HierarchicalContentNode type and the ContentNode type */
-  children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
-  /** The content of the post. */
-  content?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']['output']>;
-  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-  /** The database identifier for the featured image node assigned to the content node */
-  featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Globally unique ID of the featured image assigned to the node */
-  featuredImageId?: Maybe<Scalars['ID']['output']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** Hero kentät */
-  hero?: Maybe<Hero>;
-  /** The globally unique identifier of the page object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether this page is set to the static front page. */
-  isFrontPage: Scalars['Boolean']['output'];
-  /** Whether this page is set to the blog posts page. */
-  isPostsPage: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether this page is set to the privacy page. */
-  isPrivacyPage: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Ingressi */
-  lead?: Maybe<Scalars['String']['output']>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder?: Maybe<Scalars['Int']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduuli listaus */
-  modules?: Maybe<Array<Maybe<PageModulesUnionType>>>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  pageId: Scalars['Int']['output'];
-  /** The parent of the node. The parent object can be of various types */
-  parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
-  /** Database id of the parent node */
-  parentDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the parent node. */
-  parentId?: Maybe<Scalars['ID']['output']>;
-  /** Connection between the Page type and the page type */
-  preview?: Maybe<PageToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the Page type and the page type */
-  revisions?: Maybe<PageToRevisionConnection>;
-  /** The SEO Framework data of the page */
-  seo?: Maybe<Seo>;
-  /** Näytä alisivut */
-  showChildPages?: Maybe<Scalars['Boolean']['output']>;
-  /** Moduuli listaus */
-  sidebar?: Maybe<Array<Maybe<PageSidebarUnionType>>>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to a node of content */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Page>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Page>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Page = ContentNode &
+  DatabaseIdentifier &
+  HierarchicalContentNode &
+  HierarchicalNode &
+  MenuItemLinkable &
+  Node &
+  NodeWithAuthor &
+  NodeWithContentEditor &
+  NodeWithFeaturedImage &
+  NodeWithPageAttributes &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'Page';
+    /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
+    ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']['output']>;
+    /** Breadcrumb fields */
+    breadcrumbs?: Maybe<Array<Maybe<Breadcrumb>>>;
+    /** Connection between the HierarchicalContentNode type and the ContentNode type */
+    children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']['output']>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars['ID']['output']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** Hero fields */
+    hero?: Maybe<Hero>;
+    /** The globally unique identifier of the page object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether this page is set to the static front page. */
+    isFrontPage: Scalars['Boolean']['output'];
+    /** Whether this page is set to the blog posts page. */
+    isPostsPage: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether this page is set to the privacy page. */
+    isPrivacyPage: Scalars['Boolean']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Ingressi */
+    lead?: Maybe<Scalars['String']['output']>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+    menuOrder?: Maybe<Scalars['Int']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<PageModulesUnionType>>>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    pageId: Scalars['Int']['output'];
+    /** The parent of the node. The parent object can be of various types */
+    parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
+    /** Database id of the parent node */
+    parentDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the parent node. */
+    parentId?: Maybe<Scalars['ID']['output']>;
+    /** Connection between the Page type and the page type */
+    preview?: Maybe<PageToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the Page type and the page type */
+    revisions?: Maybe<PageToRevisionConnection>;
+    /** The SEO Framework data of the page */
+    seo?: Maybe<Seo>;
+    /** Näytä alisivut */
+    showChildPages?: Maybe<Scalars['Boolean']['output']>;
+    /** List of modules */
+    sidebar?: Maybe<Array<Maybe<PageSidebarUnionType>>>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to a node of content */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Page>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Page>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The page type */
 export type PageAncestorsArgs = {
@@ -4746,7 +4826,6 @@ export type PageAncestorsArgs = {
   where?: InputMaybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageChildrenArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4756,12 +4835,10 @@ export type PageChildrenArgs = {
   where?: InputMaybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageContentArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The page type */
 export type PageEnqueuedScriptsArgs = {
@@ -4771,7 +4848,6 @@ export type PageEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The page type */
 export type PageEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -4779,7 +4855,6 @@ export type PageEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The page type */
 export type PageRevisionsArgs = {
@@ -4790,12 +4865,10 @@ export type PageRevisionsArgs = {
   where?: InputMaybe<PageToRevisionConnectionWhereArgs>;
 };
 
-
 /** The page type */
 export type PageTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The page type */
 export type PageTranslationArgs = {
@@ -4825,41 +4898,69 @@ export enum PageIdType {
   /** Identify a resource by the (hashed) Global ID. */
   Id = 'ID',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
-export type PageModulesUnionType = EventSearch | EventSearchCarousel | EventSelected | EventSelectedCarousel | LayoutArticleHighlights | LayoutArticles | LayoutArticlesCarousel | LayoutCard | LayoutCards | LayoutCollection | LayoutContact | LayoutContent | LayoutImage | LayoutImageGallery | LayoutPages | LayoutPagesCarousel | LayoutSocialMediaFeed | LayoutSteps | LocationsSelected | LocationsSelectedCarousel;
+export type PageModulesUnionType =
+  | EventSearch
+  | EventSearchCarousel
+  | EventSelected
+  | EventSelectedCarousel
+  | LayoutArticleHighlights
+  | LayoutArticles
+  | LayoutArticlesCarousel
+  | LayoutCard
+  | LayoutCards
+  | LayoutCollection
+  | LayoutContact
+  | LayoutContent
+  | LayoutImage
+  | LayoutImageGallery
+  | LayoutPages
+  | LayoutPagesCarousel
+  | LayoutSocialMediaFeed
+  | LayoutSteps
+  | LocationsSelected
+  | LocationsSelectedCarousel;
 
-export type PageSidebarUnionType = LayoutArticles | LayoutCards | LayoutLinkList | LayoutPages;
+export type PageSidebarUnionType =
+  | LayoutArticles
+  | LayoutCards
+  | LayoutLinkList
+  | LayoutPages;
 
 /** Connection between the Page type and the page type */
-export type PageToPreviewConnectionEdge = Edge & OneToOneConnection & PageConnectionEdge & {
-  __typename?: 'PageToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Page;
-};
+export type PageToPreviewConnectionEdge = Edge &
+  OneToOneConnection &
+  PageConnectionEdge & {
+    __typename?: 'PageToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Page;
+  };
 
 /** Connection between the Page type and the page type */
-export type PageToRevisionConnection = Connection & PageConnection & {
-  __typename?: 'PageToRevisionConnection';
-  /** Edges for the PageToRevisionConnection connection */
-  edges: Array<PageToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Page>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PageToRevisionConnection = Connection &
+  PageConnection & {
+    __typename?: 'PageToRevisionConnection';
+    /** Edges for the PageToRevisionConnection connection */
+    edges: Array<PageToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Page>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PageToRevisionConnectionEdge = Edge & PageConnectionEdge & {
-  __typename?: 'PageToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Page;
-};
+export type PageToRevisionConnectionEdge = Edge &
+  PageConnectionEdge & {
+    __typename?: 'PageToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Page;
+  };
 
 /** Arguments for filtering the PageToRevisionConnection connection */
 export type PageToRevisionConnectionWhereArgs = {
@@ -4965,125 +5066,135 @@ export enum PluginStatusEnum {
   /** The plugin was active recently. */
   RecentlyActive = 'RECENTLY_ACTIVE',
   /** The plugin has an upgrade available. */
-  Upgrade = 'UPGRADE'
+  Upgrade = 'UPGRADE',
 }
 
 /** The post type */
-export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithAuthor & NodeWithContentEditor & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'Post';
-  /** Connection between the NodeWithAuthor type and the User type */
-  author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
-  /** The database identifier of the author of the node */
-  authorDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** The globally unique identifier of the author of the node */
-  authorId?: Maybe<Scalars['ID']['output']>;
-  /** Breadcrumb fields */
-  breadcrumbs?: Maybe<Array<Maybe<Breadcrumb>>>;
-  /** Connection between the Post type and the category type */
-  categories?: Maybe<PostToCategoryConnection>;
-  /** The content of the post. */
-  content?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']['output']>;
-  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
-  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-  /** The database identifier for the featured image node assigned to the content node */
-  featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Globally unique ID of the featured image assigned to the node */
-  featuredImageId?: Maybe<Scalars['ID']['output']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** Piilota julkaisupäivämäärä */
-  hidePublishedDate?: Maybe<Scalars['Boolean']['output']>;
-  /** The globally unique identifier of the post object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether this page is sticky */
-  isSticky: Scalars['Boolean']['output'];
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** Ingressi */
-  lead?: Maybe<Scalars['String']['output']>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Moduuli listaus */
-  modules?: Maybe<Array<Maybe<PostModulesUnionType>>>;
-  /** Connection between the Post type and the postFormat type */
-  postFormats?: Maybe<PostToPostFormatConnection>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  postId: Scalars['Int']['output'];
-  /** Connection between the Post type and the post type */
-  preview?: Maybe<PostToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the Post type and the post type */
-  revisions?: Maybe<PostToRevisionConnection>;
-  /** The SEO Framework data of the post */
-  seo?: Maybe<Seo>;
-  /** Moduuli listaus */
-  sidebar?: Maybe<Array<Maybe<PostSidebarUnionType>>>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** Connection between the Post type and the tag type */
-  tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** Connection between the Post type and the TermNode type */
-  terms?: Maybe<PostToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Post>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Post>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Post = ContentNode &
+  DatabaseIdentifier &
+  MenuItemLinkable &
+  Node &
+  NodeWithAuthor &
+  NodeWithContentEditor &
+  NodeWithFeaturedImage &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'Post';
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']['output']>;
+    /** Breadcrumb fields */
+    breadcrumbs?: Maybe<Array<Maybe<Breadcrumb>>>;
+    /** Connection between the Post type and the category type */
+    categories?: Maybe<PostToCategoryConnection>;
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']['output']>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars['ID']['output']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** Hide Published Date */
+    hidePublishedDate?: Maybe<Scalars['Boolean']['output']>;
+    /** The globally unique identifier of the post object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether this page is sticky */
+    isSticky: Scalars['Boolean']['output'];
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Ingressi */
+    lead?: Maybe<Scalars['String']['output']>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** List of modules */
+    modules?: Maybe<Array<Maybe<PostModulesUnionType>>>;
+    /** Connection between the Post type and the postFormat type */
+    postFormats?: Maybe<PostToPostFormatConnection>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    postId: Scalars['Int']['output'];
+    /** Connection between the Post type and the post type */
+    preview?: Maybe<PostToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the Post type and the post type */
+    revisions?: Maybe<PostToRevisionConnection>;
+    /** The SEO Framework data of the post */
+    seo?: Maybe<Seo>;
+    /** List of modules */
+    sidebar?: Maybe<Array<Maybe<PostSidebarUnionType>>>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** Connection between the Post type and the tag type */
+    tags?: Maybe<PostToTagConnection>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the Post type and the TermNode type */
+    terms?: Maybe<PostToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Post>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Post>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The post type */
 export type PostCategoriesArgs = {
@@ -5094,12 +5205,10 @@ export type PostCategoriesArgs = {
   where?: InputMaybe<PostToCategoryConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostContentArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The post type */
 export type PostEnqueuedScriptsArgs = {
@@ -5109,7 +5218,6 @@ export type PostEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The post type */
 export type PostEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -5117,7 +5225,6 @@ export type PostEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The post type */
 export type PostPostFormatsArgs = {
@@ -5128,7 +5235,6 @@ export type PostPostFormatsArgs = {
   where?: InputMaybe<PostToPostFormatConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostRevisionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -5137,7 +5243,6 @@ export type PostRevisionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<PostToRevisionConnectionWhereArgs>;
 };
-
 
 /** The post type */
 export type PostTagsArgs = {
@@ -5148,7 +5253,6 @@ export type PostTagsArgs = {
   where?: InputMaybe<PostToTagConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostTermsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -5158,12 +5262,10 @@ export type PostTermsArgs = {
   where?: InputMaybe<PostToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The post type */
 export type PostTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The post type */
 export type PostTranslationArgs = {
@@ -5207,53 +5309,55 @@ export type PostConnectionEdge = {
 };
 
 /** The postFormat type */
-export type PostFormat = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
-  __typename?: 'PostFormat';
-  /** Connection between the PostFormat type and the ContentNode type */
-  contentNodes?: Maybe<PostFormatToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']['output']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']['output']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The unique resource identifier path */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** The link to the term */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']['output']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  postFormatId?: Maybe<Scalars['Int']['output']>;
-  /** Connection between the PostFormat type and the post type */
-  posts?: Maybe<PostFormatToPostConnection>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** Connection between the PostFormat type and the Taxonomy type */
-  taxonomy?: Maybe<PostFormatToTaxonomyConnectionEdge>;
-  /** The name of the taxonomy that the object is associated with */
-  taxonomyName?: Maybe<Scalars['String']['output']>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']['output']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']['output']>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type PostFormat = DatabaseIdentifier &
+  Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'PostFormat';
+    /** Connection between the PostFormat type and the ContentNode type */
+    contentNodes?: Maybe<PostFormatToContentNodeConnection>;
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']['output']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** The description of the object */
+    description?: Maybe<Scalars['String']['output']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+    /** The unique resource identifier path */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** The link to the term */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']['output']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    postFormatId?: Maybe<Scalars['Int']['output']>;
+    /** Connection between the PostFormat type and the post type */
+    posts?: Maybe<PostFormatToPostConnection>;
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** Connection between the PostFormat type and the Taxonomy type */
+    taxonomy?: Maybe<PostFormatToTaxonomyConnectionEdge>;
+    /** The name of the taxonomy that the object is associated with */
+    taxonomyName?: Maybe<Scalars['String']['output']>;
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']['output']>;
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']['output']>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The postFormat type */
 export type PostFormatContentNodesArgs = {
@@ -5264,7 +5368,6 @@ export type PostFormatContentNodesArgs = {
   where?: InputMaybe<PostFormatToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The postFormat type */
 export type PostFormatEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -5273,7 +5376,6 @@ export type PostFormatEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The postFormat type */
 export type PostFormatEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -5281,7 +5383,6 @@ export type PostFormatEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The postFormat type */
 export type PostFormatPostsArgs = {
@@ -5319,28 +5420,30 @@ export enum PostFormatIdType {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the PostFormat type and the ContentNode type */
-export type PostFormatToContentNodeConnection = Connection & ContentNodeConnection & {
-  __typename?: 'PostFormatToContentNodeConnection';
-  /** Edges for the PostFormatToContentNodeConnection connection */
-  edges: Array<PostFormatToContentNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostFormatToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'PostFormatToContentNodeConnection';
+    /** Edges for the PostFormatToContentNodeConnection connection */
+    edges: Array<PostFormatToContentNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostFormatToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'PostFormatToContentNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type PostFormatToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'PostFormatToContentNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the PostFormatToContentNodeConnection connection */
 export type PostFormatToContentNodeConnectionWhereArgs = {
@@ -5383,24 +5486,26 @@ export type PostFormatToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the PostFormat type and the post type */
-export type PostFormatToPostConnection = Connection & PostConnection & {
-  __typename?: 'PostFormatToPostConnection';
-  /** Edges for the PostFormatToPostConnection connection */
-  edges: Array<PostFormatToPostConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Post>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostFormatToPostConnection = Connection &
+  PostConnection & {
+    __typename?: 'PostFormatToPostConnection';
+    /** Edges for the PostFormatToPostConnection connection */
+    edges: Array<PostFormatToPostConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Post>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostFormatToPostConnectionEdge = Edge & PostConnectionEdge & {
-  __typename?: 'PostFormatToPostConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Post;
-};
+export type PostFormatToPostConnectionEdge = Edge &
+  PostConnectionEdge & {
+    __typename?: 'PostFormatToPostConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Post;
+  };
 
 /** Arguments for filtering the PostFormatToPostConnection connection */
 export type PostFormatToPostConnectionWhereArgs = {
@@ -5469,13 +5574,15 @@ export type PostFormatToPostConnectionWhereArgs = {
 };
 
 /** Connection between the PostFormat type and the Taxonomy type */
-export type PostFormatToTaxonomyConnectionEdge = Edge & OneToOneConnection & TaxonomyConnectionEdge & {
-  __typename?: 'PostFormatToTaxonomyConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Taxonomy;
-};
+export type PostFormatToTaxonomyConnectionEdge = Edge &
+  OneToOneConnection &
+  TaxonomyConnectionEdge & {
+    __typename?: 'PostFormatToTaxonomyConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Taxonomy;
+  };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum PostIdType {
@@ -5486,17 +5593,37 @@ export enum PostIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
-export type PostModulesUnionType = EventSearch | EventSearchCarousel | EventSelected | EventSelectedCarousel | LayoutArticleHighlights | LayoutArticles | LayoutArticlesCarousel | LayoutCard | LayoutCards | LayoutCollection | LayoutContact | LayoutContent | LayoutImage | LayoutImageGallery | LayoutPages | LayoutPagesCarousel | LayoutSocialMediaFeed | LayoutSteps | LocationsSelected | LocationsSelectedCarousel;
+export type PostModulesUnionType =
+  | EventSearch
+  | EventSearchCarousel
+  | EventSelected
+  | EventSelectedCarousel
+  | LayoutArticleHighlights
+  | LayoutArticles
+  | LayoutArticlesCarousel
+  | LayoutCard
+  | LayoutCards
+  | LayoutCollection
+  | LayoutContact
+  | LayoutContent
+  | LayoutImage
+  | LayoutImageGallery
+  | LayoutPages
+  | LayoutPagesCarousel
+  | LayoutSocialMediaFeed
+  | LayoutSteps
+  | LocationsSelected
+  | LocationsSelectedCarousel;
 
 /** The format of post field data. */
 export enum PostObjectFieldFormatEnum {
   /** Provide the field value directly from database. Null on unauthenticated requests. */
   Raw = 'RAW',
   /** Provide the field value as rendered by WordPress. Default. */
-  Rendered = 'RENDERED'
+  Rendered = 'RENDERED',
 }
 
 /** The column to use when filtering by date */
@@ -5504,7 +5631,7 @@ export enum PostObjectsConnectionDateColumnEnum {
   /** The date the comment was created in local time. */
   Date = 'DATE',
   /** The most recent modification date of the comment. */
-  Modified = 'MODIFIED'
+  Modified = 'MODIFIED',
 }
 
 /** Field to order the connection by */
@@ -5528,7 +5655,7 @@ export enum PostObjectsConnectionOrderbyEnum {
   /** Order by slug */
   Slug = 'SLUG',
   /** Order by title */
-  Title = 'TITLE'
+  Title = 'TITLE',
 }
 
 /** Options for ordering the connection */
@@ -5559,7 +5686,11 @@ export type PostPostFormatsNodeInput = {
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type PostSidebarUnionType = LayoutArticles | LayoutCards | LayoutLinkList | LayoutPages;
+export type PostSidebarUnionType =
+  | LayoutArticles
+  | LayoutCards
+  | LayoutLinkList
+  | LayoutPages;
 
 /** The status of the object. */
 export enum PostStatusEnum {
@@ -5594,7 +5725,7 @@ export enum PostStatusEnum {
   /** Objects with the wp_stream_disabled status */
   WpStreamDisabled = 'WP_STREAM_DISABLED',
   /** Objects with the wp_stream_enabled status */
-  WpStreamEnabled = 'WP_STREAM_ENABLED'
+  WpStreamEnabled = 'WP_STREAM_ENABLED',
 }
 
 /** Set relationships between the post to tags */
@@ -5618,24 +5749,26 @@ export type PostTagsNodeInput = {
 };
 
 /** Connection between the Post type and the category type */
-export type PostToCategoryConnection = CategoryConnection & Connection & {
-  __typename?: 'PostToCategoryConnection';
-  /** Edges for the PostToCategoryConnection connection */
-  edges: Array<PostToCategoryConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Category>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostToCategoryConnection = CategoryConnection &
+  Connection & {
+    __typename?: 'PostToCategoryConnection';
+    /** Edges for the PostToCategoryConnection connection */
+    edges: Array<PostToCategoryConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Category>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostToCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
-  __typename?: 'PostToCategoryConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Category;
-};
+export type PostToCategoryConnectionEdge = CategoryConnectionEdge &
+  Edge & {
+    __typename?: 'PostToCategoryConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Category;
+  };
 
 /** Arguments for filtering the PostToCategoryConnection connection */
 export type PostToCategoryConnectionWhereArgs = {
@@ -5684,24 +5817,26 @@ export type PostToCategoryConnectionWhereArgs = {
 };
 
 /** Connection between the Post type and the postFormat type */
-export type PostToPostFormatConnection = Connection & PostFormatConnection & {
-  __typename?: 'PostToPostFormatConnection';
-  /** Edges for the PostToPostFormatConnection connection */
-  edges: Array<PostToPostFormatConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<PostFormat>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostToPostFormatConnection = Connection &
+  PostFormatConnection & {
+    __typename?: 'PostToPostFormatConnection';
+    /** Edges for the PostToPostFormatConnection connection */
+    edges: Array<PostToPostFormatConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<PostFormat>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostToPostFormatConnectionEdge = Edge & PostFormatConnectionEdge & {
-  __typename?: 'PostToPostFormatConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: PostFormat;
-};
+export type PostToPostFormatConnectionEdge = Edge &
+  PostFormatConnectionEdge & {
+    __typename?: 'PostToPostFormatConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: PostFormat;
+  };
 
 /** Arguments for filtering the PostToPostFormatConnection connection */
 export type PostToPostFormatConnectionWhereArgs = {
@@ -5750,33 +5885,37 @@ export type PostToPostFormatConnectionWhereArgs = {
 };
 
 /** Connection between the Post type and the post type */
-export type PostToPreviewConnectionEdge = Edge & OneToOneConnection & PostConnectionEdge & {
-  __typename?: 'PostToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Post;
-};
+export type PostToPreviewConnectionEdge = Edge &
+  OneToOneConnection &
+  PostConnectionEdge & {
+    __typename?: 'PostToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Post;
+  };
 
 /** Connection between the Post type and the post type */
-export type PostToRevisionConnection = Connection & PostConnection & {
-  __typename?: 'PostToRevisionConnection';
-  /** Edges for the PostToRevisionConnection connection */
-  edges: Array<PostToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Post>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostToRevisionConnection = Connection &
+  PostConnection & {
+    __typename?: 'PostToRevisionConnection';
+    /** Edges for the PostToRevisionConnection connection */
+    edges: Array<PostToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Post>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostToRevisionConnectionEdge = Edge & PostConnectionEdge & {
-  __typename?: 'PostToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Post;
-};
+export type PostToRevisionConnectionEdge = Edge &
+  PostConnectionEdge & {
+    __typename?: 'PostToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Post;
+  };
 
 /** Arguments for filtering the PostToRevisionConnection connection */
 export type PostToRevisionConnectionWhereArgs = {
@@ -5845,24 +5984,26 @@ export type PostToRevisionConnectionWhereArgs = {
 };
 
 /** Connection between the Post type and the tag type */
-export type PostToTagConnection = Connection & TagConnection & {
-  __typename?: 'PostToTagConnection';
-  /** Edges for the PostToTagConnection connection */
-  edges: Array<PostToTagConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Tag>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostToTagConnection = Connection &
+  TagConnection & {
+    __typename?: 'PostToTagConnection';
+    /** Edges for the PostToTagConnection connection */
+    edges: Array<PostToTagConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Tag>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostToTagConnectionEdge = Edge & TagConnectionEdge & {
-  __typename?: 'PostToTagConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Tag;
-};
+export type PostToTagConnectionEdge = Edge &
+  TagConnectionEdge & {
+    __typename?: 'PostToTagConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Tag;
+  };
 
 /** Arguments for filtering the PostToTagConnection connection */
 export type PostToTagConnectionWhereArgs = {
@@ -5911,24 +6052,26 @@ export type PostToTagConnectionWhereArgs = {
 };
 
 /** Connection between the Post type and the TermNode type */
-export type PostToTermNodeConnection = Connection & TermNodeConnection & {
-  __typename?: 'PostToTermNodeConnection';
-  /** Edges for the PostToTermNodeConnection connection */
-  edges: Array<PostToTermNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<TermNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type PostToTermNodeConnection = Connection &
+  TermNodeConnection & {
+    __typename?: 'PostToTermNodeConnection';
+    /** Edges for the PostToTermNodeConnection connection */
+    edges: Array<PostToTermNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<TermNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type PostToTermNodeConnectionEdge = Edge & TermNodeConnectionEdge & {
-  __typename?: 'PostToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: TermNode;
-};
+export type PostToTermNodeConnectionEdge = Edge &
+  TermNodeConnectionEdge & {
+    __typename?: 'PostToTermNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: TermNode;
+  };
 
 /** Arguments for filtering the PostToTermNodeConnection connection */
 export type PostToTermNodeConnectionWhereArgs = {
@@ -6108,99 +6251,105 @@ export enum RelationEnum {
   /** The logical AND condition returns true if both operands are true, otherwise, it returns false. */
   And = 'AND',
   /** The logical OR condition returns false if both operands are false, otherwise, it returns true. */
-  Or = 'OR'
+  Or = 'OR',
 }
 
 /** The release type */
-export type Release = ContentNode & DatabaseIdentifier & Node & NodeWithContentEditor & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'Release';
-  /** The content of the post. */
-  content?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Vanhentumisaika */
-  expirationTime?: Maybe<Scalars['String']['output']>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier of the release-cpt object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Polylang language */
-  language?: Maybe<Language>;
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Connection between the Release type and the release type */
-  preview?: Maybe<ReleaseToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  releaseId: Scalars['Int']['output'];
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the Release type and the release type */
-  revisions?: Maybe<ReleaseToRevisionConnection>;
-  /** The SEO Framework data of the release */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Release>;
-  /** List all translated versions of this post */
-  translations?: Maybe<Array<Maybe<Release>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Release = ContentNode &
+  DatabaseIdentifier &
+  Node &
+  NodeWithContentEditor &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'Release';
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** Vanhentumisaika */
+    expirationTime?: Maybe<Scalars['String']['output']>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier of the release-cpt object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Polylang language */
+    language?: Maybe<Language>;
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** Connection between the Release type and the release type */
+    preview?: Maybe<ReleaseToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    releaseId: Scalars['Int']['output'];
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the Release type and the release type */
+    revisions?: Maybe<ReleaseToRevisionConnection>;
+    /** The SEO Framework data of the release */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Release>;
+    /** List all translated versions of this post */
+    translations?: Maybe<Array<Maybe<Release>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The release type */
 export type ReleaseContentArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The release type */
 export type ReleaseEnqueuedScriptsArgs = {
@@ -6210,7 +6359,6 @@ export type ReleaseEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The release type */
 export type ReleaseEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -6218,7 +6366,6 @@ export type ReleaseEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The release type */
 export type ReleaseRevisionsArgs = {
@@ -6229,12 +6376,10 @@ export type ReleaseRevisionsArgs = {
   where?: InputMaybe<ReleaseToRevisionConnectionWhereArgs>;
 };
 
-
 /** The release type */
 export type ReleaseTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
-
 
 /** The release type */
 export type ReleaseTranslationArgs = {
@@ -6266,37 +6411,41 @@ export enum ReleaseIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the Release type and the release type */
-export type ReleaseToPreviewConnectionEdge = Edge & OneToOneConnection & ReleaseConnectionEdge & {
-  __typename?: 'ReleaseToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Release;
-};
+export type ReleaseToPreviewConnectionEdge = Edge &
+  OneToOneConnection &
+  ReleaseConnectionEdge & {
+    __typename?: 'ReleaseToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Release;
+  };
 
 /** Connection between the Release type and the release type */
-export type ReleaseToRevisionConnection = Connection & ReleaseConnection & {
-  __typename?: 'ReleaseToRevisionConnection';
-  /** Edges for the ReleaseToRevisionConnection connection */
-  edges: Array<ReleaseToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Release>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type ReleaseToRevisionConnection = Connection &
+  ReleaseConnection & {
+    __typename?: 'ReleaseToRevisionConnection';
+    /** Edges for the ReleaseToRevisionConnection connection */
+    edges: Array<ReleaseToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Release>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type ReleaseToRevisionConnectionEdge = Edge & ReleaseConnectionEdge & {
-  __typename?: 'ReleaseToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Release;
-};
+export type ReleaseToRevisionConnectionEdge = Edge &
+  ReleaseConnectionEdge & {
+    __typename?: 'ReleaseToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Release;
+  };
 
 /** Arguments for filtering the ReleaseToRevisionConnection connection */
 export type ReleaseToRevisionConnectionWhereArgs = {
@@ -6471,270 +6620,225 @@ export type RootMutation = {
   updateUser?: Maybe<UpdateUserPayload>;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateCategoryArgs = {
   input: CreateCategoryInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateCollectionArgs = {
   input: CreateCollectionInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateCommentArgs = {
   input: CreateCommentInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateContactArgs = {
   input: CreateContactInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateLandingPageArgs = {
   input: CreateLandingPageInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateMediaItemArgs = {
   input: CreateMediaItemInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreatePageArgs = {
   input: CreatePageInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreatePostArgs = {
   input: CreatePostInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreatePostFormatArgs = {
   input: CreatePostFormatInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateReleaseArgs = {
   input: CreateReleaseInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateTagArgs = {
   input: CreateTagInput;
 };
-
 
 /** The root mutation */
 export type RootMutationCreateTranslationArgs = {
   input: CreateTranslationInput;
 };
 
-
 /** The root mutation */
 export type RootMutationCreateUserArgs = {
   input: CreateUserInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteCategoryArgs = {
   input: DeleteCategoryInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteCollectionArgs = {
   input: DeleteCollectionInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteCommentArgs = {
   input: DeleteCommentInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteContactArgs = {
   input: DeleteContactInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteLandingPageArgs = {
   input: DeleteLandingPageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteMediaItemArgs = {
   input: DeleteMediaItemInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeletePageArgs = {
   input: DeletePageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeletePostArgs = {
   input: DeletePostInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeletePostFormatArgs = {
   input: DeletePostFormatInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteReleaseArgs = {
   input: DeleteReleaseInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteTagArgs = {
   input: DeleteTagInput;
 };
 
-
 /** The root mutation */
 export type RootMutationDeleteTranslationArgs = {
   input: DeleteTranslationInput;
 };
-
 
 /** The root mutation */
 export type RootMutationDeleteUserArgs = {
   input: DeleteUserInput;
 };
 
-
 /** The root mutation */
 export type RootMutationIncreaseCountArgs = {
   count?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The root mutation */
 export type RootMutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
 
-
 /** The root mutation */
 export type RootMutationResetUserPasswordArgs = {
   input: ResetUserPasswordInput;
 };
-
 
 /** The root mutation */
 export type RootMutationRestoreCommentArgs = {
   input: RestoreCommentInput;
 };
 
-
 /** The root mutation */
 export type RootMutationSendPasswordResetEmailArgs = {
   input: SendPasswordResetEmailInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateCategoryArgs = {
   input: UpdateCategoryInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateCollectionArgs = {
   input: UpdateCollectionInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateCommentArgs = {
   input: UpdateCommentInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateContactArgs = {
   input: UpdateContactInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateLandingPageArgs = {
   input: UpdateLandingPageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateMediaItemArgs = {
   input: UpdateMediaItemInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdatePageArgs = {
   input: UpdatePageInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdatePostArgs = {
   input: UpdatePostInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdatePostFormatArgs = {
   input: UpdatePostFormatInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateReleaseArgs = {
   input: UpdateReleaseInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateSettingsArgs = {
   input: UpdateSettingsInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateTagArgs = {
   input: UpdateTagInput;
 };
 
-
 /** The root mutation */
 export type RootMutationUpdateTranslationArgs = {
   input: UpdateTranslationInput;
 };
-
 
 /** The root mutation */
 export type RootMutationUpdateUserArgs = {
@@ -6750,7 +6854,7 @@ export type RootQuery = {
   categories?: Maybe<RootQueryToCategoryConnection>;
   /** A 0bject */
   category?: Maybe<Category>;
-  /** An object of the collection Type. Kokoelmat */
+  /** An object of the collection Type. Collections */
   collection?: Maybe<Collection>;
   /**
    * A collection object
@@ -6763,7 +6867,7 @@ export type RootQuery = {
   comment?: Maybe<Comment>;
   /** Connection between the RootQuery type and the Comment type */
   comments?: Maybe<RootQueryToCommentConnection>;
-  /** An object of the contact Type. Yhteystiedot */
+  /** An object of the contact Type. Contacts */
   contact?: Maybe<Contact>;
   /**
    * A contact object
@@ -6780,19 +6884,15 @@ export type RootQuery = {
   contentType?: Maybe<ContentType>;
   /** Connection between the RootQuery type and the ContentType type */
   contentTypes?: Maybe<RootQueryToContentTypeConnection>;
-  /** Oletuskuvat */
+  /** Default Images */
   defaultImages?: Maybe<DefaultImages>;
   /** Get language list */
   defaultLanguage?: Maybe<Language>;
   /** Fields of the &#039;DiscussionSettings&#039; settings group */
   discussionSettings?: Maybe<DiscussionSettings>;
-  /** Footer blocks */
-  footerBlocks?: Maybe<Array<Maybe<FooterBlocksUnion>>>;
   /** Fields of the &#039;GeneralSettings&#039; settings group */
   generalSettings?: Maybe<GeneralSettings>;
-  /** Global Sidebar blocks */
-  globalSidebarBlocks?: Maybe<Array<Maybe<GlobalSidebarBlocksUnion>>>;
-  /** An object of the landingPage Type. Laskeutumissivut */
+  /** An object of the landingPage Type. Landing Pages */
   landingPage?: Maybe<LandingPage>;
   /**
    * A landingPage object
@@ -6832,7 +6932,7 @@ export type RootQuery = {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   pageBy?: Maybe<Page>;
-  /** Palauttaa sivun ID:n, joka käyttää annettua sivupohjaa */
+  /** Returns ID of page that uses the given template */
   pageByTemplate?: Maybe<Page>;
   /** Connection between the RootQuery type and the page type */
   pages?: Maybe<RootQueryToPageConnection>;
@@ -6859,7 +6959,7 @@ export type RootQuery = {
   registeredScripts?: Maybe<RootQueryToEnqueuedScriptConnection>;
   /** Connection between the RootQuery type and the EnqueuedStylesheet type */
   registeredStylesheets?: Maybe<RootQueryToEnqueuedStylesheetConnection>;
-  /** An object of the release Type. Tiedotteet */
+  /** An object of the release Type. Releases */
   release?: Maybe<Release>;
   /**
    * A release object
@@ -6872,7 +6972,7 @@ export type RootQuery = {
   revisions?: Maybe<RootQueryToRevisionsConnection>;
   /** The SEO Framework settings */
   seoSettings?: Maybe<SeoSettings>;
-  /** Sivuston asetukset */
+  /** Site Settings */
   siteSettings?: Maybe<SiteSettings>;
   /** A 0bject */
   tag?: Maybe<Tag>;
@@ -6892,7 +6992,7 @@ export type RootQuery = {
   themes?: Maybe<RootQueryToThemeConnection>;
   /** Translate string using pll_translate_string() (Polylang) */
   translateString?: Maybe<Scalars['String']['output']>;
-  /** An object of the translation Type. Käännökset */
+  /** An object of the translation Type. Translations */
   translation?: Maybe<Translation>;
   /**
    * A translation object
@@ -6915,7 +7015,6 @@ export type RootQuery = {
   writingSettings?: Maybe<WritingSettings>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCategoriesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -6925,13 +7024,11 @@ export type RootQueryCategoriesArgs = {
   where?: InputMaybe<RootQueryToCategoryConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCategoryArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<CategoryIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryCollectionArgs = {
@@ -6940,7 +7037,6 @@ export type RootQueryCollectionArgs = {
   idType?: InputMaybe<CollectionIdType>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCollectionByArgs = {
   collectionId?: InputMaybe<Scalars['Int']['input']>;
@@ -6948,7 +7044,6 @@ export type RootQueryCollectionByArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   uri?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryCollectionsArgs = {
@@ -6959,13 +7054,11 @@ export type RootQueryCollectionsArgs = {
   where?: InputMaybe<RootQueryToCollectionConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryCommentArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<CommentNodeIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryCommentsArgs = {
@@ -6976,14 +7069,12 @@ export type RootQueryCommentsArgs = {
   where?: InputMaybe<RootQueryToCommentConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryContactArgs = {
   asPreview?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['ID']['input'];
   idType?: InputMaybe<ContactIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContactByArgs = {
@@ -6992,7 +7083,6 @@ export type RootQueryContactByArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   uri?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContactsArgs = {
@@ -7003,7 +7093,6 @@ export type RootQueryContactsArgs = {
   where?: InputMaybe<RootQueryToContactConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryContentNodeArgs = {
   asPreview?: InputMaybe<Scalars['Boolean']['input']>;
@@ -7011,7 +7100,6 @@ export type RootQueryContentNodeArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<ContentNodeIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContentNodesArgs = {
@@ -7022,13 +7110,11 @@ export type RootQueryContentNodesArgs = {
   where?: InputMaybe<RootQueryToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryContentTypeArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<ContentTypeIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryContentTypesArgs = {
@@ -7038,24 +7124,10 @@ export type RootQueryContentTypesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryDefaultImagesArgs = {
   language: Scalars['String']['input'];
 };
-
-
-/** The root entry point into the Graph */
-export type RootQueryFooterBlocksArgs = {
-  language: Scalars['String']['input'];
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryGlobalSidebarBlocksArgs = {
-  language: Scalars['String']['input'];
-};
-
 
 /** The root entry point into the Graph */
 export type RootQueryLandingPageArgs = {
@@ -7064,7 +7136,6 @@ export type RootQueryLandingPageArgs = {
   idType?: InputMaybe<LandingPageIdType>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryLandingPageByArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -7072,7 +7143,6 @@ export type RootQueryLandingPageByArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   uri?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryLandingPagesArgs = {
@@ -7083,14 +7153,12 @@ export type RootQueryLandingPagesArgs = {
   where?: InputMaybe<RootQueryToLandingPageConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMediaItemArgs = {
   asPreview?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['ID']['input'];
   idType?: InputMaybe<MediaItemIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemByArgs = {
@@ -7099,7 +7167,6 @@ export type RootQueryMediaItemByArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   uri?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryMediaItemsArgs = {
@@ -7110,20 +7177,17 @@ export type RootQueryMediaItemsArgs = {
   where?: InputMaybe<RootQueryToMediaItemConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMenuArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<MenuNodeIdTypeEnum>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMenuItemArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<MenuItemNodeIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryMenuItemsArgs = {
@@ -7134,7 +7198,6 @@ export type RootQueryMenuItemsArgs = {
   where?: InputMaybe<RootQueryToMenuItemConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryMenusArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -7144,24 +7207,20 @@ export type RootQueryMenusArgs = {
   where?: InputMaybe<RootQueryToMenuConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryNodeArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryNodeByUriArgs = {
   uri: Scalars['String']['input'];
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryNotificationArgs = {
   language: Scalars['String']['input'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPageArgs = {
@@ -7170,7 +7229,6 @@ export type RootQueryPageArgs = {
   idType?: InputMaybe<PageIdType>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPageByArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -7178,13 +7236,11 @@ export type RootQueryPageByArgs = {
   uri?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPageByTemplateArgs = {
   language?: InputMaybe<Scalars['String']['input']>;
   template?: InputMaybe<TemplateEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPagesArgs = {
@@ -7195,12 +7251,10 @@ export type RootQueryPagesArgs = {
   where?: InputMaybe<RootQueryToPageConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPluginArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPluginsArgs = {
@@ -7211,14 +7265,12 @@ export type RootQueryPluginsArgs = {
   where?: InputMaybe<RootQueryToPluginConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPostArgs = {
   asPreview?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['ID']['input'];
   idType?: InputMaybe<PostIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPostByArgs = {
@@ -7228,13 +7280,11 @@ export type RootQueryPostByArgs = {
   uri?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPostFormatArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<PostFormatIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryPostFormatsArgs = {
@@ -7245,7 +7295,6 @@ export type RootQueryPostFormatsArgs = {
   where?: InputMaybe<RootQueryToPostFormatConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryPostsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -7255,7 +7304,6 @@ export type RootQueryPostsArgs = {
   where?: InputMaybe<RootQueryToPostConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryRegisteredScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -7263,7 +7311,6 @@ export type RootQueryRegisteredScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryRegisteredStylesheetsArgs = {
@@ -7273,14 +7320,12 @@ export type RootQueryRegisteredStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryReleaseArgs = {
   asPreview?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['ID']['input'];
   idType?: InputMaybe<ReleaseIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryReleaseByArgs = {
@@ -7289,7 +7334,6 @@ export type RootQueryReleaseByArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   uri?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryReleasesArgs = {
@@ -7300,7 +7344,6 @@ export type RootQueryReleasesArgs = {
   where?: InputMaybe<RootQueryToReleaseConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryRevisionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -7310,19 +7353,16 @@ export type RootQueryRevisionsArgs = {
   where?: InputMaybe<RootQueryToRevisionsConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQuerySiteSettingsArgs = {
   language: Scalars['String']['input'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTagArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<TagIdType>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTagsArgs = {
@@ -7333,7 +7373,6 @@ export type RootQueryTagsArgs = {
   where?: InputMaybe<RootQueryToTagConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTaxonomiesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -7342,13 +7381,11 @@ export type RootQueryTaxonomiesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTaxonomyArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<TaxonomyIdTypeEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTermNodeArgs = {
@@ -7356,7 +7393,6 @@ export type RootQueryTermNodeArgs = {
   idType?: InputMaybe<TermNodeIdTypeEnum>;
   taxonomy?: InputMaybe<TaxonomyEnum>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTermsArgs = {
@@ -7367,12 +7403,10 @@ export type RootQueryTermsArgs = {
   where?: InputMaybe<RootQueryToTermNodeConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryThemeArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryThemesArgs = {
@@ -7382,13 +7416,11 @@ export type RootQueryThemesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTranslateStringArgs = {
   language: LanguageCodeEnum;
   string: Scalars['String']['input'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTranslationArgs = {
@@ -7397,7 +7429,6 @@ export type RootQueryTranslationArgs = {
   idType?: InputMaybe<TranslationIdType>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryTranslationByArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -7405,7 +7436,6 @@ export type RootQueryTranslationByArgs = {
   translationId?: InputMaybe<Scalars['Int']['input']>;
   uri?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryTranslationsArgs = {
@@ -7416,19 +7446,16 @@ export type RootQueryTranslationsArgs = {
   where?: InputMaybe<RootQueryToTranslationConnectionWhereArgs>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryUserArgs = {
   id: Scalars['ID']['input'];
   idType?: InputMaybe<UserNodeIdTypeEnum>;
 };
 
-
 /** The root entry point into the Graph */
 export type RootQueryUserRoleArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryUserRolesArgs = {
@@ -7437,7 +7464,6 @@ export type RootQueryUserRolesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The root entry point into the Graph */
 export type RootQueryUsersArgs = {
@@ -7449,24 +7475,26 @@ export type RootQueryUsersArgs = {
 };
 
 /** Connection between the RootQuery type and the category type */
-export type RootQueryToCategoryConnection = CategoryConnection & Connection & {
-  __typename?: 'RootQueryToCategoryConnection';
-  /** Edges for the RootQueryToCategoryConnection connection */
-  edges: Array<RootQueryToCategoryConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Category>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToCategoryConnection = CategoryConnection &
+  Connection & {
+    __typename?: 'RootQueryToCategoryConnection';
+    /** Edges for the RootQueryToCategoryConnection connection */
+    edges: Array<RootQueryToCategoryConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Category>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToCategoryConnectionEdge = CategoryConnectionEdge & Edge & {
-  __typename?: 'RootQueryToCategoryConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Category;
-};
+export type RootQueryToCategoryConnectionEdge = CategoryConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToCategoryConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Category;
+  };
 
 /** Arguments for filtering the RootQueryToCategoryConnection connection */
 export type RootQueryToCategoryConnectionWhereArgs = {
@@ -7519,24 +7547,26 @@ export type RootQueryToCategoryConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the collection type */
-export type RootQueryToCollectionConnection = CollectionConnection & Connection & {
-  __typename?: 'RootQueryToCollectionConnection';
-  /** Edges for the RootQueryToCollectionConnection connection */
-  edges: Array<RootQueryToCollectionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Collection>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToCollectionConnection = CollectionConnection &
+  Connection & {
+    __typename?: 'RootQueryToCollectionConnection';
+    /** Edges for the RootQueryToCollectionConnection connection */
+    edges: Array<RootQueryToCollectionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Collection>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToCollectionConnectionEdge = CollectionConnectionEdge & Edge & {
-  __typename?: 'RootQueryToCollectionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Collection;
-};
+export type RootQueryToCollectionConnectionEdge = CollectionConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToCollectionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Collection;
+  };
 
 /** Arguments for filtering the RootQueryToCollectionConnection connection */
 export type RootQueryToCollectionConnectionWhereArgs = {
@@ -7581,24 +7611,26 @@ export type RootQueryToCollectionConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Comment type */
-export type RootQueryToCommentConnection = CommentConnection & Connection & {
-  __typename?: 'RootQueryToCommentConnection';
-  /** Edges for the RootQueryToCommentConnection connection */
-  edges: Array<RootQueryToCommentConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Comment>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToCommentConnection = CommentConnection &
+  Connection & {
+    __typename?: 'RootQueryToCommentConnection';
+    /** Edges for the RootQueryToCommentConnection connection */
+    edges: Array<RootQueryToCommentConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Comment>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToCommentConnectionEdge = CommentConnectionEdge & Edge & {
-  __typename?: 'RootQueryToCommentConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Comment;
-};
+export type RootQueryToCommentConnectionEdge = CommentConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToCommentConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Comment;
+  };
 
 /** Arguments for filtering the RootQueryToCommentConnection connection */
 export type RootQueryToCommentConnectionWhereArgs = {
@@ -7663,24 +7695,26 @@ export type RootQueryToCommentConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the contact type */
-export type RootQueryToContactConnection = Connection & ContactConnection & {
-  __typename?: 'RootQueryToContactConnection';
-  /** Edges for the RootQueryToContactConnection connection */
-  edges: Array<RootQueryToContactConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Contact>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToContactConnection = Connection &
+  ContactConnection & {
+    __typename?: 'RootQueryToContactConnection';
+    /** Edges for the RootQueryToContactConnection connection */
+    edges: Array<RootQueryToContactConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Contact>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToContactConnectionEdge = ContactConnectionEdge & Edge & {
-  __typename?: 'RootQueryToContactConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Contact;
-};
+export type RootQueryToContactConnectionEdge = ContactConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToContactConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Contact;
+  };
 
 /** Arguments for filtering the RootQueryToContactConnection connection */
 export type RootQueryToContactConnectionWhereArgs = {
@@ -7725,24 +7759,26 @@ export type RootQueryToContactConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the ContentNode type */
-export type RootQueryToContentNodeConnection = Connection & ContentNodeConnection & {
-  __typename?: 'RootQueryToContentNodeConnection';
-  /** Edges for the RootQueryToContentNodeConnection connection */
-  edges: Array<RootQueryToContentNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'RootQueryToContentNodeConnection';
+    /** Edges for the RootQueryToContentNodeConnection connection */
+    edges: Array<RootQueryToContentNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'RootQueryToContentNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type RootQueryToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToContentNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the RootQueryToContentNodeConnection connection */
 export type RootQueryToContentNodeConnectionWhereArgs = {
@@ -7789,84 +7825,92 @@ export type RootQueryToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the ContentType type */
-export type RootQueryToContentTypeConnection = Connection & ContentTypeConnection & {
-  __typename?: 'RootQueryToContentTypeConnection';
-  /** Edges for the RootQueryToContentTypeConnection connection */
-  edges: Array<RootQueryToContentTypeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentType>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToContentTypeConnection = Connection &
+  ContentTypeConnection & {
+    __typename?: 'RootQueryToContentTypeConnection';
+    /** Edges for the RootQueryToContentTypeConnection connection */
+    edges: Array<RootQueryToContentTypeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentType>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToContentTypeConnectionEdge = ContentTypeConnectionEdge & Edge & {
-  __typename?: 'RootQueryToContentTypeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentType;
-};
+export type RootQueryToContentTypeConnectionEdge = ContentTypeConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToContentTypeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentType;
+  };
 
 /** Connection between the RootQuery type and the EnqueuedScript type */
-export type RootQueryToEnqueuedScriptConnection = Connection & EnqueuedScriptConnection & {
-  __typename?: 'RootQueryToEnqueuedScriptConnection';
-  /** Edges for the RootQueryToEnqueuedScriptConnection connection */
-  edges: Array<RootQueryToEnqueuedScriptConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedScript>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToEnqueuedScriptConnection = Connection &
+  EnqueuedScriptConnection & {
+    __typename?: 'RootQueryToEnqueuedScriptConnection';
+    /** Edges for the RootQueryToEnqueuedScriptConnection connection */
+    edges: Array<RootQueryToEnqueuedScriptConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedScript>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToEnqueuedScriptConnectionEdge = Edge & EnqueuedScriptConnectionEdge & {
-  __typename?: 'RootQueryToEnqueuedScriptConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedScript;
-};
+export type RootQueryToEnqueuedScriptConnectionEdge = Edge &
+  EnqueuedScriptConnectionEdge & {
+    __typename?: 'RootQueryToEnqueuedScriptConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedScript;
+  };
 
 /** Connection between the RootQuery type and the EnqueuedStylesheet type */
-export type RootQueryToEnqueuedStylesheetConnection = Connection & EnqueuedStylesheetConnection & {
-  __typename?: 'RootQueryToEnqueuedStylesheetConnection';
-  /** Edges for the RootQueryToEnqueuedStylesheetConnection connection */
-  edges: Array<RootQueryToEnqueuedStylesheetConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedStylesheet>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToEnqueuedStylesheetConnection = Connection &
+  EnqueuedStylesheetConnection & {
+    __typename?: 'RootQueryToEnqueuedStylesheetConnection';
+    /** Edges for the RootQueryToEnqueuedStylesheetConnection connection */
+    edges: Array<RootQueryToEnqueuedStylesheetConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedStylesheet>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToEnqueuedStylesheetConnectionEdge = Edge & EnqueuedStylesheetConnectionEdge & {
-  __typename?: 'RootQueryToEnqueuedStylesheetConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedStylesheet;
-};
+export type RootQueryToEnqueuedStylesheetConnectionEdge = Edge &
+  EnqueuedStylesheetConnectionEdge & {
+    __typename?: 'RootQueryToEnqueuedStylesheetConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedStylesheet;
+  };
 
 /** Connection between the RootQuery type and the landingPage type */
-export type RootQueryToLandingPageConnection = Connection & LandingPageConnection & {
-  __typename?: 'RootQueryToLandingPageConnection';
-  /** Edges for the RootQueryToLandingPageConnection connection */
-  edges: Array<RootQueryToLandingPageConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<LandingPage>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToLandingPageConnection = Connection &
+  LandingPageConnection & {
+    __typename?: 'RootQueryToLandingPageConnection';
+    /** Edges for the RootQueryToLandingPageConnection connection */
+    edges: Array<RootQueryToLandingPageConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<LandingPage>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToLandingPageConnectionEdge = Edge & LandingPageConnectionEdge & {
-  __typename?: 'RootQueryToLandingPageConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: LandingPage;
-};
+export type RootQueryToLandingPageConnectionEdge = Edge &
+  LandingPageConnectionEdge & {
+    __typename?: 'RootQueryToLandingPageConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: LandingPage;
+  };
 
 /** Arguments for filtering the RootQueryToLandingPageConnection connection */
 export type RootQueryToLandingPageConnectionWhereArgs = {
@@ -7911,24 +7955,26 @@ export type RootQueryToLandingPageConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the mediaItem type */
-export type RootQueryToMediaItemConnection = Connection & MediaItemConnection & {
-  __typename?: 'RootQueryToMediaItemConnection';
-  /** Edges for the RootQueryToMediaItemConnection connection */
-  edges: Array<RootQueryToMediaItemConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MediaItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToMediaItemConnection = Connection &
+  MediaItemConnection & {
+    __typename?: 'RootQueryToMediaItemConnection';
+    /** Edges for the RootQueryToMediaItemConnection connection */
+    edges: Array<RootQueryToMediaItemConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MediaItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToMediaItemConnectionEdge = Edge & MediaItemConnectionEdge & {
-  __typename?: 'RootQueryToMediaItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MediaItem;
-};
+export type RootQueryToMediaItemConnectionEdge = Edge &
+  MediaItemConnectionEdge & {
+    __typename?: 'RootQueryToMediaItemConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MediaItem;
+  };
 
 /** Arguments for filtering the RootQueryToMediaItemConnection connection */
 export type RootQueryToMediaItemConnectionWhereArgs = {
@@ -7981,24 +8027,26 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Menu type */
-export type RootQueryToMenuConnection = Connection & MenuConnection & {
-  __typename?: 'RootQueryToMenuConnection';
-  /** Edges for the RootQueryToMenuConnection connection */
-  edges: Array<RootQueryToMenuConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Menu>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToMenuConnection = Connection &
+  MenuConnection & {
+    __typename?: 'RootQueryToMenuConnection';
+    /** Edges for the RootQueryToMenuConnection connection */
+    edges: Array<RootQueryToMenuConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Menu>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToMenuConnectionEdge = Edge & MenuConnectionEdge & {
-  __typename?: 'RootQueryToMenuConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Menu;
-};
+export type RootQueryToMenuConnectionEdge = Edge &
+  MenuConnectionEdge & {
+    __typename?: 'RootQueryToMenuConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Menu;
+  };
 
 /** Arguments for filtering the RootQueryToMenuConnection connection */
 export type RootQueryToMenuConnectionWhereArgs = {
@@ -8011,24 +8059,26 @@ export type RootQueryToMenuConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the MenuItem type */
-export type RootQueryToMenuItemConnection = Connection & MenuItemConnection & {
-  __typename?: 'RootQueryToMenuItemConnection';
-  /** Edges for the RootQueryToMenuItemConnection connection */
-  edges: Array<RootQueryToMenuItemConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MenuItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToMenuItemConnection = Connection &
+  MenuItemConnection & {
+    __typename?: 'RootQueryToMenuItemConnection';
+    /** Edges for the RootQueryToMenuItemConnection connection */
+    edges: Array<RootQueryToMenuItemConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MenuItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToMenuItemConnectionEdge = Edge & MenuItemConnectionEdge & {
-  __typename?: 'RootQueryToMenuItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MenuItem;
-};
+export type RootQueryToMenuItemConnectionEdge = Edge &
+  MenuItemConnectionEdge & {
+    __typename?: 'RootQueryToMenuItemConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MenuItem;
+  };
 
 /** Arguments for filtering the RootQueryToMenuItemConnection connection */
 export type RootQueryToMenuItemConnectionWhereArgs = {
@@ -8044,24 +8094,26 @@ export type RootQueryToMenuItemConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the page type */
-export type RootQueryToPageConnection = Connection & PageConnection & {
-  __typename?: 'RootQueryToPageConnection';
-  /** Edges for the RootQueryToPageConnection connection */
-  edges: Array<RootQueryToPageConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Page>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToPageConnection = Connection &
+  PageConnection & {
+    __typename?: 'RootQueryToPageConnection';
+    /** Edges for the RootQueryToPageConnection connection */
+    edges: Array<RootQueryToPageConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Page>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToPageConnectionEdge = Edge & PageConnectionEdge & {
-  __typename?: 'RootQueryToPageConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Page;
-};
+export type RootQueryToPageConnectionEdge = Edge &
+  PageConnectionEdge & {
+    __typename?: 'RootQueryToPageConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Page;
+  };
 
 /** Arguments for filtering the RootQueryToPageConnection connection */
 export type RootQueryToPageConnectionWhereArgs = {
@@ -8114,24 +8166,26 @@ export type RootQueryToPageConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Plugin type */
-export type RootQueryToPluginConnection = Connection & PluginConnection & {
-  __typename?: 'RootQueryToPluginConnection';
-  /** Edges for the RootQueryToPluginConnection connection */
-  edges: Array<RootQueryToPluginConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Plugin>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToPluginConnection = Connection &
+  PluginConnection & {
+    __typename?: 'RootQueryToPluginConnection';
+    /** Edges for the RootQueryToPluginConnection connection */
+    edges: Array<RootQueryToPluginConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Plugin>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToPluginConnectionEdge = Edge & PluginConnectionEdge & {
-  __typename?: 'RootQueryToPluginConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Plugin;
-};
+export type RootQueryToPluginConnectionEdge = Edge &
+  PluginConnectionEdge & {
+    __typename?: 'RootQueryToPluginConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Plugin;
+  };
 
 /** Arguments for filtering the RootQueryToPluginConnection connection */
 export type RootQueryToPluginConnectionWhereArgs = {
@@ -8144,24 +8198,26 @@ export type RootQueryToPluginConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the post type */
-export type RootQueryToPostConnection = Connection & PostConnection & {
-  __typename?: 'RootQueryToPostConnection';
-  /** Edges for the RootQueryToPostConnection connection */
-  edges: Array<RootQueryToPostConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Post>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToPostConnection = Connection &
+  PostConnection & {
+    __typename?: 'RootQueryToPostConnection';
+    /** Edges for the RootQueryToPostConnection connection */
+    edges: Array<RootQueryToPostConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Post>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToPostConnectionEdge = Edge & PostConnectionEdge & {
-  __typename?: 'RootQueryToPostConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Post;
-};
+export type RootQueryToPostConnectionEdge = Edge &
+  PostConnectionEdge & {
+    __typename?: 'RootQueryToPostConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Post;
+  };
 
 /** Arguments for filtering the RootQueryToPostConnection connection */
 export type RootQueryToPostConnectionWhereArgs = {
@@ -8234,24 +8290,26 @@ export type RootQueryToPostConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the postFormat type */
-export type RootQueryToPostFormatConnection = Connection & PostFormatConnection & {
-  __typename?: 'RootQueryToPostFormatConnection';
-  /** Edges for the RootQueryToPostFormatConnection connection */
-  edges: Array<RootQueryToPostFormatConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<PostFormat>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToPostFormatConnection = Connection &
+  PostFormatConnection & {
+    __typename?: 'RootQueryToPostFormatConnection';
+    /** Edges for the RootQueryToPostFormatConnection connection */
+    edges: Array<RootQueryToPostFormatConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<PostFormat>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToPostFormatConnectionEdge = Edge & PostFormatConnectionEdge & {
-  __typename?: 'RootQueryToPostFormatConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: PostFormat;
-};
+export type RootQueryToPostFormatConnectionEdge = Edge &
+  PostFormatConnectionEdge & {
+    __typename?: 'RootQueryToPostFormatConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: PostFormat;
+  };
 
 /** Arguments for filtering the RootQueryToPostFormatConnection connection */
 export type RootQueryToPostFormatConnectionWhereArgs = {
@@ -8300,24 +8358,26 @@ export type RootQueryToPostFormatConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the release type */
-export type RootQueryToReleaseConnection = Connection & ReleaseConnection & {
-  __typename?: 'RootQueryToReleaseConnection';
-  /** Edges for the RootQueryToReleaseConnection connection */
-  edges: Array<RootQueryToReleaseConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Release>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToReleaseConnection = Connection &
+  ReleaseConnection & {
+    __typename?: 'RootQueryToReleaseConnection';
+    /** Edges for the RootQueryToReleaseConnection connection */
+    edges: Array<RootQueryToReleaseConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Release>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToReleaseConnectionEdge = Edge & ReleaseConnectionEdge & {
-  __typename?: 'RootQueryToReleaseConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Release;
-};
+export type RootQueryToReleaseConnectionEdge = Edge &
+  ReleaseConnectionEdge & {
+    __typename?: 'RootQueryToReleaseConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Release;
+  };
 
 /** Arguments for filtering the RootQueryToReleaseConnection connection */
 export type RootQueryToReleaseConnectionWhereArgs = {
@@ -8362,24 +8422,26 @@ export type RootQueryToReleaseConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the ContentNode type */
-export type RootQueryToRevisionsConnection = Connection & ContentNodeConnection & {
-  __typename?: 'RootQueryToRevisionsConnection';
-  /** Edges for the RootQueryToRevisionsConnection connection */
-  edges: Array<RootQueryToRevisionsConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToRevisionsConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'RootQueryToRevisionsConnection';
+    /** Edges for the RootQueryToRevisionsConnection connection */
+    edges: Array<RootQueryToRevisionsConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToRevisionsConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'RootQueryToRevisionsConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type RootQueryToRevisionsConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToRevisionsConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the RootQueryToRevisionsConnection connection */
 export type RootQueryToRevisionsConnectionWhereArgs = {
@@ -8422,24 +8484,26 @@ export type RootQueryToRevisionsConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the tag type */
-export type RootQueryToTagConnection = Connection & TagConnection & {
-  __typename?: 'RootQueryToTagConnection';
-  /** Edges for the RootQueryToTagConnection connection */
-  edges: Array<RootQueryToTagConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Tag>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToTagConnection = Connection &
+  TagConnection & {
+    __typename?: 'RootQueryToTagConnection';
+    /** Edges for the RootQueryToTagConnection connection */
+    edges: Array<RootQueryToTagConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Tag>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToTagConnectionEdge = Edge & TagConnectionEdge & {
-  __typename?: 'RootQueryToTagConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Tag;
-};
+export type RootQueryToTagConnectionEdge = Edge &
+  TagConnectionEdge & {
+    __typename?: 'RootQueryToTagConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Tag;
+  };
 
 /** Arguments for filtering the RootQueryToTagConnection connection */
 export type RootQueryToTagConnectionWhereArgs = {
@@ -8492,44 +8556,48 @@ export type RootQueryToTagConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Taxonomy type */
-export type RootQueryToTaxonomyConnection = Connection & TaxonomyConnection & {
-  __typename?: 'RootQueryToTaxonomyConnection';
-  /** Edges for the RootQueryToTaxonomyConnection connection */
-  edges: Array<RootQueryToTaxonomyConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Taxonomy>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToTaxonomyConnection = Connection &
+  TaxonomyConnection & {
+    __typename?: 'RootQueryToTaxonomyConnection';
+    /** Edges for the RootQueryToTaxonomyConnection connection */
+    edges: Array<RootQueryToTaxonomyConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Taxonomy>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToTaxonomyConnectionEdge = Edge & TaxonomyConnectionEdge & {
-  __typename?: 'RootQueryToTaxonomyConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Taxonomy;
-};
+export type RootQueryToTaxonomyConnectionEdge = Edge &
+  TaxonomyConnectionEdge & {
+    __typename?: 'RootQueryToTaxonomyConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Taxonomy;
+  };
 
 /** Connection between the RootQuery type and the TermNode type */
-export type RootQueryToTermNodeConnection = Connection & TermNodeConnection & {
-  __typename?: 'RootQueryToTermNodeConnection';
-  /** Edges for the RootQueryToTermNodeConnection connection */
-  edges: Array<RootQueryToTermNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<TermNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToTermNodeConnection = Connection &
+  TermNodeConnection & {
+    __typename?: 'RootQueryToTermNodeConnection';
+    /** Edges for the RootQueryToTermNodeConnection connection */
+    edges: Array<RootQueryToTermNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<TermNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToTermNodeConnectionEdge = Edge & TermNodeConnectionEdge & {
-  __typename?: 'RootQueryToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: TermNode;
-};
+export type RootQueryToTermNodeConnectionEdge = Edge &
+  TermNodeConnectionEdge & {
+    __typename?: 'RootQueryToTermNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: TermNode;
+  };
 
 /** Arguments for filtering the RootQueryToTermNodeConnection connection */
 export type RootQueryToTermNodeConnectionWhereArgs = {
@@ -8580,44 +8648,48 @@ export type RootQueryToTermNodeConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the Theme type */
-export type RootQueryToThemeConnection = Connection & ThemeConnection & {
-  __typename?: 'RootQueryToThemeConnection';
-  /** Edges for the RootQueryToThemeConnection connection */
-  edges: Array<RootQueryToThemeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Theme>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToThemeConnection = Connection &
+  ThemeConnection & {
+    __typename?: 'RootQueryToThemeConnection';
+    /** Edges for the RootQueryToThemeConnection connection */
+    edges: Array<RootQueryToThemeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Theme>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToThemeConnectionEdge = Edge & ThemeConnectionEdge & {
-  __typename?: 'RootQueryToThemeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Theme;
-};
+export type RootQueryToThemeConnectionEdge = Edge &
+  ThemeConnectionEdge & {
+    __typename?: 'RootQueryToThemeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Theme;
+  };
 
 /** Connection between the RootQuery type and the translation type */
-export type RootQueryToTranslationConnection = Connection & TranslationConnection & {
-  __typename?: 'RootQueryToTranslationConnection';
-  /** Edges for the RootQueryToTranslationConnection connection */
-  edges: Array<RootQueryToTranslationConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Translation>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToTranslationConnection = Connection &
+  TranslationConnection & {
+    __typename?: 'RootQueryToTranslationConnection';
+    /** Edges for the RootQueryToTranslationConnection connection */
+    edges: Array<RootQueryToTranslationConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Translation>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToTranslationConnectionEdge = Edge & TranslationConnectionEdge & {
-  __typename?: 'RootQueryToTranslationConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Translation;
-};
+export type RootQueryToTranslationConnectionEdge = Edge &
+  TranslationConnectionEdge & {
+    __typename?: 'RootQueryToTranslationConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Translation;
+  };
 
 /** Arguments for filtering the RootQueryToTranslationConnection connection */
 export type RootQueryToTranslationConnectionWhereArgs = {
@@ -8658,24 +8730,26 @@ export type RootQueryToTranslationConnectionWhereArgs = {
 };
 
 /** Connection between the RootQuery type and the User type */
-export type RootQueryToUserConnection = Connection & UserConnection & {
-  __typename?: 'RootQueryToUserConnection';
-  /** Edges for the RootQueryToUserConnection connection */
-  edges: Array<RootQueryToUserConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<User>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToUserConnection = Connection &
+  UserConnection & {
+    __typename?: 'RootQueryToUserConnection';
+    /** Edges for the RootQueryToUserConnection connection */
+    edges: Array<RootQueryToUserConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<User>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToUserConnectionEdge = Edge & UserConnectionEdge & {
-  __typename?: 'RootQueryToUserConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: User;
-};
+export type RootQueryToUserConnectionEdge = Edge &
+  UserConnectionEdge & {
+    __typename?: 'RootQueryToUserConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: User;
+  };
 
 /** Arguments for filtering the RootQueryToUserConnection connection */
 export type RootQueryToUserConnectionWhereArgs = {
@@ -8708,28 +8782,32 @@ export type RootQueryToUserConnectionWhereArgs = {
   /** Search keyword. Searches for possible string matches on columns. When "searchColumns" is left empty, it tries to determine which column to search in based on search string. */
   search?: InputMaybe<Scalars['String']['input']>;
   /** Array of column names to be searched. Accepts 'ID', 'login', 'nicename', 'email', 'url'. */
-  searchColumns?: InputMaybe<Array<InputMaybe<UsersConnectionSearchColumnEnum>>>;
+  searchColumns?: InputMaybe<
+    Array<InputMaybe<UsersConnectionSearchColumnEnum>>
+  >;
 };
 
 /** Connection between the RootQuery type and the UserRole type */
-export type RootQueryToUserRoleConnection = Connection & UserRoleConnection & {
-  __typename?: 'RootQueryToUserRoleConnection';
-  /** Edges for the RootQueryToUserRoleConnection connection */
-  edges: Array<RootQueryToUserRoleConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<UserRole>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type RootQueryToUserRoleConnection = Connection &
+  UserRoleConnection & {
+    __typename?: 'RootQueryToUserRoleConnection';
+    /** Edges for the RootQueryToUserRoleConnection connection */
+    edges: Array<RootQueryToUserRoleConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<UserRole>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type RootQueryToUserRoleConnectionEdge = Edge & UserRoleConnectionEdge & {
-  __typename?: 'RootQueryToUserRoleConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: UserRole;
-};
+export type RootQueryToUserRoleConnectionEdge = Edge &
+  UserRoleConnectionEdge & {
+    __typename?: 'RootQueryToUserRoleConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: UserRole;
+  };
 
 export type Seo = {
   __typename?: 'SEO';
@@ -8839,69 +8917,72 @@ export type SiteSettings = {
   siteName?: Maybe<Scalars['String']['output']>;
 };
 
-/** Vaiheen kenttä */
+/** Step field */
 export type Step = {
   __typename?: 'Step';
-  /** Vaiheen sisältö */
+  /** The content of the step */
   content?: Maybe<Scalars['String']['output']>;
-  /** Vaiheen otsikko */
+  /** The title of the step */
   title?: Maybe<Scalars['String']['output']>;
 };
 
 /** The tag type */
-export type Tag = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
-  __typename?: 'Tag';
-  /** Connection between the Tag type and the ContentNode type */
-  contentNodes?: Maybe<TagToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']['output']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']['output']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The unique resource identifier path */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** List available translations for this post */
-  language?: Maybe<Language>;
-  /** The link to the term */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']['output']>;
-  /** Connection between the Tag type and the post type */
-  posts?: Maybe<TagToPostConnection>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  tagId?: Maybe<Scalars['Int']['output']>;
-  /** Connection between the Tag type and the Taxonomy type */
-  taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
-  /** The name of the taxonomy that the object is associated with */
-  taxonomyName?: Maybe<Scalars['String']['output']>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']['output']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']['output']>;
-  /** Get specific translation version of this object */
-  translation?: Maybe<Tag>;
-  /** List all translated versions of this term */
-  translations?: Maybe<Array<Maybe<Tag>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Tag = DatabaseIdentifier &
+  MenuItemLinkable &
+  Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'Tag';
+    /** Connection between the Tag type and the ContentNode type */
+    contentNodes?: Maybe<TagToContentNodeConnection>;
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']['output']>;
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** The description of the object */
+    description?: Maybe<Scalars['String']['output']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+    /** The unique resource identifier path */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** List available translations for this post */
+    language?: Maybe<Language>;
+    /** The link to the term */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']['output']>;
+    /** Connection between the Tag type and the post type */
+    posts?: Maybe<TagToPostConnection>;
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    tagId?: Maybe<Scalars['Int']['output']>;
+    /** Connection between the Tag type and the Taxonomy type */
+    taxonomy?: Maybe<TagToTaxonomyConnectionEdge>;
+    /** The name of the taxonomy that the object is associated with */
+    taxonomyName?: Maybe<Scalars['String']['output']>;
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']['output']>;
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']['output']>;
+    /** Get specific translation version of this object */
+    translation?: Maybe<Tag>;
+    /** List all translated versions of this term */
+    translations?: Maybe<Array<Maybe<Tag>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The tag type */
 export type TagContentNodesArgs = {
@@ -8912,7 +8993,6 @@ export type TagContentNodesArgs = {
   where?: InputMaybe<TagToContentNodeConnectionWhereArgs>;
 };
 
-
 /** The tag type */
 export type TagEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -8920,7 +9000,6 @@ export type TagEnqueuedScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The tag type */
 export type TagEnqueuedStylesheetsArgs = {
@@ -8930,7 +9009,6 @@ export type TagEnqueuedStylesheetsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The tag type */
 export type TagPostsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -8939,7 +9017,6 @@ export type TagPostsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<TagToPostConnectionWhereArgs>;
 };
-
 
 /** The tag type */
 export type TagTranslationArgs = {
@@ -8973,28 +9050,30 @@ export enum TagIdType {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the Tag type and the ContentNode type */
-export type TagToContentNodeConnection = Connection & ContentNodeConnection & {
-  __typename?: 'TagToContentNodeConnection';
-  /** Edges for the TagToContentNodeConnection connection */
-  edges: Array<TagToContentNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type TagToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'TagToContentNodeConnection';
+    /** Edges for the TagToContentNodeConnection connection */
+    edges: Array<TagToContentNodeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type TagToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'TagToContentNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type TagToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'TagToContentNodeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the TagToContentNodeConnection connection */
 export type TagToContentNodeConnectionWhereArgs = {
@@ -9037,24 +9116,26 @@ export type TagToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the Tag type and the post type */
-export type TagToPostConnection = Connection & PostConnection & {
-  __typename?: 'TagToPostConnection';
-  /** Edges for the TagToPostConnection connection */
-  edges: Array<TagToPostConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Post>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type TagToPostConnection = Connection &
+  PostConnection & {
+    __typename?: 'TagToPostConnection';
+    /** Edges for the TagToPostConnection connection */
+    edges: Array<TagToPostConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Post>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type TagToPostConnectionEdge = Edge & PostConnectionEdge & {
-  __typename?: 'TagToPostConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Post;
-};
+export type TagToPostConnectionEdge = Edge &
+  PostConnectionEdge & {
+    __typename?: 'TagToPostConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Post;
+  };
 
 /** Arguments for filtering the TagToPostConnection connection */
 export type TagToPostConnectionWhereArgs = {
@@ -9123,13 +9204,15 @@ export type TagToPostConnectionWhereArgs = {
 };
 
 /** Connection between the Tag type and the Taxonomy type */
-export type TagToTaxonomyConnectionEdge = Edge & OneToOneConnection & TaxonomyConnectionEdge & {
-  __typename?: 'TagToTaxonomyConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Taxonomy;
-};
+export type TagToTaxonomyConnectionEdge = Edge &
+  OneToOneConnection &
+  TaxonomyConnectionEdge & {
+    __typename?: 'TagToTaxonomyConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Taxonomy;
+  };
 
 /** A taxonomy object */
 export type Taxonomy = Node & {
@@ -9176,7 +9259,6 @@ export type Taxonomy = Node & {
   showUi?: Maybe<Scalars['Boolean']['output']>;
 };
 
-
 /** A taxonomy object */
 export type TaxonomyConnectedContentTypesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -9208,7 +9290,7 @@ export enum TaxonomyEnum {
   /** Taxonomy enum post_format */
   Postformat = 'POSTFORMAT',
   /** Taxonomy enum post_tag */
-  Tag = 'TAG'
+  Tag = 'TAG',
 }
 
 /** The Type of Identifier used to fetch a single Taxonomy node. To be used along with the "id" field. Default is "ID". */
@@ -9216,33 +9298,35 @@ export enum TaxonomyIdTypeEnum {
   /** The globally unique ID */
   Id = 'ID',
   /** The name of the taxonomy */
-  Name = 'NAME'
+  Name = 'NAME',
 }
 
 /** Connection between the Taxonomy type and the ContentType type */
-export type TaxonomyToContentTypeConnection = Connection & ContentTypeConnection & {
-  __typename?: 'TaxonomyToContentTypeConnection';
-  /** Edges for the TaxonomyToContentTypeConnection connection */
-  edges: Array<TaxonomyToContentTypeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentType>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type TaxonomyToContentTypeConnection = Connection &
+  ContentTypeConnection & {
+    __typename?: 'TaxonomyToContentTypeConnection';
+    /** Edges for the TaxonomyToContentTypeConnection connection */
+    edges: Array<TaxonomyToContentTypeConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentType>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type TaxonomyToContentTypeConnectionEdge = ContentTypeConnectionEdge & Edge & {
-  __typename?: 'TaxonomyToContentTypeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentType;
-};
+export type TaxonomyToContentTypeConnectionEdge = ContentTypeConnectionEdge &
+  Edge & {
+    __typename?: 'TaxonomyToContentTypeConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentType;
+  };
 
-/** Hae sivuobjekti sivupohjan mukaan */
+/** Get page object by template */
 export enum TemplateEnum {
   FrontPage = 'frontPage',
-  PostsPage = 'postsPage'
+  PostsPage = 'postsPage',
 }
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
@@ -9281,7 +9365,6 @@ export type TermNode = {
   uri?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNodeEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -9289,7 +9372,6 @@ export type TermNodeEnqueuedScriptsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNodeEnqueuedStylesheetsArgs = {
@@ -9326,48 +9408,52 @@ export enum TermNodeIdTypeEnum {
   /** Url friendly name of the node */
   Slug = 'SLUG',
   /** The URI for the node */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
 /** Connection between the TermNode type and the EnqueuedScript type */
-export type TermNodeToEnqueuedScriptConnection = Connection & EnqueuedScriptConnection & {
-  __typename?: 'TermNodeToEnqueuedScriptConnection';
-  /** Edges for the TermNodeToEnqueuedScriptConnection connection */
-  edges: Array<TermNodeToEnqueuedScriptConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedScript>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type TermNodeToEnqueuedScriptConnection = Connection &
+  EnqueuedScriptConnection & {
+    __typename?: 'TermNodeToEnqueuedScriptConnection';
+    /** Edges for the TermNodeToEnqueuedScriptConnection connection */
+    edges: Array<TermNodeToEnqueuedScriptConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedScript>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type TermNodeToEnqueuedScriptConnectionEdge = Edge & EnqueuedScriptConnectionEdge & {
-  __typename?: 'TermNodeToEnqueuedScriptConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedScript;
-};
+export type TermNodeToEnqueuedScriptConnectionEdge = Edge &
+  EnqueuedScriptConnectionEdge & {
+    __typename?: 'TermNodeToEnqueuedScriptConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedScript;
+  };
 
 /** Connection between the TermNode type and the EnqueuedStylesheet type */
-export type TermNodeToEnqueuedStylesheetConnection = Connection & EnqueuedStylesheetConnection & {
-  __typename?: 'TermNodeToEnqueuedStylesheetConnection';
-  /** Edges for the TermNodeToEnqueuedStylesheetConnection connection */
-  edges: Array<TermNodeToEnqueuedStylesheetConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedStylesheet>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type TermNodeToEnqueuedStylesheetConnection = Connection &
+  EnqueuedStylesheetConnection & {
+    __typename?: 'TermNodeToEnqueuedStylesheetConnection';
+    /** Edges for the TermNodeToEnqueuedStylesheetConnection connection */
+    edges: Array<TermNodeToEnqueuedStylesheetConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedStylesheet>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type TermNodeToEnqueuedStylesheetConnectionEdge = Edge & EnqueuedStylesheetConnectionEdge & {
-  __typename?: 'TermNodeToEnqueuedStylesheetConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedStylesheet;
-};
+export type TermNodeToEnqueuedStylesheetConnectionEdge = Edge &
+  EnqueuedStylesheetConnectionEdge & {
+    __typename?: 'TermNodeToEnqueuedStylesheetConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedStylesheet;
+  };
 
 /** Options for ordering the connection by */
 export enum TermObjectsConnectionOrderbyEnum {
@@ -9384,7 +9470,7 @@ export enum TermObjectsConnectionOrderbyEnum {
   /** Order the connection by term id. */
   TermId = 'TERM_ID',
   /** Order the connection by term order. */
-  TermOrder = 'TERM_ORDER'
+  TermOrder = 'TERM_ORDER',
 }
 
 /** A theme object */
@@ -9431,81 +9517,87 @@ export type ThemeConnectionEdge = {
 };
 
 /** The translation type */
-export type Translation = ContentNode & DatabaseIdentifier & Node & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & {
-  __typename?: 'Translation';
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date?: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt?: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug?: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure?: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier of the translation-cpt object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** True if the node is a revision of another node */
-  isRevision?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** The user that most recently edited the node */
-  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link?: Maybe<Scalars['String']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified?: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt?: Maybe<Scalars['String']['output']>;
-  /** Connection between the Translation type and the translation type */
-  preview?: Maybe<TranslationToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId?: Maybe<Scalars['ID']['output']>;
-  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
-  revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
-  /** Connection between the Translation type and the translation type */
-  revisions?: Maybe<TranslationToRevisionConnection>;
-  /** The SEO Framework data of the translation */
-  seo?: Maybe<Seo>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The template assigned to the node */
-  template?: Maybe<ContentTemplate>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title?: Maybe<Scalars['String']['output']>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  translationId: Scalars['Int']['output'];
-  /** Käännökset */
-  translations?: Maybe<Array<Maybe<TranslationResponse>>>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-};
-
+export type Translation = ContentNode &
+  DatabaseIdentifier &
+  Node &
+  NodeWithRevisions &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  UniformResourceIdentifiable & {
+    __typename?: 'Translation';
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output'];
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output'];
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier of the translation-cpt object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** True if the node is a revision of another node */
+    isRevision?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>;
+    /** Connection between the Translation type and the translation type */
+    preview?: Maybe<TranslationToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>;
+    /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+    revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+    /** Connection between the Translation type and the translation type */
+    revisions?: Maybe<TranslationToRevisionConnection>;
+    /** The SEO Framework data of the translation */
+    seo?: Maybe<Seo>;
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    translationId: Scalars['Int']['output'];
+    /** Translations */
+    translations?: Maybe<Array<Maybe<TranslationResponse>>>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+  };
 
 /** The translation type */
 export type TranslationEnqueuedScriptsArgs = {
@@ -9515,7 +9607,6 @@ export type TranslationEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** The translation type */
 export type TranslationEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -9523,7 +9614,6 @@ export type TranslationEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** The translation type */
 export type TranslationRevisionsArgs = {
@@ -9533,7 +9623,6 @@ export type TranslationRevisionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<TranslationToRevisionConnectionWhereArgs>;
 };
-
 
 /** The translation type */
 export type TranslationTitleArgs = {
@@ -9565,57 +9654,61 @@ export enum TranslationIdType {
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
-  Uri = 'URI'
+  Uri = 'URI',
 }
 
-/** Käännöksen kieli/arvo-parit */
+/** Translation with language/value pairs */
 export type TranslationItems = {
   __typename?: 'TranslationItems';
-  /** Käännöksen merkkijono */
+  /** Translation string */
   en?: Maybe<Scalars['String']['output']>;
-  /** Käännöksen merkkijono */
+  /** Translation string */
   fi?: Maybe<Scalars['String']['output']>;
-  /** Käännöksen merkkijono */
+  /** Translation string */
   sv?: Maybe<Scalars['String']['output']>;
 };
 
-/** Käännösvastaus sisältää käännösavaimen ja käännökset */
+/** Translation response contains translation key and translations */
 export type TranslationResponse = {
   __typename?: 'TranslationResponse';
-  /** Käyttöliittymän käännösavain */
+  /** Translation key for frontend */
   key?: Maybe<Scalars['String']['output']>;
-  /** Käännökset käyttöliittymälle */
+  /** Translations for frontend */
   translations?: Maybe<TranslationItems>;
 };
 
 /** Connection between the Translation type and the translation type */
-export type TranslationToPreviewConnectionEdge = Edge & OneToOneConnection & TranslationConnectionEdge & {
-  __typename?: 'TranslationToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Translation;
-};
+export type TranslationToPreviewConnectionEdge = Edge &
+  OneToOneConnection &
+  TranslationConnectionEdge & {
+    __typename?: 'TranslationToPreviewConnectionEdge';
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The node of the connection, without the edges */
+    node: Translation;
+  };
 
 /** Connection between the Translation type and the translation type */
-export type TranslationToRevisionConnection = Connection & TranslationConnection & {
-  __typename?: 'TranslationToRevisionConnection';
-  /** Edges for the TranslationToRevisionConnection connection */
-  edges: Array<TranslationToRevisionConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Translation>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type TranslationToRevisionConnection = Connection &
+  TranslationConnection & {
+    __typename?: 'TranslationToRevisionConnection';
+    /** Edges for the TranslationToRevisionConnection connection */
+    edges: Array<TranslationToRevisionConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Translation>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type TranslationToRevisionConnectionEdge = Edge & TranslationConnectionEdge & {
-  __typename?: 'TranslationToRevisionConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Translation;
-};
+export type TranslationToRevisionConnectionEdge = Edge &
+  TranslationConnectionEdge & {
+    __typename?: 'TranslationToRevisionConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Translation;
+  };
 
 /** Arguments for filtering the TranslationToRevisionConnection connection */
 export type TranslationToRevisionConnectionWhereArgs = {
@@ -10008,7 +10101,9 @@ export type UpdateSettingsInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   /** Salli uusien artikkelien kommentointi. */
-  discussionSettingsDefaultCommentStatus?: InputMaybe<Scalars['String']['input']>;
+  discussionSettingsDefaultCommentStatus?: InputMaybe<
+    Scalars['String']['input']
+  >;
   /** Salli linkki-ilmoitukset muista blogeista (pingback ja trackback) uusiin artikkeleihin. */
   discussionSettingsDefaultPingStatus?: InputMaybe<Scalars['String']['input']>;
   /** Muoto kaikille päivämäärän merkkijonoille. */
@@ -10163,75 +10258,77 @@ export type UpdateUserPayload = {
 };
 
 /** A User object */
-export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdentifiable & {
-  __typename?: 'User';
-  /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
-  avatar?: Maybe<Avatar>;
-  /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
-  capKey?: Maybe<Scalars['String']['output']>;
-  /** A list of capabilities (permissions) granted to the user */
-  capabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Connection between the User type and the Comment type */
-  comments?: Maybe<UserToCommentConnection>;
-  /** Identifies the primary key from the database. */
-  databaseId: Scalars['Int']['output'];
-  /** Description of the user. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
-  email?: Maybe<Scalars['String']['output']>;
-  /** Connection between the User type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
-  /** Connection between the User type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<UserToEnqueuedStylesheetConnection>;
-  /** A complete list of capabilities including capabilities inherited from a role. This is equivalent to the array keys of WP_User-&gt;allcaps. */
-  extraCapabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
-  firstName?: Maybe<Scalars['String']['output']>;
-  /** The globally unique identifier for the user object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
-  lastName?: Maybe<Scalars['String']['output']>;
-  /** The preferred language locale set for the user. Value derived from get_user_locale(). */
-  locale?: Maybe<Scalars['String']['output']>;
-  /** Connection between the User type and the mediaItem type */
-  mediaItems?: Maybe<UserToMediaItemConnection>;
-  /** Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property. */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
-  nicename?: Maybe<Scalars['String']['output']>;
-  /** Nickname of the user. */
-  nickname?: Maybe<Scalars['String']['output']>;
-  /** Connection between the User type and the page type */
-  pages?: Maybe<UserToPageConnection>;
-  /** Connection between the User type and the post type */
-  posts?: Maybe<UserToPostConnection>;
-  /** The date the user registered or was created. The field follows a full ISO8601 date string format. */
-  registeredDate?: Maybe<Scalars['String']['output']>;
-  /** Connection between the User and Revisions authored by the user */
-  revisions?: Maybe<UserToRevisionsConnection>;
-  /** Connection between the User type and the UserRole type */
-  roles?: Maybe<UserToUserRoleConnection>;
-  /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The unique resource identifier path */
-  uri?: Maybe<Scalars['String']['output']>;
-  /** A website url that is associated with the user. */
-  url?: Maybe<Scalars['String']['output']>;
-  /**
-   * The Id of the user. Equivalent to WP_User-&gt;ID
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  userId?: Maybe<Scalars['Int']['output']>;
-  /** Username for the user. This field is equivalent to WP_User-&gt;user_login. */
-  username?: Maybe<Scalars['String']['output']>;
-};
-
+export type User = Commenter &
+  DatabaseIdentifier &
+  Node &
+  UniformResourceIdentifiable & {
+    __typename?: 'User';
+    /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
+    avatar?: Maybe<Avatar>;
+    /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
+    capKey?: Maybe<Scalars['String']['output']>;
+    /** A list of capabilities (permissions) granted to the user */
+    capabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    /** Connection between the User type and the Comment type */
+    comments?: Maybe<UserToCommentConnection>;
+    /** Identifies the primary key from the database. */
+    databaseId: Scalars['Int']['output'];
+    /** Description of the user. */
+    description?: Maybe<Scalars['String']['output']>;
+    /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
+    email?: Maybe<Scalars['String']['output']>;
+    /** Connection between the User type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
+    /** Connection between the User type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<UserToEnqueuedStylesheetConnection>;
+    /** A complete list of capabilities including capabilities inherited from a role. This is equivalent to the array keys of WP_User-&gt;allcaps. */
+    extraCapabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
+    firstName?: Maybe<Scalars['String']['output']>;
+    /** The globally unique identifier for the user object. */
+    id: Scalars['ID']['output'];
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output'];
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output'];
+    /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
+    lastName?: Maybe<Scalars['String']['output']>;
+    /** The preferred language locale set for the user. Value derived from get_user_locale(). */
+    locale?: Maybe<Scalars['String']['output']>;
+    /** Connection between the User type and the mediaItem type */
+    mediaItems?: Maybe<UserToMediaItemConnection>;
+    /** Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property. */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
+    nicename?: Maybe<Scalars['String']['output']>;
+    /** Nickname of the user. */
+    nickname?: Maybe<Scalars['String']['output']>;
+    /** Connection between the User type and the page type */
+    pages?: Maybe<UserToPageConnection>;
+    /** Connection between the User type and the post type */
+    posts?: Maybe<UserToPostConnection>;
+    /** The date the user registered or was created. The field follows a full ISO8601 date string format. */
+    registeredDate?: Maybe<Scalars['String']['output']>;
+    /** Connection between the User and Revisions authored by the user */
+    revisions?: Maybe<UserToRevisionsConnection>;
+    /** Connection between the User type and the UserRole type */
+    roles?: Maybe<UserToUserRoleConnection>;
+    /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
+    slug?: Maybe<Scalars['String']['output']>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>;
+    /** A website url that is associated with the user. */
+    url?: Maybe<Scalars['String']['output']>;
+    /**
+     * The Id of the user. Equivalent to WP_User-&gt;ID
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    userId?: Maybe<Scalars['Int']['output']>;
+    /** Username for the user. This field is equivalent to WP_User-&gt;user_login. */
+    username?: Maybe<Scalars['String']['output']>;
+  };
 
 /** A User object */
 export type UserAvatarArgs = {
@@ -10239,7 +10336,6 @@ export type UserAvatarArgs = {
   rating?: InputMaybe<AvatarRatingEnum>;
   size?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** A User object */
 export type UserCommentsArgs = {
@@ -10250,7 +10346,6 @@ export type UserCommentsArgs = {
   where?: InputMaybe<UserToCommentConnectionWhereArgs>;
 };
 
-
 /** A User object */
 export type UserEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -10259,7 +10354,6 @@ export type UserEnqueuedScriptsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** A User object */
 export type UserEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -10267,7 +10361,6 @@ export type UserEnqueuedStylesheetsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** A User object */
 export type UserMediaItemsArgs = {
@@ -10278,7 +10371,6 @@ export type UserMediaItemsArgs = {
   where?: InputMaybe<UserToMediaItemConnectionWhereArgs>;
 };
 
-
 /** A User object */
 export type UserPagesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -10287,7 +10379,6 @@ export type UserPagesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<UserToPageConnectionWhereArgs>;
 };
-
 
 /** A User object */
 export type UserPostsArgs = {
@@ -10298,7 +10389,6 @@ export type UserPostsArgs = {
   where?: InputMaybe<UserToPostConnectionWhereArgs>;
 };
 
-
 /** A User object */
 export type UserRevisionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -10307,7 +10397,6 @@ export type UserRevisionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<UserToRevisionsConnectionWhereArgs>;
 };
-
 
 /** A User object */
 export type UserRolesArgs = {
@@ -10346,7 +10435,7 @@ export enum UserNodeIdTypeEnum {
   /** The URI for the node */
   Uri = 'URI',
   /** The username the User uses to login with */
-  Username = 'USERNAME'
+  Username = 'USERNAME',
 }
 
 /** A user role object */
@@ -10399,28 +10488,30 @@ export enum UserRoleEnum {
   /** User role with specific capabilities */
   HeadlessCmsViewer = 'HEADLESS_CMS_VIEWER',
   /** User role with specific capabilities */
-  Subscriber = 'SUBSCRIBER'
+  Subscriber = 'SUBSCRIBER',
 }
 
 /** Connection between the User type and the Comment type */
-export type UserToCommentConnection = CommentConnection & Connection & {
-  __typename?: 'UserToCommentConnection';
-  /** Edges for the UserToCommentConnection connection */
-  edges: Array<UserToCommentConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Comment>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToCommentConnection = CommentConnection &
+  Connection & {
+    __typename?: 'UserToCommentConnection';
+    /** Edges for the UserToCommentConnection connection */
+    edges: Array<UserToCommentConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Comment>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToCommentConnectionEdge = CommentConnectionEdge & Edge & {
-  __typename?: 'UserToCommentConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Comment;
-};
+export type UserToCommentConnectionEdge = CommentConnectionEdge &
+  Edge & {
+    __typename?: 'UserToCommentConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Comment;
+  };
 
 /** Arguments for filtering the UserToCommentConnection connection */
 export type UserToCommentConnectionWhereArgs = {
@@ -10485,64 +10576,70 @@ export type UserToCommentConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the EnqueuedScript type */
-export type UserToEnqueuedScriptConnection = Connection & EnqueuedScriptConnection & {
-  __typename?: 'UserToEnqueuedScriptConnection';
-  /** Edges for the UserToEnqueuedScriptConnection connection */
-  edges: Array<UserToEnqueuedScriptConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedScript>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToEnqueuedScriptConnection = Connection &
+  EnqueuedScriptConnection & {
+    __typename?: 'UserToEnqueuedScriptConnection';
+    /** Edges for the UserToEnqueuedScriptConnection connection */
+    edges: Array<UserToEnqueuedScriptConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedScript>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToEnqueuedScriptConnectionEdge = Edge & EnqueuedScriptConnectionEdge & {
-  __typename?: 'UserToEnqueuedScriptConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedScript;
-};
+export type UserToEnqueuedScriptConnectionEdge = Edge &
+  EnqueuedScriptConnectionEdge & {
+    __typename?: 'UserToEnqueuedScriptConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedScript;
+  };
 
 /** Connection between the User type and the EnqueuedStylesheet type */
-export type UserToEnqueuedStylesheetConnection = Connection & EnqueuedStylesheetConnection & {
-  __typename?: 'UserToEnqueuedStylesheetConnection';
-  /** Edges for the UserToEnqueuedStylesheetConnection connection */
-  edges: Array<UserToEnqueuedStylesheetConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<EnqueuedStylesheet>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToEnqueuedStylesheetConnection = Connection &
+  EnqueuedStylesheetConnection & {
+    __typename?: 'UserToEnqueuedStylesheetConnection';
+    /** Edges for the UserToEnqueuedStylesheetConnection connection */
+    edges: Array<UserToEnqueuedStylesheetConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<EnqueuedStylesheet>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToEnqueuedStylesheetConnectionEdge = Edge & EnqueuedStylesheetConnectionEdge & {
-  __typename?: 'UserToEnqueuedStylesheetConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: EnqueuedStylesheet;
-};
+export type UserToEnqueuedStylesheetConnectionEdge = Edge &
+  EnqueuedStylesheetConnectionEdge & {
+    __typename?: 'UserToEnqueuedStylesheetConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: EnqueuedStylesheet;
+  };
 
 /** Connection between the User type and the mediaItem type */
-export type UserToMediaItemConnection = Connection & MediaItemConnection & {
-  __typename?: 'UserToMediaItemConnection';
-  /** Edges for the UserToMediaItemConnection connection */
-  edges: Array<UserToMediaItemConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<MediaItem>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToMediaItemConnection = Connection &
+  MediaItemConnection & {
+    __typename?: 'UserToMediaItemConnection';
+    /** Edges for the UserToMediaItemConnection connection */
+    edges: Array<UserToMediaItemConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<MediaItem>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToMediaItemConnectionEdge = Edge & MediaItemConnectionEdge & {
-  __typename?: 'UserToMediaItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: MediaItem;
-};
+export type UserToMediaItemConnectionEdge = Edge &
+  MediaItemConnectionEdge & {
+    __typename?: 'UserToMediaItemConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: MediaItem;
+  };
 
 /** Arguments for filtering the UserToMediaItemConnection connection */
 export type UserToMediaItemConnectionWhereArgs = {
@@ -10591,24 +10688,26 @@ export type UserToMediaItemConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the page type */
-export type UserToPageConnection = Connection & PageConnection & {
-  __typename?: 'UserToPageConnection';
-  /** Edges for the UserToPageConnection connection */
-  edges: Array<UserToPageConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Page>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToPageConnection = Connection &
+  PageConnection & {
+    __typename?: 'UserToPageConnection';
+    /** Edges for the UserToPageConnection connection */
+    edges: Array<UserToPageConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Page>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToPageConnectionEdge = Edge & PageConnectionEdge & {
-  __typename?: 'UserToPageConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Page;
-};
+export type UserToPageConnectionEdge = Edge &
+  PageConnectionEdge & {
+    __typename?: 'UserToPageConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Page;
+  };
 
 /** Arguments for filtering the UserToPageConnection connection */
 export type UserToPageConnectionWhereArgs = {
@@ -10657,24 +10756,26 @@ export type UserToPageConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the post type */
-export type UserToPostConnection = Connection & PostConnection & {
-  __typename?: 'UserToPostConnection';
-  /** Edges for the UserToPostConnection connection */
-  edges: Array<UserToPostConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<Post>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToPostConnection = Connection &
+  PostConnection & {
+    __typename?: 'UserToPostConnection';
+    /** Edges for the UserToPostConnection connection */
+    edges: Array<UserToPostConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<Post>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToPostConnectionEdge = Edge & PostConnectionEdge & {
-  __typename?: 'UserToPostConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: Post;
-};
+export type UserToPostConnectionEdge = Edge &
+  PostConnectionEdge & {
+    __typename?: 'UserToPostConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: Post;
+  };
 
 /** Arguments for filtering the UserToPostConnection connection */
 export type UserToPostConnectionWhereArgs = {
@@ -10743,24 +10844,26 @@ export type UserToPostConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the ContentNode type */
-export type UserToRevisionsConnection = Connection & ContentNodeConnection & {
-  __typename?: 'UserToRevisionsConnection';
-  /** Edges for the UserToRevisionsConnection connection */
-  edges: Array<UserToRevisionsConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToRevisionsConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'UserToRevisionsConnection';
+    /** Edges for the UserToRevisionsConnection connection */
+    edges: Array<UserToRevisionsConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToRevisionsConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'UserToRevisionsConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
+export type UserToRevisionsConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'UserToRevisionsConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: ContentNode;
+  };
 
 /** Arguments for filtering the UserToRevisionsConnection connection */
 export type UserToRevisionsConnectionWhereArgs = {
@@ -10803,24 +10906,26 @@ export type UserToRevisionsConnectionWhereArgs = {
 };
 
 /** Connection between the User type and the UserRole type */
-export type UserToUserRoleConnection = Connection & UserRoleConnection & {
-  __typename?: 'UserToUserRoleConnection';
-  /** Edges for the UserToUserRoleConnection connection */
-  edges: Array<UserToUserRoleConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<UserRole>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
+export type UserToUserRoleConnection = Connection &
+  UserRoleConnection & {
+    __typename?: 'UserToUserRoleConnection';
+    /** Edges for the UserToUserRoleConnection connection */
+    edges: Array<UserToUserRoleConnectionEdge>;
+    /** The nodes of the connection, without the edges */
+    nodes: Array<UserRole>;
+    /** Information about pagination in a connection. */
+    pageInfo?: Maybe<WpPageInfo>;
+  };
 
 /** An edge in a connection */
-export type UserToUserRoleConnectionEdge = Edge & UserRoleConnectionEdge & {
-  __typename?: 'UserToUserRoleConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: UserRole;
-};
+export type UserToUserRoleConnectionEdge = Edge &
+  UserRoleConnectionEdge & {
+    __typename?: 'UserToUserRoleConnectionEdge';
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>;
+    /** The item at the end of the edge */
+    node: UserRole;
+  };
 
 /** Field to order the connection by */
 export enum UsersConnectionOrderbyEnum {
@@ -10839,7 +10944,7 @@ export enum UsersConnectionOrderbyEnum {
   /** Order by registration date */
   Registered = 'REGISTERED',
   /** Order by URL */
-  Url = 'URL'
+  Url = 'URL',
 }
 
 /** Options for ordering the connection */
@@ -10861,7 +10966,7 @@ export enum UsersConnectionSearchColumnEnum {
   /** A URL-friendly name for the user. The default is the user's username. */
   Nicename = 'NICENAME',
   /** The URL of the user\s website. */
-  Url = 'URL'
+  Url = 'URL',
 }
 
 /** Information about pagination in a connection. */
@@ -10893,27 +10998,1330 @@ export type MenuQueryVariables = Exact<{
   idType?: InputMaybe<MenuNodeIdTypeEnum>;
 }>;
 
+export type MenuQuery = {
+  __typename?: 'RootQuery';
+  menu?: {
+    __typename?: 'Menu';
+    id: string;
+    name?: string | null;
+    slug?: string | null;
+    menuId?: number | null;
+    menuItems?: {
+      __typename?: 'MenuToMenuItemConnection';
+      nodes: Array<{
+        __typename?: 'MenuItem';
+        connectedNode?: {
+          __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
+          node:
+            | { __typename?: 'Category' }
+            | {
+                __typename?: 'Page';
+                id: string;
+                content?: string | null;
+                slug?: string | null;
+                title?: string | null;
+                uri?: string | null;
+                lead?: string | null;
+                children?: {
+                  __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
+                  nodes: Array<
+                    | { __typename?: 'Collection' }
+                    | { __typename?: 'Contact' }
+                    | { __typename?: 'LandingPage' }
+                    | { __typename?: 'MediaItem' }
+                    | {
+                        __typename?: 'Page';
+                        id: string;
+                        content?: string | null;
+                        slug?: string | null;
+                        title?: string | null;
+                        uri?: string | null;
+                        lead?: string | null;
+                        translations?: Array<{
+                          __typename?: 'Page';
+                          id: string;
+                          content?: string | null;
+                          slug?: string | null;
+                          title?: string | null;
+                          uri?: string | null;
+                          lead?: string | null;
+                          seo?: {
+                            __typename?: 'SEO';
+                            title?: string | null;
+                            description?: string | null;
+                            openGraphTitle?: string | null;
+                            openGraphDescription?: string | null;
+                            openGraphType?: string | null;
+                            twitterTitle?: string | null;
+                            twitterDescription?: string | null;
+                          } | null;
+                          language?: {
+                            __typename?: 'Language';
+                            code?: LanguageCodeEnum | null;
+                            slug?: string | null;
+                            locale?: string | null;
+                            name?: string | null;
+                          } | null;
+                          featuredImage?: {
+                            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                            node: {
+                              __typename?: 'MediaItem';
+                              mediaItemUrl?: string | null;
+                              link?: string | null;
+                              altText?: string | null;
+                              mimeType?: string | null;
+                              title?: string | null;
+                              uri?: string | null;
+                            };
+                          } | null;
+                          sidebar?: Array<
+                            | {
+                                __typename?: 'LayoutArticles';
+                                articles?: Array<{
+                                  __typename?: 'Post';
+                                  id: string;
+                                  title?: string | null;
+                                  uri?: string | null;
+                                  featuredImage?: {
+                                    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                                    node: {
+                                      __typename?: 'MediaItem';
+                                      altText?: string | null;
+                                      mediaItemUrl?: string | null;
+                                    };
+                                  } | null;
+                                } | null> | null;
+                              }
+                            | { __typename?: 'LayoutCards' }
+                            | {
+                                __typename?: 'LayoutLinkList';
+                                anchor?: string | null;
+                                title?: string | null;
+                                description?: string | null;
+                                links?: Array<{
+                                  __typename?: 'Link';
+                                  target?: string | null;
+                                  title?: string | null;
+                                  url?: string | null;
+                                } | null> | null;
+                              }
+                            | {
+                                __typename?: 'LayoutPages';
+                                pages?: Array<{
+                                  __typename?: 'Page';
+                                  id: string;
+                                  title?: string | null;
+                                  uri?: string | null;
+                                  featuredImage?: {
+                                    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                                    node: {
+                                      __typename?: 'MediaItem';
+                                      altText?: string | null;
+                                      mediaItemUrl?: string | null;
+                                    };
+                                  } | null;
+                                } | null> | null;
+                              }
+                            | null
+                          > | null;
+                        } | null> | null;
+                        seo?: {
+                          __typename?: 'SEO';
+                          title?: string | null;
+                          description?: string | null;
+                          openGraphTitle?: string | null;
+                          openGraphDescription?: string | null;
+                          openGraphType?: string | null;
+                          twitterTitle?: string | null;
+                          twitterDescription?: string | null;
+                        } | null;
+                        language?: {
+                          __typename?: 'Language';
+                          code?: LanguageCodeEnum | null;
+                          slug?: string | null;
+                          locale?: string | null;
+                          name?: string | null;
+                        } | null;
+                        featuredImage?: {
+                          __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                          node: {
+                            __typename?: 'MediaItem';
+                            mediaItemUrl?: string | null;
+                            link?: string | null;
+                            altText?: string | null;
+                            mimeType?: string | null;
+                            title?: string | null;
+                            uri?: string | null;
+                          };
+                        } | null;
+                        sidebar?: Array<
+                          | {
+                              __typename?: 'LayoutArticles';
+                              articles?: Array<{
+                                __typename?: 'Post';
+                                id: string;
+                                title?: string | null;
+                                uri?: string | null;
+                                featuredImage?: {
+                                  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                                  node: {
+                                    __typename?: 'MediaItem';
+                                    altText?: string | null;
+                                    mediaItemUrl?: string | null;
+                                  };
+                                } | null;
+                              } | null> | null;
+                            }
+                          | { __typename?: 'LayoutCards' }
+                          | {
+                              __typename?: 'LayoutLinkList';
+                              anchor?: string | null;
+                              title?: string | null;
+                              description?: string | null;
+                              links?: Array<{
+                                __typename?: 'Link';
+                                target?: string | null;
+                                title?: string | null;
+                                url?: string | null;
+                              } | null> | null;
+                            }
+                          | {
+                              __typename?: 'LayoutPages';
+                              pages?: Array<{
+                                __typename?: 'Page';
+                                id: string;
+                                title?: string | null;
+                                uri?: string | null;
+                                featuredImage?: {
+                                  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                                  node: {
+                                    __typename?: 'MediaItem';
+                                    altText?: string | null;
+                                    mediaItemUrl?: string | null;
+                                  };
+                                } | null;
+                              } | null> | null;
+                            }
+                          | null
+                        > | null;
+                      }
+                    | { __typename?: 'Post' }
+                    | { __typename?: 'Release' }
+                    | { __typename?: 'Translation' }
+                  >;
+                } | null;
+                translations?: Array<{
+                  __typename?: 'Page';
+                  id: string;
+                  content?: string | null;
+                  slug?: string | null;
+                  title?: string | null;
+                  uri?: string | null;
+                  lead?: string | null;
+                  seo?: {
+                    __typename?: 'SEO';
+                    title?: string | null;
+                    description?: string | null;
+                    openGraphTitle?: string | null;
+                    openGraphDescription?: string | null;
+                    openGraphType?: string | null;
+                    twitterTitle?: string | null;
+                    twitterDescription?: string | null;
+                  } | null;
+                  language?: {
+                    __typename?: 'Language';
+                    code?: LanguageCodeEnum | null;
+                    slug?: string | null;
+                    locale?: string | null;
+                    name?: string | null;
+                  } | null;
+                  featuredImage?: {
+                    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                    node: {
+                      __typename?: 'MediaItem';
+                      mediaItemUrl?: string | null;
+                      link?: string | null;
+                      altText?: string | null;
+                      mimeType?: string | null;
+                      title?: string | null;
+                      uri?: string | null;
+                    };
+                  } | null;
+                  sidebar?: Array<
+                    | {
+                        __typename?: 'LayoutArticles';
+                        articles?: Array<{
+                          __typename?: 'Post';
+                          id: string;
+                          title?: string | null;
+                          uri?: string | null;
+                          featuredImage?: {
+                            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                            node: {
+                              __typename?: 'MediaItem';
+                              altText?: string | null;
+                              mediaItemUrl?: string | null;
+                            };
+                          } | null;
+                        } | null> | null;
+                      }
+                    | { __typename?: 'LayoutCards' }
+                    | {
+                        __typename?: 'LayoutLinkList';
+                        anchor?: string | null;
+                        title?: string | null;
+                        description?: string | null;
+                        links?: Array<{
+                          __typename?: 'Link';
+                          target?: string | null;
+                          title?: string | null;
+                          url?: string | null;
+                        } | null> | null;
+                      }
+                    | {
+                        __typename?: 'LayoutPages';
+                        pages?: Array<{
+                          __typename?: 'Page';
+                          id: string;
+                          title?: string | null;
+                          uri?: string | null;
+                          featuredImage?: {
+                            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                            node: {
+                              __typename?: 'MediaItem';
+                              altText?: string | null;
+                              mediaItemUrl?: string | null;
+                            };
+                          } | null;
+                        } | null> | null;
+                      }
+                    | null
+                  > | null;
+                } | null> | null;
+                seo?: {
+                  __typename?: 'SEO';
+                  title?: string | null;
+                  description?: string | null;
+                  openGraphTitle?: string | null;
+                  openGraphDescription?: string | null;
+                  openGraphType?: string | null;
+                  twitterTitle?: string | null;
+                  twitterDescription?: string | null;
+                } | null;
+                language?: {
+                  __typename?: 'Language';
+                  code?: LanguageCodeEnum | null;
+                  slug?: string | null;
+                  locale?: string | null;
+                  name?: string | null;
+                } | null;
+                featuredImage?: {
+                  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                  node: {
+                    __typename?: 'MediaItem';
+                    mediaItemUrl?: string | null;
+                    link?: string | null;
+                    altText?: string | null;
+                    mimeType?: string | null;
+                    title?: string | null;
+                    uri?: string | null;
+                  };
+                } | null;
+                sidebar?: Array<
+                  | {
+                      __typename?: 'LayoutArticles';
+                      articles?: Array<{
+                        __typename?: 'Post';
+                        id: string;
+                        title?: string | null;
+                        uri?: string | null;
+                        featuredImage?: {
+                          __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                          node: {
+                            __typename?: 'MediaItem';
+                            altText?: string | null;
+                            mediaItemUrl?: string | null;
+                          };
+                        } | null;
+                      } | null> | null;
+                    }
+                  | { __typename?: 'LayoutCards' }
+                  | {
+                      __typename?: 'LayoutLinkList';
+                      anchor?: string | null;
+                      title?: string | null;
+                      description?: string | null;
+                      links?: Array<{
+                        __typename?: 'Link';
+                        target?: string | null;
+                        title?: string | null;
+                        url?: string | null;
+                      } | null> | null;
+                    }
+                  | {
+                      __typename?: 'LayoutPages';
+                      pages?: Array<{
+                        __typename?: 'Page';
+                        id: string;
+                        title?: string | null;
+                        uri?: string | null;
+                        featuredImage?: {
+                          __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                          node: {
+                            __typename?: 'MediaItem';
+                            altText?: string | null;
+                            mediaItemUrl?: string | null;
+                          };
+                        } | null;
+                      } | null> | null;
+                    }
+                  | null
+                > | null;
+              }
+            | { __typename?: 'Post' }
+            | { __typename?: 'Tag' };
+        } | null;
+      }>;
+    } | null;
+  } | null;
+};
 
-export type MenuQuery = { __typename?: 'RootQuery', menu?: { __typename?: 'Menu', id: string, name?: string | null, slug?: string | null, menuId?: number | null, menuItems?: { __typename?: 'MenuToMenuItemConnection', nodes: Array<{ __typename?: 'MenuItem', connectedNode?: { __typename?: 'MenuItemToMenuItemLinkableConnectionEdge', node: { __typename?: 'Category' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, children?: { __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> } | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Tag' } } | null }> } | null } | null };
-
-export type KultusMenuPageFieldsFragment = { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null };
+export type KultusMenuPageFieldsFragment = {
+  __typename?: 'Page';
+  id: string;
+  content?: string | null;
+  slug?: string | null;
+  title?: string | null;
+  uri?: string | null;
+  lead?: string | null;
+  translations?: Array<{
+    __typename?: 'Page';
+    id: string;
+    content?: string | null;
+    slug?: string | null;
+    title?: string | null;
+    uri?: string | null;
+    lead?: string | null;
+    seo?: {
+      __typename?: 'SEO';
+      title?: string | null;
+      description?: string | null;
+      openGraphTitle?: string | null;
+      openGraphDescription?: string | null;
+      openGraphType?: string | null;
+      twitterTitle?: string | null;
+      twitterDescription?: string | null;
+    } | null;
+    language?: {
+      __typename?: 'Language';
+      code?: LanguageCodeEnum | null;
+      slug?: string | null;
+      locale?: string | null;
+      name?: string | null;
+    } | null;
+    featuredImage?: {
+      __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+      node: {
+        __typename?: 'MediaItem';
+        mediaItemUrl?: string | null;
+        link?: string | null;
+        altText?: string | null;
+        mimeType?: string | null;
+        title?: string | null;
+        uri?: string | null;
+      };
+    } | null;
+    sidebar?: Array<
+      | {
+          __typename?: 'LayoutArticles';
+          articles?: Array<{
+            __typename?: 'Post';
+            id: string;
+            title?: string | null;
+            uri?: string | null;
+            featuredImage?: {
+              __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+              node: {
+                __typename?: 'MediaItem';
+                altText?: string | null;
+                mediaItemUrl?: string | null;
+              };
+            } | null;
+          } | null> | null;
+        }
+      | { __typename?: 'LayoutCards' }
+      | {
+          __typename?: 'LayoutLinkList';
+          anchor?: string | null;
+          title?: string | null;
+          description?: string | null;
+          links?: Array<{
+            __typename?: 'Link';
+            target?: string | null;
+            title?: string | null;
+            url?: string | null;
+          } | null> | null;
+        }
+      | {
+          __typename?: 'LayoutPages';
+          pages?: Array<{
+            __typename?: 'Page';
+            id: string;
+            title?: string | null;
+            uri?: string | null;
+            featuredImage?: {
+              __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+              node: {
+                __typename?: 'MediaItem';
+                altText?: string | null;
+                mediaItemUrl?: string | null;
+              };
+            } | null;
+          } | null> | null;
+        }
+      | null
+    > | null;
+  } | null> | null;
+  seo?: {
+    __typename?: 'SEO';
+    title?: string | null;
+    description?: string | null;
+    openGraphTitle?: string | null;
+    openGraphDescription?: string | null;
+    openGraphType?: string | null;
+    twitterTitle?: string | null;
+    twitterDescription?: string | null;
+  } | null;
+  language?: {
+    __typename?: 'Language';
+    code?: LanguageCodeEnum | null;
+    slug?: string | null;
+    locale?: string | null;
+    name?: string | null;
+  } | null;
+  featuredImage?: {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+    node: {
+      __typename?: 'MediaItem';
+      mediaItemUrl?: string | null;
+      link?: string | null;
+      altText?: string | null;
+      mimeType?: string | null;
+      title?: string | null;
+      uri?: string | null;
+    };
+  } | null;
+  sidebar?: Array<
+    | {
+        __typename?: 'LayoutArticles';
+        articles?: Array<{
+          __typename?: 'Post';
+          id: string;
+          title?: string | null;
+          uri?: string | null;
+          featuredImage?: {
+            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+            node: {
+              __typename?: 'MediaItem';
+              altText?: string | null;
+              mediaItemUrl?: string | null;
+            };
+          } | null;
+        } | null> | null;
+      }
+    | { __typename?: 'LayoutCards' }
+    | {
+        __typename?: 'LayoutLinkList';
+        anchor?: string | null;
+        title?: string | null;
+        description?: string | null;
+        links?: Array<{
+          __typename?: 'Link';
+          target?: string | null;
+          title?: string | null;
+          url?: string | null;
+        } | null> | null;
+      }
+    | {
+        __typename?: 'LayoutPages';
+        pages?: Array<{
+          __typename?: 'Page';
+          id: string;
+          title?: string | null;
+          uri?: string | null;
+          featuredImage?: {
+            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+            node: {
+              __typename?: 'MediaItem';
+              altText?: string | null;
+              mediaItemUrl?: string | null;
+            };
+          } | null;
+        } | null> | null;
+      }
+    | null
+  > | null;
+};
 
 export type PageQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   idType?: InputMaybe<PageIdType>;
 }>;
 
+export type PageQuery = {
+  __typename?: 'RootQuery';
+  page?: {
+    __typename?: 'Page';
+    id: string;
+    content?: string | null;
+    slug?: string | null;
+    title?: string | null;
+    uri?: string | null;
+    lead?: string | null;
+    parent?: {
+      __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
+      node:
+        | { __typename?: 'Collection' }
+        | { __typename?: 'Contact' }
+        | { __typename?: 'LandingPage' }
+        | { __typename?: 'MediaItem' }
+        | {
+            __typename?: 'Page';
+            id: string;
+            content?: string | null;
+            slug?: string | null;
+            title?: string | null;
+            uri?: string | null;
+            lead?: string | null;
+            translations?: Array<{
+              __typename?: 'Page';
+              id: string;
+              content?: string | null;
+              slug?: string | null;
+              title?: string | null;
+              uri?: string | null;
+              lead?: string | null;
+              seo?: {
+                __typename?: 'SEO';
+                title?: string | null;
+                description?: string | null;
+                openGraphTitle?: string | null;
+                openGraphDescription?: string | null;
+                openGraphType?: string | null;
+                twitterTitle?: string | null;
+                twitterDescription?: string | null;
+              } | null;
+              language?: {
+                __typename?: 'Language';
+                code?: LanguageCodeEnum | null;
+                slug?: string | null;
+                locale?: string | null;
+                name?: string | null;
+              } | null;
+              featuredImage?: {
+                __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                node: {
+                  __typename?: 'MediaItem';
+                  mediaItemUrl?: string | null;
+                  link?: string | null;
+                  altText?: string | null;
+                  mimeType?: string | null;
+                  title?: string | null;
+                  uri?: string | null;
+                };
+              } | null;
+              sidebar?: Array<
+                | {
+                    __typename?: 'LayoutArticles';
+                    articles?: Array<{
+                      __typename?: 'Post';
+                      id: string;
+                      title?: string | null;
+                      uri?: string | null;
+                      featuredImage?: {
+                        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                        node: {
+                          __typename?: 'MediaItem';
+                          altText?: string | null;
+                          mediaItemUrl?: string | null;
+                        };
+                      } | null;
+                    } | null> | null;
+                  }
+                | { __typename?: 'LayoutCards' }
+                | {
+                    __typename?: 'LayoutLinkList';
+                    anchor?: string | null;
+                    title?: string | null;
+                    description?: string | null;
+                    links?: Array<{
+                      __typename?: 'Link';
+                      target?: string | null;
+                      title?: string | null;
+                      url?: string | null;
+                    } | null> | null;
+                  }
+                | {
+                    __typename?: 'LayoutPages';
+                    pages?: Array<{
+                      __typename?: 'Page';
+                      id: string;
+                      title?: string | null;
+                      uri?: string | null;
+                      featuredImage?: {
+                        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                        node: {
+                          __typename?: 'MediaItem';
+                          altText?: string | null;
+                          mediaItemUrl?: string | null;
+                        };
+                      } | null;
+                    } | null> | null;
+                  }
+                | null
+              > | null;
+            } | null> | null;
+            seo?: {
+              __typename?: 'SEO';
+              title?: string | null;
+              description?: string | null;
+              openGraphTitle?: string | null;
+              openGraphDescription?: string | null;
+              openGraphType?: string | null;
+              twitterTitle?: string | null;
+              twitterDescription?: string | null;
+            } | null;
+            language?: {
+              __typename?: 'Language';
+              code?: LanguageCodeEnum | null;
+              slug?: string | null;
+              locale?: string | null;
+              name?: string | null;
+            } | null;
+            featuredImage?: {
+              __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+              node: {
+                __typename?: 'MediaItem';
+                mediaItemUrl?: string | null;
+                link?: string | null;
+                altText?: string | null;
+                mimeType?: string | null;
+                title?: string | null;
+                uri?: string | null;
+              };
+            } | null;
+            sidebar?: Array<
+              | {
+                  __typename?: 'LayoutArticles';
+                  articles?: Array<{
+                    __typename?: 'Post';
+                    id: string;
+                    title?: string | null;
+                    uri?: string | null;
+                    featuredImage?: {
+                      __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                      node: {
+                        __typename?: 'MediaItem';
+                        altText?: string | null;
+                        mediaItemUrl?: string | null;
+                      };
+                    } | null;
+                  } | null> | null;
+                }
+              | { __typename?: 'LayoutCards' }
+              | {
+                  __typename?: 'LayoutLinkList';
+                  anchor?: string | null;
+                  title?: string | null;
+                  description?: string | null;
+                  links?: Array<{
+                    __typename?: 'Link';
+                    target?: string | null;
+                    title?: string | null;
+                    url?: string | null;
+                  } | null> | null;
+                }
+              | {
+                  __typename?: 'LayoutPages';
+                  pages?: Array<{
+                    __typename?: 'Page';
+                    id: string;
+                    title?: string | null;
+                    uri?: string | null;
+                    featuredImage?: {
+                      __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                      node: {
+                        __typename?: 'MediaItem';
+                        altText?: string | null;
+                        mediaItemUrl?: string | null;
+                      };
+                    } | null;
+                  } | null> | null;
+                }
+              | null
+            > | null;
+          }
+        | { __typename?: 'Post' }
+        | { __typename?: 'Release' }
+        | { __typename?: 'Translation' };
+    } | null;
+    children?: {
+      __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
+      nodes: Array<
+        | { __typename?: 'Collection' }
+        | { __typename?: 'Contact' }
+        | { __typename?: 'LandingPage' }
+        | { __typename?: 'MediaItem' }
+        | {
+            __typename?: 'Page';
+            id: string;
+            content?: string | null;
+            slug?: string | null;
+            title?: string | null;
+            uri?: string | null;
+            lead?: string | null;
+            translations?: Array<{
+              __typename?: 'Page';
+              id: string;
+              content?: string | null;
+              slug?: string | null;
+              title?: string | null;
+              uri?: string | null;
+              lead?: string | null;
+              seo?: {
+                __typename?: 'SEO';
+                title?: string | null;
+                description?: string | null;
+                openGraphTitle?: string | null;
+                openGraphDescription?: string | null;
+                openGraphType?: string | null;
+                twitterTitle?: string | null;
+                twitterDescription?: string | null;
+              } | null;
+              language?: {
+                __typename?: 'Language';
+                code?: LanguageCodeEnum | null;
+                slug?: string | null;
+                locale?: string | null;
+                name?: string | null;
+              } | null;
+              featuredImage?: {
+                __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                node: {
+                  __typename?: 'MediaItem';
+                  mediaItemUrl?: string | null;
+                  link?: string | null;
+                  altText?: string | null;
+                  mimeType?: string | null;
+                  title?: string | null;
+                  uri?: string | null;
+                };
+              } | null;
+              sidebar?: Array<
+                | {
+                    __typename?: 'LayoutArticles';
+                    articles?: Array<{
+                      __typename?: 'Post';
+                      id: string;
+                      title?: string | null;
+                      uri?: string | null;
+                      featuredImage?: {
+                        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                        node: {
+                          __typename?: 'MediaItem';
+                          altText?: string | null;
+                          mediaItemUrl?: string | null;
+                        };
+                      } | null;
+                    } | null> | null;
+                  }
+                | { __typename?: 'LayoutCards' }
+                | {
+                    __typename?: 'LayoutLinkList';
+                    anchor?: string | null;
+                    title?: string | null;
+                    description?: string | null;
+                    links?: Array<{
+                      __typename?: 'Link';
+                      target?: string | null;
+                      title?: string | null;
+                      url?: string | null;
+                    } | null> | null;
+                  }
+                | {
+                    __typename?: 'LayoutPages';
+                    pages?: Array<{
+                      __typename?: 'Page';
+                      id: string;
+                      title?: string | null;
+                      uri?: string | null;
+                      featuredImage?: {
+                        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                        node: {
+                          __typename?: 'MediaItem';
+                          altText?: string | null;
+                          mediaItemUrl?: string | null;
+                        };
+                      } | null;
+                    } | null> | null;
+                  }
+                | null
+              > | null;
+            } | null> | null;
+            seo?: {
+              __typename?: 'SEO';
+              title?: string | null;
+              description?: string | null;
+              openGraphTitle?: string | null;
+              openGraphDescription?: string | null;
+              openGraphType?: string | null;
+              twitterTitle?: string | null;
+              twitterDescription?: string | null;
+            } | null;
+            language?: {
+              __typename?: 'Language';
+              code?: LanguageCodeEnum | null;
+              slug?: string | null;
+              locale?: string | null;
+              name?: string | null;
+            } | null;
+            featuredImage?: {
+              __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+              node: {
+                __typename?: 'MediaItem';
+                mediaItemUrl?: string | null;
+                link?: string | null;
+                altText?: string | null;
+                mimeType?: string | null;
+                title?: string | null;
+                uri?: string | null;
+              };
+            } | null;
+            sidebar?: Array<
+              | {
+                  __typename?: 'LayoutArticles';
+                  articles?: Array<{
+                    __typename?: 'Post';
+                    id: string;
+                    title?: string | null;
+                    uri?: string | null;
+                    featuredImage?: {
+                      __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                      node: {
+                        __typename?: 'MediaItem';
+                        altText?: string | null;
+                        mediaItemUrl?: string | null;
+                      };
+                    } | null;
+                  } | null> | null;
+                }
+              | { __typename?: 'LayoutCards' }
+              | {
+                  __typename?: 'LayoutLinkList';
+                  anchor?: string | null;
+                  title?: string | null;
+                  description?: string | null;
+                  links?: Array<{
+                    __typename?: 'Link';
+                    target?: string | null;
+                    title?: string | null;
+                    url?: string | null;
+                  } | null> | null;
+                }
+              | {
+                  __typename?: 'LayoutPages';
+                  pages?: Array<{
+                    __typename?: 'Page';
+                    id: string;
+                    title?: string | null;
+                    uri?: string | null;
+                    featuredImage?: {
+                      __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                      node: {
+                        __typename?: 'MediaItem';
+                        altText?: string | null;
+                        mediaItemUrl?: string | null;
+                      };
+                    } | null;
+                  } | null> | null;
+                }
+              | null
+            > | null;
+          }
+        | { __typename?: 'Post' }
+        | { __typename?: 'Release' }
+        | { __typename?: 'Translation' }
+      >;
+    } | null;
+    translations?: Array<{
+      __typename?: 'Page';
+      id: string;
+      content?: string | null;
+      slug?: string | null;
+      title?: string | null;
+      uri?: string | null;
+      lead?: string | null;
+      seo?: {
+        __typename?: 'SEO';
+        title?: string | null;
+        description?: string | null;
+        openGraphTitle?: string | null;
+        openGraphDescription?: string | null;
+        openGraphType?: string | null;
+        twitterTitle?: string | null;
+        twitterDescription?: string | null;
+      } | null;
+      language?: {
+        __typename?: 'Language';
+        code?: LanguageCodeEnum | null;
+        slug?: string | null;
+        locale?: string | null;
+        name?: string | null;
+      } | null;
+      featuredImage?: {
+        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+        node: {
+          __typename?: 'MediaItem';
+          mediaItemUrl?: string | null;
+          link?: string | null;
+          altText?: string | null;
+          mimeType?: string | null;
+          title?: string | null;
+          uri?: string | null;
+        };
+      } | null;
+      sidebar?: Array<
+        | {
+            __typename?: 'LayoutArticles';
+            articles?: Array<{
+              __typename?: 'Post';
+              id: string;
+              title?: string | null;
+              uri?: string | null;
+              featuredImage?: {
+                __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                node: {
+                  __typename?: 'MediaItem';
+                  altText?: string | null;
+                  mediaItemUrl?: string | null;
+                };
+              } | null;
+            } | null> | null;
+          }
+        | { __typename?: 'LayoutCards' }
+        | {
+            __typename?: 'LayoutLinkList';
+            anchor?: string | null;
+            title?: string | null;
+            description?: string | null;
+            links?: Array<{
+              __typename?: 'Link';
+              target?: string | null;
+              title?: string | null;
+              url?: string | null;
+            } | null> | null;
+          }
+        | {
+            __typename?: 'LayoutPages';
+            pages?: Array<{
+              __typename?: 'Page';
+              id: string;
+              title?: string | null;
+              uri?: string | null;
+              featuredImage?: {
+                __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                node: {
+                  __typename?: 'MediaItem';
+                  altText?: string | null;
+                  mediaItemUrl?: string | null;
+                };
+              } | null;
+            } | null> | null;
+          }
+        | null
+      > | null;
+    } | null> | null;
+    seo?: {
+      __typename?: 'SEO';
+      title?: string | null;
+      description?: string | null;
+      openGraphTitle?: string | null;
+      openGraphDescription?: string | null;
+      openGraphType?: string | null;
+      twitterTitle?: string | null;
+      twitterDescription?: string | null;
+    } | null;
+    language?: {
+      __typename?: 'Language';
+      code?: LanguageCodeEnum | null;
+      slug?: string | null;
+      locale?: string | null;
+      name?: string | null;
+    } | null;
+    featuredImage?: {
+      __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+      node: {
+        __typename?: 'MediaItem';
+        mediaItemUrl?: string | null;
+        link?: string | null;
+        altText?: string | null;
+        mimeType?: string | null;
+        title?: string | null;
+        uri?: string | null;
+      };
+    } | null;
+    sidebar?: Array<
+      | {
+          __typename?: 'LayoutArticles';
+          articles?: Array<{
+            __typename?: 'Post';
+            id: string;
+            title?: string | null;
+            uri?: string | null;
+            featuredImage?: {
+              __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+              node: {
+                __typename?: 'MediaItem';
+                altText?: string | null;
+                mediaItemUrl?: string | null;
+              };
+            } | null;
+          } | null> | null;
+        }
+      | { __typename?: 'LayoutCards' }
+      | {
+          __typename?: 'LayoutLinkList';
+          anchor?: string | null;
+          title?: string | null;
+          description?: string | null;
+          links?: Array<{
+            __typename?: 'Link';
+            target?: string | null;
+            title?: string | null;
+            url?: string | null;
+          } | null> | null;
+        }
+      | {
+          __typename?: 'LayoutPages';
+          pages?: Array<{
+            __typename?: 'Page';
+            id: string;
+            title?: string | null;
+            uri?: string | null;
+            featuredImage?: {
+              __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+              node: {
+                __typename?: 'MediaItem';
+                altText?: string | null;
+                mediaItemUrl?: string | null;
+              };
+            } | null;
+          } | null> | null;
+        }
+      | null
+    > | null;
+  } | null;
+};
 
-export type PageQuery = { __typename?: 'RootQuery', page?: { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, parent?: { __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' } } | null, children?: { __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' }> } | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null };
+export type PageFieldsFragment = {
+  __typename?: 'Page';
+  id: string;
+  content?: string | null;
+  slug?: string | null;
+  title?: string | null;
+  uri?: string | null;
+  lead?: string | null;
+  seo?: {
+    __typename?: 'SEO';
+    title?: string | null;
+    description?: string | null;
+    openGraphTitle?: string | null;
+    openGraphDescription?: string | null;
+    openGraphType?: string | null;
+    twitterTitle?: string | null;
+    twitterDescription?: string | null;
+  } | null;
+  language?: {
+    __typename?: 'Language';
+    code?: LanguageCodeEnum | null;
+    slug?: string | null;
+    locale?: string | null;
+    name?: string | null;
+  } | null;
+  featuredImage?: {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+    node: {
+      __typename?: 'MediaItem';
+      mediaItemUrl?: string | null;
+      link?: string | null;
+      altText?: string | null;
+      mimeType?: string | null;
+      title?: string | null;
+      uri?: string | null;
+    };
+  } | null;
+  sidebar?: Array<
+    | {
+        __typename?: 'LayoutArticles';
+        articles?: Array<{
+          __typename?: 'Post';
+          id: string;
+          title?: string | null;
+          uri?: string | null;
+          featuredImage?: {
+            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+            node: {
+              __typename?: 'MediaItem';
+              altText?: string | null;
+              mediaItemUrl?: string | null;
+            };
+          } | null;
+        } | null> | null;
+      }
+    | { __typename?: 'LayoutCards' }
+    | {
+        __typename?: 'LayoutLinkList';
+        anchor?: string | null;
+        title?: string | null;
+        description?: string | null;
+        links?: Array<{
+          __typename?: 'Link';
+          target?: string | null;
+          title?: string | null;
+          url?: string | null;
+        } | null> | null;
+      }
+    | {
+        __typename?: 'LayoutPages';
+        pages?: Array<{
+          __typename?: 'Page';
+          id: string;
+          title?: string | null;
+          uri?: string | null;
+          featuredImage?: {
+            __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+            node: {
+              __typename?: 'MediaItem';
+              altText?: string | null;
+              mediaItemUrl?: string | null;
+            };
+          } | null;
+        } | null> | null;
+      }
+    | null
+  > | null;
+};
 
-export type PageFieldsFragment = { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null };
+export type SeoFieldsFragment = {
+  __typename?: 'SEO';
+  title?: string | null;
+  description?: string | null;
+  openGraphTitle?: string | null;
+  openGraphDescription?: string | null;
+  openGraphType?: string | null;
+  twitterTitle?: string | null;
+  twitterDescription?: string | null;
+};
 
-export type SeoFieldsFragment = { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null };
+export type PagesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PagesQuery = { __typename?: 'RootQuery', pages?: { __typename?: 'RootQueryToPageConnection', edges: Array<{ __typename?: 'RootQueryToPageConnectionEdge', node: { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } }> } | null };
+export type PagesQuery = {
+  __typename?: 'RootQuery';
+  pages?: {
+    __typename?: 'RootQueryToPageConnection';
+    edges: Array<{
+      __typename?: 'RootQueryToPageConnectionEdge';
+      node: {
+        __typename?: 'Page';
+        id: string;
+        content?: string | null;
+        slug?: string | null;
+        title?: string | null;
+        uri?: string | null;
+        lead?: string | null;
+        seo?: {
+          __typename?: 'SEO';
+          title?: string | null;
+          description?: string | null;
+          openGraphTitle?: string | null;
+          openGraphDescription?: string | null;
+          openGraphType?: string | null;
+          twitterTitle?: string | null;
+          twitterDescription?: string | null;
+        } | null;
+        language?: {
+          __typename?: 'Language';
+          code?: LanguageCodeEnum | null;
+          slug?: string | null;
+          locale?: string | null;
+          name?: string | null;
+        } | null;
+        featuredImage?: {
+          __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+          node: {
+            __typename?: 'MediaItem';
+            mediaItemUrl?: string | null;
+            link?: string | null;
+            altText?: string | null;
+            mimeType?: string | null;
+            title?: string | null;
+            uri?: string | null;
+          };
+        } | null;
+        sidebar?: Array<
+          | {
+              __typename?: 'LayoutArticles';
+              articles?: Array<{
+                __typename?: 'Post';
+                id: string;
+                title?: string | null;
+                uri?: string | null;
+                featuredImage?: {
+                  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                  node: {
+                    __typename?: 'MediaItem';
+                    altText?: string | null;
+                    mediaItemUrl?: string | null;
+                  };
+                } | null;
+              } | null> | null;
+            }
+          | { __typename?: 'LayoutCards' }
+          | {
+              __typename?: 'LayoutLinkList';
+              anchor?: string | null;
+              title?: string | null;
+              description?: string | null;
+              links?: Array<{
+                __typename?: 'Link';
+                target?: string | null;
+                title?: string | null;
+                url?: string | null;
+              } | null> | null;
+            }
+          | {
+              __typename?: 'LayoutPages';
+              pages?: Array<{
+                __typename?: 'Page';
+                id: string;
+                title?: string | null;
+                uri?: string | null;
+                featuredImage?: {
+                  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                  node: {
+                    __typename?: 'MediaItem';
+                    altText?: string | null;
+                    mediaItemUrl?: string | null;
+                  };
+                } | null;
+              } | null> | null;
+            }
+          | null
+        > | null;
+      };
+    }>;
+  } | null;
+};
 
 export type SubPagesSearchQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10923,111 +12331,315 @@ export type SubPagesSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type SubPagesSearchQuery = { __typename?: 'RootQuery', page?: { __typename?: 'Page', id: string, children?: { __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection', pageInfo?: { __typename?: 'WPPageInfo', endCursor?: string | null, hasNextPage: boolean } | null, edges: Array<{ __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge', cursor?: string | null, node: { __typename?: 'Collection' } | { __typename?: 'Contact' } | { __typename?: 'LandingPage' } | { __typename?: 'MediaItem' } | { __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, translations?: Array<{ __typename?: 'Page', id: string, content?: string | null, slug?: string | null, title?: string | null, uri?: string | null, lead?: string | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | null> | null, seo?: { __typename?: 'SEO', title?: string | null, description?: string | null, openGraphTitle?: string | null, openGraphDescription?: string | null, openGraphType?: string | null, twitterTitle?: string | null, twitterDescription?: string | null } | null, language?: { __typename?: 'Language', code?: LanguageCodeEnum | null, slug?: string | null, locale?: string | null, name?: string | null } | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl?: string | null, link?: string | null, altText?: string | null, mimeType?: string | null, title?: string | null, uri?: string | null } } | null, sidebar?: Array<{ __typename?: 'LayoutArticles', articles?: Array<{ __typename?: 'Post', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | { __typename?: 'LayoutCards' } | { __typename?: 'LayoutLinkList', anchor?: string | null, title?: string | null, description?: string | null, links?: Array<{ __typename?: 'Link', target?: string | null, title?: string | null, url?: string | null } | null> | null } | { __typename?: 'LayoutPages', pages?: Array<{ __typename?: 'Page', id: string, title?: string | null, uri?: string | null, featuredImage?: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', altText?: string | null, mediaItemUrl?: string | null } } | null } | null> | null } | null> | null } | { __typename?: 'Post' } | { __typename?: 'Release' } | { __typename?: 'Translation' } }> } | null } | null };
+export type SubPagesSearchQuery = {
+  __typename?: 'RootQuery';
+  page?: {
+    __typename?: 'Page';
+    id: string;
+    children?: {
+      __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
+      pageInfo?: {
+        __typename?: 'WPPageInfo';
+        endCursor?: string | null;
+        hasNextPage: boolean;
+      } | null;
+      edges: Array<{
+        __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge';
+        cursor?: string | null;
+        node:
+          | { __typename?: 'Collection' }
+          | { __typename?: 'Contact' }
+          | { __typename?: 'LandingPage' }
+          | { __typename?: 'MediaItem' }
+          | {
+              __typename?: 'Page';
+              id: string;
+              content?: string | null;
+              slug?: string | null;
+              title?: string | null;
+              uri?: string | null;
+              lead?: string | null;
+              translations?: Array<{
+                __typename?: 'Page';
+                id: string;
+                content?: string | null;
+                slug?: string | null;
+                title?: string | null;
+                uri?: string | null;
+                lead?: string | null;
+                seo?: {
+                  __typename?: 'SEO';
+                  title?: string | null;
+                  description?: string | null;
+                  openGraphTitle?: string | null;
+                  openGraphDescription?: string | null;
+                  openGraphType?: string | null;
+                  twitterTitle?: string | null;
+                  twitterDescription?: string | null;
+                } | null;
+                language?: {
+                  __typename?: 'Language';
+                  code?: LanguageCodeEnum | null;
+                  slug?: string | null;
+                  locale?: string | null;
+                  name?: string | null;
+                } | null;
+                featuredImage?: {
+                  __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                  node: {
+                    __typename?: 'MediaItem';
+                    mediaItemUrl?: string | null;
+                    link?: string | null;
+                    altText?: string | null;
+                    mimeType?: string | null;
+                    title?: string | null;
+                    uri?: string | null;
+                  };
+                } | null;
+                sidebar?: Array<
+                  | {
+                      __typename?: 'LayoutArticles';
+                      articles?: Array<{
+                        __typename?: 'Post';
+                        id: string;
+                        title?: string | null;
+                        uri?: string | null;
+                        featuredImage?: {
+                          __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                          node: {
+                            __typename?: 'MediaItem';
+                            altText?: string | null;
+                            mediaItemUrl?: string | null;
+                          };
+                        } | null;
+                      } | null> | null;
+                    }
+                  | { __typename?: 'LayoutCards' }
+                  | {
+                      __typename?: 'LayoutLinkList';
+                      anchor?: string | null;
+                      title?: string | null;
+                      description?: string | null;
+                      links?: Array<{
+                        __typename?: 'Link';
+                        target?: string | null;
+                        title?: string | null;
+                        url?: string | null;
+                      } | null> | null;
+                    }
+                  | {
+                      __typename?: 'LayoutPages';
+                      pages?: Array<{
+                        __typename?: 'Page';
+                        id: string;
+                        title?: string | null;
+                        uri?: string | null;
+                        featuredImage?: {
+                          __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                          node: {
+                            __typename?: 'MediaItem';
+                            altText?: string | null;
+                            mediaItemUrl?: string | null;
+                          };
+                        } | null;
+                      } | null> | null;
+                    }
+                  | null
+                > | null;
+              } | null> | null;
+              seo?: {
+                __typename?: 'SEO';
+                title?: string | null;
+                description?: string | null;
+                openGraphTitle?: string | null;
+                openGraphDescription?: string | null;
+                openGraphType?: string | null;
+                twitterTitle?: string | null;
+                twitterDescription?: string | null;
+              } | null;
+              language?: {
+                __typename?: 'Language';
+                code?: LanguageCodeEnum | null;
+                slug?: string | null;
+                locale?: string | null;
+                name?: string | null;
+              } | null;
+              featuredImage?: {
+                __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                node: {
+                  __typename?: 'MediaItem';
+                  mediaItemUrl?: string | null;
+                  link?: string | null;
+                  altText?: string | null;
+                  mimeType?: string | null;
+                  title?: string | null;
+                  uri?: string | null;
+                };
+              } | null;
+              sidebar?: Array<
+                | {
+                    __typename?: 'LayoutArticles';
+                    articles?: Array<{
+                      __typename?: 'Post';
+                      id: string;
+                      title?: string | null;
+                      uri?: string | null;
+                      featuredImage?: {
+                        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                        node: {
+                          __typename?: 'MediaItem';
+                          altText?: string | null;
+                          mediaItemUrl?: string | null;
+                        };
+                      } | null;
+                    } | null> | null;
+                  }
+                | { __typename?: 'LayoutCards' }
+                | {
+                    __typename?: 'LayoutLinkList';
+                    anchor?: string | null;
+                    title?: string | null;
+                    description?: string | null;
+                    links?: Array<{
+                      __typename?: 'Link';
+                      target?: string | null;
+                      title?: string | null;
+                      url?: string | null;
+                    } | null> | null;
+                  }
+                | {
+                    __typename?: 'LayoutPages';
+                    pages?: Array<{
+                      __typename?: 'Page';
+                      id: string;
+                      title?: string | null;
+                      uri?: string | null;
+                      featuredImage?: {
+                        __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
+                        node: {
+                          __typename?: 'MediaItem';
+                          altText?: string | null;
+                          mediaItemUrl?: string | null;
+                        };
+                      } | null;
+                    } | null> | null;
+                  }
+                | null
+              > | null;
+            }
+          | { __typename?: 'Post' }
+          | { __typename?: 'Release' }
+          | { __typename?: 'Translation' };
+      }>;
+    } | null;
+  } | null;
+};
 
 export const SeoFieldsFragmentDoc = gql`
-    fragment seoFields on SEO {
-  title
-  description
-  openGraphTitle
-  openGraphDescription
-  openGraphType
-  twitterTitle
-  twitterDescription
-}
-    `;
+  fragment seoFields on SEO {
+    title
+    description
+    openGraphTitle
+    openGraphDescription
+    openGraphType
+    twitterTitle
+    twitterDescription
+  }
+`;
 export const PageFieldsFragmentDoc = gql`
-    fragment pageFields on Page {
-  id
-  content
-  slug
-  title
-  uri
-  lead
-  seo {
-    ...seoFields
-  }
-  language {
-    code
-    slug
-    locale
-    name
-  }
-  featuredImage {
-    node {
-      mediaItemUrl
-      link
-      altText
-      mimeType
-      title
-      uri
-    }
-  }
-  sidebar {
-    ... on LayoutLinkList {
-      anchor
-      title
-      description
-      links {
-        target
-        title
-        url
-      }
-    }
-    ... on LayoutArticles {
-      articles {
-        id
-        title
-        uri
-        featuredImage {
-          node {
-            altText
-            mediaItemUrl
-          }
-        }
-      }
-    }
-    ... on LayoutPages {
-      pages {
-        id
-        title
-        uri
-        featuredImage {
-          node {
-            altText
-            mediaItemUrl
-          }
-        }
-      }
-    }
-  }
-}
-    ${SeoFieldsFragmentDoc}`;
-export const KultusMenuPageFieldsFragmentDoc = gql`
-    fragment kultusMenuPageFields on Page {
-  ...pageFields
-  translations {
-    ...pageFields
-  }
-}
-    ${PageFieldsFragmentDoc}`;
-export const MenuDocument = gql`
-    query Menu($id: ID!, $idType: MenuNodeIdTypeEnum) {
-  menu(id: $id, idType: $idType) {
+  fragment pageFields on Page {
     id
-    name
+    content
     slug
-    menuId
-    menuItems {
-      nodes {
-        connectedNode {
-          node {
-            ... on Page {
-              ...kultusMenuPageFields
-              children {
-                nodes {
-                  ...kultusMenuPageFields
+    title
+    uri
+    lead
+    seo {
+      ...seoFields
+    }
+    language {
+      code
+      slug
+      locale
+      name
+    }
+    featuredImage {
+      node {
+        mediaItemUrl
+        link
+        altText
+        mimeType
+        title
+        uri
+      }
+    }
+    sidebar {
+      ... on LayoutLinkList {
+        anchor
+        title
+        description
+        links {
+          target
+          title
+          url
+        }
+      }
+      ... on LayoutArticles {
+        articles {
+          id
+          title
+          uri
+          featuredImage {
+            node {
+              altText
+              mediaItemUrl
+            }
+          }
+        }
+      }
+      ... on LayoutPages {
+        pages {
+          id
+          title
+          uri
+          featuredImage {
+            node {
+              altText
+              mediaItemUrl
+            }
+          }
+        }
+      }
+    }
+  }
+  ${SeoFieldsFragmentDoc}
+`;
+export const KultusMenuPageFieldsFragmentDoc = gql`
+  fragment kultusMenuPageFields on Page {
+    ...pageFields
+    translations {
+      ...pageFields
+    }
+  }
+  ${PageFieldsFragmentDoc}
+`;
+export const MenuDocument = gql`
+  query Menu($id: ID!, $idType: MenuNodeIdTypeEnum) {
+    menu(id: $id, idType: $idType) {
+      id
+      name
+      slug
+      menuId
+      menuItems {
+        nodes {
+          connectedNode {
+            node {
+              ... on Page {
+                ...kultusMenuPageFields
+                children {
+                  nodes {
+                    ...kultusMenuPageFields
+                  }
                 }
               }
             }
@@ -11036,8 +12648,8 @@ export const MenuDocument = gql`
       }
     }
   }
-}
-    ${KultusMenuPageFieldsFragmentDoc}`;
+  ${KultusMenuPageFieldsFragmentDoc}
+`;
 
 /**
  * __useMenuQuery__
@@ -11056,47 +12668,68 @@ export const MenuDocument = gql`
  *   },
  * });
  */
-export function useMenuQuery(baseOptions: Apollo.QueryHookOptions<MenuQuery, MenuQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
-      }
-export function useMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MenuQuery, MenuQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
-        }
+export function useMenuQuery(
+  baseOptions: Apollo.QueryHookOptions<MenuQuery, MenuQueryVariables> &
+    ({ variables: MenuQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
+}
+export function useMenuLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MenuQuery, MenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(
+    MenuDocument,
+    options
+  );
+}
+export function useMenuSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<MenuQuery, MenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<MenuQuery, MenuQueryVariables>(
+    MenuDocument,
+    options
+  );
+}
 export type MenuQueryHookResult = ReturnType<typeof useMenuQuery>;
 export type MenuLazyQueryHookResult = ReturnType<typeof useMenuLazyQuery>;
+export type MenuSuspenseQueryHookResult = ReturnType<
+  typeof useMenuSuspenseQuery
+>;
 export type MenuQueryResult = Apollo.QueryResult<MenuQuery, MenuQueryVariables>;
 export const PageDocument = gql`
-    query Page($id: ID!, $idType: PageIdType) {
-  page(id: $id, idType: $idType) {
-    ...pageFields
-    parent {
-      node {
-        ... on Page {
-          ...pageFields
-          translations {
-            ...pageFields
-          }
-        }
-      }
-    }
-    children {
-      nodes {
-        ... on Page {
-          ...pageFields
-          translations {
-            ...pageFields
-          }
-        }
-      }
-    }
-    translations {
+  query Page($id: ID!, $idType: PageIdType) {
+    page(id: $id, idType: $idType) {
       ...pageFields
+      parent {
+        node {
+          ... on Page {
+            ...pageFields
+            translations {
+              ...pageFields
+            }
+          }
+        }
+      }
+      children {
+        nodes {
+          ... on Page {
+            ...pageFields
+            translations {
+              ...pageFields
+            }
+          }
+        }
+      }
+      translations {
+        ...pageFields
+      }
     }
   }
-}
-    ${PageFieldsFragmentDoc}`;
+  ${PageFieldsFragmentDoc}
+`;
 
 /**
  * __usePageQuery__
@@ -11115,28 +12748,49 @@ export const PageDocument = gql`
  *   },
  * });
  */
-export function usePageQuery(baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
-      }
-export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(PageDocument, options);
-        }
+export function usePageQuery(
+  baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables> &
+    ({ variables: PageQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
+}
+export function usePageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(
+    PageDocument,
+    options
+  );
+}
+export function usePageSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<PageQuery, PageQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<PageQuery, PageQueryVariables>(
+    PageDocument,
+    options
+  );
+}
 export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
 export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
+export type PageSuspenseQueryHookResult = ReturnType<
+  typeof usePageSuspenseQuery
+>;
 export type PageQueryResult = Apollo.QueryResult<PageQuery, PageQueryVariables>;
 export const PagesDocument = gql`
-    query Pages {
-  pages {
-    edges {
-      node {
-        ...pageFields
+  query Pages {
+    pages {
+      edges {
+        node {
+          ...pageFields
+        }
       }
     }
   }
-}
-    ${PageFieldsFragmentDoc}`;
+  ${PageFieldsFragmentDoc}
+`;
 
 /**
  * __usePagesQuery__
@@ -11153,41 +12807,73 @@ export const PagesDocument = gql`
  *   },
  * });
  */
-export function usePagesQuery(baseOptions?: Apollo.QueryHookOptions<PagesQuery, PagesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
-      }
-export function usePagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PagesQuery, PagesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
-        }
+export function usePagesQuery(
+  baseOptions?: Apollo.QueryHookOptions<PagesQuery, PagesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PagesQuery, PagesQueryVariables>(
+    PagesDocument,
+    options
+  );
+}
+export function usePagesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PagesQuery, PagesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(
+    PagesDocument,
+    options
+  );
+}
+export function usePagesSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<PagesQuery, PagesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<PagesQuery, PagesQueryVariables>(
+    PagesDocument,
+    options
+  );
+}
 export type PagesQueryHookResult = ReturnType<typeof usePagesQuery>;
 export type PagesLazyQueryHookResult = ReturnType<typeof usePagesLazyQuery>;
-export type PagesQueryResult = Apollo.QueryResult<PagesQuery, PagesQueryVariables>;
+export type PagesSuspenseQueryHookResult = ReturnType<
+  typeof usePagesSuspenseQuery
+>;
+export type PagesQueryResult = Apollo.QueryResult<
+  PagesQuery,
+  PagesQueryVariables
+>;
 export const SubPagesSearchDocument = gql`
-    query SubPagesSearch($id: ID!, $idType: PageIdType, $search: String!, $first: Int, $after: String) {
-  page(id: $id, idType: $idType) {
-    id
-    children(where: {search: $search}, first: $first, after: $after) {
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-      edges {
-        cursor
-        node {
-          ... on Page {
-            ...pageFields
-            translations {
+  query SubPagesSearch(
+    $id: ID!
+    $idType: PageIdType
+    $search: String!
+    $first: Int
+    $after: String
+  ) {
+    page(id: $id, idType: $idType) {
+      id
+      children(where: { search: $search }, first: $first, after: $after) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
+            ... on Page {
               ...pageFields
+              translations {
+                ...pageFields
+              }
             }
           }
         }
       }
     }
   }
-}
-    ${PageFieldsFragmentDoc}`;
+  ${PageFieldsFragmentDoc}
+`;
 
 /**
  * __useSubPagesSearchQuery__
@@ -11209,14 +12895,56 @@ export const SubPagesSearchDocument = gql`
  *   },
  * });
  */
-export function useSubPagesSearchQuery(baseOptions: Apollo.QueryHookOptions<SubPagesSearchQuery, SubPagesSearchQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SubPagesSearchQuery, SubPagesSearchQueryVariables>(SubPagesSearchDocument, options);
-      }
-export function useSubPagesSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SubPagesSearchQuery, SubPagesSearchQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SubPagesSearchQuery, SubPagesSearchQueryVariables>(SubPagesSearchDocument, options);
-        }
-export type SubPagesSearchQueryHookResult = ReturnType<typeof useSubPagesSearchQuery>;
-export type SubPagesSearchLazyQueryHookResult = ReturnType<typeof useSubPagesSearchLazyQuery>;
-export type SubPagesSearchQueryResult = Apollo.QueryResult<SubPagesSearchQuery, SubPagesSearchQueryVariables>;
+export function useSubPagesSearchQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SubPagesSearchQuery,
+    SubPagesSearchQueryVariables
+  > &
+    (
+      | { variables: SubPagesSearchQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SubPagesSearchQuery, SubPagesSearchQueryVariables>(
+    SubPagesSearchDocument,
+    options
+  );
+}
+export function useSubPagesSearchLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SubPagesSearchQuery,
+    SubPagesSearchQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SubPagesSearchQuery, SubPagesSearchQueryVariables>(
+    SubPagesSearchDocument,
+    options
+  );
+}
+export function useSubPagesSearchSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    SubPagesSearchQuery,
+    SubPagesSearchQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    SubPagesSearchQuery,
+    SubPagesSearchQueryVariables
+  >(SubPagesSearchDocument, options);
+}
+export type SubPagesSearchQueryHookResult = ReturnType<
+  typeof useSubPagesSearchQuery
+>;
+export type SubPagesSearchLazyQueryHookResult = ReturnType<
+  typeof useSubPagesSearchLazyQuery
+>;
+export type SubPagesSearchSuspenseQueryHookResult = ReturnType<
+  typeof useSubPagesSearchSuspenseQuery
+>;
+export type SubPagesSearchQueryResult = Apollo.QueryResult<
+  SubPagesSearchQuery,
+  SubPagesSearchQueryVariables
+>;

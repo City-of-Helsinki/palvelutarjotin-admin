@@ -40,13 +40,7 @@ import {
   fakePlaces,
   fakeVenue,
 } from '../utils/mockDataUtils';
-import {
-  actWait,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../utils/testUtils';
+import { screen, userEvent, waitFor, within } from '../utils/testUtils';
 import { DATETIME_FORMAT } from '../utils/time/format';
 
 type Languages = 'fi' | 'en' | 'sv';
@@ -821,7 +815,6 @@ export const selectLocation = async () => {
 
   await userEvent.click(locationInput);
   await userEvent.type(locationInput, 'Sellon');
-  await actWait();
   const places = await screen.findAllByText(/Sellon kirjasto/i);
   await userEvent.click(places[0]);
 };
@@ -913,9 +906,7 @@ export const fillAndSubmitOccurrenceForm = async ({
     await userEvent.type(minGroupSizeInput, '10');
     await userEvent.type(maxGroupSizeInput, '20');
 
-    await waitFor(() => {
-      expect(seatsInput).toHaveValue(30);
-    });
+    await waitFor(() => expect(seatsInput).toHaveValue(30));
 
     expect(minGroupSizeInput).toHaveValue(10);
     expect(maxGroupSizeInput).toHaveValue(20);
@@ -929,17 +920,9 @@ export const fillAndSubmitOccurrenceForm = async ({
     const saveEventDataButton = getFormElement('saveButton');
     const addNewOccurrenceButton = getOccurrenceFormElement('submit');
 
-    // All buttons should be disabled when loading
-    await waitFor(() => {
-      expect(goToPublishingButton).toBeDisabled();
-      expect(addNewOccurrenceButton).toBeDisabled();
-      expect(saveEventDataButton).toBeDisabled();
-    });
-
-    await waitFor(() => {
-      expect(goToPublishingButton).toBeEnabled();
-      expect(addNewOccurrenceButton).toBeEnabled();
-    });
+    await waitFor(() => expect(goToPublishingButton).toBeEnabled());
+    await waitFor(() => expect(saveEventDataButton).toBeDisabled());
+    await waitFor(() => expect(addNewOccurrenceButton).toBeEnabled());
   }
 };
 
