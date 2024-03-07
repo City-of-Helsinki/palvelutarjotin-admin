@@ -23,7 +23,6 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import getDateArray from '../../../utils/getDateArray';
-import { getDomain } from '../../../utils/getDomain';
 import getLocalisedString from '../../../utils/getLocalizedString';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../../occurrence/constants';
@@ -71,7 +70,6 @@ const ActionsDropdown: React.FC<Props> = ({
 
   const downloadIcsFile = (occurrence: OccurrenceFieldsFragment) => {
     if (event?.id && occurrence.startTime) {
-      const domain = getDomain();
       const icsEvent: EventAttributes = {
         title: getLocalisedString(event?.name || {}, locale),
         description: getLocalisedString(event.shortDescription ?? {}, locale),
@@ -82,7 +80,10 @@ const ActionsDropdown: React.FC<Props> = ({
         location: [locationName, streetAddress, addressLocality]
           .filter((e) => e)
           .join(', '),
-        productId: domain,
+        // Product Identifier i.e. PRODID property in iCalendar RFC 2445
+        // should be a globally unique ID, see
+        // https://datatracker.ietf.org/doc/html/rfc2445#section-4.7.3
+        productId: 'City-of-Helsinki/palvelutarjotin-admin',
         startOutputType: 'local',
       };
       createEvent(icsEvent, (error: Error | undefined, value: string) => {

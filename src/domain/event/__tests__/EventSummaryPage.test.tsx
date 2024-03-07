@@ -642,10 +642,10 @@ it('can download ics file from actions dropdown', async () => {
   });
 
   expect((ICS.createEvent as Mock).mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "description": "Tapahtuman lyhyt kuvaus",
-        "end": Array [
+        "end": [
           2020,
           12,
           11,
@@ -653,8 +653,8 @@ it('can download ics file from actions dropdown', async () => {
           0,
         ],
         "location": "Sellon kirjasto, Test street, Test city",
-        "productId": "http://localhost",
-        "start": Array [
+        "productId": "City-of-Helsinki/palvelutarjotin-admin",
+        "start": [
           2020,
           12,
           11,

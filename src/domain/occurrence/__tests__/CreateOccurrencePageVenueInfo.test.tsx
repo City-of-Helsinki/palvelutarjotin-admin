@@ -38,8 +38,6 @@ const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   });
 };
 
-vi.setSystemTime('2021-04-02');
-
 describe('venue info', () => {
   test('venue data can be changed and saved', async () => {
     vi.setSystemTime('2021-04-02');
