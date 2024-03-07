@@ -1,25 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper %p ()=>/*#__PURE__*/ __vite_ssr_import_0__.jsxDEV(__vite_ssr_import_7__.Navigation, {
-                onTitleClick: __vite_ssr_import_1__.vi.fn(),
-                menuName: '',
-                getPathnameForLanguage: __vite_ssr_import_1__.vi.fn()
-            }, void 0, false, {
-                fileName: "C:/dev/projects/City-of-Helsinki/palvelutarjotin-admin/src/domain/app/__tests__/apolloRHHC.test.tsx",
-                lineNumber: 53,
-                columnNumber: 7
-            }, this) 1`] = `<div />`;
-
-exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper %p ()=>{
-            const { apolloClient } = __vite_ssr_import_5__.useConfig();
-            return /*#__PURE__*/ __vite_ssr_import_0__.jsxDEV("div", {
-                children: apolloClient?.version
-            }, void 0, false, {
-                fileName: "C:/dev/projects/City-of-Helsinki/palvelutarjotin-admin/src/domain/app/__tests__/apolloRHHC.test.tsx",
-                lineNumber: 48,
-                columnNumber: 14
-            }, this);
-        } 1`] = `
+exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloClientFromUseApolloClient] 1`] = `
 <div>
   <div>
     3.8.1
@@ -27,16 +8,7 @@ exports[`test issues in connection between the apollo client and the RHHC-lib > 
 </div>
 `;
 
-exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper %p ()=>{
-            const { apolloClient } = __vite_ssr_import_6__.useConfig();
-            return /*#__PURE__*/ __vite_ssr_import_0__.jsxDEV("div", {
-                children: apolloClient?.version
-            }, void 0, false, {
-                fileName: "C:/dev/projects/City-of-Helsinki/palvelutarjotin-admin/src/domain/app/__tests__/apolloRHHC.test.tsx",
-                lineNumber: 49,
-                columnNumber: 14
-            }, this);
-        } 1`] = `
+exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloClientFromUseConfig] 1`] = `
 <div>
   <div>
     3.8.1
@@ -44,54 +16,4 @@ exports[`test issues in connection between the apollo client and the RHHC-lib > 
 </div>
 `;
 
-exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper %p ()=>{
-            const apolloClient = __vite_ssr_import_1__.useApolloClient();
-            return /*#__PURE__*/ __vite_ssr_import_0__.jsxDEV("div", {
-                children: apolloClient.version
-            }, void 0, false, {
-                fileName: "C:/dev/projects/City-of-Helsinki/palvelutarjotin-admin/src/domain/app/__tests__/apolloRHHC.test.tsx",
-                lineNumber: 43,
-                columnNumber: 14
-            }, this);
-        } 1`] = `
-<div>
-  <div>
-    3.8.1
-  </div>
-</div>
-`;
-
-exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper %p ()=>{
-            const apolloClient = __vite_ssr_import_2__.useApolloClient();
-            return /*#__PURE__*/ __vite_ssr_import_0__.jsxDEV("div", {
-                children: apolloClient.version
-            }, void 0, false, {
-                fileName: "C:/dev/projects/City-of-Helsinki/palvelutarjotin-admin/src/domain/app/__tests__/apolloRHHC.test.tsx",
-                lineNumber: 44,
-                columnNumber: 14
-            }, this);
-        } 1`] = `
-<div>
-  <div>
-    3.8.1
-  </div>
-</div>
-`;
-
-exports[`test issues in connection between the apollo client and the RHHC-lib apollo client should work with RHHC-lib renders component that needs the apollo client with a custom wrapper [Function ApolloClientFromUseApolloClient] 1`] = `
-<div>
-  <div>
-    3.8.1
-  </div>
-</div>
-`;
-
-exports[`test issues in connection between the apollo client and the RHHC-lib apollo client should work with RHHC-lib renders component that needs the apollo client with a custom wrapper [Function ApolloClientFromUseConfig] 1`] = `
-<div>
-  <div>
-    3.8.1
-  </div>
-</div>
-`;
-
-exports[`test issues in connection between the apollo client and the RHHC-lib apollo client should work with RHHC-lib renders component that needs the apollo client with a custom wrapper [Function ApolloNavigationComponent] 1`] = `<div />`;
+exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloNavigationComponent] 1`] = `<div />`;

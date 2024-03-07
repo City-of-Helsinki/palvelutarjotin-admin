@@ -38,24 +38,19 @@ exports[`matches snapshot 1`] = `
             class="closeButton"
           >
             <svg
+              aria-hidden="true"
+              aria-label="cross"
               class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g
-                fill="none"
+              <path
+                clip-rule="evenodd"
+                d="M18 7.5L13.5 12L18 16.5L16.5 18L12 13.5L7.5 18L6 16.5L10.5 12L6 7.5L7.5 6L12 10.5L16.5 6L18 7.5Z"
+                fill="currentColor"
                 fill-rule="evenodd"
-              >
-                <rect
-                  height="24"
-                  width="24"
-                />
-                <polygon
-                  fill="currentColor"
-                  points="18 7.5 13.5 12 18 16.5 16.5 18 12 13.5 7.5 18 6 16.5 10.5 12 6 7.5 7.5 6 12 10.5 16.5 6"
-                />
-              </g>
+              />
             </svg>
             Sulje
           </button>
@@ -101,24 +96,18 @@ exports[`matches snapshot 1`] = `
                 >
                   <svg
                     aria-hidden="true"
+                    aria-label="info-circle-fill"
                     class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Notification-module_icon__1ans7 notification_hds-icon__29HQM"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g
-                      fill="none"
+                    <path
+                      clip-rule="evenodd"
+                      d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3ZM13 10V16.5H15V18H9V16.5H11V11.5H9V10H13ZM11.8125 6C12.5374 6 13.125 6.5876 13.125 7.3125C13.125 8.03735 12.5374 8.625 11.8125 8.625C11.0876 8.625 10.5 8.03735 10.5 7.3125C10.5 6.5876 11.0876 6 11.8125 6Z"
+                      fill="currentColor"
                       fill-rule="evenodd"
-                    >
-                      <rect
-                        height="24"
-                        width="24"
-                      />
-                      <path
-                        d="M12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 Z M13,10 L13,16.5 L15,16.5 L15,18 L9,18 L9,16.5 L11,16.5 L11,11.5 L9,11.5 L9,10 L13,10 Z M11.8125239,6 C12.5373649,6 13.125,6.58759799 13.125,7.3125 C13.125,8.03735415 12.5373649,8.625 11.8125239,8.625 C11.0876351,8.625 10.5,8.03735415 10.5,7.3125 C10.5,6.58759799 11.0876351,6 11.8125239,6 Z"
-                        fill="currentColor"
-                      />
-                    </g>
+                    />
                   </svg>
                   Vahvistusviesti sisältää automaattisesti seuraavat tiedot
                 </div>

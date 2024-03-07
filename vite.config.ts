@@ -1,6 +1,7 @@
+import path from 'path';
+
 import react from '@vitejs/plugin-react-swc';
 import eslint from 'vite-plugin-eslint';
-import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -15,8 +16,15 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         '~hds-core': path.resolve(__dirname, './node_modules/hds-core'),
-        '~hds-design-tokens': path.resolve(__dirname, './node_modules/hds-design-tokens'),
+        '~hds-design-tokens': path.resolve(
+          __dirname,
+          './node_modules/hds-design-tokens'
+        ),
         '~styles': path.resolve(__dirname, './src/styles'),
+        'react-helsinki-headless-cms': path.resolve(
+          __dirname,
+          './node_modules/react-helsinki-headless-cms'
+        ),
       },
     },
     build: {

@@ -20,7 +20,6 @@ window.scrollTo = vi.fn();
 
 beforeEach(() => {
   i18n.changeLanguage('fi');
-  vi.useFakeTimers();
 });
 
 beforeAll(() => {

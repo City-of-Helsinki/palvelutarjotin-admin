@@ -62,7 +62,7 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
       ApolloClientFromUseConfig,
       ApolloNavigationComponent,
     ])(
-      'renders component that needs the apollo client with a custom wrapper %p',
+      'renders component that needs the apollo client with a custom wrapper %o',
       (Component) => {
         const { container } = render(<Component />, {
           wrapper: ({ children }) => (
