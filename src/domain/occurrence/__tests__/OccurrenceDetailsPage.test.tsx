@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import {
   EnrolmentStatus,
@@ -34,12 +35,10 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
-const navigate = jest.fn();
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
-  };
+const navigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 const placeId = 'tprek:15376';
 const eventId = 'palvelutarjotin:afzunowba4';
@@ -295,9 +294,9 @@ test('occurrence details are rendered', async () => {
   renderComponent({
     mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
   });
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(screen.getByText('Tapahtuma 13.7.2020')).toBeInTheDocument();
   expect(
@@ -314,14 +313,12 @@ test('occurrence details are rendered', async () => {
   ).toBeInTheDocument();
 
   // wait for place request to finish
-  await waitFor(() => {
-    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument()
+  );
 
   // wait for venue request to finish
-  await waitFor(() => {
-    expect(screen.getByText('Soukkas')).toBeInTheDocument();
-  });
+  await waitFor(() => expect(screen.getByText('Soukkas')).toBeInTheDocument());
 
   expect(screen.getByText('Vaatesäilytys')).toBeInTheDocument();
   expect(screen.getByText('Tapahtuma 13.7.2020')).toBeInTheDocument();
@@ -339,9 +336,9 @@ test('renders multiday occurrence date correctly', async () => {
     mocks: [eventMock2, occurrenceMock2, eventsQueueEnrolmentsMock1],
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(
     screen.getByText('10.9.2020 klo 12:00 — 13.9.2020 klo 12:30')
@@ -354,27 +351,27 @@ test("hides enrolment table when event doesn't have internal enrolment", async (
     mocks: [eventMock2, occurrenceMock2, eventsQueueEnrolmentsMock1],
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   expect(screen.queryByText('Ilmoittautuneet')).not.toBeInTheDocument();
 });
 
 test('enrolment table renders correct information', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   renderComponent({
     mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   // wait for venue request to finish
-  await waitFor(() => {
-    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument()
+  );
 
   expect(screen.getAllByText('18.8.2020')).toHaveLength(2);
   expect(screen.getAllByText('Hyväksytty')).toHaveLength(2);
@@ -398,14 +395,14 @@ test('enrolment queue table renders correct information', async () => {
     mocks: [eventMock1, occurrenceMock1, eventsQueueEnrolmentsMock1],
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   // wait for venue request to finish
-  await waitFor(() => {
-    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.getByText('Soukan kirjasto')).toBeInTheDocument()
+  );
 
   expect(screen.getAllByText('19.8.2020')).toHaveLength(1);
   expect(screen.getAllByText('Jonossa')).toHaveLength(2);

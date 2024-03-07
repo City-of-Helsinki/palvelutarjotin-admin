@@ -24,6 +24,7 @@ import {
   OccurrenceSectionFormFields,
   TimeAndLocationFormFields,
 } from './types';
+
 /**
  * Get payload to create/edit occurrence
  * @param {object} values
@@ -114,7 +115,7 @@ export const getEventQueryVariables = (id: string) => ({
 export const useBaseEventQuery: typeof useEventQuery = ({
   variables,
   ...options
-} = {}) => {
+}) => {
   return useEventQuery({
     variables: getEventQueryVariables(variables?.id ?? ''),
     ...options,
@@ -219,8 +220,8 @@ export const getEditEventPayload = ({
         isVirtual
           ? VIRTUAL_EVENT_LOCATION_ID
           : isBookable
-          ? BOOKABLE_TO_SCHOOL_LOCATION_ID
-          : location
+            ? BOOKABLE_TO_SCHOOL_LOCATION_ID
+            : location
       ),
     },
     draft: eventData.publicationStatus === PUBLICATION_STATUS.DRAFT,

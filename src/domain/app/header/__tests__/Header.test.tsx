@@ -1,37 +1,54 @@
 import { graphql } from 'msw';
 import * as React from 'react';
+import { vi } from 'vitest';
+import { MenuItem } from 'react-helsinki-headless-cms';
+import { MockedResponse } from '@apollo/client/testing';
+import { waitFor, within } from '@testing-library/react';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
-jest.mock('../../../auth/selectors', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../../auth/selectors'),
-  isAuthenticatedSelector: jest.fn(),
-}));
+import {
+  headerMenuMock,
+  headerMenuQueryResponse,
+} from '../../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+
+vi.mock('../../../auth/selectors', async () => {
+  const actual = await vi.importActual('../../../auth/selectors');
+  return {
+    ...actual,
+    isAuthenticatedSelector: vi.fn(),
+  };
+});
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
+  return {
+    ...actual,
+    logoFi: 'mocked hds-react logoFi',
+  };
+});
+
 const profileResponse = {
   data: {
-    myProfile: fakePerson(),
+    myProfile: fakePerson({ name: 'John Doe' }),
   },
 };
 
-const mocks = [
+const mocks: MockedResponse[] = [
   {
     request: {
       query: MyProfileDocument,
     },
     result: profileResponse,
   },
+  { ...headerMenuMock },
+  { ...languagesMock },
 ];
 
 beforeEach(() => {
@@ -47,48 +64,102 @@ beforeEach(() => {
   );
 });
 
-it('Header matches snapshot', () => {
+it('Header matches snapshot', async () => {
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   const { container } = render(<Header />, { mocks });
+  await screen.findByText('Kulttuurikasvatus');
   expect(container.firstChild).toMatchSnapshot();
 });
 
 it('focuses skip link first', async () => {
-  render(<Header />);
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
+  render(<Header />, { mocks });
+  await screen.findByText('Kulttuurikasvatus');
   await userEvent.tab();
-  expect(screen.getByText('Siirry sisältöön')).toHaveFocus();
+  const skipToContent = await screen.findByText('Siirry sisältöön');
+  expect(skipToContent.tagName).toBe('SPAN');
+  expect(skipToContent.parentElement?.tagName).toBe('A');
+  expect(skipToContent.parentElement).toHaveFocus();
+  expect(skipToContent.parentElement).toHaveAttribute('href', '#main-content');
 });
 
-test('header renders cms menu items', async () => {
-  jest.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
-  const { menuItems } = initCmsMenuItemsMocks();
+test('header renders cms menu items at top level and directly underneath', async () => {
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   render(<Header />, { mocks });
-  await waitFor(() => {
-    expect(
-      screen.getByRole('button', {
-        name: /fi kielivalikko/i,
-      })
-    ).toBeInTheDocument();
-  });
-  for (const menuItem of menuItems) {
-    if (menuItem.children) {
-      const dropdownButton = await screen.findByRole(
-        'button',
-        {
-          name: menuItem.title,
-        },
-        { timeout: 2000 }
+  await screen.findByRole('button', { name: 'Suomi' });
+  await screen.findByText('Kulttuurikasvatus');
+
+  const topLevelMenuItems: MenuItem[] =
+    headerMenuQueryResponse.data.menu.menuItems.nodes.filter(
+      (item: MenuItem) => item.parentId === null
+    );
+
+  for (const menuItem of topLevelMenuItems) {
+    expect(menuItem.connectedNode?.node?.__typename).toBe('Page');
+    expect(menuItem.label).toBeTruthy();
+    if (menuItem.connectedNode?.node?.__typename === 'Page' && menuItem.label) {
+      // Check that top-level menu items are visible and have correct links
+      const link = await screen.findByRole('link', { name: menuItem.label });
+      expect(menuItem.connectedNode.node.uri?.startsWith('/')).toBeTruthy();
+      expect(link).toHaveAttribute(
+        'href',
+        `/fi/cms-page${menuItem.connectedNode.node.uri}`
       );
-      await userEvent.click(dropdownButton);
-      for (const childItem of menuItem.children) {
-        await screen.findByRole('link', {
-          name: childItem.title,
-          hidden: true,
-        });
+      expect(link).toHaveAttribute('id', menuItem.id);
+      const linkParent = link.parentElement;
+      expect(linkParent).toBeTruthy();
+
+      if (menuItem.connectedNode.node.children?.nodes && linkParent) {
+        // Find the dropdown menu opening button
+        const dropdownButton: HTMLButtonElement = await within(
+          linkParent
+        ).findByRole('button', { name: /avaa alasvetovalikko/i });
+
+        // Make sure the dropdown menu is closed
+        await waitFor(() =>
+          expect(dropdownButton).toHaveAttribute('aria-expanded', 'false')
+        );
+
+        // Check that dropdown menu's sub-items are not yet visible
+        for (const childItem of menuItem.connectedNode.node.children.nodes) {
+          expect(childItem.__typename).toBe('Page');
+          expect('title' in childItem && childItem.title).toBeTruthy();
+          if (childItem.__typename === 'Page' && childItem.title) {
+            expect(
+              await screen.findByRole('link', {
+                name: childItem.title,
+                hidden: true,
+              })
+            ).not.toBeVisible();
+          }
+        }
+
+        // Open the dropdown menu
+        await userEvent.click(dropdownButton);
+
+        // Make sure the dropdown menu is open
+        await waitFor(() =>
+          expect(dropdownButton).toHaveAttribute('aria-expanded', 'true')
+        );
+
+        // Check that dropdown menu's sub-items are now visible
+        // and have correct links
+        for (const childItem of menuItem.connectedNode.node.children.nodes) {
+          expect(childItem.__typename).toBe('Page');
+          expect('title' in childItem && childItem.title).toBeTruthy();
+          if (childItem.__typename === 'Page' && childItem.title) {
+            const childItemLink = await screen.findByRole('link', {
+              name: childItem.title,
+            });
+            expect(childItemLink).toBeVisible();
+            expect(childItem.uri?.startsWith('/')).toBeTruthy();
+            expect(childItemLink).toHaveAttribute(
+              'href',
+              `/fi/cms-page${childItem.uri}`
+            );
+          }
+        }
       }
-    } else {
-      const link = await screen.findByRole('link', { name: menuItem.title });
-      // eslint-disable-next-line jest/no-conditional-expect
-      expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
     }
   }
 });

@@ -8,7 +8,7 @@ it('matches snapshot', () => {
   const { baseElement } = render(
     <EnrolmentModal
       title="Title"
-      onClose={jest.fn()}
+      onClose={vi.fn()}
       appElement={document.body}
       submitButtonText={''}
       handleSubmit={function (): void {
@@ -21,7 +21,7 @@ it('matches snapshot', () => {
 });
 
 it('renders correctly and calls onClose handler when close button is clicked', async () => {
-  const onCloseHandler = jest.fn();
+  const onCloseHandler = vi.fn();
   render(
     <EnrolmentModal
       title="Title"

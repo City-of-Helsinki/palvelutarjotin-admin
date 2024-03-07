@@ -8,7 +8,7 @@ Production environment:
 
 - https://provider.kultus.fi/
 - Triggered by creation of release-\* tag, e.g. `release-v0.1.0`
-  - Needs to be manually approved in pipeline to be deployed
+    - Needs to be manually approved in pipeline to be deployed
 
 Staging environment:
 
@@ -31,7 +31,7 @@ Testing environment:
 
 In the project directory, you can run:
 
-### `yarn start`
+### `yarn dev`
 
 Runs the app in the development mode.<br />
 Open http://localhost:3000/ to view it in the browser.
@@ -39,18 +39,27 @@ Open http://localhost:3000/ to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn test`
+### `yarn test:watch`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the tests and watches for changes in interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more
+information.
 
 ### `yarn test:changed`
 
-Run relevant test based on changes sinces last commit, used in husky git commit hook
+Run tests against uncommitted changes (including staged and unstaged). 
+
+### `yarn test:staged`
+
+Run tests against staged changes, used in husky git commit hook.
 
 ### `yarn test:coverage`
 
 Run tests and generate coverage report
+
+### `yarn ci`
+
+Run tests and generate coverage report, meant for Continuous Integration (CI) pipeline use.
 
 ### `yarn test:debug`
 
@@ -58,15 +67,11 @@ Debug tests
 
 ### `yarn browser-test`
 
-Running browser tests against test environment
+Run TestCafe browser tests, meant for development use.
 
-Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+### `yarn browser-test:ci`
 
-### `yarn browser-test:local`
-
-Running browser tests against local environment
-
-Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+Run TestCafe browser tests, meant for Continuous Integration (CI) pipeline use.
 
 ### `yarn build`
 
@@ -82,31 +87,25 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Codegen settings in <b>codegen.yml</b>
 
-- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is defined to VITE_APP_API_URI in .env.development.local
+- Generate static types for GraphQL queries by using the schema from the backend server. url to backend server is
+  defined to VITE_APP_API_URI in .env.development.local
 - Generate react hooks for GraphQL queries from <b>query.ts</b> and <b>mutation.ts</b> files.
-
-### `yarn storybook`
-
-Runs storybook in development mode
-Open http://localhost:9009/ to view it in browser
-
-### `yarn build-storybook`
-
-Exports storybook as a static app
-
-### `yarn deploy-storybook`
-
-Deploys a new version of Storybook. Storybook is used for development and there's no CI/CD pipeline set up.
-
-To verify deployment, open [https://city-of-helsinki.github.io/palvelutarjotin-admin/](https://city-of-helsinki.github.io/palvelutarjotin-admin/) and check that everything is looking ok.
 
 ## Versioning
 
-This project uses [Standard Version](https://github.com/conventional-changelog/standard-version) with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+This project uses [Release Please](https://github.com/googleapis/release-please)
+with [Conventional Commits](https://www.conventionalcommits.org/) and
+[Semantic Versioning](https://semver.org/).
 
-To make a new release, run:
+To create a new release, merge changes through a pull request to the master branch
+with commit title starting with:
+ - "feat" (raises minor version in major.minor.patch version number)
+ - "fix" (raises patch version in major.minor.patch version number)
+ - "feat!" (raises major version in major.minor.patch version number)
+ - "fix!" (raises major version in major.minor.patch version number)
 
-`yarn release`
+And then merge the release-please pull request that should've been created
+by the release-please action having been run in GitHub.
 
 ## Browser tests
 
@@ -134,7 +133,8 @@ Save. You'll need the created **Client ID** and **Client Secret** for configurin
 
 Clone https://github.com/City-of-Helsinki/tunnistamo/.
 
-Follow the instructions for setting up tunnistamo locally. Before running `docker-compose up` set the following settings in tunnistamo roots `docker-compose.env.yaml`:
+Follow the instructions for setting up tunnistamo locally. Before running `docker-compose up` set the following settings
+in tunnistamo roots `docker-compose.env.yaml`:
 
 - SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
 - SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
@@ -142,8 +142,10 @@ Follow the instructions for setting up tunnistamo locally. Before running `docke
 To get silent renew to work locally you also need to set:
 
 - ALLOW_CROSS_SITE_SESSION_COOKIE=True
-  - NOTE: Using this breaks login to Django admin interface, see tunnistamo issue [#269](https://github.com/City-of-Helsinki/tunnistamo/issues/269).
-  - By leaving out the ALLOW_CROSS_SITE_SESSION_COOKIE=True or setting it to False, you can login to Django admin interface but silent renew will not work.
+    - NOTE: Using this breaks login to Django admin interface, see tunnistamo
+      issue [#269](https://github.com/City-of-Helsinki/tunnistamo/issues/269).
+    - By leaving out the ALLOW_CROSS_SITE_SESSION_COOKIE=True or setting it to False, you can login to Django admin
+      interface but silent renew will not work.
 
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
 
@@ -158,11 +160,14 @@ and execute the following four commands inside your docker container:
 ./manage.py add_oidc_api_scope -an palvelutarjotin -c https://api.hel.fi/auth/palvelutarjotin-admin -n "Palvelutarjotin Admin" -d "Lorem ipsum"
 ```
 
-Also add http://localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
+Also add http://localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django
+admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
 
 ### Install Palvelutarjotin GraphQl server locally
 
-Clone the [palvelutarjotin repository](https://github.com/City-of-Helsinki/palvelutarjotin) and follow the instructions for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in palvelutarjotin roots `docker-compose.env.yaml`:
+Clone the [palvelutarjotin repository](https://github.com/City-of-Helsinki/palvelutarjotin) and follow the instructions
+for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in
+palvelutarjotin roots `docker-compose.env.yaml`:
 
 - DEBUG=1
 - CORS_ORIGIN_ALLOW_ALL=1
@@ -174,16 +179,12 @@ Clone the [palvelutarjotin repository](https://github.com/City-of-Helsinki/palve
 
 Copy `cp .env.development.local.example .env.development.local`
 
-Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
-`docker-compose down` stops the container.
-
-**NOTE**:
-
-- `docker-compose up` is not working (Checked on 2023-02-20), see bug ticket [PT-1640](https://helsinkisolutionoffice.atlassian.net/browse/PT-1640)
+Run `docker compose up`, now the app should be running at `http://localhost:3000/`!
+`docker compose down` stops the container.
 
 OR
 
-Run `yarn && yarn start`
+Run `yarn && yarn dev`
 
 ## Debugging
 
@@ -192,7 +193,7 @@ Run `yarn && yarn start`
 To debug in VS Code:
 
 1. Install the "Debugger for Chrome" extension to VS Code
-2. Run `yarn start`
+2. Run `yarn dev`
 3. Set a breakpoint
 4. Run "Chrome" debug configuration in VS Code
 5. Reload the project in your browser
@@ -218,5 +219,5 @@ https://create-react-app.dev/docs/debugging-tests#debugging-tests-in-chrome
 
 ## Docker
 
-`docker-compose up` to start the dockerized environment  
-`docker-compose down` stops the container.
+`docker compose up` to start the dockerized environment
+`docker compose down` stops the container.

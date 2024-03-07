@@ -212,7 +212,6 @@ const ActionsDropdown: React.FC<Props> = ({
       <TableDropdown items={items} row={row} />
       {approveModalOpen && (
         <ApproveEnrolmentModal
-          enrolmentId={row.id}
           onClose={() => setApproveModalOpen(false)}
           // TODO: Will there be a way to approve many at the same time?
           enrollees={enrollees}
@@ -221,7 +220,6 @@ const ActionsDropdown: React.FC<Props> = ({
       )}
       {declineModalOpen && (
         <DeclineEnrolmentModal
-          enrolmentId={row.id}
           onClose={() => setDeclineModalOpen(false)}
           // TODO: Will there be a way to decline many at the same time?
           enrollees={enrollees}

@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -19,27 +15,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true,
     "types": [
       "node",
       "vitest/globals",
-      "vite/client"
+      "vite/client",
+      "@testing-library/jest-dom/vitest"
     ]
   },
-  "lib": [
-    "WebWorker"
-  ],
-  "include": [
-    "src"
-  ],
+  "lib": ["WebWorker"],
+  "include": ["src"],
   "exclude": [
-    "**/__mocks__/*",
-    "src/**/*.stories.*",
-    "**/*.test.*",
-    "src/test/**",
-    "src/utils/testUtils.tsx",
-    "src/utils/mockDataUtils.ts",
-    "src/utils/cmsMockDataUtils.ts"
+    "src/generated/*",
+    "src/utils/cmsMockDataUtils.ts",
+    "src/utils/mockDataUtils.ts"
   ],
   "references": [
     {

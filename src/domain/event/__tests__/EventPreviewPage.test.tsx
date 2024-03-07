@@ -86,9 +86,7 @@ it('renders correct information', async () => {
     routes: [`/events/${eventId1}/preview`],
   });
 
-  await waitFor(() => {
-    expect(screen.getByText(eventName)).toBeInTheDocument();
-  });
+  await waitFor(() => expect(screen.getByText(eventName)).toBeInTheDocument());
 
   expect(screen.getByAltText(photoAltText)).toBeInTheDocument();
   expect(screen.getByText(`Kuva: ${photographerName}`)).toBeInTheDocument();

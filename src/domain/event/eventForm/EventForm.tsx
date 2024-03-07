@@ -66,7 +66,6 @@ type Props<T extends FormFields> = {
   onSubmit: (values: T, selectedLanguages: Language[]) => void;
   persons: PersonFieldsFragment[];
   title: string;
-  edit?: boolean;
   formType?: FormType;
   eventMutationLoading: boolean;
 };
@@ -390,7 +389,6 @@ const EventForm = <T extends FormFields>({
                             contactPersonId={contactPersonId}
                             personOptions={personOptions}
                             setFieldValue={setFieldValue}
-                            touched={touched}
                           />
                         </div>
                       </FormGroup>

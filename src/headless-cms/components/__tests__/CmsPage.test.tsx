@@ -3,6 +3,7 @@ import { dequal } from 'dequal';
 import { graphql, GraphQLContext, ResponseComposition } from 'msw';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import AppRoutes from '../../../domain/app/routes/AppRoutes';
 import { ROUTES } from '../../../domain/app/routes/constants';
@@ -27,16 +28,18 @@ import {
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
 
-jest.mock('../../../domain/auth/authenticate', () => ({
-  __esModule: true,
-  ...(jest.requireActual('../../../domain/auth/authenticate') as any),
-  // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
-  // in useEffect
-  getApiToken: () => ({
-    type: 'FETCH_TOKEN_SUCCESS',
-    payload: 'token',
-  }),
-}));
+vi.mock('../../../domain/auth/authenticate', async () => {
+  const actual = await vi.importActual('../../../domain/auth/authenticate');
+  return {
+    ...actual,
+    // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
+    // in useEffect
+    getApiToken: () => ({
+      type: 'FETCH_TOKEN_SUCCESS',
+      payload: 'token',
+    }),
+  };
+});
 
 const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 
@@ -252,7 +255,7 @@ const authenticatedInitialState = {
 };
 
 function initializeMocks(pageHierarchy: PageHierarchy[]) {
-  const mocks: { Page: any[]; SubPagesSearch: any } = {
+  const mocks: { Page: any[]; SubPagesSearch: typeof subPagesMocks } = {
     Page: [],
     SubPagesSearch: subPagesMocks,
   };
@@ -410,7 +413,6 @@ test.skip('renders CMS page and navigation flow works', async () => {
         await userEvent.click(dropdownButton);
       } else {
         const link = await screen.findByRole('link', { name: menuItem.title });
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
       }
     }
@@ -532,9 +534,11 @@ test('CMS sub pages can be searched', async () => {
   await screen.findByText('Haettu sivu');
 
   for (const page of searchablePages) {
-    expect(
-      screen.queryByRole('heading', { name: page.title })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('heading', { name: page.title })
+      ).not.toBeInTheDocument();
+    });
   }
 
   await userEvent.clear(screen.getByRole('textbox', { name: /haku/i }));
@@ -546,7 +550,7 @@ test('CMS sub pages can be searched', async () => {
       {
         name: /oppimateriaali1/i,
       },
-      { timeout: 5000 }
+      { timeout: 5_000 }
     )
   );
 
@@ -560,7 +564,7 @@ test('CMS sub pages can be searched', async () => {
   expect(window.location.pathname).toBe(
     '/fi/cms-page/paasivu/oppimateriaalit/oppimateriaali1/'
   );
-});
+}, 20_000);
 
 test('renders with sidebar layout when sidebar has content', async () => {
   initCmsMenuItemsMocks();

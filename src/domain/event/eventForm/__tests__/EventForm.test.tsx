@@ -1,12 +1,12 @@
-import { axe } from 'jest-axe';
-import { clear } from 'jest-date-mock';
+import { axe } from 'vitest-axe';
 import * as React from 'react';
 
 import { actWait, render } from '../../../../utils/testUtils';
 import EventForm, { createEventInitialValues } from '../EventForm';
 
 afterAll(() => {
-  clear();
+  vi.setSystemTime(vi.getRealSystemTime());
+  vi.useRealTimers();
 });
 
 const renderForm = () =>
@@ -15,8 +15,8 @@ const renderForm = () =>
       title="Testilomake"
       persons={[]}
       initialValues={createEventInitialValues}
-      onCancel={jest.fn()}
-      onSubmit={jest.fn()}
+      onCancel={vi.fn()}
+      onSubmit={vi.fn()}
       eventMutationLoading={false}
     />
   );

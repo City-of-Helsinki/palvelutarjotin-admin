@@ -22,19 +22,14 @@ export default function Table<D extends Record<string, unknown>>({
   renderExpandedArea,
   tableHeaderRowClassName,
 }: Props<D>): ReactElement {
-  const {
-    getTableBodyProps,
-    getTableProps,
-    headerGroups,
-    prepareRow,
-    rows,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    useExpanded
-  );
+  const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } =
+    useTable(
+      {
+        columns,
+        data,
+      },
+      useExpanded
+    );
 
   // Render the UI for your table
   return (

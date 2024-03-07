@@ -1,4 +1,4 @@
-import { InterpolationOptions, TFunction } from 'i18next';
+import { TFunction } from 'i18next';
 
 import { createEmptyLocalizedObject } from '../constants';
 import { LocalisedObject } from '../generated/graphql';
@@ -42,17 +42,14 @@ export const toPascalCase = (snakecase: string): string => {
 export const translateValue = (
   prefix: string,
   value: string,
-  t: TFunction,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  options?: InterpolationOptions
+  t: TFunction
 ): string => {
   return t(
     prefix
       ? `${prefix}${
           prefix.endsWith('.') ? toCamelCase(value) : toPascalCase(value)
         }`
-      : toCamelCase(value),
-    options ?? {}
+      : toCamelCase(value)
   );
 };
 

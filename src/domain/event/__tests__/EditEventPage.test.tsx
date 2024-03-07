@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import * as useLocale from '../../../hooks/useLocale';
@@ -30,24 +30,20 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
-const navigate = jest.fn();
-jest.mock('../../../hooks/useLocale', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('../../../hooks/useLocale'),
-  };
+
+vi.mock('../../../hooks/useLocale', async () => {
+  const actual = await vi.importActual('../../../hooks/useLocale');
+  return { ...actual };
 });
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 
 afterEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
 });
-advanceTo(new Date(2020, 7, 5));
+vi.setSystemTime(new Date(2020, 7, 5));
 const renderComponent = ({
   path = `/fi${ROUTES.EDIT_EVENT}`,
   routes = [`/fi${ROUTES.EDIT_EVENT.replace(':id', eventId)}`],
@@ -65,47 +61,54 @@ const renderComponent = ({
 };
 
 test('edit event form initializes and submits correctly', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  const navigate = vi.fn();
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   const { user } = renderComponent();
 
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
   await waitFor(() => {
-    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
+    expect(screen.getByTestId('event-form')).toHaveFormValues({
+      'name.fi': eventName,
+      'shortDescription.fi': shortDescription,
+      'infoUrl.fi': infoUrl,
+      contactEmail: contactEmail,
+      contactPhoneNumber: contactPhoneNumber,
+      imagePhotographerName: photographerName,
+      imageAltText: photoAltText,
+    });
   });
   await screen.findByText(defaultOrganizationName);
   await screen.findByText(keyword);
   const nameField = await screen.findByRole('textbox', {
     name: /tapahtuman nimi \(fi\)/i,
   });
-  expect(nameField).toHaveValue(eventName);
+  await waitFor(() => expect(nameField).toHaveValue(eventName));
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventName,
-    'shortDescription.fi': shortDescription,
-    'infoUrl.fi': infoUrl,
-    contactEmail: contactEmail,
-    contactPhoneNumber: contactPhoneNumber,
-    imagePhotographerName: photographerName,
-    imageAltText: photoAltText,
+  await waitFor(() =>
+    expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description)
+  );
+
+  await waitFor(() => {
+    expect(
+      screen.getByLabelText(
+        /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
+      )
+    ).toBeChecked();
   });
 
-  expect(screen.getByLabelText(/Kuvaus/)).toHaveTextContent(description);
+  const contactInfo = await screen.findByTestId('contact-info');
+  await waitFor(() => {
+    expect(
+      within(contactInfo).getByLabelText(/Nimi/, { selector: 'button' })
+    ).toHaveTextContent(personName);
+  });
 
-  expect(
-    screen.getByLabelText(
-      /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
-    )
-  ).toBeChecked();
-
-  const contactInfo = within(screen.getByTestId('contact-info'));
-  expect(
-    contactInfo.getByLabelText(/Nimi/, { selector: 'button' })
-  ).toHaveTextContent(personName);
-
-  await user.type(nameField, 'fixme'); // FIXME: https://github.com/testing-library/user-event/discussions/970
   await user.clear(nameField);
-  expect(nameField).toHaveValue('');
+  await waitFor(() => expect(nameField).toHaveValue(''));
   await user.type(nameField, 'Testinimi');
-  expect(nameField).toHaveValue('Testinimi');
+  await waitFor(() => expect(nameField).toHaveValue('Testinimi'));
 
   await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
@@ -115,13 +118,17 @@ test('edit event form initializes and submits correctly', async () => {
     })
   );
 
-  await waitFor(() => {
-    expect(navigate).toHaveBeenCalled();
-  });
-});
+  await waitFor(
+    () => {
+      expect(navigate).toHaveBeenCalled();
+    },
+    { timeout: 5_000 }
+  );
+}, 20_000);
 
 test('returns to create occurrences page when it should after saving', async () => {
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  const navigate = vi.fn();
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 
   const { user } = renderComponent({
     routes: [
@@ -130,6 +137,9 @@ test('returns to create occurrences page when it should after saving', async () 
       }`,
     ],
   });
+  await waitFor(() =>
+    expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+  );
 
   await screen.findByText(defaultOrganizationName);
   const nameField = await screen.findByRole('textbox', {
@@ -137,119 +147,128 @@ test('returns to create occurrences page when it should after saving', async () 
   });
   await user.type(nameField, 'fixme'); // FIXME: https://github.com/testing-library/user-event/discussions/970
   await user.clear(nameField);
-  expect(nameField).toHaveValue('');
+  await waitFor(() => expect(nameField).toHaveValue(''));
   await user.type(nameField, 'Testinimi');
-  expect(nameField).toHaveValue('Testinimi');
+  await waitFor(() => expect(nameField).toHaveValue('Testinimi'));
 
   await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
   await user.click(
-    screen.getByRole('button', {
+    await screen.findByRole('button', {
       name: 'Päivitä tiedot',
     })
   );
-
-  await waitFor(() => {
-    expect(navigate).toHaveBeenCalledWith(
-      `/fi/events/${eventId}/occurrences/create`,
-      expect.anything()
-    );
-  });
-});
+  await waitFor(
+    () => {
+      expect(navigate).toHaveBeenCalledWith(
+        `/fi/events/${eventId}/occurrences/create`,
+        expect.anything()
+      );
+    },
+    { timeout: 5_000 }
+  );
+}, 20_000);
 
 describe('Event price section', () => {
   test('price field is accessible only when isFree field is not checked', async () => {
     const { user } = renderComponent();
 
-    await screen.findByLabelText(/Tapahtuma on ilmainen/);
+    const isFree = await screen.findByLabelText(/Tapahtuma on ilmainen/);
+    await waitFor(() => expect(isFree).toBeChecked());
+    const price = await screen.findByLabelText(/Hinta/);
+    await waitFor(() => expect(price).toBeDisabled());
+    const extraInfo = await screen.findByLabelText(/Lisätiedot/);
+    await waitFor(() => expect(extraInfo).toBeDisabled());
 
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).toBeDisabled();
-    expect(screen.getByLabelText(/Lisätiedot/)).toBeDisabled();
+    await user.click(isFree);
 
-    await user.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
-
-    await waitFor(() => {
-      expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
-    });
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+    await waitFor(() => expect(price).toBeEnabled());
+    await waitFor(() => expect(extraInfo).toBeEnabled());
+    await waitFor(() => expect(isFree).not.toBeChecked());
   });
 });
 
 describe('Language selection', () => {
-  const transletableFieldLabels = [
+  const translatableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
-    // /^Kuvaus/, // FIXME: Not working since changed to a TextEditor
+    /^Kuvaus/,
     /^WWW-osoite, josta saa lisätietoja tapahtumasta/,
     /^Lisätiedot/,
   ];
 
-  beforeEach(() => {
-    jest.resetModules();
-  });
-  it('has Finnish, Swedish and English as language options', async () => {
-    renderComponent();
+  const fiLabel = (label: RegExp) => new RegExp(`${label.source} \\(FI\\)`);
+  const svLabel = (label: RegExp) => new RegExp(`${label.source} \\(SV\\)`);
+
+  const getLanguageCheckboxes = async () => {
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
-    within(languageSelector).getByText(/Valitse lomakkeen kieliversiot/i);
-    // Finnish should be selected by default
-    expect(within(languageSelector).getByLabelText(/suomi/i)).toBeChecked();
-    // Rest of the langauges should be unchecked by default
-    expect(
-      within(languageSelector).getByLabelText(/ruotsi/i)
-    ).not.toBeChecked();
-    expect(
-      within(languageSelector).getByLabelText(/englanti/i)
-    ).not.toBeChecked();
-  });
-
-  test('transletable fields appears in selected languages', async () => {
-    const { user } = renderComponent();
-    const languageSelector = await screen.findByTestId(
-      formLanguageSelectorTestId
+    await within(languageSelector).findByText(
+      /Valitse lomakkeen kieliversiot/i
     );
-
-    // Select Swedish (with Finnish that is already selected)
-    const sv = within(languageSelector).getByRole('checkbox', {
-      name: /ruotsi/i,
-    });
-    const fi = within(languageSelector).getByRole('checkbox', {
+    const fi = await within(languageSelector).findByRole('checkbox', {
       name: /suomi/i,
     });
-    await user.click(sv); // FIXME: https://github.com/testing-library/user-event/discussions/970
-    await user.click(sv); // FIXME: https://github.com/testing-library/user-event/discussions/970
-    await user.click(sv);
-    expect(sv).toBeChecked();
-
-    transletableFieldLabels.forEach((labelText) => {
-      expect(
-        screen.getByLabelText(new RegExp(labelText.source + / \(FI\)/.source))
-      ).toBeInTheDocument();
-      expect(
-        screen.getByLabelText(new RegExp(labelText.source + / \(SV\)/.source))
-      ).toBeInTheDocument();
+    const sv = await within(languageSelector).findByRole('checkbox', {
+      name: /ruotsi/i,
     });
+    const en = await within(languageSelector).findByRole('checkbox', {
+      name: /englanti/i,
+    });
+    return { fi, sv, en };
+  };
+
+  beforeEach(() => {
+    vi.resetModules();
+  });
+
+  it('has Finnish, Swedish and English as language options', async () => {
+    renderComponent();
+    const { fi, sv, en } = await getLanguageCheckboxes();
+
+    // Only Finnish should be selected by default
+    await waitFor(() => expect(fi).toBeChecked());
+    await waitFor(() => expect(sv).not.toBeChecked());
+    await waitFor(() => expect(en).not.toBeChecked());
+  });
+
+  test('translatable fields appear in selected languages', async () => {
+    const timeout = { timeout: 2_000 } as const;
+    const { user } = renderComponent();
+    const { fi, sv } = await getLanguageCheckboxes();
+
+    // Select Swedish (with Finnish that is already selected)
+    await user.click(sv);
+    await waitFor(() => expect(fi).toBeChecked(), timeout);
+    await waitFor(() => expect(sv).toBeChecked(), timeout);
+
+    for (const label of translatableFieldLabels) {
+      await screen.findByLabelText(fiLabel(label));
+      await screen.findByLabelText(svLabel(label));
+    }
 
     // Unselect Finnish
     await user.click(fi);
-    transletableFieldLabels.forEach((labelText) => {
-      expect(
-        screen.queryByLabelText(new RegExp(labelText.source + / \(FI\)/.source))
-      ).not.toBeInTheDocument();
-    });
-  });
+    await waitFor(() => expect(fi).not.toBeChecked(), timeout);
+    await waitFor(() => expect(sv).toBeChecked(), timeout);
+
+    for (const label of translatableFieldLabels) {
+      await waitFor(() => {
+        expect(screen.queryByLabelText(fiLabel(label))).not.toBeInTheDocument();
+      }, timeout);
+      await screen.findByLabelText(svLabel(label));
+    }
+  }, 30_000);
 
   /*
-    FIXME: It would be better to spy on method that manipulates values 
+    FIXME: It would be better to spy on method that manipulates values
     and check that the values of unselect language are empty.
-    Doing so would make the unit test faster and smaller 
+    Doing so would make the unit test faster and smaller
     and it would test the right spot.
     It could be achieved by doing something like this:
     ```
-      const omitUnselectedLanguagesFromValuesSpy = jest.spyOn(
+      const omitUnselectedLanguagesFromValuesSpy = vi.spyOn(
         Utils,
         'omitUnselectedLanguagesFromValues'
       );
@@ -266,48 +285,49 @@ describe('Language selection', () => {
     NOTE: CreateEventPAge testes this too, but there all the fields are newly filled and not presaved.
   */
   test.skip('filled fields for unselected languages are cleared when submitting the form', async () => {
-    jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+    const navigate = vi.fn();
+    vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
     const genericSwedishValue = 'SV translation';
 
     const { user } = renderComponent();
-    await waitFor(() => {
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+    );
     const nameField = await screen.findByRole('textbox', {
       name: /tapahtuman nimi \(fi\)/i,
     });
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
-    const sv = within(languageSelector).getByRole('checkbox', {
+    const sv = await within(languageSelector).findByRole('checkbox', {
       name: /ruotsi/i,
     });
 
     await user.clear(nameField);
-    expect(nameField).toHaveValue('');
+    await waitFor(() => expect(nameField).toHaveValue(''));
     await user.type(nameField, 'Testinimi');
-    expect(nameField).toHaveValue('Testinimi');
+    await waitFor(() => expect(nameField).toHaveValue('Testinimi'));
 
-    expect(sv).not.toBeChecked();
+    await waitFor(() => expect(sv).not.toBeChecked());
 
     // Select Swedish (with Finnish that is already selected)
     await user.click(sv);
-    expect(sv).toBeChecked();
+    await waitFor(() => expect(sv).toBeChecked());
 
     // Populate Swedish fields
-    transletableFieldLabels.forEach(async (labelText) => {
-      const field = screen.getByLabelText(
+    for (const labelText of translatableFieldLabels) {
+      const field = await screen.findByLabelText(
         new RegExp(labelText.source + / \(SV\)/.source)
       );
       await user.type(field, genericSwedishValue);
-    });
+    }
     // Unselect Swedish which was a newly filled field
     await user.click(sv);
 
-    expect(sv).not.toBeChecked();
+    await waitFor(() => expect(sv).not.toBeChecked());
 
     await user.click(
-      screen.getByRole('button', {
+      await screen.findByRole('button', {
         name: 'Päivitä tiedot',
       })
     );
@@ -315,50 +335,40 @@ describe('Language selection', () => {
     // Test against mocked return value
     // that filling the Swedish fields did not change the posted variables.
     // Unselecting the language after filling should have cleared the input values.
-    await waitFor(() => {
-      expect(navigate).toHaveBeenCalled();
-    });
+    await waitFor(() => expect(navigate).toHaveBeenCalled());
   });
 
-  Object.entries({
-    fi: ['fi', 'en', 'sv'],
-    sv: ['sv', 'fi', 'en'],
-    en: ['en', 'fi', 'sv'],
-  }).forEach(([locale, languageOrder]) => {
-    it(`renders current UI language (${locale}) first when translatable fields are rendered`, async () => {
+  it.each([
+    ['fi', ['fi', 'en', 'sv']],
+    ['sv', ['sv', 'fi', 'en']],
+    ['en', ['en', 'fi', 'sv']],
+  ])(
+    `renders current UI language (%s) first when translatable fields are rendered`,
+    async (locale, languageOrder) => {
       // mock ui language
-      jest.spyOn(useLocale, 'default').mockReturnValue(locale as Language);
+      vi.spyOn(useLocale, 'default').mockReturnValue(locale as Language);
       const { user } = renderComponent();
+      const { fi, sv, en } = await getLanguageCheckboxes();
 
-      await waitFor(() => {
-        expect(
-          screen.getByTestId(formLanguageSelectorTestId)
-        ).toBeInTheDocument();
-      });
-
-      // Select all 3 languages. Note, Finnish is alays selected. ant others are not mandatory
-      const sv = screen.getByRole('checkbox', {
-        name: /ruotsi/i,
-      });
-      const en = screen.getByRole('checkbox', {
-        name: /englanti/i,
-      });
-      expect(sv).not.toBeChecked();
-      expect(en).not.toBeChecked();
-      // Some reason why the unfocus is needed
-      await user.click(en); // FIXME: https://github.com/testing-library/user-event/discussions/970
-      await user.click(en); // FIXME: https://github.com/testing-library/user-event/discussions/970
+      // Select all 3 languages. Note, Finnish is always selected, and others are not mandatory
+      await waitFor(() => expect(fi).toBeChecked());
+      await waitFor(() => expect(sv).not.toBeChecked());
+      await waitFor(() => expect(en).not.toBeChecked());
       await user.click(en);
-      expect(en).toBeChecked();
+      await waitFor(() => expect(en).toBeChecked());
       await user.click(sv);
-      expect(sv).toBeChecked();
+      await waitFor(() => expect(sv).toBeChecked());
 
-      transletableFieldLabels.forEach((labelText) => {
-        const labels = screen.getAllByText(labelText);
-        const inputNames = labels.map((label) => label.getAttribute('for'));
-        const inputLangOrder = inputNames.map((name) => name?.split('.').pop());
-        expect(inputLangOrder).toEqual(languageOrder);
-      });
-    });
-  });
+      for (const labelText of translatableFieldLabels) {
+        const labels = await screen.findAllByText(labelText);
+        await waitFor(() => {
+          const inputNames = labels.map((label) => label.getAttribute('for'));
+          const inputLangOrder = inputNames.map((name) =>
+            name?.split('.').pop()
+          );
+          expect(inputLangOrder).toEqual(languageOrder);
+        });
+      }
+    }
+  );
 });

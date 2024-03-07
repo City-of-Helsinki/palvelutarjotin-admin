@@ -29,6 +29,7 @@ import {
   fakeVenue,
 } from '../utils/mockDataUtils';
 import { getKeywordSetsMockResponses } from './apollo-mocks/keywordSetMocks';
+
 export const keywordId = 'yso:p4363';
 export const placeId = 'tprek:15417';
 export const imageId = '48598';
@@ -135,14 +136,31 @@ const editEventVariables = {
     ],
     shortDescription: createFinnishLocalisedObject(shortDescription, true),
     description: createFinnishLocalisedObject(descriptionEditorHTML, true),
-    images: [{ internalId: '/image/48598/' }],
+    images: [
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+          imageId
+        ),
+      },
+    ],
     infoUrl: createFinnishLocalisedObject(infoUrl, true),
     audience: audienceKeywords.map((k) => ({
       internalId: getKeywordId(k.id),
     })),
     inLanguage: [
-      { internalId: '/language/fi/' },
-      { internalId: '/language/en/' },
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+          'fi'
+        ),
+      },
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+          'en'
+        ),
+      },
     ],
     keywords: [
       {
@@ -151,7 +169,10 @@ const editEventVariables = {
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
     location: {
-      internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+      internalId: getLinkedEventsInternalId(
+        LINKEDEVENTS_CONTENT_TYPE.PLACE,
+        'tprek:15376'
+      ),
     },
     pEvent: {
       autoAcceptance: true,
@@ -289,9 +310,13 @@ const placeResponse = {
   },
 };
 
-const iamgeResponse = {
+const imageResponse = {
   data: {
-    image: fakeImage({ id: imageId }),
+    image: fakeImage({
+      id: imageId,
+      altText: photoAltText,
+      photographerName: photographerName,
+    }),
   },
 };
 
@@ -311,7 +336,10 @@ export const editMocks = [
           ...editEventVariables.event,
           name: createFinnishLocalisedObject('Testitapahtuma'),
           location: {
-            internalId: '/place/helsinki:internet/',
+            internalId: getLinkedEventsInternalId(
+              LINKEDEVENTS_CONTENT_TYPE.PLACE,
+              'helsinki:internet'
+            ),
           },
         },
       },
@@ -370,7 +398,7 @@ export const editMocks = [
       query: ImageDocument,
       variables: { id: imageId },
     },
-    result: iamgeResponse,
+    result: imageResponse,
   },
   ...getKeywordSetsMockResponses([
     {

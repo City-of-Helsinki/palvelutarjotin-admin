@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as ICS from 'ics';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { vi, Mock } from 'vitest';
 
 import {
   CancelOccurrenceDocument,
@@ -48,10 +48,10 @@ const originalCreateEvent = ICS.createEvent;
 
 beforeAll(() => {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  (ICS as any).createEvent = jest.fn();
+  (ICS as any).createEvent = vi.fn();
 });
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 afterAll(() => {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -277,7 +277,7 @@ const renderComponent = (
     routes: [`/events/${eventId1}/summary`],
   });
 
-advanceTo(new Date(2020, 10, 10));
+vi.setSystemTime(new Date(2020, 10, 10));
 
 it('displays event and occurrences correctly', async () => {
   renderWithRoute(<EventSummaryPage />, {
@@ -286,34 +286,30 @@ it('displays event and occurrences correctly', async () => {
     routes: [`/events/${eventId1}/summary`],
   });
 
-  await waitFor(() => {
-    expect(screen.getAllByText(eventName)).toHaveLength(2);
-  });
-  await waitFor(() => {
-    expect(screen.getByText(organisationName)).toBeInTheDocument();
-  });
+  await waitFor(() => expect(screen.getAllByText(eventName)).toHaveLength(2));
+  expect(await screen.findByText(organisationName)).toBeInTheDocument();
 
   expect(
-    screen.getByRole('heading', { name: /^tapahtuman esikatselu/i })
+    await screen.findByRole('heading', { name: /^tapahtuman esikatselu/i })
   ).toBeInTheDocument();
   expect(
-    screen.getByText(/klikkaa koko tapahtuman esikatseluun/i)
+    await screen.findByText(/klikkaa koko tapahtuman esikatseluun/i)
   ).toBeInTheDocument();
 
-  expect(screen.getByText(eventShortDescription)).toBeInTheDocument();
+  expect(await screen.findByText(eventShortDescription)).toBeInTheDocument();
 
   expect(
-    screen.getByRole('button', { name: 'Takaisin tapahtuma-aikoihin' })
+    await screen.findByRole('button', { name: 'Takaisin tapahtuma-aikoihin' })
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('link', {
+    await screen.findByRole('link', {
       name: 'Muokkaa perustietoja',
     })
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('heading', { name: 'Tapahtuma-ajat 3 kpl' })
+    await screen.findByRole('heading', { name: 'Tapahtuma-ajat 3 kpl' })
   ).toBeInTheDocument();
 
   //temporary commented out pt-598
@@ -323,15 +319,15 @@ it('displays event and occurrences correctly', async () => {
 
   // pt-598 Aseta julkaisuajankohta
   expect(
-    screen.getByRole('button', { name: 'Julkaise tapahtuma' })
+    await screen.findByRole('button', { name: 'Julkaise tapahtuma' })
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('link', { name: 'Muokkaa tapahtuma-aikoja' })
+    await screen.findByRole('link', { name: 'Muokkaa tapahtuma-aikoja' })
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('button', { name: 'Näytä tapahtuman tiedot' })
+    await screen.findByRole('button', { name: 'Näytä tapahtuman tiedot' })
   ).toBeInTheDocument();
 });
 
@@ -350,9 +346,7 @@ it('navigates to edit event page when edit button is clicked', async () => {
     }
   );
 
-  await waitFor(() => {
-    expect(screen.getAllByText(eventName)).toHaveLength(2);
-  });
+  await waitFor(() => expect(screen.getAllByText(eventName)).toHaveLength(2));
 
   await userEvent.click(
     await screen.findByRole('link', {
@@ -360,10 +354,14 @@ it('navigates to edit event page when edit button is clicked', async () => {
     })
   );
 
-  expect(window.location.pathname).toEqual(`/fi/events/${eventId1}/edit`);
-  expect(window.location.search).toEqual(
-    `?returnPath=%2Fevents%2F${eventId1}%2Fsummary`
+  await waitFor(() =>
+    expect(window.location.pathname).toEqual(`/fi/events/${eventId1}/edit`)
   );
+  await waitFor(() => {
+    expect(window.location.search).toEqual(
+      `?returnPath=%2Fevents%2F${eventId1}%2Fsummary`
+    );
+  });
 });
 
 it('navigates to edit occurrences page when edit occurrences button is clicked', async () => {
@@ -381,9 +379,7 @@ it('navigates to edit occurrences page when edit occurrences button is clicked',
     }
   );
 
-  await waitFor(() => {
-    expect(screen.getAllByText(eventName)).toHaveLength(2);
-  });
+  await waitFor(() => expect(screen.getAllByText(eventName)).toHaveLength(2));
 
   await userEvent.click(
     await screen.findByRole('link', {
@@ -391,10 +387,12 @@ it('navigates to edit occurrences page when edit occurrences button is clicked',
     })
   );
 
-  expect(window.location.pathname).toEqual(
-    `/fi/events/${eventId1}/occurrences/create`
-  );
-  expect(window.location.search).toEqual(``);
+  await waitFor(() => {
+    expect(window.location.pathname).toEqual(
+      `/fi/events/${eventId1}/occurrences/create`
+    );
+  });
+  await waitFor(() => expect(window.location.search).toEqual(``));
 });
 
 it('changes edit occurrences button when event has been published', async () => {
@@ -404,28 +402,28 @@ it('changes edit occurrences button when event has been published', async () => 
     routes: [`/events/${eventId2}/summary`],
   });
 
+  await waitFor(() => expect(screen.getAllByText(eventName)).toHaveLength(2));
+  expect(await screen.findByText(organisationName)).toBeInTheDocument();
   await waitFor(() => {
-    expect(screen.getAllByText(eventName)).toHaveLength(2);
+    expect(
+      screen.queryByRole('button', { name: 'Aseta julkaisuajankohta' })
+    ).not.toBeInTheDocument();
   });
+
   await waitFor(() => {
-    expect(screen.getByText(organisationName)).toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: 'Muokkaa tapahtuma-aikoja' })
+    ).toHaveAttribute('href', '/fi/events/eventMockId2/occurrences/edit');
   });
-  expect(
-    screen.queryByRole('button', { name: 'Aseta julkaisuajankohta' })
-  ).not.toBeInTheDocument();
 
   expect(
-    screen.queryByRole('link', { name: 'Muokkaa tapahtuma-aikoja' })
-  ).toHaveAttribute('href', '/fi/events/eventMockId2/occurrences/edit');
-
-  expect(
-    screen.getByRole('link', {
+    await screen.findByRole('link', {
       name: 'Muokkaa perustietoja',
     })
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('button', {
+    await screen.findByRole('button', {
       name: /lataa ilmoittautumiset \(csv\)/i,
     })
   ).toBeInTheDocument();
@@ -437,14 +435,14 @@ it('does not show enrolments download button when enrolments are not done intern
     path: ROUTES.EVENT_SUMMARY,
     routes: [`/events/${eventId1}/summary`],
   });
+  expect(await screen.findByText(organisationName)).toBeInTheDocument();
   await waitFor(() => {
-    expect(screen.getByText(organisationName)).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', {
+        name: /lataa ilmoittautumiset \(csv\)/i,
+      })
+    ).not.toBeInTheDocument();
   });
-  expect(
-    screen.queryByRole('button', {
-      name: /lataa ilmoittautumiset \(csv\)/i,
-    })
-  ).not.toBeInTheDocument();
 });
 
 it('shows upcoming and past occurrences', async () => {
@@ -454,18 +452,14 @@ it('shows upcoming and past occurrences', async () => {
     routes: [`/events/${eventId2}/summary`],
   });
 
-  await waitFor(() => {
-    expect(screen.getAllByText(eventName)).toHaveLength(2);
-  });
-  await waitFor(() => {
-    expect(screen.getByText(organisationName)).toBeInTheDocument();
-  });
+  await waitFor(() => expect(screen.getAllByText(eventName)).toHaveLength(2));
+  expect(await screen.findByText(organisationName)).toBeInTheDocument();
   expect(
-    screen.getByRole('heading', { name: 'Tapahtuma-ajat 2 kpl' })
+    await screen.findByRole('heading', { name: 'Tapahtuma-ajat 2 kpl' })
   ).toBeInTheDocument();
 
   expect(
-    screen.getByRole('heading', { name: 'Menneet tapahtuma-ajat 2 kpl' })
+    await screen.findByRole('heading', { name: 'Menneet tapahtuma-ajat 2 kpl' })
   ).toBeInTheDocument();
 });
 
@@ -495,16 +489,12 @@ it('shows full and not full occurrence rows correctly', async () => {
     routes: [`/events/${eventId1}/summary`],
   });
 
-  await waitFor(() => {
-    expect(screen.getAllByText(eventName)).toHaveLength(2);
-  });
-  await waitFor(() => {
-    expect(screen.getByText(organisationName)).toBeInTheDocument();
-  });
-  const fullOccurrence = screen.getByRole('row', {
+  await waitFor(() => expect(screen.getAllByText(eventName)).toHaveLength(2));
+  expect(await screen.findByText(organisationName)).toBeInTheDocument();
+  const fullOccurrence = await screen.findByRole('row', {
     name: fullOccurrenceRowText,
   });
-  const notFullOccurrence = screen.getByRole('row', {
+  const notFullOccurrence = await screen.findByRole('row', {
     name: notFullOccurrenceRowText,
   });
 
@@ -512,20 +502,30 @@ it('shows full and not full occurrence rows correctly', async () => {
 
   const withinFullOccurrence = within(fullOccurrence);
   const withinNotFullOccurrence = within(notFullOccurrence);
-  const acceptedEnrolments = withinFullOccurrence.getByText(
+  const acceptedEnrolments = await withinFullOccurrence.findByText(
     seatsApproved.toString()
   );
-  const acceptedEnrolments2 = withinNotFullOccurrence.getAllByText('0')[0];
+  const acceptedEnrolments2 = (
+    await withinNotFullOccurrence.findAllByText('0')
+  )[0];
 
-  expect(acceptedEnrolments.parentElement).toHaveClass('enrolmentFull');
-  expect(acceptedEnrolments.parentElement).toHaveTextContent(
-    /Tapahtuma on täynnä/i
+  await waitFor(() =>
+    expect(acceptedEnrolments.parentElement).toHaveClass('enrolmentFull')
   );
+  await waitFor(() => {
+    expect(acceptedEnrolments.parentElement).toHaveTextContent(
+      /Tapahtuma on täynnä/i
+    );
+  });
 
-  expect(acceptedEnrolments2.parentElement).not.toHaveClass('enrolmentFull');
-  expect(acceptedEnrolments2.parentElement).not.toHaveTextContent(
-    /Tapahtuma on täynnä/i
+  await waitFor(() =>
+    expect(acceptedEnrolments2.parentElement).not.toHaveClass('enrolmentFull')
   );
+  await waitFor(() => {
+    expect(acceptedEnrolments2.parentElement).not.toHaveTextContent(
+      /Tapahtuma on täynnä/i
+    );
+  });
 });
 
 it('can cancel occurrences from occurrence table actions', async () => {
@@ -533,7 +533,7 @@ it('can cancel occurrences from occurrence table actions', async () => {
   let cancelDialog: BoundFunctions<typeof queries>;
   renderComponent({ mocks: [eventResponseWithOneCancelledOccurrence] });
 
-  const toastSuccessSpy = jest.spyOn(toast, 'success');
+  const toastSuccessSpy = vi.spyOn(toast, 'success');
 
   await getOccurrenceRow();
   await clickOccurrenceDropdownCancelAction();
@@ -544,19 +544,17 @@ it('can cancel occurrences from occurrence table actions', async () => {
 
   // *** Only helper function below this comment *** //
   async function getOccurrenceRow() {
-    await waitFor(() => {
-      expect(screen.getByText(organisationName)).toBeInTheDocument();
-    });
-    occurrenceRow = within(screen.getAllByRole('row')[1]);
+    expect(await screen.findByText(organisationName)).toBeInTheDocument();
+    occurrenceRow = within((await screen.findAllByRole('row'))[1]);
   }
 
   async function clickOccurrenceDropdownCancelAction() {
-    const actionsDropdown = occurrenceRow.getByRole('button', {
+    const actionsDropdown = await occurrenceRow.findByRole('button', {
       name: /valitse/i,
     });
     await userEvent.click(actionsDropdown);
 
-    const cancelButton = occurrenceRow.getByRole('menuitem', {
+    const cancelButton = await occurrenceRow.findByRole('menuitem', {
       name: /peruuta/i,
     });
     await userEvent.click(cancelButton);
@@ -569,84 +567,91 @@ it('can cancel occurrences from occurrence table actions', async () => {
       'Peruuta tapahtuma-aika',
       'Oletko varma, että haluat peruuttaa valitun tapahtuma-ajan?',
       'Tähän tapahtuma-aikaan ilmoittautuneiden ilmoittautumiset perutaan ja heille lähetetään peruutusviesti',
-    ];
-    expectedTextsToBeVisible.forEach((text) => {
-      expect(dialog.getByText(text)).toBeInTheDocument();
-    });
+    ] as const;
+    for (const text of expectedTextsToBeVisible) {
+      expect(await dialog.findByText(text)).toBeInTheDocument();
+    }
     cancelDialog = dialog;
   }
 
   async function addMessageToTextarea() {
     // Add message to the occurrence cancelation
-    const addMessageCheckbox = cancelDialog.getByRole('checkbox', {
+    const addMessageCheckbox = await cancelDialog.findByRole('checkbox', {
       name: 'Lisää viesti',
     });
     await userEvent.click(addMessageCheckbox);
 
-    const textArea = cancelDialog.getByRole('textbox', {
+    const textArea = await cancelDialog.findByRole('textbox', {
       name: 'Viesti osallistujille',
     });
     await userEvent.type(textArea, cancelReasonMessageText);
   }
 
   async function confirmOccurrenceCancelation() {
-    const sendButton = cancelDialog.getByRole('button', { name: 'Lähetä' });
+    const sendButton = await cancelDialog.findByRole('button', {
+      name: 'Lähetä',
+    });
     await userEvent.click(sendButton);
 
-    await waitFor(() => {
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    });
-    await waitFor(() => {
-      expect(toastSuccessSpy).toHaveBeenCalled();
-    });
+    await waitFor(() =>
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    );
+    await waitFor(
+      () => {
+        expect(toastSuccessSpy).toHaveBeenCalled();
+      },
+      { timeout: 2_000 }
+    );
   }
 
   async function checkThatOccurrenHasUpdated() {
     expect(await occurrenceRow.findByText('Peruttu')).toBeInTheDocument();
 
-    const actionsButton = occurrenceRow.getByRole('button', {
+    const actionsButton = await occurrenceRow.findByRole('button', {
       name: 'Valitse',
     });
     await userEvent.click(actionsButton);
 
     expect(
-      occurrenceRow.getByRole('menuitem', { name: 'Ilmoittautuneet' })
+      await occurrenceRow.findByRole('menuitem', { name: 'Ilmoittautuneet' })
     ).toBeInTheDocument();
     // Peruuta action should be no longer visible
-    expect(
-      occurrenceRow.queryByRole('menuitem', { name: 'Peruuta' })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        occurrenceRow.queryByRole('menuitem', { name: 'Peruuta' })
+      ).not.toBeInTheDocument();
+    });
   }
 });
 
 it('can download ics file from actions dropdown', async () => {
   renderComponent({ mocks: getMocks() });
 
-  await waitFor(() => {
-    expect(screen.getByText(organisationName)).toBeInTheDocument();
-  });
+  expect(await screen.findByText(organisationName)).toBeInTheDocument();
 
-  const occurrenceRow = within(screen.getAllByRole('row')[1]);
-  const actionsDropdown = occurrenceRow.getByRole('button', {
+  const occurrenceRow = within((await screen.findAllByRole('row'))[1]);
+  const actionsDropdown = await occurrenceRow.findByRole('button', {
     name: /valitse/i,
   });
   await userEvent.click(actionsDropdown);
 
-  const importToCalendarButton = occurrenceRow.getByRole('menuitem', {
+  const importToCalendarButton = await occurrenceRow.findByRole('menuitem', {
     name: /lataa kalenteriin/i,
   });
   await userEvent.click(importToCalendarButton);
 
-  await waitFor(() => {
-    expect(ICS.createEvent).toHaveBeenCalledTimes(1);
-  });
+  await waitFor(
+    () => {
+      expect(ICS.createEvent).toHaveBeenCalledTimes(1);
+    },
+    { timeout: 2_000 }
+  );
 
-  expect((ICS.createEvent as jest.Mock<any, any>).mock.calls[0])
-    .toMatchInlineSnapshot(`
-    Array [
-      Object {
+  expect((ICS.createEvent as Mock).mock.calls[0]).toMatchInlineSnapshot(`
+    [
+      {
         "description": "Tapahtuman lyhyt kuvaus",
-        "end": Array [
+        "end": [
           2020,
           12,
           11,
@@ -654,8 +659,8 @@ it('can download ics file from actions dropdown', async () => {
           0,
         ],
         "location": "Sellon kirjasto, Test street, Test city",
-        "productId": "http://localhost",
-        "start": Array [
+        "productId": "City-of-Helsinki/palvelutarjotin-admin",
+        "start": [
           2020,
           12,
           11,

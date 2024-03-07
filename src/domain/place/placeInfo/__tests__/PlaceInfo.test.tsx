@@ -5,7 +5,7 @@ import {
   fakeLocalizedObject,
   fakePlace,
 } from '../../../../utils/mockDataUtils';
-import { render, screen, waitFor } from '../../../../utils/testUtils';
+import { render, screen } from '../../../../utils/testUtils';
 import PlaceInfo from '../PlaceInfo';
 
 const placeResult = {
@@ -36,9 +36,7 @@ test('PlaceInfo should match snapshot', async () => {
     mocks,
   });
 
-  await waitFor(() => {
-    expect(screen.getByText('Sellon kirjasto')).toBeInTheDocument();
-  });
+  expect(await screen.findByText('Sellon kirjasto')).toBeInTheDocument();
 
   expect(container.firstChild).toMatchSnapshot();
 });

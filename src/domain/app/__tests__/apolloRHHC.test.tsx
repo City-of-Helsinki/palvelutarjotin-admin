@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -7,7 +8,12 @@ import { MockedProvider } from '@apollo/client/testing';
 import { render, renderHook } from '@testing-library/react';
 import React from 'react';
 import { ConfigProvider, useConfig } from 'react-helsinki-headless-cms';
-import { Navigation } from 'react-helsinki-headless-cms/apollo';
+import {
+  LanguagesDocument,
+  MenuDocument,
+  Navigation,
+  useLanguagesQuery,
+} from 'react-helsinki-headless-cms/apollo';
 
 import useRHHCConfig from '../../../hooks/useRHHCConfig';
 import {
@@ -15,6 +21,20 @@ import {
   renderHook as customRenderHook,
   RHHCConfigProviderWithProvidedApolloClient,
 } from '../../../utils/testUtils';
+
+const mocks = [
+  {
+    request: { query: LanguagesDocument, variables: {} },
+    result: { data: { languages: [] } },
+  },
+  {
+    request: {
+      query: MenuDocument,
+      variables: { menuIdentifiersOnly: false, id: '' },
+    },
+    result: { data: { menu: null } },
+  },
+];
 
 describe('test issues in connection between the apollo client and the RHHC-lib', () => {
   describe('apollo client should work with RHHC-lib', () => {
@@ -33,7 +53,8 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
           getPathnameForLanguage={function (): string {
             throw new Error('Function not implemented.');
           }}
-        />
+        />,
+        { mocks }
       );
       expect(container).toBeInTheDocument();
     });
@@ -50,22 +71,35 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
 
     const ApolloNavigationComponent = () => (
       <Navigation
-        onTitleClick={jest.fn()}
+        onTitleClick={vi.fn()}
         menuName={''}
-        getPathnameForLanguage={jest.fn()}
+        getPathnameForLanguage={vi.fn()}
       />
     );
+
+    const ApolloLanguageQueryComponent = () => {
+      const { data, loading } = useLanguagesQuery();
+      if (loading || !data) {
+        return <div data-testing-id="loading-spinner">LOADING...</div>;
+      }
+      return (
+        <div data-testing-id="languages-query-data">
+          data: {JSON.stringify(data)}
+        </div>
+      );
+    };
 
     it.each([
       ApolloClientFromUseApolloClient,
       ApolloClientFromUseConfig,
       ApolloNavigationComponent,
+      ApolloLanguageQueryComponent,
     ])(
-      'renders component that needs the apollo client with a custom wrapper %p',
+      'renders component that needs the apollo client with a custom wrapper %o',
       (Component) => {
         const { container } = render(<Component />, {
           wrapper: ({ children }) => (
-            <MockedProvider>
+            <MockedProvider mocks={mocks}>
               <RHHCConfigProviderWithProvidedApolloClient>
                 {children}
               </RHHCConfigProviderWithProvidedApolloClient>
@@ -80,7 +114,9 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
   describe('mockedProvider', () => {
     it('offers apollo client', () => {
       const { result } = renderHook(() => useApolloClient(), {
-        wrapper: MockedProvider,
+        wrapper: ({ children }) => (
+          <MockedProvider mocks={mocks}>{children}</MockedProvider>
+        ),
       });
       expect(result.current).not.toBeNull();
     });
@@ -88,7 +124,9 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
       const {
         result: { current: apolloClient },
       } = renderHook(() => useApolloClient(), {
-        wrapper: MockedProvider,
+        wrapper: ({ children }) => (
+          <MockedProvider mocks={mocks}>{children}</MockedProvider>
+        ),
       });
       const { result } = renderHook(() =>
         useRHHCConfig({
@@ -102,7 +140,9 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
         const {
           result: { current: apolloClient },
         } = renderHook(() => useApolloClient(), {
-          wrapper: MockedProvider,
+          wrapper: ({ children }) => (
+            <MockedProvider mocks={mocks}>{children}</MockedProvider>
+          ),
         });
         const {
           result: { current: rhhcConfig },
@@ -111,7 +151,7 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
             apolloClient: apolloClient as ApolloClient<NormalizedCacheObject>,
           })
         );
-        const wrapper = ({ children }) => (
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
           <ConfigProvider config={rhhcConfig}>{children}</ConfigProvider>
         );
 

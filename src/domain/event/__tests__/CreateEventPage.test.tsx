@@ -1,11 +1,14 @@
 import userEvent from '@testing-library/user-event';
-import { advanceTo } from 'jest-date-mock';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
-import { createEmptyLocalizedObject } from '../../../constants';
+import {
+  createEmptyLocalizedObject,
+  LINKEDEVENTS_CONTENT_TYPE,
+} from '../../../constants';
 import {
   CreateEventDocument,
   ImageDocument,
@@ -73,30 +76,44 @@ import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { CreateEventFormFields } from '../types';
+import * as selectors from '../../auth/selectors';
+import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
+import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
+import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
+import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
 
-jest.mock('../../../hooks/useLocale', () => ({
-  __esModule: true,
-  default: () => 'fi',
-}));
-
-jest.mock('react-router-dom', () => {
+vi.mock('../../auth/selectors', async () => {
+  const actual = await vi.importActual('../../auth/selectors');
   return {
-    __esModule: true,
-    ...jest.requireActual('react-router-dom'),
+    ...actual,
+    isAuthenticatedSelector: vi.fn(),
   };
 });
 
-afterEach(() => {
-  jest.clearAllMocks();
+vi.mock('../../../hooks/useLocale', async () => {
+  const actual = await vi.importActual('../../../hooks/useLocale');
+  return {
+    ...actual,
+    default: () => 'fi',
+  };
 });
 
-const navigate = jest.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
+});
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
+
+const navigate = vi.fn();
 beforeEach(() => {
-  jest.spyOn(Router, 'useParams').mockImplementation(() => ({} as any));
-  jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+  vi.spyOn(Router, 'useParams').mockImplementation(() => ({}) as any);
+  vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 });
 configure({ defaultHidden: true });
-advanceTo(new Date(2020, 7, 8));
+vi.setSystemTime(new Date(2020, 7, 8));
 
 const imageId = '48584';
 const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
@@ -132,9 +149,18 @@ const createEventVariables = {
     ],
     shortDescription: defaultFormData.shortDescription,
     description: createFinnishLocalisedObject(descriptionEditorHTML, true),
-    images: [{ internalId: '/image/48584/' }],
+    images: [
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+          imageId
+        ),
+      },
+    ],
     infoUrl: defaultFormData.infoUrl,
-    audience: audienceKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
+    audience: audienceKeywords.map((k) => ({
+      internalId: getKeywordId(k.id),
+    })),
     inLanguage: [],
     keywords: [
       {
@@ -314,26 +340,26 @@ const mocks = [
       keywords: criteriaKeywords,
     },
   ]),
+  { ...footerMenuMock },
+  { ...headerMenuMock },
+  { ...languagesMock },
 ];
 
 test('event can be created with form', async () => {
-  jest.spyOn(Router, 'useParams').mockReturnValue({});
-  advanceTo(new Date(2020, 7, 8));
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
+  vi.spyOn(Router, 'useParams').mockReturnValue({});
+  vi.setSystemTime(new Date(2020, 7, 8));
   render(<CreateEventPage />, { mocks });
 
   await fillForm(defaultFormData as unknown as CreateEventFormFields);
+  await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
-  await waitFor(() => {
-    expect(
-      screen.getByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
+  const saveButton = await screen.findByRole('button', {
+    name: 'Tallenna ja siirry tapahtuma-aikoihin',
   });
 
-  await userEvent.click(
-    screen.getByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
-  );
+  expect(saveButton.getAttribute('disabled')).toBeFalsy();
+  await userEvent.click(saveButton);
 
   await waitFor(() => {
     expect(navigate).toHaveBeenCalledWith(
@@ -346,7 +372,7 @@ test('event can be created with form', async () => {
       expect.anything()
     );
   });
-}, /* it seems that running test takes over 100 seconds and fails, let's override the default timeout with 150 seconds */ 150_000);
+}, /* seems 100s wasn't enough, let's try 150s */ 150_000);
 
 describe('Event price section', () => {
   test('price field is accessible only when isFree field is not checked', async () => {
@@ -360,8 +386,8 @@ describe('Event price section', () => {
     await userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
+    expect(screen.getByLabelText(/Hinta/)).toBeEnabled();
+    expect(screen.getByLabelText(/Lisätiedot/)).toBeEnabled();
 
     // to avoid "An update to Formik inside a test was not wrapped in act(...).""
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
@@ -392,16 +418,14 @@ describe('Event price section', () => {
     ).not.toBeInTheDocument();
     await userEvent.clear(screen.getByLabelText(/Hinta/));
     await userEvent.tab();
-    await waitFor(() => {
-      expect(
-        screen.getByText(/Tämä kenttä on pakollinen/i)
-      ).toBeInTheDocument();
-    });
+    expect(
+      await screen.findByText(/Tämä kenttä on pakollinen/i)
+    ).toBeInTheDocument();
   });
 });
 
 describe('Language selection', () => {
-  const transletableFieldLabels = [
+  const translatableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
     // /^Kuvaus/, // FIXME: Not working since changed to a TextEditor
@@ -410,7 +434,7 @@ describe('Language selection', () => {
   ];
 
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
   });
 
   it('has Finnish, Swedish and English as language options', async () => {
@@ -430,7 +454,7 @@ describe('Language selection', () => {
     ).not.toBeChecked();
   });
 
-  test('transletable fields appears in selected languages', async () => {
+  test('translatable fields appears in selected languages', async () => {
     render(<CreateEventPage />, { mocks });
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
@@ -438,28 +462,35 @@ describe('Language selection', () => {
     // Select Swedish (with Finnish that is already selected)
     await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
 
-    transletableFieldLabels.forEach((labelText) => {
-      screen.getByLabelText(new RegExp(labelText.source + / \(FI\)/.source));
-      screen.getByLabelText(new RegExp(labelText.source + / \(SV\)/.source));
-    });
-
+    for (const labelText of translatableFieldLabels) {
+      await screen.findByLabelText(
+        new RegExp(labelText.source + / \(FI\)/.source)
+      );
+      await screen.findByLabelText(
+        new RegExp(labelText.source + / \(SV\)/.source)
+      );
+    }
     // Unselect Finnish
     await userEvent.click(within(languageSelector).getByLabelText(/suomi/i));
-    transletableFieldLabels.forEach((labelText) => {
-      expect(
-        screen.queryByLabelText(new RegExp(labelText.source + / \(FI\)/.source))
-      ).not.toBeInTheDocument();
-    });
+    for (const labelText of translatableFieldLabels) {
+      await waitFor(() => {
+        expect(
+          screen.queryByLabelText(
+            new RegExp(labelText.source + / \(FI\)/.source)
+          )
+        ).not.toBeInTheDocument();
+      });
+    }
   });
 
   /*
-    FIXME: It would be better to spy on method that manipulates values 
+    FIXME: It would be better to spy on method that manipulates values
     and check that the values of unselect language are empty.
-    Doing so would make the unit test faster and smaller 
+    Doing so would make the unit test faster and smaller
     and it would test the right spot.
     It could be achieved by doing something like this:
     ```
-      const omitUnselectedLanguagesFromValuesSpy = jest.spyOn(
+      const omitUnselectedLanguagesFromValuesSpy = vi.spyOn(
         Utils,
         'omitUnselectedLanguagesFromValues'
       );
@@ -490,12 +521,12 @@ describe('Language selection', () => {
     await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
 
     // Populate Swedish fields
-    transletableFieldLabels.forEach(async (labelText) => {
-      await userEvent.type(
-        screen.getByLabelText(new RegExp(labelText.source + / \(SV\)/.source)),
-        genericSwedishValue
+    for (const labelText of translatableFieldLabels) {
+      const field = await screen.findByLabelText(
+        new RegExp(labelText.source + / \(SV\)/.source)
       );
-    });
+      await userEvent.type(field, genericSwedishValue);
+    }
 
     // Unselect Swedish which was a newly filled field
     await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
@@ -518,16 +549,17 @@ describe('Language selection', () => {
     });
   }, 100_000);
 
-  Object.entries({
-    fi: ['fi', 'en', 'sv'],
-    sv: ['sv', 'fi', 'en'],
-    en: ['en', 'fi', 'sv'],
-  }).forEach(([locale, languageOrder]) => {
-    it(`renders current UI language (${locale}) first when translatable fields are rendered`, async () => {
+  it.each([
+    ['fi', ['fi', 'en', 'sv']],
+    ['sv', ['sv', 'fi', 'en']],
+    ['en', ['en', 'fi', 'sv']],
+  ])(
+    `renders current UI language (%s) first when translatable fields are rendered`,
+    async (locale, languageOrder) => {
       // mock ui language
-      jest
-        .spyOn(useLocale, 'default')
-        .mockImplementation(() => locale as Language);
+      vi.spyOn(useLocale, 'default').mockImplementation(
+        () => locale as Language
+      );
       render(<CreateEventPage />, {
         mocks: mocks,
       });
@@ -535,42 +567,48 @@ describe('Language selection', () => {
         formLanguageSelectorTestId
       );
       // Select all 3 languages
-      await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
       await userEvent.click(
-        within(languageSelector).getByLabelText(/englanti/i)
+        await within(languageSelector).findByLabelText(/ruotsi/i)
+      );
+      await userEvent.click(
+        await within(languageSelector).findByLabelText(/englanti/i)
       );
 
-      transletableFieldLabels.forEach((labelText) => {
-        const labels = screen.getAllByText(labelText);
-        const inputNames = labels.map((label) => label.getAttribute('for'));
-        const inputLangOrder = inputNames.map((name) => name!.split('.').pop());
-        expect(inputLangOrder).toEqual(languageOrder);
-      });
-    });
-  });
+      for (const labelText of translatableFieldLabels) {
+        const labels = await screen.findAllByText(labelText);
+        await waitFor(() => {
+          const inputNames = labels.map((label) => label.getAttribute('for'));
+          const inputLangOrder = inputNames.map((name) =>
+            name!.split('.').pop()
+          );
+          expect(inputLangOrder).toEqual(languageOrder);
+        });
+      }
+    }
+  );
 });
 
 describe('Copy event', () => {
   beforeEach(() => {
-    jest.spyOn(Router, 'useParams').mockReturnValue({
+    vi.spyOn(Router, 'useParams').mockReturnValue({
       id: eventId,
     });
-    jest
-      .spyOn(apolloClient, 'readQuery')
-      .mockImplementation(({ variables }: any) => {
+    vi.spyOn(apolloClient, 'readQuery').mockImplementation(
+      ({ variables }: any) => {
         if (variables.id === keywordId) {
           return keywordMockResponse;
         }
-      });
-    jest
-      .spyOn(apolloClient, 'query')
-      .mockResolvedValue(venueQueryResponse as any);
+      }
+    );
+    vi.spyOn(apolloClient, 'query').mockResolvedValue(
+      venueQueryResponse as any
+    );
 
-    jest
-      .spyOn(apolloClient, 'readQuery')
-      .mockReturnValue(venueQueryResponse as any);
+    vi.spyOn(apolloClient, 'readQuery').mockReturnValue(
+      venueQueryResponse as any
+    );
 
-    advanceTo(new Date(2020, 7, 5));
+    vi.setSystemTime(new Date(2020, 7, 5));
   });
 
   it('initializes copied event correctly', async () => {
@@ -578,9 +616,9 @@ describe('Copy event', () => {
       mocks: editMocks,
     });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
+    );
 
     await screen.findByText(eventOrganizationName);
     await screen.findByText(keyword);
@@ -628,17 +666,17 @@ const testMultiDropdownValues = async ({
   values: string[];
 }) => {
   await userEvent.click(
-    screen.getByLabelText(dropdownLabel, { selector: 'button' })
+    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
   );
 
-  values.forEach(async (value) => {
-    await userEvent.click(screen.getByRole('option', { name: value }));
-  });
+  for (const value of values) {
+    await userEvent.click(await screen.findByRole('option', { name: value }));
+  }
   await userEvent.click(
-    screen.getByLabelText(dropdownLabel, { selector: 'button' })
+    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
   );
 
-  const dropdown = within(screen.getByTestId(dropdownTestId));
+  const dropdown = within(await screen.findByTestId(dropdownTestId));
 
   for (const value of values) {
     await dropdown.findByText(value);
@@ -649,36 +687,41 @@ const fillForm = async (eventFormData: CreateEventFormFields) => {
   await screen.findByText(defaultOrganizationName);
 
   await userEvent.type(
-    screen.getByLabelText(/Tapahtuman nimi/),
+    await screen.findByLabelText(/Tapahtuman nimi/),
     eventFormData.name.fi!
   );
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventFormData.name.fi,
+  const eventForm = await screen.findByTestId('event-form');
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      'name.fi': eventFormData.name.fi,
+    });
   });
 
   await userEvent.type(
-    screen.getByLabelText(/lyhyt kuvaus/i),
+    await screen.findByLabelText(/lyhyt kuvaus/i),
     eventFormData.shortDescription.fi!
   );
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventFormData.name.fi,
-    'shortDescription.fi': eventFormData.shortDescription.fi,
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      'name.fi': eventFormData.name.fi,
+      'shortDescription.fi': eventFormData.shortDescription.fi,
+    });
   });
-  const editor = screen.getByRole('textbox', { name: /Kuvaus/ });
+  const editor = await screen.findByRole('textbox', { name: /Kuvaus/ });
   pasteToTextEditor(editor, eventFormData.description.fi!);
   editor.blur();
 
   await userEvent.type(
-    screen.getByLabelText(
+    await screen.findByLabelText(
       'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
     ),
     eventFormData.infoUrl.fi!
   );
 
   await userEvent.click(
-    screen.getByLabelText(
+    await screen.findByLabelText(
       /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
     )
   );
@@ -690,51 +733,53 @@ const fillForm = async (eventFormData: CreateEventFormFields) => {
   fireEvent.change(imageInput, { target: { files: [imageFile] } });
   await screen.findByAltText(imageAltText);
 
-  expect(
-    screen.queryByRole('button', { name: 'Lisää kuva' })
-  ).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(
+      screen.queryByRole('button', { name: 'Lisää kuva' })
+    ).not.toBeInTheDocument();
+  });
 
   await userEvent.type(
-    screen.getByLabelText(/Valokuvaaja/),
+    await screen.findByLabelText(/Valokuvaaja/),
     eventFormData.imagePhotographerName
   );
   await userEvent.type(
-    screen.getByLabelText(/Kuvan alt-teksti/),
+    await screen.findByLabelText(/Kuvan alt-teksti/),
     eventFormData.imageAltText
   );
   await userEvent.type(
-    screen.getByLabelText(/Sähköpostiosoite/),
+    await screen.findByLabelText(/Sähköpostiosoite/),
     eventFormData.contactEmail
   );
   await userEvent.type(
-    screen.getByLabelText(/Puhelinnumero/),
+    await screen.findByLabelText(/Puhelinnumero/),
     eventFormData.contactPhoneNumber
   );
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    contactPhoneNumber: eventFormData.contactPhoneNumber,
-    contactEmail: eventFormData.contactEmail,
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      contactPhoneNumber: eventFormData.contactPhoneNumber,
+      contactEmail: eventFormData.contactEmail,
+    });
   });
 
-  const contactInfoPart = within(screen.getByTestId('contact-info'));
+  const contactInfoPart = within(await screen.findByTestId('contact-info'));
 
   await userEvent.click(
-    contactInfoPart.getByLabelText(/Nimi/, {
+    await contactInfoPart.findByLabelText(/Nimi/, {
       selector: 'button',
     })
   );
 
   await userEvent.click(
-    contactInfoPart.getByRole('option', { name: personName })
+    await contactInfoPart.findByRole('option', { name: personName })
   );
 
   // email and name should automatically populate after choosing name from dropdown
-  await waitFor(() => {
-    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(contactEmail);
-  });
-  expect(screen.getByLabelText('Puhelinnumero')).toHaveValue(
-    contactPhoneNumber
-  );
+  const emailElement = await screen.findByLabelText('Sähköpostiosoite');
+  await waitFor(() => expect(emailElement).toHaveValue(contactEmail));
+  const phoneElement = await screen.findByLabelText('Puhelinnumero');
+  await waitFor(() => expect(phoneElement).toHaveValue(contactPhoneNumber));
 
   await testMultiDropdownValues({
     dropdownLabel: /kategoriat/i,
@@ -754,9 +799,9 @@ const fillForm = async (eventFormData: CreateEventFormFields) => {
     values: audienceKeywords.map((k) => k.name),
   });
 
-  jest.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
+  vi.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
 
-  const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
+  const keywordsInput = await screen.findByLabelText(/Tapahtuman avainsanat/);
   await userEvent.click(keywordsInput);
   await userEvent.type(keywordsInput, 'perheet');
 

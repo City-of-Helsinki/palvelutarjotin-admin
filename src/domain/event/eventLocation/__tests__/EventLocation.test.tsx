@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { faker } from '@faker-js/faker';
 
 import { PlaceDocument, VenueDocument } from '../../../../generated/graphql';
 import {
@@ -35,7 +36,7 @@ const venueResponse = {
 const placeResponse = {
   data: {
     place: fakePlace({
-      id: event.location.id,
+      id: event?.location?.id ?? faker.string.uuid(),
       streetAddress: fakeLocalizedObject(streetAddress),
       name: fakeLocalizedObject(placeName),
     }),
