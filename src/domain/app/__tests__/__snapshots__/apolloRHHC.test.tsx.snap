@@ -16,4 +16,14 @@ exports[`test issues in connection between the apollo client and the RHHC-lib > 
 </div>
 `;
 
+exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloLanguageQueryComponent] 1`] = `
+<div>
+  <div
+    data-testing-id="loading-spinner"
+  >
+    LOADING...
+  </div>
+</div>
+`;
+
 exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloNavigationComponent] 1`] = `<div />`;

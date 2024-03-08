@@ -19,6 +19,7 @@ import { fakeOrganisations, fakePerson } from '../../../../utils/mockDataUtils';
 import {
   act,
   renderWithRoute,
+  RHHCConfigProviderWithProvidedApolloClient,
   screen,
   userEvent,
   waitFor,
@@ -91,9 +92,11 @@ it('PageLayout matches snapshot', () => {
     <MockedProvider mocks={mocks} addTypename={true}>
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
-          <PageLayout>
-            <div>Page layout children</div>
-          </PageLayout>
+          <RHHCConfigProviderWithProvidedApolloClient>
+            <PageLayout>
+              <div>Page layout children</div>
+            </PageLayout>
+          </RHHCConfigProviderWithProvidedApolloClient>
         </MemoryRouter>
       </Provider>
     </MockedProvider>

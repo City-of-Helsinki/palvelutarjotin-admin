@@ -160,17 +160,17 @@ describe('Event price section', () => {
 
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
 
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
-    expect(screen.getByLabelText(/Hinta/)).toBeDisabled();
-    expect(screen.getByLabelText(/Lisätiedot/)).toBeDisabled();
+    expect(await screen.findByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
+    expect(await screen.findByLabelText(/Hinta/)).toBeDisabled();
+    expect(await screen.findByLabelText(/Lisätiedot/)).toBeDisabled();
 
-    await user.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
+    await user.click(await screen.findByLabelText(/Tapahtuma on ilmainen/));
 
-    await waitFor(() => {
-      expect(screen.getByLabelText(/Hinta/)).not.toBeDisabled();
-    });
-    expect(screen.getByLabelText(/Lisätiedot/)).not.toBeDisabled();
-    expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).not.toBeChecked();
+    expect(await screen.findByLabelText(/Hinta/)).not.toBeDisabled();
+    expect(await screen.findByLabelText(/Lisätiedot/)).not.toBeDisabled();
+    expect(
+      await screen.findByLabelText(/Tapahtuma on ilmainen/)
+    ).not.toBeChecked();
   });
 });
 
@@ -186,6 +186,7 @@ describe('Language selection', () => {
   beforeEach(() => {
     vi.resetModules();
   });
+
   it('has Finnish, Swedish and English as language options', async () => {
     renderComponent();
     const languageSelector = await screen.findByTestId(
@@ -196,10 +197,14 @@ describe('Language selection', () => {
     expect(within(languageSelector).getByLabelText(/suomi/i)).toBeChecked();
     // Rest of the langauges should be unchecked by default
     expect(
-      within(languageSelector).getByLabelText(/ruotsi/i)
+      within(languageSelector).getByRole('checkbox', {
+        name: /ruotsi/i,
+      })
     ).not.toBeChecked();
     expect(
-      within(languageSelector).getByLabelText(/englanti/i)
+      within(languageSelector).getByRole('checkbox', {
+        name: /englanti/i,
+      })
     ).not.toBeChecked();
   });
 
@@ -216,8 +221,6 @@ describe('Language selection', () => {
     const fi = within(languageSelector).getByRole('checkbox', {
       name: /suomi/i,
     });
-    await user.click(sv); // FIXME: https://github.com/testing-library/user-event/discussions/970
-    await user.click(sv); // FIXME: https://github.com/testing-library/user-event/discussions/970
     await user.click(sv);
     expect(sv).toBeChecked();
 
@@ -317,12 +320,13 @@ describe('Language selection', () => {
     });
   });
 
-  Object.entries({
-    fi: ['fi', 'en', 'sv'],
-    sv: ['sv', 'fi', 'en'],
-    en: ['en', 'fi', 'sv'],
-  }).forEach(([locale, languageOrder]) => {
-    it(`renders current UI language (${locale}) first when translatable fields are rendered`, async () => {
+  it.each([
+    ['fi', ['fi', 'en', 'sv']],
+    ['sv', ['sv', 'fi', 'en']],
+    ['en', ['en', 'fi', 'sv']],
+  ])(
+    `renders current UI language (%s) first when translatable fields are rendered`,
+    async (locale, languageOrder) => {
       // mock ui language
       vi.spyOn(useLocale, 'default').mockReturnValue(locale as Language);
       const { user } = renderComponent();
@@ -342,9 +346,6 @@ describe('Language selection', () => {
       });
       expect(sv).not.toBeChecked();
       expect(en).not.toBeChecked();
-      // Some reason why the unfocus is needed
-      await user.click(en); // FIXME: https://github.com/testing-library/user-event/discussions/970
-      await user.click(en); // FIXME: https://github.com/testing-library/user-event/discussions/970
       await user.click(en);
       expect(en).toBeChecked();
       await user.click(sv);
@@ -356,6 +357,6 @@ describe('Language selection', () => {
         const inputLangOrder = inputNames.map((name) => name?.split('.').pop());
         expect(inputLangOrder).toEqual(languageOrder);
       });
-    });
-  });
+    }
+  );
 });

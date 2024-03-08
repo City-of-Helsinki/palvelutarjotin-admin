@@ -521,12 +521,13 @@ describe('Language selection', () => {
     });
   }, 100_000);
 
-  Object.entries({
-    fi: ['fi', 'en', 'sv'],
-    sv: ['sv', 'fi', 'en'],
-    en: ['en', 'fi', 'sv'],
-  }).forEach(([locale, languageOrder]) => {
-    it(`renders current UI language (${locale}) first when translatable fields are rendered`, async () => {
+  it.each([
+    ['fi', ['fi', 'en', 'sv']],
+    ['sv', ['sv', 'fi', 'en']],
+    ['en', ['en', 'fi', 'sv']],
+  ])(
+    `renders current UI language (%s) first when translatable fields are rendered`,
+    async (locale, languageOrder) => {
       // mock ui language
       vi.spyOn(useLocale, 'default').mockImplementation(
         () => locale as Language
@@ -549,8 +550,8 @@ describe('Language selection', () => {
         const inputLangOrder = inputNames.map((name) => name!.split('.').pop());
         expect(inputLangOrder).toEqual(languageOrder);
       });
-    });
-  });
+    }
+  );
 });
 
 describe('Copy event', () => {
