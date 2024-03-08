@@ -15,8 +15,9 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   disconnect: vi.fn(),
 }));
 
-// Mock scrollTo function
-window.scrollTo = vi.fn();
+const mockScrollTo = vi.fn((x?: number | ScrollToOptions, y?: number) => {});
+
+window.scrollTo = mockScrollTo;
 
 beforeEach(() => {
   i18n.changeLanguage('fi');

@@ -55,14 +55,16 @@ export const initCmsMenuItemsMocks = () => {
                     children: {
                       __typename:
                         'HierarchicalContentNodeToContentNodeChildrenConnection',
+                      edges: [],
                       // child node are rendered under dropdown
-                      nodes: menuItem?.children?.map((childItem) =>
-                        fakePage({
-                          title: childItem.title,
-                          uri: childItem.uri,
-                          slug: childItem.slug,
-                        })
-                      ),
+                      nodes:
+                        menuItem?.children?.map((childItem) =>
+                          fakePage({
+                            title: childItem.title,
+                            uri: childItem.uri,
+                            slug: childItem.slug,
+                          })
+                        ) ?? [],
                     },
                   }),
                 },

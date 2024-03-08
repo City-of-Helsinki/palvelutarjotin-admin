@@ -144,7 +144,7 @@ describe('test issues in connection between the apollo client and the RHHC-lib',
             apolloClient: apolloClient as ApolloClient<NormalizedCacheObject>,
           })
         );
-        const wrapper = ({ children }: any) => (
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
           <ConfigProvider config={rhhcConfig}>{children}</ConfigProvider>
         );
 

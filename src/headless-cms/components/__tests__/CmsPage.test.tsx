@@ -255,7 +255,7 @@ const authenticatedInitialState = {
 };
 
 function initializeMocks(pageHierarchy: PageHierarchy[]) {
-  const mocks: { Page: any[]; SubPagesSearch: any } = {
+  const mocks: { Page: any[]; SubPagesSearch: typeof subPagesMocks } = {
     Page: [],
     SubPagesSearch: subPagesMocks,
   };
