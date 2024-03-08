@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
+import { vi } from 'vitest';
 
 import * as graphql from '../../../generated/graphql';
 import {
@@ -24,11 +25,9 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import EventDetailsPage from '../EventDetailsPage';
 
-vi.mock('../../../generated/graphql', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('../../../generated/graphql'),
-  };
+vi.mock('../../../generated/graphql', async () => {
+  const actual = await vi.importActual('../../../generated/graphql');
+  return { ...actual };
 });
 
 beforeEach(() => {

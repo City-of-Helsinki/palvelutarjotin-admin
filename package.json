@@ -92,6 +92,7 @@
     "serve": "vite preview",
     "test": "cross-env TZ=Europe/Helsinki vitest run",
     "test:coverage": "cross-env TZ=Europe/Helsinki vitest run --coverage",
+    "ci": "cross-env TZ=Europe/Helsinki vitest run --coverage",
     "test:watch": "cross-env TZ=Europe/Helsinki vitest",
     "lint": "eslint --ext js,ts,tsx src",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",

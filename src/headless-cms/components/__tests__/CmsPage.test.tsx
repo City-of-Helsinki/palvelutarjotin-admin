@@ -3,6 +3,7 @@ import { dequal } from 'dequal';
 import { graphql, GraphQLContext, ResponseComposition } from 'msw';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import AppRoutes from '../../../domain/app/routes/AppRoutes';
 import { ROUTES } from '../../../domain/app/routes/constants';
@@ -27,16 +28,18 @@ import {
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
 
-vi.mock('../../../domain/auth/authenticate', () => ({
-  __esModule: true,
-  ...(vi.importActual('../../../domain/auth/authenticate') as any),
-  // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
-  // in useEffect
-  getApiToken: () => ({
-    type: 'FETCH_TOKEN_SUCCESS',
-    payload: 'token',
-  }),
-}));
+vi.mock('../../../domain/auth/authenticate', async () => {
+  const actual = await vi.importActual('../../../domain/auth/authenticate');
+  return {
+    ...actual,
+    // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
+    // in useEffect
+    getApiToken: () => ({
+      type: 'FETCH_TOKEN_SUCCESS',
+      payload: 'token',
+    }),
+  };
+});
 
 const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 

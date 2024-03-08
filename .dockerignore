@@ -7,5 +7,6 @@
 !src
 !package.json
 !tsconfig.json
+!tsconfig.node.json
 !yarn.lock
 */*/testUtils.tsx

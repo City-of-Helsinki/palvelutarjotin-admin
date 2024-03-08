@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import {
   EnrolmentStatus,
@@ -35,11 +36,9 @@ import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
 const navigate = vi.fn();
-vi.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 const placeId = 'tprek:15376';
 const eventId = 'palvelutarjotin:afzunowba4';

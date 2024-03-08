@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import * as graphql from '../../../generated/graphql';
@@ -18,10 +19,11 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateMyProfile from '../CreateMyProfile';
-vi.mock('../../../generated/graphql', () => ({
-  __esModule: true,
-  ...vi.importActual('../../../generated/graphql'),
-}));
+
+vi.mock('../../../generated/graphql', async () => {
+  const actual = await vi.importActual('../../../generated/graphql');
+  return { ...actual };
+});
 const places = [
   {
     placeSearchString: 'Sellon',

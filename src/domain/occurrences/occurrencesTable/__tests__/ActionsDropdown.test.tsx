@@ -11,11 +11,9 @@ import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
 const navigate = vi.fn();
-vi.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 const eventId = 'testEventId123';
 const occurrenceId = 'occurrenceId123';

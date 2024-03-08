@@ -1,5 +1,6 @@
 import { graphql } from 'msw';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
@@ -15,11 +16,13 @@ import {
 import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
 
-vi.mock('../../../auth/selectors', () => ({
-  __esModule: true,
-  ...vi.importActual('../../../auth/selectors'),
-  isAuthenticatedSelector: vi.fn(),
-}));
+vi.mock('../../../auth/selectors', async () => {
+  const actual = await vi.importActual('../../../auth/selectors');
+  return {
+    ...actual,
+    isAuthenticatedSelector: vi.fn(),
+  };
+});
 const profileResponse = {
   data: {
     myProfile: fakePerson(),

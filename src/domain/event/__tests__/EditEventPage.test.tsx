@@ -2,6 +2,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import * as useLocale from '../../../hooks/useLocale';
@@ -29,18 +30,15 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
+
 const navigate = vi.fn();
-vi.mock('../../../hooks/useLocale', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('../../../hooks/useLocale'),
-  };
+vi.mock('../../../hooks/useLocale', async () => {
+  const actual = await vi.importActual('../../../hooks/useLocale');
+  return { ...actual };
 });
-vi.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 
 afterEach(() => {
