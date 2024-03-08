@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { defineConfig, mergeConfig } from 'vitest/config';
 
 import viteConfig from './vite.config';
@@ -31,6 +32,7 @@ export default defineConfig((configEnv) =>
             '**/__tests__/**',
             '**/node_modules/**',
             'src/generated/**',
+            'src/setupTests.ts',
           ],
         },
       },

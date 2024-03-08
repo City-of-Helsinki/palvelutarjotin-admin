@@ -21,10 +21,7 @@ export default ({ mode }) => {
           './node_modules/hds-design-tokens'
         ),
         '~styles': path.resolve(__dirname, './src/styles'),
-        'react-helsinki-headless-cms': path.resolve(
-          __dirname,
-          './node_modules/react-helsinki-headless-cms'
-        ),
+
       },
     },
     build: {
