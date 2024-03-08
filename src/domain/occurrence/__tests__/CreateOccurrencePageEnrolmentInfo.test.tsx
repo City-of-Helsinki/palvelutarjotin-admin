@@ -4,6 +4,7 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -43,11 +44,9 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 const navigate = vi.fn();
-vi.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 configure({ defaultHidden: true });
 

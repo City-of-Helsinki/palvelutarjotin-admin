@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -18,12 +22,15 @@
     "types": [
       "node",
       "vitest/globals",
-      "vite/client",
-      "@testing-library/jest-dom/vitest"
+      "vite/client"
     ]
   },
-  "lib": ["WebWorker"],
-  "include": ["src"],
+  "lib": [
+    "WebWorker"
+  ],
+  "include": [
+    "src"
+  ],
   "exclude": [
     "**/*.test.*",
     "src/generated/*",
@@ -32,5 +39,9 @@
     "src/utils/mockDataUtils.ts",
     "src/utils/testUtils.tsx"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

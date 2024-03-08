@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import {
   baseApolloMocks,
@@ -26,10 +27,10 @@ import CreateOccurrencePage from '../CreateOccurrencePage';
 import { enrolmentInfoFormTestId } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import * as Utils from '../utils';
 
-vi.mock('../utils', () => ({
-  __esModule: true,
-  ...vi.importActual('../utils'),
-}));
+vi.mock('../utils', async () => {
+  const actual = await vi.importActual('../utils');
+  return { ...actual };
+});
 
 configure({ defaultHidden: true });
 

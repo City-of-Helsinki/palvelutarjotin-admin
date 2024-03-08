@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import wait from 'waait';
+import { vi } from 'vitest';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';
@@ -30,18 +31,15 @@ import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';
 import EditEnrolmentPage from '../EditEnrolmentPage';
+
 const navigate = vi.fn();
-vi.mock('../../../generated/graphql', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('../../../generated/graphql'),
-  };
+vi.mock('../../../generated/graphql', async () => {
+  const actual = await vi.importActual('../../../generated/graphql');
+  return { ...actual };
 });
-vi.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    ...vi.importActual('react-router-dom'),
-  };
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return { ...actual };
 });
 const eventId = 'palvelutarjotin:afzunowba4';
 const enrolmentId = 'RW5yb2xtZW50Tm9kZToyNw==';
