@@ -42,6 +42,7 @@ vi.mock('react-router-dom', async () => {
 configure({ defaultHidden: true });
 
 afterAll(() => {
+  vi.setSystemTime(vi.getRealSystemTime());
   vi.useRealTimers();
 });
 

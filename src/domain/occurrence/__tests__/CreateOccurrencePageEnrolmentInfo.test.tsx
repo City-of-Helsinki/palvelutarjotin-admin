@@ -43,6 +43,7 @@ import {
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
+
 const navigate = vi.fn();
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
@@ -51,6 +52,7 @@ vi.mock('react-router-dom', async () => {
 configure({ defaultHidden: true });
 
 afterAll(() => {
+  vi.setSystemTime(vi.getRealSystemTime());
   vi.useRealTimers();
 });
 
@@ -124,20 +126,26 @@ describe('location and enrolment info', () => {
       ).toHaveTextContent(venueDescription);
     });
 
-    // Text is contained in a div that is sibling to the input
-    expect(locationInput.parentElement).toHaveTextContent('Sellon kirjasto');
+    await waitFor(() => {
+      // Text is contained in a div that is sibling to the input
+      expect(locationInput.parentElement).toHaveTextContent('Sellon kirjasto');
+    });
 
-    expect(
-      screen.getByRole('checkbox', {
-        name: /ulkovaatesäilytys/i,
-      })
-    ).toBeChecked();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('checkbox', {
+          name: /ulkovaatesäilytys/i,
+        })
+      ).toBeChecked();
+    });
 
-    expect(
-      screen.getByRole('checkbox', {
-        name: /leikkitilaa ulkona/i,
-      })
-    ).not.toBeChecked();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('checkbox', {
+          name: /leikkitilaa ulkona/i,
+        })
+      ).not.toBeChecked();
+    });
 
     const enrolmentStartDateInput = getFormElement('enrolmentStartDate');
     const enrolmentStartHoursInput = getFormElement('enrolmentStartHours');
@@ -156,13 +164,21 @@ describe('location and enrolment info', () => {
     await waitFor(() => {
       expect(enrolmentStartMinutesInput).toHaveValue(startMinutes);
     });
-    expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
-    expect(enrolmentStartHoursInput).toHaveValue(startHours);
+    await waitFor(() => {
+      expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate);
+    });
+    await waitFor(() => {
+      expect(enrolmentStartHoursInput).toHaveValue(startHours);
+    });
 
     const autoAcceptanceCheckbox = getFormElement('autoAcceptance');
-    expect(autoAcceptanceCheckbox).toBeChecked();
+    await waitFor(() => {
+      expect(autoAcceptanceCheckbox).toBeChecked();
+    });
     await userEvent.click(autoAcceptanceCheckbox);
-    expect(autoAcceptanceCheckbox).not.toBeChecked();
+    await waitFor(() => {
+      expect(autoAcceptanceCheckbox).not.toBeChecked();
+    });
 
     await userEvent.click(getFormElement('saveButton'));
 
@@ -170,17 +186,19 @@ describe('location and enrolment info', () => {
     const addNewOccurrenceButton = getOccurrenceFormElement('submit');
 
     // Form buttons should be disabled during mutation request
-    await waitFor(() => {
-      expect(addNewOccurrenceButton).toBeDisabled();
-    });
+    expect(addNewOccurrenceButton).toBeDisabled();
     expect(goToPublishingButton).toBeDisabled();
 
     await waitFor(() => {
       expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
     });
 
-    expect(goToPublishingButton).toBeEnabled();
-    expect(addNewOccurrenceButton).toBeEnabled();
+    await waitFor(() => {
+      expect(goToPublishingButton).toBeEnabled();
+    });
+    await waitFor(() => {
+      expect(addNewOccurrenceButton).toBeEnabled();
+    });
     await actWait();
   }, 75_000);
 

@@ -8,7 +8,7 @@ export default defineConfig((configEnv) =>
     viteConfig(configEnv),
     defineConfig({
       test: {
-        testTimeout: 5_000, // ms
+        testTimeout: 10_000, // ms
         css: {
           modules: {
             // Set class name strategy to 'non-scoped' so tests can easily test

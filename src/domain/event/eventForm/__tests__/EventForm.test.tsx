@@ -5,6 +5,7 @@ import { actWait, render } from '../../../../utils/testUtils';
 import EventForm, { createEventInitialValues } from '../EventForm';
 
 afterAll(() => {
+  vi.setSystemTime(vi.getRealSystemTime());
   vi.useRealTimers();
 });
 

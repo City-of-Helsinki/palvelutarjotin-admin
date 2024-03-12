@@ -19,6 +19,7 @@ const event = fakeEvent({
 });
 
 afterAll(() => {
+  vi.setSystemTime(vi.getRealSystemTime());
   vi.useRealTimers();
 });
 

@@ -21,7 +21,6 @@ export default ({ mode }) => {
           './node_modules/hds-design-tokens'
         ),
         '~styles': path.resolve(__dirname, './src/styles'),
-
       },
     },
     build: {

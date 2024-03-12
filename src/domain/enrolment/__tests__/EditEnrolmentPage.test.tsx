@@ -454,33 +454,46 @@ describe('UnitField', () => {
     await screen.findByText(/place12/i);
   });
 
-  it.each<MockedResponse[] | undefined>([
-    [
+  it('shows the unit text in autosuggest div next to found input', async () => {
+    const placeMocks = [
       createPlaceQueryMock({
         id: 'test:place12',
         name: fakeLocalizedObject('place12'),
       }),
-    ],
-    undefined,
-  ])(
-    'shows the unit text in a autosuggest div next to the input (%p)',
-    async (placeMocks: any) => {
-      await setupUnitFieldTest(placeMocks);
+    ];
 
-      await userEvent.type(getUnitFieldInput(), 'place12');
+    await setupUnitFieldTest(placeMocks);
 
-      await screen.findByText('place12');
+    await userEvent.type(getUnitFieldInput(), 'place12');
 
-      // Select an unit
-      await userEvent.click(screen.getByText('place12'));
+    await screen.findByText('place12');
 
-      await waitFor(() => {
-        expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
-          placeMocks ? 'place12' : 'unitPlaceSelector.noPlaceFoundError'
-        );
-      });
-    }
-  );
+    // Select an unit
+    await userEvent.click(screen.getByText('place12'));
+
+    await waitFor(() => {
+      expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
+        'place12'
+      );
+    });
+  });
+
+  it('shows "no place found" text in autosuggest div next to invalid input', async () => {
+    await setupUnitFieldTest(undefined);
+
+    await userEvent.type(getUnitFieldInput(), 'place12');
+
+    await screen.findByText('place12');
+
+    // Select an unit
+    await userEvent.click(screen.getByText('place12'));
+
+    await waitFor(() => {
+      expect(getUnitFieldInput().nextElementSibling).toHaveTextContent(
+        'unitPlaceSelector.noPlaceFoundError'
+      );
+    });
+  });
 
   it('clears the unit id value when a clear button is clicked', async () => {
     await setupUnitFieldTest([
