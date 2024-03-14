@@ -534,9 +534,11 @@ test('CMS sub pages can be searched', async () => {
   await screen.findByText('Haettu sivu');
 
   for (const page of searchablePages) {
-    expect(
-      screen.queryByRole('heading', { name: page.title })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('heading', { name: page.title })
+      ).not.toBeInTheDocument();
+    });
   }
 
   await userEvent.clear(screen.getByRole('textbox', { name: /haku/i }));
@@ -548,7 +550,7 @@ test('CMS sub pages can be searched', async () => {
       {
         name: /oppimateriaali1/i,
       },
-      { timeout: 5000 }
+      { timeout: 5_000 }
     )
   );
 

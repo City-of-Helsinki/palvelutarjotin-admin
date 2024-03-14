@@ -105,7 +105,7 @@ describe('MenuDropdown component', () => {
 
     clickOnToggleButton();
 
-    items.forEach(async (item, index) => {
+    items.forEach((item, index) => {
       getItemAtIndex(index).click();
       expect(onClickMock).toHaveBeenCalledTimes(index + 1);
       expect(onClickMock).toHaveBeenCalledWith(item.value);

@@ -1,0 +1,35 @@
+{
+  "data": {
+    "menu": {
+      "id": "dGVybTo1Nw==",
+      "menuItems": {
+        "nodes": [
+          {
+            "id": "cG9zdDo0MjY=",
+            "parentId": null,
+            "order": 1,
+            "target": null,
+            "title": null,
+            "path": "https:\/\/kultus.fi\/fi",
+            "label": "Kouluille ja p\u00e4iv\u00e4kodeille",
+            "connectedNode": null,
+            "__typename": "MenuItem"
+          },
+          {
+            "id": "cG9zdDo0Mjc=",
+            "parentId": null,
+            "order": 2,
+            "target": null,
+            "title": null,
+            "path": "https:\/\/hkih.production.geniem.io\/uploads\/sites\/5\/2022\/11\/739f5edc-rekisteriseloste-kultus.fi_.pdf",
+            "label": "Rekisteriseloste",
+            "connectedNode": null,
+            "__typename": "MenuItem"
+          }
+        ],
+        "__typename": "MenuToMenuItemConnection"
+      },
+      "__typename": "Menu"
+    }
+  }
+}

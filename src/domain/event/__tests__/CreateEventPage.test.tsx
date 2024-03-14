@@ -2,6 +2,10 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
+import {
+  LanguagesDocument,
+  MenuDocument,
+} from 'react-helsinki-headless-cms/apollo';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
@@ -73,6 +77,22 @@ import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { CreateEventFormFields } from '../types';
+import {
+  FOOTER_MENU_NAME,
+  HEADER_MENU_NAME,
+} from '../../../headless-cms/constants';
+import footerMenuResponse from '../../../test/apollo-mocks/queryResponses/footerMenu.json';
+import headerMenuResponse from '../../../test/apollo-mocks/queryResponses/headerMenu.json';
+import languagesResponse from '../../../test/apollo-mocks/queryResponses/languages.json';
+import * as selectors from '../../auth/selectors';
+
+vi.mock('../../auth/selectors', async () => {
+  const actual = await vi.importActual('../../auth/selectors');
+  return {
+    ...actual,
+    isAuthenticatedSelector: vi.fn(),
+  };
+});
 
 vi.mock('../../../hooks/useLocale', async () => {
   const actual = await vi.importActual('../../../hooks/useLocale');
@@ -225,6 +245,35 @@ const placesResponse = {
   },
 };
 
+const footerMenuMock = {
+  request: {
+    query: MenuDocument,
+    variables: {
+      id: FOOTER_MENU_NAME['fi'],
+      menuIdentifiersOnly: true,
+    },
+  },
+  result: footerMenuResponse,
+};
+
+const headerMenuMock = {
+  request: {
+    query: MenuDocument,
+    variables: {
+      id: HEADER_MENU_NAME['fi'],
+      menuIdentifiersOnly: true,
+    },
+  },
+  result: headerMenuResponse,
+};
+
+const languagesMock = {
+  request: {
+    query: LanguagesDocument,
+  },
+  result: languagesResponse,
+};
+
 const mocks = [
   {
     request: {
@@ -317,9 +366,13 @@ const mocks = [
       keywords: criteriaKeywords,
     },
   ]),
+  { ...footerMenuMock },
+  { ...headerMenuMock },
+  { ...languagesMock },
 ];
 
 test('event can be created with form', async () => {
+  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   vi.spyOn(Router, 'useParams').mockReturnValue({});
   vi.setSystemTime(new Date(2020, 7, 8));
   render(<CreateEventPage />, { mocks });
@@ -333,7 +386,7 @@ test('event can be created with form', async () => {
   });
 
   await userEvent.click(
-    screen.getByRole('button', {
+    await screen.findByRole('button', {
       name: 'Tallenna ja siirry tapahtuma-aikoihin',
     })
   );
@@ -404,7 +457,7 @@ describe('Event price section', () => {
 });
 
 describe('Language selection', () => {
-  const transletableFieldLabels = [
+  const translatableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
     // /^Kuvaus/, // FIXME: Not working since changed to a TextEditor
@@ -433,7 +486,7 @@ describe('Language selection', () => {
     ).not.toBeChecked();
   });
 
-  test('transletable fields appears in selected languages', async () => {
+  test('translatable fields appears in selected languages', async () => {
     render(<CreateEventPage />, { mocks });
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
@@ -441,18 +494,25 @@ describe('Language selection', () => {
     // Select Swedish (with Finnish that is already selected)
     await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
 
-    transletableFieldLabels.forEach((labelText) => {
-      screen.getByLabelText(new RegExp(labelText.source + / \(FI\)/.source));
-      screen.getByLabelText(new RegExp(labelText.source + / \(SV\)/.source));
-    });
-
+    for (const labelText of translatableFieldLabels) {
+      await screen.findByLabelText(
+        new RegExp(labelText.source + / \(FI\)/.source)
+      );
+      await screen.findByLabelText(
+        new RegExp(labelText.source + / \(SV\)/.source)
+      );
+    }
     // Unselect Finnish
     await userEvent.click(within(languageSelector).getByLabelText(/suomi/i));
-    transletableFieldLabels.forEach((labelText) => {
-      expect(
-        screen.queryByLabelText(new RegExp(labelText.source + / \(FI\)/.source))
-      ).not.toBeInTheDocument();
-    });
+    for (const labelText of translatableFieldLabels) {
+      await waitFor(() => {
+        expect(
+          screen.queryByLabelText(
+            new RegExp(labelText.source + / \(FI\)/.source)
+          )
+        ).not.toBeInTheDocument();
+      });
+    }
   });
 
   /*
@@ -493,12 +553,12 @@ describe('Language selection', () => {
     await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
 
     // Populate Swedish fields
-    transletableFieldLabels.forEach(async (labelText) => {
-      await userEvent.type(
-        screen.getByLabelText(new RegExp(labelText.source + / \(SV\)/.source)),
-        genericSwedishValue
+    for (const labelText of translatableFieldLabels) {
+      const field = await screen.findByLabelText(
+        new RegExp(labelText.source + / \(SV\)/.source)
       );
-    });
+      await userEvent.type(field, genericSwedishValue);
+    }
 
     // Unselect Swedish which was a newly filled field
     await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
@@ -539,17 +599,23 @@ describe('Language selection', () => {
         formLanguageSelectorTestId
       );
       // Select all 3 languages
-      await userEvent.click(within(languageSelector).getByLabelText(/ruotsi/i));
       await userEvent.click(
-        within(languageSelector).getByLabelText(/englanti/i)
+        await within(languageSelector).findByLabelText(/ruotsi/i)
+      );
+      await userEvent.click(
+        await within(languageSelector).findByLabelText(/englanti/i)
       );
 
-      transletableFieldLabels.forEach((labelText) => {
-        const labels = screen.getAllByText(labelText);
-        const inputNames = labels.map((label) => label.getAttribute('for'));
-        const inputLangOrder = inputNames.map((name) => name!.split('.').pop());
-        expect(inputLangOrder).toEqual(languageOrder);
-      });
+      for (const labelText of translatableFieldLabels) {
+        const labels = await screen.findAllByText(labelText);
+        await waitFor(() => {
+          const inputNames = labels.map((label) => label.getAttribute('for'));
+          const inputLangOrder = inputNames.map((name) =>
+            name!.split('.').pop()
+          );
+          expect(inputLangOrder).toEqual(languageOrder);
+        });
+      }
     }
   );
 });
@@ -632,17 +698,17 @@ const testMultiDropdownValues = async ({
   values: string[];
 }) => {
   await userEvent.click(
-    screen.getByLabelText(dropdownLabel, { selector: 'button' })
+    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
   );
 
-  values.forEach(async (value) => {
-    await userEvent.click(screen.getByRole('option', { name: value }));
-  });
+  for (const value of values) {
+    await userEvent.click(await screen.findByRole('option', { name: value }));
+  }
   await userEvent.click(
-    screen.getByLabelText(dropdownLabel, { selector: 'button' })
+    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
   );
 
-  const dropdown = within(screen.getByTestId(dropdownTestId));
+  const dropdown = within(await screen.findByTestId(dropdownTestId));
 
   for (const value of values) {
     await dropdown.findByText(value);
@@ -653,36 +719,41 @@ const fillForm = async (eventFormData: CreateEventFormFields) => {
   await screen.findByText(defaultOrganizationName);
 
   await userEvent.type(
-    screen.getByLabelText(/Tapahtuman nimi/),
+    await screen.findByLabelText(/Tapahtuman nimi/),
     eventFormData.name.fi!
   );
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventFormData.name.fi,
+  const eventForm = await screen.findByTestId('event-form');
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      'name.fi': eventFormData.name.fi,
+    });
   });
 
   await userEvent.type(
-    screen.getByLabelText(/lyhyt kuvaus/i),
+    await screen.findByLabelText(/lyhyt kuvaus/i),
     eventFormData.shortDescription.fi!
   );
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    'name.fi': eventFormData.name.fi,
-    'shortDescription.fi': eventFormData.shortDescription.fi,
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      'name.fi': eventFormData.name.fi,
+      'shortDescription.fi': eventFormData.shortDescription.fi,
+    });
   });
-  const editor = screen.getByRole('textbox', { name: /Kuvaus/ });
+  const editor = await screen.findByRole('textbox', { name: /Kuvaus/ });
   pasteToTextEditor(editor, eventFormData.description.fi!);
   editor.blur();
 
   await userEvent.type(
-    screen.getByLabelText(
+    await screen.findByLabelText(
       'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
     ),
     eventFormData.infoUrl.fi!
   );
 
   await userEvent.click(
-    screen.getByLabelText(
+    await screen.findByLabelText(
       /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
     )
   );
@@ -694,51 +765,53 @@ const fillForm = async (eventFormData: CreateEventFormFields) => {
   fireEvent.change(imageInput, { target: { files: [imageFile] } });
   await screen.findByAltText(imageAltText);
 
-  expect(
-    screen.queryByRole('button', { name: 'Lisää kuva' })
-  ).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(
+      screen.queryByRole('button', { name: 'Lisää kuva' })
+    ).not.toBeInTheDocument();
+  });
 
   await userEvent.type(
-    screen.getByLabelText(/Valokuvaaja/),
+    await screen.findByLabelText(/Valokuvaaja/),
     eventFormData.imagePhotographerName
   );
   await userEvent.type(
-    screen.getByLabelText(/Kuvan alt-teksti/),
+    await screen.findByLabelText(/Kuvan alt-teksti/),
     eventFormData.imageAltText
   );
   await userEvent.type(
-    screen.getByLabelText(/Sähköpostiosoite/),
+    await screen.findByLabelText(/Sähköpostiosoite/),
     eventFormData.contactEmail
   );
   await userEvent.type(
-    screen.getByLabelText(/Puhelinnumero/),
+    await screen.findByLabelText(/Puhelinnumero/),
     eventFormData.contactPhoneNumber
   );
 
-  expect(screen.getByTestId('event-form')).toHaveFormValues({
-    contactPhoneNumber: eventFormData.contactPhoneNumber,
-    contactEmail: eventFormData.contactEmail,
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      contactPhoneNumber: eventFormData.contactPhoneNumber,
+      contactEmail: eventFormData.contactEmail,
+    });
   });
 
-  const contactInfoPart = within(screen.getByTestId('contact-info'));
+  const contactInfoPart = within(await screen.findByTestId('contact-info'));
 
   await userEvent.click(
-    contactInfoPart.getByLabelText(/Nimi/, {
+    await contactInfoPart.findByLabelText(/Nimi/, {
       selector: 'button',
     })
   );
 
   await userEvent.click(
-    contactInfoPart.getByRole('option', { name: personName })
+    await contactInfoPart.findByRole('option', { name: personName })
   );
 
   // email and name should automatically populate after choosing name from dropdown
-  await waitFor(() => {
-    expect(screen.getByLabelText('Sähköpostiosoite')).toHaveValue(contactEmail);
-  });
-  expect(screen.getByLabelText('Puhelinnumero')).toHaveValue(
-    contactPhoneNumber
-  );
+  const emailElement = await screen.findByLabelText('Sähköpostiosoite');
+  await waitFor(() => expect(emailElement).toHaveValue(contactEmail));
+  const phoneElement = await screen.findByLabelText('Puhelinnumero');
+  await waitFor(() => expect(phoneElement).toHaveValue(contactPhoneNumber));
 
   await testMultiDropdownValues({
     dropdownLabel: /kategoriat/i,
@@ -760,7 +833,7 @@ const fillForm = async (eventFormData: CreateEventFormFields) => {
 
   vi.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
 
-  const keywordsInput = screen.getByLabelText(/Tapahtuman avainsanat/);
+  const keywordsInput = await screen.findByLabelText(/Tapahtuman avainsanat/);
   await userEvent.click(keywordsInput);
   await userEvent.type(keywordsInput, 'perheet');
 

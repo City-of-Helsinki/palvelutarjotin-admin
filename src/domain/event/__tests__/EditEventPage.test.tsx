@@ -23,6 +23,7 @@ import {
 } from '../../../test/EventPageTestUtil';
 import { Language } from '../../../types';
 import {
+  actWait,
   renderWithRoute,
   screen,
   waitFor,
@@ -31,7 +32,6 @@ import {
 import { ROUTES } from '../../app/routes/constants';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
 
-const navigate = vi.fn();
 vi.mock('../../../hooks/useLocale', async () => {
   const actual = await vi.importActual('../../../hooks/useLocale');
   return { ...actual };
@@ -62,6 +62,7 @@ const renderComponent = ({
 };
 
 test('edit event form initializes and submits correctly', async () => {
+  const navigate = vi.fn();
   vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
   const { user } = renderComponent();
 
@@ -125,6 +126,7 @@ test('edit event form initializes and submits correctly', async () => {
 });
 
 test('returns to create occurrences page when it should after saving', async () => {
+  const navigate = vi.fn();
   vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
 
   const { user } = renderComponent({
@@ -201,7 +203,7 @@ describe('Event price section', () => {
 });
 
 describe('Language selection', () => {
-  const transletableFieldLabels = [
+  const translatableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
     /^Kuvaus/,
@@ -241,7 +243,7 @@ describe('Language selection', () => {
     });
   });
 
-  test('transletable fields appears in selected languages', async () => {
+  test('translatable fields appear in selected languages', async () => {
     const { user } = renderComponent();
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
@@ -256,29 +258,40 @@ describe('Language selection', () => {
       expect(sv).toBeChecked();
     });
 
-    await transletableFieldLabels.forEach(async (labelText) => {
-      await screen.findByLabelText(
-        new RegExp(labelText.source + / \(FI\)/.source)
+    for (const labelText of translatableFieldLabels) {
+      await waitFor(
+        () => {
+          expect(
+            screen.getByLabelText(
+              new RegExp(labelText.source + / \(FI\)/.source)
+            )
+          ).toBeInTheDocument();
+          expect(
+            screen.getByLabelText(
+              new RegExp(labelText.source + / \(SV\)/.source)
+            )
+          ).toBeInTheDocument();
+        },
+        { timeout: 5_000 }
       );
-      await screen.findByLabelText(
-        new RegExp(labelText.source + / \(SV\)/.source)
-      );
-    });
+    }
 
     // Unselect Finnish
     const fi = await within(languageSelector).findByRole('checkbox', {
       name: /suomi/i,
     });
     await user.click(fi);
-    await transletableFieldLabels.forEach(async (labelText) => {
-      await waitFor(() => {
-        expect(
-          screen.queryByLabelText(
-            new RegExp(labelText.source + / \(FI\)/.source)
-          )
-        ).not.toBeInTheDocument();
-      });
-    });
+    for (const labelText of translatableFieldLabels) {
+      await waitFor(
+        () =>
+          expect(
+            screen.queryByLabelText(
+              new RegExp(labelText.source + / \(FI\)/.source)
+            )
+          ).not.toBeInTheDocument(),
+        { timeout: 5_000 }
+      );
+    }
   });
 
   /*
@@ -305,6 +318,7 @@ describe('Language selection', () => {
     NOTE: CreateEventPAge testes this too, but there all the fields are newly filled and not presaved.
   */
   test('filled fields for unselected languages are cleared when submitting the form', async () => {
+    const navigate = vi.fn();
     vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
     const genericSwedishValue = 'SV translation';
 
@@ -342,12 +356,12 @@ describe('Language selection', () => {
     });
 
     // Populate Swedish fields
-    await transletableFieldLabels.forEach(async (labelText) => {
+    for (const labelText of translatableFieldLabels) {
       const field = await screen.findByLabelText(
         new RegExp(labelText.source + / \(SV\)/.source)
       );
       await user.type(field, genericSwedishValue);
-    });
+    }
     // Unselect Swedish which was a newly filled field
     await user.click(sv);
 
@@ -356,7 +370,7 @@ describe('Language selection', () => {
     });
 
     await user.click(
-      screen.getByRole('button', {
+      await screen.findByRole('button', {
         name: 'Päivitä tiedot',
       })
     );
@@ -404,7 +418,7 @@ describe('Language selection', () => {
         expect(sv).toBeChecked();
       });
 
-      await transletableFieldLabels.forEach(async (labelText) => {
+      for (const labelText of translatableFieldLabels) {
         const labels = await screen.findAllByText(labelText);
         await waitFor(() => {
           const inputNames = labels.map((label) => label.getAttribute('for'));
@@ -413,7 +427,7 @@ describe('Language selection', () => {
           );
           expect(inputLangOrder).toEqual(languageOrder);
         });
-      });
+      }
     }
   );
 });

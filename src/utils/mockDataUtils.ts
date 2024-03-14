@@ -11,6 +11,7 @@ import {
   Event,
   EventListResponse,
   EventQueueEnrolmentNode,
+  EventQueueEnrolmentNodeConnection,
   EventQueueEnrolmentStatus,
   ExternalPlace,
   Image,
@@ -42,6 +43,7 @@ import {
   PersonNodeEdge,
   Place,
   StudyGroupNode,
+  StudyGroupNodeConnection,
   StudyLevelNode,
   StudyLevelNodeConnection,
   StudyLevelNodeEdge,
@@ -485,6 +487,42 @@ export const fakePersonNodeEdge = (
   node: fakePerson(overrides),
 });
 
+const emptyNodeConnectionBase = {
+  count: 0,
+  edges: [],
+  pageInfo: {
+    __typename: 'PageInfo' as const,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
+
+export const emptyEnrolmentNodeConnection: EnrolmentNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'EnrolmentNodeConnection',
+};
+
+export const emptyEventQueueEnrolmentNodeConnection: EventQueueEnrolmentNodeConnection =
+  {
+    ...emptyNodeConnectionBase,
+    __typename: 'EventQueueEnrolmentNodeConnection',
+  };
+
+export const emptyOccurrenceNodeConnection: OccurrenceNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'OccurrenceNodeConnection',
+};
+
+export const emptyOrganisationNodeConnection: OrganisationNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'OrganisationNodeConnection',
+};
+
+export const emptyStudyGroupNodeConnection: StudyGroupNodeConnection = {
+  ...emptyNodeConnectionBase,
+  __typename: 'StudyGroupNodeConnection',
+};
+
 export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   __typename: 'PersonNode',
   id: faker.string.uuid(),
@@ -492,13 +530,13 @@ export const fakePerson = (overrides?: Partial<PersonNode>): PersonNode => ({
   language: 'FI' as Language,
   name: faker.person.firstName(),
   phoneNumber: faker.phone.number(),
-  createdAt: '' as any,
-  enrolmentSet: '' as any,
-  eventqueueenrolmentSet: [] as any,
-  occurrences: [] as any,
-  organisations: [] as any,
-  studygroupSet: '' as any,
-  updatedAt: '' as any,
+  createdAt: '',
+  enrolmentSet: emptyEnrolmentNodeConnection,
+  eventqueueenrolmentSet: emptyEventQueueEnrolmentNodeConnection,
+  occurrences: emptyOccurrenceNodeConnection,
+  organisations: emptyOrganisationNodeConnection,
+  studygroupSet: emptyStudyGroupNodeConnection,
+  updatedAt: '',
   isStaff: true,
   organisationproposalSet: fakeOrganisationProposals(),
   placeIds: [],
