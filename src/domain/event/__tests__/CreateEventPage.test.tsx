@@ -2,10 +2,6 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
-import {
-  LanguagesDocument,
-  MenuDocument,
-} from 'react-helsinki-headless-cms/apollo';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
@@ -77,14 +73,10 @@ import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { CreateEventFormFields } from '../types';
-import {
-  FOOTER_MENU_NAME,
-  HEADER_MENU_NAME,
-} from '../../../headless-cms/constants';
-import footerMenuResponse from '../../../test/apollo-mocks/queryResponses/footerMenu.json';
-import headerMenuResponse from '../../../test/apollo-mocks/queryResponses/headerMenu.json';
-import languagesResponse from '../../../test/apollo-mocks/queryResponses/languages.json';
 import * as selectors from '../../auth/selectors';
+import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
+import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
+import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
 
 vi.mock('../../auth/selectors', async () => {
   const actual = await vi.importActual('../../auth/selectors');
@@ -243,35 +235,6 @@ const placesResponse = {
       { name: fakeLocalizedObject(placeName), id: placeId },
     ]),
   },
-};
-
-const footerMenuMock = {
-  request: {
-    query: MenuDocument,
-    variables: {
-      id: FOOTER_MENU_NAME['fi'],
-      menuIdentifiersOnly: true,
-    },
-  },
-  result: footerMenuResponse,
-};
-
-const headerMenuMock = {
-  request: {
-    query: MenuDocument,
-    variables: {
-      id: HEADER_MENU_NAME['fi'],
-      menuIdentifiersOnly: true,
-    },
-  },
-  result: headerMenuResponse,
-};
-
-const languagesMock = {
-  request: {
-    query: LanguagesDocument,
-  },
-  result: languagesResponse,
 };
 
 const mocks = [

@@ -5,15 +5,8 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import wait from 'waait';
-import {
-  LanguagesDocument,
-  MenuDocument,
-} from 'react-helsinki-headless-cms/apollo';
 import { vi } from 'vitest';
 
-import languagesResponse from '../../../../test/apollo-mocks/queryResponses/languages.json';
-import headerMenuResponse from '../../../../test/apollo-mocks/queryResponses/headerMenu.json';
-import footerMenuResponse from '../../../../test/apollo-mocks/queryResponses/footerMenu.json';
 import {
   CreateMyProfileDocument,
   MyProfileDocument,
@@ -34,11 +27,10 @@ import {
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
-import {
-  FOOTER_MENU_NAME,
-  HEADER_MENU_NAME,
-} from '../../../../headless-cms/constants';
 import * as selectors from '../../../auth/selectors';
+import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
+import { headerMenuMock } from '../../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
 vi.mock('../../../auth/selectors', async () => {
   const actual = await vi.importActual('../../../auth/selectors');
@@ -106,35 +98,6 @@ const organisationMocks = fakeOrganisations(3, [
     type: OrganisationType.Provider,
   },
 ]);
-
-const footerMenuMock = {
-  request: {
-    query: MenuDocument,
-    variables: {
-      id: FOOTER_MENU_NAME['fi'],
-      menuIdentifiersOnly: true,
-    },
-  },
-  result: footerMenuResponse,
-};
-
-const headerMenuMock = {
-  request: {
-    query: MenuDocument,
-    variables: {
-      id: HEADER_MENU_NAME['fi'],
-      menuIdentifiersOnly: true,
-    },
-  },
-  result: headerMenuResponse,
-};
-
-const languagesMock = {
-  request: {
-    query: LanguagesDocument,
-  },
-  result: languagesResponse,
-};
 
 const mocks = [
   {

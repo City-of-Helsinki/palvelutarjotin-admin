@@ -1,16 +1,11 @@
 import * as React from 'react';
 import { MockedResponse } from '@apollo/client/testing';
-import {
-  LanguagesDocument,
-  MenuDocument,
-} from 'react-helsinki-headless-cms/apollo';
 import { vi } from 'vitest';
 
 import Footer from '../Footer';
 import { render, screen } from '../../../../utils/testUtils';
-import { FOOTER_MENU_NAME } from '../../../../headless-cms/constants';
-import languagesResponse from '../../../../test/apollo-mocks/queryResponses/languages.json';
-import footerMenuResponse from '../../../../test/apollo-mocks/queryResponses/footerMenu.json';
+import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');
@@ -20,24 +15,7 @@ vi.mock('hds-react', async () => {
   };
 });
 
-const mocks: MockedResponse[] = [
-  {
-    request: {
-      query: MenuDocument,
-      variables: {
-        id: FOOTER_MENU_NAME['fi'],
-        menuIdentifiersOnly: true,
-      },
-    },
-    result: footerMenuResponse,
-  },
-  {
-    request: {
-      query: LanguagesDocument,
-    },
-    result: languagesResponse,
-  },
-];
+const mocks: MockedResponse[] = [{ ...footerMenuMock }, { ...languagesMock }];
 
 it('Footer matches snapshot', async () => {
   const { container } = render(<Footer />, { mocks });

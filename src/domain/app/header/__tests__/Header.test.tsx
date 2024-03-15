@@ -1,28 +1,22 @@
 import { graphql } from 'msw';
 import * as React from 'react';
 import { vi } from 'vitest';
-import {
-  LanguagesDocument,
-  MenuDocument,
-} from 'react-helsinki-headless-cms/apollo';
+import { MenuItem } from 'react-helsinki-headless-cms';
 import { MockedResponse } from '@apollo/client/testing';
 
-import languagesResponse from '../../../../test/apollo-mocks/queryResponses/languages.json';
-import headerMenuResponse from '../../../../test/apollo-mocks/queryResponses/headerMenu.json';
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
-import { HEADER_MENU_NAME } from '../../../../headless-cms/constants';
+import {
+  headerMenuMock,
+  headerMenuQueryResponse,
+} from '../../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
 vi.mock('../../../auth/selectors', async () => {
   const actual = await vi.importActual('../../../auth/selectors');
@@ -52,22 +46,8 @@ const mocks: MockedResponse[] = [
     },
     result: profileResponse,
   },
-  {
-    request: {
-      query: MenuDocument,
-      variables: {
-        id: HEADER_MENU_NAME['fi'],
-        menuIdentifiersOnly: true,
-      },
-    },
-    result: headerMenuResponse,
-  },
-  {
-    request: {
-      query: LanguagesDocument,
-    },
-    result: languagesResponse,
-  },
+  { ...headerMenuMock },
+  { ...languagesMock },
 ];
 
 beforeEach(() => {
@@ -101,38 +81,58 @@ it('focuses skip link first', async () => {
   expect(skipToContent.parentElement).toHaveAttribute('href', '#main-content');
 });
 
-test('header renders cms menu items', async () => {
+const isButton = (
+  element: Element | undefined | null
+): element is HTMLButtonElement => element?.nodeName === 'BUTTON';
+
+test('header renders cms menu items at top level and directly underneath', async () => {
   vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
-  const { menuItems } = initCmsMenuItemsMocks();
   render(<Header />, { mocks });
-  await waitFor(() => {
-    expect(
-      screen.getByRole('button', {
-        name: 'Suomi',
-      })
-    ).toBeInTheDocument();
-  });
+  await screen.findByRole('button', { name: 'Suomi' });
   await screen.findByText('Kulttuurikasvatus');
 
-  for (const menuItem of menuItems) {
-    if (menuItem.children) {
-      const dropdownButton = await screen.findByRole(
-        'button',
-        {
-          name: menuItem.title,
-        },
-        { timeout: 2000 }
+  const topLevelMenuItems: MenuItem[] =
+    headerMenuQueryResponse.data.menu.menuItems.nodes.filter(
+      (item: MenuItem) => item.parentId === null
+    );
+
+  for (const menuItem of topLevelMenuItems) {
+    expect(menuItem.connectedNode?.node?.__typename).toBe('Page');
+    expect(menuItem.label).toBeTruthy();
+    if (menuItem.connectedNode?.node?.__typename === 'Page' && menuItem.label) {
+      const link = await screen.findByRole('link', { name: menuItem.label });
+      expect(menuItem.connectedNode.node.uri?.startsWith('/')).toBeTruthy();
+      expect(link).toHaveAttribute(
+        'href',
+        `/fi/cms-page${menuItem.connectedNode.node.uri}`
       );
-      await userEvent.click(dropdownButton);
-      for (const childItem of menuItem.children) {
-        await screen.findByRole('link', {
-          name: childItem.title,
-          hidden: true,
-        });
+
+      if (menuItem.connectedNode.node.children?.nodes) {
+        const buttonSiblings = Array.from(
+          link.parentElement?.children ?? []
+        ).filter(isButton);
+        const dropdownButtonSibling = buttonSiblings.find((child) =>
+          child.dataset.testid?.startsWith('dropdown-button')
+        );
+        expect(dropdownButtonSibling).toBeDefined();
+        if (dropdownButtonSibling) {
+          await userEvent.click(dropdownButtonSibling);
+          for (const childItem of menuItem.connectedNode.node.children.nodes) {
+            expect(childItem.__typename).toBe('Page');
+            expect('title' in childItem && childItem.title).toBeTruthy();
+            if (childItem.__typename === 'Page' && childItem.title) {
+              const childItemLink = await screen.findByRole('link', {
+                name: childItem.title,
+              });
+              expect(childItem.uri?.startsWith('/')).toBeTruthy();
+              expect(childItemLink).toHaveAttribute(
+                'href',
+                `/fi/cms-page${childItem.uri}`
+              );
+            }
+          }
+        }
       }
-    } else {
-      const link = await screen.findByRole('link', { name: menuItem.title });
-      expect(link).toHaveAttribute('href', `/fi/cms-page/${menuItem.slug}`);
     }
   }
 });

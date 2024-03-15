@@ -23,7 +23,6 @@ import {
 } from '../../../test/EventPageTestUtil';
 import { Language } from '../../../types';
 import {
-  actWait,
   renderWithRoute,
   screen,
   waitFor,
