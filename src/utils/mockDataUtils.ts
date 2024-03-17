@@ -213,7 +213,10 @@ export const fakeInLanguage = (
   overrides?: Partial<InLanguage>
 ): InLanguage => ({
   id: 'fi',
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/language/fi/',
+  internalId: getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+    'fi'
+  ),
   name: {
     en: null,
     fi: 'suomi',
@@ -226,7 +229,10 @@ export const fakeInLanguage = (
 
 export const fakePlace = (overrides?: Partial<Place>): Place => ({
   id: faker.string.uuid(),
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+  internalId: getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.PLACE,
+    'tprek:15376'
+  ),
   name: fakeLocalizedObject(),
   streetAddress: fakeLocalizedObject(),
   addressLocality: fakeLocalizedObject(),

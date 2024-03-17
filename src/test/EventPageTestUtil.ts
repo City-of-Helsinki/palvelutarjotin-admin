@@ -149,8 +149,18 @@ const editEventVariables = {
       internalId: getKeywordId(k.id),
     })),
     inLanguage: [
-      { internalId: '/language/fi/' },
-      { internalId: '/language/en/' },
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+          'fi'
+        ),
+      },
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
+          'en'
+        ),
+      },
     ],
     keywords: [
       {
@@ -159,7 +169,10 @@ const editEventVariables = {
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
     location: {
-      internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+      internalId: getLinkedEventsInternalId(
+        LINKEDEVENTS_CONTENT_TYPE.PLACE,
+        'tprek:15376'
+      ),
     },
     pEvent: {
       autoAcceptance: true,
@@ -319,7 +332,10 @@ export const editMocks = [
           ...editEventVariables.event,
           name: createFinnishLocalisedObject('Testitapahtuma'),
           location: {
-            internalId: '/place/helsinki:internet/',
+            internalId: getLinkedEventsInternalId(
+              LINKEDEVENTS_CONTENT_TYPE.PLACE,
+              'helsinki:internet'
+            ),
           },
         },
       },
