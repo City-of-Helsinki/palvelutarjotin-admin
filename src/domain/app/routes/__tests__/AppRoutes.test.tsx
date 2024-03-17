@@ -10,6 +10,9 @@ import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { act, render, waitFor } from '../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
+import { headerMenuMock } from '../../../../test/apollo-mocks/headerMenuMock';
 
 const profileResponse = {
   data: {
@@ -24,6 +27,9 @@ const mocks = [
     },
     result: profileResponse,
   },
+  { ...languagesMock },
+  { ...headerMenuMock },
+  { ...footerMenuMock },
 ];
 
 beforeEach(() => {

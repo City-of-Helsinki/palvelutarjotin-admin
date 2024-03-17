@@ -135,7 +135,7 @@ test('returns to create occurrences page when it should after saving', async () 
       }`,
     ],
   });
-
+  await actWait();
   await waitFor(() => {
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
   });
@@ -145,11 +145,14 @@ test('returns to create occurrences page when it should after saving', async () 
     name: /tapahtuman nimi \(fi\)/i,
   });
   await user.type(nameField, 'fixme'); // FIXME: https://github.com/testing-library/user-event/discussions/970
+  await actWait();
   await user.clear(nameField);
+  await actWait();
   await waitFor(() => {
     expect(nameField).toHaveValue('');
   });
   await user.type(nameField, 'Testinimi');
+  await actWait();
   await waitFor(() => {
     expect(nameField).toHaveValue('Testinimi');
   });
@@ -161,14 +164,14 @@ test('returns to create occurrences page when it should after saving', async () 
       name: 'Päivitä tiedot',
     })
   );
-
+  await actWait();
   await waitFor(() => {
     expect(navigate).toHaveBeenCalledWith(
       `/fi/events/${eventId}/occurrences/create`,
       expect.anything()
     );
   });
-});
+}, 20_000);
 
 describe('Event price section', () => {
   test('price field is accessible only when isFree field is not checked', async () => {

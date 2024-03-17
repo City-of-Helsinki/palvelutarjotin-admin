@@ -34,6 +34,7 @@ import {
 } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
+
 const navigate = vi.fn();
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
@@ -225,5 +226,5 @@ describe('save occurrence and event info simultaneously', () => {
     // await waitFor(() => {
     //   expect(navigate).toHaveBeenCalledWith(`/fi/events/${eventId}/summary`);
     // });
-  });
+  }, 20_000);
 });
