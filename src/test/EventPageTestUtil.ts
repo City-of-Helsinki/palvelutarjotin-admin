@@ -29,6 +29,7 @@ import {
   fakeVenue,
 } from '../utils/mockDataUtils';
 import { getKeywordSetsMockResponses } from './apollo-mocks/keywordSetMocks';
+
 export const keywordId = 'yso:p4363';
 export const placeId = 'tprek:15417';
 export const imageId = '48598';
@@ -135,7 +136,14 @@ const editEventVariables = {
     ],
     shortDescription: createFinnishLocalisedObject(shortDescription, true),
     description: createFinnishLocalisedObject(descriptionEditorHTML, true),
-    images: [{ internalId: '/image/48598/' }],
+    images: [
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+          imageId
+        ),
+      },
+    ],
     infoUrl: createFinnishLocalisedObject(infoUrl, true),
     audience: audienceKeywords.map((k) => ({
       internalId: getKeywordId(k.id),

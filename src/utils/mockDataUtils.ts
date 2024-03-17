@@ -293,7 +293,10 @@ export const fakeVenue = (overrides?: Partial<VenueNode>): VenueNode => ({
 
 export const fakeImage = (overrides?: Partial<Image>): Image => ({
   id: faker.string.uuid(),
-  internalId: 'https://api.hel.fi/linkedevents-test/v1/image/48566/',
+  internalId: getLinkedEventsInternalId(
+    LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+    '48566'
+  ),
   license: 'cc_by',
   name: faker.word.words(),
   url: 'https://api.hel.fi/linkedevents-test/media/images/test.png',

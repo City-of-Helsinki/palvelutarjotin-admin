@@ -5,7 +5,10 @@ import { vi } from 'vitest';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
-import { createEmptyLocalizedObject } from '../../../constants';
+import {
+  createEmptyLocalizedObject,
+  LINKEDEVENTS_CONTENT_TYPE,
+} from '../../../constants';
 import {
   CreateEventDocument,
   ImageDocument,
@@ -77,6 +80,7 @@ import * as selectors from '../../auth/selectors';
 import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
 import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
+import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
 
 vi.mock('../../auth/selectors', async () => {
   const actual = await vi.importActual('../../auth/selectors');
@@ -145,7 +149,14 @@ const createEventVariables = {
     ],
     shortDescription: defaultFormData.shortDescription,
     description: createFinnishLocalisedObject(descriptionEditorHTML, true),
-    images: [{ internalId: '/image/48584/' }],
+    images: [
+      {
+        internalId: getLinkedEventsInternalId(
+          LINKEDEVENTS_CONTENT_TYPE.IMAGE,
+          imageId
+        ),
+      },
+    ],
     infoUrl: defaultFormData.infoUrl,
     audience: audienceKeywords.map((k) => ({
       internalId: getKeywordId(k.id),
@@ -341,18 +352,14 @@ test('event can be created with form', async () => {
   render(<CreateEventPage />, { mocks });
 
   await fillForm(defaultFormData as unknown as CreateEventFormFields);
+  await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
-  await waitFor(() => {
-    expect(
-      screen.getByText('Sivulla on tallentamattomia muutoksia')
-    ).toBeInTheDocument();
+  const saveButton = await screen.findByRole('button', {
+    name: 'Tallenna ja siirry tapahtuma-aikoihin',
   });
 
-  await userEvent.click(
-    await screen.findByRole('button', {
-      name: 'Tallenna ja siirry tapahtuma-aikoihin',
-    })
-  );
+  expect(saveButton.getAttribute('disabled')).toBeFalsy();
+  await userEvent.click(saveButton);
 
   await waitFor(() => {
     expect(navigate).toHaveBeenCalledWith(
