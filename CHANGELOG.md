@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.9.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.8.0...palvelutarjotin-admin-v1.9.0) (2024-03-22)
+
+
+### Features
+
+* Migrate from CRA to Vite, TODO: tests & linting ([5f67228](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5f67228482b6e16e62d5c2ab344d3e84c01669b6))
+* Migrate from Jest to Vitest ([23c5e48](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/23c5e4863c196e7ac254177393700b39260247dd))
+* Upgrade to HDS v3.5 & RHHC v1.0.0-alpha255 that uses HDS v3.5 ([613a794](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/613a7947b406d431476d40d4865a1002c5c4d471))
+* Use HDS v3.5 breakpoints if possible, otherwise custom breakpoints ([42e1ab5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/42e1ab59b9536161516da24b7cb67712f5df458a))
+* Use HDS v3.5's hds-favicon-kit for favicons ([af3adc8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/af3adc837743655e4faeb8654742044d6f111e0f))
+
+
+### Bug Fixes
+
+* **docker:** Pass REACT_APP_ORIGIN as argument to Dockerfile ([975c0d7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/975c0d7618354828e872d5f660308e022f28c1d4))
+* Fix production styles & running docker compose ([130fb3a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/130fb3a183e5a5872444ff2bd1afb18a7e549ab1))
+* Fix routing of CMS pages by fixing getRoutedInternalHref function ([14b9019](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/14b90196958ae14a3164a991e1f5b1c2ef0a680c))
+* Fix showing selected menu item by fixing getIsItemActive function ([428e0e4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/428e0e45acd611c7854c94ed62f0b88552e7ad9a))
+* Remove non-working preview from (Approve|Decline)EnrolmentModal ([cc41530](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cc415305cb31fd9cdd9dce4833b552ef40e6aade))
+* Update .env* files ([177044b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/177044ba9a123545fe82fce400acfca363f7bb28))
+* Update .env* files ([c9f0425](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c9f042505f12569eeafac9da739e818c2ff1fab5))
+
 ## [1.8.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.3...palvelutarjotin-admin-v1.8.0) (2023-12-27)
 
 
