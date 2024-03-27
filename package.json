@@ -11,12 +11,20 @@
     "node": ">=18.19.1"
   },
   "//": [
+    "@testing-library/dom:",
     "Multiple versions of @testing-library/dom cause issues with user-event",
     "See https://github.com/testing-library/user-event/discussions/906",
-    "That's why @testing-library/dom has been added to resolutions."
+    "That's why @testing-library/dom has been added to resolutions.",
+    "",
+    "@apollo/client:",
+    "@apollo/client is resolved to 3.8.1 in order to:",
+    " - Not have multiple versions of @apollo/client installed",
+    " - To have the exact same version of @apollo/client as is in",
+    "   react-helsinki-headless-cms v1.0.0-alpha264's yarn.lock"
   ],
   "resolutions": {
-    "@testing-library/dom": "^9.3.4"
+    "@testing-library/dom": "^9.3.4",
+    "@apollo/client": "3.8.1"
   },
   "dependencies": {
     "@apollo/client": "3.8.1",
@@ -29,6 +37,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/testcafe": "^5.0.1",
     "@testing-library/user-event": "^14.5.2",
+    "@types/apollo-upload-client": "^18.0.0",
     "@types/classnames": "^2.3.1",
     "@types/dompurify": "^3.0.5",
     "@types/draft-js": "^0.11.18",
@@ -50,6 +59,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "@vitest/coverage-v8": "^1.4.0",
+    "apollo-upload-client": "^18.0.1",
     "axios": "^1.6.7",
     "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
