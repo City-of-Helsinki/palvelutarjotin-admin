@@ -2,12 +2,12 @@ import {
   ApolloClient,
   ApolloLink,
   defaultDataIdFromObject,
-  HttpLink,
   InMemoryCache,
   StoreObject,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import * as Sentry from '@sentry/browser';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 
@@ -85,7 +85,7 @@ export const createApolloCache = () =>
     },
   });
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
   uri: import.meta.env.VITE_APP_API_URI,
 });
 
