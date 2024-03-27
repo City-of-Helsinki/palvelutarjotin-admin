@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.9.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.0...palvelutarjotin-admin-v1.9.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* Fix image uploading by installing apollo-upload-client and using it ([d00df67](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d00df671f81421eb6a0e5e818111d02034a1ddbd))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.8.0...palvelutarjotin-admin-v1.9.0) (2024-03-22)
 
 
