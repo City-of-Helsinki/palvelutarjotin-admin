@@ -149,8 +149,7 @@ const EventDetailsPage = () => {
   };
 
   const handleEditEventClick = () => {
-    id &&
-      pushWithReturnPath(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
+    id && pushWithReturnPath(ROUTES.EDIT_EVENT.replace(':id', id));
   };
 
   return (

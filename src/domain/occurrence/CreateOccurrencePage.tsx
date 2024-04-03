@@ -222,8 +222,7 @@ const CreateOccurrencePage: React.FC = () => {
   };
 
   const goToSummaryPage = () => {
-    eventId &&
-      pushWithLocale(`${ROUTES.EVENT_SUMMARY}`.replace(':id', eventId));
+    eventId && pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
   };
 
   const handleSelectedLanguagesChange = (

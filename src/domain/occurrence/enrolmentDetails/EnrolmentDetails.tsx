@@ -151,10 +151,10 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
 
   const handleEditEnrolment = () => {
     pushWithReturnPath(
-      `${ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
+      ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
         ':enrolmentId',
         enrolmentId
-      )}`
+      )
     );
   };
 

@@ -99,18 +99,15 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const goToEventDetailsPage = () => {
-    eventId &&
-      pushWithReturnPath(`${ROUTES.EVENT_DETAILS.replace(':id', eventId)}`);
+    eventId && pushWithReturnPath(ROUTES.EVENT_DETAILS.replace(':id', eventId));
   };
 
   const goToCreateOccurrence = () => {
-    eventId &&
-      pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', eventId)}`);
+    eventId && pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', eventId));
   };
 
   const copyEventToNewTemplate = () => {
-    eventId &&
-      pushWithReturnPath(`${ROUTES.COPY_EVENT.replace(':id', eventId)}`);
+    eventId && pushWithReturnPath(ROUTES.COPY_EVENT.replace(':id', eventId));
   };
 
   const goToHome = () => pushWithLocale(ROUTES.HOME);

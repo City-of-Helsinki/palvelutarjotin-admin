@@ -48,9 +48,7 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
   const placeId = occurrence.placeId || event.location?.id;
 
   const goToEventDetailsPage = () => {
-    pushWithReturnPath(
-      `/${locale}${ROUTES.EVENT_DETAILS.replace(':id', eventId || '')}`
-    );
+    pushWithReturnPath(ROUTES.EVENT_DETAILS.replace(':id', eventId || ''));
   };
 
   const getOccurrenceDateTimeString = () => {
