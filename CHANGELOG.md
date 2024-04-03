@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.9.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.0...palvelutarjotin-admin-v1.9.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* Fix event links with double locale, e.g. /fi/fi/ -&gt; /fi/ ([135af9d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/135af9dc2d2ed229f9dd4b5ab9e91f105eb6fd82))
+* Fix image uploading by installing apollo-upload-client and using it ([d00df67](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d00df671f81421eb6a0e5e818111d02034a1ddbd))
+* Use correct Linked Events test URL in testing ([fc85aea](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fc85aea08d794d749b3ccfba49d3837e8304138b))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.8.0...palvelutarjotin-admin-v1.9.0) (2024-03-22)
 
 
