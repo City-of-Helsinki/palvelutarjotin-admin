@@ -54,7 +54,7 @@ exports[`matches snapshot 1`] = `
         <img
           alt="Testikuva"
           class="image"
-          src="https://api.hel.fi/linkedevents-test/media/images/test.png"
+          src="https://linkedevents.api.test.hel.ninja/media/images/test.png"
         />
       </div>
       <div
