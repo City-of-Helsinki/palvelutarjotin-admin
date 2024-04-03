@@ -59,7 +59,7 @@ const useEventFormEditSubmit = (
   );
 
   const goToOccurrencesPage = () => {
-    id && pushWithLocale(`${ROUTES.CREATE_OCCURRENCE.replace(':id', id)}`);
+    id && pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', id));
   };
 
   const navigateAfterSave = () => {
