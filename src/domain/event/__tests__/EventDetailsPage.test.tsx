@@ -215,7 +215,7 @@ test('renders correct information and delete works', async () => {
   const eventImage = screen.getByAltText('Kuvan vaihtoehtoinen teksti');
   expect(eventImage).toHaveAttribute(
     'src',
-    'https://api.hel.fi/linkedevents-test/media/images/test.png'
+    'https://linkedevents.api.test.hel.ninja/media/images/test.png'
   );
 
   const deleteButton = screen.getByRole('button', { name: 'Poista tapahtuma' });

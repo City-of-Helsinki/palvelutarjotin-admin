@@ -305,7 +305,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => ({
   ),
   license: 'cc_by',
   name: faker.word.words(),
-  url: 'https://api.hel.fi/linkedevents-test/media/images/test.png',
+  url: 'https://linkedevents.api.test.hel.ninja/media/images/test.png',
   cropping: '59,0,503,444',
   photographerName: faker.person.firstName(),
   altText: faker.word.words(),
