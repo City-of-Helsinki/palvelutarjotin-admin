@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../../domain/app/layout/Container';
@@ -9,7 +10,7 @@ import { Page } from '../../generated/graphql-cms';
 import useLocale from '../../hooks/useLocale';
 import { Breadcrumb, useCmsNavigation } from '../hooks';
 import { usePageQuery } from '../usePageQuery';
-import { stripLocaleFromUri } from '../utils';
+import { stripLocaleFromUri, unescapeDash } from '../utils';
 import styles from './cmsPage.module.scss';
 import CmsPageContent from './CmsPageContent';
 import CmsPageSearch from './CmsPageSearch/CmsPageSearch';
@@ -45,6 +46,8 @@ const useReactRouterV6Uri = () => {
 
 const CmsPage: React.FC = () => {
   const uri = useReactRouterV6Uri();
+  const locale = useLocale();
+  const { pathname } = useLocation();
   const { data: pageData, loading: loadingPage } = usePageQuery(uri ?? '', {
     skip: !uri,
   });
@@ -56,8 +59,20 @@ const CmsPage: React.FC = () => {
   const showSearch =
     (page?.children?.nodes?.length ?? 0) > SEARCH_PANEL_TRESHOLD;
 
+  let path = pathname.replace(`/${locale}`, '');
+  path = path.startsWith('/') ? path.slice(1) : path;
+
+  const title = pageData?.page?.seo?.title;
+
   return (
     <LoadingSpinner isLoading={loadingPage || loadingNavigation}>
+      <Helmet>
+        <html lang={locale} />
+        {title && <title>{unescapeDash(title)}</title>}
+        <link rel="alternate" hrefLang="fi" href={'/fi/' + path} />
+        <link rel="alternate" hrefLang="sv" href={'/sv/' + path} />
+        <link rel="alternate" hrefLang="en" href={'/en/' + path} />
+      </Helmet>
       <div className={styles.cmsPageContainer}>
         {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs} />}
         {page && <CmsPageContent page={page} />}

@@ -50,3 +50,15 @@ export const queryPageWithUri = (uri: string) => {
     },
   });
 };
+
+export const replaceAll = (str: string, find: string, replace: string) => {
+  return str.replace(new RegExp(find, 'g'), replace);
+};
+
+export const unescapeDash = (str?: string): string => {
+  if (!str) {
+    return str ?? '';
+  }
+
+  return replaceAll(str, '&#x2d;', '-');
+};
