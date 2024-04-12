@@ -30,6 +30,7 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
   );
   const mandatoryAdditionalInformation =
     eventData.event?.pEvent?.mandatoryAdditionalInformation;
+  const isQueueingAllowed = eventData.event?.pEvent?.isQueueingAllowed;
   const imageId = eventData.event?.images[0]?.id;
   const infoUrl = getLocalizedString(eventData.event?.infoUrl || {}, language);
   const enrolmentType = eventData.event && getEnrolmentType(eventData.event);
@@ -72,17 +73,19 @@ const EventBasicInfo: React.FC<Props> = ({ eventData, language }) => {
         <TextTitle>
           {t('eventDetails.basicInfo.labelMandatoryAdditionalInformation')}
         </TextTitle>
-        {mandatoryAdditionalInformation ? (
-          <p>
-            {t('eventDetails.basicInfo.mandatoryAdditionalInformationTrueText')}
-          </p>
-        ) : (
-          <p>
-            {t(
-              'eventDetails.basicInfo.mandatoryAdditionalInformationFalseText'
-            )}
-          </p>
-        )}
+        <p>
+          {mandatoryAdditionalInformation
+            ? t('eventDetails.basicInfo.mandatoryAdditionalInformation')
+            : t('eventDetails.basicInfo.optionalAdditionalInformation')}
+        </p>
+      </>
+      <>
+        <TextTitle>{t('eventDetails.basicInfo.labelQueueing')}</TextTitle>
+        <p>
+          {isQueueingAllowed
+            ? t('eventDetails.basicInfo.queueingAllowed')
+            : t('eventDetails.basicInfo.queueingNotAllowed')}
+        </p>
       </>
       {imageId && <ImageInfo imageId={imageId} />}
       {infoUrl && (

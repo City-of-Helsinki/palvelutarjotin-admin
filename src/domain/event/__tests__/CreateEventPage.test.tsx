@@ -121,24 +121,34 @@ const imageFile = new File(['(⌐□_□)'], 'palvelutarjotin.png', {
 });
 const imageAltText = 'AltText';
 
-const defaultFormData = {
+const partialDefaultFormData: Omit<
+  CreateEventFormFields,
+  | 'additionalCriteria'
+  | 'audience'
+  | 'categories'
+  | 'contactPersonId'
+  | 'image'
+  | 'inLanguage'
+  | 'isFree'
+  | 'isQueueingAllowed'
+  | 'keywords'
+  | 'mandatoryAdditionalInformation'
+  | 'price'
+  | 'priceDescription'
+> = {
   name: createFinnishLocalisedObject(eventName, true),
   shortDescription: createFinnishLocalisedObject(shortDescription, true),
   description: createFinnishLocalisedObject(description, true),
   infoUrl: createFinnishLocalisedObject(infoUrl, true),
   contactEmail: 'testi@testi.fi',
   contactPhoneNumber: '123123123',
-  enrolmentStart: '13.8.2020 03:45',
-  enrolmentEndDays: '3',
-  neededOccurrences: '3',
   imagePhotographerName: 'Valo Valokuvaaja',
   imageAltText: 'Vaihtoehtoinen kuvateksti',
-  firstOccurrenceDate: '20.11.2020',
 };
 
 const createEventVariables = {
   event: {
-    name: defaultFormData.name,
+    name: partialDefaultFormData.name,
     startTime: '2020-08-07T21:00:00.000Z',
     offers: [
       {
@@ -147,7 +157,7 @@ const createEventVariables = {
         isFree: true,
       },
     ],
-    shortDescription: defaultFormData.shortDescription,
+    shortDescription: partialDefaultFormData.shortDescription,
     description: createFinnishLocalisedObject(descriptionEditorHTML, true),
     images: [
       {
@@ -157,7 +167,7 @@ const createEventVariables = {
         ),
       },
     ],
-    infoUrl: defaultFormData.infoUrl,
+    infoUrl: partialDefaultFormData.infoUrl,
     audience: audienceKeywords.map((k) => ({
       internalId: getKeywordId(k.id),
     })),
@@ -169,11 +179,12 @@ const createEventVariables = {
       ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
     ],
     pEvent: {
-      contactEmail: defaultFormData.contactEmail,
+      contactEmail: partialDefaultFormData.contactEmail,
       contactPersonId: contactPersonId,
       contactPhoneNumber: contactPhoneNumber,
       neededOccurrences: 1,
       mandatoryAdditionalInformation: true,
+      isQueueingAllowed: true,
       translations: [],
     },
     organisationId,
@@ -351,7 +362,7 @@ test('event can be created with form', async () => {
   vi.setSystemTime(new Date(2020, 7, 8));
   render(<CreateEventPage />, { mocks });
 
-  await fillForm(defaultFormData as unknown as CreateEventFormFields);
+  await fillForm(partialDefaultFormData);
   await screen.findByText('Sivulla on tallentamattomia muutoksia');
 
   const saveButton = await screen.findByRole('button', {
@@ -512,7 +523,7 @@ describe('Language selection', () => {
       mocks: mocks,
     });
 
-    await fillForm(defaultFormData as unknown as CreateEventFormFields);
+    await fillForm(partialDefaultFormData);
 
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
@@ -683,7 +694,7 @@ const testMultiDropdownValues = async ({
   }
 };
 
-const fillForm = async (eventFormData: CreateEventFormFields) => {
+const fillForm = async (eventFormData: typeof partialDefaultFormData) => {
   await screen.findByText(defaultOrganizationName);
 
   await userEvent.type(

@@ -93,6 +93,7 @@ exports[`Footer matches snapshot 1`] = `
             class="FooterBase-module_links__3lfLo"
           >
             <span
+              aria-hidden="true"
               class="FooterBase-module_separator__cwQTe"
             >
               |
@@ -106,6 +107,7 @@ exports[`Footer matches snapshot 1`] = `
               </span>
             </a>
             <span
+              aria-hidden="true"
               class="FooterBase-module_separator__cwQTe"
             >
               |

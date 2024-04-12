@@ -16,8 +16,13 @@ interface Props {
 const AdditionalInfo: React.FC<Props> = ({ enrolment }) => {
   const { t } = useTranslation();
 
-  const { language, studyGroupPersonInfo, personInfo, extraNeeds } =
-    getEnrolmentFields(enrolment);
+  const {
+    extraNeeds,
+    language,
+    personInfo,
+    preferredTimes,
+    studyGroupPersonInfo,
+  } = getEnrolmentFields(enrolment);
 
   return (
     <div className={styles.additionalInfo}>
@@ -37,6 +42,9 @@ const AdditionalInfo: React.FC<Props> = ({ enrolment }) => {
         {personInfo?.map((item, i) => <span key={i}>{item}</span>)}
       </div>
       {extraNeeds && <div>{extraNeeds}</div>}
+      {preferredTimes && (
+        <div className={styles.preferredTimes}>{preferredTimes}</div>
+      )}
     </div>
   );
 };

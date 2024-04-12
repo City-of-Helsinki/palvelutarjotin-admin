@@ -2,8 +2,8 @@
 
 exports[`Header matches snapshot 1`] = `
 <header
-  class="hds-header Header-module_header__291GF custom-theme-1"
-  theme="[object Object]"
+  class="hds-header Header-module_header__291GF"
+  style="--header-max-width: var(--breakpoint-xl);"
 >
   <div
     class="Header-module_headerBackgroundWrapper__KsFy2"

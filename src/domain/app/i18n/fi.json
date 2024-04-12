@@ -312,8 +312,11 @@
       "enrolmentStart": "{{date}} klo {{time}}",
       "labelDescription": "Kuvaus",
       "labelMandatoryAdditionalInformation": "Lisätietojen syöttämisen pakollisuus",
-      "mandatoryAdditionalInformationTrueText": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
-      "mandatoryAdditionalInformationFalseText": "Lisätietojen syöttäminen ei ole pakollista",
+      "mandatoryAdditionalInformation": "Lisätietojen syöttäminen on ilmoittautujalle pakollista",
+      "optionalAdditionalInformation": "Lisätietojen syöttäminen ei ole pakollista",
+      "labelQueueing": "Tapahtumaan jonottaminen",
+      "queueingAllowed": "Tapahtumaan saa jonottaa",
+      "queueingNotAllowed": "Tapahtumaan ei saa jonottaa",
       "labelEnrolmentEndDays": "Ilmoittautuminen sulkeutuu, päivää",
       "labelEnrolmentStart": "Ilmoittautuminen alkaa",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
@@ -383,6 +386,7 @@
       "labelImageAltText": "Kuvan alt-teksti",
       "labelImagePhotographer": "Valokuvaaja",
       "labelInfoUrl": "WWW-osoite, josta saa lisätietoja tapahtumasta",
+      "labelIsQueueingAllowed": "Tapahtumaan saa jonottaa",
       "labelName": "Tapahtuman nimi",
       "labelShortDescription": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
       "helperEnrolmentEndDays": "Valitse kuinka monta päivää ennen tapahtuma-aikaa ilmoittautuminen päättyy",
@@ -486,6 +490,8 @@
       "statusPublished": "Julkaistu",
       "statusNotPublished": "Ei julkaistu",
       "free": "Maksuton",
+      "queueingAllowed": "Jonotus sallittu",
+      "queueingNotAllowed": "Ei jonotusta",
       "startTime": {
         "other": "{{date}} klo {{time}}",
         "today": "Tänään klo {{time}}",
@@ -818,7 +824,7 @@
       "labelHasIndoorPlayingArea": "Leikkitilaa sisällä",
       "labelHasOutdoorPlayingArea": "Leikkitilaa ulkona",
       "labelLocationDescription": "Tapahtumapaikan kuvaus",
-      "placeholderLocationDescription": "Esimeriksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
+      "placeholderLocationDescription": "Esimerkiksi miten ryhmä mahtuu vaihtamaan ulkovaatteita, missä voi syödä eväitä..."
     }
   },
   "cmspage": {

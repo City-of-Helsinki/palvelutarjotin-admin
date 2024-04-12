@@ -31,6 +31,7 @@ import {
 } from './constants';
 import { createEventInitialValues } from './eventForm/EventForm';
 import { CreateEventFormFields } from './types';
+
 /**
  * Get event placeholder image url
  * @param {string} id
@@ -201,6 +202,7 @@ export const getEventPayload = ({
       contactPhoneNumber: formValues.contactPhoneNumber,
       neededOccurrences: 1,
       mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
+      isQueueingAllowed: formValues.isQueueingAllowed,
       translations: [],
     },
     organisationId,
@@ -289,6 +291,7 @@ export const getEditEventPayload = ({
         (translation) => omit(translation, '__typename')
       ),
       mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
+      isQueueingAllowed: formValues.isQueueingAllowed,
     },
     organisationId,
   };
@@ -358,6 +361,7 @@ export const getEventFields = (
         neededOccurrences: event.pEvent?.neededOccurrences,
         mandatoryAdditionalInformation:
           event.pEvent?.mandatoryAdditionalInformation,
+        isQueueingAllowed: event.pEvent?.isQueueingAllowed,
         occurrences:
           event.pEvent?.occurrences?.edges.map(
             (edge) => edge?.node as OccurrenceFieldsFragment
@@ -412,6 +416,14 @@ export const getPublishEventPayload = ({
  */
 export const isEventFree = (event: EventFieldsFragment): boolean =>
   Boolean(event.offers.find((item) => item.isFree)?.isFree);
+
+/**
+ * Is queueing to the given event allowed?
+ * @param event
+ * @return {boolean} True if queueing to the given event is allowed, otherwise false.
+ */
+export const isQueueingAllowed = (event: EventFieldsFragment): boolean =>
+  event.pEvent.isQueueingAllowed;
 
 export const getRealKeywords = (
   eventData: EventQuery
@@ -473,7 +485,11 @@ export const getEventFormValues = (
   price: eventData.event?.offers?.[0]?.price?.fi ?? '',
   shortDescription: getLocalisedObject(eventData.event?.shortDescription),
   mandatoryAdditionalInformation:
-    eventData.event?.pEvent?.mandatoryAdditionalInformation || false,
+    eventData.event?.pEvent?.mandatoryAdditionalInformation ??
+    createEventInitialValues.mandatoryAdditionalInformation,
+  isQueueingAllowed:
+    eventData.event?.pEvent?.isQueueingAllowed ??
+    createEventInitialValues.isQueueingAllowed,
 });
 
 export const omitUnselectedLanguagesFromValues = (
