@@ -14,6 +14,7 @@ export const QUERY_EVENT = gql`
     enrolmentEndDays
     enrolmentStart
     externalEnrolmentUrl
+    isQueueingAllowed
     neededOccurrences
     mandatoryAdditionalInformation
     organisation {

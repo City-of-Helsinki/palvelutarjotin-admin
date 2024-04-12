@@ -81,6 +81,11 @@ exports[`renders event information correctly and matches snapshot 1`] = `
         <div
           class="keyword"
         >
+          Jonotus sallittu
+        </div>
+        <div
+          class="keyword"
+        >
           avainsana1
         </div>
         <div

@@ -184,6 +184,7 @@ const editEventVariables = {
       externalEnrolmentUrl: null,
       neededOccurrences: 3,
       mandatoryAdditionalInformation: mandatoryAdditionalInformation,
+      isQueueingAllowed: true,
       translations: [],
     },
     organisationId: organisationId,

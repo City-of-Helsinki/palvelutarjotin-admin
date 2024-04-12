@@ -44,6 +44,7 @@ export const eventInitialValues: CreateEventFormFields = {
   infoUrl: createEmptyLocalizedObject(),
   inLanguage: [],
   isFree: true,
+  isQueueingAllowed: true,
   keywords: [],
   name: createEmptyLocalizedObject(),
   price: '',
@@ -220,6 +221,16 @@ const EventForm = <T extends FormFields>({
                             'eventForm.basicInfo.labelMandatoryAdditionalInformation'
                           )}
                           name="mandatoryAdditionalInformation"
+                          component={CheckboxField}
+                        />
+                      </FormGroup>
+
+                      <FormGroup>
+                        <Field
+                          label={t(
+                            'eventForm.basicInfo.labelIsQueueingAllowed'
+                          )}
+                          name="isQueueingAllowed"
                           component={CheckboxField}
                         />
                       </FormGroup>

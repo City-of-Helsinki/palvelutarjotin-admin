@@ -19,6 +19,7 @@ export interface CreateEventFormFields {
   infoUrl: LocalisedObject;
   inLanguage: string[];
   isFree: boolean;
+  isQueueingAllowed: boolean;
   keywords: string[];
   name: LocalisedObject;
   price: number | string;

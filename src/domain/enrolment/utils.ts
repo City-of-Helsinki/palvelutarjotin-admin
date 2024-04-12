@@ -22,6 +22,7 @@ export const getEnrolmentFields = (
   enrolment
     ? {
         extraNeeds: enrolment.studyGroup.extraNeeds,
+        preferredTimes: enrolment.studyGroup.preferredTimes,
         language:
           enrolment.person?.language || enrolment.studyGroup.person?.language,
         personInfo: [

@@ -311,8 +311,11 @@
       "enrolmentStart": "{{date}} på {{time}}",
       "labelDescription": "Beskrivning",
       "labelMandatoryAdditionalInformation": "Obligatorisk registrering av ytterligare information",
-      "mandatoryAdditionalInformationTrueText": "Ytterligare information är inte obligatoriskt",
-      "mandatoryAdditionalInformationFalseText": "Ytterligare information är inte obligatoriskt",
+      "mandatoryAdditionalInformation": "Ytterligare information är inte obligatoriskt",
+      "optionalAdditionalInformation": "Ytterligare information är inte obligatoriskt",
+      "labelQueueing": "Kö till evenemanget",
+      "queueingAllowed": "Det är tillåtet att köa till evenemanget",
+      "queueingNotAllowed": "Det är inte tillåtet att köa till evenemanget",
       "labelEnrolmentEndDays": "Registreringen stängs, dagar",
       "labelEnrolmentStart": "Registrering börjar",
       "labelInfoUrl": "En webbadress där du kan hitta mer information om evenemanget",
@@ -383,6 +386,7 @@
       "labelImageAltText": "Bildens alt-text",
       "labelImagePhotographer": "Fotograf",
       "labelInfoUrl": "Webbadress där du hittar mer information om evenemanget",
+      "labelIsQueueingAllowed": "Det är tillåtet att köa till detta evenemang",
       "labelName": "Evenemangets namn",
       "labelShortDescription": "Kort beskrivning (upp till 160 tecken)",
       "labelTargetGroup": "Målgrupper",
@@ -487,6 +491,8 @@
       "statusPublished": "Publicerat",
       "statusNotPublished": "Ej publicerat",
       "free": "Gratis",
+      "queueingAllowed": "Kö tillåts",
+      "queueingNotAllowed": "Ingen kö",
       "startTime": {
         "other": "{{date}} kl. {{time}}",
         "today": "Idag kl. {{time}}",
@@ -503,7 +509,6 @@
       "placesClearButtonAriaLabel": "Radera ut de utvalda platserna",
       "placesSelectedItemRemoveButtonAriaLabel": "Tabort (det här) stället"
     },
-
     "textEventCount": "{{count}} st",
     "textNoComingEvents": "Inga evenemang med kommande evenemangtider",
     "title": "Evenemang",

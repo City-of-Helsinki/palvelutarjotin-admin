@@ -1,4 +1,10 @@
-import { IconFaceSmile, IconInfoCircle, IconTicket } from 'hds-react';
+import {
+  IconFaceSmile,
+  IconInfoCircle,
+  IconLock,
+  IconLockOpen,
+  IconTicket,
+} from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,6 +20,26 @@ interface EventPreviewBasicInfoProps {
   event: EventFieldsFragment;
 }
 
+const QueueingAllowed: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <IconLockOpen />
+      <p>{t('events.eventCard.queueingAllowed')}</p>
+    </div>
+  );
+};
+
+const QueueingNotAllowed: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <IconLock />
+      <p>{t('events.eventCard.queueingNotAllowed')}</p>
+    </div>
+  );
+};
+
 const EventPreviewBasicInfo: React.FC<EventPreviewBasicInfoProps> = ({
   event,
 }) => {
@@ -25,6 +51,7 @@ const EventPreviewBasicInfo: React.FC<EventPreviewBasicInfoProps> = ({
     eventName,
     shortDescription,
     isEventFree,
+    isQueueingAllowed,
     organization,
     contactEmail,
     contactPerson,
@@ -51,6 +78,7 @@ const EventPreviewBasicInfo: React.FC<EventPreviewBasicInfoProps> = ({
             <p>{t('events.eventCard.free')}</p>
           </div>
         )}
+        {isQueueingAllowed ? <QueueingAllowed /> : <QueueingNotAllowed />}
         {infoUrl && (
           <div>
             <IconInfoCircle />

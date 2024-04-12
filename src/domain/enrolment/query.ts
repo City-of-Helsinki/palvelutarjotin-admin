@@ -30,6 +30,7 @@ export const QUERY_ENROLMENT = gql`
       }
     }
     extraNeeds
+    preferredTimes
     person {
       ...personFields
     }

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getLocalisedString from '../../../utils/getLocalizedString';
-import { isEventFree } from '../utils';
+import { isEventFree, isQueueingAllowed } from '../utils';
 import styles from './eventKeywords.module.scss';
 
 interface Props {
@@ -17,6 +17,9 @@ const EventKeywords = ({ event }: Props): ReactElement => {
 
   const keywords = [
     isEventFree(event) && t('events.eventCard.free'),
+    isQueueingAllowed(event)
+      ? t('events.eventCard.queueingAllowed')
+      : t('events.eventCard.queueingNotAllowed'),
     ...event.keywords.map((keyword) =>
       getLocalisedString(keyword.name || {}, locale)
     ),

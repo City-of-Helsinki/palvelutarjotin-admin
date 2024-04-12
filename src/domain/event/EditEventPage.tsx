@@ -32,6 +32,7 @@ import {
   getEventFormValues,
   omitUnselectedLanguagesFromValues,
 } from './utils';
+import { invalidateEventCache } from '../app/apollo/utils';
 
 export enum EDIT_EVENT_QUERY_PARAMS {
   NAVIGATED_FROM = 'navigatedFrom',
@@ -120,6 +121,11 @@ const useEventFormEditSubmit = (
 
         // Run all requests parallel
         await Promise.all(requests);
+
+        // Make sure event's data is up to date after editing
+        if (eventData?.event?.id) {
+          invalidateEventCache(eventData?.event?.id);
+        }
 
         navigateAfterSave();
       } else {
