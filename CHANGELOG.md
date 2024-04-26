@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.10.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.1...palvelutarjotin-admin-v1.10.0) (2024-04-26)
+
+
+### Features
+
+* Add pEvent.isQueueingAllowed & studyGroup.preferredTimes support ([d304d75](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d304d758b9689d9e93d3199728d704d597c8e328))
+
+
+### Bug Fixes
+
+* Cms page title and lang meta tags ([#339](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/339)) ([a27757c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a27757ccac36c5b5294138f51e968ba404a8044a))
+
 ## [1.9.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.0...palvelutarjotin-admin-v1.9.1) (2024-04-03)
 
 
