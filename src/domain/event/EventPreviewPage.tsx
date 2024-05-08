@@ -16,7 +16,7 @@ import styles from './eventPage.module.scss';
 import EventPreviewBasicInfo from './eventPreviewBasicInfo/EventPreviewBasicInfo';
 import { getEventFields } from './utils';
 
-const EventPage: React.FC = () => {
+const EventPreviewPage: React.FC = () => {
   const { pushWithLocale } = useNavigate();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -59,4 +59,4 @@ const EventPage: React.FC = () => {
   );
 };
 
-export default EventPage;
+export default EventPreviewPage;
