@@ -18,11 +18,6 @@ export enum ROUTES {
   SILENT_CALLBACK = '/silent-callback',
   ENROLMENT_REPORT = '/events/:id/export-enrolments',
   CMS_PAGE = `/cms-page/:slug`,
-  /** @deprecated there is no need for `/api/version` when it's served from
-   * `/readiness` -probe (in PT-1698). This route has originally been
-   * implemented as a compromise.
-   */
-  API_VERSION = '/api/version',
 }
 
 export const IGNORE_SCROLL_TO_TOP = [
