@@ -8,11 +8,12 @@ import { fakePlaces } from '../../utils/mockDataUtils';
 
 export const createSchoolsAndKindergartensListQueryMock = (
   count = 1,
-  places?: Partial<Place>[]
+  places?: Partial<Place>[],
+  search?: string
 ): MockedResponse => ({
   request: {
     query: SchoolsAndKindergartensListDocument,
-    variables: {},
+    variables: { search },
   },
   result: {
     data: {

@@ -51,8 +51,8 @@ export const QUERY_PLACE = gql`
       }
     }
   }
-  query SchoolsAndKindergartensList {
-    schoolsAndKindergartensList {
+  query SchoolsAndKindergartensList($search: String) {
+    schoolsAndKindergartensList(search: $search) {
       meta {
         count
       }

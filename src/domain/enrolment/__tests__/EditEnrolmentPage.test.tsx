@@ -381,7 +381,26 @@ describe('UnitField', () => {
   }, 20_000);
 
   it('renders a list of schools and kindergartens in unit id field', async () => {
-    await setupUnitFieldTest();
+    await setupUnitFieldTest([
+      createSchoolsAndKindergartensListQueryMock(
+        10,
+        [
+          { id: 'test:place1', name: fakeLocalizedObject('place1') },
+          { id: 'test:place2', name: fakeLocalizedObject('place2') },
+          { id: 'test:place12', name: fakeLocalizedObject('place12') },
+          { id: 'test:place123', name: fakeLocalizedObject('place123') },
+        ],
+        'place'
+      ),
+      createSchoolsAndKindergartensListQueryMock(
+        10,
+        [
+          { id: 'test:place12', name: fakeLocalizedObject('place12') },
+          { id: 'test:place123', name: fakeLocalizedObject('place123') },
+        ],
+        'place12'
+      ),
+    ]);
 
     // Type to unit id field
     await userEvent.type(getUnitFieldInput(), 'place');
@@ -460,7 +479,17 @@ describe('UnitField', () => {
       }),
     ];
 
-    await setupUnitFieldTest(placeMocks);
+    await setupUnitFieldTest([
+      ...placeMocks,
+      createSchoolsAndKindergartensListQueryMock(
+        10,
+        [
+          { id: 'test:place12', name: fakeLocalizedObject('place12') },
+          { id: 'test:place123', name: fakeLocalizedObject('place123') },
+        ],
+        'place12'
+      ),
+    ]);
 
     await userEvent.type(getUnitFieldInput(), 'place12');
 
@@ -477,7 +506,16 @@ describe('UnitField', () => {
   }, 20_000);
 
   it('shows "no place found" text in autosuggest div next to invalid input', async () => {
-    await setupUnitFieldTest(undefined);
+    await setupUnitFieldTest([
+      createSchoolsAndKindergartensListQueryMock(
+        10,
+        [
+          { id: 'test:place12', name: fakeLocalizedObject('place12') },
+          { id: 'test:place123', name: fakeLocalizedObject('place123') },
+        ],
+        'place12'
+      ),
+    ]);
 
     await userEvent.type(getUnitFieldInput(), 'place12');
 
@@ -499,6 +537,14 @@ describe('UnitField', () => {
         id: 'test:place12',
         name: fakeLocalizedObject('place12'),
       }),
+      createSchoolsAndKindergartensListQueryMock(
+        10,
+        [
+          { id: 'test:place12', name: fakeLocalizedObject('place12') },
+          { id: 'test:place123', name: fakeLocalizedObject('place123') },
+        ],
+        'place12'
+      ),
     ]);
 
     await userEvent.type(
