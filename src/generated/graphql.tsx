@@ -1665,6 +1665,11 @@ export type QueryPopularKultusKeywordsArgs = {
 };
 
 
+export type QuerySchoolsAndKindergartensListArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryStudyLevelArgs = {
   id: Scalars['ID']['input'];
 };
@@ -2459,7 +2464,9 @@ export type PlacesQueryVariables = Exact<{
 
 export type PlacesQuery = { __typename?: 'Query', places?: { __typename?: 'PlaceListResponse', meta: { __typename?: 'Meta', count?: number | null, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Place', id?: string | null, internalId: string, name?: { __typename?: 'LocalisedObject', en?: string | null, fi?: string | null, sv?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', en?: string | null, fi?: string | null, sv?: string | null } | null, addressLocality?: { __typename?: 'LocalisedObject', en?: string | null, fi?: string | null, sv?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', en?: string | null, fi?: string | null, sv?: string | null } | null }> } | null };
 
-export type SchoolsAndKindergartensListQueryVariables = Exact<{ [key: string]: never; }>;
+export type SchoolsAndKindergartensListQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
 export type SchoolsAndKindergartensListQuery = { __typename?: 'Query', schoolsAndKindergartensList?: { __typename?: 'ServiceUnitNameListResponse', meta: { __typename?: 'Meta', count?: number | null }, data: Array<{ __typename?: 'ServiceUnitNode', id: string, name?: { __typename?: 'LocalisedObject', fi?: string | null, sv?: string | null, en?: string | null } | null }> } | null };
@@ -4519,8 +4526,8 @@ export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesSuspenseQueryHookResult = ReturnType<typeof usePlacesSuspenseQuery>;
 export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
 export const SchoolsAndKindergartensListDocument = gql`
-    query SchoolsAndKindergartensList {
-  schoolsAndKindergartensList {
+    query SchoolsAndKindergartensList($search: String) {
+  schoolsAndKindergartensList(search: $search) {
     meta {
       count
     }
@@ -4548,6 +4555,7 @@ export const SchoolsAndKindergartensListDocument = gql`
  * @example
  * const { data, loading, error } = useSchoolsAndKindergartensListQuery({
  *   variables: {
+ *      search: // value for 'search'
  *   },
  * });
  */
