@@ -16,7 +16,6 @@ import { translateValue } from '../../../utils/translateUtils';
 import Container from '../../app/layout/Container';
 import useStudyLevels from '../../studyLevel/useStudyLevels';
 import { EnrolmentFormFields } from '../types';
-// import { ROUTES } from '../../app/routes/constants';
 import styles from './enrolmentForm.module.scss';
 import getValidationSchema from './ValidationSchema';
 
@@ -43,6 +42,7 @@ export const defaultInitialValues: EnrolmentFormFields = {
     amountOfAdult: '',
     studyLevels: [],
     extraNeeds: '',
+    preferredTimes: '',
   },
 };
 
@@ -239,6 +239,16 @@ const EnrolmentForm: React.FC<Props> = ({
                   label={t('enrolmentForm.studyGroup.labelExtraNeeds')}
                   component={TextAreaInputField}
                   name="studyGroup.extraNeeds"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Field
+                  helperText={t(
+                    'enrolmentForm.studyGroup.helperPreferredTimes'
+                  )}
+                  label={t('enrolmentForm.studyGroup.labelPreferredTimes')}
+                  component={TextAreaInputField}
+                  name="studyGroup.preferredTimes"
                 />
               </FormGroup>
               <div className={styles.submitButtonWrapper}>

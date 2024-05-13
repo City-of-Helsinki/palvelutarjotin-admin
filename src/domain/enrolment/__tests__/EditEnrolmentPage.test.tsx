@@ -56,6 +56,7 @@ const amountOfSeats = 30;
 // total of 30
 const remainingSeats = 19;
 const extraNeeds = 'lisätarpeet';
+const preferredTimes = 'Tuesday only';
 const personPhoneNumber = '123321123';
 const studyLevels = fakeStudyLevels(2);
 const occurrenceId = '3453yrgdsgh3y';
@@ -87,7 +88,8 @@ const enrolmentResponse = {
         groupName: groupName,
         groupSize,
         amountOfAdult,
-        extraNeeds: extraNeeds,
+        extraNeeds,
+        preferredTimes,
         studyLevels,
       }),
       notificationType,
@@ -239,8 +241,16 @@ it('initializes edit form correctly', async () => {
   ).toHaveTextContent('suomi');
 
   expect(
-    screen.queryByLabelText(messages.enrolmentForm.studyGroup.labelExtraNeeds)
+    await screen.findByLabelText(
+      messages.enrolmentForm.studyGroup.labelExtraNeeds
+    )
   ).toHaveValue(enrolment.studyGroup.extraNeeds);
+
+  expect(
+    await screen.findByLabelText(
+      messages.enrolmentForm.studyGroup.labelPreferredTimes
+    )
+  ).toHaveValue(enrolment.studyGroup.preferredTimes);
 });
 
 it('calls update enrolment function with correct parameters when form is submitted', async () => {
@@ -287,6 +297,7 @@ it('calls update enrolment function with correct parameters when form is submitt
               language: 'FI',
             },
             extraNeeds,
+            preferredTimes,
           },
         },
       },
