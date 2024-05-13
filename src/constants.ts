@@ -57,12 +57,6 @@ export const TERMS_OF_SERVICE_SLUGS = {
     'anvandarvillkor',
 };
 
-export const TEACHER_UI_LINKS = {
-  fi: 'https://kultus.fi/fi',
-  en: 'https://kultus.fi/en',
-  sv: 'https://kultus.fi/sv',
-};
-
 export const createEmptyLocalizedObject = (): LocalisedObject => ({
   [SUPPORT_LANGUAGES.FI]: '',
   [SUPPORT_LANGUAGES.SV]: '',
