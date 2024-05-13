@@ -138,6 +138,7 @@ const EditorEnrolmentPage: React.FC = () => {
             phoneNumber: enrolment?.person?.phoneNumber || '',
           },
           extraNeeds: enrolment?.studyGroup.extraNeeds || '',
+          preferredTimes: enrolment?.studyGroup.preferredTimes || '',
         },
         language:
           enrolment?.person?.language ||

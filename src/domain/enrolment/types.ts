@@ -21,5 +21,6 @@ export interface EnrolmentFormFields {
     amountOfAdult: string;
     studyLevels: string[];
     extraNeeds: string;
+    preferredTimes: string;
   };
 }
