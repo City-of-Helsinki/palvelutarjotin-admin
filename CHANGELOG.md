@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.11.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.10.0...palvelutarjotin-admin-v1.11.0) (2024-05-16)
+
+
+### Features
+
+* Add editing of study group's preferred times to EnrolmentForm ([eefc905](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/eefc905982be287d18ceac8960481d1e5b191503))
+* Unit place selector search filter parameter ([3de3dd9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/3de3dd9cb0a70274e4d0d781fab76fa3f1fc0f5d))
+
 ## [1.10.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.1...palvelutarjotin-admin-v1.10.0) (2024-04-26)
 
 
