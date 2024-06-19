@@ -167,13 +167,15 @@ admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
 
 Clone the [palvelutarjotin repository](https://github.com/City-of-Helsinki/palvelutarjotin) and follow the instructions
 for running palvelutarjotin with docker. Before running `docker-compose up` set the following settings in
-palvelutarjotin roots `docker-compose.env.yaml`:
+palvelutarjotin root's `docker-compose.env.yaml`:
 
 - DEBUG=1
 - CORS_ORIGIN_ALLOW_ALL=1
 - APPLY_MIGRATIONS=1
-- CREATE_SUPERUSER=1
 - TOKEN_AUTH_AUTHSERVER_URL=http://tunnistamo-backend:8000/openid
+
+If you do not have a super user / admin to administrate the API yet, you can create one with
+`docker compose run django python manage.py add_admin_user -u admin -p admin -e admin@example.com`.
 
 ### palvelutarjotin-admin-ui
 
