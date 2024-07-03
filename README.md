@@ -6,7 +6,7 @@ Staff interface for Palvelutarjotin
 
 Production environment:
 
-- https://provider.kultus.fi/
+- https://kultus-admin.hel.fi/
 - Triggered by creation of release-\* tag, e.g. `release-v0.1.0`
     - Needs to be manually approved in pipeline to be deployed
 

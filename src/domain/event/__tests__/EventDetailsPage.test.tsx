@@ -64,7 +64,7 @@ const externallyEnrollableEventMock = {
   ...eventMock,
   pEvent: {
     ...eventMock.pEvent,
-    externalEnrolmentUrl: 'https://kultus.fi',
+    externalEnrolmentUrl: 'https://kultus.hel.fi',
   },
 };
 

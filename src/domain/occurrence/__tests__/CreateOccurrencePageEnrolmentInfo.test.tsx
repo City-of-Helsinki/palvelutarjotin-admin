@@ -553,7 +553,7 @@ describe('location and enrolment info', () => {
   });
 
   test('user can add external enrolment and save form', async () => {
-    const externalEnrolmentUrl = 'https://kultus.fi/';
+    const externalEnrolmentUrl = 'https://kultus.hel.fi/';
     const eventWithoutEnrolmentAndLocationInfoMockedResponse =
       getEventMockedResponse({
         autoAcceptance: false,
