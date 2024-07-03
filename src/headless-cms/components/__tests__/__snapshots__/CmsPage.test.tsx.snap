@@ -750,7 +750,7 @@ exports[`renders CMS page and navigation flow works 1`] = `
             >
               <div>
                 <a
-                  href="https://kultus.fi/fi"
+                  href="https://kultus.hel.fi/fi"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

@@ -21,7 +21,7 @@ export const footerMenuQueryResponse = {
             order: 1,
             target: null,
             title: null,
-            path: 'https://kultus.fi/fi',
+            path: 'https://kultus.hel.fi/fi',
             label: 'Kouluille ja päiväkodeille',
             connectedNode: null,
             __typename: 'MenuItem',
