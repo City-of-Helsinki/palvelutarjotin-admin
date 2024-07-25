@@ -56,6 +56,6 @@ extends:
 
       VITE_APP_LINKEDEVENTS_API_URI: 'https://linkedevents.api.test.hel.ninja/v1'
 
-      VITE_APP_CMS_URI: 'https://kultus.hkih.stage.geniem.io/graphql'
+      VITE_APP_CMS_URI: 'https://kultus.app-staging.hkih.hion.dev/graphql'
 
     # configMap: # pod environment variables
