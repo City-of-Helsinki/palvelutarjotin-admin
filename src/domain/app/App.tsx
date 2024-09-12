@@ -6,18 +6,17 @@ import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cm
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { OidcProvider } from 'redux-oidc';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import cmsClient from '../../headless-cms/client';
 import useRHHCConfig from '../../hooks/useRHHCConfig';
-import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import AppRoutes from './routes/AppRoutes';
 import { FORCE_SCROLL_TO_TOP, IGNORE_SCROLL_TO_TOP } from './routes/constants';
 import ScrollToTop from './ScrollToTop';
 import { persistor, store } from './store';
+import KultusAdminHDSLoginProvider from '../auth/KultusAdminHDSLoginProvider';
 
 const App = () => {
   const rhhcConfig = useRHHCConfig({
@@ -31,8 +30,7 @@ const App = () => {
         loading={<LoadingSpinner isLoading={true} />}
         persistor={persistor}
       ></PersistGate>
-      {/* @ts-ignore Property 'children' does not exist on type */}
-      <OidcProvider store={store} userManager={userManager}>
+      <KultusAdminHDSLoginProvider>
         <ApolloProvider client={apolloClient}>
           <RHHCConfigProvider config={rhhcConfig}>
             <BrowserRouter>
@@ -44,7 +42,7 @@ const App = () => {
             </BrowserRouter>
           </RHHCConfigProvider>
         </ApolloProvider>
-      </OidcProvider>
+      </KultusAdminHDSLoginProvider>
       <ToastContainer />
     </Provider>
   );

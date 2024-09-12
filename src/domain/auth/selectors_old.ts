@@ -1,6 +1,8 @@
+// todo: delete this when new login implemented
+
 import { StoreState } from '../../types';
 
-export const userAccessTokenSelector = (state: StoreState) =>
+/* export const userAccessTokenSelector = (state: StoreState) =>
   state.authentication.tunnistamo.user?.access_token;
 
 export const userSelector = (state: StoreState) =>
@@ -18,4 +20,4 @@ export const isAuthenticatedSelector = (state: StoreState) => {
     !!state.authentication.tunnistamo.user &&
     !!state.authentication.token.apiToken
   );
-};
+}; */ 

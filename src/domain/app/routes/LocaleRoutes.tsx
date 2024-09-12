@@ -3,12 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
 
 import CmsPage from '../../../headless-cms/components/CmsPage';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { useAppSelector } from '../../../hooks/useAppSelector';
 import { Language } from '../../../types';
-import { resetApiTokenData } from '../../auth/actions';
-import { getApiToken } from '../../auth/authenticate';
-import { userSelector } from '../../auth/selectors';
 import EditEnrolmentPage from '../../enrolment/EditEnrolmentPage';
 import CreateEventPage from '../../event/CreateEventPage';
 import EditEventPage from '../../event/EditEventPage';
@@ -22,22 +17,10 @@ import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import EditOccurrencesPage from '../../occurrence/EditOccurrencesPage';
 import OccurrenceDetailsPage from '../../occurrence/OccurrenceDetailsPage';
 import PageLayout from '../layout/PageLayout';
-import { AppDispatch } from '../store';
 import { ROUTES } from './constants';
 
 const LocaleRoutes: React.FC<{ locale: Language }> = ({ locale }) => {
   const { i18n } = useTranslation();
-  const dispatch: AppDispatch = useAppDispatch();
-  const user = useAppSelector(userSelector);
-
-  React.useEffect(() => {
-    // Get new api token after new access token
-    if (user?.access_token) {
-      dispatch(getApiToken(user.access_token) as any);
-    } else {
-      dispatch(resetApiTokenData());
-    }
-  }, [dispatch, user]);
 
   React.useEffect(() => {
     i18n.changeLanguage(locale);

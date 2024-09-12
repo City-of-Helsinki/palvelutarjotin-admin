@@ -1,3 +1,4 @@
+// todo: delete this when new login implemented
 export type ApiTokenData = {
   isFetchingToken: boolean;
   apiToken: string | null;

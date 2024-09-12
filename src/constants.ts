@@ -5,13 +5,6 @@ import { LocalisedObject } from './generated/graphql';
  */
 export const IS_CLIENT = typeof window !== 'undefined';
 
-/**
- * Endpoint to get api token
- */
-export const TUNNISTAMO_API_TOKEN_ENDPOINT = `${
-  import.meta.env.VITE_APP_OIDC_AUTHORITY
-}/api-tokens/`;
-
 // Supported languages
 export enum SUPPORT_LANGUAGES {
   FI = 'fi',

@@ -1,3 +1,4 @@
+// todo: delete this when new login implemented
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { reducer as oidcReducer } from 'redux-oidc';

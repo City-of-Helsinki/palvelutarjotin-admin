@@ -11,9 +11,8 @@ import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 
-import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
-import { store } from '../store';
+import { getKultusAdminApiTokenFromStorage } from '../../auth/kultusAdminApiUtils';
 
 const excludeArgs =
   (excludedArgs: string[]) =>
@@ -121,7 +120,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const authLink = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => {
-    const token = apiTokenSelector(store.getState());
+    const token =  getKultusAdminApiTokenFromStorage();;
     return {
       headers: {
         ...headers,

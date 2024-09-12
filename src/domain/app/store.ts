@@ -1,9 +1,7 @@
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
-import { loadUser } from 'redux-oidc';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import userManager from '../auth/userManager';
 import reducer from './reducers';
 
 const persistConfig = {
@@ -22,7 +20,7 @@ const store: Store = configureStore({
   reducer: persistedReducer,
 });
 
-loadUser(store, userManager);
+// loadUser(store, userManager);
 const persistor = persistStore(store);
 
 export { persistor, store };

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { CallbackComponent } from 'redux-oidc';
 
 import { ROUTES } from '../../app/routes/constants';
-import userManager from '../userManager';
+import userManager from '../userManager_old';
 
 type UserStateType = {
   state?: {

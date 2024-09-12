@@ -31,10 +31,8 @@ import {
   useOrganisationsQuery,
 } from '../../../generated/graphql';
 import { LanguageCodeEnum } from '../../../generated/graphql-cms';
-import { useAppSelector } from '../../../hooks/useAppSelector';
 import useLocale from '../../../hooks/useLocale';
 import { getCmsPath } from '../../app/routes/utils';
-import { userSelector } from '../../auth/selectors';
 import styles from './myProfileForm.module.scss';
 import { getMyProfileValidationSchema } from './ValidationSchema';
 
@@ -89,7 +87,7 @@ function MyProfileForm<T extends FormType>({
 }: Props<T>) {
   const { t } = useTranslation();
   const locale = useLocale();
-  const user = useAppSelector(userSelector);
+  // const user = useAppSelector(userSelector);
   const validationSchema = React.useMemo(
     () => getMyProfileValidationSchema(type),
     [type]
@@ -175,16 +173,16 @@ function MyProfileForm<T extends FormType>({
   const handleOnSubmit = (values: FormFields<T>) => {
     onSubmit({
       ...values,
-      emailAddress: values.emailAddress || user?.profile.email || '',
+      emailAddress: values.emailAddress || {/* user?.profile.email */ } || '',
     });
   };
 
   const initialValuesWithPrefilledEmail = initialValues.emailAddress
     ? initialValues
     : {
-        ...initialValues,
-        emailAddress: user?.profile.email || '',
-      };
+      ...initialValues,
+      emailAddress: {/* user?.profile.email */ } || '',
+    };
 
   return (
     <Formik
@@ -199,7 +197,7 @@ function MyProfileForm<T extends FormType>({
             <FocusToFirstError />
             <FormGroup>
               <TextTitle>{t('myProfileForm.labelEmail')}</TextTitle>
-              <p>{user?.profile.email}</p>
+              <p>{/* user?.profile.email */}</p>
               <HelperText>{t('myProfileForm.helperEmail')}</HelperText>
             </FormGroup>
             <FormGroup>

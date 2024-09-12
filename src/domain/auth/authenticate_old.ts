@@ -1,8 +1,9 @@
+// todo: delete this when new login implemented
 import * as Sentry from '@sentry/browser';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 
-import { TUNNISTAMO_API_TOKEN_ENDPOINT } from '../../constants';
+// import { TUNNISTAMO_API_TOKEN_ENDPOINT } from '../../constants';
 import { StoreThunk } from '../../types';
 import i18n from '../app/i18n/i18nInit';
 import { persistor, store } from '../app/store';
@@ -12,9 +13,9 @@ import {
   fetchTokenSuccess,
   resetApiTokenData,
   startFetchingToken,
-} from './actions';
+} from './actions_old';
 import { ApiTokenResponse } from './types';
-import userManager from './userManager';
+import userManager from './userManager_old';
 
 export const loginTunnistamo = (path?: string): void => {
   userManager
@@ -52,7 +53,7 @@ export const getApiToken =
       dispatch(startFetchingToken());
 
       const res: AxiosResponse<ApiTokenResponse> = await axios.get(
-        TUNNISTAMO_API_TOKEN_ENDPOINT,
+        "TUNNISTAMO_API_TOKEN_ENDPOINT",
         {
           headers: {
             Authorization: `bearer ${accessToken}`,
