@@ -52,7 +52,7 @@ export const tunnistamoPoviderProperties: LoginProviderProps = {
 export const keycloakPoviderProperties: LoginProviderProps = {
   ...providerPropertiesBase,
   apiTokensClientSettings: {
-    url: `${AppConfig.oidcAuthority}protocol/openid-connect/token`,
+    url: `${AppConfig.oidcAuthority}/protocol/openid-connect/token`,
     maxRetries: 10,
     retryInterval: 1000,
     queryProps: {
