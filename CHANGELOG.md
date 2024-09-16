@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.12.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.11.0...palvelutarjotin-admin-v1.12.0) (2024-09-16)
+
+
+### Features
+
+* Change domain to hel.fi ([8bb3080](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8bb30805d211048342effaeccaf6672ba611ac19))
+* Use new CMS url https://kultus.app-staging.hkih.hion.dev/ ([d22bdc2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d22bdc29003b079230c3b4cbf4ee980c54539d5f))
+
 ## [1.11.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.10.0...palvelutarjotin-admin-v1.11.0) (2024-05-16)
 
 
