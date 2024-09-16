@@ -82,8 +82,8 @@ class AppConfig {
 
   static get oidcKultusAdminApiClientId() {
     return getEnvOrError(
-      import.meta.env.VITE_APP_OIDC_KULTUS_ADMIN_API_CLIENT_ID,
-      'VITE_APP_OIDC_KULTUS_ADMIN_API_CLIENT_ID'
+      import.meta.env.VITE_APP_OIDC_API_CLIENT_ID,
+      'VITE_APP_OIDC_API_CLIENT_ID'
     );
   }
 
@@ -111,7 +111,7 @@ class AppConfig {
    * */
   static get oidcAutomaticSilentRenew(): boolean {
     return Boolean(
-      import.meta.env.VITE_APP_OIDC_AUTOMATIC_SILENT_RENEW_ENABLED ?? false
+      import.meta.env.VITE_APP_OIDC_AUTOMATIC_SILENT_RENEW_ENABLED ?? true
     );
   }
 
