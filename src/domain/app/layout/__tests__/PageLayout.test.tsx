@@ -26,18 +26,10 @@ import {
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
-import * as selectors from '../../../auth/selectors';
 import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
 import { headerMenuMock } from '../../../../test/apollo-mocks/headerMenuMock';
 import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
-vi.mock('../../../auth/selectors', async () => {
-  const actual = await vi.importActual('../../../auth/selectors');
-  return {
-    ...actual,
-    isAuthenticatedSelector: vi.fn(),
-  };
-});
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');
   return {
@@ -55,7 +47,6 @@ const profileResponse = {
 
 beforeEach(() => {
   initCmsMenuItemsMocks();
-  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   server.use(
     graphql.query('Page', (req, res, ctx) => {
       return res(

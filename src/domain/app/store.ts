@@ -20,7 +20,6 @@ const store: Store = configureStore({
   reducer: persistedReducer,
 });
 
-// loadUser(store, userManager);
 const persistor = persistStore(store);
 
 export { persistor, store };

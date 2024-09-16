@@ -5,13 +5,50 @@
     }
   },
   "appName": "Kultus Admin",
+  "auth": {
+    "wrongLoginMethod": {
+      "description": "Det verkar som om du har använt en annan autentiseringsmetod när du registrerar dig för tjänsten. Logga ut från tjänsten och försök sedan logga in igen med en annan autentiseringsmetod.",
+      "title": "Hoppsan!"
+    },
+    "unauthorized": {
+      "title": "Logga in"
+    }
+  },
   "authentication": {
+    "deviceTimeError": {
+      "message": "Tro det eller ej, men du kan inte logga in eftersom din enhets klocka går mer än 5 minuter fel. Justera klockan och försök igen.",
+      "shortMessage": "Fel vid inloggning. Kontrollera enhetens klocka och försök igen."
+    },
     "errorMessage": "Ett fel uppstod. Försök igen",
+    "loadUserError": {
+      "message": "Ett fel uppstod. Försök att logga in igen."
+    },
+    "login": {
+      "text": "Logga in",
+      "shortText": "Logga in"
+    },
+    "logout": {
+      "text": "Logga ut"
+    },
     "networkError": {
       "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
     },
+    "permRequestDenied": {
+      "message": "Du måste godkänna begäran om åtkomst till din Tunnistamo-profil för att kunna använda den här tjänsten. Försök att logga in igen.",
+      "shortMessage": "Inloggningsfel: Autentiseringsbegäran nekad"
+    },
     "redirect": {
-      "text": "Omdirigerar till inloggning..."
+      "text": "Omdirigerar till identifiering..."
+    },
+    "session": {
+      "expired": {
+        "agree": "Fortsätt",
+        "label": "Din session har gått ut",
+        "message": "Din session har gått ut. Försök att logga in igen."
+      }
+    },
+    "loggingIn": {
+      "text": "Loggar in..."
     }
   },
   "common": {

@@ -13,7 +13,10 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={`/${currentLocale}`} replace />} />
-      <Route path={ROUTES.CALLBACK} element={<KultusAdminHDSLoginCallbackHandler />} />
+      <Route
+        path={ROUTES.CALLBACK}
+        element={<KultusAdminHDSLoginCallbackHandler />}
+      />
       <Route path={ROUTES.SILENT_CALLBACK} element={<SilentRenewRedirect />} />
       <Route path={ROUTES.SILENT_CALLBACK_HTML} />
       <Route path={`/fi/*`} element={<LocaleRoutes locale={'fi'} />} />

@@ -120,7 +120,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const authLink = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => {
-    const token =  getKultusAdminApiTokenFromStorage();;
+    const token = getKultusAdminApiTokenFromStorage();
     return {
       headers: {
         ...headers,

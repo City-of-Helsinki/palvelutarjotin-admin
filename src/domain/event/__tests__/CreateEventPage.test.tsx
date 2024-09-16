@@ -75,20 +75,10 @@ import {
 import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
-import { CreateEventFormFields } from '../types';
-import * as selectors from '../../auth/selectors';
 import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
 import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
 import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
-
-vi.mock('../../auth/selectors', async () => {
-  const actual = await vi.importActual('../../auth/selectors');
-  return {
-    ...actual,
-    isAuthenticatedSelector: vi.fn(),
-  };
-});
 
 vi.mock('../../../hooks/useLocale', async () => {
   const actual = await vi.importActual('../../../hooks/useLocale');
@@ -357,7 +347,6 @@ const mocks = [
 ];
 
 test('event can be created with form', async () => {
-  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   vi.spyOn(Router, 'useParams').mockReturnValue({});
   vi.setSystemTime(new Date(2020, 7, 8));
   render(<CreateEventPage />, { mocks });

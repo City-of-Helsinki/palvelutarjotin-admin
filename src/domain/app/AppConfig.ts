@@ -6,34 +6,34 @@ function getEnvOrError(variable?: string, name?: string) {
 }
 
 class AppConfig {
-    static get origin() {
-      return getEnvOrError(import.meta.env.VITE_APP_ORIGIN, 'VITE_APP_ORIGIN');
-    }
+  static get origin() {
+    return getEnvOrError(import.meta.env.VITE_APP_ORIGIN, 'VITE_APP_ORIGIN');
+  }
 
-    /** Domain of the application. */
-    static get domain() {
-      return new URL(this.origin).origin;
-    }
+  /** Domain of the application. */
+  static get domain() {
+    return new URL(this.origin).origin;
+  }
 
-    /** Hostname of the application. */
-    static get hostname() {
-      return new URL(this.origin).hostname;
-    }
+  /** Hostname of the application. */
+  static get hostname() {
+    return new URL(this.origin).hostname;
+  }
 
-    static get apiUri() {
-      return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
-    }
+  static get apiUri() {
+    return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
+  }
 
-    static get apiDomain() {
-      return new URL(this.apiUri).origin;
-    }
+  static get apiDomain() {
+    return new URL(this.apiUri).origin;
+  }
 
-    static get oidcAuthority() {
-      return getEnvOrError(
-        import.meta.env.VITE_APP_OIDC_AUTHORITY,
-        'VITE_APP_OIDC_AUTHORITY'
-      );
-    }
+  static get oidcAuthority() {
+    return getEnvOrError(
+      import.meta.env.VITE_APP_OIDC_AUTHORITY,
+      'VITE_APP_OIDC_AUTHORITY'
+    );
+  }
 
   /**
    * The audiences for OIDC tokens.
@@ -43,27 +43,30 @@ class AppConfig {
    * - Tunnistamo: undefined (leave the env var empty)
    * - Keycloak: 'kultus-admin-api-test,profile-api-test'
    */
-    static get oidcAudiences() {
-      return getEnvAsList(import.meta.env.VITE_APP_OIDC_AUDIENCES);
-    }
-  
-    /**
-     * OIDC client id for (this) kultus-admin-ui client.
-     * Read env variable `VITE_APP_OIDC_CLIENT_ID`.
-     */
-    static get oidcClientId() {
-      return getEnvOrError(
-        import.meta.env.VITE_APP_OIDC_CLIENT_ID,
-        'VITE_APP_OIDC_CLIENT_ID'
-      );
-    }
+  static get oidcAudiences() {
+    return getEnvAsList(import.meta.env.VITE_APP_OIDC_AUDIENCES);
+  }
 
-    /**
+  /**
+   * OIDC client id for (this) kultus-admin-ui client.
+   * Read env variable `VITE_APP_OIDC_CLIENT_ID`.
+   */
+  static get oidcClientId() {
+    return getEnvOrError(
+      import.meta.env.VITE_APP_OIDC_CLIENT_ID,
+      'VITE_APP_OIDC_CLIENT_ID'
+    );
+  }
+
+  /**
    * OIDC auth scope.
    * Read env variable `VITE_APP_OIDC_SCOPE`.
    */
   static get oidcScope() {
-    return getEnvOrError(import.meta.env.VITE_APP_OIDC_SCOPE, 'VITE_APP_OIDC_SCOPE,');
+    return getEnvOrError(
+      import.meta.env.VITE_APP_OIDC_SCOPE,
+      'VITE_APP_OIDC_SCOPE,'
+    );
   }
 
   /**
@@ -84,7 +87,7 @@ class AppConfig {
     );
   }
 
-   /**
+  /**
    * Indicates the type of OIDC server being used.
    *
    * This is not a standard OIDC client attribute; it's used internally to determine
@@ -93,7 +96,7 @@ class AppConfig {
    * @throws {Error} If the `VITE_APP_OIDC_SERVER_TYPE` environment variable is not defined
    *                or has an invalid value (not 'KEYCLOAK' or 'TUNNISTAMO').
    */
-   static get oidcServerType(): 'KEYCLOAK' | 'TUNNISTAMO' {
+  static get oidcServerType(): 'KEYCLOAK' | 'TUNNISTAMO' {
     const oidcServerType =
       import.meta.env.VITE_APP_OIDC_SERVER_TYPE ?? 'TUNNISTAMO';
     if (!['KEYCLOAK', 'TUNNISTAMO'].includes(oidcServerType)) {
@@ -119,7 +122,6 @@ class AppConfig {
   static get oidcSessionPollerIntervalInMs(): number {
     return import.meta.env.VITE_APP_OIDC_SESSION_POLLING_INTERVAL_MS ?? 60000;
   }
-
 
   static get cmsUri() {
     return getEnvOrError(import.meta.env.VITE_APP_CMS_URI, 'VITE_APP_CMS_URI');

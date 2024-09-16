@@ -43,7 +43,7 @@ import styles from './header.module.scss';
 import useLogout from '../../auth/useLogout';
 
 const Header: React.FC = () => {
-  const { isAuthenticated } = useOidcClient()
+  const { isAuthenticated } = useOidcClient();
   const { pushWithLocale } = useNavigate();
   const locale = useLocale();
   const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
@@ -51,8 +51,6 @@ const Header: React.FC = () => {
   const { pathname, search } = useLocation();
 
   const isLoggedIn = isAuthenticated();
-
-  console.log(1111, isLoggedIn)
 
   const getCmsHref = (language: LanguageCodeEnum) => {
     const nav = cmsLanguageOptions?.find((cmsLanguageOption) => {
@@ -88,10 +86,10 @@ const Header: React.FC = () => {
 
   const goToPage =
     (pathname: string) =>
-      (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
-        event?.preventDefault();
-        pushWithLocale(pathname);
-      };
+    (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
+      event?.preventDefault();
+      pushWithLocale(pathname);
+    };
 
   const { data: myProfileData } = useMyProfileQuery({ skip: !isLoggedIn });
 
@@ -134,7 +132,7 @@ const UserNavigation: React.FC<{
   organisations: OrganisationNodeFieldsFragment[];
   userLabel: string;
 }> = ({ organisations, userLabel }) => {
-  const logout = useLogout()
+  const logout = useLogout();
   const { t } = useTranslation();
   const { pushWithLocale } = useNavigate();
   const dispatch = useAppDispatch();

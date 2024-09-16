@@ -8,7 +8,7 @@ Production environment:
 
 - https://kultus-admin.hel.fi/
 - Triggered by creation of release-\* tag, e.g. `release-v0.1.0`
-    - Needs to be manually approved in pipeline to be deployed
+  - Needs to be manually approved in pipeline to be deployed
 
 Staging environment:
 
@@ -47,7 +47,7 @@ information.
 
 ### `yarn test:changed`
 
-Run tests against uncommitted changes (including staged and unstaged). 
+Run tests against uncommitted changes (including staged and unstaged).
 
 ### `yarn test:staged`
 
@@ -99,10 +99,11 @@ with [Conventional Commits](https://www.conventionalcommits.org/) and
 
 To create a new release, merge changes through a pull request to the master branch
 with commit title starting with:
- - "feat" (raises minor version in major.minor.patch version number)
- - "fix" (raises patch version in major.minor.patch version number)
- - "feat!" (raises major version in major.minor.patch version number)
- - "fix!" (raises major version in major.minor.patch version number)
+
+- "feat" (raises minor version in major.minor.patch version number)
+- "fix" (raises patch version in major.minor.patch version number)
+- "feat!" (raises major version in major.minor.patch version number)
+- "fix!" (raises major version in major.minor.patch version number)
 
 And then merge the release-please pull request that should've been created
 by the release-please action having been run in GitHub.
@@ -142,10 +143,10 @@ in tunnistamo roots `docker-compose.env.yaml`:
 To get silent renew to work locally you also need to set:
 
 - ALLOW_CROSS_SITE_SESSION_COOKIE=True
-    - NOTE: Using this breaks login to Django admin interface, see tunnistamo
-      issue [#269](https://github.com/City-of-Helsinki/tunnistamo/issues/269).
-    - By leaving out the ALLOW_CROSS_SITE_SESSION_COOKIE=True or setting it to False, you can login to Django admin
-      interface but silent renew will not work.
+  - NOTE: Using this breaks login to Django admin interface, see tunnistamo
+    issue [#269](https://github.com/City-of-Helsinki/tunnistamo/issues/269).
+  - By leaving out the ALLOW_CROSS_SITE_SESSION_COOKIE=True or setting it to False, you can login to Django admin
+    interface but silent renew will not work.
 
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
 

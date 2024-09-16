@@ -20,7 +20,7 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@apollo/client@3.8.1", "@apollo/client@^3.8.0":
+"@apollo/client@3.8.1", "@apollo/client@^3.10.1", "@apollo/client@^3.8.0":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.8.1.tgz#a1e3045a5fb276c08e38f7b5f930551d79741257"
   integrity sha512-JGGj/9bdoLEqzatRikDeN8etseY5qeFAY0vSAx/Pd0ePNsaflKzHx6V2NZ0NsGkInq+9IXXX3RLVDf0EotizMA==
@@ -6611,21 +6611,27 @@ hasown@^2.0.0, hasown@^2.0.1:
   dependencies:
     function-bind "^1.1.2"
 
-hds-core@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.7.0.tgz#4a4d65786afac4a8c4d10d1739b10cc8e2fc611f"
-  integrity sha512-rgr7r2b6nGqLiYR7StG2dY/31zXT988hsSLu8ipkDM4hTdFRLGGtqNpPP+6B8WlksAmszVmMwF6BbDxdAxtWfA==
+hds-core@3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.10.0.tgz#19956a8b8600611d8b3188b8d5305229f11eeb2b"
+  integrity sha512-fF2Ub5fd+NMgoOwYv0k1LmaWsjnJr4hif1vXPp0Y9VbRGtHAN5/MsR0a1zb1NW+ygA0/5V5+ti8kXFutoKu7XA==
 
 hds-design-tokens@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-3.7.0.tgz#233636beeff5df39d47cfb4e4861e760a085c3c3"
   integrity sha512-JBfVmsDQbLAPwX1Xh0uX5o3q4xfqQSQSWx4vewXmOBTjNkGcf2au+XCo9S5QvETai9OR85m5GbTh33DXquFLXw==
 
-hds-react@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.7.0.tgz#22ca9bbf72efe8ec49e4b4c50c644dbe2a5fd002"
-  integrity sha512-HF4WqO7ciapvCnCmPRjtj568L+A495g7n+m7rmZhsOYr8Q3/uI1C9bQrPA/Kpu794Cw9ulxekbRao905Ju4XhA==
+hds-design-tokens@^3.9.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-3.10.0.tgz#9d41efaec69d8cb6917489b38f56bd623770c604"
+  integrity sha512-GRxbVFXi0kx5/+TsyhEN5H6RBfzwiow1ek9wCuutNS1Vf0Yg41WfXzIGUqJPLxhlvuzpNTbwikouSJOTVkbUMw==
+
+hds-react@^3.9.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.10.0.tgz#000eaa2523398880cae4fb210f661d8dda3cf842"
+  integrity sha512-an7qfBpffFYs7V0KwxEQleqfegOZaB9MXvUDR9X6HTkuHM80hbUHbu0hSjtrpH+zWK9ddQlehgUrzPREunXr1w==
   dependencies:
+    "@apollo/client" "^3.10.1"
     "@babel/runtime" "7.17.9"
     "@emotion/styled-base" "^11.0.0"
     "@hookform/resolvers" "^2.9.11"
@@ -6640,7 +6646,8 @@ hds-react@^3.7.0:
     crc-32 "1.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "3.7.0"
+    graphql "^16.8.1"
+    hds-core "3.10.0"
     http-status-typed "^1.0.1"
     jwt-decode "^3.1.2"
     kashe "1.0.4"

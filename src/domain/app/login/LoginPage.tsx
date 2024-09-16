@@ -11,7 +11,7 @@ const LoginPage = () => {
   const { login } = useOidcClient();
 
   const handleLogin = () => {
-    login()
+    login();
   };
 
   return (

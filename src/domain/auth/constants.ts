@@ -39,7 +39,7 @@ const providerPropertiesBase: LoginProviderProps = {
 export const tunnistamoPoviderProperties: LoginProviderProps = {
   ...providerPropertiesBase,
   apiTokensClientSettings: {
-    url: `${AppConfig.oidcAuthority}api-tokens/`,
+    url: `${AppConfig.oidcAuthority}/api-tokens/`,
     maxRetries: 10,
     retryInterval: 1000,
   },

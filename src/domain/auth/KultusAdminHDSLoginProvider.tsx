@@ -10,7 +10,9 @@ import AppConfig from '../app/AppConfig';
 
 type KultusAdminHDSLoginProviderProps = { children: React.ReactNode };
 
-function KultusAdminHDSLoginProvider({ children }: KultusAdminHDSLoginProviderProps) {
+function KultusAdminHDSLoginProvider({
+  children,
+}: KultusAdminHDSLoginProviderProps) {
   const { t } = useTranslation();
   const providerProperties =
     AppConfig.oidcServerType === 'TUNNISTAMO'

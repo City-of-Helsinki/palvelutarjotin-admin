@@ -11,7 +11,6 @@ import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
-import * as selectors from '../../../auth/selectors';
 import Header from '../Header';
 import {
   headerMenuMock,
@@ -19,13 +18,6 @@ import {
 } from '../../../../test/apollo-mocks/headerMenuMock';
 import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
-vi.mock('../../../auth/selectors', async () => {
-  const actual = await vi.importActual('../../../auth/selectors');
-  return {
-    ...actual,
-    isAuthenticatedSelector: vi.fn(),
-  };
-});
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');
   return {
@@ -65,14 +57,12 @@ beforeEach(() => {
 });
 
 it('Header matches snapshot', async () => {
-  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   const { container } = render(<Header />, { mocks });
   await screen.findByText('Kulttuurikasvatus');
   expect(container.firstChild).toMatchSnapshot();
 });
 
 it('focuses skip link first', async () => {
-  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   render(<Header />, { mocks });
   await screen.findByText('Kulttuurikasvatus');
   await userEvent.tab();
@@ -84,7 +74,6 @@ it('focuses skip link first', async () => {
 });
 
 test('header renders cms menu items at top level and directly underneath', async () => {
-  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
   render(<Header />, { mocks });
   await screen.findByRole('button', { name: 'Suomi' });
   await screen.findByText('Kulttuurikasvatus');

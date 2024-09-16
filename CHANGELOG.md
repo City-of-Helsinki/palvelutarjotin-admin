@@ -12,83 +12,73 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ## [1.11.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.10.0...palvelutarjotin-admin-v1.11.0) (2024-05-16)
 
-
 ### Features
 
-* Add editing of study group's preferred times to EnrolmentForm ([eefc905](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/eefc905982be287d18ceac8960481d1e5b191503))
-* Unit place selector search filter parameter ([3de3dd9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/3de3dd9cb0a70274e4d0d781fab76fa3f1fc0f5d))
+- Add editing of study group's preferred times to EnrolmentForm ([eefc905](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/eefc905982be287d18ceac8960481d1e5b191503))
+- Unit place selector search filter parameter ([3de3dd9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/3de3dd9cb0a70274e4d0d781fab76fa3f1fc0f5d))
 
 ## [1.10.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.1...palvelutarjotin-admin-v1.10.0) (2024-04-26)
 
-
 ### Features
 
-* Add pEvent.isQueueingAllowed & studyGroup.preferredTimes support ([d304d75](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d304d758b9689d9e93d3199728d704d597c8e328))
-
+- Add pEvent.isQueueingAllowed & studyGroup.preferredTimes support ([d304d75](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d304d758b9689d9e93d3199728d704d597c8e328))
 
 ### Bug Fixes
 
-* Cms page title and lang meta tags ([#339](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/339)) ([a27757c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a27757ccac36c5b5294138f51e968ba404a8044a))
+- Cms page title and lang meta tags ([#339](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/339)) ([a27757c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a27757ccac36c5b5294138f51e968ba404a8044a))
 
 ## [1.9.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.9.0...palvelutarjotin-admin-v1.9.1) (2024-04-03)
 
-
 ### Bug Fixes
 
-* Fix event links with double locale, e.g. /fi/fi/ -&gt; /fi/ ([135af9d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/135af9dc2d2ed229f9dd4b5ab9e91f105eb6fd82))
-* Fix image uploading by installing apollo-upload-client and using it ([d00df67](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d00df671f81421eb6a0e5e818111d02034a1ddbd))
-* Use correct Linked Events test URL in testing ([fc85aea](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fc85aea08d794d749b3ccfba49d3837e8304138b))
+- Fix event links with double locale, e.g. /fi/fi/ -&gt; /fi/ ([135af9d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/135af9dc2d2ed229f9dd4b5ab9e91f105eb6fd82))
+- Fix image uploading by installing apollo-upload-client and using it ([d00df67](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d00df671f81421eb6a0e5e818111d02034a1ddbd))
+- Use correct Linked Events test URL in testing ([fc85aea](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fc85aea08d794d749b3ccfba49d3837e8304138b))
 
 ## [1.9.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.8.0...palvelutarjotin-admin-v1.9.0) (2024-03-22)
 
-
 ### Features
 
-* Migrate from CRA to Vite, TODO: tests & linting ([5f67228](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5f67228482b6e16e62d5c2ab344d3e84c01669b6))
-* Migrate from Jest to Vitest ([23c5e48](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/23c5e4863c196e7ac254177393700b39260247dd))
-* Upgrade to HDS v3.5 & RHHC v1.0.0-alpha255 that uses HDS v3.5 ([613a794](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/613a7947b406d431476d40d4865a1002c5c4d471))
-* Use HDS v3.5 breakpoints if possible, otherwise custom breakpoints ([42e1ab5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/42e1ab59b9536161516da24b7cb67712f5df458a))
-* Use HDS v3.5's hds-favicon-kit for favicons ([af3adc8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/af3adc837743655e4faeb8654742044d6f111e0f))
-
+- Migrate from CRA to Vite, TODO: tests & linting ([5f67228](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5f67228482b6e16e62d5c2ab344d3e84c01669b6))
+- Migrate from Jest to Vitest ([23c5e48](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/23c5e4863c196e7ac254177393700b39260247dd))
+- Upgrade to HDS v3.5 & RHHC v1.0.0-alpha255 that uses HDS v3.5 ([613a794](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/613a7947b406d431476d40d4865a1002c5c4d471))
+- Use HDS v3.5 breakpoints if possible, otherwise custom breakpoints ([42e1ab5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/42e1ab59b9536161516da24b7cb67712f5df458a))
+- Use HDS v3.5's hds-favicon-kit for favicons ([af3adc8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/af3adc837743655e4faeb8654742044d6f111e0f))
 
 ### Bug Fixes
 
-* **docker:** Pass REACT_APP_ORIGIN as argument to Dockerfile ([975c0d7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/975c0d7618354828e872d5f660308e022f28c1d4))
-* Fix production styles & running docker compose ([130fb3a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/130fb3a183e5a5872444ff2bd1afb18a7e549ab1))
-* Fix routing of CMS pages by fixing getRoutedInternalHref function ([14b9019](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/14b90196958ae14a3164a991e1f5b1c2ef0a680c))
-* Fix showing selected menu item by fixing getIsItemActive function ([428e0e4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/428e0e45acd611c7854c94ed62f0b88552e7ad9a))
-* Remove non-working preview from (Approve|Decline)EnrolmentModal ([cc41530](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cc415305cb31fd9cdd9dce4833b552ef40e6aade))
-* Update .env* files ([177044b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/177044ba9a123545fe82fce400acfca363f7bb28))
-* Update .env* files ([c9f0425](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c9f042505f12569eeafac9da739e818c2ff1fab5))
+- **docker:** Pass REACT_APP_ORIGIN as argument to Dockerfile ([975c0d7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/975c0d7618354828e872d5f660308e022f28c1d4))
+- Fix production styles & running docker compose ([130fb3a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/130fb3a183e5a5872444ff2bd1afb18a7e549ab1))
+- Fix routing of CMS pages by fixing getRoutedInternalHref function ([14b9019](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/14b90196958ae14a3164a991e1f5b1c2ef0a680c))
+- Fix showing selected menu item by fixing getIsItemActive function ([428e0e4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/428e0e45acd611c7854c94ed62f0b88552e7ad9a))
+- Remove non-working preview from (Approve|Decline)EnrolmentModal ([cc41530](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cc415305cb31fd9cdd9dce4833b552ef40e6aade))
+- Update .env\* files ([177044b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/177044ba9a123545fe82fce400acfca363f7bb28))
+- Update .env\* files ([c9f0425](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c9f042505f12569eeafac9da739e818c2ff1fab5))
 
 ## [1.8.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.3...palvelutarjotin-admin-v1.8.0) (2023-12-27)
 
-
 ### Features
 
-* Add helper text to the own places filter ([ebfedb7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ebfedb7a64b2af18bf10c35368b73f6656cc173c))
-
+- Add helper text to the own places filter ([ebfedb7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ebfedb7a64b2af18bf10c35368b73f6656cc173c))
 
 ### Bug Fixes
 
-* Cimode localization ([5249ce0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5249ce02eaff415959d065d646392e3a759cef80))
-* Header logo should use a pointer as a cursor ([ab64715](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ab64715a36128e7c59f56bd4ef59b22bb7db77d7))
+- Cimode localization ([5249ce0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5249ce02eaff415959d065d646392e3a759cef80))
+- Header logo should use a pointer as a cursor ([ab64715](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ab64715a36128e7c59f56bd4ef59b22bb7db77d7))
 
 ## [1.7.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.2...palvelutarjotin-admin-v1.7.3) (2023-12-14)
 
-
 ### Bug Fixes
 
-* Enrolment edit link ([9e5ff5c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9e5ff5c5065cc381009227cccb5f546a853a64b8))
-* Enrolment edit when no audience limits are set ([6330af9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6330af93fb083be2f56c20fe9b49d7064904271b))
-* No defaults should be given as a group size limit ([fbf1eb5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fbf1eb589f1da39c6b01f68f80098d4099d7914e))
+- Enrolment edit link ([9e5ff5c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9e5ff5c5065cc381009227cccb5f546a853a64b8))
+- Enrolment edit when no audience limits are set ([6330af9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6330af93fb083be2f56c20fe9b49d7064904271b))
+- No defaults should be given as a group size limit ([fbf1eb5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fbf1eb589f1da39c6b01f68f80098d4099d7914e))
 
 ## [1.7.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.7.1...palvelutarjotin-admin-v1.7.2) (2023-09-20)
 
-
 ### Bug Fixes
 
-* App version information PT-1652 ([#302](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/302)) ([10007d6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/10007d6442cbc410074f923565108f6162fe39e3))
+- App version information PT-1652 ([#302](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/302)) ([10007d6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/10007d6442cbc410074f923565108f6162fe39e3))
 
 ### [1.7.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/v1.7.0...v1.7.1) (2023-06-29)
 

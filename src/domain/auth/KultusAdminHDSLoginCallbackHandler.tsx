@@ -1,33 +1,33 @@
-import { OidcClientError, User, LoginCallbackHandler } from 'hds-react';
+import { useEffect } from 'react';
+import {
+  OidcClientError,
+  User,
+  LoginCallbackHandler,
+  useApiTokensClientTracking,
+} from 'hds-react';
 import * as Sentry from '@sentry/browser';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-import useGetPathname from './utils/useGetPathname';
-
 function KultusAdminHDSLoginCallbackHandler() {
   const { t } = useTranslation();
-  const getPathname = useGetPathname();
   const navigate = useNavigate();
-  const onSuccess = (user: User) => {
-    // todo: test if localized path is needed
-    let redirectUrl = getPathname('/');
-    if (user.url_state) {
-      redirectUrl =
-        new URLSearchParams(user.url_state).get('next') ?? redirectUrl;
+  const [lastSignal] = useApiTokensClientTracking();
+
+  useEffect(() => {
+    /* @ts-ignore*/
+    if (lastSignal?.payload?.type === 'API_TOKENS_UPDATED') {
+      navigate('/');
     }
-    navigate(redirectUrl, { replace: true });
-  };
+  }, [lastSignal, navigate]);
 
   const onError = (error?: OidcClientError) => {
-    // eslint-disable-next-line
-    console.error(error);
     if (!error) return;
     if (
       error.type === 'SIGNIN_ERROR' &&
       error.message ===
-      'Current state (HANDLING_LOGIN_CALLBACK) cannot be handled by a callback'
+        'Current state (HANDLING_LOGIN_CALLBACK) cannot be handled by a callback'
     ) {
       // TODO: When The HDS team has improved the error handling,
       // this should be doable with;
@@ -52,7 +52,7 @@ function KultusAdminHDSLoginCallbackHandler() {
   };
 
   return (
-    <LoginCallbackHandler onSuccess={onSuccess} onError={onError}>
+    <LoginCallbackHandler onSuccess={(user: User) => {}} onError={onError}>
       {t('authentication.loggingIn.text', { default: 'Logging in...' })}
     </LoginCallbackHandler>
   );

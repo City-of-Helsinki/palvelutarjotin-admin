@@ -17,7 +17,7 @@ export const MAIN_CONTENT_ID = 'main-content';
 
 const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { pathname } = useLocation() ?? { pathname: '' };
-  const { isAuthenticated } = useOidcClient()
+  const { isAuthenticated } = useOidcClient();
   const isLoggedIn = isAuthenticated();
   const { loading: loadingMyProfile } = useMyProfileQuery({
     skip: !isLoggedIn,
@@ -35,7 +35,7 @@ const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
         <LoadingSpinner
           isLoading={
             /*(isLoadingUser && !isAuthenticated) ||*/
-            loadingMyProfile  /* ||
+            loadingMyProfile /* ||
             pathname === ROUTES.CALLBACK */
           }
         >

@@ -1,5 +1,4 @@
-import { SUPPORT_LANGUAGES } from "../../../constants";
-
+import { SUPPORT_LANGUAGES } from '../../../constants';
 
 export default function getPathname(pathname: string, locale: string) {
   const needsSlash = pathname.length > 0 && !pathname.startsWith('/');

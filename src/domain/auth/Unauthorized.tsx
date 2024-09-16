@@ -27,7 +27,7 @@ const Unauthorized = () => {
   const [searchParams] = useSearchParams();
   const nextPath = searchParams.get('next');
 
-  const isLoggedIn = isAuthenticated()
+  const isLoggedIn = isAuthenticated();
 
   const handleCallToActionClick = () => {
     login({ url_state: `next=${nextPath}` });
@@ -41,9 +41,7 @@ const Unauthorized = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // eslint-disable-next-line no-console
-  console.log("11111 Unauthorized");
-  return null
+  return null;
   /* return (
     <InfoPageLayout
       icon={adultFaceHappyIcon}

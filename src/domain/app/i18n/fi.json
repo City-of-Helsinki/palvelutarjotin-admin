@@ -5,13 +5,50 @@
     }
   },
   "appName": "Kultus Admin",
+  "auth": {
+    "wrongLoginMethod": {
+      "description": "Vaikuttaisi siltä, että olet käyttänyt eri tunnistautumistapaa rekisteröityessäsi palveluun. Kirjaudu ulos palvelusta ja koita sitten kirjautua uudestaan käyttäen jotain toista tunnistautumistapaa.",
+      "title": "Hupsista!"
+    },
+    "unauthorized": {
+      "title": "Kirjaudu sisään"
+    }
+  },
   "authentication": {
+    "deviceTimeError": {
+      "message": "Usko tai älä usko mutta et voi kirjautua sisään koska laitteesi kello on yli 5 minuuttia väärässä. Säädä kelloa ja kokeile uudestaan.",
+      "shortMessage": "Virhe kirjautuessa. Tarkista laitteesi kello ja kokeile uudestaan."
+    },
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
+    "loadUserError": {
+      "message": "Tapahtui virhe. Yritä kirjautua uudelleen."
+    },
+    "login": {
+      "text": "Kirjaudu sisään",
+      "shortText": "Kirjaudu"
+    },
+    "logout": {
+      "text": "Kirjaudu ulos"
+    },
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
+    "permRequestDenied": {
+      "message": "Sinun täytyy hyväksyä pyytämämme oikeudet Tunnistamossa käyttääksesi tätä palvelua. Ole hyvä ja yritä kirjautua uudelleen.",
+      "shortMessage": "Kirjautumisvirhe: Tunnistautumispyyntö hylättiin"
+    },
     "redirect": {
       "text": "Ohjataan tunnistautumiseen..."
+    },
+    "session": {
+      "expired": {
+        "agree": "Jatka",
+        "label": "Istuntosi on vanhentunut",
+        "message": "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu sisään uudelleen"
+      }
+    },
+    "loggingIn": {
+      "text": "Kirjaudutaan sisään..."
     }
   },
   "common": {
