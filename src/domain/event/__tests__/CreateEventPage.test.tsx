@@ -80,6 +80,7 @@ import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
 import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
 import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
+import { CreateEventFormFields } from '../types';
 
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');
