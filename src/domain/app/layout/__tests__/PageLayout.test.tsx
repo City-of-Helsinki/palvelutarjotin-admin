@@ -1,3 +1,4 @@
+import * as HdsReact from 'hds-react';
 import { MockedProvider } from '@apollo/client/testing';
 import { render } from '@testing-library/react';
 import { graphql } from 'msw';
@@ -34,7 +35,6 @@ vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');
   return {
     ...actual,
-    logoFi: 'mocked hds-react logoFi',
   };
 });
 
@@ -47,6 +47,20 @@ const profileResponse = {
 
 beforeEach(() => {
   initCmsMenuItemsMocks();
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+        getUser: () => {
+          return {
+            profile: {
+              email: "test@test.fi"
+            }
+          }
+        }
+      }) as any
+  );
   server.use(
     graphql.query('Page', (req, res, ctx) => {
       return res(
@@ -122,7 +136,7 @@ it('PageLayout matches snapshot', async () => {
 
 it(
   'Pagelayout renders profile page and registration pending page after submitting' +
-    ' (for 3rd party providers)',
+  ' (for 3rd party providers)',
   async () => {
     const mocks = [
       {

@@ -1,3 +1,4 @@
+import * as HdsReact from 'hds-react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
@@ -79,6 +80,13 @@ import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
 import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
 import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
+
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
+  return {
+    ...actual,
+  };
+});
 
 vi.mock('../../../hooks/useLocale', async () => {
   const actual = await vi.importActual('../../../hooks/useLocale');
@@ -347,6 +355,13 @@ const mocks = [
 ];
 
 test('event can be created with form', async () => {
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+      }) as any
+  );
   vi.spyOn(Router, 'useParams').mockReturnValue({});
   vi.setSystemTime(new Date(2020, 7, 8));
   render(<CreateEventPage />, { mocks });

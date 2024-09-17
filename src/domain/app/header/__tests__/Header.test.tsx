@@ -1,3 +1,4 @@
+import * as HdsReact from 'hds-react';
 import { graphql } from 'msw';
 import * as React from 'react';
 import { vi } from 'vitest';
@@ -57,12 +58,26 @@ beforeEach(() => {
 });
 
 it('Header matches snapshot', async () => {
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+      }) as any
+  );
   const { container } = render(<Header />, { mocks });
   await screen.findByText('Kulttuurikasvatus');
   expect(container.firstChild).toMatchSnapshot();
 });
 
 it('focuses skip link first', async () => {
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+      }) as any
+  );
   render(<Header />, { mocks });
   await screen.findByText('Kulttuurikasvatus');
   await userEvent.tab();
@@ -74,6 +89,13 @@ it('focuses skip link first', async () => {
 });
 
 test('header renders cms menu items at top level and directly underneath', async () => {
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+      }) as any
+  );
   render(<Header />, { mocks });
   await screen.findByRole('button', { name: 'Suomi' });
   await screen.findByText('Kulttuurikasvatus');

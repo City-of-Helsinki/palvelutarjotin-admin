@@ -1,3 +1,4 @@
+import * as HdsReact from 'hds-react';
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import { vi } from 'vitest';
@@ -122,6 +123,31 @@ const apolloMocks: MockedResponse[] = [
   },
   ...placesMockResponses,
 ];
+
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
+  return {
+    ...actual,
+  };
+});
+
+beforeEach(() => {
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+        getUser: () => {
+          return {
+            profile: {
+              email: ""
+            }
+          }
+        }
+      }) as any
+  );
+})
+
 
 const refetch = vi.fn();
 

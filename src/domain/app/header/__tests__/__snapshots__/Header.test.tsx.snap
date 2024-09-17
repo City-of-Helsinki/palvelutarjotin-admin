@@ -28,6 +28,7 @@ exports[`Header matches snapshot 1`] = `
           aria-label="Helsingin kaupunki"
           class="HeaderActionBar-module_titleAndLogoContainer__2LEAb HeaderActionBar-module_logo__2r2T0"
           href="#"
+          role="link"
         >
           <span
             class="HeaderActionBarLogo-module_logoWrapper__8NgfS"
@@ -91,84 +92,22 @@ exports[`Header matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="HeaderActionBarItemWithDropdown-module_container__2NETb HeaderActionBarItemWithDropdown-module_hasContent__1nypi"
+            class="HeaderActionBarItem-module_container__1uq2m HeaderActionBarItem-module_hasContent__YJfOU HeaderActionBarItem-module_hasSubItems__1LVkh"
             id="user-menu"
           >
             <button
               aria-controls="user-menu-dropdown"
               aria-expanded="false"
               aria-label="Avaa käyttäjän valikko"
-              class="HeaderActionBarItem-module_actionBarItem__2AJTk HeaderActionBarItemWithDropdown-module_icon__-TAc5"
+              class="HeaderActionBarItemButton-module_actionBarItemButton__2ALyH HeaderActionBarItem-module_icon__1Ug_k HeaderActionBarItemButton-module_hasSubItems__3wX3Y"
               type="button"
             >
-              <span
-                class="HeaderActionBarItem-module_actionBarItemIcon__1l2lb"
-              >
-                <svg
-                  aria-hidden="true"
-                  aria-label="user"
-                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    d="M16.2667 13C18.8082 13 20.8819 15.0031 20.9951 17.5167L21 17.7333V22H3V17.7333C3 15.1918 5.00309 13.1181 7.51667 13.0049L7.73333 13H16.2667ZM7.73333 15C6.27966 15 5.09104 16.1348 5.00499 17.5668L5 17.7333V20H19V17.7333C19 16.3172 17.8926 15.0973 16.54 15.0075L16.3766 15.0022L7.73333 15ZM12 2C14.7614 2 17 4.23858 17 7C17 9.76142 14.7614 12 12 12C9.23858 12 7 9.76142 7 7C7 4.23858 9.23858 2 12 2ZM12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4Z"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </span>
-              <span
-                class="HeaderActionBarItem-module_actionBarItemLabel__815JB"
-              >
-                John Doe
-              </span>
               <div
-                class="HeaderActionBarItem-module_activeStateContent__3CU9N"
+                class="HeaderActionBarItemButton-module_buttonContent__3JeY0"
               >
-                <span
-                  class="HeaderActionBarItem-module_actionBarItemIcon__1l2lb"
-                >
-                  <svg
-                    aria-hidden="true"
-                    aria-label="cross"
-                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
-                    role="img"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M18 7.5L13.5 12L18 16.5L16.5 18L12 13.5L7.5 18L6 16.5L10.5 12L6 7.5L7.5 6L12 10.5L16.5 6L18 7.5Z"
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <span
-                  aria-hidden="true"
-                  class="HeaderActionBarItem-module_actionBarItemLabel__815JB HeaderActionBarItem-module_activeStateContentLabel__3zLW1"
-                >
-                  Sulje
-                </span>
-              </div>
-            </button>
-            <div
-              class="HeaderActionBarItemWithDropdown-module_dropdownWrapper__Mb2ft"
-            >
-              <aside
-                class="HeaderActionBarItemWithDropdown-module_dropdown__2M8r7 userMenuDropdown HeaderActionBarItemWithDropdown-module_hasContent__1nypi"
-                id="user-menu-dropdown"
-              >
-                <button
-                  class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
-                  type="button"
-                >
-                  <div
-                    aria-hidden="true"
-                    class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                <span>
+                  <span
+                    class="HeaderActionBarItemButton-module_actionBarItemButtonIcon__1_1Cg"
                   >
                     <svg
                       aria-hidden="true"
@@ -185,44 +124,100 @@ exports[`Header matches snapshot 1`] = `
                         fill-rule="evenodd"
                       />
                     </svg>
-                  </div>
-                  <span
-                    class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-                  >
-                    Omat tiedot
                   </span>
-                </button>
-                <button
-                  class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
-                  type="button"
+                  <span
+                    class="HeaderActionBarItemButton-module_actionBarItemButtonLabel__12Iec"
+                  >
+                    John Doe
+                  </span>
+                </span>
+                <svg
+                  aria-hidden="true"
+                  aria-label="angle-down"
+                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                  role="img"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <div
-                    aria-hidden="true"
-                    class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                  <path
+                    clip-rule="evenodd"
+                    d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div
+              class="HeaderActionBarItem-module_dropdownWrapper__39cBw"
+            >
+              <div
+                class="HeaderActionBarItem-module_dropdown__3daDZ userMenuDropdown HeaderActionBarItem-module_hasContent__YJfOU HeaderActionBarItem-module_hasSubItems__1LVkh"
+                id="user-menu-dropdown"
+              >
+                <ul>
+                  <button
+                    class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
+                    type="button"
                   >
-                    <svg
+                    <div
                       aria-hidden="true"
-                      aria-label="signout"
-                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
-                      role="img"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
+                      class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
                     >
-                      <path
-                        clip-rule="evenodd"
-                        d="M16 2V7H14V4H5V20H14V17H16V22H3V2H16ZM18 7L23 12L18 17L16.5 15.5L19 12.999L8 13V11L18.999 10.999L16.5 8.5L18 7Z"
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <span
-                    class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+                      <svg
+                        aria-hidden="true"
+                        aria-label="user"
+                        class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M16.2667 13C18.8082 13 20.8819 15.0031 20.9951 17.5167L21 17.7333V22H3V17.7333C3 15.1918 5.00309 13.1181 7.51667 13.0049L7.73333 13H16.2667ZM7.73333 15C6.27966 15 5.09104 16.1348 5.00499 17.5668L5 17.7333V20H19V17.7333C19 16.3172 17.8926 15.0973 16.54 15.0075L16.3766 15.0022L7.73333 15ZM12 2C14.7614 2 17 4.23858 17 7C17 9.76142 14.7614 12 12 12C9.23858 12 7 9.76142 7 7C7 4.23858 9.23858 2 12 2ZM12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+                    >
+                      Omat tiedot
+                    </span>
+                  </button>
+                  <button
+                    class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
+                    type="button"
                   >
-                    Kirjaudu ulos
-                  </span>
-                </button>
-              </aside>
+                    <div
+                      aria-hidden="true"
+                      class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        aria-label="signout"
+                        class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M16 2V7H14V4H5V20H14V17H16V22H3V2H16ZM18 7L23 12L18 17L16.5 15.5L19 12.999L8 13V11L18.999 10.999L16.5 8.5L18 7Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+                    >
+                      Kirjaudu ulos
+                    </span>
+                  </button>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
