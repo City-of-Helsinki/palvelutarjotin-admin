@@ -140,14 +140,13 @@ beforeEach(() => {
         getUser: () => {
           return {
             profile: {
-              email: ""
-            }
-          }
-        }
+              email: '',
+            },
+          };
+        },
       }) as any
   );
-})
-
+});
 
 const refetch = vi.fn();
 

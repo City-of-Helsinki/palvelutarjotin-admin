@@ -32,18 +32,17 @@ const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       <Header />
       <div className={styles.pageBody} id={MAIN_CONTENT_ID}>
         <LoadingSpinner isLoading={loadingMyProfile}>
-          {
-            isTermsOfServicePath ? (
-              <> {children}</>
-            ) : isLoggedIn ? (
-              <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
-            ) : (
-              <LoginPage />
-            )}
+          {isTermsOfServicePath ? (
+            <> {children}</>
+          ) : isLoggedIn ? (
+            <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
+          ) : (
+            <LoginPage />
+          )}
         </LoadingSpinner>
-      </div >
+      </div>
       <Footer />
-    </div >
+    </div>
   );
 };
 

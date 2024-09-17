@@ -102,13 +102,13 @@ beforeEach(() => {
         getUser: () => {
           return {
             profile: {
-              email: "test@test.fi"
-            }
-          }
-        }
+              email: 'test@test.fi',
+            },
+          };
+        },
       }) as any
   );
-})
+});
 
 test('render profile page correctly', async () => {
   renderWithRoute(<MyProfilePage />, {

@@ -55,10 +55,10 @@ beforeEach(() => {
         getUser: () => {
           return {
             profile: {
-              email: "test@test.fi"
-            }
-          }
-        }
+              email: 'test@test.fi',
+            },
+          };
+        },
       }) as any
   );
   server.use(
@@ -136,7 +136,7 @@ it('PageLayout matches snapshot', async () => {
 
 it(
   'Pagelayout renders profile page and registration pending page after submitting' +
-  ' (for 3rd party providers)',
+    ' (for 3rd party providers)',
   async () => {
     const mocks = [
       {
