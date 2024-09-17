@@ -14,9 +14,8 @@ if (import.meta.env.PROD) {
   Sentry.init({
     dsn: import.meta.env.VITE_APP_SENTRY_DSN,
     environment: import.meta.env.VITE_APP_ENVIRONMENT,
-    release: `${import.meta.env.VITE_APP_APPLICATION_NAME}@${
-      import.meta.env.VITE_APP_VERSION
-    }`,
+    release: `${import.meta.env.VITE_APP_APPLICATION_NAME}@${import.meta.env.VITE_APP_VERSION
+      }`,
   });
 }
 
@@ -24,7 +23,7 @@ Modal.setAppElement('#root');
 
 const container = document.getElementById('root') as Element;
 const root = createRoot(container);
-
+// HDS Login Component is too aggressive with the login time issues and the StrictMode gives unwanted issues.
 root.render(<App />);
 
 // If you want your app to work offline and load faster, you can change

@@ -31,27 +31,19 @@ const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     <div className={styles.pageLayout}>
       <Header />
       <div className={styles.pageBody} id={MAIN_CONTENT_ID}>
-        {/* Make sure that loading spinner is not restarted on callback page */}
-        <LoadingSpinner
-          isLoading={
-            /*(isLoadingUser && !isAuthenticated) ||*/
-            loadingMyProfile /* ||
-            pathname === ROUTES.CALLBACK */
-          }
-        >
-          {isTermsOfServicePath ? (
-            <>{children}</>
-          ) : isLoggedIn ? (
-            <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
-          ) : (
-            <LoginPage />
-          )}
+        <LoadingSpinner isLoading={loadingMyProfile}>
+          {
+            isTermsOfServicePath ? (
+              <> {children}</>
+            ) : isLoggedIn ? (
+              <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
+            ) : (
+              <LoginPage />
+            )}
         </LoadingSpinner>
-        {/* Render oidc callback */}
-        {/*{pathname === ROUTES.CALLBACK && children}*/}
-      </div>
+      </div >
       <Footer />
-    </div>
+    </div >
   );
 };
 
