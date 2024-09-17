@@ -14,8 +14,9 @@ if (import.meta.env.PROD) {
   Sentry.init({
     dsn: import.meta.env.VITE_APP_SENTRY_DSN,
     environment: import.meta.env.VITE_APP_ENVIRONMENT,
-    release: `${import.meta.env.VITE_APP_APPLICATION_NAME}@${import.meta.env.VITE_APP_VERSION
-      }`,
+    release: `${import.meta.env.VITE_APP_APPLICATION_NAME}@${
+      import.meta.env.VITE_APP_VERSION
+    }`,
   });
 }
 
