@@ -1,3 +1,4 @@
+import * as HdsReact from 'hds-react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
@@ -75,18 +76,16 @@ import {
 import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
-import { CreateEventFormFields } from '../types';
-import * as selectors from '../../auth/selectors';
 import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
 import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
 import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
+import { CreateEventFormFields } from '../types';
 
-vi.mock('../../auth/selectors', async () => {
-  const actual = await vi.importActual('../../auth/selectors');
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
   return {
     ...actual,
-    isAuthenticatedSelector: vi.fn(),
   };
 });
 
@@ -357,7 +356,13 @@ const mocks = [
 ];
 
 test('event can be created with form', async () => {
-  vi.spyOn(selectors, 'isAuthenticatedSelector').mockReturnValue(true);
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+      }) as any
+  );
   vi.spyOn(Router, 'useParams').mockReturnValue({});
   vi.setSystemTime(new Date(2020, 7, 8));
   render(<CreateEventPage />, { mocks });

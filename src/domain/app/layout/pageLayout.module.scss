@@ -19,6 +19,8 @@
 
   @include respond-below(m) {
     opacity: 1;
-    transition: visibility 0.2s, opacity 0.2s;
+    transition:
+      visibility 0.2s,
+      opacity 0.2s;
   }
 }

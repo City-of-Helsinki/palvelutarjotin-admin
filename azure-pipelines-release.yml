@@ -1,7 +1,7 @@
 #
 # Release pipeline. Run build and deploy for Platta staging and production environments.
 #
-# Continuous integration (CI) triggers cause a pipeline to run whenever you push 
+# Continuous integration (CI) triggers cause a pipeline to run whenever you push
 # an update to the specified branches or you push specified tags.
 trigger:
   batch: true
@@ -10,17 +10,17 @@ trigger:
       - palvelutarjotin-admin-v*
   paths:
     exclude:
-    - README.md
+      - README.md
 
-# Pull request (PR) triggers cause a pipeline to run whenever a pull request is 
-# opened with one of the specified target branches, or when updates are made to 
+# Pull request (PR) triggers cause a pipeline to run whenever a pull request is
+# opened with one of the specified target branches, or when updates are made to
 # such a pull request.
 #
-# GitHub creates a new ref when a pull request is created. The ref points to a 
-# merge commit, which is the merged code between the source and target branches 
+# GitHub creates a new ref when a pull request is created. The ref points to a
+# merge commit, which is the merged code between the source and target branches
 # of the pull request.
 #
-# Opt out of pull request validation 
+# Opt out of pull request validation
 pr: none
 
 # By default, use self-hosted agents
@@ -28,11 +28,11 @@ pool: Default
 
 resources:
   repositories:
-  # Azure DevOps repository
-  - repository: kultus-pipelines
-    type: git
-    # Azure DevOps project/repository
-    name: kultus/kultus-pipelines
+    # Azure DevOps repository
+    - repository: kultus-pipelines
+      type: git
+      # Azure DevOps project/repository
+      name: kultus/kultus-pipelines
 
 extends:
   # Filename in Azure DevOps Repository (note possible -ui or -api)
@@ -40,4 +40,4 @@ extends:
   # Drupal example: azure-pipelines-drupal-release.yml
   template: azure-pipelines-kultus-admin-ui-release.yml@kultus-pipelines
   #parameters:
-    #imagetag: ${{ parameters.imagetag }}
+  #imagetag: ${{ parameters.imagetag }}

@@ -5,7 +5,7 @@ import {
   FormikTouched,
   useFormikContext,
 } from 'formik';
-import { Button } from 'hds-react';
+import { Button, useOidcClient } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,10 +31,8 @@ import {
   useOrganisationsQuery,
 } from '../../../generated/graphql';
 import { LanguageCodeEnum } from '../../../generated/graphql-cms';
-import { useAppSelector } from '../../../hooks/useAppSelector';
 import useLocale from '../../../hooks/useLocale';
 import { getCmsPath } from '../../app/routes/utils';
-import { userSelector } from '../../auth/selectors';
 import styles from './myProfileForm.module.scss';
 import { getMyProfileValidationSchema } from './ValidationSchema';
 
@@ -87,9 +85,11 @@ function MyProfileForm<T extends FormType>({
   onSubmit,
   showCheckboxes = false,
 }: Props<T>) {
+  const { getUser } = useOidcClient();
+  const user = getUser();
   const { t } = useTranslation();
   const locale = useLocale();
-  const user = useAppSelector(userSelector);
+
   const validationSchema = React.useMemo(
     () => getMyProfileValidationSchema(type),
     [type]

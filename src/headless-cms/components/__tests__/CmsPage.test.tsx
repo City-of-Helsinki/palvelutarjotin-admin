@@ -28,19 +28,6 @@ import {
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
 
-vi.mock('../../../domain/auth/authenticate', async () => {
-  const actual = await vi.importActual('../../../domain/auth/authenticate');
-  return {
-    ...actual,
-    // needs to be mocked because LocaleRoutes calls dispatch(getApiToken(user.access_token));
-    // in useEffect
-    getApiToken: () => ({
-      type: 'FETCH_TOKEN_SUCCESS',
-      payload: 'token',
-    }),
-  };
-});
-
 const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 
 type PageHierarchy = {

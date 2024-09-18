@@ -5,6 +5,7 @@ import {
   IconSignout,
   IconUser,
   useMediaQueryLessThan,
+  useOidcClient,
 } from 'hds-react';
 import * as React from 'react';
 import {
@@ -33,21 +34,23 @@ import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import { skipFalsyType } from '../../../utils/typescript.utils';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
-import { logoutTunnistamo } from '../../auth/authenticate';
-import { isAuthenticatedSelector } from '../../auth/selectors';
 import { setActiveOrganisation } from '../../organisation/actions';
 import { activeOrganisationSelector } from '../../organisation/selector';
 import AppConfig from '../AppConfig';
 import { ROUTES } from '../routes/constants';
 import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
+import useLogout from '../../auth/useLogout';
 
 const Header: React.FC = () => {
+  const { isAuthenticated } = useOidcClient();
   const { pushWithLocale } = useNavigate();
   const locale = useLocale();
   const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
   const cmsLanguageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
   const { pathname, search } = useLocation();
+
+  const isLoggedIn = isAuthenticated();
 
   const getCmsHref = (language: LanguageCodeEnum) => {
     const nav = cmsLanguageOptions?.find((cmsLanguageOption) => {
@@ -88,8 +91,7 @@ const Header: React.FC = () => {
       pushWithLocale(pathname);
     };
 
-  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
-  const { data: myProfileData } = useMyProfileQuery({ skip: !isAuthenticated });
+  const { data: myProfileData } = useMyProfileQuery({ skip: !isLoggedIn });
 
   const organisations: OrganisationNodeFieldsFragment[] =
     myProfileData?.myProfile?.organisations?.edges?.map((edge) => ({
@@ -102,7 +104,7 @@ const Header: React.FC = () => {
   );
 
   const menuQuery = useMenuQuery({
-    skip: !isAuthenticated,
+    skip: !isLoggedIn,
     variables: { id: HEADER_MENU_NAME[locale], menuIdentifiersOnly: true },
   });
   const menu = menuQuery.data?.menu;
@@ -115,7 +117,7 @@ const Header: React.FC = () => {
       getIsItemActive={getIsItemActive}
       getPathnameForLanguage={getPathnameForLanguage}
       userNavigation={
-        isAuthenticated && (
+        isLoggedIn && (
           <UserNavigation
             organisations={organisations}
             userLabel={myProfileData?.myProfile?.name ?? ''}
@@ -130,6 +132,7 @@ const UserNavigation: React.FC<{
   organisations: OrganisationNodeFieldsFragment[];
   userLabel: string;
 }> = ({ organisations, userLabel }) => {
+  const logout = useLogout();
   const { t } = useTranslation();
   const { pushWithLocale } = useNavigate();
   const dispatch = useAppDispatch();
@@ -137,10 +140,6 @@ const UserNavigation: React.FC<{
 
   const goToEditMyProfile = () => {
     pushWithLocale(ROUTES.MY_PROFILE);
-  };
-
-  const logout = () => {
-    logoutTunnistamo();
   };
 
   const activeOrganisation = useAppSelector(activeOrganisationSelector);

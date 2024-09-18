@@ -15,7 +15,8 @@ export enum ROUTES {
   MY_PROFILE = '/profile',
   OCCURRENCES = '/events/:id/occurrences',
   OCCURRENCE_DETAILS = '/events/:id/occurrences/:occurrenceId',
-  SILENT_CALLBACK = '/silent-callback',
+  SILENT_CALLBACK = '/silent-renew',
+  SILENT_CALLBACK_HTML = '/silent_renew.html',
   ENROLMENT_REPORT = '/events/:id/export-enrolments',
   CMS_PAGE = `/cms-page/:slug`,
 }

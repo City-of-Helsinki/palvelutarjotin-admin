@@ -1,45 +1,45 @@
 #
-# Test pipeline. Run build and deploy for Platta test environments. 
+# Test pipeline. Run build and deploy for Platta test environments.
 # Pipeline runs different tests e.g. unittest and browser tests.
 #
-# Continuous integration (CI) triggers cause a pipeline to run whenever you push 
+# Continuous integration (CI) triggers cause a pipeline to run whenever you push
 # an update to the specified branches or you push specified tags.
 # only PR trigger pipeline
 trigger: none
 
-# Pull request (PR) triggers cause a pipeline to run whenever a pull request is 
-# opened with one of the specified target branches, or when updates are made to 
+# Pull request (PR) triggers cause a pipeline to run whenever a pull request is
+# opened with one of the specified target branches, or when updates are made to
 # such a pull request.
 #
-# GitHub creates a new ref when a pull request is created. The ref points to a 
-# merge commit, which is the merged code between the source and target branches 
+# GitHub creates a new ref when a pull request is created. The ref points to a
+# merge commit, which is the merged code between the source and target branches
 # of the pull request.
 #
-# Opt out of pull request validation 
+# Opt out of pull request validation
 pr:
   # PR target branch
   branches:
     include:
-    - master
+      - master
   paths:
     exclude:
-    - '*release-please*'
-    - '**/*.md'
-    - '.github/'
-    - 'azure-pipelines-release.yml'
-    - 'azure-pipelines-test.yml'
-    - 'docker-compose*'
+      - '*release-please*'
+      - '**/*.md'
+      - '.github/'
+      - 'azure-pipelines-release.yml'
+      - 'azure-pipelines-test.yml'
+      - 'docker-compose*'
 
 # By default, use self-hosted agents
 pool: Default
 
 resources:
   repositories:
-  # Azure DevOps repository
-  - repository: kultus-pipelines
-    type: git
-    # Azure DevOps project/repository
-    name: kultus/kultus-pipelines
+    # Azure DevOps repository
+    - repository: kultus-pipelines
+      type: git
+      # Azure DevOps project/repository
+      name: kultus/kultus-pipelines
 
 extends:
   # Filename in Azure DevOps Repository (note possible -ui or -api)
@@ -53,9 +53,7 @@ extends:
     buildArgs:
       VITE_APP_API_URI: 'https://kultus-local.api.dev.hel.ninja/graphql'
       VITE_APP_API_REPORT_URI: 'https://kultus-local.api.dev.hel.ninja/reports'
-
       VITE_APP_LINKEDEVENTS_API_URI: 'https://linkedevents.api.test.hel.ninja/v1'
-
       VITE_APP_CMS_URI: 'https://kultus.app-staging.hkih.hion.dev/graphql'
 
     # configMap: # pod environment variables

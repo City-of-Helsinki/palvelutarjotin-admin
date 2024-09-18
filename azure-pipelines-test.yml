@@ -1,29 +1,29 @@
 #
-# Test pipeline. Run build and deploy for Platta test environments. 
+# Test pipeline. Run build and deploy for Platta test environments.
 # Pipeline runs different tests e.g. unittest and browser tests.
 #
-# Continuous integration (CI) triggers cause a pipeline to run whenever you push 
+# Continuous integration (CI) triggers cause a pipeline to run whenever you push
 # an update to the specified branches or you push specified tags.
 trigger:
   batch: true
   branches:
     include:
-    - master
+      - master
   paths:
     exclude:
-    - '*release-please*'
-    - '**/*.md'
-    - '.github/'
+      - '*release-please*'
+      - '**/*.md'
+      - '.github/'
 
-# Pull request (PR) triggers cause a pipeline to run whenever a pull request is 
-# opened with one of the specified target branches, or when updates are made to 
+# Pull request (PR) triggers cause a pipeline to run whenever a pull request is
+# opened with one of the specified target branches, or when updates are made to
 # such a pull request.
 #
-# GitHub creates a new ref when a pull request is created. The ref points to a 
-# merge commit, which is the merged code between the source and target branches 
+# GitHub creates a new ref when a pull request is created. The ref points to a
+# merge commit, which is the merged code between the source and target branches
 # of the pull request.
 #
-# Opt out of pull request validation 
+# Opt out of pull request validation
 pr: none
 
 # By default, use self-hosted agents
@@ -31,11 +31,11 @@ pool: Default
 
 resources:
   repositories:
-  # Azure DevOps repository
-  - repository: kultus-pipelines
-    type: git
-    # Azure DevOps project/repository
-    name: kultus/kultus-pipelines
+    # Azure DevOps repository
+    - repository: kultus-pipelines
+      type: git
+      # Azure DevOps project/repository
+      name: kultus/kultus-pipelines
 
 extends:
   # Filename in Azure DevOps Repository (note possible -ui or -api)
@@ -48,7 +48,6 @@ extends:
     # The values here will override the values defined in the kultus-pipelines repository.
     buildArgs:
       VITE_APP_LINKEDEVENTS_API_URI: 'https://linkedevents.api.test.hel.ninja/v1'
-
       VITE_APP_CMS_URI: 'https://kultus.app-staging.hkih.hion.dev/graphql'
 
     # configMap: # pod environment variables

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-import { store } from '../../domain/app/store';
-import { apiTokenSelector } from '../../domain/auth/selectors';
+import { getKultusAdminApiTokenFromStorage } from '../../domain/auth/kultusAdminApiUtils';
 
 const axiosClient = axios.create({
   baseURL: `${import.meta.env.VITE_APP_API_REPORT_URI}`,
@@ -10,7 +9,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = apiTokenSelector(store.getState());
+    const token = getKultusAdminApiTokenFromStorage();
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
     }
