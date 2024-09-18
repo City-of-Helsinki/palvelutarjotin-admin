@@ -1,3 +1,4 @@
+import * as HdsReact from 'hds-react';
 import { MockedResponse } from '@apollo/client/testing';
 import { dequal } from 'dequal';
 import { graphql, GraphQLContext, ResponseComposition } from 'msw';
@@ -302,6 +303,13 @@ const apolloMocks: MockedResponse[] = [
 
 const mocks = initializeMocks(pageHierarchy);
 
+vi.mock('hds-react', async () => {
+  const actual = await vi.importActual('hds-react');
+  return {
+    ...actual,
+  };
+});
+
 const handleMockError = ({
   query,
   variables,
@@ -554,6 +562,13 @@ test('CMS sub pages can be searched', async () => {
 }, 20_000);
 
 test('renders with sidebar layout when sidebar has content', async () => {
+  vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
+    () =>
+      ({
+        isAuthenticated: () => true,
+        isRenewing: () => false,
+      }) as any
+  );
   initCmsMenuItemsMocks();
   render(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
