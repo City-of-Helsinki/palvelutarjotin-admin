@@ -62,6 +62,9 @@ ARG VITE_APP_LINKEDEVENTS_API_URI
 # Application's origin (i.e. where this application is hosted)
 ARG VITE_APP_ORIGIN
 
+# Helsinki profile URL
+ARG VITE_APP_HELSINKI_PROFILE_URL
+
 # Release information
 ARG VITE_APP_RELEASE
 ARG VITE_APP_COMMITHASH

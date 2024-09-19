@@ -703,7 +703,8 @@
     "userMenu": {
       "ariaLabelButton": "Open user menu",
       "logout": "Log out",
-      "openMyProfile": "My profile"
+      "openMyProfile": "My profile",
+      "openHelsinkiProfile": "Helsinki Profile"
     }
   },
   "image": {

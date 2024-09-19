@@ -2,6 +2,7 @@ import {
   Button as HDSButton,
   Header as HDSHeader,
   IconAngleRight,
+  IconLinkExternal,
   IconSignout,
   IconUser,
   useMediaQueryLessThan,
@@ -142,6 +143,16 @@ const UserNavigation: React.FC<{
     pushWithLocale(ROUTES.MY_PROFILE);
   };
 
+  const goToHelsinkiProfile = () => {
+    if (typeof window !== 'undefined') {
+      window.open(
+        AppConfig.helsinkiProfileUrl,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
+  };
+
   const activeOrganisation = useAppSelector(activeOrganisationSelector);
 
   const changeActiveOrganisation = (id: string) => {
@@ -166,6 +177,15 @@ const UserNavigation: React.FC<{
         variant="supplementary"
       >
         {t('header.userMenu.openMyProfile')}
+      </HDSButton>
+      <HDSButton
+        key={`go-to-profile`}
+        className={styles.dropdownButton}
+        iconLeft={<IconLinkExternal />}
+        onClick={goToHelsinkiProfile}
+        variant="supplementary"
+      >
+        {t('header.userMenu.openHelsinkiProfile')}
       </HDSButton>
       {organisations?.map((organisation) => (
         <HDSButton

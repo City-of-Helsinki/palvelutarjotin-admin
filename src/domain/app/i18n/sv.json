@@ -710,7 +710,8 @@
     "userMenu": {
       "ariaLabelButton": "Öppna användarmenyn",
       "logout": "Logga ut",
-      "openMyProfile": "Min profil"
+      "openMyProfile": "Min profil",
+      "openHelsinkiProfile": "Helsingfors Profil"
     }
   },
   "image": {
