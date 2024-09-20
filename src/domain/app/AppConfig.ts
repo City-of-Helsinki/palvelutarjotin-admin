@@ -28,6 +28,13 @@ class AppConfig {
     return new URL(this.apiUri).origin;
   }
 
+  static get helsinkiProfileUrl() {
+    return getEnvOrError(
+      import.meta.env.VITE_APP_HELSINKI_PROFILE_URL,
+      'VITE_APP_HELSINKI_PROFILE_URL'
+    );
+  }
+
   static get oidcAuthority() {
     return getEnvOrError(
       import.meta.env.VITE_APP_OIDC_AUTHORITY,

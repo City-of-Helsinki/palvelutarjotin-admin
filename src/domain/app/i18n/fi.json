@@ -708,7 +708,8 @@
     "userMenu": {
       "ariaLabelButton": "Avaa käyttäjän valikko",
       "logout": "Kirjaudu ulos",
-      "openMyProfile": "Omat tiedot"
+      "openMyProfile": "Omat tiedot",
+      "openHelsinkiProfile": "Helsinki-profiili"
     }
   },
   "image": {
