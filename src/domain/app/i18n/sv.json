@@ -560,7 +560,7 @@
     "buttonBack": "Tillbaka till evenemangstiderna",
     "eventHasBeenPublished": "Händelsen har publicerats",
     "titleEventSummary": "Sammanfattning av evenemang",
-    "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
+    "titleEventSummaryHelper": "Klicka för förhandsgranskning av evenemanget",
     "buttonEditBasicInfo": "Redigera information",
     "buttonEditOccurrences": "Redigera evenemangstider",
     "buttonExportEnrolments": "Ladda ner anmälda (CSV)"
