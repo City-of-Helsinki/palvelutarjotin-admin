@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.13.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.12.0...palvelutarjotin-admin-v1.13.0) (2024-09-25)
+
+
+### Features
+
+* Helsinki profile header link ([#356](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/356)) ([195c884](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/195c8844bdd682e8055e08102901ff4f16b66e60))
+
+
+### Bug Fixes
+
+* Cms page test ([#355](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/355)) ([60796cc](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/60796cc1d88089691f7c5a455f923840de5a3ee8))
+* New login flow and components ([#352](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/352)) ([b98857d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b98857df9068867257d3dcc1cdedbe8c26fd97fd))
+* Suggested translations update ([#357](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/357)) ([ff5c2b5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ff5c2b5f1769e5846841d7229689a88a8f5e775d))
+
 ## [1.12.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.11.0...palvelutarjotin-admin-v1.12.0) (2024-09-16)
 
 
