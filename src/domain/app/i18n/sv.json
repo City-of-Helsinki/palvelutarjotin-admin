@@ -53,7 +53,7 @@
   },
   "common": {
     "cityOfHelsinki": "Helsingfors stad",
-    "back": "Tillbacka",
+    "back": "Tillbaka",
     "leave": "Lämn",
     "close": "Stäng",
     "srOnly": {
@@ -417,7 +417,7 @@
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning (SV)",
       "labelMandatoryAdditionalInformation": "De som anmäler sig måste ange tilläggsinformation.",
-      "guidanceTextMandatoryAdditionalInformation": "I fall du vill ha tilläggs information om gruppen, i samband med bokingen meddela om detta i beskrivingen av evenemanget.",
+      "guidanceTextMandatoryAdditionalInformation": "Ifall du vill ha tilläggsinformation om gruppen i samband med bokningen meddela om detta i beskrivningen av evenemanget",
       "labelEnrolmentEndDays": "Anmälan stänger X dagar före evenemangstiden",
       "labelEnrolmentStartDate": "Registrering börjar",
       "labelEnrolmentStartTime": "Tid",
@@ -433,7 +433,7 @@
       "photographer": "Fotograf",
       "title": "Grundläggande information om evenemanget"
     },
-    "formLanguageSelectorTitle": "Välj formularspråk",
+    "formLanguageSelectorTitle": "Välj formulärets språk",
     "buttonCancel": "Avbryt",
     "buttonUpdate": "Uppdatera",
     "buttonSave": "Spara",
@@ -560,7 +560,7 @@
     "buttonBack": "Tillbaka till evenemangstiderna",
     "eventHasBeenPublished": "Händelsen har publicerats",
     "titleEventSummary": "Sammanfattning av evenemang",
-    "titleEventSummaryHelper": "Klicka för att gå till händelseförhandsgranskning",
+    "titleEventSummaryHelper": "Klicka för förhandsgranskning av evenemanget",
     "buttonEditBasicInfo": "Redigera information",
     "buttonEditOccurrences": "Redigera evenemangstider",
     "buttonExportEnrolments": "Ladda ner anmälda (CSV)"
