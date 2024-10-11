@@ -10,6 +10,7 @@ import {
   Post,
   Seo,
 } from '../generated/graphql-cms';
+import { pageInfoMock } from './mockDataUtils';
 
 const generateUri = () => faker.word.words().split(' ').join('/');
 
@@ -38,6 +39,7 @@ export const fakePage = (
       slug: generateUri(),
       content: faker.word.words(),
       databaseId: faker.number.int(),
+      isComment: false,
       isFrontPage: false,
       isPostsPage: false,
       isPrivacyPage: false,
@@ -66,6 +68,11 @@ export const fakePage = (
         edges: [],
         nodes: [],
         __typename: 'HierarchicalContentNodeToContentNodeChildrenConnection',
+        pageInfo: {
+          ...pageInfoMock,
+          __typename:
+            'HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo',
+        },
       },
       parent: null,
       isContentNode: false,
@@ -93,7 +100,10 @@ export const fakePost = (
       databaseId: faker.number.int(),
       language: fakeLanguage({ code: LanguageCodeEnum.Fi }),
       seo: fakeSEO(),
+      isFrontPage: false,
+      isComment: false,
       isContentNode: false,
+      isPostsPage: false,
       isTermNode: false,
       // to avoid infinite recursion loop :D
       translations: isTranslation
@@ -132,6 +142,9 @@ export const fakeMediaItem = (overrides?: Partial<MediaItem>): MediaItem => {
       altText: faker.word.words(),
       mimeType: faker.word.words(),
       uri: faker.internet.url(),
+      isComment: false,
+      isFrontPage: false,
+      isPostsPage: false,
       isTermNode: false,
       isContentNode: false,
       __typename: 'MediaItem',

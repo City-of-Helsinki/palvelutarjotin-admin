@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import {
   OccurrenceFieldsFragment,
-  OccurrenceSeatType,
+  OccurrencesOccurrenceSeatTypeChoices,
 } from '../../../generated/graphql';
 
 interface Props {
@@ -17,7 +17,7 @@ const OccurrenceGroupInfo: React.FC<Props> = ({ occurrence }) => {
   const maxGroupSize = occurrence.maxGroupSize;
   const minGroupSize = occurrence.minGroupSize;
   const groupInfo = [
-    occurrence.seatType === OccurrenceSeatType.EnrolmentCount
+    occurrence.seatType === OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount
       ? t('occurrenceDetails.textAmountOfGroups', {
           count: amountOfSeats,
         })

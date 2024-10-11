@@ -27,7 +27,7 @@ import {
 } from '../../../constants';
 import {
   Language,
-  OrganisationType,
+  OrganisationsOrganisationTypeChoices,
   useOrganisationsQuery,
 } from '../../../generated/graphql';
 import { LanguageCodeEnum } from '../../../generated/graphql-cms';
@@ -275,7 +275,9 @@ const OrganisationsField: React.FC<{
     useFormikContext<MyProfileCreateFormFields>();
   const { organisationProposals } = values;
   const { data: organisationsData } = useOrganisationsQuery({
-    variables: { type: OrganisationType.Provider.toLowerCase() },
+    variables: {
+      type: OrganisationsOrganisationTypeChoices.Provider,
+    },
   });
   const organisationOptions =
     organisationsData?.organisations?.edges.map((edge) => ({

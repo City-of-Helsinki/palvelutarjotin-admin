@@ -6,7 +6,7 @@ import {
   EventQueueEnrolmentFieldsFragment,
   Language,
   NotificationType,
-  OccurrenceSeatType,
+  OccurrencesOccurrenceSeatTypeChoices,
   UpdateEnrolmentMutationInput,
 } from '../../generated/graphql';
 import { assertUnreachable } from '../../utils/typescript.utils';
@@ -95,7 +95,7 @@ export const getGroupSizeBoundaries = ({
     remainingSeats: number;
     maxGroupSize?: number | null;
     minGroupSize?: number | null;
-    seatType: OccurrenceSeatType;
+    seatType: OccurrencesOccurrenceSeatTypeChoices;
   };
 }): {
   minGroupSize: number;
@@ -112,7 +112,7 @@ export const getGroupSizeBoundaries = ({
   if (isNumber(remainingSeats) && isNumber(maxGroupSize) && seatType) {
     let calculatedMaxGroupSize: number | null = null;
     switch (seatType) {
-      case OccurrenceSeatType.ChildrenCount:
+      case OccurrencesOccurrenceSeatTypeChoices.ChildrenCount:
         // add wholeGroupSize to remaining seats because event could be already full
         // then remaining seats would be 0 and enrolment couldn't be edited
         calculatedMaxGroupSize = Math.min(
@@ -120,7 +120,7 @@ export const getGroupSizeBoundaries = ({
           remainingSeats + wholeGroupSize
         );
         break;
-      case OccurrenceSeatType.EnrolmentCount:
+      case OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount:
         calculatedMaxGroupSize = maxGroupSize || 0;
         break;
       default:

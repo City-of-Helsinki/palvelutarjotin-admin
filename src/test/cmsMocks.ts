@@ -3,6 +3,7 @@ import { graphql } from 'msw';
 import { MenuQuery } from '../generated/graphql-cms';
 import { fakePage } from '../utils/cmsMockDataUtils';
 import { server } from './msw/server';
+import { pageInfoMock } from '../utils/mockDataUtils';
 
 const route1 = '/helsinki-liikkuu/';
 const route2 = '/helsinki-liikkuu/alisivu/';
@@ -65,6 +66,11 @@ export const initCmsMenuItemsMocks = () => {
                             slug: childItem.slug,
                           })
                         ) ?? [],
+                      pageInfo: {
+                        ...pageInfoMock,
+                        __typename:
+                          'HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo',
+                      },
                     },
                   }),
                 },

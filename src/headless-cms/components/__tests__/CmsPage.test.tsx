@@ -17,7 +17,11 @@ import {
   fakePage,
   fakePost,
 } from '../../../utils/cmsMockDataUtils';
-import { fakeOrganisations, fakePerson } from '../../../utils/mockDataUtils';
+import {
+  fakeOrganisations,
+  fakePerson,
+  pageInfoMock,
+} from '../../../utils/mockDataUtils';
 import {
   act,
   render,
@@ -273,6 +277,11 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
                   })
                 )
               : [],
+            pageInfo: {
+              ...pageInfoMock,
+              __typename:
+                'HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo',
+            },
           },
         }),
       },

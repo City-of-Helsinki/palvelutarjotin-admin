@@ -179,7 +179,7 @@ describe('occurrences form', () => {
 
     const occurrenceData1 = {
       amountOfSeats: 30,
-      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      seatType: graphql.OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
       languages: ['fi', 'en'],
       minGroupSize: 10,
       maxGroupSize: 20,
@@ -285,7 +285,7 @@ describe('occurrences form', () => {
 
     const occurrenceData1 = {
       amountOfSeats: 30,
-      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      seatType: graphql.OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
       languages: ['fi', 'en'],
       minGroupSize: 10,
       maxGroupSize: 20,
@@ -392,7 +392,7 @@ describe('occurrences form', () => {
 
     const occurrenceData1 = {
       amountOfSeats: 0,
-      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      seatType: graphql.OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
       languages: ['fi', 'en'],
       minGroupSize: null,
       maxGroupSize: null,
@@ -473,7 +473,7 @@ describe('occurrences form', () => {
 
     const occurrence: Partial<OccurrenceNode> = {
       amountOfSeats: 30,
-      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      seatType: graphql.OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
       minGroupSize: 10,
       maxGroupSize: 20,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),

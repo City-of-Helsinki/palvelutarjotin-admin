@@ -27,7 +27,7 @@ import {
   OccurrenceNode,
   OccurrenceNodeConnection,
   OccurrenceNodeEdge,
-  OccurrenceSeatType,
+  OccurrencesOccurrenceSeatTypeChoices,
   Offer,
   OrganisationNode,
   OrganisationNodeConnection,
@@ -35,7 +35,7 @@ import {
   OrganisationProposalNode,
   OrganisationProposalNodeConnection,
   OrganisationProposalNodeEdge,
-  OrganisationType,
+  OrganisationsOrganisationTypeChoices,
   PageInfo,
   PalvelutarjotinEventNode,
   PersonNode,
@@ -57,7 +57,7 @@ const organizationNames = [
   'Kulttuurin ja vapaa-ajan toimiala',
 ];
 
-const PageInfoMock: PageInfo = {
+export const pageInfoMock: PageInfo = {
   hasNextPage: false,
   hasPreviousPage: false,
   __typename: 'PageInfo',
@@ -136,7 +136,7 @@ export const fakeEnrolments = (
     (i) => fakeEnrolmentNodeEdge(enrolments?.[i]),
     count
   ),
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'EnrolmentNodeConnection',
   count,
 });
@@ -350,7 +350,7 @@ export const fakeOccurrences = (
     (i) => fakeOccurrenceNodeEdge(occurrences?.[i]),
     count
   ),
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'OccurrenceNodeConnection',
 });
 
@@ -374,7 +374,7 @@ export const fakeLanguages = (
   languages?: Partial<LanguageNode>[]
 ): LanguageNodeConnection => ({
   edges: languages?.map((language) => fakeLanguageNodeEdge(language)) || [],
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'LanguageNodeConnection',
 });
 
@@ -424,7 +424,7 @@ export const fakeOccurrence = (
   updatedAt: '' as any,
   remainingSeats: null as any,
   cancelled: false,
-  seatType: OccurrenceSeatType.ChildrenCount,
+  seatType: OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
   __typename: 'OccurrenceNode',
   ...overrides,
 });
@@ -455,7 +455,7 @@ export const fakeOrganisations = (
     (i) => fakeOrganisationNodeEdge(organisations?.[i]),
     count
   ),
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'OrganisationNodeConnection',
 });
 
@@ -476,7 +476,7 @@ export const fakeOrganisation = (
   persons: overrides.persons || fakePersons(5),
   phoneNumber: faker.phone.number(),
   publisherId: faker.string.uuid(),
-  type: OrganisationType.Provider,
+  type: OrganisationsOrganisationTypeChoices.Provider,
   __typename: 'OrganisationNode',
   ...overrides,
 });
@@ -486,7 +486,7 @@ export const fakePersons = (
   persons?: Partial<PersonNode>[]
 ): PersonNodeConnection => ({
   edges: generateNodeArray((i) => fakePersonNodeEdge(persons?.[i]), count),
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'PersonNodeConnection',
 });
 
@@ -562,7 +562,7 @@ export const fakeOrganisationProposals = (
     (i) => fakeOrganisationProposalEdge(organisationProposals?.[i]),
     count
   ),
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'OrganisationProposalNodeConnection',
 });
 
@@ -627,7 +627,7 @@ export const fakeStudyLevels = (count?: number): StudyLevelNodeConnection => ({
     .map((label: StudyLevel, level: number) =>
       fakeStudyLevelNodeEdge({ id: label, label, level })
     ),
-  pageInfo: PageInfoMock,
+  pageInfo: pageInfoMock,
   __typename: 'StudyLevelNodeConnection',
 });
 
