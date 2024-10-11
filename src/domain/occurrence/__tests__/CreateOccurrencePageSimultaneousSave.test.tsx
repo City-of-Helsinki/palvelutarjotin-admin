@@ -74,7 +74,7 @@ describe('save occurrence and event info simultaneously', () => {
 
     const occurrenceData1 = {
       amountOfSeats: 30,
-      seatType: graphql.OccurrenceSeatType.ChildrenCount,
+      seatType: graphql.OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
       languages: ['fi', 'en'],
       minGroupSize: 10,
       maxGroupSize: 20,

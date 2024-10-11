@@ -15,13 +15,13 @@ import {
   LanguageNodeConnection,
   LanguageNodeEdge,
   OccurrenceFieldsFragment,
-  OccurrenceSeatType,
-  PageInfo,
+  OccurrencesOccurrenceSeatTypeChoices,
 } from '../../../generated/graphql';
 import sortFavorably from '../../../utils/sortFavorably';
 import { parseDateTimeString } from '../../../utils/time/utils';
 import { OccurrenceSectionFormFields } from '../types';
 import { getDateFromDateAndTimeString, getPlaceId } from '../utils';
+import { pageInfoMock } from '../../../utils/mockDataUtils';
 
 export const getOrderedLanguageOptions = (t: TFunction) => {
   const languagesOrder = sortFavorably(
@@ -79,8 +79,8 @@ export const getOptimisticCreateOccurrenceResponse = ({
         placeId: getPlaceId({ values, isVirtual, isBookable }),
         remainingSeats: Number(values.amountOfSeats) || 0,
         seatType: values.oneGroupFills
-          ? OccurrenceSeatType.EnrolmentCount
-          : OccurrenceSeatType.ChildrenCount,
+          ? OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount
+          : OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
         seatsApproved: 0,
         seatsTaken: 0,
         maxGroupSize: Number(values.maxGroupSize) || null,
@@ -232,14 +232,6 @@ export const getOccurrencerWithSameDateAlreadyExists = (
 const fakeLanguages = (
   languages?: Partial<LanguageNode>[]
 ): LanguageNodeConnection => {
-  const PageInfoMock: PageInfo = {
-    hasNextPage: false,
-    hasPreviousPage: false,
-    __typename: 'PageInfo',
-    startCursor: '',
-    endCursor: '',
-  };
-
   const fakeLanguageNodeEdge = (
     overrides?: Partial<LanguageNode>
   ): LanguageNodeEdge => ({
@@ -257,7 +249,7 @@ const fakeLanguages = (
 
   return {
     edges: languages?.map((language) => fakeLanguageNodeEdge(language)) || [],
-    pageInfo: PageInfoMock,
+    pageInfo: pageInfoMock,
     __typename: 'LanguageNodeConnection',
   };
 };

@@ -13,7 +13,7 @@ export const QUERY_ORGANISATIONS = gql`
     $before: String
     $first: Int
     $last: Int
-    $type: String
+    $type: OrganisationsOrganisationTypeChoices
   ) {
     organisations(
       after: $after

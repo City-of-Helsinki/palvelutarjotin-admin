@@ -12,7 +12,7 @@ import {
   CreateMyProfileDocument,
   MyProfileDocument,
   OrganisationsDocument,
-  OrganisationType,
+  OrganisationsOrganisationTypeChoices,
 } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
@@ -89,17 +89,17 @@ const organisationMocks = fakeOrganisations(3, [
   {
     name: 'Organisaatio 1',
     id: 'organisation1',
-    type: OrganisationType.Provider,
+    type: OrganisationsOrganisationTypeChoices.Provider,
   },
   {
     name: 'Organisaatio 2',
     id: 'organisation2',
-    type: OrganisationType.Provider,
+    type: OrganisationsOrganisationTypeChoices.Provider,
   },
   {
     name: 'Organisaatio 3',
     id: 'organisation3',
-    type: OrganisationType.Provider,
+    type: OrganisationsOrganisationTypeChoices.Provider,
   },
 ]);
 
@@ -166,7 +166,7 @@ it(
         request: {
           query: OrganisationsDocument,
           variables: {
-            type: 'provider',
+            type: OrganisationsOrganisationTypeChoices.Provider,
           },
         },
         result: {

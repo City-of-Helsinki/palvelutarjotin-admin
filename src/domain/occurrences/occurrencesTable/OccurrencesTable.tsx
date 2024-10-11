@@ -7,7 +7,7 @@ import Table from '../../../common/components/table/Table';
 import {
   EventQuery,
   OccurrenceFieldsFragment,
-  OccurrenceSeatType,
+  OccurrencesOccurrenceSeatTypeChoices,
 } from '../../../generated/graphql';
 import useNavigate from '../../../hooks/useNavigate';
 import formatTimeRange from '../../../utils/formatTimeRange';
@@ -130,7 +130,9 @@ const OccurrencesTable: React.FC<Props> = ({
     {
       Header: t('occurrences.table.columnAmountOfSeats'),
       accessor: (row: OccurrenceFieldsFragment) => {
-        if (row.seatType === OccurrenceSeatType.EnrolmentCount) {
+        if (
+          row.seatType === OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount
+        ) {
           return t('occurrenceDetails.textAmountOfGroups', {
             count: row.amountOfSeats,
           });

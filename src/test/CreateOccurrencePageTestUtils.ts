@@ -15,7 +15,7 @@ import {
   Language,
   MyProfileDocument,
   OccurrenceNodeConnection,
-  OccurrenceSeatType,
+  OccurrencesOccurrenceSeatTypeChoices,
   PalvelutarjotinEventTranslationsInput,
   Place,
   PlaceDocument,
@@ -309,7 +309,7 @@ export const getAddOccurrenceMockResponse = ({
   languages,
   maxGroupSize,
   minGroupSize,
-  seatType = OccurrenceSeatType.ChildrenCount,
+  seatType = OccurrencesOccurrenceSeatTypeChoices.ChildrenCount,
   startTime,
 }: {
   startTime: string;
@@ -318,7 +318,7 @@ export const getAddOccurrenceMockResponse = ({
   amountOfSeats: number;
   minGroupSize: number | null;
   maxGroupSize: number | null;
-  seatType: OccurrenceSeatType;
+  seatType: OccurrencesOccurrenceSeatTypeChoices;
   placeId?: string;
   id?: string;
 }): MockedResponse => ({

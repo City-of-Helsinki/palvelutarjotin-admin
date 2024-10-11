@@ -17,6 +17,7 @@ import {
 } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import MyProfilePage from '../MyProfilePage';
+import { OrganisationsOrganisationTypeChoices } from '../../../generated/graphql';
 
 vi.mock('../../../generated/graphql', async () => {
   const actual = await vi.importActual('../../../generated/graphql');
@@ -27,12 +28,12 @@ const organisationMocks1 = fakeOrganisations(2, [
   {
     name: 'Organisaatio 1',
     id: 'organisation1',
-    type: graphql.OrganisationType.Provider,
+    type: graphql.OrganisationsOrganisationTypeChoices.Provider,
   },
   {
     name: 'Organisaatio 2',
     id: 'organisation2',
-    type: graphql.OrganisationType.Provider,
+    type: graphql.OrganisationsOrganisationTypeChoices.Provider,
   },
 ]);
 
@@ -40,17 +41,17 @@ const organisationMocks2 = fakeOrganisations(3, [
   {
     name: 'Organisaatio 1',
     id: 'organisation1',
-    type: graphql.OrganisationType.Provider,
+    type: graphql.OrganisationsOrganisationTypeChoices.Provider,
   },
   {
     name: 'Organisaatio 2',
     id: 'organisation2',
-    type: graphql.OrganisationType.Provider,
+    type: graphql.OrganisationsOrganisationTypeChoices.Provider,
   },
   {
     name: 'Organisaatio 3',
     id: 'organisation3',
-    type: graphql.OrganisationType.Provider,
+    type: graphql.OrganisationsOrganisationTypeChoices.Provider,
   },
 ]);
 
@@ -76,7 +77,7 @@ const apolloMocks: MockedResponse[] = [
   {
     request: {
       query: graphql.OrganisationsDocument,
-      variables: { type: 'provider' },
+      variables: { type: OrganisationsOrganisationTypeChoices.Provider },
     },
     result: {
       data: {
