@@ -1,31 +1,7 @@
-function getEnvOrError(variable?: string, name?: string) {
-  if (!variable) {
-    throw Error(`Environment variable with name ${name} was not found`);
-  }
-  return variable;
-}
-
 class AppConfig {
+  /** The origin URL (protocol + hostname + port) of the application. */
   static get origin() {
-    return getEnvOrError(import.meta.env.VITE_APP_ORIGIN, 'VITE_APP_ORIGIN');
-  }
-
-  /** Domain of the application. */
-  static get domain() {
-    return new URL(this.origin).origin;
-  }
-
-  /** Hostname of the application. */
-  static get hostname() {
-    return new URL(this.origin).hostname;
-  }
-
-  static get apiUri() {
-    return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
-  }
-
-  static get apiDomain() {
-    return new URL(this.apiUri).origin;
+    return getEnvAsUrl('VITE_APP_ORIGIN').origin;
   }
 
   static get helsinkiProfileUrl() {
@@ -130,27 +106,40 @@ class AppConfig {
     return import.meta.env.VITE_APP_OIDC_SESSION_POLLING_INTERVAL_MS ?? 60000;
   }
 
-  static get cmsUri() {
-    return getEnvOrError(import.meta.env.VITE_APP_CMS_URI, 'VITE_APP_CMS_URI');
-  }
-
   static get cmsDomain() {
-    return new URL(this.cmsUri).origin;
-  }
-
-  static get linkedEventsApiUri() {
-    return getEnvOrError(
-      import.meta.env.VITE_APP_LINKEDEVENTS_API_URI,
-      'VITE_APP_LINKEDEVENTS_API_URI'
-    );
+    return getEnvAsUrl('VITE_APP_CMS_URI').origin;
   }
 
   static get linkedEventsApiDomain() {
-    return new URL(this.linkedEventsApiUri).origin;
+    return getEnvAsUrl('VITE_APP_LINKEDEVENTS_API_URI').origin;
   }
 
   static get internalHrefOrigins() {
-    return [this.domain, this.cmsDomain, this.linkedEventsApiDomain];
+    return [this.origin, this.cmsDomain, this.linkedEventsApiDomain];
+  }
+}
+
+function getEnvOrError(variable?: string, name?: string) {
+  if (!variable) {
+    throw Error(`Environment variable with name ${name} was not found`);
+  }
+  return variable;
+}
+
+/**
+ * Fetches an environment variable value as a URL.
+ *
+ * @param varName The name of the environment variable.
+ * @throws {Error} If the variable is not defined or is not a valid URL.
+ */
+function getEnvAsUrl(varName: string): URL {
+  const value = getEnvOrError(import.meta.env[varName], varName);
+  try {
+    return new URL(value);
+  } catch {
+    throw new Error(
+      `Environment variable ${varName} is not a valid URL: ${value}`
+    );
   }
 }
 
