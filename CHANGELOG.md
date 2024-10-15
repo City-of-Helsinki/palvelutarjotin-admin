@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.13.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.13.0...palvelutarjotin-admin-v1.13.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* Header loading with new hcrc version ([#359](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/359)) ([04f36e1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/04f36e10a5cdec8d496ca6a9decd3f010ec074d7))
+* Remove trailing slash from AppConfig.origin -&gt; callback URL works ([dd8bca6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/dd8bca6e79840ed0dba40d976bbf419d98c603fa))
+* Update types after backend PR City-of-Helsinki/palvelutarjotin[#364](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/364) ([c85b73c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c85b73c89526c48ef5827171f76373f2c00809aa))
+
 ## [1.13.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.12.0...palvelutarjotin-admin-v1.13.0) (2024-09-25)
 
 
