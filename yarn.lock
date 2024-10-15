@@ -6616,11 +6616,6 @@ hds-core@3.10.0:
   resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.10.0.tgz#19956a8b8600611d8b3188b8d5305229f11eeb2b"
   integrity sha512-fF2Ub5fd+NMgoOwYv0k1LmaWsjnJr4hif1vXPp0Y9VbRGtHAN5/MsR0a1zb1NW+ygA0/5V5+ti8kXFutoKu7XA==
 
-hds-design-tokens@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-3.7.0.tgz#233636beeff5df39d47cfb4e4861e760a085c3c3"
-  integrity sha512-JBfVmsDQbLAPwX1Xh0uX5o3q4xfqQSQSWx4vewXmOBTjNkGcf2au+XCo9S5QvETai9OR85m5GbTh33DXquFLXw==
-
 hds-design-tokens@^3.9.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/hds-design-tokens/-/hds-design-tokens-3.10.0.tgz#9d41efaec69d8cb6917489b38f56bd623770c604"
@@ -9211,12 +9206,12 @@ react-helmet@^6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-react-helsinki-headless-cms@1.0.0-alpha275:
-  version "1.0.0-alpha275"
-  resolved "https://registry.yarnpkg.com/react-helsinki-headless-cms/-/react-helsinki-headless-cms-1.0.0-alpha275.tgz#2d9d3e442b4b96e3e50f170f6c92f976cefa7a5f"
-  integrity sha512-TR6t3hudKNsosVPT6pfwCNahaT+FZJYGjHdPTHrQEavq5mZF4l6roNVKSx7DaVKAKa4GJfBxxuJTUi/ZtNjnVQ==
+react-helsinki-headless-cms@1.0.0-alpha305:
+  version "1.0.0-alpha305"
+  resolved "https://registry.yarnpkg.com/react-helsinki-headless-cms/-/react-helsinki-headless-cms-1.0.0-alpha305.tgz#acc4bb08d28ac0acc1d556a0d2209b42ea01ad31"
+  integrity sha512-tQH5VPU+s4jF7rf/ZH5N33/PR+UOVvdZHYPm33xeyZv0mYe8J7BRGaR7zvQqaqfdmP9qrHMhot5t6Xnzm7oO2Q==
   dependencies:
-    hds-design-tokens "^3.7.0"
+    hds-design-tokens "^3.9.0"
     html-entities "^2.4.0"
     html-react-parser "^4.2.9"
     isomorphic-dompurify "^1.8.0"
