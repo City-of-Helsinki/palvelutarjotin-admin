@@ -31,8 +31,8 @@ const App = () => {
         loading={<LoadingSpinner isLoading={true} />}
         persistor={persistor}
       ></PersistGate>
-      <IdleTimer>
-        <KultusAdminHDSLoginProvider>
+      <KultusAdminHDSLoginProvider>
+        <IdleTimer>
           <ApolloProvider client={apolloClient}>
             <RHHCConfigProvider config={rhhcConfig}>
               <BrowserRouter>
@@ -44,8 +44,8 @@ const App = () => {
               </BrowserRouter>
             </RHHCConfigProvider>
           </ApolloProvider>
-        </KultusAdminHDSLoginProvider>
-      </IdleTimer>
+        </IdleTimer>
+      </KultusAdminHDSLoginProvider>
       <ToastContainer />
     </Provider>
   );

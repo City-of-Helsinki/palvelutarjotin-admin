@@ -96,15 +96,15 @@ const customRender: CustomRender = (
   const user = userEvent.setup();
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>
-      <IdleTimer>
-        <KultusAdminHDSLoginProvider>
+      <KultusAdminHDSLoginProvider>
+        <IdleTimer>
           <MockedProvider mocks={mocks} cache={createApolloCache()}>
             <RHHCConfigProviderWithProvidedApolloClient>
               <BrowserRouter>{children}</BrowserRouter>
             </RHHCConfigProviderWithProvidedApolloClient>
           </MockedProvider>
-        </KultusAdminHDSLoginProvider>
-      </IdleTimer>
+        </IdleTimer>
+      </KultusAdminHDSLoginProvider>
     </Provider>
   );
 
