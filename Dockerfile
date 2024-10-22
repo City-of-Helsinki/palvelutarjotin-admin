@@ -65,6 +65,9 @@ ARG VITE_APP_ORIGIN
 # Helsinki profile URL
 ARG VITE_APP_HELSINKI_PROFILE_URL
 
+# Time before user logout if idle
+ARG VITE_APP_IDLE_TIMEOUT_IN_MS
+
 # Release information
 ARG VITE_APP_RELEASE
 ARG VITE_APP_COMMITHASH

@@ -17,6 +17,7 @@ import { FORCE_SCROLL_TO_TOP, IGNORE_SCROLL_TO_TOP } from './routes/constants';
 import ScrollToTop from './ScrollToTop';
 import { persistor, store } from './store';
 import KultusAdminHDSLoginProvider from '../auth/KultusAdminHDSLoginProvider';
+import IdleTimer from '../auth/IdleTimerProvider';
 
 const App = () => {
   const rhhcConfig = useRHHCConfig({
@@ -30,19 +31,21 @@ const App = () => {
         loading={<LoadingSpinner isLoading={true} />}
         persistor={persistor}
       ></PersistGate>
-      <KultusAdminHDSLoginProvider>
-        <ApolloProvider client={apolloClient}>
-          <RHHCConfigProvider config={rhhcConfig}>
-            <BrowserRouter>
-              <ScrollToTop
-                ignoredPaths={IGNORE_SCROLL_TO_TOP}
-                forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}
-              />
-              <AppRoutes />
-            </BrowserRouter>
-          </RHHCConfigProvider>
-        </ApolloProvider>
-      </KultusAdminHDSLoginProvider>
+      <IdleTimer>
+        <KultusAdminHDSLoginProvider>
+          <ApolloProvider client={apolloClient}>
+            <RHHCConfigProvider config={rhhcConfig}>
+              <BrowserRouter>
+                <ScrollToTop
+                  ignoredPaths={IGNORE_SCROLL_TO_TOP}
+                  forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}
+                />
+                <AppRoutes />
+              </BrowserRouter>
+            </RHHCConfigProvider>
+          </ApolloProvider>
+        </KultusAdminHDSLoginProvider>
+      </IdleTimer>
       <ToastContainer />
     </Provider>
   );

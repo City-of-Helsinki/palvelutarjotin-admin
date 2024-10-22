@@ -22,6 +22,7 @@ import reducers from '../domain/app/reducers';
 import { store as reduxStore } from '../domain/app/store';
 import useRHHCConfig from '../hooks/useRHHCConfig';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
+import IdleTimer from '../domain/auth/IdleTimerProvider';
 
 export const arrowUpKeyPressHelper = () =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
@@ -95,13 +96,15 @@ const customRender: CustomRender = (
   const user = userEvent.setup();
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>
-      <KultusAdminHDSLoginProvider>
-        <MockedProvider mocks={mocks} cache={createApolloCache()}>
-          <RHHCConfigProviderWithProvidedApolloClient>
-            <BrowserRouter>{children}</BrowserRouter>
-          </RHHCConfigProviderWithProvidedApolloClient>
-        </MockedProvider>
-      </KultusAdminHDSLoginProvider>
+      <IdleTimer>
+        <KultusAdminHDSLoginProvider>
+          <MockedProvider mocks={mocks} cache={createApolloCache()}>
+            <RHHCConfigProviderWithProvidedApolloClient>
+              <BrowserRouter>{children}</BrowserRouter>
+            </RHHCConfigProviderWithProvidedApolloClient>
+          </MockedProvider>
+        </KultusAdminHDSLoginProvider>
+      </IdleTimer>
     </Provider>
   );
 
