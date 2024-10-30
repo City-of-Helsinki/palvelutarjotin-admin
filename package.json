@@ -14,20 +14,13 @@
     "@testing-library/dom:",
     "Multiple versions of @testing-library/dom cause issues with user-event",
     "See https://github.com/testing-library/user-event/discussions/906",
-    "That's why @testing-library/dom has been added to resolutions.",
-    "",
-    "@apollo/client:",
-    "@apollo/client is resolved to 3.8.1 in order to:",
-    " - Not have multiple versions of @apollo/client installed",
-    " - To have the exact same version of @apollo/client as is in",
-    "   react-helsinki-headless-cms v1.0.0-alpha264's yarn.lock"
+    "That's why @testing-library/dom has been added to resolutions."
   ],
   "resolutions": {
-    "@testing-library/dom": "^9.3.4",
-    "@apollo/client": "3.8.1"
+    "@testing-library/dom": "^9.3.4"
   },
   "dependencies": {
-    "@apollo/client": "3.8.1",
+    "@apollo/client": "^3.10.1",
     "@datepicker-react/hooks": "^2.8.4",
     "@faker-js/faker": "^8.4.1",
     "@reduxjs/toolkit": "^1.9.7",
@@ -78,8 +71,8 @@
     "formik": "^2.4.5",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
-    "hds-design-tokens": "^3.9.0",
-    "hds-react": "^3.9.0",
+    "hds-design-tokens": "^3.11.0",
+    "hds-react": "^3.11.0",
     "html-react-parser": "^5.1.10",
     "html-to-draftjs": "^1.5.0",
     "i18next": "^23.11.1",
