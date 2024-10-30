@@ -10,6 +10,7 @@ import {
   Event,
   EventDocument,
   MyProfileDocument,
+  OccurrenceDocument,
   PalvelutarjotinEventNode,
 } from '../../../generated/graphql';
 import {
@@ -19,11 +20,13 @@ import {
 import {
   fakeEvent,
   fakeLocalizedObject,
+  fakeOccurrence,
   fakeOccurrences,
   fakeOrganisation,
   fakeOrganisations,
   fakePerson,
   fakePEvent,
+  pageInfoMock,
 } from '../../../utils/mockDataUtils';
 import {
   BoundFunctions,
@@ -73,11 +76,19 @@ const occurrenceId3 = 'occurrenceId3';
 
 const cancelReasonMessageText = 'testmessage';
 
+const mockOccurrence1 = fakeOccurrence({
+  startTime: new Date(2020, 11, 11).toISOString(),
+  id: occurrenceId1,
+  placeId,
+  enrolments: {
+    edges: [],
+    pageInfo: pageInfoMock,
+  },
+});
+
 const occurrences = fakeOccurrences(3, [
   {
-    startTime: new Date(2020, 11, 11).toISOString(),
-    id: occurrenceId1,
-    placeId,
+    ...mockOccurrence1,
   },
   {
     startTime: new Date(2020, 11, 12).toISOString(),
@@ -257,6 +268,19 @@ const getMocks = ({
           clientMutationId: null,
           __typename: 'CancelOccurrenceMutationPayload',
         },
+      },
+    },
+  },
+  {
+    request: {
+      query: OccurrenceDocument,
+      variables: {
+        id: occurrenceId1,
+      },
+    },
+    result: {
+      data: {
+        occurrence: mockOccurrence1,
       },
     },
   },
