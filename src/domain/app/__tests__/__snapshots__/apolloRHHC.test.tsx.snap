@@ -3,7 +3,7 @@
 exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloClientFromUseApolloClient] 1`] = `
 <div>
   <div>
-    3.8.1
+    3.11.8
   </div>
 </div>
 `;
@@ -11,7 +11,7 @@ exports[`test issues in connection between the apollo client and the RHHC-lib > 
 exports[`test issues in connection between the apollo client and the RHHC-lib > apollo client should work with RHHC-lib > renders component that needs the apollo client with a custom wrapper [Function ApolloClientFromUseConfig] 1`] = `
 <div>
   <div>
-    3.8.1
+    3.11.8
   </div>
 </div>
 `;
