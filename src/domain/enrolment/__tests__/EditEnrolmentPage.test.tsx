@@ -7,7 +7,10 @@ import { vi } from 'vitest';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';
-import { createPlaceQueryMock } from '../../../test/apollo-mocks/placeMocks';
+import {
+  createNotFoundPlaceQueryMock,
+  createPlaceQueryMock,
+} from '../../../test/apollo-mocks/placeMocks';
 import { createSchoolsAndKindergartensListQueryMock } from '../../../test/apollo-mocks/schoolsAndKindergartensListMock';
 import { myProfileMockResponse } from '../../../test/CreateOccurrencePageTestUtils';
 import {
@@ -526,6 +529,7 @@ describe('UnitField', () => {
         ],
         'place12'
       ),
+      createNotFoundPlaceQueryMock('test:place12'),
     ]);
 
     await userEvent.type(getUnitFieldInput(), 'place12');
