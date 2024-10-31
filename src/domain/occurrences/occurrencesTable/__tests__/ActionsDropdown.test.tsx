@@ -4,11 +4,20 @@ import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { tableDropdownTestId } from '../../../../common/components/tableDropdown/TableDropdown';
-import { fakeOccurrence } from '../../../../utils/mockDataUtils';
+import {
+  fakeLocalizedObject,
+  fakeOccurrence,
+  fakePlace,
+  pageInfoMock,
+} from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import { ROUTES } from '../../../app/routes/constants';
 import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
+import {
+  OccurrenceDocument,
+  PlaceDocument,
+} from '../../../../generated/graphql';
 
 const navigate = vi.fn();
 vi.mock('react-router-dom', async () => {
@@ -17,8 +26,50 @@ vi.mock('react-router-dom', async () => {
 });
 const eventId = 'testEventId123';
 const occurrenceId = 'occurrenceId123';
+const placeId = 'testPlaceId123';
 
-const mockOccurrence = fakeOccurrence({ id: occurrenceId });
+const mockPlace = fakePlace({
+  id: placeId,
+  name: fakeLocalizedObject('Test place'),
+});
+
+const mockOccurrence = fakeOccurrence({
+  id: occurrenceId,
+  placeId,
+  enrolments: {
+    edges: [],
+    pageInfo: pageInfoMock,
+  },
+});
+
+const mocks = [
+  {
+    request: {
+      query: PlaceDocument,
+      variables: {
+        id: placeId,
+      },
+    },
+    result: {
+      data: {
+        place: mockPlace,
+      },
+    },
+  },
+  {
+    request: {
+      query: OccurrenceDocument,
+      variables: {
+        id: occurrenceId,
+      },
+    },
+    result: {
+      data: {
+        occurrence: mockOccurrence,
+      },
+    },
+  },
+];
 
 const renderComponent = (props?: Partial<Props>) => {
   return render(
@@ -30,7 +81,8 @@ const renderComponent = (props?: Partial<Props>) => {
       onCancel={vi.fn()}
       row={mockOccurrence}
       {...props}
-    />
+    />,
+    { mocks }
   );
 };
 
