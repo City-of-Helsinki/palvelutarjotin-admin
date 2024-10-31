@@ -18,3 +18,23 @@ export const createPlaceQueryMock = (
     },
   },
 });
+
+export const createNotFoundPlaceQueryMock = (
+  id: Place['id']
+): MockedResponse => ({
+  request: {
+    query: PlaceDocument,
+    variables: { id },
+  },
+  result: {
+    errors: [
+      {
+        message: '404 Client Error: Not Found',
+        extensions: { code: 'GENERAL_ERROR' },
+      },
+    ],
+    data: {
+      place: null,
+    },
+  },
+});
