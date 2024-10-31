@@ -32,6 +32,9 @@ import {
 } from '../../../utils/testUtils';
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
+import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
+import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
+import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 
 const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 
@@ -237,15 +240,6 @@ const subPagesMocks = [
   },
 ];
 
-const authenticatedInitialState = {
-  authentication: {
-    tunnistamo: {
-      user: { profile: { email: 'test@test.fi' }, access_token: 'token' },
-    },
-    token: { apiToken: 'token' },
-  },
-};
-
 function initializeMocks(pageHierarchy: PageHierarchy[]) {
   const mocks: { Page: any[]; SubPagesSearch: typeof subPagesMocks } = {
     Page: [],
@@ -308,6 +302,9 @@ const apolloMocks: MockedResponse[] = [
       },
     },
   },
+  headerMenuMock,
+  footerMenuMock,
+  languagesMock,
 ];
 
 const mocks = initializeMocks(pageHierarchy);
@@ -390,7 +387,6 @@ test.skip('renders CMS page and navigation flow works', async () => {
   const { menuItems } = initCmsMenuItemsMocks();
   const { container } = render(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
-    initialState: authenticatedInitialState,
     mocks: apolloMocks,
   });
   await wait();
@@ -581,7 +577,6 @@ test('renders with sidebar layout when sidebar has content', async () => {
   initCmsMenuItemsMocks();
   render(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
-    initialState: authenticatedInitialState,
     mocks: apolloMocks,
   });
 
