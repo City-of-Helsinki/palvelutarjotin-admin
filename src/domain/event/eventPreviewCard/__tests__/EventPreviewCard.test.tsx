@@ -6,9 +6,33 @@ import {
   fakeLocalizedObject,
   fakeOccurrences,
   fakePEvent,
+  fakePlace,
 } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import EventPreviewCard from '../EventPreviewCard';
+import { PlaceDocument } from '../../../../generated/graphql';
+
+const placeId = 'test-place-id';
+const place = fakePlace({
+  id: placeId,
+  name: fakeLocalizedObject('Testipaikka'),
+});
+
+const mocks = [
+  {
+    request: {
+      query: PlaceDocument,
+      variables: {
+        id: placeId,
+      },
+    },
+    result: {
+      data: {
+        place,
+      },
+    },
+  },
+];
 
 it('renders event information correctly and matches snapshot', () => {
   vi.setSystemTime(new Date(2021, 9, 20));
@@ -22,22 +46,27 @@ it('renders event information correctly and matches snapshot', () => {
     keywords: keywords.map((keyword) =>
       fakeKeyword({ name: fakeLocalizedObject(keyword) })
     ),
+    location: place,
     pEvent: fakePEvent({
       occurrences: fakeOccurrences(2, [
         {
           startTime: '2021-09-10T13:17:09Z',
           endTime: '2021-09-10T13:17:09Z',
+          placeId,
         },
         // this is the next occurrence in the future (should be rendered)
         {
           startTime: '2021-10-22T13:17:09Z',
           endTime: '2021-10-22T14:17:09Z',
+          placeId,
         },
       ]),
     }),
   });
 
-  const { container } = render(<EventPreviewCard event={event} link={href} />);
+  const { container } = render(<EventPreviewCard event={event} link={href} />, {
+    mocks,
+  });
   const link = screen.getByRole('link', {
     name: /testinimi/i,
   });
@@ -58,22 +87,26 @@ it('render multiday occurrence dates correctly', () => {
   render(
     <EventPreviewCard
       event={fakeEvent({
+        location: place,
         pEvent: fakePEvent({
           occurrences: fakeOccurrences(2, [
             {
               startTime: '2021-09-10T13:17:09Z',
               endTime: '2021-09-10T13:17:09Z',
+              placeId,
             },
             // this is the next occurrence in the future (should be rendered)
             {
               startTime: '2021-10-22T13:17:09Z',
               endTime: '2021-10-28T14:17:09Z',
+              placeId,
             },
           ]),
         }),
       })}
       link="/"
-    />
+    />,
+    { mocks }
   );
   screen.getByText('22.10.2021 – 28.10.2021');
 });
