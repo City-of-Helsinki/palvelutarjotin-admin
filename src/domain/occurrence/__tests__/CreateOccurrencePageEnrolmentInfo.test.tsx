@@ -376,8 +376,8 @@ describe('location and enrolment info', () => {
       languages: ['fi', 'en'],
       minGroupSize: 10,
       maxGroupSize: 20,
-      endTime: occurrenceEndTime,
-      startTime: occurrenceStartTime,
+      endTime: occurrenceEndDateTime,
+      startTime: occurrenceStartDateTime,
     };
     const addOccurrenceMockResponse = getAddOccurrenceMockResponse({
       ...occurrenceData1,
@@ -421,7 +421,8 @@ describe('location and enrolment info', () => {
         updateEventMockResponse,
         addOccurrenceMockResponse,
         // FIXME: Some reason why this component needs a reload
-        updatedEventWithOccurrenceMockResponse,
+        addOccurrenceMockResponse, // Mock used twice
+        updatedEventWithOccurrenceMockResponse, // Mock used twice
       ],
     });
     Modal.setAppElement(container);
