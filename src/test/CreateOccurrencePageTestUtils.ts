@@ -978,14 +978,16 @@ export const getDefaultOccurrenceValues = ({
   const occurrenceStartTime = '10:00';
   const occurrenceEndDate = '12.5.2021';
   const occurrenceEndTime = '11:00';
+  type OccurrenceEndDateTime =
+    `${typeof occurrenceEndDate | typeof occurrenceStartDate} ${typeof occurrenceEndTime}`;
   return {
     occurrenceStartDate,
     occurrenceStartTime,
     occurrenceEndDate,
     occurrenceEndTime,
-    occurrenceStartDateTime: occurrenceStartDate + ' ' + occurrenceStartTime,
-    occurrenceEndDateTime: isMultiday
-      ? occurrenceEndDate + ' ' + occurrenceEndTime
-      : occurrenceStartDate + ' ' + occurrenceEndTime,
-  };
+    occurrenceStartDateTime: `${occurrenceStartDate} ${occurrenceStartTime}`,
+    occurrenceEndDateTime: (isMultiday
+      ? `${occurrenceEndDate} ${occurrenceEndTime}`
+      : `${occurrenceStartDate} ${occurrenceEndTime}`) satisfies OccurrenceEndDateTime,
+  } as const;
 };

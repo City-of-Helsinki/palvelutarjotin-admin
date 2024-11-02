@@ -68,6 +68,11 @@ export const EnrolmentTypeSelector: React.FC<{
     return enrolmentType === type;
   };
 
+  // hds-react v3.11.0's SelectionGroup maps `id` to `key`, see
+  // eslint-disable-next-line max-len
+  // https://github.com/City-of-Helsinki/helsinki-design-system/blob/v3.11.0/packages/react/src/components/selectionGroup/SelectionGroup.tsx#L103
+  // which is why both `id` and `key` are needed to be set to unique values,
+  // or else React will show a warning about non-unique keys.
   return (
     <SelectionGroup
       direction="horizontal"
@@ -75,6 +80,7 @@ export const EnrolmentTypeSelector: React.FC<{
     >
       {Object.values(EnrolmentType).map((type) => (
         <Field
+          id={`enrolmentType-${type}`}
           key={`enrolmentType-${type}`}
           type="radio"
           name="enrolmentType"
