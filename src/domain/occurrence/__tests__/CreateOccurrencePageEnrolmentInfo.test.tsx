@@ -348,6 +348,25 @@ describe('location and enrolment info', () => {
 
   test('notification modal works correctly when info is not filled', async () => {
     vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
+
+    // eslint-disable-next-line no-console
+    const origConsoleLog = console.log;
+    vi.spyOn(console, 'log').mockImplementation((message, ...args) => {
+      const msgStr: string =
+        typeof message === 'string' ? message : JSON.stringify(message);
+
+      if (
+        msgStr.includes('ValidationError') &&
+        msgStr.includes('Tapahtumalla on oltava ainakin yksi tapahtuma-aika')
+      ) {
+        // This ValidationError is explicitly expected during this test and can
+        // thus be omitted from the console.log output to make it cleaner.
+      } else {
+        // Show other console.log messages normally
+        origConsoleLog(message, ...args);
+      }
+    });
+
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
     const {
       occurrenceEndTime,
