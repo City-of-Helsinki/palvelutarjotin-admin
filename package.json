@@ -17,7 +17,7 @@
     "That's why @testing-library/dom has been added to resolutions."
   ],
   "resolutions": {
-    "@testing-library/dom": "^9.3.4"
+    "@testing-library/dom": "^10.4.0"
   },
   "dependencies": {
     "@apollo/client": "^3.10.1",
@@ -25,9 +25,8 @@
     "@faker-js/faker": "^8.4.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@sentry/browser": "^7.110.0",
-    "@testing-library/jest-dom": "^6.4.5",
-    "@testing-library/react": "^15.0.7",
-    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
     "@testing-library/testcafe": "^5.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/apollo-upload-client": "^18.0.0",
