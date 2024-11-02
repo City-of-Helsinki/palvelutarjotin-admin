@@ -1,18 +1,42 @@
 import * as React from 'react';
+import { waitFor } from '@testing-library/react';
 
 import formatTimeRange from '../../../../utils/formatTimeRange';
 import {
   fakeEvent,
   fakeOccurrence,
   fakePEvent,
+  fakePlace,
 } from '../../../../utils/mockDataUtils';
 import { render, screen } from '../../../../utils/testUtils';
 import { formatLocalizedDate } from '../../../../utils/time/format';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
+import { PlaceDocument } from '../../../../generated/graphql';
+import { createNotFoundPlaceQueryMock } from '../../../../test/apollo-mocks/placeMocks';
 
 const startTime = new Date(2020, 11, 11).toISOString();
 const endTime = new Date(2020, 11, 11).toISOString();
 const timeRange = formatTimeRange(new Date(startTime), new Date(endTime));
+
+const placeId = 'test-place-1';
+const place = fakePlace({ id: placeId });
+
+const mocks = [
+  {
+    request: {
+      query: PlaceDocument,
+      variables: {
+        id: placeId,
+      },
+    },
+    result: {
+      data: {
+        place,
+      },
+    },
+  },
+  createNotFoundPlaceQueryMock(''),
+];
 
 const mockOccurrence = fakeOccurrence({
   id: 'occurrenceId1',
@@ -32,7 +56,8 @@ const renderComponent = (props?: Partial<Props>) => {
       loadingOccurrences={[]}
       occurrences={[mockOccurrence]}
       {...props}
-    />
+    />,
+    { mocks }
   );
 };
 
@@ -58,10 +83,11 @@ it('show occurrence data in the table in correct format', () => {
   expect(occurrenceRow).toBeInTheDocument();
 });
 
-it('does not render enrolment info when enrolments are not done internally', () => {
+it('does not render enrolment info when enrolments are not done internally', async () => {
   renderComponent({
     eventData: {
       event: fakeEvent({
+        location: place,
         pEvent: fakePEvent({
           enrolmentStart: null,
           externalEnrolmentUrl: null,
@@ -69,8 +95,12 @@ it('does not render enrolment info when enrolments are not done internally', () 
       }),
     },
   });
-  expect(screen.getByText(/Tapahtumapaikka/i)).toBeInTheDocument();
-  expect(screen.getByText(/Toiminnot/i)).toBeInTheDocument();
-  expect(screen.queryByText(/Ilm. alkaa/i)).not.toBeInTheDocument();
-  expect(screen.queryByText(/Ilmoittautuneita/i)).not.toBeInTheDocument();
+  expect(await screen.findByText(/Tapahtumapaikka/i)).toBeInTheDocument();
+  expect(await screen.findByText(/Toiminnot/i)).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.queryByText(/Ilm. alkaa/i)).not.toBeInTheDocument();
+  });
+  await waitFor(() => {
+    expect(screen.queryByText(/Ilmoittautuneita/i)).not.toBeInTheDocument();
+  });
 });
