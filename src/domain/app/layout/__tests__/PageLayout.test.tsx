@@ -76,15 +76,6 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const authenticatedInitialState = {
-  authentication: {
-    tunnistamo: {
-      user: { profile: { email: userEmail } },
-    },
-    token: { apiToken: 'token' },
-  },
-};
-
 const organisationMocks = fakeOrganisations(3, [
   {
     name: 'Organisaatio 1',
@@ -206,7 +197,6 @@ it(
     renderWithRoute(<PageLayout>Test</PageLayout>, {
       routes: ['/'],
       mocks,
-      initialState: authenticatedInitialState,
     });
 
     await act(wait);
@@ -262,7 +252,6 @@ it('Pagelayout renders children when user has profile, organisations and has sta
   renderWithRoute(<PageLayout>TextChildren</PageLayout>, {
     routes: ['/'],
     mocks,
-    initialState: authenticatedInitialState,
   });
 
   expect(await screen.findByText('TextChildren')).toBeInTheDocument();
@@ -292,14 +281,6 @@ it('render registration pending page', async () => {
   renderWithRoute(<PageLayout>{testText}</PageLayout>, {
     routes: ['/'],
     mocks,
-    initialState: {
-      authentication: {
-        tunnistamo: {
-          user: {},
-        },
-        token: { apiToken: 'token' },
-      },
-    },
   });
 
   await screen.findByRole('heading', { name: 'Kiitos rekisteröitymisestä' });
