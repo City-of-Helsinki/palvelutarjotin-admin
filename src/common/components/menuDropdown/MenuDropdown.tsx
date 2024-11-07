@@ -1,3 +1,8 @@
+// FIXME: Make MenuDropdown component accessible and remove this eslint-disable comment:
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// "Visible, non-interactive elements with click handlers must have at least one
+// keyboard listener. (jsx-a11y/click-events-have-key-events)"
+
 import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
@@ -96,6 +101,23 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     }
   };
 
+  const isComponentFocused = () =>
+    !!container.current?.contains(document.activeElement);
+
+  const setFocusToButton = () => {
+    toggleButton.current?.focus();
+  };
+
+  const handleMenuItemClick = (item: MenuItem) => {
+    if (item.onClick) {
+      item.onClick(item.value);
+    } else if (onMenuItemClick) {
+      onMenuItemClick(item);
+    }
+
+    ensureMenuIsClosed();
+  };
+
   const {
     focusedIndex,
     setup: setupKeyboardNav,
@@ -120,11 +142,13 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
           break;
         case 'Enter':
         case 'Space':
-          const item = items[focusedIndex];
-          if (isMenuOpen && item) {
-            handleMenuItemClick(item);
-            setFocusToButton();
-            event.preventDefault();
+          {
+            const item = items[focusedIndex];
+            if (isMenuOpen && item) {
+              handleMenuItemClick(item);
+              setFocusToButton();
+              event.preventDefault();
+            }
           }
           break;
         case 'Tab':
@@ -132,14 +156,6 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
       }
     },
   });
-
-  const isComponentFocused = () => {
-    if (container.current?.contains(document.activeElement)) {
-      return true;
-    }
-
-    return false;
-  };
 
   const onDocumentClick = (event: MouseEvent) => {
     const target = event.target;
@@ -150,16 +166,6 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     }
   };
 
-  const handleMenuItemClick = (item: MenuItem) => {
-    if (item.onClick) {
-      item.onClick(item.value);
-    } else if (onMenuItemClick) {
-      onMenuItemClick(item);
-    }
-
-    ensureMenuIsClosed();
-  };
-
   const onDocumentFocusin = (event: FocusEvent) => {
     const target = event.target;
     const current = container && container.current;
@@ -167,10 +173,6 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     if (!(target instanceof Node && current?.contains(target))) {
       ensureMenuIsClosed();
     }
-  };
-
-  const setFocusToButton = () => {
-    toggleButton.current?.focus();
   };
 
   React.useEffect(() => {

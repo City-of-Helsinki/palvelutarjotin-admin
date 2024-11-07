@@ -46,8 +46,10 @@ const useProfilePlaces = () => {
             setPlaces(places);
             setLoadingPlaces(false);
           }
-        } catch (e) {
+        } catch (error) {
           setLoadingPlaces(false);
+          // eslint-disable-next-line no-console
+          console.error('Failed to fetch places', { error });
         }
       }
     };

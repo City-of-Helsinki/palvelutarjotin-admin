@@ -61,27 +61,6 @@ const EditorEnrolmentPage: React.FC = () => {
     defaultReturnPath,
   });
 
-  const handleSubmit = async (values: EnrolmentFormFields) => {
-    try {
-      if (enrolmentData?.enrolment?.id) {
-        await updateEnrolment({
-          variables: {
-            input: getUpdateEnrolmentPayload({
-              enrolmentId: enrolmentData.enrolment.id,
-              values,
-            }),
-          },
-        });
-
-        goToOccurrenceDetailsPage({ enrolmentUpdated: true });
-      }
-    } catch (error) {
-      toast(t('enrolment.errors.updateFailed'), {
-        type: toast.TYPE.ERROR,
-      });
-    }
-  };
-
   // handle navigating no latest return path
   const goToOccurrenceDetailsPage = ({
     enrolmentUpdated,
@@ -106,6 +85,29 @@ const EditorEnrolmentPage: React.FC = () => {
         pathname: returnPath,
         search: searchParams.toString(),
       });
+    }
+  };
+
+  const handleSubmit = async (values: EnrolmentFormFields) => {
+    try {
+      if (enrolmentData?.enrolment?.id) {
+        await updateEnrolment({
+          variables: {
+            input: getUpdateEnrolmentPayload({
+              enrolmentId: enrolmentData.enrolment.id,
+              values,
+            }),
+          },
+        });
+
+        goToOccurrenceDetailsPage({ enrolmentUpdated: true });
+      }
+    } catch (error) {
+      toast(t('enrolment.errors.updateFailed'), {
+        type: toast.TYPE.ERROR,
+      });
+      // eslint-disable-next-line no-console
+      console.error('Failed to update enrolment', { error });
     }
   };
 

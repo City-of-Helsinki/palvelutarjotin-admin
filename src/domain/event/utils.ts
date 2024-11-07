@@ -47,6 +47,24 @@ export const getEventPlaceholderImage = (id: string): string => {
   return EVENT_PLACEHOLDER_IMAGES[index];
 };
 
+const getStartTimeStr = (startTime: Date, locale: Language, t: TFunction) => {
+  const dateFormat = 'iiii d.M';
+  if (isToday(startTime))
+    return t('events.eventCard.startTime.today', {
+      time: formatIntoTime(startTime),
+    });
+
+  if (isTomorrow(startTime))
+    return t('events.eventCard.startTime.tomorrow', {
+      time: formatIntoTime(startTime),
+    });
+
+  return t('events.eventCard.startTime.other', {
+    date: formatLocalizedDate(startTime, dateFormat, locale),
+    time: formatIntoTime(startTime),
+  });
+};
+
 export const getNextOccurrenceDateStr = (
   event: EventFieldsFragment,
   locale: Language,
@@ -85,24 +103,6 @@ export const getEventStartTimeStr = (
   if (!startTime) return null;
 
   return getStartTimeStr(startTime, locale, t);
-};
-
-const getStartTimeStr = (startTime: Date, locale: Language, t: TFunction) => {
-  const dateFormat = 'iiii d.M';
-  if (isToday(startTime))
-    return t('events.eventCard.startTime.today', {
-      time: formatIntoTime(startTime),
-    });
-
-  if (isTomorrow(startTime))
-    return t('events.eventCard.startTime.tomorrow', {
-      time: formatIntoTime(startTime),
-    });
-
-  return t('events.eventCard.startTime.other', {
-    date: formatLocalizedDate(startTime, dateFormat, locale),
-    time: formatIntoTime(startTime),
-  });
 };
 
 /**
@@ -297,6 +297,22 @@ export const getEditEventPayload = ({
   };
 };
 
+/**
+ * Check is event free
+ * @param event
+ * @return {boolean}
+ */
+export const isEventFree = (event: EventFieldsFragment): boolean =>
+  Boolean(event.offers.find((item) => item.isFree)?.isFree);
+
+/**
+ * Is queueing to the given event allowed?
+ * @param event
+ * @return {boolean} True if queueing to the given event is allowed, otherwise false.
+ */
+export const isQueueingAllowed = (event: EventFieldsFragment): boolean =>
+  event.pEvent.isQueueingAllowed;
+
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
     ? isPastDate(new Date(eventData?.event?.startTime)) &&
@@ -409,22 +425,6 @@ export const getPublishEventPayload = ({
   };
 };
 
-/**
- * Check is event free
- * @param event
- * @return {boolean}
- */
-export const isEventFree = (event: EventFieldsFragment): boolean =>
-  Boolean(event.offers.find((item) => item.isFree)?.isFree);
-
-/**
- * Is queueing to the given event allowed?
- * @param event
- * @return {boolean} True if queueing to the given event is allowed, otherwise false.
- */
-export const isQueueingAllowed = (event: EventFieldsFragment): boolean =>
-  event.pEvent.isQueueingAllowed;
-
 export const getRealKeywords = (
   eventData: EventQuery
 ): Keyword[] | undefined => {
@@ -496,10 +496,8 @@ export const omitUnselectedLanguagesFromValues = (
   values: CreateEventFormFields,
   unselectedLanguages: Language[]
 ) => {
-  return JSON.parse(JSON.stringify(values), (key: string, value: any) => {
-    if (unselectedLanguages.includes(key as Language)) {
-      return '';
-    }
-    return value;
-  });
+  type Reviver = NonNullable<Parameters<typeof JSON.parse>[1]>;
+  const reviver: Reviver = (key, value) =>
+    unselectedLanguages.includes(key as Language) ? '' : value;
+  return JSON.parse(JSON.stringify(values), reviver);
 };

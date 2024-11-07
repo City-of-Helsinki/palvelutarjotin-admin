@@ -44,10 +44,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const mockOccurrences = fakeOccurrences(
-  5,
-  Array.from({ length: 5 }).map((_) => ({ placeId }))
-);
+const mockOccurrences = fakeOccurrences(5, Array(5).fill({ placeId }));
 
 const renderComponent = ({ mocks = [] }: { mocks?: MockedResponse[] } = {}) => {
   return renderWithRoute(<CreateOccurrencePage />, {

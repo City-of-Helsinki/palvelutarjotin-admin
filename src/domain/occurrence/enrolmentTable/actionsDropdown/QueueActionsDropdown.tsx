@@ -91,7 +91,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
       }))();
   };
 
-  const handleDeleteEnrolment = (message?: string) => {
+  const handleDeleteEnrolment = () => {
     if (eventId) {
       (async () =>
         await deleteEnrolment({

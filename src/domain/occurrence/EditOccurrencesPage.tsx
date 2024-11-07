@@ -42,7 +42,9 @@ const EditOccurrencesPage: React.FC = () => {
     useAddOccurrenceMutation();
 
   const goToEventSummaryPage = () => {
-    eventId && pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    if (eventId) {
+      pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    }
   };
 
   const { eventName } = getEventFields(event, locale);

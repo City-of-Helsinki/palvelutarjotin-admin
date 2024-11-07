@@ -13,6 +13,7 @@ const TimeInputField: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const {
     className,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- onBlur is removed
     field: { name, onChange, onBlur, ...field },
     form: { errors, touched },
     helperText,

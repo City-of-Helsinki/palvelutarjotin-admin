@@ -27,6 +27,35 @@ import OccurrenceGroupLanguageInfo from '../occurrenceGroupInfo/OccurrenceGroupL
 import { getEnrolmentType } from '../utils';
 import styles from './occurrenceInfo.module.scss';
 
+const EditOccurrenceButton: React.FC<{
+  eventId?: string;
+  occurrenceId: string;
+}> = ({ occurrenceId, eventId }) => {
+  const { pushWithLocale } = useNavigate();
+  const { t } = useTranslation();
+
+  const goToEditOccurrencePage = () => {
+    pushWithLocale(
+      ROUTES.CREATE_OCCURRENCE.replace(':id', eventId || '').replace(
+        ':occurrenceId',
+        occurrenceId
+      )
+    );
+  };
+
+  return (
+    <div className={styles.buttonWrapper}>
+      <Button
+        onClick={goToEditOccurrencePage}
+        variant="supplementary"
+        iconLeft={<IconPen />}
+      >
+        {t('occurrenceDetails.buttonEditOccurrence')}
+      </Button>
+    </div>
+  );
+};
+
 interface Props {
   event: EventFieldsFragment;
   occurrence: OccurrenceFieldsFragment;
@@ -120,35 +149,6 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
           )}
         </div>
       </div>
-    </div>
-  );
-};
-
-const EditOccurrenceButton: React.FC<{
-  eventId?: string;
-  occurrenceId: string;
-}> = ({ occurrenceId, eventId }) => {
-  const { pushWithLocale } = useNavigate();
-  const { t } = useTranslation();
-
-  const goToEditOccurrencePage = () => {
-    pushWithLocale(
-      ROUTES.CREATE_OCCURRENCE.replace(':id', eventId || '').replace(
-        ':occurrenceId',
-        occurrenceId
-      )
-    );
-  };
-
-  return (
-    <div className={styles.buttonWrapper}>
-      <Button
-        onClick={goToEditOccurrencePage}
-        variant="supplementary"
-        iconLeft={<IconPen />}
-      >
-        {t('occurrenceDetails.buttonEditOccurrence')}
-      </Button>
     </div>
   );
 };

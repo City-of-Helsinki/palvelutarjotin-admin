@@ -7,6 +7,19 @@ import LocaleRoutes from './LocaleRoutes';
 import { ROUTES } from './constants';
 import SilentRenewRedirect from './SilentRenewRedirect';
 
+const NavigateToLocalePath = () => {
+  const {
+    i18n: { language: currentLocale },
+  } = useTranslation();
+  const location = useLocation();
+  return (
+    <Navigate
+      to={`/${currentLocale}${location.pathname}${location.search}`}
+      replace
+    />
+  );
+};
+
 const AppRoutes = () => {
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
@@ -24,19 +37,6 @@ const AppRoutes = () => {
       <Route path={`/en/*`} element={<LocaleRoutes locale={'en'} />} />
       <Route path="*" element={<NavigateToLocalePath />} />
     </Routes>
-  );
-};
-
-const NavigateToLocalePath = () => {
-  const {
-    i18n: { language: currentLocale },
-  } = useTranslation();
-  const location = useLocation();
-  return (
-    <Navigate
-      to={`/${currentLocale}${location.pathname}${location.search}`}
-      replace
-    />
   );
 };
 

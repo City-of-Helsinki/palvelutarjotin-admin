@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { IconClock, IconLocation } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';

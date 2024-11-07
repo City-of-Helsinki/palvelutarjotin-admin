@@ -128,14 +128,7 @@ const EventForm = <T extends FormFields>({
       onSubmit={(values) => onSubmit(values, selectedLanguages)}
       validationSchema={validationSchema}
     >
-      {({
-        dirty,
-        handleSubmit,
-        values,
-        setFieldValue,
-        setFieldTouched,
-        touched,
-      }) => {
+      {({ dirty, handleSubmit, values, setFieldValue, setFieldTouched }) => {
         const { contactPersonId, image, isFree } = values;
         const imageSelected = Boolean(image);
         return (

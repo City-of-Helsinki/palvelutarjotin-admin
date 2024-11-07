@@ -72,6 +72,27 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
 
   const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const isComponentFocused = React.useCallback(() => {
+    const active = document.activeElement;
+
+    return container.current?.contains(active);
+  }, []);
+
+  const ensureMenuIsOpen = React.useCallback(() => {
+    if (!isMenuOpen) {
+      setIsMenuOpen(true);
+    }
+  }, [isMenuOpen]);
+
+  const toggleMenu = React.useCallback(() => {
+    setIsMenuOpen(!isMenuOpen);
+  }, [isMenuOpen]);
+
+  const setFocusToButton = () => {
+    toggleButton.current?.focus();
+  };
+
   const {
     focusedIndex,
     setup: setupKeyboardNav,
@@ -106,22 +127,6 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
     },
   });
 
-  const toggleMenu = React.useCallback(() => {
-    setIsMenuOpen(!isMenuOpen);
-  }, [isMenuOpen]);
-
-  const ensureMenuIsOpen = React.useCallback(() => {
-    if (!isMenuOpen) {
-      setIsMenuOpen(true);
-    }
-  }, [isMenuOpen]);
-
-  const isComponentFocused = React.useCallback(() => {
-    const active = document.activeElement;
-
-    return container.current?.contains(active);
-  }, []);
-
   const onDocumentClick = (event: MouseEvent) => {
     const target = event.target;
 
@@ -138,10 +143,6 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
       setIsMenuOpen(false);
     }
   }, []);
-
-  const setFocusToButton = () => {
-    toggleButton.current?.focus();
-  };
 
   React.useEffect(() => {
     setupKeyboardNav();

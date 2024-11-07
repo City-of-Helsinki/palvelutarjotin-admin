@@ -73,6 +73,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
         toast(t('enrolment.approveEnrolmentError'), {
           type: toast.TYPE.ERROR,
         });
+        // eslint-disable-next-line no-console
+        console.error('Could not approve enrolment', { error });
       },
       onCompleted: () => setApproveModalOpen(false),
     });
@@ -83,6 +85,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
         toast(t('enrolment.declineEnrolmentError'), {
           type: toast.TYPE.ERROR,
         });
+        // eslint-disable-next-line no-console
+        console.error('Could not decline enrolment', { error });
       },
       onCompleted: () => setDeclineModalOpen(false),
     });
@@ -93,6 +97,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
         toast(t('enrolment.deleteEnrolmentError'), {
           type: toast.TYPE.ERROR,
         });
+        // eslint-disable-next-line no-console
+        console.error('Could not delete enrolment', { error });
       },
       onCompleted: () => {
         setDeleteModalOpen(false);

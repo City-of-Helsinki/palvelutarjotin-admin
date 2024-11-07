@@ -42,6 +42,90 @@ import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
 import useLogout from '../../auth/useLogout';
 
+const UserNavigation: React.FC<{
+  organisations: OrganisationNodeFieldsFragment[];
+  userLabel: string;
+}> = ({ organisations, userLabel }) => {
+  const logout = useLogout();
+  const { t } = useTranslation();
+  const { pushWithLocale } = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const goToEditMyProfile = () => {
+    pushWithLocale(ROUTES.MY_PROFILE);
+  };
+
+  const goToHelsinkiProfile = () => {
+    if (typeof window !== 'undefined') {
+      window.open(
+        AppConfig.helsinkiProfileUrl,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
+  };
+
+  const activeOrganisation = useAppSelector(activeOrganisationSelector);
+
+  const changeActiveOrganisation = (id: string) => {
+    dispatch(setActiveOrganisation(id));
+  };
+
+  return (
+    <HDSHeader.ActionBarItem
+      id="user-menu"
+      dropdownClassName={styles.userMenuDropdown}
+      icon={<IconUser />}
+      ariaLabel={t('header.userMenu.ariaLabelButton')}
+      label={userLabel}
+      preventButtonResize
+    >
+      <HDSButton
+        key={`edit-profile`}
+        className={styles.dropdownButton}
+        iconLeft={<IconUser />}
+        onClick={goToEditMyProfile}
+        variant="supplementary"
+      >
+        {t('header.userMenu.openMyProfile')}
+      </HDSButton>
+      <HDSButton
+        key={`go-to-profile`}
+        className={styles.dropdownButton}
+        iconLeft={<IconLinkExternal />}
+        onClick={goToHelsinkiProfile}
+        variant="supplementary"
+      >
+        {t('header.userMenu.openHelsinkiProfile')}
+      </HDSButton>
+      {organisations?.map((organisation) => (
+        <HDSButton
+          key={`organisation-${organisation.id}`}
+          className={
+            activeOrganisation === organisation.id
+              ? styles.activeDropdownButton
+              : styles.dropdownButton
+          }
+          iconLeft={<IconAngleRight />}
+          onClick={() => changeActiveOrganisation(organisation.id)}
+          variant="supplementary"
+        >
+          {organisation.name || ''}
+        </HDSButton>
+      ))}
+      <HDSButton
+        key={`sign-out`}
+        className={styles.dropdownButton}
+        iconLeft={<IconSignout aria-hidden />}
+        onClick={logout}
+        variant="supplementary"
+      >
+        {t('header.userMenu.logout')}
+      </HDSButton>
+    </HDSHeader.ActionBarItem>
+  );
+};
+
 const Header: React.FC = () => {
   const { isAuthenticated } = useOidcClient();
   const { pushWithLocale } = useNavigate();
@@ -125,90 +209,6 @@ const Header: React.FC = () => {
         )
       }
     />
-  );
-};
-
-const UserNavigation: React.FC<{
-  organisations: OrganisationNodeFieldsFragment[];
-  userLabel: string;
-}> = ({ organisations, userLabel }) => {
-  const logout = useLogout();
-  const { t } = useTranslation();
-  const { pushWithLocale } = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const goToEditMyProfile = () => {
-    pushWithLocale(ROUTES.MY_PROFILE);
-  };
-
-  const goToHelsinkiProfile = () => {
-    if (typeof window !== 'undefined') {
-      window.open(
-        AppConfig.helsinkiProfileUrl,
-        '_blank',
-        'noopener,noreferrer'
-      );
-    }
-  };
-
-  const activeOrganisation = useAppSelector(activeOrganisationSelector);
-
-  const changeActiveOrganisation = (id: string) => {
-    dispatch(setActiveOrganisation(id));
-  };
-
-  return (
-    <HDSHeader.ActionBarItem
-      id="user-menu"
-      dropdownClassName={styles.userMenuDropdown}
-      icon={<IconUser />}
-      ariaLabel={t('header.userMenu.ariaLabelButton')}
-      label={userLabel}
-      preventButtonResize
-    >
-      <HDSButton
-        key={`edit-profile`}
-        className={styles.dropdownButton}
-        iconLeft={<IconUser />}
-        onClick={goToEditMyProfile}
-        variant="supplementary"
-      >
-        {t('header.userMenu.openMyProfile')}
-      </HDSButton>
-      <HDSButton
-        key={`go-to-profile`}
-        className={styles.dropdownButton}
-        iconLeft={<IconLinkExternal />}
-        onClick={goToHelsinkiProfile}
-        variant="supplementary"
-      >
-        {t('header.userMenu.openHelsinkiProfile')}
-      </HDSButton>
-      {organisations?.map((organisation) => (
-        <HDSButton
-          key={`organisation-${organisation.id}`}
-          className={
-            activeOrganisation === organisation.id
-              ? styles.activeDropdownButton
-              : styles.dropdownButton
-          }
-          iconLeft={<IconAngleRight />}
-          onClick={() => changeActiveOrganisation(organisation.id)}
-          variant="supplementary"
-        >
-          {organisation.name || ''}
-        </HDSButton>
-      ))}
-      <HDSButton
-        key={`sign-out`}
-        className={styles.dropdownButton}
-        iconLeft={<IconSignout aria-hidden />}
-        onClick={logout}
-        variant="supplementary"
-      >
-        {t('header.userMenu.logout')}
-      </HDSButton>
-    </HDSHeader.ActionBarItem>
   );
 };
 

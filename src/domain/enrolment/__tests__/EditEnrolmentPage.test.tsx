@@ -609,12 +609,18 @@ describe('max group size validation of the Children and Adults -fields', () => {
     await userEvent.clear(children);
     await userEvent.clear(adults);
 
-    childrenCount
-      ? await userEvent.type(children, childrenCount)
-      : await userEvent.click(children);
-    adultsCount
-      ? await userEvent.type(adults, adultsCount)
-      : await userEvent.click(adults);
+    if (childrenCount) {
+      await userEvent.type(children, childrenCount);
+    } else {
+      await userEvent.click(children);
+    }
+
+    if (adultsCount) {
+      await userEvent.type(adults, adultsCount);
+    } else {
+      await userEvent.click(adults);
+    }
+
     await userEvent.tab();
   };
 

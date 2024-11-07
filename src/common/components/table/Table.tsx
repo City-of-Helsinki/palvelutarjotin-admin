@@ -41,11 +41,16 @@ export default function Table<D extends Record<string, unknown>>({
               {...headerGroup.getHeaderGroupProps({
                 className: tableHeaderRowClassName,
               })}
+              key={headerGroup.getHeaderGroupProps().key}
             >
               {headerGroup.headers.map((column: ExtendedHeaderGroup<D>) => {
                 const { style, className } = column;
                 return (
-                  <th {...column.getHeaderProps()} {...{ style, className }}>
+                  <th
+                    {...column.getHeaderProps()}
+                    {...{ style, className }}
+                    key={column.getHeaderProps().key}
+                  >
                     {column.render('Header')}
                   </th>
                 );
@@ -54,7 +59,7 @@ export default function Table<D extends Record<string, unknown>>({
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row: ExtendedRow<D>, i) => {
+          {rows.map((row: ExtendedRow<D>) => {
             prepareRow(row);
 
             const handleClick = (event: React.MouseEvent) => {
@@ -95,7 +100,11 @@ export default function Table<D extends Record<string, unknown>>({
                   {row.cells.map((cell: ExtendedCell<D>) => {
                     const { className, style } = cell.column;
                     return (
-                      <td {...cell.getCellProps()} {...{ className, style }}>
+                      <td
+                        {...cell.getCellProps()}
+                        {...{ className, style }}
+                        key={cell.getCellProps().key}
+                      >
                         {cell.render('Cell')}
                       </td>
                     );

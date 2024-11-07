@@ -7,6 +7,7 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import FormGroup from '../../../common/components/form/FormGroup';
 import ImagePreview from '../../image/imagePreview/ImagePreview';
 import styles from './eventForm.module.scss';
+import { CreateEventFormFields } from '../types';
 
 interface Props {
   imageId: string;
@@ -14,7 +15,7 @@ interface Props {
     field: string,
     value: string | string[],
     shouldValidate?: boolean | undefined
-  ) => Promise<void | FormikErrors<any>>;
+  ) => Promise<void | FormikErrors<CreateEventFormFields>>;
   setFieldTouched: (
     field: string,
     isTouched?: boolean | undefined,

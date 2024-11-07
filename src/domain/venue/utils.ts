@@ -121,7 +121,6 @@ export const createOrUpdateVenue = async ({
 }: {
   venueFormData: VenueDataFields;
   locationId: string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
   apolloClient: ApolloClient<object>;
 }) => {
   try {

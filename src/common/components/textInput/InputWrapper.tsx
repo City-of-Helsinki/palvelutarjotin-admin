@@ -89,4 +89,6 @@ const InputWrapper: FC<InputWrapperProps> = React.forwardRef<
   )
 );
 
+InputWrapper.displayName = 'InputWrapper';
+
 export default InputWrapper;

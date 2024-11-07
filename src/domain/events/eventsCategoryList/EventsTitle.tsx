@@ -1,11 +1,17 @@
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 import styles from './eventsCategoryList.module.scss';
 
-const EventsTitle: React.FC<{ count: number; title: string }> = ({
+export type EventsTitleProps = {
+  count: number;
+  title: string;
+};
+
+function EventsTitle({
   count,
   title,
-}) => {
+}: Readonly<EventsTitleProps>): React.ReactElement<EventsTitleProps> {
   const { t } = useTranslation();
   return (
     <h2>
@@ -17,5 +23,5 @@ const EventsTitle: React.FC<{ count: number; title: string }> = ({
       </span>
     </h2>
   );
-};
+}
 export default EventsTitle;

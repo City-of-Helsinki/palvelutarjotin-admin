@@ -2,6 +2,7 @@ import { FormikContextType, useFormikContext } from 'formik';
 import * as React from 'react';
 
 import { OccurrenceSectionFormFields } from './types';
+import type { EmptyObject } from '../../types';
 
 /*
  * This react context is used to get access to formik functions for a form
@@ -11,7 +12,9 @@ import { OccurrenceSectionFormFields } from './types';
  * props to that ref
  */
 export const OccurrencesFormHandleContext = React.createContext<
-  React.MutableRefObject<{} | FormikContextType<OccurrenceSectionFormFields>>
+  React.MutableRefObject<
+    EmptyObject | FormikContextType<OccurrenceSectionFormFields>
+  >
 >({ current: {} });
 
 export const useOccurrenceForm = () => {

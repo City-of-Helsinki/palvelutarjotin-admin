@@ -559,14 +559,6 @@ it('can cancel occurrences from occurrence table actions', async () => {
 
   const toastSuccessSpy = vi.spyOn(toast, 'success');
 
-  await getOccurrenceRow();
-  await clickOccurrenceDropdownCancelAction();
-  await checkThatCancelDialogRendersCorrectly();
-  await addMessageToTextarea();
-  await confirmOccurrenceCancelation();
-  await checkThatOccurrenHasUpdated();
-
-  // *** Only helper function below this comment *** //
   async function getOccurrenceRow() {
     expect(await screen.findByText(organisationName)).toBeInTheDocument();
     occurrenceRow = within((await screen.findAllByRole('row'))[1]);
@@ -646,6 +638,13 @@ it('can cancel occurrences from occurrence table actions', async () => {
       ).not.toBeInTheDocument();
     });
   }
+
+  await getOccurrenceRow();
+  await clickOccurrenceDropdownCancelAction();
+  await checkThatCancelDialogRendersCorrectly();
+  await addMessageToTextarea();
+  await confirmOccurrenceCancelation();
+  await checkThatOccurrenHasUpdated();
 });
 
 it('can download ics file from actions dropdown', async () => {

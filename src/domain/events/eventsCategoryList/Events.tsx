@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import EventCard from '../../event/eventCard/EventCard';
@@ -5,10 +7,15 @@ import { getEventFields } from '../../event/utils';
 import { getEnrolmentType } from '../../occurrence/utils';
 import styles from './eventsCategoryList.module.scss';
 
-const Events: React.FC<{
+export type EventsProps = {
   events: EventFieldsFragment[];
   goToEventSummaryPage: (id: string) => void;
-}> = ({ events, goToEventSummaryPage }) => {
+};
+
+function Events({
+  events,
+  goToEventSummaryPage,
+}: Readonly<EventsProps>): React.ReactElement<EventsProps> {
   const locale = useLocale();
 
   const cards = events?.map((event) => {
@@ -39,6 +46,6 @@ const Events: React.FC<{
   });
 
   return <div className={styles.eventsContainer}>{cards}</div>;
-};
+}
 
 export default Events;

@@ -16,87 +16,6 @@ import { TimeAndLocationFormFields } from '../types';
 
 export const enrolmentInfoFormTestId = 'enrolment-info-form';
 
-const EnrolmentInfoFormPart: React.FC = () => {
-  const { t } = useTranslation();
-
-  const {
-    values: { neededOccurrences, autoAcceptance, enrolmentType },
-    setFieldValue,
-  } = useFormikContext<TimeAndLocationFormFields>();
-
-  // Enrolments cannot be manually accepted if more than one occurrence is needed
-  // So we se autoAcceptance to true id neededOccurrences is more than 1
-  React.useEffect(() => {
-    if (
-      neededOccurrences != null &&
-      (neededOccurrences as number) > 1 &&
-      !autoAcceptance
-    ) {
-      (async () => await setFieldValue('autoAcceptance', true))();
-    }
-  }, [autoAcceptance, neededOccurrences, setFieldValue]);
-
-  const enrolmentFieldSetComponentByType = {
-    [EnrolmentType.Internal]: (
-      <InternalEnrolmentFields
-        neededOccurrences={neededOccurrences as number}
-      />
-    ),
-    [EnrolmentType.External]: <ExternalEnrolmentFields />,
-    [EnrolmentType.Unenrollable]: null,
-  };
-
-  return (
-    <div className={styles.formSection} data-testid={enrolmentInfoFormTestId}>
-      <div className={styles.formSectionInnerContainer}>
-        <div>
-          <h2>{t('eventForm.enrolment.title')}</h2>
-          <EnrolmentTypeSelector enrolmentType={enrolmentType} />
-          {enrolmentFieldSetComponentByType[enrolmentType]}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const EnrolmentTypeSelector: React.FC<{
-  enrolmentType: EnrolmentType;
-}> = ({ enrolmentType }) => {
-  const { t } = useTranslation();
-
-  const isActiveEnrolmentType = (type: EnrolmentType) => {
-    return enrolmentType === type;
-  };
-
-  // hds-react v3.11.0's SelectionGroup maps `id` to `key`, see
-  // eslint-disable-next-line max-len
-  // https://github.com/City-of-Helsinki/helsinki-design-system/blob/v3.11.0/packages/react/src/components/selectionGroup/SelectionGroup.tsx#L103
-  // which is why both `id` and `key` are needed to be set to unique values,
-  // or else React will show a warning about non-unique keys.
-  return (
-    <SelectionGroup
-      direction="horizontal"
-      className={styles.enrolmentTypeSelector}
-    >
-      {Object.values(EnrolmentType).map((type) => (
-        <Field
-          id={`enrolmentType-${type}`}
-          key={`enrolmentType-${type}`}
-          type="radio"
-          name="enrolmentType"
-          component={RadiobuttonField}
-          value={type}
-          label={t(`eventForm.enrolmentType.label${capitalize(type)}`)}
-          className={`${styles.enrolmentTypeSelectorItem} ${
-            isActiveEnrolmentType(type) &&
-            styles.enrolmentTypeSelectorItemActive
-          }`}
-        />
-      ))}
-    </SelectionGroup>
-  );
-};
-
 export const InternalEnrolmentFields: React.FC<{
   neededOccurrences: number;
 }> = ({ neededOccurrences }) => {
@@ -191,6 +110,87 @@ export const ExternalEnrolmentFields: React.FC = () => {
           name="externalEnrolmentUrl"
           component={TextInputField}
         />
+      </div>
+    </div>
+  );
+};
+
+export const EnrolmentTypeSelector: React.FC<{
+  enrolmentType: EnrolmentType;
+}> = ({ enrolmentType }) => {
+  const { t } = useTranslation();
+
+  const isActiveEnrolmentType = (type: EnrolmentType) => {
+    return enrolmentType === type;
+  };
+
+  // hds-react v3.11.0's SelectionGroup maps `id` to `key`, see
+  // eslint-disable-next-line max-len
+  // https://github.com/City-of-Helsinki/helsinki-design-system/blob/v3.11.0/packages/react/src/components/selectionGroup/SelectionGroup.tsx#L103
+  // which is why both `id` and `key` are needed to be set to unique values,
+  // or else React will show a warning about non-unique keys.
+  return (
+    <SelectionGroup
+      direction="horizontal"
+      className={styles.enrolmentTypeSelector}
+    >
+      {Object.values(EnrolmentType).map((type) => (
+        <Field
+          id={`enrolmentType-${type}`}
+          key={`enrolmentType-${type}`}
+          type="radio"
+          name="enrolmentType"
+          component={RadiobuttonField}
+          value={type}
+          label={t(`eventForm.enrolmentType.label${capitalize(type)}`)}
+          className={`${styles.enrolmentTypeSelectorItem} ${
+            isActiveEnrolmentType(type) &&
+            styles.enrolmentTypeSelectorItemActive
+          }`}
+        />
+      ))}
+    </SelectionGroup>
+  );
+};
+
+const EnrolmentInfoFormPart: React.FC = () => {
+  const { t } = useTranslation();
+
+  const {
+    values: { neededOccurrences, autoAcceptance, enrolmentType },
+    setFieldValue,
+  } = useFormikContext<TimeAndLocationFormFields>();
+
+  // Enrolments cannot be manually accepted if more than one occurrence is needed
+  // So we se autoAcceptance to true id neededOccurrences is more than 1
+  React.useEffect(() => {
+    if (
+      neededOccurrences != null &&
+      (neededOccurrences as number) > 1 &&
+      !autoAcceptance
+    ) {
+      (async () => await setFieldValue('autoAcceptance', true))();
+    }
+  }, [autoAcceptance, neededOccurrences, setFieldValue]);
+
+  const enrolmentFieldSetComponentByType = {
+    [EnrolmentType.Internal]: (
+      <InternalEnrolmentFields
+        neededOccurrences={neededOccurrences as number}
+      />
+    ),
+    [EnrolmentType.External]: <ExternalEnrolmentFields />,
+    [EnrolmentType.Unenrollable]: null,
+  };
+
+  return (
+    <div className={styles.formSection} data-testid={enrolmentInfoFormTestId}>
+      <div className={styles.formSectionInnerContainer}>
+        <div>
+          <h2>{t('eventForm.enrolment.title')}</h2>
+          <EnrolmentTypeSelector enrolmentType={enrolmentType} />
+          {enrolmentFieldSetComponentByType[enrolmentType]}
+        </div>
       </div>
     </div>
   );

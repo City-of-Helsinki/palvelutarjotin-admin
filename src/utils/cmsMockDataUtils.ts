@@ -14,6 +14,47 @@ import { pageInfoMock } from './mockDataUtils';
 
 const generateUri = () => faker.word.words().split(' ').join('/');
 
+export const fakeLanguage = (overrides?: Partial<Language>): Language => {
+  const languageCode =
+    overrides?.code ??
+    faker.helpers.arrayElement([
+      LanguageCodeEnum.En,
+      LanguageCodeEnum.Fi,
+      LanguageCodeEnum.Sv,
+    ]);
+  return merge<Language, typeof overrides>(
+    {
+      id: faker.string.uuid(),
+      code: languageCode,
+      locale: languageCode.toLowerCase(),
+      slug: languageCode.toLowerCase(),
+      name: {
+        [LanguageCodeEnum.En]: 'Englanti',
+        [LanguageCodeEnum.Fi]: 'Suomi',
+        [LanguageCodeEnum.Sv]: 'Ruotsi',
+      }[languageCode],
+    },
+    overrides
+  );
+};
+
+export const fakeSEO = (overrides?: Partial<Seo>): Seo => {
+  return merge<Seo, typeof overrides>(
+    {
+      canonicalUrl: faker.internet.url(),
+      description: faker.lorem.text(),
+      title: faker.word.words(),
+      twitterDescription: faker.word.words(),
+      twitterTitle: faker.word.words(),
+      openGraphType: faker.word.words(),
+      openGraphDescription: faker.word.words(),
+      openGraphTitle: faker.word.words(),
+      __typename: 'SEO',
+    },
+    overrides
+  );
+};
+
 export const fakeMenuItem = (overrides?: Partial<MenuItem>): MenuItem => {
   return merge<MenuItem, typeof overrides>(
     {
@@ -21,6 +62,30 @@ export const fakeMenuItem = (overrides?: Partial<MenuItem>): MenuItem => {
       id: faker.string.sample(),
       path: '',
       __typename: 'MenuItem',
+    },
+    overrides
+  );
+};
+
+export const fakeMediaItem = (overrides?: Partial<MediaItem>): MediaItem => {
+  return merge<MediaItem, typeof overrides>(
+    {
+      id: faker.string.uuid(),
+      title: faker.word.words(),
+      mediaItemId: faker.number.int(),
+      databaseId: faker.number.int(),
+      mediaItemUrl: faker.internet.url(),
+      link: faker.internet.url(),
+      altText: faker.word.words(),
+      mimeType: faker.word.words(),
+      uri: faker.internet.url(),
+      isComment: false,
+      isFrontPage: false,
+      isPostsPage: false,
+      isTermNode: false,
+      isContentNode: false,
+      __typename: 'MediaItem',
+      contentTypeName: '',
     },
     overrides
   );
@@ -125,71 +190,6 @@ export const fakePost = (
       __typename: 'Post',
       isSticky: false,
       contentTypeName: '',
-    },
-    overrides
-  );
-};
-
-export const fakeMediaItem = (overrides?: Partial<MediaItem>): MediaItem => {
-  return merge<MediaItem, typeof overrides>(
-    {
-      id: faker.string.uuid(),
-      title: faker.word.words(),
-      mediaItemId: faker.number.int(),
-      databaseId: faker.number.int(),
-      mediaItemUrl: faker.internet.url(),
-      link: faker.internet.url(),
-      altText: faker.word.words(),
-      mimeType: faker.word.words(),
-      uri: faker.internet.url(),
-      isComment: false,
-      isFrontPage: false,
-      isPostsPage: false,
-      isTermNode: false,
-      isContentNode: false,
-      __typename: 'MediaItem',
-      contentTypeName: '',
-    },
-    overrides
-  );
-};
-
-export const fakeSEO = (overrides?: Partial<Seo>): Seo => {
-  return merge<Seo, typeof overrides>(
-    {
-      canonicalUrl: faker.internet.url(),
-      description: faker.lorem.text(),
-      title: faker.word.words(),
-      twitterDescription: faker.word.words(),
-      twitterTitle: faker.word.words(),
-      openGraphType: faker.word.words(),
-      openGraphDescription: faker.word.words(),
-      openGraphTitle: faker.word.words(),
-      __typename: 'SEO',
-    },
-    overrides
-  );
-};
-
-export const fakeLanguage = (overrides?: Partial<Language>): Language => {
-  const languageCode =
-    overrides?.code ??
-    faker.helpers.arrayElement([
-      LanguageCodeEnum.En,
-      LanguageCodeEnum.Fi,
-      LanguageCodeEnum.Sv,
-    ]);
-  return merge<Language, typeof overrides>(
-    {
-      id: faker.string.uuid(),
-      code: languageCode,
-      locale: languageCode.toLowerCase(),
-      slug: languageCode.toLowerCase(),
-      name: {
-        [LanguageCodeEnum.En]: 'Englanti',
-        [LanguageCodeEnum.Fi]: 'Suomi',
-        [LanguageCodeEnum.Sv]: 'Ruotsi',
-      }[languageCode],
     },
     overrides
   );
