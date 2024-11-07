@@ -50,6 +50,8 @@ const EventPublish: React.FC<Props> = ({ event }) => {
       toast(t('occurrences.errorEventPublicationFailed'), {
         type: toast.TYPE.ERROR,
       });
+      // eslint-disable-next-line no-console
+      console.error('Failed to publish event', { error });
     }
     setShowPublishModal(false);
   };

@@ -343,10 +343,10 @@ export const getAddOccurrenceMockResponse = ({
       addOccurrence: {
         occurrence: fakeOccurrence({
           id,
-          pEvent: {
+          pEvent: fakePEvent({
             id: pEventId,
             __typename: 'PalvelutarjotinEventNode',
-          } as any,
+          }),
           amountOfSeats,
           minGroupSize,
           maxGroupSize,
@@ -364,6 +364,75 @@ export const getAddOccurrenceMockResponse = ({
         }),
         __typename: 'AddOccurrenceMutationPayload',
       },
+    },
+  },
+});
+
+const getEditEventVariables = ({
+  placeId,
+  autoAcceptance,
+  translations,
+  enrolmentEndDays,
+  enrolmentStart,
+  neededOccurrences,
+  externalEnrolmentUrl = null,
+  languages = ['fi'],
+}: {
+  placeId: string;
+  autoAcceptance: boolean;
+  translations: PalvelutarjotinEventTranslationsInput[];
+  enrolmentEndDays: number | null;
+  enrolmentStart: string | null;
+  neededOccurrences: number;
+  externalEnrolmentUrl?: string | null;
+  languages?: Languages[];
+}) => ({
+  event: {
+    id: eventId,
+    name: fakeLanguagesObject(eventName, languages),
+    startTime: eventStartTime,
+    endTime: '',
+    offers: [
+      {
+        description: fakeLanguagesObject('description', languages),
+        infoUrl: null,
+        isFree: true,
+        price: fakeLanguagesObject('99,9', languages),
+      },
+    ],
+    shortDescription: fakeLanguagesObject(shortDescription, languages),
+    description: fakeLanguagesObject(description, languages),
+    images: [],
+    infoUrl: fakeLanguagesObject(infoUrl, languages),
+    audience: audienceKeywords.map((k) => ({
+      internalId: getKeywordId(k.id),
+    })),
+    inLanguage: [],
+    keywords: [
+      {
+        internalId: getKeywordId(keywordId),
+      },
+      ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
+    ],
+    location: {
+      internalId: getLinkedEventsInternalId(
+        LINKEDEVENTS_CONTENT_TYPE.PLACE,
+        placeId
+      ),
+    },
+    draft: true,
+    organisationId: organisationId,
+    pEvent: {
+      contactEmail: contactEmail,
+      contactPersonId: contactPersonId,
+      contactPhoneNumber: contactPhoneNumber,
+      enrolmentEndDays,
+      enrolmentStart: enrolmentStart ? new Date(enrolmentStart) : null,
+      externalEnrolmentUrl,
+      neededOccurrences,
+      autoAcceptance,
+      translations,
+      mandatoryAdditionalInformation: false,
     },
   },
 });
@@ -426,52 +495,6 @@ export const getUpdateEventMockResponse = ({
       },
     },
   },
-});
-
-export const getEventMockedResponse = ({
-  location = false,
-  autoAcceptance = true,
-  autoAcceptanceMessage = null,
-  enrolmentEndDays = null,
-  enrolmentStart = null,
-  externalEnrolmentUrl = null,
-  neededOccurrences = 1,
-  languages = ['fi'],
-  occurrences,
-}: {
-  location?: boolean;
-  autoAcceptance?: boolean;
-  autoAcceptanceMessage?: string | null;
-  enrolmentEndDays?: number | null;
-  enrolmentStart?: string | null;
-  externalEnrolmentUrl?: string | null;
-  neededOccurrences?: number;
-  languages?: Languages[];
-  occurrences?: OccurrenceNodeConnection;
-}): MockedResponse => ({
-  request: {
-    query: EventDocument,
-    variables: {
-      id: eventId,
-      include: ['location', 'keywords', 'audience', 'in_language'],
-    },
-  },
-  result: getEventResponse({
-    languages,
-    autoAcceptance,
-    autoAcceptanceMessage,
-    enrolmentEndDays,
-    enrolmentStart,
-    externalEnrolmentUrl,
-    location: location
-      ? fakePlace({
-          id: placeId,
-          name: fakeLocalizedObject(placeName),
-        })
-      : null,
-    neededOccurrences,
-    occurrences,
-  }),
 });
 
 const getEventResponse = ({
@@ -564,73 +587,50 @@ const getEventResponse = ({
   },
 });
 
-const getEditEventVariables = ({
-  placeId,
-  autoAcceptance,
-  translations,
-  enrolmentEndDays,
-  enrolmentStart,
-  neededOccurrences,
+export const getEventMockedResponse = ({
+  location = false,
+  autoAcceptance = true,
+  autoAcceptanceMessage = null,
+  enrolmentEndDays = null,
+  enrolmentStart = null,
   externalEnrolmentUrl = null,
+  neededOccurrences = 1,
   languages = ['fi'],
+  occurrences,
 }: {
-  placeId: string;
-  autoAcceptance: boolean;
-  translations: PalvelutarjotinEventTranslationsInput[];
-  enrolmentEndDays: number | null;
-  enrolmentStart: string | null;
-  neededOccurrences: number;
+  location?: boolean;
+  autoAcceptance?: boolean;
+  autoAcceptanceMessage?: string | null;
+  enrolmentEndDays?: number | null;
+  enrolmentStart?: string | null;
   externalEnrolmentUrl?: string | null;
+  neededOccurrences?: number;
   languages?: Languages[];
-}) => ({
-  event: {
-    id: eventId,
-    name: fakeLanguagesObject(eventName, languages),
-    startTime: eventStartTime,
-    endTime: '',
-    offers: [
-      {
-        description: fakeLanguagesObject('description', languages),
-        infoUrl: null,
-        isFree: true,
-        price: fakeLanguagesObject('99,9', languages),
-      },
-    ],
-    shortDescription: fakeLanguagesObject(shortDescription, languages),
-    description: fakeLanguagesObject(description, languages),
-    images: [],
-    infoUrl: fakeLanguagesObject(infoUrl, languages),
-    audience: audienceKeywords.map((k) => ({
-      internalId: getKeywordId(k.id),
-    })),
-    inLanguage: [],
-    keywords: [
-      {
-        internalId: getKeywordId(keywordId),
-      },
-      ...basicKeywords.map((k) => ({ internalId: getKeywordId(k.id) })),
-    ],
-    location: {
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.PLACE,
-        placeId
-      ),
-    },
-    draft: true,
-    organisationId: organisationId,
-    pEvent: {
-      contactEmail: contactEmail,
-      contactPersonId: contactPersonId,
-      contactPhoneNumber: contactPhoneNumber,
-      enrolmentEndDays,
-      enrolmentStart: enrolmentStart ? new Date(enrolmentStart) : null,
-      externalEnrolmentUrl,
-      neededOccurrences,
-      autoAcceptance,
-      translations,
-      mandatoryAdditionalInformation: false,
+  occurrences?: OccurrenceNodeConnection;
+}): MockedResponse => ({
+  request: {
+    query: EventDocument,
+    variables: {
+      id: eventId,
+      include: ['location', 'keywords', 'audience', 'in_language'],
     },
   },
+  result: getEventResponse({
+    languages,
+    autoAcceptance,
+    autoAcceptanceMessage,
+    enrolmentEndDays,
+    enrolmentStart,
+    externalEnrolmentUrl,
+    location: location
+      ? fakePlace({
+          id: placeId,
+          name: fakeLocalizedObject(placeName),
+        })
+      : null,
+    neededOccurrences,
+    occurrences,
+  }),
 });
 
 export const getVenueCheckbox = (

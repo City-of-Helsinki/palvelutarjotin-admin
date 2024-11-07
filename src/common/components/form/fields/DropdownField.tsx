@@ -25,12 +25,14 @@ type Props = SelectProps<Option> &
     ) => Promise<void>;
   };
 
+/**
+ * Single select dropdown field. For multi select dropdown use MultiDropdownField.
+ */
 const DropdownField: React.FC<Props> = ({
   className,
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
   helper,
-  multiselect,
   options,
   placeholder,
   setFieldValue,
@@ -82,6 +84,7 @@ const DropdownField: React.FC<Props> = ({
       options={options}
       id={name}
       placeholder={placeholder || t('common.dropdown.placeholder')}
+      multiselect={false}
       value={selectedValue}
       className={classNames(className, { [invalidFieldClass]: errorText })}
     />

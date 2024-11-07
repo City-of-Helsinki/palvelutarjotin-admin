@@ -26,7 +26,6 @@ export const getErrorText = (
 
 const TextEditorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
-  form,
   helperText,
   maxLength,
   ...rest

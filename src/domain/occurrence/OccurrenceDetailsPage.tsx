@@ -83,8 +83,7 @@ const OccurrenceDetailsPage: React.FC = () => {
     ) ?? [];
 
   const goToOccurrenceDetails = () => {
-    occurrenceId &&
-      id &&
+    if (id && occurrenceId) {
       pushWithLocale({
         pathname: ROUTES.OCCURRENCE_DETAILS.replace(':id', id).replace(
           ':occurrenceId',
@@ -92,6 +91,7 @@ const OccurrenceDetailsPage: React.FC = () => {
         ),
         search,
       });
+    }
   };
 
   const handleEnrolmentsModified = async () => {
@@ -136,7 +136,6 @@ const OccurrenceDetailsPage: React.FC = () => {
                       )}
                       occurrenceId={occurrenceId}
                       eventId={event.id}
-                      id="enrolments-table"
                       seatsTaken={occurrence.seatsTaken || 0}
                       seatsRemaining={occurrence.remainingSeats}
                       onEnrolmentsModified={handleEnrolmentsModified}
@@ -148,7 +147,6 @@ const OccurrenceDetailsPage: React.FC = () => {
                         enrolments={queuedEnrolments}
                         occurrenceId={occurrenceId!}
                         eventId={event.id}
-                        id="enrolments-queued-table"
                         onEnrolmentsModified={handleEnrolmentsModified}
                       />
                     </LoadingSpinner>

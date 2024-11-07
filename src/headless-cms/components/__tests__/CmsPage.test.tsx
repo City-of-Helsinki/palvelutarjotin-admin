@@ -245,8 +245,6 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
     Page: [],
     SubPagesSearch: subPagesMocks,
   };
-  pageHierarchy.forEach((page) => addMock(page));
-  return mocks;
 
   function addMock(page: PageHierarchy) {
     mocks.Page.push({
@@ -282,6 +280,9 @@ function initializeMocks(pageHierarchy: PageHierarchy[]) {
     });
     page.children?.forEach((child) => addMock(child));
   }
+
+  pageHierarchy.forEach((page) => addMock(page));
+  return mocks;
 }
 
 // authenticated user needs a profile
@@ -389,13 +390,6 @@ test.skip('renders CMS page and navigation flow works', async () => {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
     mocks: apolloMocks,
   });
-  await wait();
-  await testHeaderLinks();
-  await testLevel1Navigation();
-  await testLevel2Navigation();
-  await testLevel3Navigation();
-  await testLevel4Navigation();
-  await testBreadcrumbNavigation();
 
   async function testHeaderLinks() {
     for (const menuItem of menuItems) {
@@ -497,6 +491,14 @@ test.skip('renders CMS page and navigation flow works', async () => {
     // but text should be found as it is the current page
     breadcrumbs.getByText('Alisivu1 alisivu1');
   }
+
+  await wait();
+  await testHeaderLinks();
+  await testLevel1Navigation();
+  await testLevel2Navigation();
+  await testLevel3Navigation();
+  await testLevel4Navigation();
+  await testBreadcrumbNavigation();
 });
 
 test('CMS sub pages can be searched', async () => {
@@ -566,6 +568,40 @@ test('CMS sub pages can be searched', async () => {
   );
 }, 20_000);
 
+function verifyCmsSidebarContentCard({
+  title,
+  url,
+  image,
+  imageAlt,
+}: {
+  title: string;
+  url: string;
+  image?: string | null;
+  imageAlt?: string | null;
+}) {
+  // Has title with correct link
+  const link = screen.getByRole('link', {
+    name: title,
+  }) as HTMLAnchorElement;
+  expect(link).toBeInTheDocument();
+  expect(link.href).toEqual(url);
+
+  if (imageAlt) {
+    // Has image if it exists that has correct alt text
+    const imageElement = screen.getByRole('img', {
+      name: imageAlt,
+    }) as HTMLImageElement;
+    expect(imageElement).toBeInTheDocument();
+
+    if (image) {
+      expect(imageElement.src).toEqual(image);
+    } else {
+      // Next image components gets an encoded src value
+      expect(imageElement.src).toEqual(expect.any(String));
+    }
+  }
+}
+
 test('renders with sidebar layout when sidebar has content', async () => {
   vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
     () =>
@@ -613,32 +649,3 @@ test('renders with sidebar layout when sidebar has content', async () => {
     url: `${window.origin}/cms-page${sidebarLayoutArticle.uri}`,
   });
 });
-
-function verifyCmsSidebarContentCard({
-  title,
-  url,
-  image,
-  imageAlt,
-}: {
-  title: string;
-  url: string;
-  image?: string | null;
-  imageAlt?: string | null;
-}) {
-  // Has title with correct link
-  const link = screen.getByRole('link', {
-    name: title,
-  }) as HTMLAnchorElement;
-  expect(link).toBeInTheDocument();
-  expect(link.href).toEqual(url);
-
-  if (imageAlt) {
-    // Has image if it exists that has correct alt text
-    const imageElement = screen.getByRole('img', {
-      name: imageAlt,
-    }) as HTMLImageElement;
-    expect(imageElement).toBeInTheDocument();
-    // Next image components gets an encoded src value
-    expect(imageElement.src).toEqual(expect.any(String));
-  }
-}

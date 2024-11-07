@@ -43,92 +43,6 @@ import { getCmsPath } from '../routes/utils';
 import styles from './header.module.scss';
 import useLogout from '../../auth/useLogout';
 
-const Header: React.FC = () => {
-  const { isAuthenticated } = useOidcClient();
-  const { pushWithLocale } = useNavigate();
-  const locale = useLocale();
-  const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
-  const cmsLanguageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
-  const { pathname, search } = useLocation();
-
-  const isLoggedIn = isAuthenticated();
-
-  const getCmsHref = (language: LanguageCodeEnum) => {
-    const nav = cmsLanguageOptions?.find((cmsLanguageOption) => {
-      return cmsLanguageOption.locale?.toLowerCase() === language.toLowerCase();
-    });
-
-    return `/${language.toLowerCase()}${getCmsPath(
-      stripLocaleFromUri(nav?.uri ?? '')
-    )}`;
-  };
-
-  const getOriginHref = (language: LanguageCodeEnum): string => {
-    const url = new URL(AppConfig.origin);
-    url.pathname = updateLocaleParam(pathname, locale, language);
-    url.search = search;
-    return url.toString();
-  };
-
-  const getIsItemActive = (menuItem: MenuItem): boolean => {
-    const pathWithoutTrailingSlash = (menuItem.path ?? '').replace(/\/$/, '');
-    return (
-      typeof window !== 'undefined' &&
-      window.location.pathname.includes(
-        `/${locale}${getCmsPath(stripLocaleFromUri(pathWithoutTrailingSlash))}`
-      )
-    );
-  };
-
-  const getPathnameForLanguage = (language: RHHCLanguage): string => {
-    const languageCode = language.code ?? LanguageCodeEnum.Fi;
-    return isCmsPage ? getCmsHref(languageCode) : getOriginHref(languageCode);
-  };
-
-  const goToPage =
-    (pathname: string) =>
-    (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
-      event?.preventDefault();
-      pushWithLocale(pathname);
-    };
-
-  const { data: myProfileData } = useMyProfileQuery({ skip: !isLoggedIn });
-
-  const organisations: OrganisationNodeFieldsFragment[] =
-    myProfileData?.myProfile?.organisations?.edges?.map((edge) => ({
-      ...(edge?.node as OrganisationNodeFieldsFragment),
-    })) ?? [];
-
-  const languagesQuery = useLanguagesQuery();
-  const languages = languagesQuery.data?.languages?.filter(
-    skipFalsyType<RHHCLanguage | null>
-  );
-
-  const menuQuery = useMenuQuery({
-    skip: !isLoggedIn,
-    variables: { id: HEADER_MENU_NAME[locale], menuIdentifiersOnly: true },
-  });
-  const menu = menuQuery.data?.menu;
-
-  return (
-    <Navigation
-      languages={languages}
-      menu={menu}
-      onTitleClick={goToPage(ROUTES.HOME)}
-      getIsItemActive={getIsItemActive}
-      getPathnameForLanguage={getPathnameForLanguage}
-      userNavigation={
-        isLoggedIn && (
-          <UserNavigation
-            organisations={organisations}
-            userLabel={myProfileData?.myProfile?.name ?? ''}
-          />
-        )
-      }
-    />
-  );
-};
-
 const UserNavigation: React.FC<{
   organisations: OrganisationNodeFieldsFragment[];
   userLabel: string;
@@ -212,6 +126,92 @@ const UserNavigation: React.FC<{
         {t('header.userMenu.logout')}
       </HDSButton>
     </HDSHeader.ActionBarItem>
+  );
+};
+
+const Header: React.FC = () => {
+  const { isAuthenticated } = useOidcClient();
+  const { pushWithLocale } = useNavigate();
+  const locale = useLocale();
+  const isCmsPage = !!useMatch(`/${locale}${ROUTES.CMS_PAGE}`);
+  const cmsLanguageOptions = useCmsLanguageOptions({ skip: !isCmsPage });
+  const { pathname, search } = useLocation();
+
+  const isLoggedIn = isAuthenticated();
+
+  const getCmsHref = (language: LanguageCodeEnum) => {
+    const nav = cmsLanguageOptions?.find((cmsLanguageOption) => {
+      return cmsLanguageOption.locale?.toLowerCase() === language.toLowerCase();
+    });
+
+    return `/${language.toLowerCase()}${getCmsPath(
+      stripLocaleFromUri(nav?.uri ?? '')
+    )}`;
+  };
+
+  const getOriginHref = (language: LanguageCodeEnum): string => {
+    const url = new URL(AppConfig.origin);
+    url.pathname = updateLocaleParam(pathname, locale, language);
+    url.search = search;
+    return url.toString();
+  };
+
+  const getIsItemActive = (menuItem: MenuItem): boolean => {
+    const pathWithoutTrailingSlash = (menuItem.path ?? '').replace(/\/$/, '');
+    return (
+      typeof window !== 'undefined' &&
+      window.location.pathname.includes(
+        `/${locale}${getCmsPath(stripLocaleFromUri(pathWithoutTrailingSlash))}`
+      )
+    );
+  };
+
+  const getPathnameForLanguage = (language: RHHCLanguage): string => {
+    const languageCode = language.code ?? LanguageCodeEnum.Fi;
+    return isCmsPage ? getCmsHref(languageCode) : getOriginHref(languageCode);
+  };
+
+  const goToPage =
+    (pathname: string) =>
+    (event?: React.MouseEvent<HTMLAnchorElement> | Event) => {
+      event?.preventDefault();
+      pushWithLocale(pathname);
+    };
+
+  const { data: myProfileData } = useMyProfileQuery({ skip: !isLoggedIn });
+
+  const organisations: OrganisationNodeFieldsFragment[] =
+    myProfileData?.myProfile?.organisations?.edges?.map((edge) => ({
+      ...(edge?.node as OrganisationNodeFieldsFragment),
+    })) ?? [];
+
+  const languagesQuery = useLanguagesQuery();
+  const languages = languagesQuery.data?.languages?.filter(
+    skipFalsyType<RHHCLanguage | null>
+  );
+
+  const menuQuery = useMenuQuery({
+    skip: !isLoggedIn,
+    variables: { id: HEADER_MENU_NAME[locale], menuIdentifiersOnly: true },
+  });
+  const menu = menuQuery.data?.menu;
+
+  return (
+    <Navigation
+      languages={languages}
+      menu={menu}
+      onTitleClick={goToPage(ROUTES.HOME)}
+      getIsItemActive={getIsItemActive}
+      getPathnameForLanguage={getPathnameForLanguage}
+      userNavigation={
+        isLoggedIn && (
+          <UserNavigation
+            organisations={organisations}
+            userLabel={myProfileData?.myProfile?.name ?? ''}
+          />
+        )
+      }
+    />
   );
 };
 

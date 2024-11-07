@@ -12,6 +12,7 @@ export default function IconPlayIndoor({
       viewBox="0 0 24 24"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <title>play_inside_icon</title>
       <g

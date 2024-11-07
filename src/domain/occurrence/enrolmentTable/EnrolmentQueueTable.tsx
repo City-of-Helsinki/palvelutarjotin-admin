@@ -14,7 +14,6 @@ import styles from './enrolmentTable.module.scss';
 
 interface Props {
   enrolments: EventQueueEnrolmentFieldsFragment[];
-  id: string;
   eventId: string;
   occurrenceId: string;
   onEnrolmentsModified: () => Promise<void>;
@@ -22,7 +21,6 @@ interface Props {
 
 const EnrolmentQueueTable: React.FC<Props> = ({
   enrolments,
-  id,
   eventId,
   occurrenceId,
   onEnrolmentsModified,
@@ -83,7 +81,8 @@ const EnrolmentQueueTable: React.FC<Props> = ({
     {
       Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
       accessor: (row) => row,
-      // TODO: type with UseExpandedColumnCell
+      // FIXME: type with UseExpandedColumnCell
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Cell: ({ row }: any) => {
         return (
           <button
@@ -125,6 +124,7 @@ const EnrolmentQueueTable: React.FC<Props> = ({
       </div>
       {!!enrolments.length && (
         <Table
+          data-testid="enrolments-queued-table"
           columns={columns}
           data={enrolments}
           renderExpandedArea={renderEnrolmentInfo}

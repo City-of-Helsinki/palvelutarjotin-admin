@@ -44,6 +44,41 @@ const useReactRouterV6Uri = () => {
   return uri;
 };
 
+const Breadcrumbs: React.FC<{ breadcrumbs: Breadcrumb[] }> = ({
+  breadcrumbs,
+}) => {
+  const locale = useLocale();
+  const { t } = useTranslation();
+  return (
+    <Container className={styles.container}>
+      <ul
+        className={styles.breadcrumbList}
+        data-testid={breadcrumbsContainerTestId}
+      >
+        {!!breadcrumbs.length && (
+          <li key="front-page">
+            <Link to="/">{t('cms.linkFrontPage')}</Link>
+          </li>
+        )}
+        {breadcrumbs.map((breadcrumb, index, all) => {
+          const uriWithoutLocale = stripLocaleFromUri(breadcrumb.uri);
+          const to = `/${locale}${getCmsPath(uriWithoutLocale)}`;
+          const isLastItem = all.length === index + 1;
+          return (
+            <li key={breadcrumb.title}>
+              {isLastItem ? (
+                breadcrumb.title
+              ) : (
+                <Link to={to}>{breadcrumb.title}</Link>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </Container>
+  );
+};
+
 const CmsPage: React.FC = () => {
   const uri = useReactRouterV6Uri();
   const locale = useLocale();
@@ -79,41 +114,6 @@ const CmsPage: React.FC = () => {
         {showSearch && <CmsPageSearch page={page as Page} />}
       </div>
     </LoadingSpinner>
-  );
-};
-
-const Breadcrumbs: React.FC<{ breadcrumbs: Breadcrumb[] }> = ({
-  breadcrumbs,
-}) => {
-  const locale = useLocale();
-  const { t } = useTranslation();
-  return (
-    <Container className={styles.container}>
-      <ul
-        className={styles.breadcrumbList}
-        data-testid={breadcrumbsContainerTestId}
-      >
-        {!!breadcrumbs.length && (
-          <li key="front-page">
-            <Link to="/">{t('cms.linkFrontPage')}</Link>
-          </li>
-        )}
-        {breadcrumbs.map((breadcrumb, index, all) => {
-          const uriWithoutLocale = stripLocaleFromUri(breadcrumb.uri);
-          const to = `/${locale}${getCmsPath(uriWithoutLocale)}`;
-          const isLastItem = all.length === index + 1;
-          return (
-            <li key={breadcrumb.title}>
-              {isLastItem ? (
-                breadcrumb.title
-              ) : (
-                <Link to={to}>{breadcrumb.title}</Link>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </Container>
   );
 };
 

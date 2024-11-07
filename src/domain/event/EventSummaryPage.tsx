@@ -99,22 +99,30 @@ const EventSummaryPage: React.FC = () => {
   };
 
   const goToEventDetailsPage = () => {
-    eventId && pushWithReturnPath(ROUTES.EVENT_DETAILS.replace(':id', eventId));
+    if (eventId) {
+      pushWithReturnPath(ROUTES.EVENT_DETAILS.replace(':id', eventId));
+    }
   };
 
   const goToCreateOccurrence = () => {
-    eventId && pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', eventId));
+    if (eventId) {
+      pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', eventId));
+    }
   };
 
   const copyEventToNewTemplate = () => {
-    eventId && pushWithReturnPath(ROUTES.COPY_EVENT.replace(':id', eventId));
+    if (eventId) {
+      pushWithReturnPath(ROUTES.COPY_EVENT.replace(':id', eventId));
+    }
   };
 
   const goToHome = () => pushWithLocale(ROUTES.HOME);
 
   // Export CSV file from API reports view
   const downloadEnrolments = () => {
-    downloadEnrolmentsQuery && downloadEnrolmentsQuery();
+    if (downloadEnrolmentsQuery) {
+      return downloadEnrolmentsQuery();
+    }
   };
 
   const getEditLink = () => {
@@ -138,9 +146,11 @@ const EventSummaryPage: React.FC = () => {
       await refetchEventData();
       deleteLoadingOccurrence(occurrence.id);
       toast.success(t('occurrences.cancelSuccess'));
-    } catch (e) {
+    } catch (error) {
       deleteLoadingOccurrence(occurrence.id);
       toast.error(t('occurrences.cancelError'));
+      // eslint-disable-next-line no-console
+      console.error('Failed to cancel occurrence', { error });
     }
   };
 
@@ -155,9 +165,11 @@ const EventSummaryPage: React.FC = () => {
       await refetchEventData();
       deleteLoadingOccurrence(occurrence.id);
       toast.success(t('occurrences.deleteSuccess'));
-    } catch (e) {
+    } catch (error) {
       deleteLoadingOccurrence(occurrence.id);
       toast.error(t('occurrences.deleteError'));
+      // eslint-disable-next-line no-console
+      console.error('Failed to delete occurrence', { error });
     }
   };
 
@@ -239,7 +251,7 @@ const EventSummaryPage: React.FC = () => {
                     link={editOccurrencesButtonLink}
                   />
                 </div>
-                {!!comingOccurrences.length ? (
+                {comingOccurrences.length ? (
                   <OccurrencesTableSummary
                     eventData={eventData}
                     occurrences={comingOccurrences}

@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { EventFieldsFragment } from '../../../generated/graphql';
 import Events from './Events';
 import EventsTitle from './EventsTitle';
@@ -24,7 +26,7 @@ const EventsCategoryList: React.FC<EventsCategoryListProps> = ({
   hasNextPage,
   notFoundText,
 }) => {
-  if (!!events.length) {
+  if (events.length) {
     return (
       <>
         <EventsTitle count={eventsCount} title={title} />

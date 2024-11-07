@@ -62,6 +62,8 @@ export const useCmsNavigation = (slug: string) => {
         if (isMounted.current) {
           setLoading(false);
         }
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch navigation', { error });
       }
     }
     if (slug) {

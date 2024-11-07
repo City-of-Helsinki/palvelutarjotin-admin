@@ -32,7 +32,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import useNavigate from '../../hooks/useNavigate';
-import { Language } from '../../types';
+import type { EmptyObject, Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
 import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
@@ -68,6 +68,170 @@ import {
 } from './types';
 import { getEditEventPayload, useBaseEventQuery } from './utils';
 import ValidationSchema from './ValidationSchema';
+
+const OccurrencesFormPartWrapper: React.FC<{
+  eventData: EventQuery;
+  createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
+  disabled: boolean;
+  title: string;
+}> = (props) => {
+  const {
+    values: {
+      location,
+      isVirtual,
+      isBookable,
+      enrolmentEndDays,
+      enrolmentStartDate,
+      enrolmentStartTime,
+      enrolmentType,
+    },
+  } = useFormikContext<TimeAndLocationFormFields>();
+
+  const enrolmentStartDateTime = `${enrolmentStartDate} ${enrolmentStartTime}`;
+
+  const formProps = {
+    location,
+    isVirtual,
+    isBookable,
+    enrolmentEndDays,
+    enrolmentStart: isValidDateTimeString(enrolmentStartDateTime)
+      ? parseDateTimeString(enrolmentStartDateTime)
+      : null,
+    enrolmentType,
+  };
+
+  return <OccurrencesFormPart {...props} {...formProps} />;
+};
+
+const OccurrenceInfoForm: React.FC<{
+  eventData: EventQuery;
+  selectedLanguages: Language[];
+  initialValues: TimeAndLocationFormFields;
+  loadingEvent: boolean;
+  editEventLoading: boolean;
+  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
+  onSubmit: (
+    values: TimeAndLocationFormFields,
+    formikHelpers: FormikHelpers<TimeAndLocationFormFields>
+  ) => void | Promise<void>;
+}> = ({
+  eventData,
+  selectedLanguages,
+  onSubmit,
+  initialValues,
+  editEventLoading,
+  onGoToPublishingClick,
+  loadingEvent,
+}) => {
+  const { t } = useTranslation();
+  const context = React.useRef<
+    FormikContextType<OccurrenceSectionFormFields> | EmptyObject
+  >({});
+
+  const [createOccurrence, { loading: addOccurrenceLoading }] =
+    useAddOccurrenceMutation();
+
+  // Used for disabling form buttons if something is loading
+  const loading = loadingEvent || editEventLoading || addOccurrenceLoading;
+
+  const submitOccurrenceFormIfNeeded = async () => {
+    if ('submitForm' in context.current) {
+      const {
+        submitForm: submitOccurrenceForm,
+        isValid: occurrenceFormIsValid,
+      } = context.current;
+
+      if (occurrenceFormIsValid) {
+        await submitOccurrenceForm();
+      }
+    }
+  };
+
+  return (
+    <OccurrencesFormHandleContext.Provider value={context}>
+      <Formik<TimeAndLocationFormFields>
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={ValidationSchema}
+        validateOnMount
+      >
+        {({ dirty, submitForm, isValid }) => {
+          // Handle submitting both event info and occurrence form
+          const handleGoToPublishingClick: React.MouseEventHandler<
+            HTMLButtonElement
+          > = (e) => {
+            (async (e) => {
+              try {
+                const hasBeenSubmitted = isValid && !dirty;
+                if (!hasBeenSubmitted) {
+                  await submitForm();
+                }
+                await submitOccurrenceFormIfNeeded();
+                if (isValid) {
+                  onGoToPublishingClick(e);
+                }
+              } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to go to publishing page', { error });
+              }
+            })(e);
+          };
+
+          // Custom submit handler to also submit occurrence form if it is filled
+          const handleSaveClick: React.MouseEventHandler<HTMLButtonElement> = (
+            e
+          ) => {
+            e.preventDefault();
+            (async () => {
+              try {
+                await submitForm();
+                await submitOccurrenceFormIfNeeded();
+              } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to save occurrence form', { error });
+              }
+            })();
+          };
+
+          return (
+            <Form
+              className={styles.occurrencesForm}
+              noValidate
+              data-testid="time-and-location-form"
+            >
+              <FocusToFirstError />
+              <LocationFormPart selectedLanguages={selectedLanguages} />
+              <EnrolmentInfoFormPart />
+              <OccurrencesFormPartWrapper
+                eventData={eventData}
+                createOccurrence={createOccurrence}
+                disabled={loading}
+                title={t('eventForm.occurrences.occurrencesFormSectionTitle')}
+              />
+              <div className={styles.submitButtons}>
+                <Button
+                  disabled={loading || !dirty}
+                  type="submit"
+                  onClick={handleSaveClick}
+                >
+                  {t('eventForm.buttonSave')}
+                </Button>
+                <Button
+                  variant="secondary"
+                  type="button"
+                  disabled={loading}
+                  onClick={handleGoToPublishingClick}
+                >
+                  {t('createOccurrence.buttonGoToPublishing')}
+                </Button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+    </OccurrencesFormHandleContext.Provider>
+  );
+};
 
 type Params = {
   id: string;
@@ -212,17 +376,20 @@ const CreateOccurrencePage: React.FC = () => {
       EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM,
       NAVIGATED_FROM.OCCURRENCES
     );
-    eventId &&
+    if (eventId) {
       pushWithLocale(
         `${ROUTES.EDIT_EVENT}?${searchParams.toString()}`.replace(
           ':id',
           eventId
         )
       );
+    }
   };
 
   const goToSummaryPage = () => {
-    eventId && pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    if (eventId) {
+      pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    }
   };
 
   const handleSelectedLanguagesChange = (
@@ -404,166 +571,6 @@ const CreateOccurrencePage: React.FC = () => {
       </LoadingSpinner>
     </PageWrapper>
   );
-};
-
-const OccurrenceInfoForm: React.FC<{
-  eventData: EventQuery;
-  selectedLanguages: Language[];
-  initialValues: TimeAndLocationFormFields;
-  loadingEvent: boolean;
-  editEventLoading: boolean;
-  onGoToPublishingClick: React.MouseEventHandler<HTMLButtonElement>;
-  onSubmit: (
-    values: TimeAndLocationFormFields,
-    formikHelpers: FormikHelpers<TimeAndLocationFormFields>
-  ) => void | Promise<void>;
-}> = ({
-  eventData,
-  selectedLanguages,
-  onSubmit,
-  initialValues,
-  editEventLoading,
-  onGoToPublishingClick,
-  loadingEvent,
-}) => {
-  const { t } = useTranslation();
-  const context = React.useRef<
-    FormikContextType<OccurrenceSectionFormFields> | {}
-  >({});
-
-  const [createOccurrence, { loading: addOccurrenceLoading }] =
-    useAddOccurrenceMutation();
-
-  // Used for disabling form buttons if something is loading
-  const loading = loadingEvent || editEventLoading || addOccurrenceLoading;
-
-  const submitOccurrenceFormIfNeeded = async () => {
-    if ('submitForm' in context.current) {
-      const {
-        submitForm: submitOccurrenceForm,
-        isValid: occurrenceFormIsValid,
-      } = context.current;
-
-      if (occurrenceFormIsValid) {
-        await submitOccurrenceForm();
-      }
-    }
-  };
-
-  return (
-    <OccurrencesFormHandleContext.Provider value={context}>
-      <Formik<TimeAndLocationFormFields>
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={ValidationSchema}
-        validateOnMount
-      >
-        {({ dirty, submitForm, isValid }) => {
-          // Handle submitting both event info and occurrence form
-          const handleGoToPublishingClick: React.MouseEventHandler<
-            HTMLButtonElement
-          > = (e) => {
-            (async (e) => {
-              try {
-                const hasBeenSubmitted = isValid && !dirty;
-                if (!hasBeenSubmitted) {
-                  await submitForm();
-                }
-                await submitOccurrenceFormIfNeeded();
-                if (isValid) {
-                  onGoToPublishingClick(e);
-                }
-                // async funcs in try block already handle errors
-              } catch {}
-            })(e);
-          };
-
-          // Custom submit handler to also submit occurrence form if it is filled
-          const handleSaveClick: React.MouseEventHandler<HTMLButtonElement> = (
-            e
-          ) => {
-            e.preventDefault();
-            (async () => {
-              try {
-                await submitForm();
-                await submitOccurrenceFormIfNeeded();
-                // async funcs in try block already handle errors
-              } catch {}
-            })();
-          };
-
-          return (
-            <Form
-              className={styles.occurrencesForm}
-              noValidate
-              data-testid="time-and-location-form"
-            >
-              <FocusToFirstError />
-              <LocationFormPart selectedLanguages={selectedLanguages} />
-              <EnrolmentInfoFormPart />
-              <OccurrencesFormPartWrapper
-                eventData={eventData}
-                createOccurrence={createOccurrence}
-                disabled={loading}
-                title={t('eventForm.occurrences.occurrencesFormSectionTitle')}
-              />
-              <div className={styles.submitButtons}>
-                <Button
-                  disabled={loading || !dirty}
-                  type="submit"
-                  onClick={handleSaveClick}
-                >
-                  {t('eventForm.buttonSave')}
-                </Button>
-                <Button
-                  variant="secondary"
-                  type="button"
-                  disabled={loading}
-                  onClick={handleGoToPublishingClick}
-                >
-                  {t('createOccurrence.buttonGoToPublishing')}
-                </Button>
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
-    </OccurrencesFormHandleContext.Provider>
-  );
-};
-
-const OccurrencesFormPartWrapper: React.FC<{
-  eventData: EventQuery;
-  createOccurrence: ReturnType<typeof useAddOccurrenceMutation>[0];
-  disabled: boolean;
-  title: string;
-}> = (props) => {
-  const {
-    values: {
-      location,
-      isVirtual,
-      isBookable,
-      enrolmentEndDays,
-      enrolmentStartDate,
-      enrolmentStartTime,
-      enrolmentType,
-    },
-  } = useFormikContext<TimeAndLocationFormFields>();
-
-  const enrolmentStartDateTime = `${enrolmentStartDate} ${enrolmentStartTime}`;
-
-  const formProps = {
-    location,
-    isVirtual,
-    isBookable,
-    enrolmentEndDays,
-    enrolmentStart: isValidDateTimeString(enrolmentStartDateTime)
-      ? parseDateTimeString(enrolmentStartDateTime)
-      : null,
-    enrolmentType,
-  };
-
-  return <OccurrencesFormPart {...props} {...formProps} />;
 };
 
 export default CreateOccurrencePage;

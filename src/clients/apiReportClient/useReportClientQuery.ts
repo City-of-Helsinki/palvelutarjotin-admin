@@ -3,6 +3,19 @@ import { toast } from 'react-toastify';
 
 import apiReportClient, { ROUTES } from './apiReportClient';
 
+/**
+ * A browser hack to download a file instead of just a byte string.
+ */
+function downloadFile(data: string, filename: string) {
+  const url = window.URL.createObjectURL(new Blob([data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
 function useDownloadEventsEnrolmentsCsvQuery(pEventId: string | undefined) {
   const { t } = useTranslation();
   if (!pEventId) return undefined;
@@ -31,19 +44,6 @@ function useDownloadEventsEnrolmentsCsvQuery(pEventId: string | undefined) {
       });
     }
   };
-}
-
-/**
- * A browser hack to download a file instead of just a byte string.
- */
-function downloadFile(data: string, filename: string) {
-  const url = window.URL.createObjectURL(new Blob([data]));
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', filename);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
 }
 
 export { useDownloadEventsEnrolmentsCsvQuery };

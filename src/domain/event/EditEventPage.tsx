@@ -60,7 +60,9 @@ const useEventFormEditSubmit = (
   );
 
   const goToOccurrencesPage = () => {
-    id && pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', id));
+    if (id) {
+      pushWithLocale(ROUTES.CREATE_OCCURRENCE.replace(':id', id));
+    }
   };
 
   const navigateAfterSave = () => {
@@ -168,7 +170,9 @@ const EditEventPage: React.FC = () => {
   const persons = getPersons(organisation);
 
   const goToEventDetailsPage = () => {
-    id && pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+    if (id) {
+      pushWithLocale(`${ROUTES.EVENT_DETAILS.replace(':id', id)}`);
+    }
   };
 
   useEffect(() => {
@@ -185,7 +189,7 @@ const EditEventPage: React.FC = () => {
   return (
     <PageWrapper title="editEvent.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        {!!eventData ? (
+        {eventData ? (
           <>
             <Container>
               <div className={styles.eventPage}>

@@ -66,10 +66,12 @@ const VenueDataFields: React.FC<{
           VENUE_AMENITIES.forEach((v) => {
             (async () => await setFieldValue(v, data.venue?.[v] || false))();
           });
-        } catch (err) {
+        } catch (error) {
           // clear description when error happens
           // TODO: fix this to include all languages...
           (async () => await setFieldValue('locationDescription.fi', ''))();
+          // eslint-disable-next-line no-console
+          console.error('Failed to fetch venue data', { error });
         }
       }
     };

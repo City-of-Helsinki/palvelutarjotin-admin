@@ -21,68 +21,6 @@ import styles from './cmsPageSearch.module.scss';
 const BLOCK_SIZE = 10;
 const SEARCH_DEBOUNCE_TIME = 500;
 
-const CmsPageSearch: React.FC<{
-  page: Page;
-}> = ({ page }) => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, SEARCH_DEBOUNCE_TIME);
-
-  const {
-    data: pageData,
-    fetchMore,
-    loading,
-    networkStatus,
-  } = useSubPagesSearchQuery({
-    client: cmsClient,
-    skip: !page?.uri,
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      first: BLOCK_SIZE,
-      id: page?.uri ?? '',
-      idType: PageIdType.Uri,
-      search: debouncedSearchTerm ?? '',
-    },
-  });
-
-  const isLoading = loading && networkStatus !== NetworkStatus.fetchMore;
-  const isLoadingMore = networkStatus === NetworkStatus.fetchMore;
-  const pageInfo = pageData?.page?.children?.pageInfo;
-  const hasMoreToLoad = pageInfo?.hasNextPage ?? false;
-
-  const fetchMorePages = async () => {
-    if (hasMoreToLoad) {
-      try {
-        await fetchMore({
-          variables: {
-            first: BLOCK_SIZE,
-            after: pageInfo?.endCursor,
-          },
-        });
-      } catch (e) {}
-    }
-  };
-
-  const subPages =
-    pageData?.page?.children?.edges?.map((edge) => edge?.node as Page) ?? [];
-
-  return (
-    <Container>
-      <CmsPageSearchForm
-        page={page}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
-      <CmsPageSearchList
-        pages={subPages}
-        loading={isLoading}
-        isLoadingMore={isLoadingMore}
-        fetchMore={fetchMorePages}
-        hasMoreToLoad={hasMoreToLoad}
-      />
-    </Container>
-  );
-};
-
 /**
  * Search form to search headless cms pages from all the pages or 1 page's sub pages.
  */
@@ -153,6 +91,71 @@ const CmsPageSearchList: React.FC<{
         <Button onClick={fetchMore}>{t('cms.pageSearch.loadMore')}</Button>
       ) : null}
     </div>
+  );
+};
+
+const CmsPageSearch: React.FC<{
+  page: Page;
+}> = ({ page }) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, SEARCH_DEBOUNCE_TIME);
+
+  const {
+    data: pageData,
+    fetchMore,
+    loading,
+    networkStatus,
+  } = useSubPagesSearchQuery({
+    client: cmsClient,
+    skip: !page?.uri,
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      first: BLOCK_SIZE,
+      id: page?.uri ?? '',
+      idType: PageIdType.Uri,
+      search: debouncedSearchTerm ?? '',
+    },
+  });
+
+  const isLoading = loading && networkStatus !== NetworkStatus.fetchMore;
+  const isLoadingMore = networkStatus === NetworkStatus.fetchMore;
+  const pageInfo = pageData?.page?.children?.pageInfo;
+  const hasMoreToLoad = pageInfo?.hasNextPage ?? false;
+
+  const fetchMorePages = async () => {
+    if (hasMoreToLoad) {
+      try {
+        await fetchMore({
+          variables: {
+            first: BLOCK_SIZE,
+            after: pageInfo?.endCursor,
+          },
+        });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch more pages', { error });
+      }
+    }
+  };
+
+  const subPages =
+    pageData?.page?.children?.edges?.map((edge) => edge?.node as Page) ?? [];
+
+  return (
+    <Container>
+      <CmsPageSearchForm
+        page={page}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
+      <CmsPageSearchList
+        pages={subPages}
+        loading={isLoading}
+        isLoadingMore={isLoadingMore}
+        fetchMore={fetchMorePages}
+        hasMoreToLoad={hasMoreToLoad}
+      />
+    </Container>
   );
 };
 

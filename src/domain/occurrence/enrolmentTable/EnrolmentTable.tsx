@@ -21,7 +21,6 @@ import styles from './enrolmentTable.module.scss';
 
 interface Props {
   enrolments: EnrolmentFieldsFragment[];
-  id: string;
   seatsTaken?: number;
   seatsRemaining?: number;
   eventId?: string | null;
@@ -31,7 +30,6 @@ interface Props {
 
 const EnrolmentTable: React.FC<Props> = ({
   enrolments,
-  id,
   seatsTaken = 0,
   seatsRemaining = 0,
   eventId,
@@ -117,7 +115,8 @@ const EnrolmentTable: React.FC<Props> = ({
     {
       Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
       accessor: (row) => row,
-      // TODO: type with UseExpandedColumnCell
+      // FIXME: type with UseExpandedColumnCell
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Cell: ({ row }: any) => {
         return (
           <button
@@ -126,7 +125,7 @@ const EnrolmentTable: React.FC<Props> = ({
             )}
             {...row.getToggleRowExpandedProps()}
             // row.isExpanded is undefined when is not expanded for some reason
-            aria-expanded={row.isExpanded ? true : false}
+            aria-expanded={!!row.isExpanded}
           >
             <IconAngleDown
               className={classNames(styles.iconAngle, {
@@ -164,6 +163,7 @@ const EnrolmentTable: React.FC<Props> = ({
       </div>
       {!!enrolments.length && (
         <Table
+          data-testid="enrolments-table"
           columns={columns}
           data={enrolments}
           renderExpandedArea={renderEnrolmentInfo}

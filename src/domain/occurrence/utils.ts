@@ -25,6 +25,31 @@ import {
   TimeAndLocationFormFields,
 } from './types';
 
+export const getDateFromDateAndTimeString = (
+  dateString: string,
+  timeString: string
+) => {
+  const date = parseDate(dateString, DATE_FORMAT, new Date());
+  return parseDate(timeString, TIME_FORMAT, date);
+};
+
+export const getPlaceId = ({
+  isBookable,
+  isVirtual,
+  values,
+}: {
+  isVirtual: boolean;
+  isBookable: boolean;
+  values: OccurrenceSectionFormFields;
+}) => {
+  if (isVirtual) {
+    return VIRTUAL_EVENT_LOCATION_ID;
+  } else if (isBookable) {
+    return BOOKABLE_TO_SCHOOL_LOCATION_ID;
+  }
+  return values.occurrenceLocation;
+};
+
 /**
  * Get payload to create/edit occurrence
  * @param {object} values
@@ -56,31 +81,6 @@ export const getOccurrencePayload = ({
       ? SeatType.EnrolmentCount
       : SeatType.ChildrenCount,
   };
-};
-
-export const getDateFromDateAndTimeString = (
-  dateString: string,
-  timeString: string
-) => {
-  const date = parseDate(dateString, DATE_FORMAT, new Date());
-  return parseDate(timeString, TIME_FORMAT, date);
-};
-
-export const getPlaceId = ({
-  isBookable,
-  isVirtual,
-  values,
-}: {
-  isVirtual: boolean;
-  isBookable: boolean;
-  values: OccurrenceSectionFormFields;
-}) => {
-  if (isVirtual) {
-    return VIRTUAL_EVENT_LOCATION_ID;
-  } else if (isBookable) {
-    return BOOKABLE_TO_SCHOOL_LOCATION_ID;
-  }
-  return values.occurrenceLocation;
 };
 
 export const isMultidayOccurrence = (

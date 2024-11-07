@@ -27,17 +27,16 @@ export const getMyProfileValidationSchema = (type: 'create' | 'edit') => {
         [true],
         'myProfileForm.validation.isTermsOfServiceRead'
       ),
-      organisations: Yup.array().when(['organisationProposals'], ((
-        organisationProposals: string,
-        schema: Yup.AnySchema<string[]>
-      ) => {
-        if (!organisationProposals) {
-          return schema
-            .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
-        }
-        return schema;
-      }) as any),
+      organisations: Yup.array()
+        .of(Yup.string())
+        .when('organisationProposals', {
+          is: (organisationProposals: string) => !organisationProposals,
+          then: (schema) =>
+            schema
+              .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+              .min(1, VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+          otherwise: (schema) => schema,
+        }),
       organisationProposals: Yup.string().when(
         ['organisations'],
         (organisations: string[], schema: Yup.StringSchema) => {

@@ -77,6 +77,45 @@ interface Props<T extends FormType> {
   showCheckboxes?: boolean;
 }
 
+const OrganisationsField: React.FC<{
+  name: string;
+  label: string;
+  helper: string;
+  placeholder: string;
+}> = ({ name, label, helper, placeholder }) => {
+  const { values, setFieldValue } =
+    useFormikContext<MyProfileCreateFormFields>();
+  const { organisationProposals } = values;
+  const { data: organisationsData } = useOrganisationsQuery({
+    variables: {
+      type: OrganisationsOrganisationTypeChoices.Provider,
+    },
+  });
+  const organisationOptions =
+    organisationsData?.organisations?.edges.map((edge) => ({
+      label: edge?.node?.name || '',
+      value: edge?.node?.id || '',
+    })) || [];
+
+  React.useEffect(() => {
+    if (organisationProposals) {
+      (async () => await setFieldValue(name, []))();
+    }
+  }, [name, organisationProposals, setFieldValue]);
+
+  return (
+    <Field
+      name={name}
+      label={label}
+      helper={helper}
+      placeholder={placeholder}
+      component={MultiDropdownField}
+      options={organisationOptions}
+      disabled={!!organisationProposals}
+    />
+  );
+};
+
 function MyProfileForm<T extends FormType>({
   buttonText,
   type,
@@ -264,44 +303,5 @@ function MyProfileForm<T extends FormType>({
     </Formik>
   );
 }
-
-const OrganisationsField: React.FC<{
-  name: string;
-  label: string;
-  helper: string;
-  placeholder: string;
-}> = ({ name, label, helper, placeholder }) => {
-  const { values, setFieldValue } =
-    useFormikContext<MyProfileCreateFormFields>();
-  const { organisationProposals } = values;
-  const { data: organisationsData } = useOrganisationsQuery({
-    variables: {
-      type: OrganisationsOrganisationTypeChoices.Provider,
-    },
-  });
-  const organisationOptions =
-    organisationsData?.organisations?.edges.map((edge) => ({
-      label: edge?.node?.name || '',
-      value: edge?.node?.id || '',
-    })) || [];
-
-  React.useEffect(() => {
-    if (!!organisationProposals) {
-      (async () => await setFieldValue(name, []))();
-    }
-  }, [name, organisationProposals, setFieldValue]);
-
-  return (
-    <Field
-      name={name}
-      label={label}
-      helper={helper}
-      placeholder={placeholder}
-      component={MultiDropdownField}
-      options={organisationOptions}
-      disabled={!!organisationProposals}
-    />
-  );
-};
 
 export default MyProfileForm;
