@@ -1,3 +1,14 @@
+// FIXME: Make TextEditor component accessible and remove this eslint-disable comment:
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// "Visible, non-interactive elements with click handlers must have at least one
+// keyboard listener. (jsx-a11y/click-events-have-key-events)"
+
+// FIXME: Make TextEditor component accessible and remove this eslint-disable comment:
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// "Avoid non-native interactive elements. If using native HTML is not possible,
+// add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to
+// an interactive content element. (jsx-a11y/no-static-element-interactions)"
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import classNames from 'classnames';

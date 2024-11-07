@@ -109,7 +109,7 @@ const ActionsDropdown: React.FC<Props> = ({
       }))();
   };
 
-  const handleDeleteEnrolment = (message?: string) => {
+  const handleDeleteEnrolment = () => {
     if (occurrenceId) {
       (async () =>
         await deleteEnrolment({

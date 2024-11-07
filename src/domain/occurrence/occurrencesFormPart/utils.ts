@@ -44,6 +44,32 @@ export const getOrderedLanguageOptions = (t: TFunction) => {
     );
 };
 
+// fakeLanguages is copy pasted here from mockDataUtils so we don't need to include faker in prod build.
+const fakeLanguages = (
+  languages?: Partial<LanguageNode>[]
+): LanguageNodeConnection => {
+  const fakeLanguage = (overrides?: Partial<LanguageNode>): LanguageNode => ({
+    id: 'fi',
+    name: 'Finnish',
+    __typename: 'LanguageNode',
+    ...overrides,
+  });
+
+  const fakeLanguageNodeEdge = (
+    overrides?: Partial<LanguageNode>
+  ): LanguageNodeEdge => ({
+    cursor: '',
+    node: fakeLanguage(overrides),
+    __typename: 'LanguageNodeEdge',
+  });
+
+  return {
+    edges: languages?.map((language) => fakeLanguageNodeEdge(language)) || [],
+    pageInfo: pageInfoMock,
+    __typename: 'LanguageNodeConnection',
+  };
+};
+
 export const getOptimisticCreateOccurrenceResponse = ({
   values,
   isVirtual = false,
@@ -226,30 +252,4 @@ export const getOccurrencerWithSameDateAlreadyExists = (
       formEndDateTime.getTime() === occurrenceEndTime.getTime()
     );
   });
-};
-
-// fakeLanguages is copy pasted here from mockDataUtils so we don't need to include faker in prod build.
-const fakeLanguages = (
-  languages?: Partial<LanguageNode>[]
-): LanguageNodeConnection => {
-  const fakeLanguageNodeEdge = (
-    overrides?: Partial<LanguageNode>
-  ): LanguageNodeEdge => ({
-    cursor: '',
-    node: fakeLanguage(overrides),
-    __typename: 'LanguageNodeEdge',
-  });
-
-  const fakeLanguage = (overrides?: Partial<LanguageNode>): LanguageNode => ({
-    id: 'fi',
-    name: 'Finnish',
-    __typename: 'LanguageNode',
-    ...overrides,
-  });
-
-  return {
-    edges: languages?.map((language) => fakeLanguageNodeEdge(language)) || [],
-    pageInfo: pageInfoMock,
-    __typename: 'LanguageNodeConnection',
-  };
 };

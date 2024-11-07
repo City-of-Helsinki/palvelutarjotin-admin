@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import { Field, FormikErrors } from 'formik';
+import { Field, FormikHelpers } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,15 +10,12 @@ import TextInputField from '../../../common/components/form/fields/TextInputFiel
 import FormGroup from '../../../common/components/form/FormGroup';
 import { PersonDocument, PersonQuery } from '../../../generated/graphql';
 import { isTestEnv } from '../../../utils/envUtils';
+import { CreateEventFormFields } from '../types';
 
 const ContactPersonInfoPart: React.FC<{
   contactPersonId: string;
   personOptions: Option[];
-  setFieldValue: (
-    field: string,
-    value: any,
-    shouldValidate?: boolean | undefined
-  ) => Promise<void | FormikErrors<any>>;
+  setFieldValue: FormikHelpers<CreateEventFormFields>['setFieldValue'];
 }> = ({ contactPersonId, personOptions, setFieldValue }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient();

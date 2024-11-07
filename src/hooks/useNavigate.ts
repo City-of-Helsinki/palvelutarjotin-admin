@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { To, useNavigate } from 'react-router-dom';
+import type { NavigateOptions } from 'react-router-dom';
 
 import { ROUTES } from '../domain/app/routes/constants';
 import useQueryStringWithReturnPath from '../utils/useQueryStringWithReturnPath';
@@ -23,13 +24,16 @@ const useExtendedNavigate = () => {
     } as To;
   };
 
-  const pushWithLocale = (pathOrLocationObject: string | To, state?: any) => {
+  const pushWithLocale = (
+    pathOrLocationObject: string | To,
+    state?: NavigateOptions['state']
+  ) => {
     navigate(getLocation(pathOrLocationObject), { state, replace: false });
   };
 
   const replaceWithLocale = (
     pathOrLocationObject: string | To,
-    state?: any
+    state?: NavigateOptions['state']
   ) => {
     navigate(getLocation(pathOrLocationObject), { state, replace: true });
   };

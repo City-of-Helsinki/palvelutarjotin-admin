@@ -1,29 +1,37 @@
 import { Combobox } from 'hds-react';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 import useLocale from '../../../hooks/useLocale';
 import useProfilePlaces from '../../../hooks/useProfilePlaces';
 import getLocalizedString from '../../../utils/getLocalizedString';
 import { PlaceOption } from '../types';
 
-const PlaceSelector: React.FC<{
+export type PlaceSelectorProps = {
   onChange: (selected: PlaceOption[]) => void;
   value: PlaceOption[];
-}> = ({ onChange, value }) => {
+};
+
+function PlaceSelector({
+  onChange,
+  value,
+}: Readonly<PlaceSelectorProps>): React.ReactElement<PlaceSelectorProps> {
   const { t } = useTranslation();
   const locale = useLocale();
   const { places } = useProfilePlaces();
 
   const placeOptions: PlaceOption[] = places
-    ? places.map((place) => ({
-        label: getLocalizedString(place.name, locale),
-        value: place.id ?? '',
-      }))
+    ? places.map(
+        (place): PlaceOption => ({
+          label: getLocalizedString(place.name, locale),
+          value: place.id ?? '',
+        })
+      )
     : [];
 
   return (
-    <Combobox
-      value={value as any}
+    <Combobox<PlaceOption>
+      value={value}
       multiselect
       label={t('events.search.labelPlaces')}
       helper={t('events.search.helperPlaces')}
@@ -33,10 +41,10 @@ const PlaceSelector: React.FC<{
       selectedItemRemoveButtonAriaLabel={t(
         'events.search.placesSelectedItemRemoveButtonAriaLabel'
       )}
-      onChange={onChange as any}
+      onChange={onChange}
       options={placeOptions}
     />
   );
-};
+}
 
 export default PlaceSelector;

@@ -1,18 +1,36 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "extends": [
-    "react-app",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:prettier/recommended",
-    "plugin:testcafe/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended"
   ],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "import",
+    "jsx-a11y",
+    "prettier",
+    "@stylistic/js"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "@typescript-eslint/brace-style": [
-      "error",
-      "1tbs",
-      { "allowSingleLine": true }
-    ],
+    "@stylistic/js/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "no-use-before-define": "error",
     "react/no-unused-prop-types": ["warn", { "skipShapeProps": true }],
     "array-bracket-spacing": ["warn", "never"],
@@ -39,6 +57,12 @@
       "files": ["*.ts", "*.tsx"],
       "rules": {
         "no-undef": "off"
+      }
+    },
+    {
+      "files": ["**/__tests__/**/*.test.{ts,tsx}"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
       }
     }
   ],

@@ -1,7 +1,7 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { AnyAction, configureStore, Store } from '@reduxjs/toolkit';
+import { configureStore, Store } from '@reduxjs/toolkit';
 import {
   act,
   createEvent,
@@ -24,18 +24,6 @@ import useRHHCConfig from '../hooks/useRHHCConfig';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
 
-export const arrowUpKeyPressHelper = () =>
-  fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
-
-export const arrowDownKeyPressHelper = () =>
-  fireEvent.keyDown(document, { code: 40, key: 'ArrowDown' });
-
-export const escKeyPressHelper = () =>
-  fireEvent.keyDown(document, { code: 27, key: 'Escape' });
-
-export const tabKeyPressHelper = () =>
-  fireEvent.keyDown(document, { code: 9, key: 'Tab' });
-
 type CustomRenderResult = RenderResult & {
   user: ReturnType<(typeof userEvent)['setup']>;
 };
@@ -47,9 +35,9 @@ type CustomRender = {
       routes?: string[];
       path?: string;
       mocks?: MockedResponse[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       initialState?: Record<string, any>;
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      store?: Store<any, AnyAction>;
+      store?: Store;
     }
   ): CustomRenderResult;
 };
@@ -183,7 +171,6 @@ export const pasteToTextEditor = (
 // re-export everything
 // eslint-disable-next-line import/export
 export * from '@testing-library/react';
-export { render as defaultRender } from '@testing-library/react';
 export { default as userEvent } from '@testing-library/user-event';
 
 // /**

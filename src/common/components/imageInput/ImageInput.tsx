@@ -15,7 +15,7 @@ type ImageInputProps = {
     field: string,
     value: string,
     shouldValidate?: boolean | undefined
-  ) => Promise<void | FormikErrors<any>>;
+  ) => Promise<void | FormikErrors<unknown>>;
   name?: string;
 } & InputWrapperProps;
 
@@ -58,13 +58,15 @@ const ImageInput: React.FC<ImageInputProps> = ({
           },
         });
 
-        (async () =>
+        await (async () =>
           await setFieldValue(
             props.id,
             data.data?.uploadImageMutation?.response?.body?.id || ''
           ))();
-      } catch (e) {
+      } catch (error) {
         // Check apolloClient to see error handling
+        // eslint-disable-next-line no-console
+        console.error('Error uploading image', { error });
       }
     }
   };

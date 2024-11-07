@@ -143,6 +143,7 @@ const OccurrencesTable: React.FC<Props> = ({
     },
     {
       Header: t('occurrences.table.columnEnrolmentStarts'),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- enrolmentStarts comes from event, not occurrence
       accessor: (row: OccurrenceFieldsFragment) =>
         eventData?.event?.pEvent?.enrolmentStart
           ? formatLocalizedDate(

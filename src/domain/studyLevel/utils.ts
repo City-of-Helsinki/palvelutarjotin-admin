@@ -8,15 +8,6 @@ export interface StudyLevelOption {
   value: string;
 }
 
-export const joinStudyLevelLabels = (
-  studyLevels: StudyLevelNodeConnection | null | undefined,
-  t: TFunction
-): string => {
-  return getStudyLevelOptions(studyLevels, t)
-    .map((option) => option.label)
-    .join(', ');
-};
-
 export const getStudyLevelOptions = (
   studyLevels: StudyLevelNodeConnection | null | undefined,
   t: TFunction
@@ -36,4 +27,13 @@ export const getStudyLevelOptions = (
       } as StudyLevelOption;
     }) ?? []
   );
+};
+
+export const joinStudyLevelLabels = (
+  studyLevels: StudyLevelNodeConnection | null | undefined,
+  t: TFunction
+): string => {
+  return getStudyLevelOptions(studyLevels, t)
+    .map((option) => option.label)
+    .join(', ');
 };

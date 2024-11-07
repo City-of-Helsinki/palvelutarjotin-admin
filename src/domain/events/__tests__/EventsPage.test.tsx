@@ -58,9 +58,7 @@ const activePlaceEvents = fakeEvents(5);
 const pastEvents = fakeEvents(5);
 const draftEvents = fakeEvents(
   5,
-  Array.from({ length: 5 }).map((_) => ({
-    publicationStatus: PUBLICATION_STATUS.DRAFT,
-  }))
+  Array(5).fill({ publicationStatus: PUBLICATION_STATUS.DRAFT })
 );
 
 eventsMock1.meta.next = 'https://test.fi?page=2';
@@ -196,7 +194,7 @@ const apolloMocks: MockedResponse[] = [
 
 const apolloPlaceEventMocks = [
   // active place events
-  ...places.map(({ id, name }) => ({
+  ...places.map(({ id }) => ({
     request: {
       query: EventsDocument,
       variables: {
@@ -213,7 +211,7 @@ const apolloPlaceEventMocks = [
     },
   })),
   // past place events
-  ...places.map(({ id, name }) => ({
+  ...places.map(({ id }) => ({
     request: {
       query: EventsDocument,
       variables: {
@@ -230,7 +228,7 @@ const apolloPlaceEventMocks = [
     },
   })),
   // draft place events
-  ...places.map(({ id, name }) => ({
+  ...places.map(({ id }) => ({
     request: {
       query: EventsDocument,
       variables: {
@@ -262,6 +260,10 @@ const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
 test('renders events list and load more events button works', async () => {
   vi.setSystemTime(new Date(2020, 5, 20));
   const toastErrorSpy = vi.spyOn(toast, 'error');
+  const consoleErrorSpy = vi
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
+
   renderComponent();
 
   await waitFor(() =>
@@ -317,6 +319,17 @@ test('renders events list and load more events button works', async () => {
     [
       [
         "Tapahtumien lataaminen epäonnistui",
+      ],
+    ]
+  `);
+
+  expect(consoleErrorSpy.mock.calls).toMatchInlineSnapshot(`
+    [
+      [
+        "Failed to fetch more events",
+        {
+          "error": [ApolloError: Error!],
+        },
       ],
     ]
   `);

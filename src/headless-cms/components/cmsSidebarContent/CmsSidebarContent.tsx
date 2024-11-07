@@ -11,41 +11,6 @@ type Props = {
   content?: PageFieldsFragment['sidebar'];
 };
 
-const CmsSidebarContent: React.FC<Props> = ({ content }) => {
-  return (
-    <ul className={styles.container}>
-      {content?.map((item, i) => {
-        if (item?.__typename === 'LayoutLinkList') {
-          return (
-            <li key={item.title}>
-              <CmsSidebarContentLayoutLinkList
-                title={item.title}
-                links={item.links}
-                description={item.description}
-                anchor={item.anchor}
-              />
-            </li>
-          );
-        }
-
-        if (item?.__typename === 'LayoutPages') {
-          return item?.pages?.map((page) => (
-            <PostListItem key={page?.id} {...page} />
-          ));
-        }
-
-        if (item?.__typename === 'LayoutArticles') {
-          return item?.articles?.map((article) => (
-            <PostListItem key={article?.id} {...article} />
-          ));
-        }
-
-        return null;
-      })}
-    </ul>
-  );
-};
-
 type PostListItemProps = {
   id?: string | null;
   title?: string | null;
@@ -74,6 +39,41 @@ const PostListItem = ({ id, title, uri, featuredImage }: PostListItemProps) => {
         imageAlt={featuredImage?.node?.altText || undefined}
       />
     </li>
+  );
+};
+
+const CmsSidebarContent: React.FC<Props> = ({ content }) => {
+  return (
+    <ul className={styles.container}>
+      {content?.map((item) => {
+        if (item?.__typename === 'LayoutLinkList') {
+          return (
+            <li key={item.title}>
+              <CmsSidebarContentLayoutLinkList
+                title={item.title}
+                links={item.links}
+                description={item.description}
+                anchor={item.anchor}
+              />
+            </li>
+          );
+        }
+
+        if (item?.__typename === 'LayoutPages') {
+          return item?.pages?.map((page) => (
+            <PostListItem key={page?.id} {...page} />
+          ));
+        }
+
+        if (item?.__typename === 'LayoutArticles') {
+          return item?.articles?.map((article) => (
+            <PostListItem key={article?.id} {...article} />
+          ));
+        }
+
+        return null;
+      })}
+    </ul>
   );
 };
 

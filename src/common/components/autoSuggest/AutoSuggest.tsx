@@ -1,3 +1,14 @@
+// FIXME: Make AutoSuggest component accessible and remove this eslint-disable comment:
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// "Visible, non-interactive elements with click handlers must have at least one
+// keyboard listener. (jsx-a11y/click-events-have-key-events)"
+
+// FIXME: Make AutoSuggest component accessible and remove this eslint-disable comment:
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// "Avoid non-native interactive elements. If using native HTML is not possible,
+// add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to
+// an interactive content element. (jsx-a11y/no-static-element-interactions)"
+
 import classNames from 'classnames';
 import { IconCheck, IconCross } from 'hds-react';
 import * as React from 'react';
@@ -136,14 +147,11 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
     setInputValue(event.target.value);
   };
 
-  const isComponentFocused = () => {
+  const isComponentFocused = (): boolean => {
     const active = document.activeElement;
     const current = container.current;
 
-    if (current && active instanceof Node && current.contains(active)) {
-      return true;
-    }
-    return false;
+    return !!current && active instanceof Node && current.contains(active);
   };
 
   const ensureMenuIsClosed = () => {
@@ -193,6 +201,24 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
       ensureIsNotFocused();
       ensureMenuIsClosed();
     }
+  };
+
+  const announceAriaLiveSelection = ({
+    event,
+    option,
+  }: {
+    event: ACCESSIBILITY_EVENT_TYPE;
+    option: AutoSuggestOption;
+  }) => {
+    setAriaLiveSelection(
+      valueEventAriaMessage({
+        event,
+        value: optionLabelToString
+          ? optionLabelToString(option, locale)
+          : option.label.toString(),
+        t,
+      })
+    );
   };
 
   const selectOption = (option: AutoSuggestOption) => {
@@ -259,24 +285,6 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
       document.removeEventListener('focusin', onDocumentFocusin);
     };
   });
-
-  const announceAriaLiveSelection = ({
-    event,
-    option,
-  }: {
-    event: ACCESSIBILITY_EVENT_TYPE;
-    option: AutoSuggestOption;
-  }) => {
-    setAriaLiveSelection(
-      valueEventAriaMessage({
-        event,
-        value: optionLabelToString
-          ? optionLabelToString(option, locale)
-          : option.label.toString(),
-        t,
-      })
-    );
-  };
 
   const constructAriaLiveMessage = () => {
     const focusedValueMsg = focusedValue

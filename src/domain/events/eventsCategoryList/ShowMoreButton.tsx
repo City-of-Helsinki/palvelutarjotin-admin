@@ -1,12 +1,18 @@
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import styles from './eventsCategoryList.module.scss';
 
-const ShowMoreButton: React.FC<{
+export type ShowMoreButtonProps = {
   loading: boolean;
   onClick: () => Promise<void>;
-}> = ({ loading, onClick }) => {
+};
+
+function ShowMoreButton({
+  loading,
+  onClick,
+}: Readonly<ShowMoreButtonProps>): React.ReactElement<ShowMoreButtonProps> {
   const { t } = useTranslation();
 
   return (
@@ -16,5 +22,5 @@ const ShowMoreButton: React.FC<{
       </button>
     </LoadingSpinner>
   );
-};
+}
 export default ShowMoreButton;

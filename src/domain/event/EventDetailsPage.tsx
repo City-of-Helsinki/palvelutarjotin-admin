@@ -33,6 +33,16 @@ import {
   getUpcomingOccurrences,
 } from './utils';
 
+const Dots = () => {
+  return (
+    <div className={styles.dots} data-testid="dots">
+      <div />
+      <div />
+      <div />
+    </div>
+  );
+};
+
 const EventDetailsPage = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -74,11 +84,12 @@ const EventDetailsPage = () => {
       language: newLanguage,
     });
 
-    id &&
+    if (id) {
       pushWithLocale({
         pathname: ROUTES.EVENT_DETAILS.replace(':id', id),
         search: queryString,
       });
+    }
   };
 
   const toggleModal = () => {
@@ -100,8 +111,10 @@ const EventDetailsPage = () => {
       // Clear apollo cache to force eventlist reload
       await clearApolloCache();
       navigate(ROUTES.HOME, { replace: true });
-    } catch (e) {
+    } catch (error) {
       // Check apolloClient to see error handling
+      // eslint-disable-next-line no-console
+      console.error('Error deleting event', { error });
     }
   };
 
@@ -149,7 +162,9 @@ const EventDetailsPage = () => {
   };
 
   const handleEditEventClick = () => {
-    id && pushWithReturnPath(ROUTES.EDIT_EVENT.replace(':id', id));
+    if (id) {
+      pushWithReturnPath(ROUTES.EDIT_EVENT.replace(':id', id));
+    }
   };
 
   return (
@@ -222,16 +237,6 @@ const EventDetailsPage = () => {
         </Container>
       </LoadingSpinner>
     </PageWrapper>
-  );
-};
-
-const Dots = () => {
-  return (
-    <div className={styles.dots} data-testid="dots">
-      <div />
-      <div />
-      <div />
-    </div>
   );
 };
 

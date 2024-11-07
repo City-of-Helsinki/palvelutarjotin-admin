@@ -8,7 +8,7 @@ const BANNER_IMAGE = '/images/Paperboat.png';
 const HeroBackground: React.FC<{ height?: number }> = ({ height = 300 }) => (
   <div
     className={styles.bannerHeroContainer}
-    test-id="banner-hero-image"
+    data-testid="banner-hero-image"
     style={{
       backgroundImage: `url(${BANNER_IMAGE})`,
     }}

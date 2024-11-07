@@ -43,9 +43,11 @@ export const useEventsQueryHelper = ({
           },
         });
         setIsLoadingMore(false);
-      } catch (e) {
+      } catch (error) {
         toast.error(t('events.errorFetchMoreEvents'));
         setIsLoadingMore(false);
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch more events', { error });
       }
     }
   };

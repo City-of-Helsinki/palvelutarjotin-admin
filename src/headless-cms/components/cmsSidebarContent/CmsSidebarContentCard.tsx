@@ -20,7 +20,7 @@ const CmsSidebarContentCard: React.FC<Props> = ({
   return (
     <div
       className={classNames(styles.container, {
-        [styles.withoutImage]: !Boolean(image),
+        [styles.withoutImage]: !image,
       })}
     >
       {image && (

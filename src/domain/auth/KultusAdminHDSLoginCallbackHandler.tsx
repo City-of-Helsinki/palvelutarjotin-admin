@@ -16,8 +16,8 @@ function KultusAdminHDSLoginCallbackHandler() {
   const [lastSignal] = useApiTokensClientTracking();
 
   useEffect(() => {
-    /* @ts-ignore*/
-    if (lastSignal?.payload?.type === 'API_TOKENS_UPDATED') {
+    const payload = lastSignal?.payload;
+    if (payload && 'type' in payload && payload.type === 'API_TOKENS_UPDATED') {
       navigate('/');
     }
   }, [lastSignal, navigate]);
@@ -52,7 +52,13 @@ function KultusAdminHDSLoginCallbackHandler() {
   };
 
   return (
-    <LoginCallbackHandler onSuccess={(user: User) => {}} onError={onError}>
+    <LoginCallbackHandler
+      onSuccess={(user: User) => {
+        // eslint-disable-next-line no-console
+        console.log(`Logged in as ${user.profile.name}`);
+      }}
+      onError={onError}
+    >
       {t('authentication.loggingIn.text', { default: 'Logging in...' })}
     </LoginCallbackHandler>
   );

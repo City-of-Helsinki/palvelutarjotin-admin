@@ -53,6 +53,86 @@ interface Props {
   onSubmit: (values: EnrolmentFormFields) => void;
 }
 
+const UnitField: React.FC<{
+  label: string;
+  unitId: string;
+  unitName: string;
+  unitIdHelperText?: string;
+  unitIdPlaceholder?: string;
+  unitNameHelperText?: string;
+  unitNamePlaceholder?: string;
+  showUnitNameLabel: string;
+}> = ({
+  label,
+  unitId,
+  unitName,
+  unitIdHelperText,
+  unitIdPlaceholder,
+  unitNameHelperText,
+  unitNamePlaceholder,
+  showUnitNameLabel,
+}) => {
+  const { values, setFieldValue } = useFormikContext();
+  const {
+    studyGroup: { unitId: unitIdValue, unitName: unitNameValue },
+  } = values as EnrolmentFormFields;
+
+  const isUnitNameGiven = Boolean(!unitIdValue && unitNameValue);
+  const [showUnitNameField, setShowUnitNameField] =
+    React.useState(isUnitNameGiven);
+
+  React.useEffect(() => {
+    if (unitNameValue && !unitIdValue && !showUnitNameField) {
+      setShowUnitNameField(true);
+    }
+  }, [unitNameValue, unitIdValue, showUnitNameField]);
+
+  const handleShowUnitNameField = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.checked) {
+      setShowUnitNameField(true);
+      (async () => await setFieldValue(unitId, null))();
+    } else {
+      setShowUnitNameField(false);
+      (async () => await setFieldValue(unitName, ''))();
+    }
+  };
+
+  return (
+    <div className={styles.unitField}>
+      {!showUnitNameField ? (
+        <Field
+          labelText={label}
+          disabled={showUnitNameField}
+          required={true}
+          aria-required
+          name={unitId}
+          component={UnitPlaceSelectorField}
+          helperText={unitIdHelperText}
+          placeholder={unitIdPlaceholder}
+        />
+      ) : (
+        <Field
+          label={label}
+          required
+          aria-required
+          name={unitName}
+          component={TextInputField}
+          helperText={unitNameHelperText}
+          placeholder={unitNamePlaceholder}
+        />
+      )}
+      <Checkbox
+        id="show-studyGroup-unitName"
+        label={showUnitNameLabel}
+        checked={showUnitNameField}
+        onChange={handleShowUnitNameField}
+      />
+    </div>
+  );
+};
+
 const EnrolmentForm: React.FC<Props> = ({
   initialValues = defaultInitialValues,
   minGroupSize = 1,
@@ -261,86 +341,6 @@ const EnrolmentForm: React.FC<Props> = ({
         );
       }}
     </Formik>
-  );
-};
-
-const UnitField: React.FC<{
-  label: string;
-  unitId: string;
-  unitName: string;
-  unitIdHelperText?: string;
-  unitIdPlaceholder?: string;
-  unitNameHelperText?: string;
-  unitNamePlaceholder?: string;
-  showUnitNameLabel: string;
-}> = ({
-  label,
-  unitId,
-  unitName,
-  unitIdHelperText,
-  unitIdPlaceholder,
-  unitNameHelperText,
-  unitNamePlaceholder,
-  showUnitNameLabel,
-}) => {
-  const { values, setFieldValue } = useFormikContext();
-  const {
-    studyGroup: { unitId: unitIdValue, unitName: unitNameValue },
-  } = values as EnrolmentFormFields;
-
-  const isUnitNameGiven = Boolean(!unitIdValue && unitNameValue);
-  const [showUnitNameField, setShowUnitNameField] =
-    React.useState(isUnitNameGiven);
-
-  React.useEffect(() => {
-    if (unitNameValue && !unitIdValue && !showUnitNameField) {
-      setShowUnitNameField(true);
-    }
-  }, [unitNameValue, unitIdValue, showUnitNameField]);
-
-  const handleShowUnitNameField = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.checked) {
-      setShowUnitNameField(true);
-      (async () => await setFieldValue(unitId, null))();
-    } else {
-      setShowUnitNameField(false);
-      (async () => await setFieldValue(unitName, ''))();
-    }
-  };
-
-  return (
-    <div className={styles.unitField}>
-      {!showUnitNameField ? (
-        <Field
-          labelText={label}
-          disabled={showUnitNameField}
-          required={true}
-          aria-required
-          name={unitId}
-          component={UnitPlaceSelectorField}
-          helperText={unitIdHelperText}
-          placeholder={unitIdPlaceholder}
-        />
-      ) : (
-        <Field
-          label={label}
-          required
-          aria-required
-          name={unitName}
-          component={TextInputField}
-          helperText={unitNameHelperText}
-          placeholder={unitNamePlaceholder}
-        />
-      )}
-      <Checkbox
-        id="show-studyGroup-unitName"
-        label={showUnitNameLabel}
-        checked={showUnitNameField}
-        onChange={handleShowUnitNameField}
-      />
-    </div>
   );
 };
 

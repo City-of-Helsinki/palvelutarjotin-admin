@@ -508,8 +508,8 @@ exports[`PageLayout matches snapshot 1`] = `
     >
       <div
         class="bannerHeroContainer"
+        data-testid="banner-hero-image"
         style="background-image: url(/images/Paperboat.png);"
-        test-id="banner-hero-image"
       >
         <div
           style="height: 300px;"

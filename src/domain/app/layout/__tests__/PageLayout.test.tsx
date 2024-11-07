@@ -106,6 +106,42 @@ const mocks = [
   { ...languagesMock },
 ];
 
+async function fillAndSubmitProfileForm() {
+  await userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
+  await userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
+
+  // wait for organisation to load
+  await act(wait);
+
+  const languageSelectorButton = screen.getByLabelText(/Organisaatio/i, {
+    selector: 'button',
+  });
+  await userEvent.click(languageSelectorButton);
+  await userEvent.click(screen.getByText(/organisaatio 1/i));
+  await userEvent.click(screen.getByText(/organisaatio 2/i));
+
+  await userEvent.click(
+    screen.getByLabelText(/Organisaatio/i, { selector: 'button' })
+  );
+
+  expect(screen.getByLabelText('Organisaatio 1')).toBeInTheDocument();
+  expect(screen.getByLabelText('Organisaatio 2')).toBeInTheDocument();
+
+  await userEvent.click(
+    screen.getByLabelText('Olen hyväksynyt palvelut käyttöehdot')
+  );
+
+  await userEvent.click(
+    screen.getByLabelText(
+      'Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. Tietosuojaseloste'
+    )
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Tallenna ja jatka' })
+  );
+}
+
 it('PageLayout matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks} addTypename={true}>
@@ -293,39 +329,3 @@ it('render registration pending page', async () => {
 
   expect(screen.queryByText(testText)).not.toBeInTheDocument();
 });
-
-async function fillAndSubmitProfileForm() {
-  await userEvent.type(screen.getByLabelText('Nimi'), 'Testi Testaaja');
-  await userEvent.type(screen.getByLabelText('Puhelinnumero'), '123321123');
-
-  // wait for organisation to load
-  await act(wait);
-
-  const languageSelectorButton = screen.getByLabelText(/Organisaatio/i, {
-    selector: 'button',
-  });
-  await userEvent.click(languageSelectorButton);
-  await userEvent.click(screen.getByText(/organisaatio 1/i));
-  await userEvent.click(screen.getByText(/organisaatio 2/i));
-
-  await userEvent.click(
-    screen.getByLabelText(/Organisaatio/i, { selector: 'button' })
-  );
-
-  expect(screen.getByLabelText('Organisaatio 1')).toBeInTheDocument();
-  expect(screen.getByLabelText('Organisaatio 2')).toBeInTheDocument();
-
-  await userEvent.click(
-    screen.getByLabelText('Olen hyväksynyt palvelut käyttöehdot')
-  );
-
-  await userEvent.click(
-    screen.getByLabelText(
-      'Annan luvan antamieni tietojen käyttämiseen tapahtumien tiedoissa. Tietosuojaseloste'
-    )
-  );
-
-  await userEvent.click(
-    screen.getByRole('button', { name: 'Tallenna ja jatka' })
-  );
-}

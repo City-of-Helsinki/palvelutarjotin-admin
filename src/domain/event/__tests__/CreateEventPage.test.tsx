@@ -355,6 +355,159 @@ const mocks = [
   { ...languagesMock },
 ];
 
+const testMultiDropdownValues = async ({
+  dropdownTestId,
+  dropdownLabel,
+  values,
+}: {
+  dropdownTestId: string;
+  dropdownLabel: RegExp | string;
+  values: string[];
+}) => {
+  await userEvent.click(
+    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
+  );
+
+  for (const value of values) {
+    await userEvent.click(await screen.findByRole('option', { name: value }));
+  }
+  await userEvent.click(
+    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
+  );
+
+  const dropdown = within(await screen.findByTestId(dropdownTestId));
+
+  for (const value of values) {
+    await dropdown.findByText(value);
+  }
+};
+
+const fillForm = async (eventFormData: typeof partialDefaultFormData) => {
+  await screen.findByText(defaultOrganizationName);
+
+  await userEvent.type(
+    await screen.findByLabelText(/Tapahtuman nimi/),
+    eventFormData.name.fi!
+  );
+
+  const eventForm = await screen.findByTestId('event-form');
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      'name.fi': eventFormData.name.fi,
+    });
+  });
+
+  await userEvent.type(
+    await screen.findByLabelText(/lyhyt kuvaus/i),
+    eventFormData.shortDescription.fi!
+  );
+
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      'name.fi': eventFormData.name.fi,
+      'shortDescription.fi': eventFormData.shortDescription.fi,
+    });
+  });
+  const editor = await screen.findByRole('textbox', { name: /Kuvaus/ });
+  pasteToTextEditor(editor, eventFormData.description.fi!);
+  editor.blur();
+
+  await userEvent.type(
+    await screen.findByLabelText(
+      'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
+    ),
+    eventFormData.infoUrl.fi!
+  );
+
+  await userEvent.click(
+    await screen.findByLabelText(
+      /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
+    )
+  );
+
+  // image input should disappear after adding image
+  const imageInput = await screen.findByLabelText('Tapahtuman kuva');
+  await screen.findByRole('button', { name: 'Lisää kuva' });
+
+  fireEvent.change(imageInput, { target: { files: [imageFile] } });
+  await screen.findByAltText(imageAltText);
+
+  await waitFor(() => {
+    expect(
+      screen.queryByRole('button', { name: 'Lisää kuva' })
+    ).not.toBeInTheDocument();
+  });
+
+  await userEvent.type(
+    await screen.findByLabelText(/Valokuvaaja/),
+    eventFormData.imagePhotographerName
+  );
+  await userEvent.type(
+    await screen.findByLabelText(/Kuvan alt-teksti/),
+    eventFormData.imageAltText
+  );
+  await userEvent.type(
+    await screen.findByLabelText(/Sähköpostiosoite/),
+    eventFormData.contactEmail
+  );
+  await userEvent.type(
+    await screen.findByLabelText(/Puhelinnumero/),
+    eventFormData.contactPhoneNumber
+  );
+
+  await waitFor(() => {
+    expect(eventForm).toHaveFormValues({
+      contactPhoneNumber: eventFormData.contactPhoneNumber,
+      contactEmail: eventFormData.contactEmail,
+    });
+  });
+
+  const contactInfoPart = within(await screen.findByTestId('contact-info'));
+
+  await userEvent.click(
+    await contactInfoPart.findByLabelText(/Nimi/, {
+      selector: 'button',
+    })
+  );
+
+  await userEvent.click(
+    await contactInfoPart.findByRole('option', { name: personName })
+  );
+
+  // email and name should automatically populate after choosing name from dropdown
+  const emailElement = await screen.findByLabelText('Sähköpostiosoite');
+  await waitFor(() => expect(emailElement).toHaveValue(contactEmail));
+  const phoneElement = await screen.findByLabelText('Puhelinnumero');
+  await waitFor(() => expect(phoneElement).toHaveValue(contactPhoneNumber));
+
+  await testMultiDropdownValues({
+    dropdownLabel: /kategoriat/i,
+    dropdownTestId: 'categories-dropdown',
+    values: categoryKeywords.map((k) => k.name),
+  });
+
+  await testMultiDropdownValues({
+    dropdownLabel: /aktiviteetit/i,
+    dropdownTestId: 'additional-criteria-dropdown',
+    values: criteriaKeywords.map((k) => k.name),
+  });
+
+  await testMultiDropdownValues({
+    dropdownLabel: /kohderyhmät/i,
+    dropdownTestId: 'audience-dropdown',
+    values: audienceKeywords.map((k) => k.name),
+  });
+
+  vi.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
+
+  const keywordsInput = await screen.findByLabelText(/Tapahtuman avainsanat/);
+  await userEvent.click(keywordsInput);
+  await userEvent.type(keywordsInput, 'perheet');
+
+  const familyCategory = await screen.findByText(/perheet/i);
+  await userEvent.click(familyCategory);
+};
+
 test('event can be created with form', async () => {
   vi.spyOn(HdsReact, 'useOidcClient').mockImplementation(
     () =>
@@ -671,156 +824,3 @@ describe('Copy event', () => {
     });
   });
 });
-
-const testMultiDropdownValues = async ({
-  dropdownTestId,
-  dropdownLabel,
-  values,
-}: {
-  dropdownTestId: string;
-  dropdownLabel: RegExp | string;
-  values: string[];
-}) => {
-  await userEvent.click(
-    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
-  );
-
-  for (const value of values) {
-    await userEvent.click(await screen.findByRole('option', { name: value }));
-  }
-  await userEvent.click(
-    await screen.findByLabelText(dropdownLabel, { selector: 'button' })
-  );
-
-  const dropdown = within(await screen.findByTestId(dropdownTestId));
-
-  for (const value of values) {
-    await dropdown.findByText(value);
-  }
-};
-
-const fillForm = async (eventFormData: typeof partialDefaultFormData) => {
-  await screen.findByText(defaultOrganizationName);
-
-  await userEvent.type(
-    await screen.findByLabelText(/Tapahtuman nimi/),
-    eventFormData.name.fi!
-  );
-
-  const eventForm = await screen.findByTestId('event-form');
-  await waitFor(() => {
-    expect(eventForm).toHaveFormValues({
-      'name.fi': eventFormData.name.fi,
-    });
-  });
-
-  await userEvent.type(
-    await screen.findByLabelText(/lyhyt kuvaus/i),
-    eventFormData.shortDescription.fi!
-  );
-
-  await waitFor(() => {
-    expect(eventForm).toHaveFormValues({
-      'name.fi': eventFormData.name.fi,
-      'shortDescription.fi': eventFormData.shortDescription.fi,
-    });
-  });
-  const editor = await screen.findByRole('textbox', { name: /Kuvaus/ });
-  pasteToTextEditor(editor, eventFormData.description.fi!);
-  editor.blur();
-
-  await userEvent.type(
-    await screen.findByLabelText(
-      'WWW-osoite, josta saa lisätietoja tapahtumasta (FI)'
-    ),
-    eventFormData.infoUrl.fi!
-  );
-
-  await userEvent.click(
-    await screen.findByLabelText(
-      /Lisätietojen syöttäminen on ilmoittautujalle pakollista/
-    )
-  );
-
-  // image input should disappear after adding image
-  const imageInput = await screen.findByLabelText('Tapahtuman kuva');
-  await screen.findByRole('button', { name: 'Lisää kuva' });
-
-  fireEvent.change(imageInput, { target: { files: [imageFile] } });
-  await screen.findByAltText(imageAltText);
-
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('button', { name: 'Lisää kuva' })
-    ).not.toBeInTheDocument();
-  });
-
-  await userEvent.type(
-    await screen.findByLabelText(/Valokuvaaja/),
-    eventFormData.imagePhotographerName
-  );
-  await userEvent.type(
-    await screen.findByLabelText(/Kuvan alt-teksti/),
-    eventFormData.imageAltText
-  );
-  await userEvent.type(
-    await screen.findByLabelText(/Sähköpostiosoite/),
-    eventFormData.contactEmail
-  );
-  await userEvent.type(
-    await screen.findByLabelText(/Puhelinnumero/),
-    eventFormData.contactPhoneNumber
-  );
-
-  await waitFor(() => {
-    expect(eventForm).toHaveFormValues({
-      contactPhoneNumber: eventFormData.contactPhoneNumber,
-      contactEmail: eventFormData.contactEmail,
-    });
-  });
-
-  const contactInfoPart = within(await screen.findByTestId('contact-info'));
-
-  await userEvent.click(
-    await contactInfoPart.findByLabelText(/Nimi/, {
-      selector: 'button',
-    })
-  );
-
-  await userEvent.click(
-    await contactInfoPart.findByRole('option', { name: personName })
-  );
-
-  // email and name should automatically populate after choosing name from dropdown
-  const emailElement = await screen.findByLabelText('Sähköpostiosoite');
-  await waitFor(() => expect(emailElement).toHaveValue(contactEmail));
-  const phoneElement = await screen.findByLabelText('Puhelinnumero');
-  await waitFor(() => expect(phoneElement).toHaveValue(contactPhoneNumber));
-
-  await testMultiDropdownValues({
-    dropdownLabel: /kategoriat/i,
-    dropdownTestId: 'categories-dropdown',
-    values: categoryKeywords.map((k) => k.name),
-  });
-
-  await testMultiDropdownValues({
-    dropdownLabel: /aktiviteetit/i,
-    dropdownTestId: 'additional-criteria-dropdown',
-    values: criteriaKeywords.map((k) => k.name),
-  });
-
-  await testMultiDropdownValues({
-    dropdownLabel: /kohderyhmät/i,
-    dropdownTestId: 'audience-dropdown',
-    values: audienceKeywords.map((k) => k.name),
-  });
-
-  vi.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
-
-  const keywordsInput = await screen.findByLabelText(/Tapahtuman avainsanat/);
-  await userEvent.click(keywordsInput);
-  await userEvent.type(keywordsInput, 'perheet');
-
-  const familyCategory = await screen.findByText(/perheet/i);
-  await userEvent.click(familyCategory);
-};

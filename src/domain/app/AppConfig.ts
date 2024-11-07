@@ -1,3 +1,34 @@
+function getEnvOrError(variable?: string, name?: string) {
+  if (!variable) {
+    throw Error(`Environment variable with name ${name} was not found`);
+  }
+  return variable;
+}
+
+/**
+ * Fetches an environment variable value as a URL.
+ *
+ * @param varName The name of the environment variable.
+ * @throws {Error} If the variable is not defined or is not a valid URL.
+ */
+function getEnvAsUrl(varName: string): URL {
+  const value = getEnvOrError(import.meta.env[varName], varName);
+  try {
+    return new URL(value);
+  } catch {
+    throw new Error(
+      `Environment variable ${varName} is not a valid URL: ${value}`
+    );
+  }
+}
+
+function getEnvAsList(variable?: string) {
+  if (!variable) {
+    return undefined;
+  }
+  return variable.split(',').map((e) => e.trim());
+}
+
 class AppConfig {
   /** The origin URL (protocol + hostname + port) of the application. */
   static get origin() {
@@ -125,37 +156,6 @@ class AppConfig {
   static get internalHrefOrigins() {
     return [this.origin, this.cmsDomain, this.linkedEventsApiDomain];
   }
-}
-
-function getEnvOrError(variable?: string, name?: string) {
-  if (!variable) {
-    throw Error(`Environment variable with name ${name} was not found`);
-  }
-  return variable;
-}
-
-/**
- * Fetches an environment variable value as a URL.
- *
- * @param varName The name of the environment variable.
- * @throws {Error} If the variable is not defined or is not a valid URL.
- */
-function getEnvAsUrl(varName: string): URL {
-  const value = getEnvOrError(import.meta.env[varName], varName);
-  try {
-    return new URL(value);
-  } catch {
-    throw new Error(
-      `Environment variable ${varName} is not a valid URL: ${value}`
-    );
-  }
-}
-
-function getEnvAsList(variable?: string) {
-  if (!variable) {
-    return undefined;
-  }
-  return variable.split(',').map((e) => e.trim());
 }
 
 export default AppConfig;

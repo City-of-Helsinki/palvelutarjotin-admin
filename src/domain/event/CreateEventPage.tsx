@@ -55,7 +55,7 @@ const CreateEventPage: React.FC = () => {
   >(null);
 
   const handleError = useCallback(
-    (err: Error) => {
+    (err: unknown) => {
       // TODO: Improve error handling when API returns more informative errors
       if (isTestEnv()) {
         // eslint-disable-next-line no-console
@@ -90,7 +90,7 @@ const CreateEventPage: React.FC = () => {
             setInitialValues(createEventInitialValues);
           }
         }
-      } catch (err: any) {
+      } catch (err) {
         handleError(err);
       } finally {
         if (!isCancelled) {
@@ -156,7 +156,7 @@ const CreateEventPage: React.FC = () => {
       pushWithLocale({
         pathname: ROUTES.CREATE_OCCURRENCE.replace(':id', id),
       });
-    } catch (e: any) {
+    } catch (e) {
       handleError(e);
     }
   };

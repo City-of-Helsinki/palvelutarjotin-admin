@@ -31,7 +31,9 @@ const EventPreviewPage: React.FC = () => {
     getEventFields(eventData?.event, locale);
 
   const goToSummaryPage = () => {
-    eventId && pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    if (eventId) {
+      pushWithLocale(ROUTES.EVENT_SUMMARY.replace(':id', eventId));
+    }
   };
 
   return (

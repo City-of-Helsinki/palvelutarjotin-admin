@@ -50,11 +50,13 @@ const MyProfilePage: React.FC = () => {
       });
       scrollToTop();
       setIsSaved(true);
-    } catch (e) {
+    } catch (error) {
       toast(t('editMyProfile.error'), {
         type: toast.TYPE.ERROR,
       });
       setIsSaved(false);
+      // eslint-disable-next-line no-console
+      console.error('Failed to update my profile', { error });
     }
   };
 
