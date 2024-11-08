@@ -9,8 +9,13 @@ type IdleTimerProps = { children: React.ReactNode };
 function IdleTimer({ children }: IdleTimerProps) {
   const { logout, isAuthenticated } = useOidcClient();
   const onIdle = (): void => {
-    if (isAuthenticated()) {
-      logout();
+    try {
+      if (isAuthenticated()) {
+        logout();
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('useOidcClient is fully loaded yet.', { error: e });
     }
   };
 
