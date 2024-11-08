@@ -5,7 +5,7 @@ import eslint from 'vite-plugin-eslint';
 import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-export default ({ mode }) => {
+const viteConfig = ({ mode }) => {
   // Load app-level env vars to node-level env vars.
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
@@ -36,3 +36,5 @@ export default ({ mode }) => {
     plugins: [react(), eslint(), tsconfigPaths()],
   });
 };
+
+export default viteConfig;
