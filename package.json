@@ -117,7 +117,7 @@
   },
   "scripts": {
     "app:version": "node printVersion.js",
-    "prepare": "husky install",
+    "prepare": "husky",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
@@ -157,7 +157,7 @@
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "dequal": "^2.0.3",
-    "husky": "^9.0.11",
+    "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.3.3",
