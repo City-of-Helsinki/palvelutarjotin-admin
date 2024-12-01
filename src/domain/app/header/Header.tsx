@@ -5,7 +5,6 @@ import {
   IconLinkExternal,
   IconSignout,
   IconUser,
-  useMediaQueryLessThan,
   useOidcClient,
 } from 'hds-react';
 import * as React from 'react';
@@ -137,7 +136,6 @@ const UserNavigation: React.FC<{
   const { t } = useTranslation();
   const { pushWithLocale } = useNavigate();
   const dispatch = useAppDispatch();
-  const isUnderSmallBreakpoint = useMediaQueryLessThan('s');
 
   const goToEditMyProfile = () => {
     pushWithLocale(ROUTES.MY_PROFILE);
@@ -163,7 +161,6 @@ const UserNavigation: React.FC<{
     <HDSHeader.ActionBarItem
       id="user-menu"
       dropdownClassName={styles.userMenuDropdown}
-      fullWidth={isUnderSmallBreakpoint}
       icon={<IconUser />}
       ariaLabel={t('header.userMenu.ariaLabelButton')}
       label={userLabel}
