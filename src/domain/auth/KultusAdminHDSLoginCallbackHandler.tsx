@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   OidcClientError,
   User,
@@ -14,13 +14,19 @@ function KultusAdminHDSLoginCallbackHandler() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [lastSignal] = useApiTokensClientTracking();
+  const [nextUrl, setNextUrl] = useState('#');
 
   useEffect(() => {
     const payload = lastSignal?.payload;
-    if (payload && 'type' in payload && payload.type === 'API_TOKENS_UPDATED') {
-      navigate('/');
+    if (
+      payload &&
+      'type' in payload &&
+      payload.type === 'API_TOKENS_UPDATED' &&
+      nextUrl
+    ) {
+      navigate(nextUrl);
     }
-  }, [lastSignal, navigate]);
+  }, [lastSignal, navigate, nextUrl]);
 
   const onError = (error?: OidcClientError) => {
     if (!error) return;
@@ -54,8 +60,7 @@ function KultusAdminHDSLoginCallbackHandler() {
   return (
     <LoginCallbackHandler
       onSuccess={(user: User) => {
-        // eslint-disable-next-line no-console
-        console.log(`Logged in as ${user.profile.name}`);
+        setNextUrl(new URLSearchParams(user.url_state).get('next') ?? '/');
       }}
       onError={onError}
     >
