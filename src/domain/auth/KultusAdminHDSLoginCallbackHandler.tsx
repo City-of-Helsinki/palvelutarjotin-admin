@@ -14,7 +14,7 @@ function KultusAdminHDSLoginCallbackHandler() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [lastSignal] = useApiTokensClientTracking();
-  const [nextUrl, setNextUrl] = useState('#');
+  const [nextUrl, setNextUrl] = useState('');
 
   useEffect(() => {
     const payload = lastSignal?.payload;
@@ -60,7 +60,9 @@ function KultusAdminHDSLoginCallbackHandler() {
   return (
     <LoginCallbackHandler
       onSuccess={(user: User) => {
-        setNextUrl(new URLSearchParams(user.url_state).get('next') ?? '/');
+        if (!nextUrl) {
+          setNextUrl(new URLSearchParams(user.url_state).get('next') ?? '/');
+        }
       }}
       onError={onError}
     >
