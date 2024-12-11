@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.14.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.0...palvelutarjotin-admin-v1.14.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* Import/no-anonymous-default-export lint warning in vite.config.ts ([119b6e1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/119b6e1f440ecf8ad6ace2e95e24ae9e4fa1bbbd))
+* Login redirect ([f1723db](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/f1723db8c07ad06601ae4b12b7ca31fe70d104f8))
+* Login redirect ([c63637b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c63637b7a2dcf7af07f746576ff9b8a3158f0317))
+* Mobile navigation ([4ccda44](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4ccda44fbcc42960a449bec7d637938679f48021))
+* Setting VITE_APP_IDLE_TIMEOUT_IN_MS in .env* files ([2c39730](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2c39730fb1348a99ff8442c22fa641f487c7013a))
+
 ## [1.14.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.13.0...palvelutarjotin-admin-v1.14.0) (2024-10-23)
 
 
