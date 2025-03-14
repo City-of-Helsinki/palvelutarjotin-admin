@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.15.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.1...palvelutarjotin-admin-v1.15.0) (2025-03-14)
+
+
+### Features
+
+* **dependabot:** Configure dependabot using .github/dependabot.yml ([28c54f8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/28c54f82980b99b3556425ae84f37b6e74dd89e4))
+* **license:** Add LICENSE file using MIT license ([8c40d42](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8c40d42d24b80f934b6cdb93a5382784761d187d))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.0...palvelutarjotin-admin-v1.14.1) (2024-12-11)
 
 
