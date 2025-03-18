@@ -15,8 +15,8 @@ import {
 } from '../../../generated/graphql-cms';
 import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
-import cmsClient from '../../client';
 import styles from './cmsPageSearch.module.scss';
+import { useCMSApolloClient } from '../../apollo/apolloClient';
 
 const BLOCK_SIZE = 10;
 const SEARCH_DEBOUNCE_TIME = 500;
@@ -99,7 +99,7 @@ const CmsPageSearch: React.FC<{
 }> = ({ page }) => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, SEARCH_DEBOUNCE_TIME);
-
+  const cmsClient = useCMSApolloClient();
   const {
     data: pageData,
     fetchMore,

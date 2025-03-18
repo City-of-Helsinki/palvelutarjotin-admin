@@ -4,7 +4,9 @@ import { useLocation } from 'react-router-dom';
 import useIsMounted from '../hooks/useIsMounted';
 import useLocale from '../hooks/useLocale';
 import { usePageQuery } from './usePageQuery';
-import { queryPageWithUri, uriToBreadcrumbs } from './utils';
+import { uriToBreadcrumbs } from './utils';
+import { queryPageWithUri } from './services';
+import { useCMSApolloClient } from './apollo/apolloClient';
 
 export const useCmsLanguageOptions = ({
   skip = false,
@@ -32,6 +34,7 @@ export const useCmsLanguageOptions = ({
 export type Breadcrumb = { title: string; uri: string };
 
 export const useCmsNavigation = (slug: string) => {
+  const cmsApolloClient = useCMSApolloClient();
   const [loading, setLoading] = React.useState(true);
   const [breadcrumbs, setBreadcrumbs] = React.useState<Breadcrumb[] | null>(
     null
@@ -43,9 +46,12 @@ export const useCmsNavigation = (slug: string) => {
     const uriSegments = uriToBreadcrumbs(slug);
     async function fetchNavigation() {
       setLoading(true);
+      if (!cmsApolloClient) {
+        return;
+      }
       try {
         const promises = uriSegments.map((uriSegment) =>
-          queryPageWithUri(uriSegment)
+          queryPageWithUri(cmsApolloClient, uriSegment)
         );
         const pagesResults = await Promise.all(promises);
         const pages = pagesResults.map((m) => m.data.page);
@@ -69,7 +75,7 @@ export const useCmsNavigation = (slug: string) => {
     if (slug) {
       fetchNavigation();
     }
-  }, [slug, locale, isMounted]);
+  }, [slug, locale, isMounted, cmsApolloClient]);
 
   return { breadcrumbs, loading };
 };

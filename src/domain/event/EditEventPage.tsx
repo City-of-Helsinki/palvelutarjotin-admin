@@ -32,7 +32,7 @@ import {
   getEventFormValues,
   omitUnselectedLanguagesFromValues,
 } from './utils';
-import { invalidateEventCache } from '../app/apollo/utils';
+import { invalidateEventCache } from '../app/apollo/apolloClient';
 
 export enum EDIT_EVENT_QUERY_PARAMS {
   NAVIGATED_FROM = 'navigatedFrom',

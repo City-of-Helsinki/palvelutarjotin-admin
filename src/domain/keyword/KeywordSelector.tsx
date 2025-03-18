@@ -14,8 +14,8 @@ import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
-import apolloClient from '../app/apollo/apolloClient';
 import KeywordText from './KeywordText';
+import { initializeApolloClient } from '../app/apollo/apolloClient';
 
 interface Props {
   className?: string;
@@ -31,6 +31,7 @@ interface Props {
 }
 
 const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
+  const apolloClient = initializeApolloClient();
   const data = apolloClient.readQuery<KeywordQuery>({
     query: KeywordDocument,
     variables: { id: option.value },

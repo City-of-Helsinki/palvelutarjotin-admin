@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
+import { ApolloClient } from '@apollo/client';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
@@ -43,7 +44,6 @@ import {
   infoUrl,
   keyword,
   keywordId,
-  keywordMockResponse,
   organisationId,
   personName,
   photoAltText,
@@ -52,7 +52,6 @@ import {
   placeName,
   profileResponse,
   shortDescription,
-  venueQueryResponse,
 } from '../../../test/EventPageTestUtil';
 import { Language } from '../../../types';
 import {
@@ -73,7 +72,6 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import apolloClient from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
@@ -498,7 +496,9 @@ const fillForm = async (eventFormData: typeof partialDefaultFormData) => {
     values: audienceKeywords.map((k) => k.name),
   });
 
-  vi.spyOn(apolloClient, 'readQuery').mockReturnValue(keywordResponse);
+  vi.spyOn(ApolloClient.prototype, 'readQuery').mockReturnValueOnce(
+    keywordResponse
+  );
 
   const keywordsInput = await screen.findByLabelText(/Tapahtuman avainsanat/);
   await userEvent.click(keywordsInput);
@@ -762,21 +762,6 @@ describe('Copy event', () => {
     vi.spyOn(Router, 'useParams').mockReturnValue({
       id: eventId,
     });
-    vi.spyOn(apolloClient, 'readQuery').mockImplementation(
-      ({ variables }: any) => {
-        if (variables.id === keywordId) {
-          return keywordMockResponse;
-        }
-      }
-    );
-    vi.spyOn(apolloClient, 'query').mockResolvedValue(
-      venueQueryResponse as any
-    );
-
-    vi.spyOn(apolloClient, 'readQuery').mockReturnValue(
-      venueQueryResponse as any
-    );
-
     vi.setSystemTime(new Date(2020, 7, 5));
   });
 

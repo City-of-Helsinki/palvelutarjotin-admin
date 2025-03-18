@@ -35,6 +35,14 @@ class AppConfig {
     return getEnvAsUrl('VITE_APP_ORIGIN').origin;
   }
 
+  static get kukkuuApiGraphqlEndpoint() {
+    return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
+  }
+
+  static get cmsGraphqlEndpoint() {
+    return getEnvOrError(import.meta.env.VITE_APP_CMS_URI, 'VITE_APP_CMS_URI');
+  }
+
   static get helsinkiProfileUrl() {
     return getEnvOrError(
       import.meta.env.VITE_APP_HELSINKI_PROFILE_URL,
@@ -155,6 +163,54 @@ class AppConfig {
 
   static get internalHrefOrigins() {
     return [this.origin, this.cmsDomain, this.linkedEventsApiDomain];
+  }
+
+  static get cmsOrigin() {
+    return new URL(AppConfig.cmsGraphqlEndpoint).origin;
+  }
+
+  /**
+   * URL rewrite mapping for internal URLs.
+   * Replace the URL with the value in the mapping.
+   * If the URL is a CMS URL for pages, articles or other content,
+   * except not for files, the URL should be rewritten to the internal URL.
+   *
+   * Some examples that are valid:
+   * - https://kultus.content.api.hel.fi/fi/
+   * - https://kultus.content.api.hel.fi/sv/
+   * - https://kultus.content.api.hel.fi/en/
+   * - https://kultus.content.api.hel.fi/fi/asdas/asdas
+   * - https://kultus.content.api.hel.fi/fi/something/
+   *
+   * Examples that are invalid:
+   * - https://kultus.content.api.hel.fi/app/images
+   * - https://kultus.content.api.hel.fi/app/pictures
+   * - https://kultus.content.api.hel.fi/app/files
+   */
+  static get URLRewriteMapping() {
+    return [
+      // Exclusionary rule: URLs that should *not* be rewritten
+      {
+        regex: `^${AppConfig.cmsOrigin}/app/`,
+        replace: '', // We don't need a replacement for exclusions.
+        skip: true,
+      },
+      // Matches URLs with a locale prefix (fi, en, sv)
+      {
+        regex: `^${AppConfig.cmsOrigin}/(fi|en|sv)(.*)$`,
+        replace: '/$1/cms-page$2',
+      },
+      // Matches root page
+      {
+        regex: `^${AppConfig.cmsOrigin}/$`,
+        replace: '/cms-page/',
+      },
+      // Matches URLs without a locale prefix (other paths)
+      {
+        regex: `^${AppConfig.cmsOrigin}/(.*)$`,
+        replace: '/cms-page/$1',
+      },
+    ];
   }
 }
 

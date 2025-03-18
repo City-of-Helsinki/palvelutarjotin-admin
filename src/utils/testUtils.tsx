@@ -17,12 +17,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import wait from 'waait';
 
-import { createApolloCache } from '../domain/app/apollo/apolloClient';
 import reducers from '../domain/app/reducers';
 import { store as reduxStore } from '../domain/app/store';
 import useRHHCConfig from '../hooks/useRHHCConfig';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
+import { createApolloCache } from '../domain/app/apollo/cache';
 
 type CustomRenderResult = RenderResult & {
   user: ReturnType<(typeof userEvent)['setup']>;
