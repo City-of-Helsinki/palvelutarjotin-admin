@@ -9,17 +9,20 @@ import { ToastContainer } from 'react-toastify';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import cmsClient from '../../headless-cms/client';
 import useRHHCConfig from '../../hooks/useRHHCConfig';
-import apolloClient from './apollo/apolloClient';
 import AppRoutes from './routes/AppRoutes';
 import { FORCE_SCROLL_TO_TOP, IGNORE_SCROLL_TO_TOP } from './routes/constants';
 import ScrollToTop from './ScrollToTop';
 import { persistor, store } from './store';
 import KultusAdminHDSLoginProvider from '../auth/KultusAdminHDSLoginProvider';
 import IdleTimer from '../auth/IdleTimerProvider';
+import { useCMSApolloClient } from '../../headless-cms/apollo/apolloClient';
+import { useApolloClient } from './apollo/apolloClient';
 
 const App = () => {
+  const apolloClient = useApolloClient();
+  const cmsClient = useCMSApolloClient();
+
   const rhhcConfig = useRHHCConfig({
     apolloClient: cmsClient,
     eventsApolloClient: apolloClient,

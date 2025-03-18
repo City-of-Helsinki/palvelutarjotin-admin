@@ -1,10 +1,4 @@
-import {
-  PageDocument,
-  PageIdType,
-  PageQuery,
-  PageQueryVariables,
-} from '../generated/graphql-cms';
-import cmsClient from './client';
+import AppConfig from '../domain/app/AppConfig';
 
 export const slugsToUriSegments = (slugs: string[]): string[] => {
   return slugs.map((slug, index) => {
@@ -40,17 +34,6 @@ export const normalizeCmsUri = (uri: string) => {
   return removeSurroundingSlashes(stripLocaleFromUri(uri));
 };
 
-export const queryPageWithUri = (uri: string) => {
-  return cmsClient.query<PageQuery, PageQueryVariables>({
-    query: PageDocument,
-    variables: {
-      // normalize uri so cache matches event different uri variations
-      id: normalizeCmsUri(uri),
-      idType: PageIdType.Uri,
-    },
-  });
-};
-
 export const replaceAll = (str: string, find: string, replace: string) => {
   return str.replace(new RegExp(find, 'g'), replace);
 };
@@ -62,3 +45,28 @@ export const unescapeDash = (str?: string): string => {
 
   return replaceAll(str, '&#x2d;', '-');
 };
+
+/**
+ * Rewrite the URLs with internal URLS.
+ * @param apolloResponseData The fetch result in JSON format
+ * @returns A JSON with manipulated content transformed with URLRewriteMapping
+ */
+export function rewriteInternalURLs(
+  apolloResponseData: Record<string, unknown>
+): Record<string, unknown> {
+  const replacer = (key: string, value: unknown) => {
+    if (typeof value === 'string') {
+      for (const { regex, replace, skip } of AppConfig.URLRewriteMapping) {
+        const re = new RegExp(regex, 'g');
+        if (re.test(value)) {
+          if (skip) {
+            return value;
+          }
+          return value.replace(re, replace);
+        }
+      }
+    }
+    return value;
+  };
+  return JSON.parse(JSON.stringify(apolloResponseData, replacer));
+}

@@ -15,7 +15,6 @@ import { Language } from '../../types';
 import { addParamsToQueryString } from '../../utils/addParamsToQueryString';
 import getLocalizedString from '../../utils/getLocalizedString';
 import { formatIntoDate, formatIntoTime } from '../../utils/time/format';
-import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -32,6 +31,7 @@ import {
   getFirstAvailableLanguage,
   getUpcomingOccurrences,
 } from './utils';
+import { clearApolloCache } from '../app/apollo/apolloClient';
 
 const Dots = () => {
   return (

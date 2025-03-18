@@ -17,7 +17,6 @@ import {
 import useNavigate from '../../hooks/useNavigate';
 import { Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
-import { clearApolloCache } from '../app/apollo/utils';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
@@ -33,6 +32,7 @@ import {
   getEventPayload,
   omitUnselectedLanguagesFromValues,
 } from './utils';
+import { clearApolloCache } from '../app/apollo/apolloClient';
 
 const CreateEventPage: React.FC = () => {
   const { id: eventIdToCopy } = useParams<{ id: string }>();
