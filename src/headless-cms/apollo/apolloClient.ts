@@ -85,6 +85,16 @@ function createCmsApolloClient(): ApolloClient<NormalizedCacheObject> {
     persistedCacheTimeToLiveMs: AppConfig.apolloPersistedCacheTimeToLiveMs,
   });
 
+  // The cache is restored from localStorage if it exists and has not expired.
+  // If the cache has expired, it is purged and the cache is restored from the network.
+  // This is done to avoid flashing on the UI (menus, languages, etc).
+  //
+  // NOTE: The Cache Persistor `purge` and `restore` are async functions, so __we should await them__
+  // to avoid racing conditions: __It might be that the cache is not restored when the first query is made.__
+  // In these cases, the cache will be restored in the background, but a new query will be made to the network,
+  // since we cannot await the async function to finish in a sync function and don't have the cache yet,
+  // A React-Router and it's navigation components and tools helps to hide this issue, since the user can navigate
+  // without rerendering the whole app again and then the Apollo cache is not cleared during the route changes.
   (async () => {
     if (apolloCachePersistor.hasPersistedCacheExpired()) {
       // eslint-disable-next-line no-console
