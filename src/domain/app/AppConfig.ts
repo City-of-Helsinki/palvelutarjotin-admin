@@ -29,7 +29,55 @@ function getEnvAsList(variable?: string) {
   return variable.split(',').map((e) => e.trim());
 }
 
+/**
+ * Allowed environments for the application.
+ */
+const ALLOWED_ENVIRONMENTS = [
+  'development',
+  'review',
+  'testing',
+  'staging',
+  'production',
+] as const;
+
+/**
+ * Type alias for allowed environments.
+ */
+type Environment = (typeof ALLOWED_ENVIRONMENTS)[number];
+
+/**
+ * Typeguard to check if a string is a valid `Environment`.
+ *
+ * @param env - The string to check.
+ * @returns `true` if the string is a valid `Environment`, `false` otherwise.
+ */
+function isEnvironment(env: string): env is Environment {
+  return ALLOWED_ENVIRONMENTS.includes(env as Environment);
+}
+
 class AppConfig {
+  static appName = 'kultus-admin-ui';
+
+  /**
+   * Gets the current environment of the application.
+   *
+   * The possible values are defined by `ALLOWED_ENVIRONMENTS`.
+   * Defaults to 'development' if the environment variable `VITE_ENVIRONMENT` is not set.
+   *
+   * @returns The current environment as a string.
+   * @throws {Error} If the environment variable `VITE_ENVIRONMENT` has an invalid value.
+   */
+  static get environment(): Environment {
+    const env =
+      (import.meta.env.VITE_ENVIRONMENT as Environment) || 'development';
+
+    if (!isEnvironment(env)) {
+      throw new Error(`Invalid environment: ${env}`);
+    }
+
+    return env;
+  }
+
   /** The origin URL (protocol + hostname + port) of the application. */
   static get origin() {
     return getEnvAsUrl('VITE_APP_ORIGIN').origin;
@@ -211,6 +259,18 @@ class AppConfig {
         replace: '/cms-page/$1',
       },
     ];
+  }
+
+  /**
+   * How long should the Apollo peristed cache be kept in local storage.
+   * Read env variable `VITE_APOLLO_PERSISTED_CACHE_TIME_TO_LIVE_MS`.
+   * Time in milliseconds. Defaults to 10 minutes.
+   */
+  static get apolloPersistedCacheTimeToLiveMs() {
+    return (
+      Number(import.meta.env.VITE_APOLLO_PERSISTED_CACHE_TIME_TO_LIVE_MS) ||
+      1000 * 60 * 10
+    ); // 10 minutes by default;
   }
 }
 
