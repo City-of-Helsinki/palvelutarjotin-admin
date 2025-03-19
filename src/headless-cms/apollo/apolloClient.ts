@@ -14,6 +14,10 @@ import { useRef } from 'react';
 import { createCMSApolloCache } from './cache';
 import { rewriteInternalURLs } from '../utils';
 import AppConfig from '../../domain/app/AppConfig';
+import {
+  LogLevel as PersistorLogLevel,
+  TimedApolloCachePersistor,
+} from './persistor';
 
 export let cmsApolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
@@ -70,10 +74,29 @@ function createCmsApolloClient(): ApolloClient<NormalizedCacheObject> {
     fetch,
   });
 
+  const cache = createCMSApolloCache();
+
+  const apolloCachePersistor = new TimedApolloCachePersistor(cache, {
+    logLevel: PersistorLogLevel.WARN,
+    persistedCacheTimeToLiveMs: AppConfig.apolloPersistedCacheTimeToLiveMs,
+  });
+
+  (async () => {
+    if (apolloCachePersistor.hasPersistedCacheExpired()) {
+      // eslint-disable-next-line no-console
+      console.info('Persisted cache has expired.');
+      await apolloCachePersistor.purge();
+    } else {
+      await apolloCachePersistor.restore();
+      // eslint-disable-next-line no-console
+      console.info('Persisted cache has been restored.');
+    }
+  })();
+
   return new ApolloClient({
     connectToDevTools: true,
     link: ApolloLink.from([errorLink, transformInternalURLs, httpLink]),
-    cache: createCMSApolloCache(),
+    cache,
   });
 }
 
