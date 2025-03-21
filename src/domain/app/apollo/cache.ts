@@ -3,16 +3,16 @@ import {
   InMemoryCache,
   StoreObject,
 } from '@apollo/client';
-const excludeArgs =
-  (excludedArgs: string[]) =>
-  (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    args: Record<string, any> | null
-  ) =>
-    args
-      ? Object.keys(args).filter((key: string) => !excludedArgs.includes(key))
-      : false;
 
+function excludeArgs(excludedArgs: string[]) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return function (args: Record<string, any> | null) {
+    const excludedArgsSet = new Set(excludedArgs);
+    return args
+      ? Object.keys(args).filter((key: string) => !excludedArgsSet.has(key))
+      : false;
+  };
+}
 export const createApolloCache = () =>
   new InMemoryCache({
     typePolicies: {

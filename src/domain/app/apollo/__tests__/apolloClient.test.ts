@@ -81,25 +81,25 @@ describe('initializeApolloClient', () => {
 
     expect(restoreSpy).toHaveBeenCalled();
     const mergedState = restoreSpy.mock.calls[0][0] as any;
-
-    expect(mergedState.ROOT_QUERY!.initialField).toEqual('initialValue');
-    expect(
-      mergedState.ROOT_QUERY!.existingEmbeddedField!.embeddedField
-    ).toEqual('embeddedValue');
-    expect(
-      mergedState.ROOT_QUERY!.existingEmbeddedField!.staticEmbeddedField
-    ).toEqual('staticEmbeddedValue');
-    expect(
-      mergedState.ROOT_QUERY!.existingEmbeddedField!.newEmbeddedField
-    ).toEqual('newValue');
-    expect(mergedState.ROOT_QUERY!.existingField).toEqual('existingValue');
-    // In array, the source array is initial state and then the new values are appended.
-    expect(mergedState.ROOT_QUERY!.arrayField).toEqual([
-      { __typename: 'ArrayFieldType', value: 1 },
-      { __typename: 'ArrayFieldType', value: 2 },
-      { __typename: 'ArrayFieldType', value: 4 },
-      { __typename: 'ArrayFieldType', value: 3 },
-      { __typename: 'ArrayFieldType', value: 5 },
-    ]);
+    expect(mergedState).toEqual({
+      ROOT_QUERY: {
+        __typename: 'Query',
+        existingField: 'existingValue',
+        initialField: 'initialValue',
+        existingEmbeddedField: {
+          __typename: 'EmbeddedType',
+          embeddedField: 'embeddedValue',
+          staticEmbeddedField: 'staticEmbeddedValue',
+          newEmbeddedField: 'newValue',
+        },
+        arrayField: [
+          { __typename: 'ArrayFieldType', value: 1 },
+          { __typename: 'ArrayFieldType', value: 2 },
+          { __typename: 'ArrayFieldType', value: 4 },
+          { __typename: 'ArrayFieldType', value: 3 },
+          { __typename: 'ArrayFieldType', value: 5 },
+        ],
+      },
+    });
   });
 });
