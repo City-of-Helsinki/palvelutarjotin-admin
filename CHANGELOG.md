@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.15.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.1...palvelutarjotin-admin-v1.15.0) (2025-03-21)
+
+
+### Features
+
+* **apollo:** Cache persistor for cms client ([a8f78db](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a8f78dbec695789795c496bc321b768b8478dd52))
+* **apollo:** Clients refactored and added CMS URL rewriting rules ([4e60a9c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4e60a9c572bf401d7a585099b625b72e379e5c4f))
+* **apollo:** Prepopulate languages query cache ([4c66b7b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4c66b7bffc8bd0fedab9ac8f33a0eca2c571cfea))
+* **dependabot:** Configure dependabot using .github/dependabot.yml ([28c54f8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/28c54f82980b99b3556425ae84f37b6e74dd89e4))
+* **license:** Add LICENSE file using MIT license ([8c40d42](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8c40d42d24b80f934b6cdb93a5382784761d187d))
+* Use react-router Link with HCRC-lib ([20a54bf](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/20a54bff83808d4d7d50cfaeda796270a55052cf))
+
+
+### Bug Fixes
+
+* **dependabot:** Remove inexistent kuva-frontend team from reviewers ([85c0b87](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/85c0b875dfd5f4c338904a866e000965202a4dd9))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.0...palvelutarjotin-admin-v1.14.1) (2024-12-11)
 
 
