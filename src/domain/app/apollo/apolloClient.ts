@@ -160,7 +160,7 @@ export function useApolloClient(
 
 /**
  * Reset the global variable for Apollo Client.
- * NOTE: Helps in unit tests when running multipel tests simultaneously.
+ * NOTE: Helps in unit tests when running multiple tests simultaneously.
  */
 export function resetApolloClient() {
   apolloClient = undefined;
