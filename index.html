@@ -1,21 +1,39 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/hds-favicon-kit/favicon-32x32.ico" sizes="any" />
-    <link rel="icon" href="/hds-favicon-kit/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/hds-favicon-kit/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Staff UI for Kultus Admin" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <title>Kultus Admin</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/hds-favicon-kit/favicon-32x32.ico" sizes="any" />
+  <link rel="icon" href="/hds-favicon-kit/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/hds-favicon-kit/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Staff UI for Kultus Admin" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta http-equiv="Content-Security-Policy" content="
+                block-all-mixed-content;
+                default-src 'self';
+                script-src 'self' https://m.youtube.com https://www.youtube.com https://webanalytics.digiaiiris.com;
+                style-src 'self' 'unsafe-inline';
+                object-src 'none';
+                frame-src 'self' *.hel.fi *.hel.ninja *.youtube.com www.youtube-nocookie.com *.vimeo.com;
+                img-src 'self' data: *.hel.fi *.hel.ninja *.ytimg.com *.youtube.com *.vimeo.com *.vimeocdn.com *.blob.core.windows.net *.hkih.hion.dev;
+                font-src 'self' *.hel.fi *.hel.ninja;
+                connect-src 'self' localhost:* 127.0.0.1:* *.hel.fi *.hel.ninja *.hkih.hion.dev *.digiaiiris.com;
+                manifest-src 'self';
+                base-uri 'self';
+                form-action 'self';
+                media-src 'self' *.hel.fi *.hel.ninja *.hkih.hion.dev;
+                worker-src 'self';
+              " />
+  <title>Kultus Admin</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -25,6 +43,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script type="module" src="/src/index.tsx"></script>
-  </body>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
 </html>
