@@ -1,3 +1,4 @@
 src/serviceWorker.ts
 src/generated/graphql.tsx
 src/generated/graphql-cms.tsx
+build/

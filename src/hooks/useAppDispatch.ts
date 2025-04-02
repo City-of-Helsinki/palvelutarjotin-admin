@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-restricted-imports */
 import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from '../domain/app/store';
