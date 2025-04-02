@@ -8,13 +8,13 @@ import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
-import { LanguageSelectorLanguage } from '../../../types';
+import type { Language } from '../../../types';
 import styles from './menuDropdown.module.scss';
 
 export type MenuItem = {
   className?: string;
   icon?: React.ReactElement;
-  language?: LanguageSelectorLanguage;
+  language?: Language;
   onClick?: (value: string) => void;
   text: string;
   value: string;
