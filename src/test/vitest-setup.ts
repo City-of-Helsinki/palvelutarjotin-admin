@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import { cleanup } from '@testing-library/react';
 import * as matchers from 'vitest-axe/matchers';
 import { beforeEach, beforeAll, afterEach, afterAll, vi, expect } from 'vitest';
+import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 
 import { server } from './msw/server';
 import i18n from './testi18nInit';
@@ -11,6 +12,10 @@ import '@testing-library/jest-dom/vitest';
 dotenv.config({ path: './.env.test' });
 
 expect.extend(matchers);
+
+// Load error messages for Apollo client so it's easier to debug errors
+loadDevMessages();
+loadErrorMessages();
 
 // eslint-disable-next-line no-console
 const originalConsoleError = console.error;

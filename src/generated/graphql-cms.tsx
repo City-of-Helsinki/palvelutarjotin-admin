@@ -14327,9 +14327,14 @@ export function useMenuLazyQuery(
   );
 }
 export function useMenuSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<MenuQuery, MenuQueryVariables>
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<MenuQuery, MenuQueryVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<MenuQuery, MenuQueryVariables>(
     MenuDocument,
     options
@@ -14407,9 +14412,14 @@ export function usePageLazyQuery(
   );
 }
 export function usePageSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<PageQuery, PageQueryVariables>
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<PageQuery, PageQueryVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<PageQuery, PageQueryVariables>(
     PageDocument,
     options
@@ -14468,9 +14478,14 @@ export function usePagesLazyQuery(
   );
 }
 export function usePagesSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<PagesQuery, PagesQueryVariables>
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<PagesQuery, PagesQueryVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<PagesQuery, PagesQueryVariables>(
     PagesDocument,
     options
@@ -14566,12 +14581,17 @@ export function useSubPagesSearchLazyQuery(
   );
 }
 export function useSubPagesSearchSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    SubPagesSearchQuery,
-    SubPagesSearchQueryVariables
-  >
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        SubPagesSearchQuery,
+        SubPagesSearchQueryVariables
+      >
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<
     SubPagesSearchQuery,
     SubPagesSearchQueryVariables

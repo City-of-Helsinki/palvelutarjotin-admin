@@ -1,10 +1,10 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { vi } from 'vitest';
-// eslint-disable-next-line import/no-named-as-default
 import * as Router from 'react-router-dom';
+import { screen } from '@testing-library/react';
 
-import { render, screen } from '../../../utils/testUtils';
+import { customRender } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import ErrorPage from '../ErrorPage';
 
@@ -14,7 +14,7 @@ vi.mock('react-router-dom', async () => {
 });
 const navigate = vi.fn();
 it('matches snapshot', () => {
-  const { container } = render(<ErrorPage />);
+  const { container } = customRender(<ErrorPage />);
 
   expect(container).toMatchSnapshot();
 });
@@ -22,7 +22,7 @@ it('matches snapshot', () => {
 it('renders correct texts when props are provided', () => {
   const title = 'Title';
   const description = 'Description';
-  render(<ErrorPage description={description} title={title} />);
+  customRender(<ErrorPage description={description} title={title} />);
 
   expect(screen.queryByRole('heading', { name: title })).toBeVisible();
   expect(screen.queryByText(description)).toBeVisible();
@@ -30,7 +30,7 @@ it('renders correct texts when props are provided', () => {
 
 it('render correct default texts', async () => {
   vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
-  render(<ErrorPage />);
+  customRender(<ErrorPage />);
 
   expect(screen.queryByText(messages.errorPage.description)).toBeVisible();
   expect(screen.queryByText(messages.errorPage.returnToHome)).toBeVisible();

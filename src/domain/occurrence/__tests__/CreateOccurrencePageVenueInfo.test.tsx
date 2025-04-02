@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 import { toast } from 'react-toastify';
+import { configure, waitFor, screen } from '@testing-library/react';
 
 import {
   baseApolloMocks,
@@ -11,12 +12,7 @@ import {
   getUpdateEventMockResponse,
   getVenueCheckbox,
 } from '../../../test/CreateOccurrencePageTestUtils';
-import {
-  configure,
-  renderWithRoute,
-  screen,
-  waitFor,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 

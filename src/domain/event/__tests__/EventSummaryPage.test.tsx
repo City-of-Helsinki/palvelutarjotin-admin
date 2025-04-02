@@ -4,6 +4,15 @@ import * as React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { vi, Mock } from 'vitest';
+import {
+  BoundFunctions,
+  configure,
+  queries,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   CancelOccurrenceDocument,
@@ -28,21 +37,10 @@ import {
   fakePEvent,
   pageInfoMock,
 } from '../../../utils/mockDataUtils';
-import {
-  BoundFunctions,
-  configure,
-  queries,
-  render,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { customRender, renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import EventSummaryPage from '../EventSummaryPage';
-
 const includeArray = ['location', 'keywords', 'in_language'];
 
 configure({ defaultHidden: true });
@@ -356,7 +354,7 @@ it('displays event and occurrences correctly', async () => {
 });
 
 it('navigates to edit event page when edit button is clicked', async () => {
-  render(
+  customRender(
     <Routes>
       <Route
         path={`/fi${ROUTES.EVENT_SUMMARY}`}
@@ -389,7 +387,7 @@ it('navigates to edit event page when edit button is clicked', async () => {
 });
 
 it('navigates to edit occurrences page when edit occurrences button is clicked', async () => {
-  render(
+  customRender(
     <Routes>
       <Route
         path={`/fi${ROUTES.EVENT_SUMMARY}`}

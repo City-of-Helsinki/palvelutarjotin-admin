@@ -2,6 +2,8 @@ import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
+import { waitFor, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   EnrolmentStatus,
@@ -26,12 +28,7 @@ import {
   fakeStudyGroup,
   fakeVenue,
 } from '../../../utils/mockDataUtils';
-import {
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';

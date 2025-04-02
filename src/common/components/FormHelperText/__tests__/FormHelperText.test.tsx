@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { render } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import FormHelperText from '../FormHelperText';
 
 test('matches snapshot', () => {
-  const { container } = render(
+  const { container } = customRender(
     <FormHelperText text="Test" className="className" />
   );
 

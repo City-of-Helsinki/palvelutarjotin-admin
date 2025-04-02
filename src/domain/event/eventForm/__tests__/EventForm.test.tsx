@@ -1,7 +1,7 @@
 import { axe } from 'vitest-axe';
 import * as React from 'react';
 
-import { actWait, render } from '../../../../utils/testUtils';
+import { actWait, customRender } from '../../../../utils/testUtils';
 import EventForm, { createEventInitialValues } from '../EventForm';
 
 afterAll(() => {
@@ -10,7 +10,7 @@ afterAll(() => {
 });
 
 const renderForm = () =>
-  render(
+  customRender(
     <EventForm
       title="Testilomake"
       persons={[]}

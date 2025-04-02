@@ -1,12 +1,13 @@
 import * as HdsReact from 'hds-react';
 import { MockedProvider } from '@apollo/client/testing';
-import { render } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import { graphql } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import wait from 'waait';
 import { vi } from 'vitest';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   CreateMyProfileDocument,
@@ -19,11 +20,8 @@ import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakeOrganisations, fakePerson } from '../../../../utils/mockDataUtils';
 import {
-  act,
   renderWithRoute,
   RHHCConfigProviderWithProvidedApolloClient,
-  screen,
-  userEvent,
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';

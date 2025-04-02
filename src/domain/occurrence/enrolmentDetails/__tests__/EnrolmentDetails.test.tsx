@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
+import { waitFor, screen } from '@testing-library/react';
 
 import {
   EnrolmentDocument,
@@ -16,7 +17,7 @@ import {
   fakeStudyGroup,
   fakeStudyLevels,
 } from '../../../../utils/mockDataUtils';
-import { render, screen, waitFor } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import EnrolmentDetails from '../EnrolmentDetails';
 
 const enrolmentId = 'RW5yb2xtZW50Tm9kZTo1Ng==';
@@ -64,7 +65,7 @@ const getMocks = (overrides?: Partial<EnrolmentNode>) => [
 ];
 
 const renderEnrolmentDetails = (mocks = getMocks()) => {
-  return render(
+  return customRender(
     <EnrolmentDetails
       enrolmentId={enrolmentId}
       eventId=""

@@ -18,17 +18,16 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import wait from 'waait';
 
 import reducers from '../domain/app/reducers';
-import { store as reduxStore } from '../domain/app/store';
 import useRHHCConfig from '../hooks/useRHHCConfig';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
 import { createApolloCache } from '../domain/app/apollo/cache';
 
-type CustomRenderResult = RenderResult & {
+export type CustomRenderResult = RenderResult & {
   user: ReturnType<(typeof userEvent)['setup']>;
 };
 
-type CustomRender = {
+export type CustomRender = {
   (
     ui: React.ReactElement,
     options?: {
@@ -66,7 +65,7 @@ export function RHHCConfigProviderWithProvidedApolloClient({
   );
 }
 
-const customRender: CustomRender = (
+export const customRender: CustomRender = (
   ui,
   {
     routes = ['/'],
@@ -100,7 +99,7 @@ const customRender: CustomRender = (
   return { ...renderResult, user };
 };
 
-const renderWithRoute: CustomRender = (
+export const renderWithRoute: CustomRender = (
   ui,
   {
     routes = ['/'],
@@ -137,10 +136,7 @@ const renderWithRoute: CustomRender = (
   return { ...renderResult, user };
 };
 
-const actWait = (amount?: number) => act(() => wait(amount));
-
-// eslint-disable-next-line import/export
-export { actWait, reduxStore, customRender as render, renderWithRoute };
+export const actWait = (amount?: number) => act(() => wait(amount));
 
 export type PasteEvent = {
   clipboardData: {
@@ -167,40 +163,3 @@ export const pasteToTextEditor = (
   const pasteEvent = createEvent.paste(editor, eventProperties);
   fireEvent(editor, pasteEvent);
 };
-
-// re-export everything
-// eslint-disable-next-line import/export
-export * from '@testing-library/react';
-export { default as userEvent } from '@testing-library/user-event';
-
-// /**
-//  * There is a problem in userEvent clear and userEvent type
-//  * and some reason why the field needs to be touched, so it would act properly.
-//  * Issue: https://github.com/testing-library/user-event/discussions/970
-//  * */
-// export const fixUserEventWrapper = async (
-//   action:
-//     | {
-//         element: Element;
-//         check: () => Promise<void>;
-//       }
-//     | {
-//         element: Element;
-//         type: () => Promise<void>;
-//       }
-//     | {
-//         element: Element;
-//         clear: () => Promise<void>;
-//       }
-// ) => {
-//   if ('type' in action) {
-//     await userEvent.type(action.element, 'fix');
-//     await action.type();
-//   } else if ('clear' in action) {
-//     await action.clear();
-//     await action.clear();
-//   } else if ('check' in action) {
-//     await action.check();
-//     await action.check();
-//   }
-// };

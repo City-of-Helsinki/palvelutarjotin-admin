@@ -2,6 +2,8 @@ import * as HdsReact from 'hds-react';
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import { vi } from 'vitest';
+import { waitFor, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import * as graphql from '../../../generated/graphql';
@@ -12,12 +14,7 @@ import {
   fakePerson,
   fakePlaces,
 } from '../../../utils/mockDataUtils';
-import {
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateMyProfile from '../CreateMyProfile';
 import { OrganisationsOrganisationTypeChoices } from '../../../generated/graphql';

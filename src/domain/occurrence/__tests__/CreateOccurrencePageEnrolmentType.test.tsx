@@ -2,6 +2,8 @@ import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
+import { configure, waitFor, within, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   baseApolloMocks,
@@ -12,14 +14,7 @@ import {
   placeId,
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeOccurrences } from '../../../utils/mockDataUtils';
-import {
-  configure,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';

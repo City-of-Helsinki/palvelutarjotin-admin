@@ -1,14 +1,15 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { waitFor, screen } from '@testing-library/react';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { render, screen, waitFor } from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import ApproveEnrolmentModal from '../ApproveEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
 
 it('matches snapshot', async () => {
-  const { baseElement } = render(
+  const { baseElement } = customRender(
     <ApproveEnrolmentModal
       onClose={vi.fn()}
       approveEnrolment={vi.fn()}
@@ -29,7 +30,7 @@ it('matches snapshot', async () => {
 it('renders correctly and calls approve enrolment handler', async () => {
   const onCloseHandler = vi.fn();
   const approveEnrolmentHandler = vi.fn();
-  render(
+  customRender(
     <ApproveEnrolmentModal
       onClose={onCloseHandler}
       approveEnrolment={approveEnrolmentHandler}
@@ -76,7 +77,7 @@ it('renders correctly and calls approve enrolment handler', async () => {
 });
 
 it('opens message section when checkbox is clicked and text can be written', async () => {
-  render(
+  customRender(
     <ApproveEnrolmentModal
       onClose={vi.fn()}
       approveEnrolment={vi.fn()}
@@ -99,7 +100,7 @@ it('opens message section when checkbox is clicked and text can be written', asy
 });
 
 it('renders enrollees list correctly', async () => {
-  render(
+  customRender(
     <ApproveEnrolmentModal
       onClose={vi.fn()}
       approveEnrolment={vi.fn()}

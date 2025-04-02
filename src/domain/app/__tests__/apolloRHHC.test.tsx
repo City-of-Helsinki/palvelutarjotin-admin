@@ -17,8 +17,7 @@ import {
 
 import useRHHCConfig from '../../../hooks/useRHHCConfig';
 import {
-  render as customRender,
-  renderHook as customRenderHook,
+  customRender,
   RHHCConfigProviderWithProvidedApolloClient,
 } from '../../../utils/testUtils';
 
@@ -39,7 +38,7 @@ const mocks = [
 describe('test issues in connection between the apollo client and the RHHC-lib', () => {
   describe('apollo client should work with RHHC-lib', () => {
     it('has apollo client initialized properly in the config', () => {
-      const { result } = customRenderHook(() => useConfig());
+      const { result } = renderHook(() => useConfig());
       expect(result.current.apolloClient).not.toBeNull();
     });
 

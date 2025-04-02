@@ -5,6 +5,8 @@ import { graphql, GraphQLContext, ResponseComposition } from 'msw';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
+import { act, screen, waitFor, within } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import AppRoutes from '../../../domain/app/routes/AppRoutes';
 import { ROUTES } from '../../../domain/app/routes/constants';
@@ -22,14 +24,7 @@ import {
   fakePerson,
   pageInfoMock,
 } from '../../../utils/mockDataUtils';
-import {
-  act,
-  render,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { customRender } from '../../../utils/testUtils';
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
 import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
@@ -386,7 +381,7 @@ const getBreadcrumbsContainer = () =>
 // FIXME: The pages are not refreshing the content for some reason
 test.skip('renders CMS page and navigation flow works', async () => {
   const { menuItems } = initCmsMenuItemsMocks();
-  const { container } = render(<AppRoutes />, {
+  const { container } = customRender(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
     mocks: apolloMocks,
   });
@@ -502,7 +497,7 @@ test.skip('renders CMS page and navigation flow works', async () => {
 });
 
 test('CMS sub pages can be searched', async () => {
-  render(
+  customRender(
     <Routes>
       <Route path={`/fi${ROUTES.CMS_PAGE}`} element={<CmsPage />} />
       <Route path={`/fi${ROUTES.CMS_PAGE}/:subslug`} element={<CmsPage />} />
@@ -611,7 +606,7 @@ test('renders with sidebar layout when sidebar has content', async () => {
       }) as any
   );
   initCmsMenuItemsMocks();
-  render(<AppRoutes />, {
+  customRender(<AppRoutes />, {
     routes: [`/fi${ROUTES.CMS_PAGE.replace(':slug', 'paasivu')}`],
     mocks: apolloMocks,
   });

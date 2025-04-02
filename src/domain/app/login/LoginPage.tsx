@@ -1,7 +1,7 @@
 import { Button, useOidcClient } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import Container from '../layout/Container';
 import PageWrapper from '../layout/PageWrapper';

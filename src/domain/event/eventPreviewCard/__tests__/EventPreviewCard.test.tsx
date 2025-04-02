@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { screen } from '@testing-library/react';
 
 import {
   fakeEvent,
@@ -8,7 +9,7 @@ import {
   fakePEvent,
   fakePlace,
 } from '../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import EventPreviewCard from '../EventPreviewCard';
 import { PlaceDocument } from '../../../../generated/graphql';
 
@@ -64,9 +65,12 @@ it('renders event information correctly and matches snapshot', () => {
     }),
   });
 
-  const { container } = render(<EventPreviewCard event={event} link={href} />, {
-    mocks,
-  });
+  const { container } = customRender(
+    <EventPreviewCard event={event} link={href} />,
+    {
+      mocks,
+    }
+  );
   const link = screen.getByRole('link', {
     name: /testinimi/i,
   });
@@ -84,7 +88,7 @@ it('renders event information correctly and matches snapshot', () => {
 it('render multiday occurrence dates correctly', () => {
   vi.setSystemTime(new Date(2021, 9, 20));
 
-  render(
+  customRender(
     <EventPreviewCard
       event={fakeEvent({
         location: place,

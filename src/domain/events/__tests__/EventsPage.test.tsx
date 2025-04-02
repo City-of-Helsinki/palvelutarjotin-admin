@@ -2,6 +2,8 @@
 import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import { toast } from 'react-toastify';
+import { configure, waitFor, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Event,
@@ -17,13 +19,7 @@ import {
   fakePerson,
   fakePlace,
 } from '../../../utils/mockDataUtils';
-import {
-  configure,
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../utils/testUtils';
+import { customRender } from '../../../utils/testUtils';
 import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from '../constants';
 import EventsPage from '../EventsPage';
 
@@ -246,7 +242,7 @@ const apolloPlaceEventMocks = [
 ];
 
 const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
-  return render(<EventsPage />, {
+  return customRender(<EventsPage />, {
     mocks: [...apolloMocks, ...(mocks ?? [])],
     initialState: {
       organisation: {
@@ -323,14 +319,12 @@ test('renders events list and load more events button works', async () => {
     ]
   `);
 
-  expect(consoleErrorSpy.mock.calls).toMatchInlineSnapshot(`
+  expect(consoleErrorSpy.mock.calls.at(-1)).toMatchInlineSnapshot(`
     [
-      [
-        "Failed to fetch more events",
-        {
-          "error": [ApolloError: Error!],
-        },
-      ],
+      "Failed to fetch more events",
+      {
+        "error": [ApolloError: Error!],
+      },
     ]
   `);
 }, 20_000);

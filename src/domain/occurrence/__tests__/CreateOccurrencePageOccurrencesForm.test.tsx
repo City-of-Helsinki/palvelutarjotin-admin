@@ -1,6 +1,14 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { addDays, format, parse as parseDate } from 'date-fns';
 import * as React from 'react';
+import {
+  configure,
+  fireEvent,
+  waitFor,
+  within,
+  screen,
+} from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -19,15 +27,7 @@ import {
   selectLocation,
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
-import {
-  configure,
-  fireEvent,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { DATE_FORMAT, DATETIME_FORMAT } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';

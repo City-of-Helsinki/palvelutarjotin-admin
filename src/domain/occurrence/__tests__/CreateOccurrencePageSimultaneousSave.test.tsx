@@ -4,6 +4,8 @@ import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
+import { configure, waitFor, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -20,13 +22,7 @@ import {
   venueDescription,
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
-import {
-  configure,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import {
   DATETIME_FORMAT,
   formatIntoDate,

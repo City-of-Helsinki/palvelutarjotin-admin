@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { screen } from '@testing-library/react';
 
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import SrOnly from '../SrOnly';
 
 test('matches snapshot 1', () => {
-  const { container } = render(<SrOnly as="h1">Test</SrOnly>);
+  const { container } = customRender(<SrOnly as="h1">Test</SrOnly>);
 
   const srElement = screen.getByText('Test');
   expect(srElement.tagName).toBe('H1');
@@ -13,7 +14,7 @@ test('matches snapshot 1', () => {
 });
 
 test('matches snapshot 2', () => {
-  const { container } = render(<SrOnly as="h2">Test</SrOnly>);
+  const { container } = customRender(<SrOnly as="h2">Test</SrOnly>);
 
   const srElement = screen.getByText('Test');
   expect(srElement.tagName).toBe('H2');
@@ -22,7 +23,7 @@ test('matches snapshot 2', () => {
 });
 
 test('matches snapshot 3', () => {
-  const { container } = render(
+  const { container } = customRender(
     <SrOnly className="testClass" as="span">
       Test
     </SrOnly>
