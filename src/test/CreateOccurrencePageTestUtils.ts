@@ -1,6 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { faker } from '@faker-js/faker';
 import parseDate from 'date-fns/parse';
+import { screen, waitFor, within } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../common/components/autoSuggest/contants';
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
@@ -40,7 +42,6 @@ import {
   fakePlaces,
   fakeVenue,
 } from '../utils/mockDataUtils';
-import { screen, userEvent, waitFor, within } from '../utils/testUtils';
 import { DATETIME_FORMAT } from '../utils/time/format';
 
 type Languages = 'fi' | 'en' | 'sv';

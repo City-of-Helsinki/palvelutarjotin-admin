@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
+import { configure, waitFor, within, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';
@@ -26,14 +28,7 @@ import {
   venueDescription,
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
-import {
-  configure,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import {
   DATE_FORMAT,
   DATETIME_FORMAT,

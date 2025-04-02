@@ -4,14 +4,15 @@ import * as React from 'react';
 import { vi } from 'vitest';
 import { MenuItem } from 'react-helsinki-headless-cms';
 import { MockedResponse } from '@apollo/client/testing';
-import { waitFor, within } from '@testing-library/react';
+import { waitFor, within, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import Header from '../Header';
 import {
   headerMenuMock,
@@ -65,7 +66,7 @@ it('Header matches snapshot', async () => {
         isRenewing: () => false,
       }) as any
   );
-  const { container } = render(<Header />, { mocks });
+  const { container } = customRender(<Header />, { mocks });
   await screen.findByText('Kulttuurikasvatus');
   expect(container.firstChild).toMatchSnapshot();
 });
@@ -78,7 +79,7 @@ it('focuses skip link first', async () => {
         isRenewing: () => false,
       }) as any
   );
-  render(<Header />, { mocks });
+  customRender(<Header />, { mocks });
   await screen.findByText('Kulttuurikasvatus');
   await userEvent.tab();
   const skipToContent = await screen.findByText('Siirry sisältöön');
@@ -96,7 +97,7 @@ test('header renders cms menu items at top level and directly underneath', async
         isRenewing: () => false,
       }) as any
   );
-  render(<Header />, { mocks });
+  customRender(<Header />, { mocks });
   await screen.findByRole('button', { name: 'Suomi' });
   await screen.findByText('Kulttuurikasvatus');
 

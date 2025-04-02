@@ -1,10 +1,11 @@
 import { graphql } from 'msw';
 import * as React from 'react';
+import { screen, waitFor } from '@testing-library/react';
 
 import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { server } from '../../../test/msw/server';
 import { fakePage } from '../../../utils/cmsMockDataUtils';
-import { render, screen, waitFor } from '../../../utils/testUtils';
+import { customRender } from '../../../utils/testUtils';
 import AppRoutes from '../routes/AppRoutes';
 import ScrollToTop, { resetFocusId } from '../ScrollToTop';
 
@@ -33,7 +34,7 @@ const TestComponent = () => {
 // FIXME: change the history to navigate
 test.skip('focuses and scrolls to top when route changes', async () => {
   const scrollSpy = vi.spyOn(window, 'scrollTo');
-  render(<TestComponent />, { routes: ['/fi'] });
+  customRender(<TestComponent />, { routes: ['/fi'] });
 
   const loginButton = await screen.findByRole('button', {
     name: 'Kirjaudu sisään',

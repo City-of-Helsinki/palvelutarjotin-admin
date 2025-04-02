@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { waitFor } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
 
 import formatTimeRange from '../../../../utils/formatTimeRange';
 import {
@@ -8,7 +8,7 @@ import {
   fakePEvent,
   fakePlace,
 } from '../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import { formatLocalizedDate } from '../../../../utils/time/format';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
 import { PlaceDocument } from '../../../../generated/graphql';
@@ -51,7 +51,7 @@ const mockOccurrence = fakeOccurrence({
 });
 
 const renderComponent = (props?: Partial<Props>) => {
-  return render(
+  return customRender(
     <OccurrencesTableSummary
       loadingOccurrences={[]}
       occurrences={[mockOccurrence]}

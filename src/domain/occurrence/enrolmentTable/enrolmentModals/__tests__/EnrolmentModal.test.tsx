@@ -1,11 +1,12 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { screen } from '@testing-library/react';
 
-import { render, screen } from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import EnrolmentModal from '../EnrolmentModal';
 
 it('matches snapshot', () => {
-  const { baseElement } = render(
+  const { baseElement } = customRender(
     <EnrolmentModal
       title="Title"
       onClose={vi.fn()}
@@ -22,7 +23,7 @@ it('matches snapshot', () => {
 
 it('renders correctly and calls onClose handler when close button is clicked', async () => {
   const onCloseHandler = vi.fn();
-  render(
+  customRender(
     <EnrolmentModal
       title="Title"
       onClose={onCloseHandler}

@@ -3,13 +3,14 @@ import i18n from 'i18next';
 import { graphql } from 'msw';
 import * as React from 'react';
 import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
+import { act, waitFor } from '@testing-library/react';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
-import { act, render, waitFor } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
 import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 import {
@@ -93,7 +94,7 @@ beforeEach(() => {
 const wrapperCreator = async (route: string) =>
   // FIXME: Remove this workaround and see if warning can be fixed in better way:
   await act(async () => {
-    render(<AppRoutes />, { routes: [route], mocks });
+    customRender(<AppRoutes />, { routes: [route], mocks });
   });
 
 afterEach(() => {

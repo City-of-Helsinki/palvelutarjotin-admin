@@ -1,7 +1,8 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { configure, screen } from '@testing-library/react';
 
-import { configure, render, screen } from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import messages from '../../../../app/i18n/fi.json';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -10,7 +11,7 @@ import PickQueueEnrolmentModal from '../PickQueueEnrolmentModal';
 configure({ defaultHidden: true });
 
 it('matches snapshot', () => {
-  const { baseElement } = render(
+  const { baseElement } = customRender(
     <PickQueueEnrolmentModal
       onClose={vi.fn()}
       pickQueueEnrolment={vi.fn()}
@@ -24,7 +25,7 @@ it('matches snapshot', () => {
 it('renders correctly and calls delete enrolment handler when button is clicked', async () => {
   const onCloseHandler = vi.fn();
   const pickQueueEnrolmentHandler = vi.fn();
-  render(
+  customRender(
     <PickQueueEnrolmentModal
       onClose={onCloseHandler}
       pickQueueEnrolment={pickQueueEnrolmentHandler}
@@ -52,7 +53,7 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
 });
 
 it('renders enrollees list correctly', async () => {
-  render(
+  customRender(
     <PickQueueEnrolmentModal
       onClose={vi.fn()}
       pickQueueEnrolment={vi.fn()}

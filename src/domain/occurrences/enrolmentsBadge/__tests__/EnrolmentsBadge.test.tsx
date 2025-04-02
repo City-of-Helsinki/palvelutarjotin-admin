@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { screen } from '@testing-library/react';
 
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import EnrolmentBadge from '../EnrolmentsBadge';
 
 it('matches snapshot', () => {
-  const { container } = render(
+  const { container } = customRender(
     <EnrolmentBadge
       approvedSeatsCount={10}
       pendingSeatsCount={10}
@@ -16,7 +17,7 @@ it('matches snapshot', () => {
 });
 
 it('renders seat numbers', () => {
-  render(
+  customRender(
     <EnrolmentBadge
       approvedSeatsCount={10}
       pendingSeatsCount={20}

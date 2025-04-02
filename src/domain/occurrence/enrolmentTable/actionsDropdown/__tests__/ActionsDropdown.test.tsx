@@ -1,15 +1,12 @@
 import * as React from 'react';
 import Modal from 'react-modal';
+import { screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { tableDropdownTestId } from '../../../../../common/components/tableDropdown/TableDropdown';
 import { DeclineEnrolmentDocument } from '../../../../../generated/graphql';
 import { fakeEnrolment } from '../../../../../utils/mockDataUtils';
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
 const eventId = 'testEventId123';
@@ -41,7 +38,7 @@ const mocks = [
 ];
 
 const renderComponent = (props?: Partial<Props>) => {
-  return render(
+  return customRender(
     <ActionsDropdown
       eventId={eventId}
       row={mockEnrolment}

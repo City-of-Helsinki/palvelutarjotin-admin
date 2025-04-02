@@ -4,6 +4,8 @@ import * as React from 'react';
 import * as Router from 'react-router-dom';
 import wait from 'waait';
 import { vi } from 'vitest';
+import { screen, waitFor, act } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';
@@ -23,13 +25,7 @@ import {
   fakeStudyGroup,
   fakeStudyLevels,
 } from '../../../utils/mockDataUtils';
-import {
-  act,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
 import { store } from '../../app/store';

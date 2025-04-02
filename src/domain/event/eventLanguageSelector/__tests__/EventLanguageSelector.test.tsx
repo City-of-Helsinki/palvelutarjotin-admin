@@ -1,8 +1,9 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { screen } from '@testing-library/react';
 
 import { Language } from '../../../../types';
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import EventLanguageSelector from '../EventLanguageSelector';
 
 const languagesProp = [
@@ -41,7 +42,7 @@ const languagesProp = [
 
 test('language selector button are rendered correctly', async () => {
   const onClickMock = vi.fn();
-  render(
+  customRender(
     <EventLanguageSelector
       selectedLanguage="fi"
       languages={languagesProp}

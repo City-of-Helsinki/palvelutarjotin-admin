@@ -1,14 +1,15 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { configure, screen } from '@testing-library/react';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { configure, render, screen } from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import DeleteEnrolmentModal from '../DeleteEnrolmentModal';
 
 configure({ defaultHidden: true });
 
 it('matches snapshot', () => {
-  const { baseElement } = render(
+  const { baseElement } = customRender(
     <DeleteEnrolmentModal
       onClose={vi.fn()}
       deleteEnrolment={vi.fn()}
@@ -22,7 +23,7 @@ it('matches snapshot', () => {
 it('renders correctly and calls delete enrolment handler when button is clicked', async () => {
   const onCloseHandler = vi.fn();
   const deleteEnrolmentHandler = vi.fn();
-  render(
+  customRender(
     <DeleteEnrolmentModal
       onClose={onCloseHandler}
       deleteEnrolment={deleteEnrolmentHandler}

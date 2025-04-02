@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
+import { screen, waitFor, within } from '@testing-library/react';
 
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import * as useLocale from '../../../hooks/useLocale';
@@ -22,12 +23,7 @@ import {
   shortDescription,
 } from '../../../test/EventPageTestUtil';
 import { Language } from '../../../types';
-import {
-  renderWithRoute,
-  screen,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import EditEventPage, { NAVIGATED_FROM } from '../EditEventPage';
 

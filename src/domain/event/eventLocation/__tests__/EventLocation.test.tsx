@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { faker } from '@faker-js/faker';
+import { screen } from '@testing-library/react';
 
 import { PlaceDocument, VenueDocument } from '../../../../generated/graphql';
 import {
@@ -8,7 +9,7 @@ import {
   fakePlace,
   fakeVenue,
 } from '../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import EventLocation from '../EventLocation';
 
 const streetAddress = 'Soukantie 4';
@@ -65,7 +66,7 @@ const mocks = [
 ];
 
 test('renders correctly', async () => {
-  render(<EventLocation eventData={{ event }} language={'fi' as any} />, {
+  customRender(<EventLocation eventData={{ event }} language={'fi' as any} />, {
     mocks,
   });
 

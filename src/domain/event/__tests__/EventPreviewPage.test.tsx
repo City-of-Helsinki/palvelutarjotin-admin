@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { screen, waitFor } from '@testing-library/react';
 
 import { EventDocument } from '../../../generated/graphql';
 import {
@@ -12,7 +13,7 @@ import {
   fakePerson,
   fakePEvent,
 } from '../../../utils/mockDataUtils';
-import { renderWithRoute, screen, waitFor } from '../../../utils/testUtils';
+import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import EventPreviewPage from '../EventPreviewPage';

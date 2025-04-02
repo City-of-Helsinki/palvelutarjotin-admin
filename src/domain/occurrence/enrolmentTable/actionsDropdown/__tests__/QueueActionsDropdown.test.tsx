@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Modal from 'react-modal';
+import { screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { tableDropdownTestId } from '../../../../../common/components/tableDropdown/TableDropdown';
 import {
@@ -13,12 +15,7 @@ import {
   fakePEvent,
   fakeStudyGroup,
 } from '../../../../../utils/mockDataUtils';
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import QueueActionsDropdown, { Props } from '../QueueActionsDropdown';
 
 const pEventId = 'testEventId123';
@@ -115,7 +112,7 @@ const mocks = [
 ];
 
 const renderComponent = (props?: Partial<Props>) => {
-  return render(
+  return customRender(
     <QueueActionsDropdown
       occurrenceId={occurrenceId}
       eventId={linkedEventId}

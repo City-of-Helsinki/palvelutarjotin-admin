@@ -4,6 +4,13 @@ import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
 import { ApolloClient } from '@apollo/client';
+import {
+  configure,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
@@ -63,15 +70,7 @@ import {
   fakePlace,
   fakePlaces,
 } from '../../../utils/mockDataUtils';
-import {
-  configure,
-  fireEvent,
-  pasteToTextEditor,
-  render,
-  screen,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
+import { pasteToTextEditor, customRender } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
 import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
@@ -518,7 +517,7 @@ test('event can be created with form', async () => {
   );
   vi.spyOn(Router, 'useParams').mockReturnValue({});
   vi.setSystemTime(new Date(2020, 7, 8));
-  render(<CreateEventPage />, { mocks });
+  customRender(<CreateEventPage />, { mocks });
 
   await fillForm(partialDefaultFormData);
   await screen.findByText('Sivulla on tallentamattomia muutoksia');
@@ -545,7 +544,7 @@ test('event can be created with form', async () => {
 
 describe('Event price section', () => {
   test('price field is accessible only when isFree field is not checked', async () => {
-    render(<CreateEventPage />, { mocks });
+    customRender(<CreateEventPage />, { mocks });
     await screen.findByLabelText(/Tapahtuma on ilmainen/);
 
     expect(screen.getByLabelText(/Tapahtuma on ilmainen/)).toBeChecked();
@@ -565,7 +564,7 @@ describe('Event price section', () => {
   test.each(['15 euroa', 'kysy tarjousta', '9.99', '9,99'])(
     'price field allows a free text',
     async (testText) => {
-      render(<CreateEventPage />, { mocks });
+      customRender(<CreateEventPage />, { mocks });
       await screen.findByLabelText(/Tapahtuma on ilmainen/);
       await userEvent.click(screen.getByLabelText(/Tapahtuma on ilmainen/));
       await userEvent.type(screen.getByLabelText(/Hinta/), testText);
@@ -579,7 +578,7 @@ describe('Event price section', () => {
   );
 
   test('price field in a required field when is free is not checked', async () => {
-    render(<CreateEventPage />, { mocks });
+    customRender(<CreateEventPage />, { mocks });
     const freeEvent = await screen.findByLabelText(/Tapahtuma on ilmainen/);
     await userEvent.click(freeEvent);
     expect(
@@ -607,7 +606,7 @@ describe('Language selection', () => {
   });
 
   it('has Finnish, Swedish and English as language options', async () => {
-    render(<CreateEventPage />, { mocks });
+    customRender(<CreateEventPage />, { mocks });
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
@@ -624,7 +623,7 @@ describe('Language selection', () => {
   });
 
   test('translatable fields appears in selected languages', async () => {
-    render(<CreateEventPage />, { mocks });
+    customRender(<CreateEventPage />, { mocks });
     const languageSelector = await screen.findByTestId(
       formLanguageSelectorTestId
     );
@@ -677,7 +676,7 @@ describe('Language selection', () => {
   test.skip('filled fields for unselected languages are cleared when submitting the form', async () => {
     const genericSwedishValue = 'SV translation';
 
-    render(<CreateEventPage />, {
+    customRender(<CreateEventPage />, {
       mocks: mocks,
     });
 
@@ -729,7 +728,7 @@ describe('Language selection', () => {
       vi.spyOn(useLocale, 'default').mockImplementation(
         () => locale as Language
       );
-      render(<CreateEventPage />, {
+      customRender(<CreateEventPage />, {
         mocks: mocks,
       });
       const languageSelector = await screen.findByTestId(
@@ -766,7 +765,7 @@ describe('Copy event', () => {
   });
 
   it('initializes copied event correctly', async () => {
-    render(<CreateEventPage />, {
+    customRender(<CreateEventPage />, {
       mocks: editMocks,
     });
 

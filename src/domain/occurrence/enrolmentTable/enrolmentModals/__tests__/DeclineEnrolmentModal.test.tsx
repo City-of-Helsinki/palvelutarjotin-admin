@@ -1,9 +1,9 @@
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { waitFor } from '@testing-library/react';
+import { waitFor, configure, screen } from '@testing-library/react';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
-import { configure, render, screen } from '../../../../../utils/testUtils';
+import { customRender } from '../../../../../utils/testUtils';
 import DeclineEnrolmentModal from '../DeclineEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
@@ -11,7 +11,7 @@ import persons from '../mocks/persons';
 configure({ defaultHidden: true });
 
 it('matches snapshot', async () => {
-  const { baseElement } = render(
+  const { baseElement } = customRender(
     <DeclineEnrolmentModal
       onClose={vi.fn()}
       declineEnrolment={vi.fn()}
@@ -41,7 +41,7 @@ it('matches snapshot', async () => {
 it('renders correctly and calls decline enrolment handler', async () => {
   const onCloseHandler = vi.fn();
   const declineEnrolmentHandler = vi.fn();
-  render(
+  customRender(
     <DeclineEnrolmentModal
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
@@ -70,7 +70,7 @@ it('renders correctly and calls decline enrolment handler', async () => {
 it('calls close handle when close button is clicked', async () => {
   const onCloseHandler = vi.fn();
   const declineEnrolmentHandler = vi.fn();
-  render(
+  customRender(
     <DeclineEnrolmentModal
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
@@ -88,7 +88,7 @@ it('calls close handle when close button is clicked', async () => {
 });
 
 it('renders enrollees list correctly', async () => {
-  render(
+  customRender(
     <DeclineEnrolmentModal
       onClose={vi.fn()}
       declineEnrolment={vi.fn()}

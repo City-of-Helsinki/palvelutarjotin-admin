@@ -1,13 +1,9 @@
 import React from 'react';
 import { vi } from 'vitest';
-import { waitFor } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
-import {
-  pasteToTextEditor,
-  render,
-  screen,
-  userEvent,
-} from '../../../../utils/testUtils';
+import { pasteToTextEditor, customRender } from '../../../../utils/testUtils';
 import TextEditor, { TextEditorProps } from '../TextEditor';
 
 const label = 'Text editor label';
@@ -21,7 +17,7 @@ const defaultProps: TextEditorProps = {
 };
 
 const renderComponent = (props?: Partial<TextEditorProps>) =>
-  render(<TextEditor {...defaultProps} {...props} />);
+  customRender(<TextEditor {...defaultProps} {...props} />);
 
 test('should call onChange', async () => {
   const onChange = vi.fn();

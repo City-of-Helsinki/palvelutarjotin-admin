@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { screen } from '@testing-library/react';
 
 import { PlaceDocument } from '../../../../generated/graphql';
 import {
   fakeLocalizedObject,
   fakePlace,
 } from '../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../utils/testUtils';
+import { customRender } from '../../../../utils/testUtils';
 import PlaceInfo from '../PlaceInfo';
 
 const placeResult = {
@@ -32,9 +33,12 @@ const mocks = [
 ];
 
 test('PlaceInfo should match snapshot', async () => {
-  const { container } = render(<PlaceInfo language="fi" id={placeId!} />, {
-    mocks,
-  });
+  const { container } = customRender(
+    <PlaceInfo language="fi" id={placeId!} />,
+    {
+      mocks,
+    }
+  );
 
   expect(await screen.findByText('Sellon kirjasto')).toBeInTheDocument();
 
