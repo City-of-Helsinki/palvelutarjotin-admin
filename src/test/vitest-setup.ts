@@ -18,29 +18,6 @@ loadDevMessages();
 loadErrorMessages();
 
 // eslint-disable-next-line no-console
-const originalConsoleError = console.error;
-// eslint-disable-next-line no-console
-console.error = (message) => {
-  // Hide CSS processing failure in JSDOM
-  // @see https://github.com/jsdom/jsdom/issues/2005
-  // @example "Error: Could not parse CSS stylesheet"
-  //          at exports.createStylesheet
-  //             (jsdom/lib/jsdom/living/helpers/stylesheets.js)
-  //          at HTMLStyleElementImpl._updateAStyleBlock
-  //             (jsdom/lib/jsdom/living/nodes/HTMLStyleElement-impl.js)
-  if (
-    message &&
-    typeof message === 'string' &&
-    message.startsWith('Error: Could not parse CSS stylesheet') &&
-    message.includes('jsdom') &&
-    message.includes('at HTMLStyleElementImpl._updateAStyleBlock')
-  ) {
-    return;
-  }
-  originalConsoleError(message);
-};
-
-// eslint-disable-next-line no-console
 const originalConsoleWarn = console.warn;
 // eslint-disable-next-line no-console
 console.warn = (msg, ...optionalParams) => {
