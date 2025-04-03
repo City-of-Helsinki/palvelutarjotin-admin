@@ -139,9 +139,7 @@ const useEventFormEditSubmit = (
         console.error(e);
       }
       // TODO: Improve error handling when API returns more informative errors
-      toast(t('editEvent.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('editEvent.error'));
     }
   };
 

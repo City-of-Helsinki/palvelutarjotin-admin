@@ -47,9 +47,7 @@ const EventPublish: React.FC<Props> = ({ event }) => {
       }
       toast.success(t('eventSummary.eventHasBeenPublished'));
     } catch (error) {
-      toast(t('occurrences.errorEventPublicationFailed'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('occurrences.errorEventPublicationFailed'));
       // eslint-disable-next-line no-console
       console.error('Failed to publish event', { error });
     }

@@ -43,13 +43,9 @@ const QueueActionsDropdown: React.FC<Props> = ({
           (e) => e?.extensions?.code === 'ALREADY_JOINED_EVENT_ERROR'
         )
       ) {
-        toast(t('enrolment.pickQueueEnrolmentDuplicateEntryError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.pickQueueEnrolmentDuplicateEntryError'));
       } else {
-        toast(t('enrolment.pickQueueEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.pickQueueEnrolmentError'));
       }
     },
     onCompleted: () => {
@@ -62,9 +58,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
     onError: (error) => {
       // eslint-disable-next-line no-console
       console.error(error.message);
-      toast(t('enrolment.deleteEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('enrolment.deleteEnrolmentError'));
     },
     onCompleted: () => {
       setDeleteModalOpen(false);

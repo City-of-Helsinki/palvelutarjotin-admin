@@ -51,9 +51,7 @@ const MyProfilePage: React.FC = () => {
       scrollToTop();
       setIsSaved(true);
     } catch (error) {
-      toast(t('editMyProfile.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('editMyProfile.error'));
       setIsSaved(false);
       // eslint-disable-next-line no-console
       console.error('Failed to update my profile', { error });

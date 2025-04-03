@@ -44,9 +44,7 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
         const code = extensions && extensions['code'];
         switch (code) {
           case 'PERMISSION_DENIED_ERROR':
-            toast(i18n.t('apollo.graphQLErrors.permissionDeniedError'), {
-              type: toast.TYPE.ERROR,
-            });
+            toast.error(i18n.t('apollo.graphQLErrors.permissionDeniedError'));
             break;
           default:
             if (import.meta.env.DEV) {
