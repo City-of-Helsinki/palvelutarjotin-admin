@@ -1,4 +1,4 @@
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 
@@ -12,12 +12,12 @@ import ScrollToTop, { resetFocusId } from '../ScrollToTop';
 beforeEach(() => {
   initCmsMenuItemsMocks();
   server.use(
-    graphql.query('Page', (req, res, ctx) => {
-      return res(
-        ctx.data({
+    graphql.query('Page', () => {
+      return HttpResponse.json({
+        data: {
           page: fakePage(),
-        })
-      );
+        },
+      });
     })
   );
 });
