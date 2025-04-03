@@ -1,7 +1,7 @@
 import * as HdsReact from 'hds-react';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, act, screen } from '@testing-library/react';
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -60,12 +60,12 @@ beforeEach(() => {
       }) as any
   );
   server.use(
-    graphql.query('Page', (req, res, ctx) => {
-      return res(
-        ctx.data({
+    graphql.query('Page', () => {
+      return HttpResponse.json({
+        data: {
           page: fakePage(),
-        })
-      );
+        },
+      });
     })
   );
 });

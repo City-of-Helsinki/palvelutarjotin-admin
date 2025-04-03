@@ -1,7 +1,7 @@
 import * as HdsReact from 'hds-react';
 import { MockedResponse } from '@apollo/client/testing';
 import { dequal } from 'dequal';
-import { graphql, GraphQLContext, ResponseComposition } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
@@ -11,7 +11,13 @@ import { userEvent } from '@testing-library/user-event';
 import AppRoutes from '../../../domain/app/routes/AppRoutes';
 import { ROUTES } from '../../../domain/app/routes/constants';
 import { MyProfileDocument } from '../../../generated/graphql';
-import { PageIdType } from '../../../generated/graphql-cms';
+import {
+  PageIdType,
+  PageQuery,
+  PageQueryVariables,
+  SubPagesSearchQuery,
+  SubPagesSearchQueryVariables,
+} from '../../../generated/graphql-cms';
 import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { server } from '../../../test/msw/server';
 import {
@@ -190,10 +196,10 @@ const subPagesMocks = [
     response: {
       page: {
         id: 'page',
-        __typename: 'Page',
+        __typename: 'Page' as const,
         children: {
           pageInfo: {
-            endCursor: 10,
+            endCursor: '10',
             hasNextPage: false,
           },
           edges: searchablePages.map((p) => ({
@@ -217,10 +223,10 @@ const subPagesMocks = [
     response: {
       page: {
         id: 'page2',
-        __typename: 'Page',
+        __typename: 'Page' as const,
         children: {
           pageInfo: {
-            endCursor: 10,
+            endCursor: '10',
             hasNextPage: false,
           },
           edges: [
@@ -312,66 +318,43 @@ vi.mock('hds-react', async () => {
   };
 });
 
-const handleMockError = ({
-  query,
-  variables,
-  ctx,
-  res,
-}: {
-  query: string;
-  variables: any;
-  ctx: GraphQLContext<Record<string, any>>;
-  res: ResponseComposition<any>;
-}) => {
-  // eslint-disable-next-line no-console
-  console.error('Missing mock with variables: ', variables);
-  return res(
-    ctx.errors([
-      {
-        message: `Missing mock for the following query: \n\r\n\rquery: ${query} \n\rvariables: ${JSON.stringify(
-          variables,
-          null,
-          2
-        )}`,
-      },
-    ])
-  );
-};
-
 beforeEach(() => {
   server.use(
-    graphql.query('Page', (req, res, ctx) => {
-      const mock = mocks.Page.find(({ variables }) => {
-        return dequal(variables, req.variables);
+    graphql.query<PageQuery, PageQueryVariables>('Page', ({ variables }) => {
+      const mock = mocks.Page.find(({ variables: mockVariables }) => {
+        return dequal(mockVariables, variables);
       });
 
       if (mock) {
-        return res(ctx.data(mock.response));
+        return HttpResponse.json({
+          data: mock.response,
+        });
       }
 
-      return handleMockError({
-        res,
-        ctx,
-        variables: req.variables,
-        query: 'Page',
-      });
+      throw new Error(
+        `Missing Page query mock with variables: ${JSON.stringify(variables)}`
+      );
     }),
-    graphql.query('SubPagesSearch', (req, res, ctx) => {
-      const mock = mocks.SubPagesSearch.find(({ variables }) => {
-        return dequal(variables, req.variables);
-      });
+    graphql.query<SubPagesSearchQuery, SubPagesSearchQueryVariables>(
+      'SubPagesSearch',
+      ({ variables }) => {
+        const mock = mocks.SubPagesSearch.find(
+          ({ variables: mockVariables }) => {
+            return dequal(mockVariables, variables);
+          }
+        );
 
-      if (mock) {
-        return res(ctx.data(mock.response));
+        if (mock) {
+          return HttpResponse.json({
+            data: mock.response,
+          });
+        }
+
+        throw new Error(
+          `Missing SubPagesSearch query mock with variables: ${JSON.stringify(variables)}`
+        );
       }
-
-      return handleMockError({
-        res,
-        ctx,
-        variables: req.variables,
-        query: 'SubPagesSearch',
-      });
-    })
+    )
   );
 });
 

@@ -1,5 +1,5 @@
 import * as HdsReact from 'hds-react';
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { vi } from 'vitest';
 import { MenuItem } from 'react-helsinki-headless-cms';
@@ -48,12 +48,12 @@ const mocks: MockedResponse[] = [
 beforeEach(() => {
   initCmsMenuItemsMocks();
   server.use(
-    graphql.query('Page', (req, res, ctx) => {
-      return res(
-        ctx.data({
+    graphql.query('Page', () => {
+      return HttpResponse.json({
+        data: {
           page: fakePage(),
-        })
-      );
+        },
+      });
     })
   );
 });

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import i18n from 'i18next';
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
 import { act, waitFor } from '@testing-library/react';
@@ -78,12 +78,12 @@ const mocks = [
 beforeEach(() => {
   initCmsMenuItemsMocks();
   server.use(
-    graphql.query('Page', (req, res, ctx) => {
-      return res(
-        ctx.data({
+    graphql.query('Page', () => {
+      return HttpResponse.json({
+        data: {
           page: fakePage(),
-        })
-      );
+        },
+      });
     })
   );
 
