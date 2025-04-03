@@ -70,9 +70,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [approveEnrolment, { loading: loadingApproveEnrolment }] =
     useApproveEnrolmentMutation({
       onError: (error) => {
-        toast(t('enrolment.approveEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.approveEnrolmentError'));
         // eslint-disable-next-line no-console
         console.error('Could not approve enrolment', { error });
       },
@@ -82,9 +80,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [declineEnrolment, { loading: loadingDeclineEnrolment }] =
     useDeclineEnrolmentMutation({
       onError: (error) => {
-        toast(t('enrolment.declineEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.declineEnrolmentError'));
         // eslint-disable-next-line no-console
         console.error('Could not decline enrolment', { error });
       },
@@ -94,9 +90,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [deleteEnrolment, { loading: loadingDeleteEnrolment }] =
     useDeleteEnrolmentMutation({
       onError: (error) => {
-        toast(t('enrolment.deleteEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.deleteEnrolmentError'));
         // eslint-disable-next-line no-console
         console.error('Could not delete enrolment', { error });
       },

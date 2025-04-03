@@ -444,9 +444,7 @@ const OccurrencesForm: React.FC<{
       // Put form values back if mutation happens to fail.
       action.setValues(values);
       // TODO: Improve error handling when API returns more informative errors
-      toast(t('createOccurrence.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('createOccurrence.error'));
       // eslint-disable-next-line no-console
       console.error('Failed to create occurrence', { error });
     }
@@ -467,9 +465,7 @@ const OccurrencesForm: React.FC<{
           },
         });
       } catch (error) {
-        toast(t('occurrences.deleteError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('occurrences.deleteError'));
         // eslint-disable-next-line no-console
         console.error('Failed to delete occurrence', { error });
       }

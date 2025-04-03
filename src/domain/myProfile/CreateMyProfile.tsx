@@ -29,9 +29,7 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
       });
       refetch();
     } catch (error) {
-      toast(t('createMyProfile.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('createMyProfile.error'));
       // eslint-disable-next-line no-console
       console.error('Failed to create my profile', { error });
     }

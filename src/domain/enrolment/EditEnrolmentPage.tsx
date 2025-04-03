@@ -103,9 +103,7 @@ const EditorEnrolmentPage: React.FC = () => {
         goToOccurrenceDetailsPage({ enrolmentUpdated: true });
       }
     } catch (error) {
-      toast(t('enrolment.errors.updateFailed'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('enrolment.errors.updateFailed'));
       // eslint-disable-next-line no-console
       console.error('Failed to update enrolment', { error });
     }

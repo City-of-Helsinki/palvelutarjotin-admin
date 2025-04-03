@@ -457,9 +457,7 @@ const CreateOccurrencePage: React.FC = () => {
         // eslint-disable-next-line no-console
         console.log(e);
       }
-      toast(t('createOccurrence.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('createOccurrence.error'));
       return Promise.reject(e);
     }
   };
