@@ -65,14 +65,6 @@ Run tests and generate coverage report, meant for Continuous Integration (CI) pi
 
 Debug tests
 
-### `yarn browser-test`
-
-Run TestCafe browser tests, meant for development use.
-
-### `yarn browser-test:ci`
-
-Run TestCafe browser tests, meant for Continuous Integration (CI) pipeline use.
-
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
@@ -107,10 +99,6 @@ with commit title starting with:
 
 And then merge the release-please pull request that should've been created
 by the release-please action having been run in GitHub.
-
-## Browser tests
-
-Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
 
 ## Setting up development environment locally with docker
 

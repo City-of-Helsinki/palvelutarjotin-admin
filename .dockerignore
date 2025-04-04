@@ -9,7 +9,6 @@
 !.prettierrc.json
 !.prod
 !.release-please-manifest.json
-!.testcaferc.json
 !codegen.yml
 !commitlint.config.js
 !index.html
@@ -20,7 +19,6 @@
 !src
 !tsconfig.json
 !tsconfig.node.json
-!tsconfig.testcafe.json
 !vite.config.ts
 !vitest.config.ts
 !yarn.lock
