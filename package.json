@@ -44,7 +44,6 @@
     "@stylistic/eslint-plugin-js": "^2.13.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@testing-library/testcafe": "^5.0.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/apollo-upload-client": "^18.0.0",
     "@types/classnames": "^2.3.4",
@@ -120,7 +119,6 @@
     "redux-oidc": "^4.0.0-beta1",
     "redux-persist": "^6.0.0",
     "sass": "^1.86.2",
-    "testcafe": "^3.7.2",
     "typescript": "^5.8.2",
     "use-deep-compare-effect": "^1.8.1",
     "vite": "^6.2.5",
@@ -148,9 +146,6 @@
     "lint": "eslint --ext js,ts,tsx ./",
     "lint:fix": "eslint --ext js,ts,tsx ./ --fix",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
-    "browser-test": "testcafe \"chrome --window-size='1920,1080'\" testcafe/e2e/",
-    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report testcafe/e2e/",
-    "browser-test:ci:chromium": "testcafe \"chromium:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report testcafe/e2e/",
     "codegen": "cross-env DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml"
   },
   "browserslist": {
