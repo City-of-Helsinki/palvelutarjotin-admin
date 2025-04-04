@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
+import * as React from 'react';
 
 import { PlaceDocument, VenueDocument } from '../../../../generated/graphql';
 import {

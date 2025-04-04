@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import EventPublish from './eventPublish/EventPublish';
+import styles from './eventSummaryPage.module.scss';
 import { useDownloadEventsEnrolmentsCsvQuery } from '../../clients/apiReportClient/useReportClientQuery';
 import BackButton from '../../common/components/backButton/BackButton';
 import EditButton from '../../common/components/editButton/EditButton';
@@ -31,8 +33,6 @@ import { EnrolmentType } from '../occurrence/constants';
 import { getEnrolmentType } from '../occurrence/utils';
 import OccurrencesTableSummary from '../occurrences/occurrencesTableReadOnly/OccurrencesTableSummary';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import EventPublish from './eventPublish/EventPublish';
-import styles from './eventSummaryPage.module.scss';
 
 const PAST_OCCURRENCE_AMOUNT = 4;
 type Params = {

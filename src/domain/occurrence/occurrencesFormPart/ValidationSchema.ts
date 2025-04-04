@@ -1,7 +1,9 @@
-import addDays from 'date-fns/addDays';
-import isBefore from 'date-fns/isBefore';
-import isValidDate from 'date-fns/isValid';
-import parseDate from 'date-fns/parse';
+import {
+  addDays,
+  isBefore,
+  isValid as isValidDate,
+  parse as parseDate,
+} from 'date-fns';
 import * as Yup from 'yup';
 
 import { isInFuture } from '../../../utils/dateUtils';

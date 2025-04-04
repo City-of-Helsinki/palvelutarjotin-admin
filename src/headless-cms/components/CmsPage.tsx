@@ -1,7 +1,7 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../../domain/app/layout/Container';

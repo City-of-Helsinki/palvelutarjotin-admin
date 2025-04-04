@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from 'classnames';
 import { Button, RadioButton } from 'hds-react';
 import * as React from 'react';
@@ -47,9 +46,7 @@ const EventPublish: React.FC<Props> = ({ event }) => {
       }
       toast.success(t('eventSummary.eventHasBeenPublished'));
     } catch (error) {
-      toast(t('occurrences.errorEventPublicationFailed'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('occurrences.errorEventPublicationFailed'));
       // eslint-disable-next-line no-console
       console.error('Failed to publish event', { error });
     }

@@ -1,6 +1,4 @@
-import isBefore from 'date-fns/isBefore';
-import isValidDate from 'date-fns/isValid';
-import parseDate from 'date-fns/parse';
+import { isBefore, isValid as isValidDate, parse as parseDate } from 'date-fns';
 
 import { DATE_FORMAT, DATETIME_FORMAT, TIME_FORMAT } from './format';
 

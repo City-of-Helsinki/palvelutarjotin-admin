@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
-import KultusAdminHDSLoginCallbackHandler from '../../auth/KultusAdminHDSLoginCallbackHandler';
-import LocaleRoutes from './LocaleRoutes';
 import { ROUTES } from './constants';
+import LocaleRoutes from './LocaleRoutes';
 import SilentRenewRedirect from './SilentRenewRedirect';
+import KultusAdminHDSLoginCallbackHandler from '../../auth/KultusAdminHDSLoginCallbackHandler';
 
 const NavigateToLocalePath = () => {
   const {

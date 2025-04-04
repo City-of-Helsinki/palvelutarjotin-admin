@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
 
+import { ROUTES } from './constants';
 import CmsPage from '../../../headless-cms/components/CmsPage';
 import { Language } from '../../../types';
 import EditEnrolmentPage from '../../enrolment/EditEnrolmentPage';
@@ -17,7 +18,6 @@ import CreateEventOccurrencePage from '../../occurrence/CreateOccurrencePage';
 import EditOccurrencesPage from '../../occurrence/EditOccurrencesPage';
 import OccurrenceDetailsPage from '../../occurrence/OccurrenceDetailsPage';
 import PageLayout from '../layout/PageLayout';
-import { ROUTES } from './constants';
 
 const LocaleRoutes: React.FC<{ locale: Language }> = ({ locale }) => {
   const { i18n } = useTranslation();

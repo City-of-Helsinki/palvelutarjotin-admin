@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import FieldLabel from '../fieldLabel/FieldLabel';
 import styles from './inputWrapper.module.scss';
+import FieldLabel from '../fieldLabel/FieldLabel';
 
 export type InputWrapperProps = {
   children?: React.ReactNode;

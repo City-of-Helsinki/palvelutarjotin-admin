@@ -1,9 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import * as ICS from 'ics';
-import * as React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { vi, Mock } from 'vitest';
 import {
   BoundFunctions,
   configure,
@@ -13,6 +8,11 @@ import {
   within,
 } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import * as ICS from 'ics';
+import * as React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { vi, Mock } from 'vitest';
 
 import {
   CancelOccurrenceDocument,
@@ -48,14 +48,12 @@ configure({ defaultHidden: true });
 const originalCreateEvent = ICS.createEvent;
 
 beforeAll(() => {
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   (ICS as any).createEvent = vi.fn();
 });
 beforeEach(() => {
   vi.clearAllMocks();
 });
 afterAll(() => {
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   (ICS as any).createEvent = originalCreateEvent;
 });
 

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row } from 'react-table';
 
+import styles from './occurrencesTableSummary.module.scss';
 import Table from '../../../common/components/table/Table';
 import {
   EventQuery,
@@ -23,7 +24,6 @@ import { getEnrolmentType, isMultidayOccurrence } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from '../occurrencesTable/ActionsDropdown';
-import styles from './occurrencesTableSummary.module.scss';
 
 export interface Props {
   eventData?: EventQuery;

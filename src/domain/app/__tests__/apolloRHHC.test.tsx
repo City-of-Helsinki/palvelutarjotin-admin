@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -14,6 +13,7 @@ import {
   Navigation,
   useLanguagesQuery,
 } from 'react-helsinki-headless-cms/apollo';
+import { vi } from 'vitest';
 
 import useRHHCConfig from '../../../hooks/useRHHCConfig';
 import {

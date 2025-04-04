@@ -2,12 +2,12 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './enrolmentStatusBadge.module.scss';
 import {
   EnrolmentStatus,
   EventQueueEnrolmentStatus,
 } from '../../../generated/graphql';
 import { translateValue } from '../../../utils/translateUtils';
-import styles from './enrolmentStatusBadge.module.scss';
 
 interface Props {
   status: EnrolmentStatus | EventQueueEnrolmentStatus;

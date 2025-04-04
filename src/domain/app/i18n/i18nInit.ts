@@ -3,12 +3,11 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import intervalPlural from 'i18next-intervalplural-postprocessor';
 import { initReactI18next } from 'react-i18next';
 
-import { SUPPORT_LANGUAGES } from '../../../constants';
 import en from './en.json';
 import fi from './fi.json';
 import sv from './sv.json';
+import { SUPPORT_LANGUAGES } from '../../../constants';
 
-// eslint-disable-next-line import/no-named-as-default-member
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

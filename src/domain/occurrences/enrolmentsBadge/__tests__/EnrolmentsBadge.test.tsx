@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { screen } from '@testing-library/react';
+import * as React from 'react';
 
 import { customRender } from '../../../../utils/testUtils';
 import EnrolmentBadge from '../EnrolmentsBadge';

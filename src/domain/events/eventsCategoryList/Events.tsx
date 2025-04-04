@@ -1,11 +1,11 @@
 import React from 'react';
 
+import styles from './eventsCategoryList.module.scss';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import EventCard from '../../event/eventCard/EventCard';
 import { getEventFields } from '../../event/utils';
 import { getEnrolmentType } from '../../occurrence/utils';
-import styles from './eventsCategoryList.module.scss';
 
 export type EventsProps = {
   events: EventFieldsFragment[];

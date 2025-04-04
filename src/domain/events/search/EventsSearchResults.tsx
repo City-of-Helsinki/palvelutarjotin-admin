@@ -1,10 +1,10 @@
+import DraftEventsList from './DraftEventsList';
+import PastEventsList from './PastEventsList';
+import UpcomingEventsList from './UpcomingEventsList';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import useNavigate from '../../../hooks/useNavigate';
 import { ROUTES } from '../../app/routes/constants';
 import { useEventsSearchQueryContext } from '../hooks/useEventsSearchQueryContext';
-import DraftEventsList from './DraftEventsList';
-import PastEventsList from './PastEventsList';
-import UpcomingEventsList from './UpcomingEventsList';
 
 export default function EventsSearchResults() {
   const { pushWithLocale } = useNavigate();

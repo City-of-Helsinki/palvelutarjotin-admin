@@ -1,12 +1,10 @@
-import isFuture from 'date-fns/isFuture';
-import isValidDate from 'date-fns/isValid';
-import parseDate from 'date-fns/parse';
+import { isFuture, isValid as isValidDate, parse as parseDate } from 'date-fns';
 import * as Yup from 'yup';
 
+import { EnrolmentType } from './constants';
 import { DATE_FORMAT } from '../../utils/time/format';
 import { isValidTimeString, parseDateTimeString } from '../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { EnrolmentType } from './constants';
 
 const isValidDateValidation = (value?: string) => {
   if (!value) return false;

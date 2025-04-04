@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { getCmsPath } from '../../../domain/app/routes/utils';
-import { PageFieldsFragment } from '../../../generated/graphql-cms';
-import { stripLocaleFromUri } from '../../utils';
 import styles from './cmsSidebarContent.module.scss';
 import CmsSidebarContentCard from './CmsSidebarContentCard';
 import CmsSidebarContentLayoutLinkList from './CmsSidebarContentLayoutLinkList';
+import { getCmsPath } from '../../../domain/app/routes/utils';
+import { PageFieldsFragment } from '../../../generated/graphql-cms';
+import { stripLocaleFromUri } from '../../utils';
 
 type Props = {
   content?: PageFieldsFragment['sidebar'];

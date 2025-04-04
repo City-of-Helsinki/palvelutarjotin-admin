@@ -1,6 +1,6 @@
-import useEventsPageContext from '../hooks/useEventsPageContext';
 import EventsSearchFormContext from './EventsSearchFormContext';
 import { EventsSearchQueryProvider } from './EventsSearchQueryProvider';
+import useEventsPageContext from '../hooks/useEventsPageContext';
 
 export function EventsSearchProvider({
   children,

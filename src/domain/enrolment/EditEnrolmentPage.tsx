@@ -3,6 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import styles from './editEnrolmentPage.module.scss';
+import EnrolmentForm, {
+  defaultInitialValues,
+} from './enrolmentForm/EnrolmentForm';
+import { EnrolmentFormFields } from './types';
+import { getGroupSizeBoundaries, getUpdateEnrolmentPayload } from './utils';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -20,12 +26,6 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import { OCCURRENCE_URL_PARAMS } from '../occurrence/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import styles from './editEnrolmentPage.module.scss';
-import EnrolmentForm, {
-  defaultInitialValues,
-} from './enrolmentForm/EnrolmentForm';
-import { EnrolmentFormFields } from './types';
-import { getGroupSizeBoundaries, getUpdateEnrolmentPayload } from './utils';
 
 const EditorEnrolmentPage: React.FC = () => {
   const { enrolmentId, eventId } = useParams<{
@@ -103,9 +103,7 @@ const EditorEnrolmentPage: React.FC = () => {
         goToOccurrenceDetailsPage({ enrolmentUpdated: true });
       }
     } catch (error) {
-      toast(t('enrolment.errors.updateFailed'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('enrolment.errors.updateFailed'));
       // eslint-disable-next-line no-console
       console.error('Failed to update enrolment', { error });
     }

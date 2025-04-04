@@ -61,9 +61,7 @@ const CreateEventPage: React.FC = () => {
         // eslint-disable-next-line no-console
         console.log(err);
       }
-      toast(t('createEvent.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('createEvent.error'));
     },
     [t]
   );

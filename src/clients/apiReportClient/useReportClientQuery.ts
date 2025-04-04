@@ -39,9 +39,7 @@ function useDownloadEventsEnrolmentsCsvQuery(pEventId: string | undefined) {
     if (response.status === 200 && response?.data?.type === 'text/csv') {
       downloadFile(response.data, filename);
     } else {
-      toast(t('eventEnrolmentsReport.downloadError'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('eventEnrolmentsReport.downloadError'));
     }
   };
 }

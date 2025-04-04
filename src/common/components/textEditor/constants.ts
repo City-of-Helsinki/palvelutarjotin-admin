@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 
 export const toolbarOptions = {
   options: ['inline', 'blockType', 'list', 'link', 'history'],

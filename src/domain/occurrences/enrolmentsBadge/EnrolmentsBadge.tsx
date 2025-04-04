@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SrOnly from '../../../common/components/SrOnly/SrOnly';
 import styles from './enrolmentsBadge.module.scss';
+import SrOnly from '../../../common/components/SrOnly/SrOnly';
 
 interface EnrolmentsBadgeProps {
   approvedSeatsCount?: number | null;

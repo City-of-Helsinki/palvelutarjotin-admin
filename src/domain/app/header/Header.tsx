@@ -21,6 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useLocation, useMatch } from 'react-router-dom';
 
+import styles from './header.module.scss';
 import {
   OrganisationNodeFieldsFragment,
   useMyProfileQuery,
@@ -34,13 +35,12 @@ import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import { skipFalsyType } from '../../../utils/typescript.utils';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
+import useLogout from '../../auth/useLogout';
 import { setActiveOrganisation } from '../../organisation/actions';
 import { activeOrganisationSelector } from '../../organisation/selector';
 import AppConfig from '../AppConfig';
 import { ROUTES } from '../routes/constants';
 import { getCmsPath } from '../routes/utils';
-import styles from './header.module.scss';
-import useLogout from '../../auth/useLogout';
 
 const UserNavigation: React.FC<{
   organisations: OrganisationNodeFieldsFragment[];

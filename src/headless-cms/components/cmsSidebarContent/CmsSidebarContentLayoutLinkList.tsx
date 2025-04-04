@@ -2,8 +2,8 @@ import { IconArrowRight } from 'hds-react';
 import React from 'react';
 import { HtmlToReact } from 'react-helsinki-headless-cms';
 
-import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import styles from './cmsSidebarContentLayoutLinkList.module.scss';
+import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 
 type Link = {
   target?: string | null;

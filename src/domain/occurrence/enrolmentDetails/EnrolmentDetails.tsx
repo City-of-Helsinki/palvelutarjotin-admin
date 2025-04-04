@@ -12,6 +12,9 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import styles from './enrolmentDetails.module.scss';
+import EnrolmentInfoRow from './EnrolmentInfoRow';
+import { getNotificationInfoText } from './utils';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EnrolmentStatus,
@@ -32,9 +35,6 @@ import { joinStudyLevelLabels } from '../../studyLevel/utils';
 import ApproveEnrolmentModal from '../enrolmentTable/enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentTable/enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentTable/enrolmentModals/DeleteEnrolmentModal';
-import styles from './enrolmentDetails.module.scss';
-import EnrolmentInfoRow from './EnrolmentInfoRow';
-import { getNotificationInfoText } from './utils';
 
 interface EnrolmentDetailsProps {
   enrolmentId: string;
@@ -70,9 +70,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [approveEnrolment, { loading: loadingApproveEnrolment }] =
     useApproveEnrolmentMutation({
       onError: (error) => {
-        toast(t('enrolment.approveEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.approveEnrolmentError'));
         // eslint-disable-next-line no-console
         console.error('Could not approve enrolment', { error });
       },
@@ -82,9 +80,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [declineEnrolment, { loading: loadingDeclineEnrolment }] =
     useDeclineEnrolmentMutation({
       onError: (error) => {
-        toast(t('enrolment.declineEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.declineEnrolmentError'));
         // eslint-disable-next-line no-console
         console.error('Could not decline enrolment', { error });
       },
@@ -94,9 +90,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [deleteEnrolment, { loading: loadingDeleteEnrolment }] =
     useDeleteEnrolmentMutation({
       onError: (error) => {
-        toast(t('enrolment.deleteEnrolmentError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('enrolment.deleteEnrolmentError'));
         // eslint-disable-next-line no-console
         console.error('Could not delete enrolment', { error });
       },

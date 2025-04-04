@@ -17,11 +17,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import wait from 'waait';
 
-import reducers from '../domain/app/reducers';
-import useRHHCConfig from '../hooks/useRHHCConfig';
-import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
-import IdleTimer from '../domain/auth/IdleTimerProvider';
 import { createApolloCache } from '../domain/app/apollo/cache';
+import reducers from '../domain/app/reducers';
+import IdleTimer from '../domain/auth/IdleTimerProvider';
+import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
+import useRHHCConfig from '../hooks/useRHHCConfig';
 
 export type CustomRenderResult = RenderResult & {
   user: ReturnType<(typeof userEvent)['setup']>;

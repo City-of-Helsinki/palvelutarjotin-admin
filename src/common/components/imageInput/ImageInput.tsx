@@ -42,7 +42,7 @@ const ImageInput: React.FC<ImageInputProps> = ({
     const file = e.currentTarget.files?.[0];
     const fileSize = file?.size;
     if (fileSize && fileSize > IMAGE_MAX_SIZE) {
-      toast(t('form.error.imageTooBig'), { type: toast.TYPE.ERROR });
+      toast.error(t('form.error.imageTooBig'));
       resetImageInput();
       return;
     }

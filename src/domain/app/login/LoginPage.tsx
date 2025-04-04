@@ -3,9 +3,9 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
+import styles from './loginPage.module.scss';
 import Container from '../layout/Container';
 import PageWrapper from '../layout/PageWrapper';
-import styles from './loginPage.module.scss';
 
 const LoginPage = () => {
   const { t } = useTranslation();

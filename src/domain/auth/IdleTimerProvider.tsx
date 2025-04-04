@@ -1,5 +1,5 @@
-import React from 'react';
 import { useOidcClient } from 'hds-react';
+import React from 'react';
 import { IdleTimerProvider } from 'react-idle-timer';
 
 import AppConfig from '../app/AppConfig';

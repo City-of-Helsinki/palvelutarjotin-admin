@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+import { NormalizedCacheObject } from '@apollo/client';
 import { InMemoryCache } from '@apollo/client/cache/inmemory/inMemoryCache';
 import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist';
-import { NormalizedCacheObject } from '@apollo/client';
 
 import {
   persistorLocalStorageKey,
@@ -172,7 +173,6 @@ export class TimedApolloCachePersistor {
     const millisecondsLeft =
       persistedAt + this.persistedCacheTimeToLiveMs - Date.now();
 
-    // eslint-disable-next-line no-console
     this.logger.debug(
       'Persisted cache expires in',
       millisecondsLeft / 1000,

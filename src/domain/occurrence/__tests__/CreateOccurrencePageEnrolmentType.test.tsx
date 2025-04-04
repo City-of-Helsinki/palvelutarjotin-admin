@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { configure, waitFor, within, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
-import { configure, waitFor, within, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 
 import {
   baseApolloMocks,

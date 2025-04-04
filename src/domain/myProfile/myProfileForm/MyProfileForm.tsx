@@ -9,6 +9,8 @@ import { Button, useOidcClient } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './myProfileForm.module.scss';
+import { getMyProfileValidationSchema } from './ValidationSchema';
 import ErrorMessage from '../../../common/components/form/ErrorMessage';
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DropdownField, {
@@ -33,8 +35,6 @@ import {
 import { LanguageCodeEnum } from '../../../generated/graphql-cms';
 import useLocale from '../../../hooks/useLocale';
 import { getCmsPath } from '../../app/routes/utils';
-import styles from './myProfileForm.module.scss';
-import { getMyProfileValidationSchema } from './ValidationSchema';
 
 export type MyProfileEditFormFields = {
   emailAddress: string;

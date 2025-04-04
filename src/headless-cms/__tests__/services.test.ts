@@ -1,5 +1,5 @@
 import { dequal } from 'dequal';
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 
 import {
   PageIdType,
@@ -8,8 +8,8 @@ import {
 } from '../../generated/graphql-cms';
 import { server } from '../../test/msw/server';
 import { fakePage } from '../../utils/cmsMockDataUtils';
-import { queryPageWithUri } from '../services';
 import { initializeCMSApolloClient } from '../apollo/apolloClient';
+import { queryPageWithUri } from '../services';
 
 describe('queryPageWithUri', () => {
   it('fetches page with uri', async () => {
@@ -18,15 +18,17 @@ describe('queryPageWithUri', () => {
     const idType = PageIdType.Uri;
     const page = fakePage();
     server.use(
-      graphql.query<PageQuery, PageQueryVariables>('Page', (req, res, ctx) => {
-        if (dequal(req.variables, { id: 'test-page/nested-page', idType })) {
-          return res(
-            ctx.data({
+      graphql.query<PageQuery, PageQueryVariables>('Page', ({ variables }) => {
+        if (dequal(variables, { id: 'test-page/nested-page', idType })) {
+          return HttpResponse.json({
+            data: {
               page,
-            })
-          );
+            },
+          });
         } else {
-          return res(ctx.errors([{ message: "Variables didn't match" }]));
+          return HttpResponse.json({
+            errors: [{ message: "Variables didn't match" }],
+          });
         }
       })
     );

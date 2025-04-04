@@ -1,5 +1,6 @@
 import isNumber from 'lodash/isNumber';
 
+import { EnrolmentFormFields } from './types';
 import {
   EnrolmentFieldsFragment,
   EnrolmentStatus,
@@ -10,7 +11,6 @@ import {
   UpdateEnrolmentMutationInput,
 } from '../../generated/graphql';
 import { assertUnreachable } from '../../utils/typescript.utils';
-import { EnrolmentFormFields } from './types';
 
 export const getEnrolmentFields = (
   enrolment:

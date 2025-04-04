@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom';
 
+import useNavigate from './useNavigate';
 import deleteParamsFromQueryString from '../utils/deleteParamsFromQueryString';
 import { extractLatestReturnPath } from '../utils/extractLatestReturnPath';
-import useNavigate from './useNavigate';
 
 type Props<S> = {
   defaultReturnPath: string;

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import useNavigate from '../../../hooks/useNavigate';
 import { ROUTES } from '../../app/routes/constants';
 import styles from '../eventsPage.module.scss';
-import { useEventsSearchFormContext } from '../hooks/useEventsSearchFormContext';
 import PlaceSelector from './PlaceSelector';
+import { useEventsSearchFormContext } from '../hooks/useEventsSearchFormContext';
 
 export default function EventsSearchForm() {
   const { t } = useTranslation();

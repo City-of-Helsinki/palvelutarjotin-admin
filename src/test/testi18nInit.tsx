@@ -4,7 +4,6 @@ import { initReactI18next } from 'react-i18next';
 
 import fi from '../domain/app/i18n/fi.json';
 
-// eslint-disable-next-line import/no-named-as-default-member
 i18n
   .use(initReactI18next)
   .use(intervalPlural)

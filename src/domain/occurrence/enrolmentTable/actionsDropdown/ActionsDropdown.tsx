@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import styles from './actionsDropdown.module.scss';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
@@ -21,7 +22,6 @@ import { ROUTES } from '../../../app/routes/constants';
 import ApproveEnrolmentModal from '../enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentModals/DeleteEnrolmentModal';
-import styles from './actionsDropdown.module.scss';
 
 export interface Props {
   row: EnrolmentFieldsFragment;
@@ -48,9 +48,7 @@ const ActionsDropdown: React.FC<Props> = ({
       // TODO: Better error message
       // eslint-disable-next-line no-console
       console.log(error.message);
-      toast(t('enrolment.approveEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('enrolment.approveEnrolmentError'));
     },
     onCompleted: () => {
       setApproveModalOpen(false);
@@ -63,9 +61,7 @@ const ActionsDropdown: React.FC<Props> = ({
       // TODO: Better error message
       // eslint-disable-next-line no-console
       console.log(error.message);
-      toast(t('enrolment.declineEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('enrolment.declineEnrolmentError'));
     },
     onCompleted: () => {
       setDeclineModalOpen(false);
@@ -78,9 +74,7 @@ const ActionsDropdown: React.FC<Props> = ({
       // TODO: Better error message
       // eslint-disable-next-line no-console
       console.log(error.message);
-      toast(t('enrolment.deleteEnrolmentError'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('enrolment.deleteEnrolmentError'));
     },
     // TODO: might need a check if component is mounted
     onCompleted: () => {

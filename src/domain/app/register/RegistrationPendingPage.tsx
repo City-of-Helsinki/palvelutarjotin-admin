@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './RegistrationPendingPage.module.scss';
 import HeroBackground from '../heroBackground/HeroBackground';
 import Container from '../layout/Container';
 import PageWrapper from '../layout/PageWrapper';
-import styles from './RegistrationPendingPage.module.scss';
 
 const RegistrationPendingPage: React.FC = () => {
   const { t } = useTranslation();

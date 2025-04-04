@@ -1,4 +1,4 @@
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 
 import { MenuQuery } from '../generated/graphql-cms';
 import { fakePage } from '../utils/cmsMockDataUtils';
@@ -35,9 +35,9 @@ const mainMenu = [
 
 export const initCmsMenuItemsMocks = () => {
   server.use(
-    graphql.query('Menu', (req, res, ctx) => {
-      return res(
-        ctx.data({
+    graphql.query('Menu', () => {
+      return HttpResponse.json({
+        data: {
           menu: {
             id: 'menu',
             name: 'test',
@@ -79,8 +79,8 @@ export const initCmsMenuItemsMocks = () => {
             },
             __typename: 'Menu',
           } as MenuQuery['menu'],
-        })
-      );
+        },
+      });
     })
   );
 

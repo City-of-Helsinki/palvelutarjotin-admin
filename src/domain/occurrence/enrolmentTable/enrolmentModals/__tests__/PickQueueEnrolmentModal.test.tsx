@@ -1,6 +1,6 @@
+import { configure, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { configure, screen } from '@testing-library/react';
 
 import { customRender } from '../../../../../utils/testUtils';
 import messages from '../../../../app/i18n/fi.json';

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './eventCategorisation.module.scss';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import {
   EventQuery,
@@ -8,7 +9,6 @@ import {
 } from '../../../generated/graphql';
 import { Language } from '../../../types';
 import getLocalizedString from '../../../utils/getLocalizedString';
-import styles from './eventCategorisation.module.scss';
 
 type Props = {
   eventData: EventQuery;

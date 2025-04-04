@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { screen, waitFor } from '@testing-library/react';
+import * as React from 'react';
 
 import { EventDocument } from '../../../generated/graphql';
 import {

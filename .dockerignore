@@ -2,16 +2,14 @@
 !.env
 !.env.development
 !.env.development.local
-!.eslintignore
-!.eslintrc.json
 !.gitignore
 !.prettierignore
 !.prettierrc.json
 !.prod
 !.release-please-manifest.json
-!.testcaferc.json
 !codegen.yml
 !commitlint.config.js
+!eslint.config.mjs
 !index.html
 !package.json
 !printVersion.js
@@ -20,7 +18,6 @@
 !src
 !tsconfig.json
 !tsconfig.node.json
-!tsconfig.testcafe.json
 !vite.config.ts
 !vitest.config.ts
 !yarn.lock

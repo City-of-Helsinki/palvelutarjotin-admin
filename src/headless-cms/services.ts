@@ -1,12 +1,12 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
+import { normalizeCmsUri } from './utils';
 import {
   PageDocument,
   PageIdType,
   PageQuery,
   PageQueryVariables,
 } from '../generated/graphql-cms';
-import { normalizeCmsUri } from './utils';
 
 export const queryPageWithUri = (
   cmsApolloClient: ApolloClient<NormalizedCacheObject>,

@@ -2,11 +2,11 @@ import { Field, FormikErrors } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './eventForm.module.scss';
 import DeleteButton from '../../../common/components/deleteButton/DeleteButton';
 import TextInputField from '../../../common/components/form/fields/TextInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
 import ImagePreview from '../../image/imagePreview/ImagePreview';
-import styles from './eventForm.module.scss';
 import { CreateEventFormFields } from '../types';
 
 interface Props {

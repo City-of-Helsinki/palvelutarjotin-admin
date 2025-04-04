@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import addDays from 'date-fns/addDays';
-import parseDate from 'date-fns/parse';
+import { addDays, parse as parseDate } from 'date-fns';
 import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
@@ -352,6 +351,7 @@ const OccurrencesForm: React.FC<{
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
   const [latestOccurrenceDate, setLatestOccurrenceDate] =
     React.useState<Date | null>(null);
+  // eslint-disable-next-line @/func-call-spacing
   const [confirmAddOccurrence, setConfirmAddOccurrence] = React.useState<
     (() => void) | null
   >(null);
@@ -444,9 +444,7 @@ const OccurrencesForm: React.FC<{
       // Put form values back if mutation happens to fail.
       action.setValues(values);
       // TODO: Improve error handling when API returns more informative errors
-      toast(t('createOccurrence.error'), {
-        type: toast.TYPE.ERROR,
-      });
+      toast.error(t('createOccurrence.error'));
       // eslint-disable-next-line no-console
       console.error('Failed to create occurrence', { error });
     }
@@ -467,9 +465,7 @@ const OccurrencesForm: React.FC<{
           },
         });
       } catch (error) {
-        toast(t('occurrences.deleteError'), {
-          type: toast.TYPE.ERROR,
-        });
+        toast.error(t('occurrences.deleteError'));
         // eslint-disable-next-line no-console
         console.error('Failed to delete occurrence', { error });
       }

@@ -1,6 +1,6 @@
 import { DataProxy } from '@apollo/client/cache';
-import isBefore from 'date-fns/isBefore';
-import { TFunction } from 'i18next';
+import { isBefore } from 'date-fns';
+import type { TFunction } from 'i18next';
 import orderBy from 'lodash/orderBy';
 import uniqueId from 'lodash/uniqueId';
 
@@ -17,11 +17,11 @@ import {
   OccurrenceFieldsFragment,
   OccurrencesOccurrenceSeatTypeChoices,
 } from '../../../generated/graphql';
+import { pageInfoMock } from '../../../utils/mockDataUtils';
 import sortFavorably from '../../../utils/sortFavorably';
 import { parseDateTimeString } from '../../../utils/time/utils';
 import { OccurrenceSectionFormFields } from '../types';
 import { getDateFromDateAndTimeString, getPlaceId } from '../utils';
-import { pageInfoMock } from '../../../utils/mockDataUtils';
 
 export const getOrderedLanguageOptions = (t: TFunction) => {
   const languagesOrder = sortFavorably(

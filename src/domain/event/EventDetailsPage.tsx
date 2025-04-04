@@ -3,6 +3,9 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 
+import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
+import EventCategorisation from './eventCategorisation/EventCategorisation';
+import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import AlertModal from '../../common/components/modal/AlertModal';
 import {
@@ -12,17 +15,6 @@ import {
 import useLocale from '../../hooks/useLocale';
 import useNavigate from '../../hooks/useNavigate';
 import { Language } from '../../types';
-import { addParamsToQueryString } from '../../utils/addParamsToQueryString';
-import getLocalizedString from '../../utils/getLocalizedString';
-import { formatIntoDate, formatIntoTime } from '../../utils/time/format';
-import Container from '../app/layout/Container';
-import PageWrapper from '../app/layout/PageWrapper';
-import { ROUTES } from '../app/routes/constants';
-import ErrorPage from '../errorPage/ErrorPage';
-import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
-import EventCategorisation from './eventCategorisation/EventCategorisation';
-import EventContactPersonInfo from './eventContactPersonInfo/EventContactPersonInfo';
 import EventDetailsButtons from './eventDetailsButtons/EventDetailsButtons';
 import styles from './eventDetailsPage.module.scss';
 import EventLocation from './eventLocation/EventLocation';
@@ -31,7 +23,15 @@ import {
   getFirstAvailableLanguage,
   getUpcomingOccurrences,
 } from './utils';
+import { addParamsToQueryString } from '../../utils/addParamsToQueryString';
+import getLocalizedString from '../../utils/getLocalizedString';
+import { formatIntoDate, formatIntoTime } from '../../utils/time/format';
 import { clearApolloCache } from '../app/apollo/apolloClient';
+import Container from '../app/layout/Container';
+import PageWrapper from '../app/layout/PageWrapper';
+import { ROUTES } from '../app/routes/constants';
+import ErrorPage from '../errorPage/ErrorPage';
+import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 
 const Dots = () => {
   return (

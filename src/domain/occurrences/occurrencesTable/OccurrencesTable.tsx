@@ -3,6 +3,8 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row } from 'react-table';
 
+import ActionsDropdown from './ActionsDropdown';
+import styles from './occurrencesTable.module.scss';
 import Table from '../../../common/components/table/Table';
 import {
   EventQuery,
@@ -18,8 +20,6 @@ import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
 import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
-import ActionsDropdown from './ActionsDropdown';
-import styles from './occurrencesTable.module.scss';
 
 interface Props {
   eventData?: EventQuery;

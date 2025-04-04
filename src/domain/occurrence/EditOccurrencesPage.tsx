@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
+import { EnrolmentType } from './constants';
+import styles from './editOccurrencesPage.module.scss';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useAddOccurrenceMutation } from '../../generated/graphql';
@@ -16,8 +18,6 @@ import {
   VIRTUAL_EVENT_LOCATION_ID,
 } from '../event/constants';
 import { getEventFields } from '../event/utils';
-import { EnrolmentType } from './constants';
-import styles from './editOccurrencesPage.module.scss';
 import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
 import { getEnrolmentType, useBaseEventQuery } from './utils';
 

@@ -11,6 +11,8 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import styles from './actionsDropdown.module.scss';
+import CancelOccurrenceModal from './CancelOccurrenceModal';
 import AlertModal from '../../../common/components/modal/AlertModal';
 import TableDropdown, {
   MenuItemProps,
@@ -27,8 +29,6 @@ import getLocalisedString from '../../../utils/getLocalizedString';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getPlaceFields } from '../../place/utils';
-import styles from './actionsDropdown.module.scss';
-import CancelOccurrenceModal from './CancelOccurrenceModal';
 
 export interface Props {
   eventId: string;

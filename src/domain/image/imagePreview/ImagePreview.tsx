@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './imagePreview.module.scss';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import { useImageQuery } from '../../../generated/graphql';
-import styles from './imagePreview.module.scss';
 
 interface Props {
   id: string;

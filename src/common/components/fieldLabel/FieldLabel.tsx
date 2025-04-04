@@ -1,8 +1,8 @@
 import { Tooltip } from 'hds-react';
 import React from 'react';
 
-import { RequiredIndicator } from '../requiredIndicator/RequiredIndicator';
 import styles from './fieldLabel.module.scss';
+import { RequiredIndicator } from '../requiredIndicator/RequiredIndicator';
 
 type FieldLabelProps = {
   hidden?: boolean;

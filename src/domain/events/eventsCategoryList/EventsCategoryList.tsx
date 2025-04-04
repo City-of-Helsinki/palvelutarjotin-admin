@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { EventFieldsFragment } from '../../../generated/graphql';
 import Events from './Events';
 import EventsTitle from './EventsTitle';
 import ShowMoreButton from './ShowMoreButton';
+import { EventFieldsFragment } from '../../../generated/graphql';
 
 export interface EventsCategoryListProps {
   eventsCount: number;

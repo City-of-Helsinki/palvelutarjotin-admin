@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
 import { vi } from 'vitest';
-import { screen, waitFor, within } from '@testing-library/react';
 
 import * as graphql from '../../../generated/graphql';
 import {

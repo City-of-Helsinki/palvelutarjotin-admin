@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import * as Sentry from '@sentry/browser';
 import {
   OidcClientError,
   User,
   LoginCallbackHandler,
   useApiTokensClientTracking,
 } from 'hds-react';
-import * as Sentry from '@sentry/browser';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function KultusAdminHDSLoginCallbackHandler() {
   const { t } = useTranslation();

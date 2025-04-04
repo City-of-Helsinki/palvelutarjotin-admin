@@ -3,8 +3,8 @@ import { IconAngleDown } from 'hds-react';
 import React, { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import styles from './tableDropdown.module.scss';
+import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 
 export const tableDropdownTestId = 'table-dropdown-menu';
 

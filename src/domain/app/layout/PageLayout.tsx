@@ -2,6 +2,8 @@ import { useOidcClient } from 'hds-react';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import styles from './pageLayout.module.scss';
+import ProtectedPageWrapper from './ProtectedPageWrapper';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { TERMS_OF_SERVICE_SLUGS } from '../../../constants';
 import { useMyProfileQuery } from '../../../generated/graphql';
@@ -10,8 +12,6 @@ import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import LoginPage from '../login/LoginPage';
 import { getCmsPath } from '../routes/utils';
-import styles from './pageLayout.module.scss';
-import ProtectedPageWrapper from './ProtectedPageWrapper';
 
 export const MAIN_CONTENT_ID = 'main-content';
 
