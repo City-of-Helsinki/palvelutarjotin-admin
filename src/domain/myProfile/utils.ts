@@ -1,12 +1,12 @@
 import {
+  MyProfileCreateFormFields,
+  MyProfileEditFormFields,
+} from './myProfileForm/MyProfileForm';
+import {
   MyProfileFieldsFragment,
   OrganisationNodeFieldsFragment,
   OrganisationProposalNodeInput,
 } from '../../generated/graphql';
-import {
-  MyProfileCreateFormFields,
-  MyProfileEditFormFields,
-} from './myProfileForm/MyProfileForm';
 
 export const getMyProfileCreatePayload = (
   values: MyProfileCreateFormFields

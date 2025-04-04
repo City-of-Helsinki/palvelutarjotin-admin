@@ -1,6 +1,7 @@
-import * as React from 'react';
 import { screen } from '@testing-library/react';
+import * as React from 'react';
 
+import { PlaceDocument } from '../../../../generated/graphql';
 import {
   fakeEvent,
   fakeKeyword,
@@ -11,7 +12,6 @@ import {
 } from '../../../../utils/mockDataUtils';
 import { customRender } from '../../../../utils/testUtils';
 import EventPreviewCard from '../EventPreviewCard';
-import { PlaceDocument } from '../../../../generated/graphql';
 
 const placeId = 'test-place-id';
 const place = fakePlace({

@@ -1,13 +1,13 @@
-import * as HdsReact from 'hds-react';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, act, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import wait from 'waait';
 import { vi } from 'vitest';
-import { userEvent } from '@testing-library/user-event';
+import wait from 'waait';
 
 import {
   CreateMyProfileDocument,
@@ -15,6 +15,9 @@ import {
   OrganisationsDocument,
   OrganisationsOrganisationTypeChoices,
 } from '../../../../generated/graphql';
+import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
+import { headerMenuMock } from '../../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
@@ -25,9 +28,6 @@ import {
 } from '../../../../utils/testUtils';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
-import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
-import { headerMenuMock } from '../../../../test/apollo-mocks/headerMenuMock';
-import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');

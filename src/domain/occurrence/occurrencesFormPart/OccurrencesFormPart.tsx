@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import addDays from 'date-fns/addDays';
-import parseDate from 'date-fns/parse';
+import { addDays, parse as parseDate } from 'date-fns';
 import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
@@ -352,6 +351,7 @@ const OccurrencesForm: React.FC<{
   const [deleteOccurrence] = useDeleteOccurrenceMutation();
   const [latestOccurrenceDate, setLatestOccurrenceDate] =
     React.useState<Date | null>(null);
+  // eslint-disable-next-line @/func-call-spacing
   const [confirmAddOccurrence, setConfirmAddOccurrence] = React.useState<
     (() => void) | null
   >(null);

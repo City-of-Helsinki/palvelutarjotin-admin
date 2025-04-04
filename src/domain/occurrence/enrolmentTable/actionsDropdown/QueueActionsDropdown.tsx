@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import styles from './actionsDropdown.module.scss';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
@@ -13,7 +14,6 @@ import {
 } from '../../../../generated/graphql';
 import DeleteEnrolmentModal from '../enrolmentModals/DeleteEnrolmentModal';
 import PickQueueEnrolmentModal from '../enrolmentModals/PickQueueEnrolmentModal';
-import styles from './actionsDropdown.module.scss';
 
 export interface Props {
   row: EventQueueEnrolmentFieldsFragment;

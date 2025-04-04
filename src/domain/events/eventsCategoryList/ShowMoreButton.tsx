@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import styles from './eventsCategoryList.module.scss';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 
 export type ShowMoreButtonProps = {
   loading: boolean;

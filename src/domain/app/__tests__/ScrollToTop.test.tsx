@@ -1,6 +1,6 @@
+import { screen, waitFor } from '@testing-library/react';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
-import { screen, waitFor } from '@testing-library/react';
 
 import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { server } from '../../../test/msw/server';

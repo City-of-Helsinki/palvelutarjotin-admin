@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './eventBasicInfo.module.scss';
 import TextTitle from '../../../common/components/textTitle/TextTitle';
 import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventQuery } from '../../../generated/graphql';
@@ -10,7 +11,6 @@ import { formatIntoDate, formatIntoTime } from '../../../utils/time/format';
 import ImageInfo from '../../image/imageInfo/ImageInfo';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEnrolmentType } from '../../occurrence/utils';
-import styles from './eventBasicInfo.module.scss';
 
 type Props = {
   eventData: EventQuery;

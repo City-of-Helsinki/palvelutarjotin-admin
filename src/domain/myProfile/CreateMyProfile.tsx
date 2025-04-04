@@ -2,15 +2,15 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useCreateMyProfileMutation } from '../../generated/graphql';
-import HeroBackground from '../app/heroBackground/HeroBackground';
-import Container from '../app/layout/Container';
-import PageWrapper from '../app/layout/PageWrapper';
 import styles from './myProfile.module.scss';
 import MyProfileForm, {
   MyProfileCreateFormFields,
 } from './myProfileForm/MyProfileForm';
 import { getMyProfileCreatePayload } from './utils';
+import { useCreateMyProfileMutation } from '../../generated/graphql';
+import HeroBackground from '../app/heroBackground/HeroBackground';
+import Container from '../app/layout/Container';
+import PageWrapper from '../app/layout/PageWrapper';
 
 interface Props {
   refetch: () => void;

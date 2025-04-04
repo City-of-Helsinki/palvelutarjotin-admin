@@ -1,4 +1,4 @@
-import isSameDay from 'date-fns/isSameDay';
+import { isSameDay } from 'date-fns';
 import { Button, IconClock, IconLocation, IconPen, IconUser } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import * as React from 'react';

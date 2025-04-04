@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './additionalInfo.module.scss';
 import {
   EnrolmentFieldsFragment,
   EventQueueEnrolmentFieldsFragment,
 } from '../../../../generated/graphql';
 import { translateValue } from '../../../../utils/translateUtils';
 import { getEnrolmentFields } from '../../../enrolment/utils';
-import styles from './additionalInfo.module.scss';
 
 interface Props {
   enrolment: EnrolmentFieldsFragment | EventQueueEnrolmentFieldsFragment;

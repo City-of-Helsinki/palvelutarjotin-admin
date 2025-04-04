@@ -1,6 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { addDays, format, parse as parseDate } from 'date-fns';
-import * as React from 'react';
 import {
   configure,
   fireEvent,
@@ -9,6 +7,8 @@ import {
   screen,
 } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import { addDays, format, parse as parseDate } from 'date-fns';
+import * as React from 'react';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';

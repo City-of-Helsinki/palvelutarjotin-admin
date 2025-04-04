@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SrOnly from '../SrOnly/SrOnly';
 import styles from './EventSteps.module.scss';
+import SrOnly from '../SrOnly/SrOnly';
 
 interface EventStepsProps {
   step: 1 | 2 | 3;

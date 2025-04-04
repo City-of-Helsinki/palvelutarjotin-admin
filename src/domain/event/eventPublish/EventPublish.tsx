@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from 'classnames';
 import { Button, RadioButton } from 'hds-react';
 import * as React from 'react';

@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import merge from 'lodash/merge';
 
+import { pageInfoMock } from './mockDataUtils';
 import {
   Language,
   LanguageCodeEnum,
@@ -10,7 +11,6 @@ import {
   Post,
   Seo,
 } from '../generated/graphql-cms';
-import { pageInfoMock } from './mockDataUtils';
 
 const generateUri = () => faker.word.words().split(' ').join('/');
 

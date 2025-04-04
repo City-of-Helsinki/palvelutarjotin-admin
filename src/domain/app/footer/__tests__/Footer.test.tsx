@@ -1,12 +1,12 @@
-import * as React from 'react';
 import { MockedResponse } from '@apollo/client/testing';
-import { vi } from 'vitest';
 import { screen } from '@testing-library/react';
+import * as React from 'react';
+import { vi } from 'vitest';
 
-import Footer from '../Footer';
-import { customRender } from '../../../../utils/testUtils';
 import { footerMenuMock } from '../../../../test/apollo-mocks/footerMenuMock';
 import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+import { customRender } from '../../../../utils/testUtils';
+import Footer from '../Footer';
 
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');

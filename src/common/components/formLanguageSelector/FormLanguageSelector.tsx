@@ -3,8 +3,8 @@ import capitalize from 'lodash/capitalize';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { SUPPORT_LANGUAGES } from '../../../constants';
 import styles from './formLanguageSelector.module.scss';
+import { SUPPORT_LANGUAGES } from '../../../constants';
 
 export const formLanguageSelectorTestId = 'formLanguageSelectorTestId';
 

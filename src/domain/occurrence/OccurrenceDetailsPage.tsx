@@ -3,6 +3,12 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 
+import { EnrolmentType, OCCURRENCE_URL_PARAMS } from './constants';
+import EnrolmentDetails from './enrolmentDetails/EnrolmentDetails';
+import EnrolmentQueueTable from './enrolmentTable/EnrolmentQueueTable';
+import EnrolmentTable from './enrolmentTable/EnrolmentTable';
+import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
+import styles from './occurrencePage.module.scss';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -22,12 +28,6 @@ import { ROUTES } from '../app/routes/constants';
 import ErrorPage from '../errorPage/ErrorPage';
 import { getEventFields } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { EnrolmentType, OCCURRENCE_URL_PARAMS } from './constants';
-import EnrolmentDetails from './enrolmentDetails/EnrolmentDetails';
-import EnrolmentQueueTable from './enrolmentTable/EnrolmentQueueTable';
-import EnrolmentTable from './enrolmentTable/EnrolmentTable';
-import OccurrenceInfo from './occurrenceInfo/OccurrenceInfo';
-import styles from './occurrencePage.module.scss';
 
 type Params = {
   id: string;

@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
 import {
   removeApiTokensFromStorage,
   removeUserReferenceFromStorage,
   useOidcClient,
 } from 'hds-react';
+import { useCallback } from 'react';
 
 function useLogout() {
   const { logout } = useOidcClient();

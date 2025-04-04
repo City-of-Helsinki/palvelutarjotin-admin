@@ -4,10 +4,10 @@ import type { MenuItem } from 'react-helsinki-headless-cms';
 import { useMenuQuery } from 'react-helsinki-headless-cms/apollo';
 import { useTranslation } from 'react-i18next';
 
+import styles from './footer.module.scss';
 import { resetFocusId } from '../../../common/components/resetFocus/ResetFocus';
 import { FOOTER_MENU_NAME } from '../../../headless-cms/constants';
 import useLocale from '../../../hooks/useLocale';
-import styles from './footer.module.scss';
 
 type ValidMenuItem = {
   id: MenuItem['id'];

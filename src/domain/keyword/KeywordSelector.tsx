@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import KeywordText from './KeywordText';
 import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
@@ -14,7 +15,6 @@ import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
-import KeywordText from './KeywordText';
 import { initializeApolloClient } from '../app/apollo/apolloClient';
 
 interface Props {

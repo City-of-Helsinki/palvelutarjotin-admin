@@ -1,6 +1,6 @@
+import { waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { waitFor, screen } from '@testing-library/react';
 
 import messages from '../../../../../domain/app/i18n/fi.json';
 import { customRender } from '../../../../../utils/testUtils';

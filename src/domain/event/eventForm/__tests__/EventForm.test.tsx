@@ -1,5 +1,5 @@
-import { axe } from 'vitest-axe';
 import * as React from 'react';
+import { axe } from 'vitest-axe';
 
 import { actWait, customRender } from '../../../../utils/testUtils';
 import EventForm, { createEventInitialValues } from '../EventForm';

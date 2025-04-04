@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
+import { getStudyLevelOptions, StudyLevelOption } from './utils';
 import {
   StudyLevelNodeConnection,
   StudyLevelsQuery,
   useStudyLevelsQuery,
 } from '../../generated/graphql';
-import { getStudyLevelOptions, StudyLevelOption } from './utils';
 
 export interface StudyLevelsState {
   data: StudyLevelsQuery | undefined;

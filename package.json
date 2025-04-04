@@ -24,6 +24,12 @@
         "e.g. See https://github.com/reactjs/react-modal/issues/960",
         "NOTE: This can be removed after upgrading to react v19"
       ],
+      "globals": [
+        "Old versions of globals coming from non-eslint dependencies contain a bug that breaks eslint:",
+        "Key languageOptions: Key globals: Global AudioWorkletGlobalScope has leading or trailing whitespace",
+        "See https://github.com/sindresorhus/globals/issues/239",
+        "NOTE: This can be removed when non-eslint dependencies don't bring old versions of globals anymore"
+      ],
       "redux": [
         "To make @reduxjs/toolkit and redux related packages use single version of redux",
         "See https://redux.js.org/usage/migrations/migrating-rtk-2#overriding-dependencies"
@@ -33,6 +39,7 @@
   "resolutions": {
     "@testing-library/dom": "^10.4.0",
     "@types/react": "^18.3.20",
+    "globals": "^16.0.0",
     "redux": "^5.0.0"
   },
   "dependencies": {
@@ -41,7 +48,7 @@
     "@faker-js/faker": "^9.6.0",
     "@reduxjs/toolkit": "^2.6.1",
     "@sentry/browser": "^9.11.0",
-    "@stylistic/eslint-plugin-js": "^2.13.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -66,7 +73,6 @@
     "@types/react-table": "^7.7.20",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "@typescript-eslint/parser": "^8.29.0",
-    "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-react-swc": "^3.8.1",
     "@vitest/coverage-v8": "^3.1.1",
     "apollo-upload-client": "^18.0.1",
@@ -79,15 +85,18 @@
     "dotenv": "^16.4.7",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-import-resolver-typescript": "^4.3.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-prettier": "^5.2.6",
-    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "file-saver": "^2.0.5",
     "formik": "^2.4.6",
+    "globals": "^16.0.0",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
     "hds-design-tokens": "^3.12.0",
@@ -118,7 +127,7 @@
     "react-toastify": "^11.0.5",
     "redux-oidc": "^4.0.0-beta1",
     "redux-persist": "^6.0.0",
-    "sass": "^1.86.2",
+    "sass": "^1.86.3",
     "typescript": "^5.8.2",
     "use-deep-compare-effect": "^1.8.1",
     "vite": "^6.2.5",
@@ -143,8 +152,8 @@
     "test:staged": "cross-env TZ=Europe/Helsinki vitest related --run",
     "test:watch": "cross-env TZ=Europe/Helsinki vitest watch",
     "ci": "yarn test:coverage",
-    "lint": "eslint --ext js,ts,tsx ./",
-    "lint:fix": "eslint --ext js,ts,tsx ./ --fix",
+    "lint": "eslint src",
+    "format:code": "eslint src --fix",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
     "codegen": "cross-env DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml"
   },
@@ -173,14 +182,13 @@
     "lint-staged": "^15.5.0",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.5.3",
-    "pretty": "^2.0.0",
-    "yarn-deduplicate": "^6.0.2"
+    "pretty": "^2.0.0"
   },
   "lint-staged": {
-    "src/**/*.{tsx,ts}": [
+    "src/**/*.{js,jsx,ts,tsx,cjs,mjs}": [
       "eslint --fix",
-      "yarn test:staged",
-      "prettier --write"
+      "prettier --write",
+      "yarn test:staged"
     ]
   }
 }

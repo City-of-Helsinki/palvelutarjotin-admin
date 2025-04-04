@@ -29,15 +29,9 @@ export enum EVENT_LANGUAGES {
 }
 
 export const PRIVACY_POLICY_LINKS = {
-  fi:
-    // eslint-disable-next-line max-len
-    'https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf',
-  en:
-    // eslint-disable-next-line max-len
-    'https://hkih.production.geniem.io/uploads/sites/5/2022/11/bf2f8d34-rekisteriseloste-kultus.fi_en.pdf',
-  sv:
-    // eslint-disable-next-line max-len
-    'https://hkih.production.geniem.io/uploads/sites/5/2022/11/0d425f44-rekisteriseloste-kultus.fi_sv.pdf',
+  fi: 'https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf',
+  en: 'https://hkih.production.geniem.io/uploads/sites/5/2022/11/bf2f8d34-rekisteriseloste-kultus.fi_en.pdf',
+  sv: 'https://hkih.production.geniem.io/uploads/sites/5/2022/11/0d425f44-rekisteriseloste-kultus.fi_sv.pdf',
 };
 
 export const TERMS_OF_SERVICE_SLUGS = {

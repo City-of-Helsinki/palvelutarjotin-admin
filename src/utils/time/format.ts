@@ -1,7 +1,7 @@
-import { format, format as formatDateStr } from 'date-fns';
-import { enGB as en, fi, sv } from 'date-fns/locale';
+import { format as formatDate } from 'date-fns';
 
-import { Language } from '../../types';
+import type { Language } from '../../types';
+import { en, fi, sv } from '../date-fns/locale';
 
 const locales = { en, fi, sv };
 
@@ -12,15 +12,15 @@ export const TIME_FORMAT = 'HH:mm';
 export const DATETIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}`;
 
 export function formatIntoTime(date: Date): string {
-  return format(date, TIME_FORMAT);
+  return formatDate(date, TIME_FORMAT);
 }
 
 export function formatIntoDateTime(date: Date): string {
-  return format(date, DATETIME_FORMAT);
+  return formatDate(date, DATETIME_FORMAT);
 }
 
 export function formatIntoDate(date: Date): string {
-  return format(date, DATE_FORMAT);
+  return formatDate(date, DATE_FORMAT);
 }
 
 export function formatDateRange(start: Date, end: Date) {
@@ -36,7 +36,7 @@ export function formatLocalizedDate(
     return '';
   }
 
-  return formatDateStr(date, format, {
+  return formatDate(date, format, {
     locale: locales[locale],
   });
 }

@@ -1,11 +1,12 @@
-import * as HdsReact from 'hds-react';
 import { MockedResponse } from '@apollo/client/testing';
-import * as React from 'react';
-import { vi } from 'vitest';
 import { waitFor, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import * as HdsReact from 'hds-react';
+import * as React from 'react';
+import { vi } from 'vitest';
 
 import * as graphql from '../../../generated/graphql';
+import { OrganisationsOrganisationTypeChoices } from '../../../generated/graphql';
 import {
   fakeOrganisationProposals,
   fakeOrganisations,
@@ -14,7 +15,6 @@ import {
 import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import MyProfilePage from '../MyProfilePage';
-import { OrganisationsOrganisationTypeChoices } from '../../../generated/graphql';
 
 vi.mock('../../../generated/graphql', async () => {
   const actual = await vi.importActual('../../../generated/graphql');

@@ -1,11 +1,10 @@
-/* eslint-disable import/no-duplicates */
 import { MockedResponse } from '@apollo/client/testing';
-import * as React from 'react';
-import * as Router from 'react-router-dom';
-import wait from 'waait';
-import { vi } from 'vitest';
 import { screen, waitFor, act } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import * as React from 'react';
+import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
+import wait from 'waait';
 
 import { EnrolmentDocument } from '../../../generated/graphql';
 import * as graphqlFns from '../../../generated/graphql';

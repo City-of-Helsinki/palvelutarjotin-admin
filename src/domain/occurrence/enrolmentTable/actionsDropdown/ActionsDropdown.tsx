@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import styles from './actionsDropdown.module.scss';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
@@ -21,7 +22,6 @@ import { ROUTES } from '../../../app/routes/constants';
 import ApproveEnrolmentModal from '../enrolmentModals/ApproveEnrolmentModal';
 import DeclineEnrolmentModal from '../enrolmentModals/DeclineEnrolmentModal';
 import DeleteEnrolmentModal from '../enrolmentModals/DeleteEnrolmentModal';
-import styles from './actionsDropdown.module.scss';
 
 export interface Props {
   row: EnrolmentFieldsFragment;

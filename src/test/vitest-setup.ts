@@ -1,8 +1,8 @@
-import dotenv from 'dotenv';
-import { cleanup } from '@testing-library/react';
-import * as matchers from 'vitest-axe/matchers';
-import { beforeEach, beforeAll, afterEach, afterAll, vi, expect } from 'vitest';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
+import { cleanup } from '@testing-library/react';
+import dotenv from 'dotenv';
+import { beforeEach, beforeAll, afterEach, afterAll, vi, expect } from 'vitest';
+import * as matchers from 'vitest-axe/matchers';
 
 import { server } from './msw/server';
 import i18n from './testi18nInit';

@@ -2,9 +2,9 @@ import { Field } from 'formik';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './eventForm.module.scss';
 import ImageInputField from '../../../common/components/form/fields/ImageInputField';
 import FormGroup from '../../../common/components/form/FormGroup';
-import styles from './eventForm.module.scss';
 
 const SelectImageFormPart: React.FC = () => {
   const { t } = useTranslation();

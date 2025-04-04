@@ -1,8 +1,8 @@
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
-import { screen } from '@testing-library/react';
 
 import { fakeEvent } from '../../../../utils/mockDataUtils';
 import { customRender } from '../../../../utils/testUtils';

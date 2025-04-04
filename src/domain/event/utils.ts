@@ -1,11 +1,16 @@
-import { isFuture } from 'date-fns';
-import isFutureDate from 'date-fns/isFuture';
-import isPastDate from 'date-fns/isPast';
-import isToday from 'date-fns/isToday';
-import isTomorrow from 'date-fns/isTomorrow';
+import {
+  isFuture as isFutureDate,
+  isPast as isPastDate,
+  isToday,
+  isTomorrow,
+} from 'date-fns';
 import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
+import {
+  EVENT_PLACEHOLDER_IMAGES,
+  VIRTUAL_EVENT_LOCATION_ID,
+} from './constants';
 import { LINKEDEVENTS_CONTENT_TYPE, SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventFieldsFragment,
@@ -25,10 +30,6 @@ import {
 import { getLocalisedObject } from '../../utils/translateUtils';
 import { PUBLICATION_STATUS } from '../events/constants';
 import { getEnrolmentType, isMultidayOccurrence } from '../occurrence/utils';
-import {
-  EVENT_PLACEHOLDER_IMAGES,
-  VIRTUAL_EVENT_LOCATION_ID,
-} from './constants';
 import { createEventInitialValues } from './eventForm/EventForm';
 import { CreateEventFormFields } from './types';
 
@@ -274,8 +275,7 @@ export const getEditEventPayload = ({
       contactPhoneNumber: formValues.contactPhoneNumber,
       ...(existingEventValues.pEvent.enrolmentEndDays
         ? {
-            enrolmentEndDays:
-              Number(existingEventValues.pEvent.enrolmentEndDays) ?? 0,
+            enrolmentEndDays: existingEventValues.pEvent.enrolmentEndDays ?? 0,
           }
         : null),
       ...(existingEventValues.pEvent.enrolmentStart
@@ -283,8 +283,7 @@ export const getEditEventPayload = ({
             enrolmentStart: existingEventValues.pEvent.enrolmentStart,
           }
         : null),
-      neededOccurrences:
-        Number(existingEventValues.pEvent.neededOccurrences) ?? 1,
+      neededOccurrences: existingEventValues.pEvent.neededOccurrences,
       externalEnrolmentUrl: existingEventValues.pEvent.externalEnrolmentUrl,
       autoAcceptance: existingEventValues.pEvent.autoAcceptance ?? false,
       translations: existingEventValues.pEvent.translations?.map(
@@ -335,7 +334,7 @@ export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
   return Boolean(
     event.pEvent?.occurrences?.edges.some(
       (edge) =>
-        edge?.node?.startTime && isFuture(new Date(edge?.node?.startTime))
+        edge?.node?.startTime && isFutureDate(new Date(edge?.node?.startTime))
     )
   );
 };
@@ -350,7 +349,6 @@ export const getUpcomingOccurrences = (event?: EventFieldsFragment | null) => {
   return [];
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getEventFields = (
   event: EventFieldsFragment | undefined | null,
   locale: Language

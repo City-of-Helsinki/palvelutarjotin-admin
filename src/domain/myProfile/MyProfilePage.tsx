@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import styles from './myProfile.module.scss';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   useMyProfileQuery,
@@ -14,7 +15,6 @@ import HeroBackground from '../app/heroBackground/HeroBackground';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import ErrorPage from '../errorPage/ErrorPage';
-import styles from './myProfile.module.scss';
 import MyProfileForm, {
   MyProfileEditFormFields,
 } from './myProfileForm/MyProfileForm';

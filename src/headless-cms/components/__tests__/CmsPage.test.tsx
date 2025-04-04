@@ -1,12 +1,12 @@
-import * as HdsReact from 'hds-react';
 import { MockedResponse } from '@apollo/client/testing';
+import { act, screen, waitFor, within } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { dequal } from 'dequal';
+import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
-import { act, screen, waitFor, within } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 
 import AppRoutes from '../../../domain/app/routes/AppRoutes';
 import { ROUTES } from '../../../domain/app/routes/constants';
@@ -18,6 +18,9 @@ import {
   SubPagesSearchQuery,
   SubPagesSearchQueryVariables,
 } from '../../../generated/graphql-cms';
+import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
+import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import { initCmsMenuItemsMocks } from '../../../test/cmsMocks';
 import { server } from '../../../test/msw/server';
 import {
@@ -33,9 +36,6 @@ import {
 import { customRender } from '../../../utils/testUtils';
 import { normalizeCmsUri } from '../../utils';
 import CmsPage, { breadcrumbsContainerTestId } from '../CmsPage';
-import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
-import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
-import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 
 const wait = () => act(() => new Promise((res) => setTimeout(res, 500)));
 

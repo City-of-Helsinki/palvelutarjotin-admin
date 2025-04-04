@@ -7,9 +7,9 @@ import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 
+import styles from './menuDropdown.module.scss';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import type { Language } from '../../../types';
-import styles from './menuDropdown.module.scss';
 
 export type MenuItem = {
   className?: string;

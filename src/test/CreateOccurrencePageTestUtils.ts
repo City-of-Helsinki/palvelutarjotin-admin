@@ -1,8 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { faker } from '@faker-js/faker';
-import parseDate from 'date-fns/parse';
 import { screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import { parse as parseDate } from 'date-fns';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../common/components/autoSuggest/contants';
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';

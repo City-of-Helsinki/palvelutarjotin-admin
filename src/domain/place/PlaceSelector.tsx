@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import * as React from 'react';
 
+import PlaceText from './PlaceText';
 import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
@@ -15,7 +16,6 @@ import useDebounce from '../../hooks/useDebounce';
 import useLocale from '../../hooks/useLocale';
 import { Language } from '../../types';
 import getLocalizedString from '../../utils/getLocalizedString';
-import PlaceText from './PlaceText';
 
 interface Props {
   className?: string;

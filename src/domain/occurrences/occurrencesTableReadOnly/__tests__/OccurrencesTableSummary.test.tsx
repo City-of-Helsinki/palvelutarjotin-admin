@@ -1,6 +1,8 @@
-import * as React from 'react';
 import { waitFor, screen } from '@testing-library/react';
+import * as React from 'react';
 
+import { PlaceDocument } from '../../../../generated/graphql';
+import { createNotFoundPlaceQueryMock } from '../../../../test/apollo-mocks/placeMocks';
 import formatTimeRange from '../../../../utils/formatTimeRange';
 import {
   fakeEvent,
@@ -11,8 +13,6 @@ import {
 import { customRender } from '../../../../utils/testUtils';
 import { formatLocalizedDate } from '../../../../utils/time/format';
 import OccurrencesTableSummary, { Props } from '../OccurrencesTableSummary';
-import { PlaceDocument } from '../../../../generated/graphql';
-import { createNotFoundPlaceQueryMock } from '../../../../test/apollo-mocks/placeMocks';
 
 const startTime = new Date(2020, 11, 11).toISOString();
 const endTime = new Date(2020, 11, 11).toISOString();

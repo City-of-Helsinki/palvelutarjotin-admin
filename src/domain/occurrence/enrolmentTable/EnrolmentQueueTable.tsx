@@ -4,13 +4,13 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Column } from 'react-table';
 
+import QueueActionsDropdown from './actionsDropdown/QueueActionsDropdown';
+import AdditionalInfo from './additionalInfo/AdditionalInfo';
+import styles from './enrolmentTable.module.scss';
 import Table from '../../../common/components/table/Table';
 import { EventQueueEnrolmentFieldsFragment } from '../../../generated/graphql';
 import { formatLocalizedDate } from '../../../utils/time/format';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
-import QueueActionsDropdown from './actionsDropdown/QueueActionsDropdown';
-import AdditionalInfo from './additionalInfo/AdditionalInfo';
-import styles from './enrolmentTable.module.scss';
 
 interface Props {
   enrolments: EventQueueEnrolmentFieldsFragment[];
