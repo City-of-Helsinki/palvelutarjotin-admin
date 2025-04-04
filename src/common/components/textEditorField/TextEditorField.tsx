@@ -1,5 +1,5 @@
 import { FieldProps, useField } from 'formik';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import isNil from 'lodash/isNil';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

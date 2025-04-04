@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 
 import { createEmptyLocalizedObject } from '../constants';
 import { LocalisedObject } from '../generated/graphql';
