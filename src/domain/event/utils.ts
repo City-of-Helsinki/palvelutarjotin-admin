@@ -4,7 +4,7 @@ import {
   isToday,
   isTomorrow,
 } from 'date-fns';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
 import {

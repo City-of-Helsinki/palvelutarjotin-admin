@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormikErrors, FormikTouched } from 'formik';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import get from 'lodash/get';
 
 /** Get error text
