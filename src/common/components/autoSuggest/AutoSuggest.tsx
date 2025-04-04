@@ -14,18 +14,18 @@ import { IconCheck, IconCross } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
-import useLocale from '../../../hooks/useLocale';
-import { Language } from '../../../types';
-import ScrollIntoViewWithFocus from '../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
-import InputWrapper from '../textInput/InputWrapper';
-import inputStyles from '../textInput/inputWrapper.module.scss';
 import {
   ACCESSIBILITY_EVENT_TYPE,
   valueEventAriaMessage,
   valueFocusAriaMessage,
 } from './accessibility';
 import styles from './autoSuggest.module.scss';
+import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import useLocale from '../../../hooks/useLocale';
+import { Language } from '../../../types';
+import ScrollIntoViewWithFocus from '../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
+import InputWrapper from '../textInput/InputWrapper';
+import inputStyles from '../textInput/inputWrapper.module.scss';
 
 export type AutoSuggestOption = {
   label: string | React.ReactElement;

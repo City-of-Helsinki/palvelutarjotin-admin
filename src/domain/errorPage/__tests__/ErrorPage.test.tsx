@@ -1,8 +1,8 @@
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { vi } from 'vitest';
 import * as Router from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { customRender } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';

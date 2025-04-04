@@ -1,22 +1,22 @@
-import { onError } from '@apollo/client/link/error';
-import * as Sentry from '@sentry/browser';
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
-import { ErrorMessage } from 'formik';
-import { toast } from 'react-toastify';
 import {
   ApolloClient,
   ApolloLink,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
+import * as Sentry from '@sentry/browser';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import fetch from 'cross-fetch';
 import merge from 'deepmerge';
+import { ErrorMessage } from 'formik';
 import isEqual from 'lodash/isEqual';
 import { useRef } from 'react';
+import { toast } from 'react-toastify';
 
-import i18n from '../i18n/i18nInit';
-import { getKultusAdminApiTokenFromStorage } from '../../auth/kultusAdminApiUtils';
 import { createApolloCache } from './cache';
+import { getKultusAdminApiTokenFromStorage } from '../../auth/kultusAdminApiUtils';
 import AppConfig from '../AppConfig';
+import i18n from '../i18n/i18nInit';
 
 export let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 

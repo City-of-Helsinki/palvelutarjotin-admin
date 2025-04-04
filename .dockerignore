@@ -2,8 +2,6 @@
 !.env
 !.env.development
 !.env.development.local
-!.eslintignore
-!.eslintrc.json
 !.gitignore
 !.prettierignore
 !.prettierrc.json
@@ -11,6 +9,7 @@
 !.release-please-manifest.json
 !codegen.yml
 !commitlint.config.js
+!eslint.config.mjs
 !index.html
 !package.json
 !printVersion.js

@@ -1,11 +1,15 @@
+import { screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
-import { screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 
 import { tableDropdownTestId } from '../../../../common/components/tableDropdown/TableDropdown';
+import {
+  OccurrenceDocument,
+  PlaceDocument,
+} from '../../../../generated/graphql';
 import {
   fakeLocalizedObject,
   fakeOccurrence,
@@ -16,10 +20,6 @@ import { customRender } from '../../../../utils/testUtils';
 import { ROUTES } from '../../../app/routes/constants';
 import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
-import {
-  OccurrenceDocument,
-  PlaceDocument,
-} from '../../../../generated/graphql';
 
 const navigate = vi.fn();
 vi.mock('react-router-dom', async () => {

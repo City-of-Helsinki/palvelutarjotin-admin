@@ -1,18 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { act, waitFor } from '@testing-library/react';
 import i18n from 'i18next';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
-import { act, waitFor } from '@testing-library/react';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
-import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
-import { server } from '../../../../test/msw/server';
-import { fakePage } from '../../../../utils/cmsMockDataUtils';
-import { fakePerson } from '../../../../utils/mockDataUtils';
-import { customRender } from '../../../../utils/testUtils';
-import AppRoutes from '../AppRoutes';
-import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+import {
+  FOOTER_MENU_NAME,
+  HEADER_MENU_NAME,
+} from '../../../../headless-cms/constants';
 import {
   emptyFooterMenuQueryResponse,
   footerMenuMock,
@@ -21,10 +17,13 @@ import {
   emptyHeaderMenuQueryResponse,
   headerMenuMock,
 } from '../../../../test/apollo-mocks/headerMenuMock';
-import {
-  FOOTER_MENU_NAME,
-  HEADER_MENU_NAME,
-} from '../../../../headless-cms/constants';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
+import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
+import { server } from '../../../../test/msw/server';
+import { fakePage } from '../../../../utils/cmsMockDataUtils';
+import { fakePerson } from '../../../../utils/mockDataUtils';
+import { customRender } from '../../../../utils/testUtils';
+import AppRoutes from '../AppRoutes';
 
 const profileResponse = {
   data: {
@@ -87,7 +86,6 @@ beforeEach(() => {
     })
   );
 
-  // eslint-disable-next-line import/no-named-as-default-member
   (async () => await act(() => i18n.changeLanguage('fi')))();
 });
 

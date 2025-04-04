@@ -16,8 +16,8 @@ import {
   isConfiguredQueryPolicy,
   queryPolicies,
 } from './cache';
-import { rewriteInternalURLs } from '../utils';
 import AppConfig from '../../domain/app/AppConfig';
+import { rewriteInternalURLs } from '../utils';
 import {
   LogLevel as PersistorLogLevel,
   TimedApolloCachePersistor,

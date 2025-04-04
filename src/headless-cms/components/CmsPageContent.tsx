@@ -1,10 +1,10 @@
 import React from 'react';
 import { HtmlToReact } from 'react-helsinki-headless-cms';
 
-import Container from '../../domain/app/layout/Container';
-import { PageFieldsFragment } from '../../generated/graphql-cms';
 import styles from './cmsPage.module.scss';
 import CmsSidebarContent from './cmsSidebarContent/CmsSidebarContent';
+import Container from '../../domain/app/layout/Container';
+import { PageFieldsFragment } from '../../generated/graphql-cms';
 
 const CmsPageContent: React.FC<{
   page?: PageFieldsFragment | null;

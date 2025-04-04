@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
-import addTime from 'date-fns/add';
+import { add as addTime } from 'date-fns';
 
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
+import getLinkedEventsInternalId from './getLinkedEventsInternalId';
 import {
   EnrolmentNode,
   EnrolmentNodeConnection,
@@ -50,7 +51,6 @@ import {
   UnitNode,
   VenueNode,
 } from '../generated/graphql';
-import getLinkedEventsInternalId from './getLinkedEventsInternalId';
 
 const organizationNames = [
   'Kulttuuri- ja vapaa-aikalautakunnan kulttuurijaosto',
@@ -204,7 +204,7 @@ export const fakeOrganisationProposal = (
   name: '3rd party org',
   description: 'Organisation description',
   phoneNumber: '',
-  // eslint-disable-next-line no-use-before-define -- circular dependency
+
   applicant: fakePerson(),
   ...overrides,
 });

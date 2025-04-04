@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import styles from './cmsPageSearch.module.scss';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../../../domain/app/layout/Container';
 import { getCmsPath } from '../../../domain/app/routes/utils';
@@ -15,7 +16,6 @@ import {
 } from '../../../generated/graphql-cms';
 import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
-import styles from './cmsPageSearch.module.scss';
 import { useCMSApolloClient } from '../../apollo/apolloClient';
 
 const BLOCK_SIZE = 10;

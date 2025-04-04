@@ -1,6 +1,10 @@
-import isSameDay from 'date-fns/isSameDay';
-import parseDate from 'date-fns/parse';
+import { isSameDay, parse as parseDate } from 'date-fns';
 
+import { EnrolmentType } from './constants';
+import {
+  OccurrenceSectionFormFields,
+  TimeAndLocationFormFields,
+} from './types';
 import { LINKEDEVENTS_CONTENT_TYPE } from '../../constants';
 import {
   EventFieldsFragment,
@@ -19,11 +23,6 @@ import {
   VIRTUAL_EVENT_LOCATION_ID,
 } from '../event/constants';
 import { PUBLICATION_STATUS } from '../events/constants';
-import { EnrolmentType } from './constants';
-import {
-  OccurrenceSectionFormFields,
-  TimeAndLocationFormFields,
-} from './types';
 
 export const getDateFromDateAndTimeString = (
   dateString: string,

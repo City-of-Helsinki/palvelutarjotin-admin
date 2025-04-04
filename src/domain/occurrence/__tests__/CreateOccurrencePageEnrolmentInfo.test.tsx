@@ -1,12 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { configure, waitFor, within, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { format, parse as parseDate } from 'date-fns';
 import * as React from 'react';
 import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
-import { configure, waitFor, within, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 
 import { OccurrenceNode } from '../../../generated/graphql';
 import * as graphql from '../../../generated/graphql';

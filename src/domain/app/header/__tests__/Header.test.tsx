@@ -1,24 +1,24 @@
-import * as HdsReact from 'hds-react';
-import { graphql, HttpResponse } from 'msw';
-import * as React from 'react';
-import { vi } from 'vitest';
-import { MenuItem } from 'react-helsinki-headless-cms';
 import { MockedResponse } from '@apollo/client/testing';
 import { waitFor, within, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import * as HdsReact from 'hds-react';
+import { graphql, HttpResponse } from 'msw';
+import * as React from 'react';
+import { MenuItem } from 'react-helsinki-headless-cms';
+import { vi } from 'vitest';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
+import {
+  headerMenuMock,
+  headerMenuQueryResponse,
+} from '../../../../test/apollo-mocks/headerMenuMock';
+import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 import { initCmsMenuItemsMocks } from '../../../../test/cmsMocks';
 import { server } from '../../../../test/msw/server';
 import { fakePage } from '../../../../utils/cmsMockDataUtils';
 import { fakePerson } from '../../../../utils/mockDataUtils';
 import { customRender } from '../../../../utils/testUtils';
 import Header from '../Header';
-import {
-  headerMenuMock,
-  headerMenuQueryResponse,
-} from '../../../../test/apollo-mocks/headerMenuMock';
-import { languagesMock } from '../../../../test/apollo-mocks/languagesMock';
 
 vi.mock('hds-react', async () => {
   const actual = await vi.importActual('hds-react');

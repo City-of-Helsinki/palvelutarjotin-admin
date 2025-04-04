@@ -8,8 +8,8 @@ import {
 } from '../../generated/graphql-cms';
 import { server } from '../../test/msw/server';
 import { fakePage } from '../../utils/cmsMockDataUtils';
-import { queryPageWithUri } from '../services';
 import { initializeCMSApolloClient } from '../apollo/apolloClient';
+import { queryPageWithUri } from '../services';
 
 describe('queryPageWithUri', () => {
   it('fetches page with uri', async () => {

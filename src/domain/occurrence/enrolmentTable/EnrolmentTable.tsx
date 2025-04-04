@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Column, Row } from 'react-table';
 
+import ActionsDropdown from './actionsDropdown/ActionsDropdown';
+import AdditionalInfo from './additionalInfo/AdditionalInfo';
+import styles from './enrolmentTable.module.scss';
 import Table from '../../../common/components/table/Table';
 import {
   EnrolmentFieldsFragment,
@@ -15,9 +18,6 @@ import { formatLocalizedDate } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import EnrolmentStatusBadge from '../../enrolment/enrolmentStatusBadge/EnrolmentStatusBadge';
 import { getNumberOfParticipants } from '../../enrolment/utils';
-import ActionsDropdown from './actionsDropdown/ActionsDropdown';
-import AdditionalInfo from './additionalInfo/AdditionalInfo';
-import styles from './enrolmentTable.module.scss';
 
 interface Props {
   enrolments: EnrolmentFieldsFragment[];

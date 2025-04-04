@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import formatDate from 'date-fns/format';
+import { format as formatDate } from 'date-fns';
 import {
   Form,
   Formik,
@@ -16,6 +16,19 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
+import { defaultInitialValues, EnrolmentType } from './constants';
+import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
+import LocationFormPart from './locationFormPart/LocationFormPart';
+import styles from './occurrencePage.module.scss';
+import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';
+import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
+import {
+  LocationDescriptions,
+  OccurrenceSectionFormFields,
+  TimeAndLocationFormFields,
+} from './types';
+import { getEditEventPayload, useBaseEventQuery } from './utils';
+import ValidationSchema from './ValidationSchema';
 import BackButton from '../../common/components/backButton/BackButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
 import FocusToFirstError from '../../common/components/form/FocusToFirstError';
@@ -55,19 +68,6 @@ import {
 import { useCreateOrUpdateVenueRequest } from '../event/eventForm/useEventFormSubmitRequests';
 import { isEditableEvent } from '../event/utils';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
-import { defaultInitialValues, EnrolmentType } from './constants';
-import EnrolmentInfoFormPart from './enrolmentInfoFormPart/EnrolmentInfoFormPart';
-import LocationFormPart from './locationFormPart/LocationFormPart';
-import styles from './occurrencePage.module.scss';
-import { OccurrencesFormHandleContext } from './OccurrencesFormHandleContext';
-import OccurrencesFormPart from './occurrencesFormPart/OccurrencesFormPart';
-import {
-  LocationDescriptions,
-  OccurrenceSectionFormFields,
-  TimeAndLocationFormFields,
-} from './types';
-import { getEditEventPayload, useBaseEventQuery } from './utils';
-import ValidationSchema from './ValidationSchema';
 
 const OccurrencesFormPartWrapper: React.FC<{
   eventData: EventQuery;

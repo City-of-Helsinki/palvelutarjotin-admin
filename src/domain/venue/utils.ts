@@ -1,5 +1,6 @@
 import { ApolloClient } from '@apollo/client';
 
+import { VenueDataFields } from './types';
 import {
   CreateVenueDocument,
   CreateVenueMutation,
@@ -14,7 +15,6 @@ import {
   VenueTranslationType,
 } from '../../generated/graphql';
 import { Language } from '../../types';
-import { VenueDataFields } from './types';
 
 export const VENUE_AMENITIES = [
   'hasClothingStorage',

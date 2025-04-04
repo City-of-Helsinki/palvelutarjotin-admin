@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client';
 import React from 'react';
 
+import useIsMounted from './useIsMounted';
 import {
   PlaceDocument,
   PlaceFieldsFragment,
@@ -8,7 +9,6 @@ import {
   PlaceQueryVariables,
   useMyProfileQuery,
 } from '../generated/graphql';
-import useIsMounted from './useIsMounted';
 
 const useProfilePlaces = () => {
   const [places, setPlaces] = React.useState<PlaceFieldsFragment[] | null>(

@@ -19,10 +19,10 @@ import React from 'react';
 import { Editor, EditorState as EditorStateWysiwyg } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
-import useIsMounted from '../../../hooks/useIsMounted';
-import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 import { getTextEditorLocalization, toolbarOptions } from './constants';
 import styles from './textEditor.module.scss';
+import useIsMounted from '../../../hooks/useIsMounted';
+import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 
 const convertHtmlToEditorState = (html: string) => {
   const blocksFromHtml = htmlToDraft(html);

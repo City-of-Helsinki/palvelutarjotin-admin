@@ -3,12 +3,12 @@ import { defaultConfig as rhhcDefaultConfig } from 'react-helsinki-headless-cms'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import useLocale from './useLocale';
 import AppConfig from '../domain/app/AppConfig';
 import { MAIN_CONTENT_ID } from '../domain/app/layout/PageLayout';
 import { getCmsPath } from '../domain/app/routes/utils';
 import { stripLocaleFromUri } from '../headless-cms/utils';
 import getLanguageCode from '../utils/getLanguageCode';
-import useLocale from './useLocale';
 
 const getIsHrefExternal = (href: string) =>
   !href?.startsWith('/') &&
@@ -32,9 +32,9 @@ export default function useRHHCConfig({
     organisationPrefixes: [],
     components: {
       ...rhhcDefaultConfig.components,
-      // eslint-disable-next-line react/prop-types
+
       A: ({ href, ...props }) => <Link to={href ?? ''} {...props} />,
-      // eslint-disable-next-line react/prop-types
+
       Link: ({ href, ...props }) => <Link to={href ?? ''} {...props} />,
     },
     siteName: t('appName'),

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import useIsMounted from '../hooks/useIsMounted';
-import useLocale from '../hooks/useLocale';
+import { useCMSApolloClient } from './apollo/apolloClient';
+import { queryPageWithUri } from './services';
 import { usePageQuery } from './usePageQuery';
 import { uriToBreadcrumbs } from './utils';
-import { queryPageWithUri } from './services';
-import { useCMSApolloClient } from './apollo/apolloClient';
+import useIsMounted from '../hooks/useIsMounted';
+import useLocale from '../hooks/useLocale';
 
 export const useCmsLanguageOptions = ({
   skip = false,

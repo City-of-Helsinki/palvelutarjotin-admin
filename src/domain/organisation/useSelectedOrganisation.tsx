@@ -1,10 +1,10 @@
+import { activeOrganisationSelector } from './selector';
 import {
   OrganisationNodeFieldsFragment,
   useMyProfileQuery,
 } from '../../generated/graphql';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { getSelectedOrganisation } from '../myProfile/utils';
-import { activeOrganisationSelector } from './selector';
 
 export const useSelectedOrganisation = ():
   | OrganisationNodeFieldsFragment

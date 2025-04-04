@@ -1,7 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { configure, waitFor, screen } from '@testing-library/react';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { configure, waitFor, screen } from '@testing-library/react';
 
 import {
   baseApolloMocks,

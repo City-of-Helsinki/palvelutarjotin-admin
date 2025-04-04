@@ -1,6 +1,6 @@
 import { Combobox } from 'hds-react';
-import { useTranslation } from 'react-i18next';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../hooks/useLocale';
 import useProfilePlaces from '../../../hooks/useProfilePlaces';

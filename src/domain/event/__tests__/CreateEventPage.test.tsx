@@ -1,8 +1,3 @@
-import * as HdsReact from 'hds-react';
-import userEvent from '@testing-library/user-event';
-import * as React from 'react';
-import * as Router from 'react-router-dom';
-import { vi } from 'vitest';
 import { ApolloClient } from '@apollo/client';
 import {
   configure,
@@ -11,6 +6,11 @@ import {
   waitFor,
   within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import * as HdsReact from 'hds-react';
+import * as React from 'react';
+import * as Router from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
@@ -29,7 +29,10 @@ import {
   UploadSingleImageDocument,
 } from '../../../generated/graphql';
 import * as useLocale from '../../../hooks/useLocale';
+import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
+import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
 import { getKeywordSetsMockResponses } from '../../../test/apollo-mocks/keywordSetMocks';
+import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
 import {
   audienceKeywords,
   basicKeywords,
@@ -61,6 +64,7 @@ import {
   shortDescription,
 } from '../../../test/EventPageTestUtil';
 import { Language } from '../../../types';
+import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
 import {
   fakeEvent,
   fakeImage,
@@ -73,10 +77,6 @@ import {
 import { pasteToTextEditor, customRender } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import CreateEventPage from '../CreateEventPage';
-import { footerMenuMock } from '../../../test/apollo-mocks/footerMenuMock';
-import { languagesMock } from '../../../test/apollo-mocks/languagesMock';
-import { headerMenuMock } from '../../../test/apollo-mocks/headerMenuMock';
-import getLinkedEventsInternalId from '../../../utils/getLinkedEventsInternalId';
 import { CreateEventFormFields } from '../types';
 
 vi.mock('hds-react', async () => {

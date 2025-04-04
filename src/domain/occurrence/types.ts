@@ -1,5 +1,5 @@
-import { SUPPORT_LANGUAGES } from '../../constants';
 import { EnrolmentType } from './constants';
+import { SUPPORT_LANGUAGES } from '../../constants';
 
 export interface OccurrenceSectionFormFields {
   startDate: string;

@@ -1,6 +1,5 @@
-/* eslint-disable max-len */
-import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
 import { MockedResponse } from '@apollo/client/testing';
+import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
 
 import type { MenuQueryResponse } from './types';
 import { FOOTER_MENU_NAME } from '../../headless-cms/constants';

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
+import { screen, waitFor, within } from '@testing-library/react';
 import * as React from 'react';
 import * as Router from 'react-router-dom';
 import { vi } from 'vitest';
-import { screen, waitFor, within } from '@testing-library/react';
 
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
 import * as useLocale from '../../../hooks/useLocale';
