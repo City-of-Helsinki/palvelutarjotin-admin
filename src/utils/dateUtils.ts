@@ -1,4 +1,9 @@
 import { isFuture, isToday } from 'date-fns';
+import { enGB as en, fi } from 'date-fns/locale';
+
+import sv from './date-fns/locale/sv';
+
+export const locales = { en, fi, sv };
 
 export const isTodayOrLater = (date: Date) => {
   return isToday(date) || isFuture(date);

@@ -1,7 +1,10 @@
-import isSameDay from 'date-fns/isSameDay';
-import parseDate from 'date-fns/parse';
+import { isSameDay, parse } from 'date-fns';
 
-import { LINKEDEVENTS_CONTENT_TYPE } from '../../constants';
+import {
+  DATE_FORMAT,
+  LINKEDEVENTS_CONTENT_TYPE,
+  TIME_FORMAT,
+} from '../../constants';
 import {
   EventFieldsFragment,
   Language,
@@ -12,7 +15,6 @@ import {
 } from '../../generated/graphql';
 import getLinkedEventsInternalId from '../../utils/getLinkedEventsInternalId';
 import omitTypenames from '../../utils/omitTypename';
-import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
 import { parseDateTimeString } from '../../utils/time/utils';
 import {
   BOOKABLE_TO_SCHOOL_LOCATION_ID,
@@ -29,8 +31,8 @@ export const getDateFromDateAndTimeString = (
   dateString: string,
   timeString: string
 ) => {
-  const date = parseDate(dateString, DATE_FORMAT, new Date());
-  return parseDate(timeString, TIME_FORMAT, date);
+  const date = parse(dateString, DATE_FORMAT, new Date());
+  return parse(timeString, TIME_FORMAT, date);
 };
 
 export const getPlaceId = ({

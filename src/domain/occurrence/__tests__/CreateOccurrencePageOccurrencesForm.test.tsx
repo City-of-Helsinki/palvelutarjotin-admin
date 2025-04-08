@@ -28,10 +28,10 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import { renderWithRoute } from '../../../utils/testUtils';
-import { DATE_FORMAT, DATETIME_FORMAT } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 import { occurrencesTableTestId } from '../occurrencesFormPart/OccurrencesFormPart';
+import { DATETIME_FORMAT, DATE_FORMAT } from '../../../constants';
 
 configure({ defaultHidden: true });
 

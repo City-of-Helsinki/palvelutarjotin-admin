@@ -55,3 +55,8 @@ export const createEmptyLocalizedObject = (): LocalisedObject => ({
   [SUPPORT_LANGUAGES.SV]: '',
   [SUPPORT_LANGUAGES.EN]: '',
 });
+
+export const DATE_FORMAT = 'd.M.yyyy';
+export const TIME_FORMAT = 'HH:mm';
+export const DATETIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}`;
+export const TIMEZONE = 'Europe/Helsinki';

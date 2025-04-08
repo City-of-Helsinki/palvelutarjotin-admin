@@ -1,5 +1,4 @@
 import { useApolloClient } from '@apollo/client';
-import formatDate from 'date-fns/format';
 import {
   Form,
   Formik,
@@ -15,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { format } from 'date-fns/format';
 
 import BackButton from '../../common/components/backButton/BackButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
@@ -35,7 +35,6 @@ import useNavigate from '../../hooks/useNavigate';
 import type { EmptyObject, Language } from '../../types';
 import { isTestEnv } from '../../utils/envUtils';
 import getLocalizedString from '../../utils/getLocalizedString';
-import { DATE_FORMAT, TIME_FORMAT } from '../../utils/time/format';
 import {
   isValidDateTimeString,
   parseDateTimeString,
@@ -68,6 +67,7 @@ import {
 } from './types';
 import { getEditEventPayload, useBaseEventQuery } from './utils';
 import ValidationSchema from './ValidationSchema';
+import { DATE_FORMAT, TIME_FORMAT } from '../../constants';
 
 const OccurrencesFormPartWrapper: React.FC<{
   eventData: EventQuery;
@@ -333,10 +333,10 @@ const CreateOccurrencePage: React.FC = () => {
           autoAcceptanceMessage: event.pEvent.autoAcceptanceMessage ?? null,
           enrolmentEndDays: event.pEvent.enrolmentEndDays ?? '',
           enrolmentStartDate: event.pEvent.enrolmentStart
-            ? formatDate(new Date(event.pEvent.enrolmentStart), DATE_FORMAT)
+            ? format(new Date(event.pEvent.enrolmentStart), DATE_FORMAT)
             : '',
           enrolmentStartTime: event.pEvent.enrolmentStart
-            ? formatDate(new Date(event.pEvent.enrolmentStart), TIME_FORMAT)
+            ? format(new Date(event.pEvent.enrolmentStart), TIME_FORMAT)
             : '',
           isVirtual: isVirtualEvent,
           isBookable,

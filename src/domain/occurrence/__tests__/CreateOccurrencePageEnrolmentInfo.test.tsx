@@ -1,5 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { format, parse as parseDate } from 'date-fns';
+import { format, parse } from 'date-fns';
 import * as React from 'react';
 import Modal from 'react-modal';
 import * as Router from 'react-router-dom';
@@ -29,15 +29,11 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import { renderWithRoute } from '../../../utils/testUtils';
-import {
-  DATE_FORMAT,
-  DATETIME_FORMAT,
-  formatIntoDate,
-  formatIntoTime,
-} from '../../../utils/time/format';
+import { formatIntoDate, formatIntoTime } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 import { occurrencesTableTestId } from '../occurrencesFormPart/OccurrencesFormPart';
+import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 
 const navigate = vi.fn();
 vi.mock('react-router-dom', async () => {
@@ -364,6 +360,7 @@ describe('location and enrolment info', () => {
     });
 
     const enrolmentStartDateTimeValue = '2021-05-03T21:00:00.000Z';
+
     const {
       occurrenceEndTime,
       occurrenceStartDate,
@@ -401,12 +398,8 @@ describe('location and enrolment info', () => {
     const occurrence1: Partial<OccurrenceNode> = {
       ...occurrenceData1,
       languages: fakeLanguages([{ id: 'en' }, { id: 'fi' }]),
-      startTime: parseDate(
-        occurrenceStartDateTime,
-        DATETIME_FORMAT,
-        new Date()
-      ),
-      endTime: parseDate(occurrenceEndDateTime, DATETIME_FORMAT, new Date()),
+      startTime: parse(occurrenceStartDateTime, DATETIME_FORMAT, new Date()),
+      endTime: parse(occurrenceEndDateTime, DATETIME_FORMAT, new Date()),
       placeId,
       // Need matching id here that is is in the addOccurrence response
       id: occurrenceId,

@@ -1,8 +1,8 @@
-import isSameDay from 'date-fns/isSameDay';
 import { Button, IconClock, IconLocation, IconPen, IconUser } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { isSameDay } from 'date-fns/isSameDay';
 
 import {
   EventFieldsFragment,
@@ -12,7 +12,6 @@ import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import {
-  DATE_FORMAT,
   formatIntoDate,
   formatIntoTime,
   formatLocalizedDate,
@@ -26,6 +25,7 @@ import OccurrenceGroupInfo from '../occurrenceGroupInfo/OccurrenceGroupInfo';
 import OccurrenceGroupLanguageInfo from '../occurrenceGroupInfo/OccurrenceGroupLanguageInfo';
 import { getEnrolmentType } from '../utils';
 import styles from './occurrenceInfo.module.scss';
+import { DATE_FORMAT } from '../../../constants';
 
 const EditOccurrenceButton: React.FC<{
   eventId?: string;

@@ -1,8 +1,4 @@
-import { isFuture } from 'date-fns';
-import isFutureDate from 'date-fns/isFuture';
-import isPastDate from 'date-fns/isPast';
-import isToday from 'date-fns/isToday';
-import isTomorrow from 'date-fns/isTomorrow';
+import { isFuture, isPast, isToday, isTomorrow } from 'date-fns';
 import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
@@ -73,7 +69,7 @@ export const getNextOccurrenceDateStr = (
   const nextOccurrenceNode = event.pEvent.occurrences?.edges.find(
     (occurrence) => {
       const occurrenceStartTime = occurrence?.node?.startTime;
-      return occurrenceStartTime && isFutureDate(new Date(occurrenceStartTime));
+      return occurrenceStartTime && isFuture(new Date(occurrenceStartTime));
     }
   );
   const nextOccurrence = nextOccurrenceNode?.node;
@@ -315,13 +311,13 @@ export const isQueueingAllowed = (event: EventFieldsFragment): boolean =>
 
 export const isPastEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
-    ? isPastDate(new Date(eventData?.event?.startTime)) &&
+    ? isPast(new Date(eventData?.event?.startTime)) &&
       !isToday(new Date(eventData?.event?.startTime))
     : false;
 
 export const isFutureEvent = (eventData: EventQuery | undefined) =>
   eventData?.event?.startTime
-    ? isFutureDate(new Date(eventData?.event?.startTime))
+    ? isFuture(new Date(eventData?.event?.startTime))
     : false;
 
 export const isEditableEvent = (eventData: EventQuery | undefined) =>
@@ -343,7 +339,7 @@ export const hasComingOccurrences = (event: EventFieldsFragment): boolean => {
 export const getUpcomingOccurrences = (event?: EventFieldsFragment | null) => {
   if (event?.pEvent.occurrences) {
     return event.pEvent.occurrences.edges.filter((o) =>
-      isFutureDate(new Date(o?.node?.startTime))
+      isFuture(new Date(o?.node?.startTime))
     );
   }
 

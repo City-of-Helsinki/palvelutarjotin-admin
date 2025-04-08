@@ -1,11 +1,10 @@
 import classNames from 'classnames';
-import addDays from 'date-fns/addDays';
-import parseDate from 'date-fns/parse';
 import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { addDays, parse } from 'date-fns';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputFieldHDS from '../../../common/components/form/fields/DateInputFieldHDS';
@@ -21,7 +20,7 @@ import {
   useDeleteOccurrenceMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import { DATE_FORMAT, formatIntoDateTime } from '../../../utils/time/format';
+import { formatIntoDateTime } from '../../../utils/time/format';
 import { isValidDateString, parseDateString } from '../../../utils/time/utils';
 import { getEventFields } from '../../event/utils';
 import { PUBLICATION_STATUS } from '../../events/constants';
@@ -44,6 +43,7 @@ import {
   getOrderedLanguageOptions,
 } from './utils';
 import getValidationSchema from './ValidationSchema';
+import { DATE_FORMAT } from '../../../constants';
 
 export const occurrencesFormTestId = 'occurrences-form';
 export const occurrencesTableTestId = 'occurrences-table';
@@ -414,9 +414,7 @@ const OccurrencesForm: React.FC<{
   ) => {
     try {
       reinitializeForm(values, action);
-      setLatestOccurrenceDate(
-        parseDate(values.startDate, DATE_FORMAT, new Date())
-      );
+      setLatestOccurrenceDate(parse(values.startDate, DATE_FORMAT, new Date()));
       await createOccurrence({
         variables: {
           input: getOccurrencePayload({

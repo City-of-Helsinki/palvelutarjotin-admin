@@ -1,11 +1,8 @@
-import addDays from 'date-fns/addDays';
-import isBefore from 'date-fns/isBefore';
-import isValidDate from 'date-fns/isValid';
-import parseDate from 'date-fns/parse';
 import * as Yup from 'yup';
+import { parse, addDays, isBefore, isValid } from 'date-fns';
 
 import { isInFuture } from '../../../utils/dateUtils';
-import { DATE_FORMAT, formatIntoDateTime } from '../../../utils/time/format';
+import { formatIntoDateTime } from '../../../utils/time/format';
 import {
   isTimeStringBefore,
   isValidDateString,
@@ -15,6 +12,7 @@ import {
 } from '../../../utils/time/utils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { EnrolmentType } from '../constants';
+import { DATE_FORMAT } from '../../../constants';
 
 const addMinValidationMessage = (param: { min: number }) => ({
   min: param.min,
@@ -28,8 +26,8 @@ const addMaxValidationMessage = (param: { max: number }) => ({
 
 const isValidDateValidation = (value?: string) => {
   if (!value) return false;
-  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
-  return isValidDate(parsedDate);
+  const parsedDate = parse(value, DATE_FORMAT, new Date());
+  return isValid(parsedDate);
 };
 
 const getTimeValidation = () => {
@@ -44,7 +42,7 @@ const getTimeValidation = () => {
 
 const validateIsInFuture = (value?: string) => {
   if (!value) return false;
-  const parsedDate = parseDate(value, DATE_FORMAT, new Date());
+  const parsedDate = parse(value, DATE_FORMAT, new Date());
   return isInFuture(parsedDate);
 };
 

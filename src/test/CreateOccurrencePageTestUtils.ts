@@ -1,11 +1,11 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { faker } from '@faker-js/faker';
-import parseDate from 'date-fns/parse';
+import { parse } from 'date-fns/parse';
 import { screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../common/components/autoSuggest/contants';
-import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
+import { DATETIME_FORMAT, LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import { enrolmentInfoFormTestId } from '../domain/occurrence/enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import { occurrencesFormTestId } from '../domain/occurrence/occurrencesFormPart/OccurrencesFormPart';
 import {
@@ -42,7 +42,6 @@ import {
   fakePlaces,
   fakeVenue,
 } from '../utils/mockDataUtils';
-import { DATETIME_FORMAT } from '../utils/time/format';
 
 type Languages = 'fi' | 'en' | 'sv';
 type LanguagesObject = { [key in Languages]: string };
@@ -327,8 +326,8 @@ export const getAddOccurrenceMockResponse = ({
     query: AddOccurrenceDocument,
     variables: {
       input: {
-        startTime: parseDate(startTime, DATETIME_FORMAT, new Date()),
-        endTime: parseDate(endTime, DATETIME_FORMAT, new Date()),
+        startTime: parse(startTime, DATETIME_FORMAT, new Date()),
+        endTime: parse(endTime, DATETIME_FORMAT, new Date()),
         languages: languages.map((lang) => ({ id: lang })),
         pEventId,
         placeId,

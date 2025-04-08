@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
-import addTime from 'date-fns/add';
+import { add } from 'date-fns/add';
 
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import {
@@ -179,7 +179,7 @@ export const fakeOccurrence = (
   ]),
   startTime: '2020-08-03T09:00:00+00:00',
   endTime: overrides?.startTime
-    ? addTime(new Date(overrides?.startTime), { hours: 1 })
+    ? add(new Date(overrides?.startTime), { hours: 1 })
     : '2020-08-03T09:30:00+00:00',
   placeId: faker.string.uuid(),
   seatsTaken: 0,

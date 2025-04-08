@@ -1,5 +1,5 @@
 import { DataProxy } from '@apollo/client/cache';
-import isBefore from 'date-fns/isBefore';
+import { isBefore } from 'date-fns/isBefore';
 import { TFunction } from 'i18next';
 import orderBy from 'lodash/orderBy';
 import uniqueId from 'lodash/uniqueId';

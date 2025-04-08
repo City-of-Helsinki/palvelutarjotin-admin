@@ -13,7 +13,6 @@ import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import formatTimeRange from '../../../utils/formatTimeRange';
 import {
-  DATE_FORMAT,
   formatDateRange,
   formatLocalizedDate,
 } from '../../../utils/time/format';
@@ -24,6 +23,7 @@ import PlaceText from '../../place/PlaceText';
 import EnrolmentsBadge from '../enrolmentsBadge/EnrolmentsBadge';
 import ActionsDropdown from '../occurrencesTable/ActionsDropdown';
 import styles from './occurrencesTableSummary.module.scss';
+import { DATE_FORMAT } from '../../../constants';
 
 export interface Props {
   eventData?: EventQuery;

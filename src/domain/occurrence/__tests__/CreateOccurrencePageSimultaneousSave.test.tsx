@@ -23,13 +23,10 @@ import {
 } from '../../../test/CreateOccurrencePageTestUtils';
 import { fakeLanguages, fakeOccurrences } from '../../../utils/mockDataUtils';
 import { renderWithRoute } from '../../../utils/testUtils';
-import {
-  DATETIME_FORMAT,
-  formatIntoDate,
-  formatIntoTime,
-} from '../../../utils/time/format';
+import { formatIntoDate, formatIntoTime } from '../../../utils/time/format';
 import { ROUTES } from '../../app/routes/constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
+import { DATETIME_FORMAT } from '../../../constants';
 
 const navigate = vi.fn();
 vi.mock('react-router-dom', async () => {
