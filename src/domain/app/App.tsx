@@ -16,6 +16,7 @@ import { useCMSApolloClient } from '../../headless-cms/apollo/apolloClient';
 import useRHHCConfig from '../../hooks/useRHHCConfig';
 import IdleTimer from '../auth/IdleTimerProvider';
 import KultusAdminHDSLoginProvider from '../auth/KultusAdminHDSLoginProvider';
+import { DEFAULT_ROUTER_PROPS } from './router/constants';
 
 const App = () => {
   const apolloClient = useApolloClient();
@@ -36,7 +37,7 @@ const App = () => {
         <IdleTimer>
           <ApolloProvider client={apolloClient}>
             <RHHCConfigProvider config={rhhcConfig}>
-              <BrowserRouter>
+              <BrowserRouter {...DEFAULT_ROUTER_PROPS}>
                 <ScrollToTop
                   ignoredPaths={IGNORE_SCROLL_TO_TOP}
                   forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}

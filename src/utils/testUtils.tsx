@@ -19,6 +19,7 @@ import wait from 'waait';
 
 import { createApolloCache } from '../domain/app/apollo/cache';
 import reducers from '../domain/app/reducers';
+import { DEFAULT_ROUTER_PROPS } from '../domain/app/router/constants';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
 import useRHHCConfig from '../hooks/useRHHCConfig';
@@ -87,7 +88,9 @@ export const customRender: CustomRender = (
         <IdleTimer>
           <MockedProvider mocks={mocks} cache={createApolloCache()}>
             <RHHCConfigProviderWithProvidedApolloClient>
-              <BrowserRouter>{children}</BrowserRouter>
+              <BrowserRouter {...DEFAULT_ROUTER_PROPS}>
+                {children}
+              </BrowserRouter>
             </RHHCConfigProviderWithProvidedApolloClient>
           </MockedProvider>
         </IdleTimer>
@@ -120,7 +123,7 @@ export const renderWithRoute: CustomRender = (
     <Provider store={store}>
       <MockedProvider mocks={mocks} cache={createApolloCache()}>
         <RHHCConfigProviderWithProvidedApolloClient>
-          <BrowserRouter>
+          <BrowserRouter {...DEFAULT_ROUTER_PROPS}>
             <Routes>
               <Route path={'/'} element={<>{children}</>} />
               <Route path={path} element={<>{children}</>} />
