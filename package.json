@@ -18,6 +18,12 @@
         "That's why @testing-library/dom has been added to resolutions.",
         "NOTE: This can be removed after dependencies don't bring conflicting/old versions"
       ],
+      "@types/cookie": [
+        "To use the last known @types/cookie version, only for <v1 cookie",
+        "",
+        "NOTE: This can be removed if all dependencies start to depend on >=v1 cookie ",
+        "which provides the types itself"
+      ],
       "@types/react": [
         "Several packages brought @types/react@19, but we only support react v18",
         "Incompatible versions of @types/react cause typechecking issues",
@@ -30,6 +36,14 @@
         "See https://github.com/sindresorhus/globals/issues/239",
         "NOTE: This can be removed when non-eslint dependencies don't bring old versions of globals anymore"
       ],
+      "hds-react/@babel/runtime": [
+        "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/136",
+        "NOTE: This can be removed if hds-react doesn't require a fixed version of this package anymore"
+      ],
+      "hds-react/cookie": [
+        "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
+        "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
+      ],
       "redux": [
         "To make @reduxjs/toolkit and redux related packages use single version of redux",
         "See https://redux.js.org/usage/migrations/migrating-rtk-2#overriding-dependencies"
@@ -38,17 +52,20 @@
   },
   "resolutions": {
     "@testing-library/dom": "^10.4.0",
+    "@types/cookie": "^0.6.0",
     "@types/react": "^18.3.20",
     "globals": "^16.0.0",
+    "hds-react/@babel/runtime": "^7.27.0",
+    "hds-react/cookie": "^0.7.2",
     "redux": "^5.0.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.13.5",
+    "@apollo/client": "^3.13.6",
     "@date-fns/tz": "^1.2.0",
     "@datepicker-react/hooks": "^2.8.4",
     "@faker-js/faker": "^9.6.0",
     "@reduxjs/toolkit": "^2.6.1",
-    "@sentry/browser": "^9.11.0",
+    "@sentry/browser": "^9.12.0",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -72,8 +89,8 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-table": "^7.7.20",
-    "@typescript-eslint/eslint-plugin": "^8.29.0",
-    "@typescript-eslint/parser": "^8.29.0",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
     "@vitejs/plugin-react-swc": "^3.8.1",
     "@vitest/coverage-v8": "^3.1.1",
     "apollo-upload-client": "^18.0.1",
@@ -86,9 +103,9 @@
     "dotenv": "^16.4.7",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
-    "eslint": "^9.23.0",
+    "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
-    "eslint-import-resolver-typescript": "^4.3.1",
+    "eslint-import-resolver-typescript": "^4.3.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-no-only-tests": "^3.3.0",
@@ -129,7 +146,7 @@
     "redux-oidc": "^4.0.0-beta1",
     "redux-persist": "^6.0.0",
     "sass": "^1.86.3",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "use-deep-compare-effect": "^1.8.1",
     "vite": "^6.2.5",
     "vite-plugin-eslint": "^1.8.1",
