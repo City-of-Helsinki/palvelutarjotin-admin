@@ -26,6 +26,7 @@ import {
   renderWithRoute,
   RHHCConfigProviderWithProvidedApolloClient,
 } from '../../../../utils/testUtils';
+import { DEFAULT_ROUTER_PROPS } from '../../router/constants';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
 
@@ -144,7 +145,7 @@ it('PageLayout matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks} addTypename={true}>
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/']}>
+        <MemoryRouter {...DEFAULT_ROUTER_PROPS} initialEntries={['/']}>
           <RHHCConfigProviderWithProvidedApolloClient>
             <PageLayout>
               <div>Page layout children</div>
