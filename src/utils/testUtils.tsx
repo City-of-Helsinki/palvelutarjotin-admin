@@ -1,7 +1,6 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { configureStore, Store } from '@reduxjs/toolkit';
 import {
   act,
   createEvent,
@@ -13,14 +12,13 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import Modal from 'react-modal';
-import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import wait from 'waait';
 
 import { createApolloCache } from '../domain/app/apollo/cache';
-import reducers from '../domain/app/reducers';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
+import { OrganisationProvider } from '../domain/organisation/contextProviders/OrganisationProvider';
 import useRHHCConfig from '../hooks/useRHHCConfig';
 
 export type CustomRenderResult = RenderResult & {
@@ -36,7 +34,6 @@ export type CustomRender = {
       mocks?: MockedResponse[];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       initialState?: Record<string, any>;
-      store?: Store;
     }
   ): CustomRenderResult;
 };
@@ -67,32 +64,24 @@ export function RHHCConfigProviderWithProvidedApolloClient({
 
 export const customRender: CustomRender = (
   ui,
-  {
-    routes = ['/'],
-    mocks = [],
-    initialState = {},
-    store = configureStore({
-      reducer: reducers,
-      preloadedState: initialState,
-    }),
-  } = {}
+  { routes = ['/'], mocks = [] } = {}
 ): CustomRenderResult => {
   routes.forEach((route) => {
     window.history.pushState({}, 'Test page', route);
   });
   const user = userEvent.setup();
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
-    <Provider store={store}>
-      <KultusAdminHDSLoginProvider>
-        <IdleTimer>
-          <MockedProvider mocks={mocks} cache={createApolloCache()}>
+    <KultusAdminHDSLoginProvider>
+      <IdleTimer>
+        <MockedProvider mocks={mocks} cache={createApolloCache()}>
+          <OrganisationProvider>
             <RHHCConfigProviderWithProvidedApolloClient>
               <BrowserRouter>{children}</BrowserRouter>
             </RHHCConfigProviderWithProvidedApolloClient>
-          </MockedProvider>
-        </IdleTimer>
-      </KultusAdminHDSLoginProvider>
-    </Provider>
+          </OrganisationProvider>
+        </MockedProvider>
+      </IdleTimer>
+    </KultusAdminHDSLoginProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -101,34 +90,29 @@ export const customRender: CustomRender = (
 
 export const renderWithRoute: CustomRender = (
   ui,
-  {
-    routes = ['/'],
-    path = '/',
-    initialState = {},
-    store = configureStore({
-      reducer: reducers,
-      preloadedState: initialState,
-    }),
-    mocks = [],
-  } = {}
+  { routes = ['/'], path = '/', mocks = [] } = {}
 ): CustomRenderResult => {
   routes.forEach((route) => {
     window.history.pushState({}, 'Test page', route);
   });
   const user = userEvent.setup();
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
-    <Provider store={store}>
-      <MockedProvider mocks={mocks} cache={createApolloCache()}>
-        <RHHCConfigProviderWithProvidedApolloClient>
-          <BrowserRouter>
-            <Routes>
-              <Route path={'/'} element={<>{children}</>} />
-              <Route path={path} element={<>{children}</>} />
-            </Routes>
-          </BrowserRouter>
-        </RHHCConfigProviderWithProvidedApolloClient>
-      </MockedProvider>
-    </Provider>
+    <KultusAdminHDSLoginProvider>
+      <IdleTimer>
+        <MockedProvider mocks={mocks} cache={createApolloCache()}>
+          <OrganisationProvider>
+            <RHHCConfigProviderWithProvidedApolloClient>
+              <BrowserRouter>
+                <Routes>
+                  <Route path={'/'} element={<>{children}</>} />
+                  <Route path={path} element={<>{children}</>} />
+                </Routes>
+              </BrowserRouter>
+            </RHHCConfigProviderWithProvidedApolloClient>
+          </OrganisationProvider>
+        </MockedProvider>
+      </IdleTimer>
+    </KultusAdminHDSLoginProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });

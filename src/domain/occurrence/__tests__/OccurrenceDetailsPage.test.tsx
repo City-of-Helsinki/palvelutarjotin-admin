@@ -21,6 +21,7 @@ import {
   fakeLanguages,
   fakeLocalizedObject,
   fakeOccurrence,
+  fakeOrganisation,
   fakeOrganisations,
   fakePerson,
   fakePEvent,
@@ -32,11 +33,27 @@ import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
+
 const navigate = vi.fn();
 vi.mock('react-router', async () => {
   const actual = await vi.importActual('react-router');
   return { ...actual };
 });
+
+const activeOrganisation = fakeOrganisation();
+vi.mock(
+  '../../organisation/contextProviders/useStoredOrganisationState',
+  async (importActual) => {
+    return {
+      ...(await importActual()),
+      useStoredOrganisationState: () => ({
+        activeOrganisation,
+        setActiveOrganisation: vi.fn(),
+      }),
+    };
+  }
+);
+
 const placeId = 'tprek:15376';
 const eventId = 'palvelutarjotin:afzunowba4';
 const eventId2 = 'palvelutarjotin:afzunovba4';

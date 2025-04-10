@@ -4,7 +4,6 @@ import { userEvent } from '@testing-library/user-event';
 import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import { vi } from 'vitest';
 import wait from 'waait';
@@ -26,7 +25,7 @@ import {
   renderWithRoute,
   RHHCConfigProviderWithProvidedApolloClient,
 } from '../../../../utils/testUtils';
-import { store } from '../../store';
+import { OrganisationProvider } from '../../../organisation/contextProviders/OrganisationProvider';
 import PageLayout from '../PageLayout';
 
 vi.mock('hds-react', async () => {
@@ -143,7 +142,7 @@ async function fillAndSubmitProfileForm() {
 it('PageLayout matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks} addTypename={true}>
-      <Provider store={store}>
+      <OrganisationProvider>
         <MemoryRouter initialEntries={['/']}>
           <RHHCConfigProviderWithProvidedApolloClient>
             <PageLayout>
@@ -151,7 +150,7 @@ it('PageLayout matches snapshot', async () => {
             </PageLayout>
           </RHHCConfigProviderWithProvidedApolloClient>
         </MemoryRouter>
-      </Provider>
+      </OrganisationProvider>
     </MockedProvider>
   );
   await screen.findByText('Kulttuurikasvatus'); // Wait for Header

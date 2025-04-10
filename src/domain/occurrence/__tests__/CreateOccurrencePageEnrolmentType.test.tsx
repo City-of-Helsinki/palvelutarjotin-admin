@@ -13,13 +13,30 @@ import {
   getUpdateEventMockResponse,
   placeId,
 } from '../../../test/CreateOccurrencePageTestUtils';
-import { fakeOccurrences } from '../../../utils/mockDataUtils';
+import {
+  fakeOccurrences,
+  fakeOrganisation,
+} from '../../../utils/mockDataUtils';
 import { renderWithRoute } from '../../../utils/testUtils';
 import { ROUTES } from '../../app/routes/constants';
 import { EnrolmentType } from '../constants';
 import CreateOccurrencePage from '../CreateOccurrencePage';
 import { enrolmentInfoFormTestId } from '../enrolmentInfoFormPart/EnrolmentInfoFormPart';
 import * as Utils from '../utils';
+
+const activeOrganisation = fakeOrganisation();
+vi.mock(
+  '../../organisation/contextProviders/useStoredOrganisationState',
+  async (importActual) => {
+    return {
+      ...(await importActual()),
+      useStoredOrganisationState: () => ({
+        activeOrganisation,
+        setActiveOrganisation: vi.fn(),
+      }),
+    };
+  }
+);
 
 vi.mock('../utils', async () => {
   const actual = await vi.importActual('../utils');
