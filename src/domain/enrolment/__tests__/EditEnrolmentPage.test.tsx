@@ -27,7 +27,6 @@ import {
 import { renderWithRoute } from '../../../utils/testUtils';
 import messages from '../../app/i18n/fi.json';
 import { ROUTES } from '../../app/routes/constants';
-import { store } from '../../app/store';
 import EditEnrolmentPage from '../EditEnrolmentPage';
 
 const navigate = vi.fn();
@@ -141,7 +140,6 @@ afterEach(() => {
 const renderPage = ({ mocks }: { mocks?: any } = {}) => {
   return renderWithRoute(<EditEnrolmentPage />, {
     mocks: [...(mocks || apolloMocks), ...unrelatedMocks],
-    store,
     routes: [
       ROUTES.EDIT_ENROLMENT.replace(':eventId', eventId).replace(
         ':enrolmentId',

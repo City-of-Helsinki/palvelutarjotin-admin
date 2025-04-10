@@ -1,4 +1,4 @@
-export const ORGANISATION_ACTIONS = {
-  CLEAR_ACTIVE_ORGANISATION: 'CLEAR_ACTIVE_ORGANISATION',
-  SET_ACTIVE_ORGANISATION: 'SET_ACTIVE_ORGANISATION',
-};
+import AppConfig from '../app/AppConfig';
+
+const appLocalStorageKeyPrefix = `${AppConfig.appName}-${AppConfig.environment}`;
+export const organisationLocalStorageKey = `${appLocalStorageKeyPrefix}-activeOrganisation`;

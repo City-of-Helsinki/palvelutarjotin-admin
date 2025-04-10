@@ -22,7 +22,6 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { ROUTES } from '../app/routes/constants';
 import ActiveOrganisationInfo from '../organisation/activeOrganisationInfo/ActiveOrganisationInfo';
 import { getPersons } from '../organisation/oranisationUtils';
-import { useSelectedOrganisation } from '../organisation/useSelectedOrganisation';
 import EventForm, { createEventInitialValues } from './eventForm/EventForm';
 import { useUpdateImageRequest } from './eventForm/useEventFormSubmitRequests';
 import styles from './eventPage.module.scss';
@@ -33,6 +32,7 @@ import {
   omitUnselectedLanguagesFromValues,
 } from './utils';
 import { clearApolloCache } from '../app/apollo/apolloClient';
+import useOrganisationContext from '../organisation/contextProviders/useOrganisationContext';
 
 const CreateEventPage: React.FC = () => {
   const { id: eventIdToCopy } = useParams<{ id: string }>();
@@ -48,7 +48,7 @@ const CreateEventPage: React.FC = () => {
   const [createEvent, { loading: createEventLoading }] =
     useCreateEventMutation();
 
-  const selectedOrganisation = useSelectedOrganisation();
+  const { activeOrganisation: selectedOrganisation } = useOrganisationContext();
 
   const [eventOrganisation, setEventOrganisation] = useState<
     OrganisationNodeFieldsFragment | null | undefined

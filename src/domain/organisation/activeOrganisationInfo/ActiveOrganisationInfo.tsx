@@ -1,10 +1,9 @@
 import React, { ReactElement } from 'react';
 
-import { useMyProfileQuery } from '../../../generated/graphql';
-import { useAppSelector } from '../../../hooks/useAppSelector';
-import { getSelectedOrganisation } from '../../myProfile/utils';
-import { activeOrganisationSelector } from '../selector';
 import styles from './activeOrganisationInfo.module.scss';
+import { useMyProfileQuery } from '../../../generated/graphql';
+import { getSelectedOrganisation } from '../../myProfile/utils';
+import useOrganisationContext from '../contextProviders/useOrganisationContext';
 
 interface Props {
   as?: 'h1' | 'div';
@@ -17,12 +16,11 @@ const ActiveOrganisationInfo = ({
   organisationId,
 }: Props): ReactElement | null => {
   const { data: myProfileData } = useMyProfileQuery();
-  const activeOrganisation = useAppSelector(activeOrganisationSelector);
-
+  const { activeOrganisation } = useOrganisationContext();
   const organisation = myProfileData?.myProfile
     ? getSelectedOrganisation(
         myProfileData.myProfile,
-        organisationId || activeOrganisation,
+        (organisationId || activeOrganisation?.id) ?? null,
         !organisationId
       )
     : null;
