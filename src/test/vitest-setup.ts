@@ -36,6 +36,18 @@ console.warn = (msg, ...optionalParams) => {
   originalConsoleWarn(msg, ...optionalParams);
 };
 
+// eslint-disable-next-line no-console
+const originalConsoleInfo = console.info;
+// eslint-disable-next-line no-console
+console.info = (msg, ...optionalParams) => {
+  // Hide createCmsApolloClient function's cache messages to declutter test output
+  const persistedCacheRegex = /^Persisted cache has (been restored|expired)\./;
+  if (persistedCacheRegex.test(msg.toString())) {
+    return;
+  }
+  originalConsoleInfo(msg, ...optionalParams);
+};
+
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
