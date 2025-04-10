@@ -23,6 +23,11 @@ const NavigateToLocalePath = () => {
 const AppRoutes = () => {
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
+
+  const fiLocaleRoutes = <LocaleRoutes locale="fi" />;
+  const svLocaleRoutes = <LocaleRoutes locale="sv" />;
+  const enLocaleRoutes = <LocaleRoutes locale="en" />;
+
   return (
     <Routes>
       <Route path="/" element={<Navigate to={`/${currentLocale}`} replace />} />
@@ -32,9 +37,18 @@ const AppRoutes = () => {
       />
       <Route path={ROUTES.SILENT_CALLBACK} element={<SilentRenewRedirect />} />
       <Route path={ROUTES.SILENT_CALLBACK_HTML} />
-      <Route path={`/fi/*`} element={<LocaleRoutes locale={'fi'} />} />
-      <Route path={`/sv/*`} element={<LocaleRoutes locale={'sv'} />} />
-      <Route path={`/en/*`} element={<LocaleRoutes locale={'en'} />} />
+      <Route path="/fi">
+        <Route index element={fiLocaleRoutes} />
+        <Route path="*" element={fiLocaleRoutes} />
+      </Route>
+      <Route path="/sv">
+        <Route index element={svLocaleRoutes} />
+        <Route path="*" element={svLocaleRoutes} />
+      </Route>
+      <Route path="/en">
+        <Route index element={enLocaleRoutes} />
+        <Route path="*" element={enLocaleRoutes} />
+      </Route>
       <Route path="*" element={<NavigateToLocalePath />} />
     </Routes>
   );
