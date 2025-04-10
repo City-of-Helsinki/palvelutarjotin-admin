@@ -1,9 +1,5 @@
-import rootReducer from './domain/app/reducers';
-
 export type Language = 'en' | 'fi' | 'sv';
 export type EmptyObject = Record<string, never>;
-
-export type StoreState = ReturnType<typeof rootReducer>;
 
 export const omitTypename = <T extends { __typename?: string }>(
   obj?: T | null

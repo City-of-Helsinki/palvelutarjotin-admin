@@ -187,7 +187,7 @@ const editEventVariables = {
       isQueueingAllowed: true,
       translations: [],
     },
-    organisationId: organisationId,
+    organisationId,
     draft: true,
   },
 };
@@ -245,7 +245,7 @@ const eventResponse = {
       pEvent: fakePEvent({
         organisation: fakeOrganisation({
           id: organisationId,
-          name: eventOrganizationName,
+          name: defaultOrganizationName,
           persons: fakePersons(1, [
             {
               organisations: [] as never,
