@@ -1,7 +1,7 @@
 import type { Config } from 'react-helsinki-headless-cms';
 import { defaultConfig as rhhcDefaultConfig } from 'react-helsinki-headless-cms';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import useLocale from './useLocale';
 import AppConfig from '../domain/app/AppConfig';

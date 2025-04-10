@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import useNavigate from './useNavigate';
 import deleteParamsFromQueryString from '../utils/deleteParamsFromQueryString';

@@ -14,12 +14,11 @@ import * as React from 'react';
 import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import Modal from 'react-modal';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import wait from 'waait';
 
 import { createApolloCache } from '../domain/app/apollo/cache';
 import reducers from '../domain/app/reducers';
-import { DEFAULT_ROUTER_PROPS } from '../domain/app/router/constants';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
 import useRHHCConfig from '../hooks/useRHHCConfig';
@@ -88,9 +87,7 @@ export const customRender: CustomRender = (
         <IdleTimer>
           <MockedProvider mocks={mocks} cache={createApolloCache()}>
             <RHHCConfigProviderWithProvidedApolloClient>
-              <BrowserRouter {...DEFAULT_ROUTER_PROPS}>
-                {children}
-              </BrowserRouter>
+              <BrowserRouter>{children}</BrowserRouter>
             </RHHCConfigProviderWithProvidedApolloClient>
           </MockedProvider>
         </IdleTimer>
@@ -123,7 +120,7 @@ export const renderWithRoute: CustomRender = (
     <Provider store={store}>
       <MockedProvider mocks={mocks} cache={createApolloCache()}>
         <RHHCConfigProviderWithProvidedApolloClient>
-          <BrowserRouter {...DEFAULT_ROUTER_PROPS}>
+          <BrowserRouter>
             <Routes>
               <Route path={'/'} element={<>{children}</>} />
               <Route path={path} element={<>{children}</>} />

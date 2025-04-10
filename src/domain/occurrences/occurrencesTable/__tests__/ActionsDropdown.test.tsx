@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
 import Modal from 'react-modal';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { vi } from 'vitest';
 
 import { tableDropdownTestId } from '../../../../common/components/tableDropdown/TableDropdown';
@@ -22,8 +22,8 @@ import { EnrolmentType } from '../../../occurrence/constants';
 import ActionsDropdown, { Props } from '../ActionsDropdown';
 
 const navigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 const eventId = 'testEventId123';

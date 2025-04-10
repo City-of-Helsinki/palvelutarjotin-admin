@@ -4,7 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import { format, parse as parseDate } from 'date-fns';
 import * as React from 'react';
 import Modal from 'react-modal';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
 
@@ -40,8 +40,8 @@ import CreateOccurrencePage from '../CreateOccurrencePage';
 import { occurrencesTableTestId } from '../occurrencesFormPart/OccurrencesFormPart';
 
 const navigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 configure({ defaultHidden: true });

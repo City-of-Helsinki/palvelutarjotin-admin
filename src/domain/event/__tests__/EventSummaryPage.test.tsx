@@ -10,7 +10,7 @@ import {
 import { userEvent } from '@testing-library/user-event';
 import * as ICS from 'ics';
 import * as React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { toast } from 'react-toastify';
 import { vi, Mock } from 'vitest';
 

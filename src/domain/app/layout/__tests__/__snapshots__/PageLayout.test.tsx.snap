@@ -274,6 +274,7 @@ exports[`PageLayout matches snapshot 1`] = `
                 >
                   <a
                     class="HeaderLink-module_headerLink__2i9-J HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
+                    data-discover="true"
                     href="/fi/cms-page/mika-kultus-2/"
                     id="cG9zdDo0MDk="
                   >
@@ -313,6 +314,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/mika-kultus-2/katrin-testisivu/"
                           id="cG9zdDo0MTE="
                         >
@@ -333,6 +335,7 @@ exports[`PageLayout matches snapshot 1`] = `
                 >
                   <a
                     class="HeaderLink-module_headerLink__2i9-J HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
+                    data-discover="true"
                     href="/fi/cms-page/kulttuurikasvatus/"
                     id="cG9zdDo0MTI="
                   >
@@ -372,6 +375,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/kulttuurikasvatus/kulttuuripolulla-kulttuuria-kaikille/"
                           id="cG9zdDo0MTQ="
                         >
@@ -385,6 +389,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/kulttuurikasvatus/kulttuurikoordinaattori-olet-meille-tarkea/"
                           id="cG9zdDo0MTU="
                         >
@@ -398,6 +403,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/kulttuurikasvatus/kulttuurikasvatuksen-kasitteita/"
                           id="cG9zdDo0MTY="
                         >
@@ -418,6 +424,7 @@ exports[`PageLayout matches snapshot 1`] = `
                 >
                   <a
                     class="HeaderLink-module_headerLink__2i9-J HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
+                    data-discover="true"
                     href="/fi/cms-page/oppimateriaalit-2/"
                     id="cG9zdDo0MTc="
                   >
@@ -457,6 +464,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/oppimateriaalit-2/ylakoulu-ja-toinen-aste/"
                           id="cG9zdDo0MTk="
                         >
@@ -470,6 +478,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/oppimateriaalit-2/varhaiskasvatus-ja-esiopetus/"
                           id="cG9zdDo0MjA="
                         >
@@ -483,6 +492,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       >
                         <a
                           class="HeaderLink-module_headerLink__2i9-J HeaderLinkDropdown-module_dropdownLink__2UIF3"
+                          data-discover="true"
                           href="/fi/cms-page/oppimateriaalit-2/alakoulu/"
                           id="cG9zdDo0MjE="
                         >
