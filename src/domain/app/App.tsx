@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import * as React from 'react';
 import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -16,7 +16,6 @@ import { useCMSApolloClient } from '../../headless-cms/apollo/apolloClient';
 import useRHHCConfig from '../../hooks/useRHHCConfig';
 import IdleTimer from '../auth/IdleTimerProvider';
 import KultusAdminHDSLoginProvider from '../auth/KultusAdminHDSLoginProvider';
-import { DEFAULT_ROUTER_PROPS } from './router/constants';
 
 const App = () => {
   const apolloClient = useApolloClient();
@@ -37,7 +36,7 @@ const App = () => {
         <IdleTimer>
           <ApolloProvider client={apolloClient}>
             <RHHCConfigProvider config={rhhcConfig}>
-              <BrowserRouter {...DEFAULT_ROUTER_PROPS}>
+              <BrowserRouter>
                 <ScrollToTop
                   ignoredPaths={IGNORE_SCROLL_TO_TOP}
                   forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}

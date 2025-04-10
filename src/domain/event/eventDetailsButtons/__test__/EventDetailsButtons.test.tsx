@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { vi } from 'vitest';
 
 import { fakeEvent } from '../../../../utils/mockDataUtils';
@@ -9,8 +9,8 @@ import { customRender } from '../../../../utils/testUtils';
 import EventDetailsButtons from '../EventDetailsButtons';
 
 const navigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 const eventId = 'palvelutarjotin:afzunowba4';

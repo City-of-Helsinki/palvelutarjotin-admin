@@ -5,7 +5,7 @@ import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { vi } from 'vitest';
 import wait from 'waait';
 
@@ -26,7 +26,6 @@ import {
   renderWithRoute,
   RHHCConfigProviderWithProvidedApolloClient,
 } from '../../../../utils/testUtils';
-import { DEFAULT_ROUTER_PROPS } from '../../router/constants';
 import { store } from '../../store';
 import PageLayout from '../PageLayout';
 
@@ -145,7 +144,7 @@ it('PageLayout matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks} addTypename={true}>
       <Provider store={store}>
-        <MemoryRouter {...DEFAULT_ROUTER_PROPS} initialEntries={['/']}>
+        <MemoryRouter initialEntries={['/']}>
           <RHHCConfigProviderWithProvidedApolloClient>
             <PageLayout>
               <div>Page layout children</div>

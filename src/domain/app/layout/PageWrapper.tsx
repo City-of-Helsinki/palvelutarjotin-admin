@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import styles from './pageWrapper.module.scss';
 import useLocale from '../../../hooks/useLocale';

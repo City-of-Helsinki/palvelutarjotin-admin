@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { Column, Row } from 'react-table';
 
 import ActionsDropdown from './actionsDropdown/ActionsDropdown';

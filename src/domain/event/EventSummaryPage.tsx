@@ -2,7 +2,7 @@ import { isPast } from 'date-fns';
 import { Button } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 
 import EventPublish from './eventPublish/EventPublish';

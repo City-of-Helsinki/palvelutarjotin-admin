@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router';
 
 import useLocale from '../../hooks/useLocale';
 

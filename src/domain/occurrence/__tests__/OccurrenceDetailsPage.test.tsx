@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { waitFor, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { vi } from 'vitest';
 
 import {
@@ -33,8 +33,8 @@ import { ROUTES } from '../../app/routes/constants';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import OccurrenceDetailsPage from '../OccurrenceDetailsPage';
 const navigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 const placeId = 'tprek:15376';
