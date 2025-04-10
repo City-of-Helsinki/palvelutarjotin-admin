@@ -36,27 +36,29 @@ export default function Table<D extends Record<string, unknown>>({
     <div className={styles.tableWrapper}>
       <table {...getTableProps({ className: styles.table })}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps({
-                className: tableHeaderRowClassName,
-              })}
-              key={headerGroup.getHeaderGroupProps().key}
-            >
-              {headerGroup.headers.map((column: ExtendedHeaderGroup<D>) => {
-                const { style, className } = column;
-                return (
-                  <th
-                    {...column.getHeaderProps()}
-                    {...{ style, className }}
-                    key={column.getHeaderProps().key}
-                  >
-                    {column.render('Header')}
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
+          {headerGroups.map((headerGroup) => {
+            const headerGroupProps = headerGroup.getHeaderGroupProps({
+              className: tableHeaderRowClassName,
+            });
+            const { key, ...restHeaderGroupProps } = headerGroupProps;
+            return (
+              <tr {...restHeaderGroupProps} key={key}>
+                {headerGroup.headers.map((column: ExtendedHeaderGroup<D>) => {
+                  const { style, className } = column;
+                  const { key, ...restHeaderProps } = column.getHeaderProps();
+                  return (
+                    <th
+                      {...restHeaderProps}
+                      {...{ style, className }}
+                      key={key}
+                    >
+                      {column.render('Header')}
+                    </th>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row: ExtendedRow<D>) => {
@@ -85,10 +87,12 @@ export default function Table<D extends Record<string, unknown>>({
               }
             };
 
+            const { key, ...restRowProps } = row.getRowProps();
+
             return (
-              <React.Fragment key={row.getRowProps().key}>
+              <React.Fragment key={key}>
                 <tr
-                  {...row.getRowProps()}
+                  {...restRowProps}
                   className={classNames({
                     [styles.clickableRow]: onRowClick,
                     [styles.expandedRow]: row.isExpanded,
@@ -99,11 +103,12 @@ export default function Table<D extends Record<string, unknown>>({
                 >
                   {row.cells.map((cell: ExtendedCell<D>) => {
                     const { className, style } = cell.column;
+                    const { key, ...restCellProps } = cell.getCellProps();
                     return (
                       <td
-                        {...cell.getCellProps()}
+                        {...restCellProps}
                         {...{ className, style }}
-                        key={cell.getCellProps().key}
+                        key={key}
                       >
                         {cell.render('Cell')}
                       </td>

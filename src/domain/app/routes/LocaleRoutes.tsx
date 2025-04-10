@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 
 import { ROUTES } from './constants';
 import CmsPage from '../../../headless-cms/components/CmsPage';

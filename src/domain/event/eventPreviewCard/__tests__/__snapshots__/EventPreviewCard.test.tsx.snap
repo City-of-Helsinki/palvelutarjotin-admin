@@ -4,6 +4,7 @@ exports[`renders event information correctly and matches snapshot 1`] = `
 <div>
   <a
     class="eventCard"
+    data-discover="true"
     href="/test-link"
   >
     <div

@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { screen, waitFor, act } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { vi } from 'vitest';
 import wait from 'waait';
 
@@ -35,8 +35,8 @@ vi.mock('../../../generated/graphql', async () => {
   const actual = await vi.importActual('../../../generated/graphql');
   return { ...actual };
 });
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 const eventId = 'palvelutarjotin:afzunowba4';

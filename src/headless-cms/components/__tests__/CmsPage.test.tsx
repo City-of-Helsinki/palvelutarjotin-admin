@@ -5,7 +5,7 @@ import { dequal } from 'dequal';
 import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { vi } from 'vitest';
 
 import AppRoutes from '../../../domain/app/routes/AppRoutes';

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { To, useNavigate } from 'react-router-dom';
-import type { NavigateOptions } from 'react-router-dom';
+import { To, useNavigate } from 'react-router';
+import type { NavigateOptions } from 'react-router';
 
 import { ROUTES } from '../domain/app/routes/constants';
 import useQueryStringWithReturnPath from '../utils/useQueryStringWithReturnPath';

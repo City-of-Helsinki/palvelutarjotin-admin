@@ -1,7 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { screen, waitFor, within } from '@testing-library/react';
 import * as React from 'react';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { vi } from 'vitest';
 
 import { formLanguageSelectorTestId } from '../../../common/components/formLanguageSelector/FormLanguageSelector';
@@ -30,8 +30,8 @@ vi.mock('../../../hooks/useLocale', async () => {
   const actual = await vi.importActual('../../../hooks/useLocale');
   return { ...actual };
 });
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 

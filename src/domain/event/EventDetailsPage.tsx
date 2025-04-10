@@ -1,7 +1,7 @@
 import { Button, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router';
 
 import EventBasicInfo from './eventBasicInfo/EventBasicInfo';
 import EventCategorisation from './eventCategorisation/EventCategorisation';

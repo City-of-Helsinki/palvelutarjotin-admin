@@ -18,12 +18,21 @@ import {
   fakeVenue,
 } from '../../../utils/mockDataUtils';
 import { renderWithRoute } from '../../../utils/testUtils';
+import { clearApolloCache } from '../../app/apollo/apolloClient';
 import { ROUTES } from '../../app/routes/constants';
 import EventDetailsPage from '../EventDetailsPage';
 
 vi.mock('../../../generated/graphql', async () => {
   const actual = await vi.importActual('../../../generated/graphql');
   return { ...actual };
+});
+
+vi.mock('../../app/apollo/apolloClient', async () => {
+  const actual = await vi.importActual('../../app/apollo/apolloClient');
+  return {
+    ...actual,
+    clearApolloCache: vi.fn(),
+  };
 });
 
 beforeEach(() => {
@@ -236,6 +245,9 @@ test('renders correct information and delete works', async () => {
   expect(modal.getByTestId('dots')).toBeInTheDocument();
   expect(modal.getByText('31.8.2021 klo 00:00')).toBeInTheDocument();
 
+  expect(deleteMock).not.toHaveBeenCalled();
+  expect(clearApolloCache).not.toHaveBeenCalled();
+
   await userEvent.click(
     modal.getByRole('button', { name: 'Poista tapahtuma' })
   );
@@ -245,14 +257,10 @@ test('renders correct information and delete works', async () => {
       eventId: eventMock.id,
     },
   });
+  expect(clearApolloCache).toHaveBeenCalled();
 });
 
 test('enrolment info is not shown when enrolments are not done internally', async () => {
-  const deleteMock = vi.fn();
-  vi.spyOn(graphql, 'useDeleteSingleEventMutation').mockReturnValue([
-    deleteMock,
-  ] as any);
-
   const { container } = renderWithRoute(<EventDetailsPage />, {
     routes: ['/events/palvelutarjotin:afzunowba4'],
     path: ROUTES.EVENT_DETAILS,

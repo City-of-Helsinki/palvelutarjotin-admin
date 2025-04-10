@@ -1,6 +1,6 @@
 import { useOidcClient } from 'hds-react';
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import styles from './pageLayout.module.scss';
 import ProtectedPageWrapper from './ProtectedPageWrapper';

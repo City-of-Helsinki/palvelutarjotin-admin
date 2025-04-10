@@ -5,7 +5,7 @@ import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { vi } from 'vitest';
 import wait from 'waait';
 

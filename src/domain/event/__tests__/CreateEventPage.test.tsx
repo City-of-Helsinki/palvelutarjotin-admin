@@ -9,7 +9,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import * as HdsReact from 'hds-react';
 import * as React from 'react';
-import * as Router from 'react-router-dom';
+import * as Router from 'react-router';
 import { vi } from 'vitest';
 
 import { AUTOSUGGEST_OPTIONS_AMOUNT } from '../../../common/components/autoSuggest/contants';
@@ -94,8 +94,8 @@ vi.mock('../../../hooks/useLocale', async () => {
   };
 });
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual('react-router');
   return { ...actual };
 });
 

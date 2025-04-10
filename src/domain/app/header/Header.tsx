@@ -19,7 +19,7 @@ import {
   useMenuQuery,
 } from 'react-helsinki-headless-cms/apollo';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useMatch } from 'react-router-dom';
+import { useLocation, useMatch } from 'react-router';
 
 import styles from './header.module.scss';
 import {

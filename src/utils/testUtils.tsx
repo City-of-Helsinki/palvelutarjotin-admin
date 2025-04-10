@@ -14,7 +14,7 @@ import * as React from 'react';
 import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import Modal from 'react-modal';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import wait from 'waait';
 
 import { createApolloCache } from '../domain/app/apollo/cache';
