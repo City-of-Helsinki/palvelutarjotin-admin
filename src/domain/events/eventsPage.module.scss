@@ -1,5 +1,5 @@
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/layout';
+@use '~styles/variables';
 
 .eventsPage {
   --color-show-more-button: var(--color-bus);
@@ -11,7 +11,7 @@
 }
 
 .eventsPage {
-  padding-bottom: $paddingBottomPage;
+  padding-bottom: variables.$paddingBottomPage;
 
   h1 {
     font-size: var(--fontsize-heading-l);
@@ -25,11 +25,11 @@
   .comingEventsTitleWrapper {
     display: grid;
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 1fr auto;
     }
 
-    @include respond_below(m) {
+    @include layout.respond-below(m) {
       h2 {
         order: 1;
       }
@@ -40,7 +40,7 @@
     display: grid;
     grid-gap: var(--grid-gap);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: var(--width-input) 1fr auto;
     }
   }

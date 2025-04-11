@@ -1,4 +1,4 @@
-@import '~styles/layout';
+@use '~styles/layout';
 
 .container {
   padding: 0 !important;
@@ -63,19 +63,19 @@
     margin: 0;
   }
 
-  @include respond-above(m) {
+  @include layout.respond-above(m) {
     flex-direction: row;
   }
 
   &Main {
-    @include respond-above(m) {
+    @include layout.respond-above(m) {
       flex-basis: 66.666%;
       margin-right: var(--spacing-xs);
     }
   }
 
   &Aside {
-    @include respond-above(m) {
+    @include layout.respond-above(m) {
       flex-basis: 33.333%;
       margin-left: var(--spacing-xs);
     }

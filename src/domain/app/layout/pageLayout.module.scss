@@ -1,4 +1,4 @@
-@import '~styles/layout';
+@use '~styles/layout';
 
 .pageLayout {
   --background-color-body: #f7f6f6;
@@ -17,7 +17,7 @@
   display: grid;
   background-color: var(--background-color-body);
 
-  @include respond-below(m) {
+  @include layout.respond-below(m) {
     opacity: 1;
     transition:
       visibility 0.2s,

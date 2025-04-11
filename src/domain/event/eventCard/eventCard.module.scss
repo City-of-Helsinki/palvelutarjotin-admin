@@ -1,5 +1,5 @@
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/layout';
+@use '~styles/variables';
 
 .eventCard {
   --background-color-event-card: var(--color-white);
@@ -32,7 +32,7 @@
     outline: 2px var(--color-coat-of-arms) solid;
   }
 
-  @include respond_above(m) {
+  @include layout.respond-above(m) {
     grid-template-columns: var(--width-image) 1fr;
   }
 
@@ -42,13 +42,13 @@
     background-size: cover;
     background-repeat: no-repeat;
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       min-height: var(--height-image);
     }
   }
 
   .contentWrapper {
-    padding: $basePadding;
+    padding: variables.$basePadding;
     display: grid;
     grid-template-rows: 1fr auto;
   }

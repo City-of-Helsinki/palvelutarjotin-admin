@@ -1,4 +1,4 @@
-@import '~styles/variables';
+@use '~styles/variables';
 
 .eventSummaryPage {
   --color-link: var(--color-bus);
@@ -13,7 +13,7 @@
 }
 
 .eventSummaryPage {
-  padding-bottom: $paddingBottomPage;
+  padding-bottom: variables.$paddingBottomPage;
 
   h1 {
     font-size: var(--fontsize-heading-l);

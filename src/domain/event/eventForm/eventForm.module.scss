@@ -1,5 +1,5 @@
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/layout';
+@use '~styles/variables';
 
 .eventForm {
   --fontsize-header: var(--fontsize-heading-s);
@@ -35,7 +35,7 @@
     }
   }
 
-  @include respond_above(m) {
+  @include layout.respond-above(m) {
     grid-template-columns: 5fr 2fr;
   }
 
@@ -48,7 +48,7 @@
     display: grid;
     grid-gap: 20px;
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 1fr 1fr;
     }
   }
@@ -57,7 +57,7 @@
     display: grid;
     grid-gap: var(--grid-gap);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 3fr 1fr;
     }
   }
@@ -71,7 +71,7 @@
     grid-gap: var(--grid-gap);
     margin-bottom: var(--spacing-m);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 1fr 3fr;
     }
   }
@@ -81,12 +81,12 @@
     grid-gap: var(--grid-gap);
     margin-bottom: var(--spacing-m);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 1fr 2fr 1fr;
     }
 
     .isFreeWrapper {
-      @include respond_above(m) {
+      @include layout.respond-above(m) {
         display: flex;
         align-self: end;
         margin-bottom: 1px;
@@ -102,7 +102,7 @@
     display: grid;
     grid-gap: var(--grid-gap);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 180px 1fr;
     }
 
@@ -120,9 +120,9 @@
 .occurrenceFormRow {
   display: grid;
 
-  @include respond_above(l-plus) {
+  @include layout.respond-above(l-plus) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: $baseMargin;
+    grid-gap: variables.$baseMargin;
   }
 }
 

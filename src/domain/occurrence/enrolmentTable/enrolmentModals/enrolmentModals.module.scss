@@ -1,4 +1,4 @@
-@import '~styles/layout';
+@use '~styles/layout';
 
 .bodyOpen {
   overflow: hidden;
@@ -38,7 +38,7 @@
   top: var(--modal-top-padding);
   margin-bottom: var(--modal-top-padding);
 
-  @include respond-below(l-plus) {
+  @include layout.respond-below(l-plus) {
     position: fixed;
     top: 0;
     left: 0;
@@ -46,7 +46,7 @@
     bottom: 0;
   }
 
-  @include respond-above(l-plus) {
+  @include layout.respond-above(l-plus) {
     width: var(--width-modal);
   }
 }
