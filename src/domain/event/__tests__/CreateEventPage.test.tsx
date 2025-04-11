@@ -48,7 +48,6 @@ import {
   editMocks,
   eventId,
   eventName,
-  eventOrganizationName,
   eventOrganizationPersonName,
   getKeywordId,
   infoUrl,
@@ -772,8 +771,7 @@ describe('Copy event', () => {
     await waitFor(() =>
       expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
     );
-
-    await screen.findByText(eventOrganizationName);
+    await screen.findByText(defaultOrganizationName);
     await screen.findByText(keyword);
 
     expect(screen.getByLabelText(/Tapahtuman nimi/i)).toHaveValue(eventName);

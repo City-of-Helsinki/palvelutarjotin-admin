@@ -29,15 +29,12 @@ import {
 import { HEADER_MENU_NAME } from '../../../headless-cms/constants';
 import { useCmsLanguageOptions } from '../../../headless-cms/hooks';
 import { stripLocaleFromUri } from '../../../headless-cms/utils';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { useAppSelector } from '../../../hooks/useAppSelector';
 import useLocale from '../../../hooks/useLocale';
 import useNavigate from '../../../hooks/useNavigate';
 import { skipFalsyType } from '../../../utils/typescript.utils';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import useLogout from '../../auth/useLogout';
-import { setActiveOrganisation } from '../../organisation/actions';
-import { activeOrganisationSelector } from '../../organisation/selector';
+import useOrganisationContext from '../../organisation/contextProviders/useOrganisationContext';
 import AppConfig from '../AppConfig';
 import { ROUTES } from '../routes/constants';
 import { getCmsPath } from '../routes/utils';
@@ -49,7 +46,6 @@ const UserNavigation: React.FC<{
   const logout = useLogout();
   const { t } = useTranslation();
   const { pushWithLocale } = useNavigate();
-  const dispatch = useAppDispatch();
 
   const goToEditMyProfile = () => {
     pushWithLocale(ROUTES.MY_PROFILE);
@@ -65,11 +61,8 @@ const UserNavigation: React.FC<{
     }
   };
 
-  const activeOrganisation = useAppSelector(activeOrganisationSelector);
-
-  const changeActiveOrganisation = (id: string) => {
-    dispatch(setActiveOrganisation(id));
-  };
+  const { activeOrganisation, setActiveOrganisation } =
+    useOrganisationContext();
 
   return (
     <HDSHeader.ActionBarItem
@@ -102,12 +95,12 @@ const UserNavigation: React.FC<{
         <HDSButton
           key={`organisation-${organisation.id}`}
           className={
-            activeOrganisation === organisation.id
+            activeOrganisation?.id === organisation.id
               ? styles.activeDropdownButton
               : styles.dropdownButton
           }
           iconLeft={<IconAngleRight />}
-          onClick={() => changeActiveOrganisation(organisation.id)}
+          onClick={() => setActiveOrganisation(organisation)}
           variant="supplementary"
         >
           {organisation.name || ''}

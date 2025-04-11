@@ -19,6 +19,7 @@ import {
   fakePlace,
 } from '../../../utils/mockDataUtils';
 import { customRender } from '../../../utils/testUtils';
+import * as useOrganisationContext from '../../organisation/contextProviders/useOrganisationContext';
 import { EVENT_SORT_KEYS, PAGE_SIZE, PUBLICATION_STATUS } from '../constants';
 import EventsPage from '../EventsPage';
 
@@ -47,6 +48,10 @@ const eventOverrides: Partial<Event>[] = Array.from({ length: 10 }).map(
 );
 
 const organisationsMock = fakeOrganisations();
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+const activeOrganisation = organisationsMock.edges[0]?.node!;
+
 const eventsMock1 = fakeEvents(5, eventOverrides.slice(0, 5));
 const eventsMock2 = fakeEvents(5, eventOverrides.slice(5));
 const activePlaceEvents = fakeEvents(5);
@@ -61,7 +66,7 @@ eventsMock2.meta.next = 'https://test.fi?page=3';
 
 const baseVariables = {
   pageSize: PAGE_SIZE,
-  publisher: organisationsMock.edges[0]?.node?.publisherId,
+  publisher: activeOrganisation?.publisherId,
   sort: EVENT_SORT_KEYS.START_TIME,
   text: '',
   showAll: true,
@@ -241,13 +246,12 @@ const apolloPlaceEventMocks = [
 ];
 
 const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
+  vi.spyOn(useOrganisationContext, 'default').mockImplementation(() => ({
+    activeOrganisation,
+    setActiveOrganisation: vi.fn(),
+  }));
   return customRender(<EventsPage />, {
     mocks: [...apolloMocks, ...(mocks ?? [])],
-    initialState: {
-      organisation: {
-        activeOrganisation: organisationsMock.edges[0]?.node?.id,
-      },
-    },
     routes: ['/'],
   });
 };
