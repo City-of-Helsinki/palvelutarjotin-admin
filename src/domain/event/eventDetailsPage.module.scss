@@ -1,5 +1,5 @@
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/layout';
+@use '~styles/variables';
 
 .eventDetailsPage {
   --color-delete-icon: var(--color-error);
@@ -16,7 +16,7 @@
 }
 
 .eventDetailsPage {
-  padding-bottom: $paddingBottomPage;
+  padding-bottom: variables.$paddingBottomPage;
 
   h1 {
     font-size: var(--fontsize-heading-l);
@@ -38,7 +38,7 @@
     display: grid;
     grid-gap: var(--grid-gap);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 2fr 1fr;
     }
   }

@@ -1,7 +1,7 @@
 // WORKAROUND: Marked all styles !important so they apply even if CSS order varies.
 //             Switching from CRA/Craco to Vite might remove the need for this hack.
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/layout';
+@use '~styles/variables';
 
 @mixin active {
   color: var(--color-white) !important;
@@ -13,7 +13,7 @@
 }
 
 .dropdownButton {
-  min-width: $breakpoint-xs !important;
+  min-width: layout.$breakpoint-xs !important;
   text-align: left !important;
   justify-content: left !important;
   max-height: 40px !important;

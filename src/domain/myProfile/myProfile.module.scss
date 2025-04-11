@@ -1,7 +1,7 @@
-@import '~styles/variables';
+@use '~styles/variables';
 
 .myProfile {
-  padding-bottom: $paddingBottomPage;
+  padding-bottom: variables.$paddingBottomPage;
 
   h1 {
     font-size: var(--fontsize-heading-l);

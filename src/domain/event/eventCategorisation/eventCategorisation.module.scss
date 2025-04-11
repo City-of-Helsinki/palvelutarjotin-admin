@@ -1,11 +1,11 @@
-@import '~styles/layout';
+@use '~styles/layout';
 
 .eventCategorisation {
   .infoRow {
     display: grid;
     grid-gap: var(--grid-gap);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       grid-template-columns: 1fr 1fr;
     }
   }
