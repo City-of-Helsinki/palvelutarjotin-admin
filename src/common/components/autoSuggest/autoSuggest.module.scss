@@ -1,4 +1,4 @@
-@import '~styles/fonts';
+@use '~styles/fonts';
 
 .a11yText {
   z-index: 9999;
@@ -88,7 +88,7 @@
 
   .infoMessage {
     padding: 1rem;
-    font-size: $font-size-lg;
+    font-size: fonts.$font-size-lg;
     text-align: center;
   }
 
@@ -102,7 +102,7 @@
 
   .listItem {
     padding: 1rem;
-    font-size: $font-size-lg;
+    font-size: fonts.$font-size-lg;
     display: grid;
     cursor: pointer;
     grid-template-columns: 1fr auto;

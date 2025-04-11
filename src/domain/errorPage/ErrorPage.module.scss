@@ -1,5 +1,5 @@
-@import '~styles/variables';
-@import '~styles/layout';
+@use '~styles/variables';
+@use '~styles/layout';
 
 .container {
   --header-fontsize: var(--fontsize-heading-l);
@@ -35,7 +35,7 @@
     width: 300px;
     margin-top: var(--content-spacing);
 
-    @include respond_above(m) {
+    @include layout.respond-above(m) {
       margin-top: 4rem;
     }
   }

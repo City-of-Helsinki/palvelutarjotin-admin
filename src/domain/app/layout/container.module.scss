@@ -1,20 +1,20 @@
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/layout';
+@use '~styles/variables';
 
 .container {
   display: grid;
   grid-row: span;
-  padding: $basePadding 0;
+  padding: variables.$basePadding 0;
   place-content: flex-start;
 
   grid-template-columns: 0.75rem 1fr 0.75rem;
 
-  @include respond-between(m, xxl) {
+  @include layout.respond-between(m, xxl) {
     grid-template-columns: 1fr 10fr 1fr;
   }
 
-  @include respond-above(xxl) {
-    grid-template-columns: 1fr minmax(auto, $containerMaxWidth) 1fr;
+  @include layout.respond-above(xxl) {
+    grid-template-columns: 1fr minmax(auto, variables.$containerMaxWidth) 1fr;
   }
 
   & > * {
@@ -22,14 +22,14 @@
   }
 
   &.xsmall {
-    @include respond-above(m) {
-      grid-template-columns: 1fr minmax(auto, $containerXSmallMaxWidth) 1fr;
+    @include layout.respond-above(m) {
+      grid-template-columns: 1fr minmax(auto, variables.$containerXSmallMaxWidth) 1fr;
     }
   }
 
   &.small {
-    @include respond-above(m) {
-      grid-template-columns: 1fr minmax(auto, $containerSmallMaxWidth) 1fr;
+    @include layout.respond-above(m) {
+      grid-template-columns: 1fr minmax(auto, variables.$containerSmallMaxWidth) 1fr;
     }
   }
 }

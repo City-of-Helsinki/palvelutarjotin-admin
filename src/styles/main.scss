@@ -1,7 +1,7 @@
-@import '~styles/vendor/normalize';
-@import '~styles/fonts';
-@import '~styles/layout';
-@import '~styles/variables';
+@use '~styles/vendor/normalize';
+@use '~styles/fonts';
+@use '~styles/layout';
+@use '~styles/variables';
 
 html {
   height: 100%;
@@ -43,5 +43,5 @@ button {
 
 // Override globally all text to use Helsinki font.
 * {
-  font-family: $font-family-base;
+  font-family: fonts.$font-family-base;
 }

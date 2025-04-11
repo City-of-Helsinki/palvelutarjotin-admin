@@ -1,8 +1,8 @@
-@import '~styles/fonts';
+@use '~styles/fonts';
 
 .placeInfo {
   color: var(--color-black-90);
-  font-size: $body-medium-font-size;
+  font-size: fonts.$body-medium-font-size;
   line-height: 2rem;
 
   p {
