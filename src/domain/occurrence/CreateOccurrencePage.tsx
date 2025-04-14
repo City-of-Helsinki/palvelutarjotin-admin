@@ -452,13 +452,18 @@ const CreateOccurrencePage: React.FC = () => {
       } else {
         throw new Error("Can't submit because event wasn't defined");
       }
-    } catch (e) {
+    } catch (error) {
       if (isTestEnv()) {
         // eslint-disable-next-line no-console
-        console.log(e);
+        console.log(error);
       }
       toast.error(t('createOccurrence.error'));
-      return Promise.reject(e);
+
+      if (error instanceof Error) {
+        return Promise.reject(error);
+      } else {
+        return Promise.reject(new Error(JSON.stringify(error)));
+      }
     }
   };
 
