@@ -80,14 +80,21 @@ describe('stripLocaleFromUri', () => {
 
 describe('removeSurroundingSlashes', () => {
   test.each([
-    {
-      uri: '/moi/',
-      expected: 'moi',
-    },
-    {
-      uri: '/slug1/slug2/',
-      expected: 'slug1/slug2',
-    },
+    { uri: 'test', expected: 'test' },
+    { uri: '/test', expected: 'test' },
+    { uri: 'test/', expected: 'test' },
+    { uri: '/test/', expected: 'test' },
+    { uri: '// test //', expected: '/ test /' },
+    { uri: 'https://a.org/a/b/c/', expected: 'https://a.org/a/b/c' },
+    { uri: 'https://a.org/a/b/c//', expected: 'https://a.org/a/b/c/' },
+    { uri: 'https://a.org/a/b/c', expected: 'https://a.org/a/b/c' },
+    { uri: '//\t\n/test/a-2/\n\t///', expected: '/\t\n/test/a-2/\n\t//' },
+    { uri: ' /test/', expected: ' /test' },
+    { uri: '\\test/\\', expected: '\\test/\\' },
+    { uri: '1test-', expected: '1test-' },
+    { uri: '/test/ ', expected: 'test/ ' },
+    { uri: ' /test/ ', expected: ' /test/ ' },
+    { uri: '/slug1/slug2/', expected: 'slug1/slug2' },
   ])(
     'removeSurroundingSlashes("$uri") returns $expected',
     ({ uri, expected }) => {

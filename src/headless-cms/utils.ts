@@ -26,8 +26,14 @@ export const getCmsUriFromPath = (path: string) => {
   return path.replace(/(\/?(fi|en|sv))?\/?cms-page/, '');
 };
 
+/**
+ * Remove a single slash from given path's beginning and from its end.
+ * @param path
+ * @returns Input path with single slash, if present, removed from its beginning
+ * and similarly from its end.
+ * */
 export const removeSurroundingSlashes = (path: string) => {
-  return path.replace(/^\/|\/$/g, '');
+  return path.replace(/(^\/|\/$)/g, '');
 };
 
 export const normalizeCmsUri = (uri: string) => {
