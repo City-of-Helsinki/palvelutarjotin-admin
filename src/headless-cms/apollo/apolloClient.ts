@@ -23,7 +23,7 @@ import {
   TimedApolloCachePersistor,
 } from './persistor';
 
-export let cmsApolloClient: ApolloClient<NormalizedCacheObject> | undefined;
+let cmsApolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 /**
  * Creates a new Apollo Client instance specifically for CMS data.

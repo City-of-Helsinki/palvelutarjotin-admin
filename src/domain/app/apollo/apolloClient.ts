@@ -18,7 +18,7 @@ import { getKultusAdminApiTokenFromStorage } from '../../auth/kultusAdminApiUtil
 import AppConfig from '../AppConfig';
 import i18n from '../i18n/i18nInit';
 
-export let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
+let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 /**
  * Creates a new Apollo Client instance.
