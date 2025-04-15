@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { beforeEach, beforeAll, afterEach, afterAll, vi, expect } from 'vitest';
 import * as matchers from 'vitest-axe/matchers';
 
+import filterConsole from './filterConsole';
 import { server } from './msw/server';
 import i18n from './testi18nInit';
 
@@ -17,36 +18,8 @@ expect.extend(matchers);
 loadDevMessages();
 loadErrorMessages();
 
-// eslint-disable-next-line no-console
-const originalConsoleWarn = console.warn;
-// eslint-disable-next-line no-console
-console.warn = (msg, ...optionalParams) => {
-  // Hide Helsinki Design System's RadioButton warning from:
-  // eslint-disable-next-line max-len
-  // https://github.com/City-of-Helsinki/helsinki-design-system/blob/v3.5.0/packages/react/src/components/radioButton/RadioButton.tsx#L65
-  if (
-    msg
-      .toString()
-      .startsWith(
-        'Using ReactElement as a label is against good usability and accessibility practices.'
-      )
-  ) {
-    return;
-  }
-  originalConsoleWarn(msg, ...optionalParams);
-};
-
-// eslint-disable-next-line no-console
-const originalConsoleInfo = console.info;
-// eslint-disable-next-line no-console
-console.info = (msg, ...optionalParams) => {
-  // Hide createCmsApolloClient function's cache messages to declutter test output
-  const persistedCacheRegex = /^Persisted cache has (been restored|expired)\./;
-  if (persistedCacheRegex.test(msg.toString())) {
-    return;
-  }
-  originalConsoleInfo(msg, ...optionalParams);
-};
+// Filter console messages to declutter test output
+filterConsole();
 
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
