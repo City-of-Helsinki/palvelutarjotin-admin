@@ -49,7 +49,7 @@ exports[`Footer matches snapshot 1`] = `
         Kultus Admin
       </h2>
       <div
-        class="FooterBase-module_base__2f0eu"
+        class="FooterBase-module_base__2f0eu footerBase"
       >
         <hr
           aria-hidden="true"

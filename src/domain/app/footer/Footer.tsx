@@ -48,6 +48,7 @@ const Footer: FunctionComponent = () => {
         }
         backToTopLabel={t('footer.backToTop')}
         onBackToTopClick={handleBackToTop}
+        className={styles.footerBase}
       >
         {footerLinks.map((footerLink) => (
           <HDSFooter.Link
