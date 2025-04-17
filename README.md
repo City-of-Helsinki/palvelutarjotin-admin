@@ -1,6 +1,38 @@
-# palvelutarjotin-admin
+# Palvelutarjotin-admin
 
 Staff interface for Palvelutarjotin
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Environments](#environments)
+- [Requirements](#requirements)
+- [Available Scripts](#available-scripts)
+  - [`yarn dev`](#yarn-dev)
+  - [`yarn test:watch`](#yarn-testwatch)
+  - [`yarn test:changed`](#yarn-testchanged)
+  - [`yarn test:staged`](#yarn-teststaged)
+  - [`yarn test:coverage`](#yarn-testcoverage)
+  - [`yarn ci`](#yarn-ci)
+  - [`yarn test:debug`](#yarn-testdebug)
+  - [`yarn build`](#yarn-build)
+  - [`yarn codegen`](#yarn-codegen)
+- [Versioning](#versioning)
+- [Setting up development environment locally with docker](#setting-up-development-environment-locally-with-docker)
+  - [Set tunnistamo hostname](#set-tunnistamo-hostname)
+  - [Create a new OAuth app on GitHub](#create-a-new-oauth-app-on-github)
+  - [Install local tunnistamo](#install-local-tunnistamo)
+  - [Install Palvelutarjotin GraphQl server locally](#install-palvelutarjotin-graphql-server-locally)
+  - [palvelutarjotin-admin-ui](#palvelutarjotin-admin-ui)
+- [Debugging](#debugging)
+  - [Debugging project in VS Code](#debugging-project-in-vs-code)
+  - [Debugging Tests in VS Code](#debugging-tests-in-vs-code)
+  - [Debugging Tests in Chrome](#debugging-tests-in-chrome)
+- [Docker](#docker)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Environments
 
