@@ -183,6 +183,7 @@
     "@graphql-codegen/typescript-operations": "^4.6.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
     "dequal": "^2.0.3",
+    "doctoc": "^2.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "postcss-scss": "^4.0.9",
