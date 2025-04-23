@@ -14,7 +14,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
-ARG NODE_ENV=production
+ARG NODE_ENV=${NODE_ENV:-"production"}
 ENV NODE_ENV $NODE_ENV
 
 # Global npm deps in a non-root user directory
@@ -22,16 +22,37 @@ ENV NPM_CONFIG_PREFIX=/app/.npm-global
 ENV PATH=$PATH:/app/.npm-global/bin
 
 # Yarn
-ENV YARN_VERSION 1.22.4
+ENV YARN_VERSION 1.22.22
 RUN yarn policies set-version ${YARN_VERSION}
 
-# Copy package.json, package-lock.json, yarn.lock & printVersion.js files
-COPY package*.json *yarn* printVersion.js ./
+# Copy package.json and package-lock.json/yarn.lock files
+COPY --chown=default:root package*.json *yarn* ./
 
 # Install npm dependencies
 ENV PATH /app/node_modules/.bin:$PATH
 
 RUN yarn && yarn cache clean --force
+
+# =============================
+FROM appbase AS development
+# =============================
+
+# Set NODE_ENV to development in the development container
+ARG NODE_ENV=development
+ENV NODE_ENV $NODE_ENV
+
+# Enable hot reload by default by polling for file changes.
+#
+# NOTE: Can be disabled by setting CHOKIDAR_USEPOLLING=false in file `.env`
+#       if hot reload works on your system without polling to save CPU time.
+ARG CHOKIDAR_USEPOLLING=true
+ENV CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING}
+
+# copy in our source code last, as it changes the most
+COPY --chown=default:root . .
+
+# Bake package.json start command into the image
+CMD ["yarn", "dev", "--no-open", "--host"]
 
 # ===================================
 FROM appbase AS staticbuilder
@@ -67,6 +88,12 @@ ARG VITE_APP_HELSINKI_PROFILE_URL
 
 # Time before user logout if idle
 ARG VITE_APP_IDLE_TIMEOUT_IN_MS
+
+ARG NODE_OPTIONS
+
+# Fix FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - 
+# JavaScript heap out of memory: https://github.com/vitejs/vite/issues/2433.
+ENV NODE_OPTIONS=${NODE_OPTIONS}
 
 # Release information
 ARG VITE_APP_RELEASE

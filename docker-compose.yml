@@ -1,9 +1,24 @@
-version: '3.7'
-
 services:
   app:
     container_name: palvelutarjotin-admin
     build:
       context: .
+      target: ${DOCKER_TARGET:-development}
+    environment:
+      NODE_ENV: ${DOCKER_TARGET:-development} # which node env the build uses. NOTE: Usually same as the ${DOCKER_TARGET}.
+      VITE_ENVIRONMENT: ${DOCKER_TARGET:-development}
+      PORT: ${PORT:-3000}
+    env_file: '.env'
+    volumes:
+      # Share local directory to enable development with hot reloading
+      # NOTE: the volume mapping will break the production-stage build!
+      - .:/app
+      # Prevent sharing the following directories between host and container
+      # to avoid ownership and/or platform issues:
+      - /app/node_modules
     ports:
-      - '3000:8080'
+      - '${PORT:-3000}:${PORT:-3000}'
+      - '8084:8080'
+networks:
+  default:
+      name: helsinki
