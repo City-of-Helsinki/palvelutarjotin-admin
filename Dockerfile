@@ -121,6 +121,8 @@ FROM registry.access.redhat.com/ubi9/nginx-122 AS production
 # =============================
 # Add application sources to a directory that the assemble script expects them
 # and set permissions so that the container runs without root access
+ARG PORT
+
 USER root
 
 RUN chgrp -R 0 /usr/share/nginx/html && \
@@ -136,4 +138,4 @@ USER 1001
 # Run script uses standard ways to run the application
 CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
 
-EXPOSE 8080
+EXPOSE ${PORT:-8080}
