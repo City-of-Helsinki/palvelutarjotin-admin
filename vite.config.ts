@@ -1,8 +1,8 @@
 import path from 'path';
 
 import react from '@vitejs/plugin-react-swc';
-import eslint from 'vite-plugin-eslint';
 import { defineConfig, loadEnv } from 'vite';
+import eslint from 'vite-plugin-eslint';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const viteConfig = ({ mode }) => {
@@ -27,11 +27,11 @@ const viteConfig = ({ mode }) => {
       outDir: 'build',
     },
     server: {
-      port: 3000,
+      port: parseInt(process.env.PORT ?? '3000'),
       open: true,
     },
     preview: {
-      port: 3000,
+      port: parseInt(process.env.PORT ?? '3000'),
     },
     plugins: [react(), eslint(), tsconfigPaths()],
   });
