@@ -17,8 +17,7 @@ services:
       # to avoid ownership and/or platform issues:
       - /app/node_modules
     ports:
-      - '${PORT:-3000}:${PORT:-3000}'
-      - '8084:8080'
+      - 3000:${PORT:-3000}
 networks:
   default:
       name: helsinki
