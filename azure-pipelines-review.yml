@@ -50,10 +50,7 @@ extends:
     # Application build arguments and config map values as key value pairs.
     # Does not contain all buildArguments, the rest located in kultus-pipelines/kultus-admin-ui-development.yml and kultus-admin-ui-common.yml
     # The values here will override the values defined in the kultus-pipelines repository.
-    buildArgs:
-      VITE_APP_API_URI: 'https://kultus-local.api.dev.hel.ninja/graphql'
-      VITE_APP_API_REPORT_URI: 'https://kultus-local.api.dev.hel.ninja/reports'
-      VITE_APP_LINKEDEVENTS_API_URI: 'https://linkedevents.api.test.hel.ninja/v1'
-      VITE_APP_CMS_URI: 'https://kultus.app-staging.hkih.hion.dev/graphql'
+    # buildArgs:
+    #   VITE_APP_API_URI: 'https://kultus.api.test.hel.ninja/graphql'
 
     # configMap: # pod environment variables
