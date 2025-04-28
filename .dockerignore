@@ -1,7 +1,4 @@
 *
-!.env
-!.env.development
-!.env.development.local
 !.gitignore
 !.prettierignore
 !.prettierrc.json
