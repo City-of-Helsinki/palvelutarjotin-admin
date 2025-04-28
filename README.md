@@ -353,7 +353,6 @@ Using the following instructions you should be able to:
       # Prevent sharing the following directories between host and container
       # to avoid ownership and/or platform issues:
       - /app/node_modules
-      - /app/.next
     ```
     and then running
     ```shell
@@ -457,12 +456,12 @@ Codegen settings in <b>codegen.yml</b>
 
 ## Headless CMS
 
-A headless CMS system is used to produce some dynamic pages, but also the header and the footer contents for the UI (layout). The Headless CMS server endpoint is set with `NEXT_PUBLIC_CMS_BASE_URL` environment variable.
+A headless CMS system is used to produce some dynamic pages, but also the header and the footer contents for the UI (layout). The Headless CMS server endpoint is set with `VITE_APP_CMS_URI` environment variable.
 
 The default server that is used is the test / staging server:
 
 ```
-NEXT_PUBLIC_CMS_BASE_URL="https://kultus.app-staging.hkih.hion.dev/graphql"
+VITE_APP_CMS_URI=https://kultus.app-staging.hkih.hion.dev/graphql
 ```
 
 See the available servers from [Environments](#environments).
