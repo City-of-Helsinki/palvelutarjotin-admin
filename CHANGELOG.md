@@ -4,6 +4,31 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.15.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.1...palvelutarjotin-admin-v1.15.0) (2025-04-28)
+
+
+### Features
+
+* **apollo:** Cache persistor for cms client ([a8f78db](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a8f78dbec695789795c496bc321b768b8478dd52))
+* **apollo:** Clients refactored and added CMS URL rewriting rules ([4e60a9c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4e60a9c572bf401d7a585099b625b72e379e5c4f))
+* **apollo:** Prepopulate languages query cache ([4c66b7b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4c66b7bffc8bd0fedab9ac8f33a0eca2c571cfea))
+* **CSP:** Add CSP meta tag ([29ef2ff](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/29ef2ff40f376d69f47f9b2a466948227da622c7))
+* **dependabot:** Configure dependabot using .github/dependabot.yml ([28c54f8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/28c54f82980b99b3556425ae84f37b6e74dd89e4))
+* Fix timezone to Helsinki's zone ([81734ce](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/81734ce99717983203cd611480b5598424ec4013))
+* **license:** Add LICENSE file using MIT license ([8c40d42](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8c40d42d24b80f934b6cdb93a5382784761d187d))
+* Replace Redux context with React context implementation ([28d4ace](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/28d4acefa9ba862ad5d0b67c5f28da456b9a6500))
+* Upgrade to eslint v9 & flat config file ([77c4f4b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/77c4f4ba50ebf9a33ec58feffe66baeeb5936cdb))
+* Use react-router Link with HCRC-lib ([20a54bf](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/20a54bff83808d4d7d50cfaeda796270a55052cf))
+
+
+### Bug Fixes
+
+* **dependabot:** Remove inexistent kuva-frontend team from reviewers ([85c0b87](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/85c0b875dfd5f4c338904a866e000965202a4dd9))
+* Flex-wrap footer links when they do not fit in single row ([4af5e83](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4af5e838a50e224788f5b2b78e14141fd73d5d77))
+* Make SCSS files Dart Sass 3.0.0 compatible ([8c5c126](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8c5c126231b52aa9c05820593a2219ad46075aae))
+* Passing key property to JSX without using spread ([efe67b7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/efe67b74c9b6321d246bb14599ae8f750ad95755))
+* Remove dependabot reviewers, set comment for PT-1887 ([b008255](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b00825593bc619fb12ddabbb201c930e66bcaa7d))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.0...palvelutarjotin-admin-v1.14.1) (2024-12-11)
 
 
