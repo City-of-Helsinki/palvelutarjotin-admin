@@ -21,16 +21,16 @@ Providers' UI - A restricted administration client for Kultus event providers (f
   - [Husky Git Hooks](#husky-git-hooks)
     - [Pre-commit Hook](#pre-commit-hook)
     - [Commit-msg Hook](#commit-msg-hook)
-- [Available Scripts](#available-scripts)
-  - [`yarn dev`](#yarn-dev)
-  - [`yarn test:watch`](#yarn-testwatch)
-  - [`yarn test:changed`](#yarn-testchanged)
-  - [`yarn test:staged`](#yarn-teststaged)
-  - [`yarn test:coverage`](#yarn-testcoverage)
-  - [`yarn ci`](#yarn-ci)
-  - [`yarn test:debug`](#yarn-testdebug)
-  - [`yarn build`](#yarn-build)
-  - [`yarn codegen`](#yarn-codegen)
+  - [Available Scripts](#available-scripts)
+    - [`yarn dev`](#yarn-dev)
+    - [`yarn test:watch`](#yarn-testwatch)
+    - [`yarn test:changed`](#yarn-testchanged)
+    - [`yarn test:staged`](#yarn-teststaged)
+    - [`yarn test:coverage`](#yarn-testcoverage)
+    - [`yarn ci`](#yarn-ci)
+    - [`yarn test:debug`](#yarn-testdebug)
+    - [`yarn build`](#yarn-build)
+    - [`yarn codegen`](#yarn-codegen)
 - [Headless CMS](#headless-cms)
   - [Headless CMS React Components -lib](#headless-cms-react-components--lib)
 - [Releases, changelogs and deployments](#releases-changelogs-and-deployments)
@@ -398,11 +398,11 @@ npx --no-install commitlint --edit "$1"
 - `npx --no-install commitlint --edit "$1"`: This command uses [Commitlint](https://commitlint.js.org/#/) to lint commit messages based on the project's commit message conventions. This repo follows the [Conventional Commits](#conventional-commits).
 
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
-### `yarn dev`
+#### `yarn dev`
 
 Runs the app in the development mode.<br />
 Open http://localhost:3000/ to view it in the browser.
@@ -410,33 +410,33 @@ Open http://localhost:3000/ to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn test:watch`
+#### `yarn test:watch`
 
 Runs the tests and watches for changes in interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more
 information.
 
-### `yarn test:changed`
+#### `yarn test:changed`
 
 Run tests against uncommitted changes (including staged and unstaged).
 
-### `yarn test:staged`
+#### `yarn test:staged`
 
 Run tests against staged changes, used in husky git commit hook.
 
-### `yarn test:coverage`
+#### `yarn test:coverage`
 
 Run tests and generate coverage report
 
-### `yarn ci`
+#### `yarn ci`
 
 Run tests and generate coverage report, meant for Continuous Integration (CI) pipeline use.
 
-### `yarn test:debug`
+#### `yarn test:debug`
 
 Debug tests
 
-### `yarn build`
+#### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -446,7 +446,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn codegen`
+#### `yarn codegen`
 
 Codegen settings in <b>codegen.yml</b>
 
