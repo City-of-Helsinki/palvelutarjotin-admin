@@ -17,8 +17,7 @@ Providers' UI - A restricted administration client for Kultus event providers (f
     - [Environment configuration](#environment-configuration)
       - [Running using local Node.js](#running-using-local-nodejs)
       - [Running using Docker](#running-using-docker)
-      - [Running the Kultus backend locally](#running-the-kultus-backend-locally)
-      - [Running Tunnistamo](#running-tunnistamo)
+      - [Running Tunnistamo as a local authorization service](#running-tunnistamo-as-a-local-authorization-service)
   - [Husky Git Hooks](#husky-git-hooks)
     - [Pre-commit Hook](#pre-commit-hook)
     - [Commit-msg Hook](#commit-msg-hook)
@@ -194,7 +193,7 @@ This project is built using the following key frameworks and libraries:
 ### Getting started
 
 1. Clone this repository
-2. If you're new to multiple `.env*` files, read Next.js's [Environment Variable Load Order](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order)
+2. If you're new to multiple `.env*` files, read Vite's [Env variables](hhttps://vite.dev/guide/env-and-mode#env-files)
 3. If you're new to multiple Docker compose files, read Docker's [Merge Compose Files](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/)
 4. Follow the instructions below for your preferred way of running this app:
    - [Running using local Node.js](#running-using-local-nodejs) **or**
@@ -225,7 +224,7 @@ There are multiple types of events:
 
 - **Multiple occurrences might be needed**. When an event is created (in Kultus Provider's UI), the admin can choose whether an enrolment needs multiple occurrences to be chosen. In such events, the registrant must commit to attending the event on multiple event dates. These enrolments are always handled in Kultus internally and are automatically approved.
 
-- **Enrolments queue** might also be enabled, which means that when an occurrence is fully booked, the study groups can enrol to queue. IF any enrolment cancellations are made or the enrolments are reorganizing by the admins, enrolments in queue can be promoted to the group of actual registrations.
+- **Enrolments queue** might also be enabled, which means that when an occurrence is fully booked, the study groups can enrol to queue. IF any enrolment cancellations are made or the enrolments are reorganized by the admins, enrolments in queue can be promoted to the group of actual registrations.
 
 #### Environment configuration
 
@@ -254,7 +253,59 @@ Using the following instructions you should be able to:
 - Run the Kultus API backend locally in Docker or use the public test environment's backend
 - Use the public test environments of Helsinki Profile and Keycloak for authentication
 
-TODO: steps - set environment variables, launch node server...
+1. Set up a local Node version can be set for example using [NVM](https://github.com/nvm-sh/nvm).
+2. Copy [.env.example](./.env.example) file to ./.env file).
+    ```shell
+    cp .env.example .env
+    ```
+3. Configure API endpoints
+    
+    **Kultus API**
+    ```shell
+    VITE_APP_API_URI=https://kultus.api.test.hel.ninja/graphql
+    VITE_APP_API_REPORT_URI=https://kultus.api.test.hel.ninja/reports
+    ```
+
+    **LinkedEvents**
+    ```shell
+    VITE_APP_LINKEDEVENTS_API_URI=https://linkedevents.api.test.hel.ninja/v1
+    ```
+
+    Optionally, if you set up a local API, remember to set up also a local LinkedEvents. You can find the instructions for that from Kultus API documentation https://github.com/City-of-Helsinki/palvelutarjotin. To find out why's that important, see [the data model instructions](#about-kultus-data-models-and-relations-to-linkedevents).
+    
+    > NOTE: You can read how Vite uses multiple env-files from [Vite's env variables -doc](hhttps://vite.dev/guide/env-and-mode#env-files).
+    
+    There are also some example configurations provided in the repo. Copy the [.env.development.local.example](./.env.development.local.example) file to ./.env.development.local:
+    ```shell
+    cp .env.development.local.example .env.development.local
+    ```
+
+    The most important things to set a local API are:
+    1. set Kultus API endpoints
+      ```shell
+      VITE_APP_API_URI=http://localhost:8081/graphql
+      VITE_APP_API_REPORT_URI=https://localhost:8081/reports
+      ```
+    2. set LinkedEvents endpoint
+      ```shell
+      VITE_APP_LINKEDEVENTS_API_URI=http://localhost:8080/v1
+      ```
+    3. Set OIDC client. Remember to set also the API to match these values.
+      ```shell
+      # authorization server sets in JWT as a authorized party and audience.
+      VITE_APP_OIDC_AUDIENCES="kultus-api-dev,profile-api-test"
+      # API client id as in audience
+      VITE_APP_OIDC_API_CLIENT_ID=kultus-api-dev
+      # authorized party
+      VITE_APP_OIDC_CLIENT_ID=kultus-admin-ui-dev
+      ```
+
+    > NOTE: if you have any problems to connect, double check the network port where the API is running. Running Docker services and their port forwardings can be checked with `docker ps -a`. 
+    >
+    > If you connect to a Docker container from your local computer, you can usually use https://localhost:8081/ to reach the API. 
+    
+5. Run the Node application in development mode with `yarn dev`. At this point you should be also running the local APIs if you have selected to use them.
+
 
 ##### Running using Docker
 
@@ -263,23 +314,58 @@ Using the following instructions you should be able to:
 - Run this UI using Docker & Docker compose
 - Run the Kultus backend locally in Docker or use the public test environment's backend
 
-TODO: steps - set environment variables, launch docker services...
+1. Copy [.env.example](./.env.example) file to ./.env file).
+    ```shell
+    cp .env.example .env
+    ```
+2. Configure API endpoints
+    
+    **Kultus API**
+    ```shell
+    VITE_APP_API_URI=https://kultus.api.test.hel.ninja/graphql
+    VITE_APP_API_REPORT_URI=https://kultus.api.test.hel.ninja/reports
+    ```
 
-##### Running the Kultus backend locally
+    **LinkedEvents**
+    ```shell
+    VITE_APP_LINKEDEVENTS_API_URI=https://linkedevents.api.test.hel.ninja/v1
+    ```
 
-If you want to run the Kultus backend locally:
-
-- Clone the [Kultus API -repo](https://github.com/City-of-Helsinki/palvelutarjotin)
-- Follow its README to run it locally in Docker
-- After this the Kultus API should be running at http://localhost:8081/graphql (i.e. the value of `NEXT_PUBLIC_API_BASE_URL`)
-- Since the Kultus API is runing locally, also the LinkedEvents must be ran locally, or otherwise the date related to events is not in sync with LinkedEvents and only partial event data is available, leading to missing events.
-
-TODO: steps - set environment variables, launch backend service...
+    to use the API from the public test environment.
+    > NOTE: If you connect to a Docker container from your local computer, you can usually use https://localhost:8081/ to reach the API, but if you connect from a Docker container to another, you should be using the container names like http://kultus-backend:8081/ to reach the API or use http://host.docker.internal:8081/ to connect via your local machine ports.
 
 
-##### Running Tunnistamo
+3. To build and start a docker container, you can use
+    **a development build:**
+    > NOTE: [compose.yml](./compose.yml) maps some local directories as a volume in order to get a hot reload for the code to work.
+    ```shell
+    DOCKER_TARGET=development docker compose up --build
+    ```
 
-See [Setup local Tunnistamo](./docs/tunnistamo.md).
+    or 
+
+    if you want to run **a production build**, you most likely first need to unmap the composer volumes from [compose.yml](./compose.yml), by removing or fully commenting out the following section:
+    ```yaml
+    volumes:
+      # Share local directory to enable development with hot reloading
+      # NOTE: the volume mapping will break the production-stage build!
+      - .:/app
+      # Prevent sharing the following directories between host and container
+      # to avoid ownership and/or platform issues:
+      - /app/node_modules
+      - /app/.next
+    ```
+    and then running
+    ```shell
+    DOCKER_TARGET=production docker compose up --build
+    ```
+
+
+##### Running Tunnistamo as a local authorization service 
+
+> NOTE: in normal use, you should not need this and usually you can just rely in Helsinki Profile's Keycloak.
+
+For a local authorization service, you can use Tunnistamo. See [Setup local Tunnistamo](./docs/setup-tunnistamo.md).
 
 ### Husky Git Hooks
 
