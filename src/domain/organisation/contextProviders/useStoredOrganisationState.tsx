@@ -1,5 +1,6 @@
 import { useOidcClient } from 'hds-react';
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 import { OrganisationContextType } from './OrganisationContext';
 import OrganisationStoragePersistor from './OrganisationStoragePersistor';
@@ -29,7 +30,7 @@ export function useStoredOrganisationState() {
     React.useState<OrganisationContextType['activeOrganisation']>(null);
 
   const { data: myProfileData } = useProfileOrganisationsQuery();
-
+  const navigate = useNavigate();
   React.useEffect(() => {
     // Load persisted organisation on initial mount if no active organisation is set
     if (!activeOrganisation) {
@@ -77,15 +78,21 @@ export function useStoredOrganisationState() {
         // eslint-disable-next-line no-console
         console.info(
           'Active organisation selected and persisted',
-          organisation
+          {
+            organisation,
+          },
+          "Now navigating to '/'."
         );
+        // Navigate to root, so the user would be taken to fresh organisation context.
+        // Without this navigation, user could be e.g. viewing an event from wrong organisation.
+        navigate('/');
       } else {
         OrganisationStoragePersistor.clear();
         // eslint-disable-next-line no-console
         console.info('Active organisation cleared and persistence removed');
       }
     },
-    []
+    [navigate]
   );
 
   return {

@@ -28,17 +28,17 @@ const App = () => {
       <KultusAdminHDSLoginProvider>
         <IdleTimer>
           <ApolloProvider client={apolloClient}>
-            <OrganisationProvider>
-              <RHHCConfigProvider config={rhhcConfig}>
-                <BrowserRouter>
+            <BrowserRouter>
+              <OrganisationProvider>
+                <RHHCConfigProvider config={rhhcConfig}>
                   <ScrollToTop
                     ignoredPaths={IGNORE_SCROLL_TO_TOP}
                     forceScrollToTopPaths={FORCE_SCROLL_TO_TOP}
                   />
                   <AppRoutes />
-                </BrowserRouter>
-              </RHHCConfigProvider>
-            </OrganisationProvider>
+                </RHHCConfigProvider>
+              </OrganisationProvider>
+            </BrowserRouter>
           </ApolloProvider>
         </IdleTimer>
       </KultusAdminHDSLoginProvider>

@@ -142,15 +142,15 @@ async function fillAndSubmitProfileForm() {
 it('PageLayout matches snapshot', async () => {
   const { container } = render(
     <MockedProvider mocks={mocks} addTypename={true}>
-      <OrganisationProvider>
-        <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/']}>
+        <OrganisationProvider>
           <RHHCConfigProviderWithProvidedApolloClient>
             <PageLayout>
               <div>Page layout children</div>
             </PageLayout>
           </RHHCConfigProviderWithProvidedApolloClient>
-        </MemoryRouter>
-      </OrganisationProvider>
+        </OrganisationProvider>
+      </MemoryRouter>
     </MockedProvider>
   );
   await screen.findByText('Kulttuurikasvatus'); // Wait for Header
