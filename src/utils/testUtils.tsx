@@ -74,11 +74,13 @@ export const customRender: CustomRender = (
     <KultusAdminHDSLoginProvider>
       <IdleTimer>
         <MockedProvider mocks={mocks} cache={createApolloCache()}>
-          <OrganisationProvider>
-            <RHHCConfigProviderWithProvidedApolloClient>
-              <BrowserRouter>{children}</BrowserRouter>
-            </RHHCConfigProviderWithProvidedApolloClient>
-          </OrganisationProvider>
+          <BrowserRouter>
+            <OrganisationProvider>
+              <RHHCConfigProviderWithProvidedApolloClient>
+                {children}
+              </RHHCConfigProviderWithProvidedApolloClient>
+            </OrganisationProvider>
+          </BrowserRouter>
         </MockedProvider>
       </IdleTimer>
     </KultusAdminHDSLoginProvider>
@@ -100,16 +102,16 @@ export const renderWithRoute: CustomRender = (
     <KultusAdminHDSLoginProvider>
       <IdleTimer>
         <MockedProvider mocks={mocks} cache={createApolloCache()}>
-          <OrganisationProvider>
-            <RHHCConfigProviderWithProvidedApolloClient>
-              <BrowserRouter>
+          <BrowserRouter>
+            <OrganisationProvider>
+              <RHHCConfigProviderWithProvidedApolloClient>
                 <Routes>
                   <Route path={'/'} element={<>{children}</>} />
                   <Route path={path} element={<>{children}</>} />
                 </Routes>
-              </BrowserRouter>
-            </RHHCConfigProviderWithProvidedApolloClient>
-          </OrganisationProvider>
+              </RHHCConfigProviderWithProvidedApolloClient>
+            </OrganisationProvider>
+          </BrowserRouter>
         </MockedProvider>
       </IdleTimer>
     </KultusAdminHDSLoginProvider>
