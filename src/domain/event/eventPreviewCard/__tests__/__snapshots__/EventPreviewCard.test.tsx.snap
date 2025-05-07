@@ -9,7 +9,7 @@ exports[`renders event information correctly and matches snapshot 1`] = `
   >
     <div
       class="imageWrapper"
-      style="background-image: url(https://linkedevents.api.test.hel.ninja/media/images/test.png);"
+      style="background-image: url("https://linkedevents.api.test.hel.ninja/media/images/test.png");"
     />
     <div
       class="contentWrapper"

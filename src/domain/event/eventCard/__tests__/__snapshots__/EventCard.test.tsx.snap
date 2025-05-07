@@ -11,7 +11,7 @@ exports[`matches snapshot 1`] = `
     <div
       class="imageWrapper"
       data-testid="event-image-id"
-      style="background-image: url(test.url);"
+      style="background-image: url("test.url");"
     />
     <div
       class="contentWrapper"
