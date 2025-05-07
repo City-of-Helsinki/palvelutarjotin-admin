@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.15.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.15.0...palvelutarjotin-admin-v1.15.1) (2025-05-07)
+
+
+### Bug Fixes
+
+* Always navigate to root after organisation select ([a7a03ab](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a7a03abc746605ab6029546bcfe5f6f3a45a8548))
+* **security:** Update packages to latest minor & update snapshots ([bdd8338](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/bdd8338ef0fcd692cd2620ea07780b47b0358bdf))
+
 ## [1.15.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.14.1...palvelutarjotin-admin-v1.15.0) (2025-04-28)
 
 
