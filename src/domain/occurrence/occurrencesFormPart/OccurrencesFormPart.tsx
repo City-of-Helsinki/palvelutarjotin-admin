@@ -464,6 +464,7 @@ const OccurrencesForm: React.FC<{
             });
           },
         });
+        toast.success(t('occurrences.deleteSuccess'));
       } catch (error) {
         toast.error(t('occurrences.deleteError'));
         // eslint-disable-next-line no-console
