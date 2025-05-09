@@ -265,6 +265,7 @@ const CreateOccurrencePage: React.FC = () => {
     skip: !eventId,
     variables: { id: eventId! },
     fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-and-network',
   });
 
   // Get access to latest eventData in handleGoToPublishingClick when it is called
