@@ -60,6 +60,7 @@
     "@date-fns/tz": "^1.2.0",
     "@datepicker-react/hooks": "^2.8.4",
     "@faker-js/faker": "^9.7.0",
+    "@playwright/test": "^1.52.0",
     "@sentry/browser": "^9.15.0",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -121,6 +122,7 @@
     "msw": "^2.7.6",
     "oidc-client": "^1.11.5",
     "path": "^0.12.7",
+    "playwright": "^1.52.0",
     "react": "^18.3.1",
     "react-content-loader": "^7.0.2",
     "react-dom": "^18.3.1",
@@ -161,7 +163,10 @@
     "lint": "eslint src",
     "format:code": "eslint src --fix",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
-    "codegen": "cross-env DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml"
+    "codegen": "cross-env DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml",
+    "codegen:browser": "playwright codegen",
+    "test:browser": "playwright test",
+    "test:browser:ci": "yarn test:browser"
   },
   "browserslist": {
     "production": [
