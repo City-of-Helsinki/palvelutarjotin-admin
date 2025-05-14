@@ -14,11 +14,18 @@ sonar-report.*
 
 # misc
 .DS_Store
+
+# env files
 .env
-.env.local
+.env.development
 .env.development.local
-.env.test.local
+.env.local
+.env.playwright
+.env.playwright.local
+.env.production
 .env.production.local
+.env.test
+.env.test.local
 
 npm-debug.log*
 yarn-debug.log*
@@ -27,9 +34,16 @@ yarn-error.log*
 # browser test screenshots
 /screenshots
 
-# ItelliJ
+# IntelliJ
 *.iml
 
 screenshots
 report
 /.vscode
+
+# Playwright
+.auth
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
