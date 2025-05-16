@@ -30,7 +30,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
  */
 function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   const httpLink = createUploadLink({
-    uri: AppConfig.kukkuuApiGraphqlEndpoint,
+    uri: AppConfig.kultusApiGraphqlEndpoint,
     fetch,
   });
 

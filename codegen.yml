@@ -12,6 +12,7 @@ generates:
       - 'typescript-operations'
       - 'typescript-react-apollo'
     config:
+      gqlImport: graphql-tag#gql
       withHooks: true
       withComponent: false
   src/generated/graphql-cms.tsx:
@@ -22,5 +23,6 @@ generates:
       - 'typescript-operations'
       - 'typescript-react-apollo'
     config:
+      gqlImport: graphql-tag#gql
       withHooks: true
       withComponent: false

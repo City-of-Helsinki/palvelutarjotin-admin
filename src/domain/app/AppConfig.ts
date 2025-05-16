@@ -83,7 +83,7 @@ class AppConfig {
     return getEnvAsUrl('VITE_APP_ORIGIN').origin;
   }
 
-  static get kukkuuApiGraphqlEndpoint() {
+  static get kultusApiGraphqlEndpoint() {
     return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
   }
 
