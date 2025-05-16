@@ -73,6 +73,7 @@
     "@types/draftjs-to-html": "^0.8.4",
     "@types/file-saver": "^2.0.7",
     "@types/html-to-draftjs": "^1.5.0",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.17.43",
     "@types/pretty": "^2.0.3",
@@ -119,6 +120,7 @@
     "i18next-intervalplural-postprocessor": "^3.0.0",
     "ics": "^3.8.1",
     "jsdom": "^26.1.0",
+    "jsonwebtoken": "^9.0.2",
     "msw": "^2.7.6",
     "oidc-client": "^1.11.5",
     "path": "^0.12.7",
@@ -164,6 +166,7 @@
     "format:code": "eslint src --fix",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
     "codegen": "cross-env DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml",
+    "postcodegen": "node ./fix-codegen-gql-import.js",
     "codegen:browser": "playwright codegen",
     "test:browser": "playwright test",
     "test:browser:ci": "yarn test:browser"

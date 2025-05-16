@@ -209,6 +209,7 @@ const OccurrenceForm: React.FC<{
           name="occurrenceLocation"
           disabled={isVirtualEvent || isBookableEvent}
           component={PlaceSelectorField}
+          data-testid="occurrences-form-event-location"
         />
         <div className={styles.occurrenceFormDatePart}>
           <Field

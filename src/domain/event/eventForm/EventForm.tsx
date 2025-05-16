@@ -160,7 +160,10 @@ const EventForm = <T extends FormFields>({
                   noValidate
                 >
                   <div className={styles.formPart}>
-                    <div className={styles.formSection}>
+                    <div
+                      className={styles.formSection}
+                      data-testid="basic-info-section"
+                    >
                       <h2>{t('eventForm.basicInfo.title')}</h2>
                       {sortedSelectedLanguages?.map((lang) => (
                         <FormGroup key={lang}>
@@ -253,7 +256,7 @@ const EventForm = <T extends FormFields>({
 
                     <div
                       className={styles.formSection}
-                      data-testid="in-language-dropdown"
+                      data-testid="event-classifications-section"
                     >
                       <h2>{t('eventForm.categorisation.title')}</h2>
                       <div>
@@ -346,7 +349,10 @@ const EventForm = <T extends FormFields>({
                         </div>
                       </div>
                     </div>
-                    <div className={styles.formSection}>
+                    <div
+                      className={styles.formSection}
+                      data-testid="event-pricing-section"
+                    >
                       <h2>{t('eventForm.offers.title')}</h2>
                       <div className={styles.priceRow}>
                         <div>
@@ -383,7 +389,10 @@ const EventForm = <T extends FormFields>({
                         </FormGroup>
                       ))}
                     </div>
-                    <div className={styles.formSection}>
+                    <div
+                      className={styles.formSection}
+                      data-testid="contact-person-section"
+                    >
                       <FormGroup>
                         <div
                           className={styles.contactInfoWrapper}
@@ -398,7 +407,10 @@ const EventForm = <T extends FormFields>({
                       </FormGroup>
                     </div>
                   </div>
-                  <div className={styles.buttonsWrapper}>
+                  <div
+                    className={styles.buttonsWrapper}
+                    data-testid="action-buttons-section"
+                  >
                     <Button
                       type="button"
                       onClick={onCancel}

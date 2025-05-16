@@ -2,8 +2,7 @@ import type { Page } from '@playwright/test';
 
 import { BasePage } from './base.page';
 import type { Language } from '../../types';
-import { expect } from '../testWithFixtures';
-import { Translation } from '../types';
+import type { Translations } from '../types';
 
 type AllowedLoginPagePaths = '/' | `/${Language}`;
 
@@ -19,12 +18,7 @@ const TRANS = {
     sv: /^Logga in$/i,
     en: /^Log in$/i,
   },
-} as const satisfies Record<string, Translation>;
-
-type TranslationsOf<Keys extends keyof typeof TRANS> =
-  (typeof TRANS)[Keys][Language];
-
-type LoginButton = TranslationsOf<'logIn'>;
+} as const satisfies Translations;
 
 export class LoginPage extends BasePage {
   constructor(page: Page) {
@@ -40,20 +34,16 @@ export class LoginPage extends BasePage {
 
   async isFinnish() {
     await this.hasTitle(TRANS.eventManagement.fi);
-    await this.hasVisibleLoginButton(TRANS.logIn.fi);
+    await this.hasVisibleButton(TRANS.logIn.fi);
   }
 
   async isSwedish() {
     await this.hasTitle(TRANS.eventManagement.sv);
-    await this.hasVisibleLoginButton(TRANS.logIn.sv);
+    await this.hasVisibleButton(TRANS.logIn.sv);
   }
 
   async isEnglish() {
     await this.hasTitle(TRANS.eventManagement.en);
-    await this.hasVisibleLoginButton(TRANS.logIn.en);
-  }
-
-  protected async hasVisibleLoginButton(name: LoginButton) {
-    await expect(this.mainContent.getByRole('button', { name })).toBeVisible();
+    await this.hasVisibleButton(TRANS.logIn.en);
   }
 }
