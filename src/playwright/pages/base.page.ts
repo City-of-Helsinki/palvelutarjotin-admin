@@ -35,4 +35,8 @@ export class BasePage {
   async hasTitle(text: string | RegExp, timeout?: Timeout) {
     await expect(this.h1).toContainText(text, timeout);
   }
+
+  protected async hasVisibleHeading(name: string | RegExp, timeout?: Timeout) {
+    await expect(this.page.getByRole('heading', { name })).toBeVisible(timeout);
+  }
 }

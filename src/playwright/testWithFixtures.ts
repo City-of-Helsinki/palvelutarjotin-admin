@@ -3,17 +3,29 @@
 import { test as base } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
+import { CreateEventPage } from './pages/createEvent.page';
+import { EventSummaryPage } from './pages/eventSummary.page';
 import { LoginPage } from './pages/login.page';
+import { SearchPage } from './pages/search.page';
 import { blockGraphQLMutations } from './routeInterceptors';
 
 type TestFixtures = {
   // Base page fixtures
   page: Page;
+  createEventPage: CreateEventPage;
+  eventSummaryPage: EventSummaryPage;
+  searchPage: SearchPage;
   // Parametrized versions of base page fixtures
   loginPage: LoginPage;
   loginPageFi: LoginPage;
   loginPageSv: LoginPage;
   loginPageEn: LoginPage;
+  // Base data mock fixtures
+  mockAuthenticatedLogin: void;
+  // Compilations of base data mock fixtures
+  mocksForCreateEventPage: void;
+  mocksForEventSummaryPage: void;
+  mocksForSearchPage: void;
 };
 
 export const test = base.extend<TestFixtures>({
@@ -28,6 +40,18 @@ export const test = base.extend<TestFixtures>({
   page: async ({ page }, use) => {
     await blockGraphQLMutations(page);
     await use(page);
+  },
+
+  createEventPage: async ({ page }, use) => {
+    await use(new CreateEventPage(page));
+  },
+
+  eventSummaryPage: async ({ page }, use) => {
+    await use(new EventSummaryPage(page));
+  },
+
+  searchPage: async ({ page }, use) => {
+    await use(new SearchPage(page));
   },
 
   //--------------------------------------------------------------------------
@@ -47,6 +71,35 @@ export const test = base.extend<TestFixtures>({
 
   loginPageEn: async ({ page }, use) => {
     await use(await LoginPage.create(page, '/en'));
+  },
+
+  //--------------------------------------------------------------------------
+  // Base data mock fixtures
+  //--------------------------------------------------------------------------
+
+  // TODO: Implement this mock
+  // eslint-disable-next-line no-empty-pattern
+  mockAuthenticatedLogin: async ({}, use) => {
+    await use();
+  },
+
+  //--------------------------------------------------------------------------
+  // Compilations of base data mock fixtures
+  //--------------------------------------------------------------------------
+
+  // TODO: Implement these mocks
+  mocksForCreateEventPage: async ({ mockAuthenticatedLogin }, use) => {
+    await use();
+  },
+
+  // TODO: Implement these mocks
+  mocksForEventSummaryPage: async ({ mockAuthenticatedLogin }, use) => {
+    await use();
+  },
+
+  // TODO: Implement these mocks
+  mocksForSearchPage: async ({ mockAuthenticatedLogin }, use) => {
+    await use();
   },
 });
 

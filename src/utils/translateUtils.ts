@@ -55,3 +55,20 @@ export const translateValue = (
 
 export const getLocalisedObject = (obj?: LocalisedObject | null) =>
   omitTypename(obj) ?? createEmptyLocalizedObject();
+
+/**
+ * Replace placeholders in string with given values.
+ * Like evaluating a template string (i.e. a backticked string) in given context.
+ * @param template - The template string with placeholders in the form of ${key}.
+ * @param values - An object containing the values to replace the placeholders with.
+ * @returns The interpolated string.
+ *
+ * @example interpolateString('Hello, ${name}!', { name: 'John' }) == 'Hello, John!'
+ */
+export const interpolateString = (
+  template: string,
+  values: Record<string, number | string>
+): string =>
+  new Function(...Object.keys(values), `return \`${template}\`;`)(
+    ...Object.values(values)
+  );

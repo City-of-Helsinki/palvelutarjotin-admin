@@ -35,13 +35,9 @@ export const PRIVACY_POLICY_LINKS = {
 };
 
 export const TERMS_OF_SERVICE_SLUGS = {
-  fi: import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_FI ?? 'kayttoehdot',
-  en:
-    import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_EN ??
-    'terms-of-service',
-  sv:
-    import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_SV ??
-    'anvandarvillkor',
+  fi: import.meta.env.VITE_CMS_TERMS_OF_SERVICE_SLUG_FI ?? 'kayttoehdot',
+  en: import.meta.env.VITE_CMS_TERMS_OF_SERVICE_SLUG_EN ?? 'terms-of-service',
+  sv: import.meta.env.VITE_CMS_TERMS_OF_SERVICE_SLUG_SV ?? 'anvandarvillkor',
 };
 
 export const createEmptyLocalizedObject = (): LocalisedObject => ({
