@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -1092,7 +1092,7 @@ export enum OrganisationTypeEnum {
 export enum OrganisationsOrganisationTypeChoices {
   /** Provider */
   Provider = 'PROVIDER',
-  /** Käyttäjä */
+  /** User */
   User = 'USER'
 }
 

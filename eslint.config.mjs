@@ -163,6 +163,21 @@ export default [
     },
   },
 
+  // Overrides for Playwright related typescript files
+  {
+    files: ['src/playwright/**/*.ts', 'src/playwright/**/*.tsx'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          // Ignore mock arguments, e.g. mocksForSearchPage in Playwright tests.
+          // This way mock fixtures can be used without having to always disable the rule.
+          argsIgnorePattern: '^(mock|mocks|mocking|mocked)[A-Z].*$',
+        },
+      ],
+    },
+  },
+
   // Overrides for test files
   {
     files: ['**/*.test.js', '**/*.test.ts', '**/*.test.jsx', '**/*.test.tsx'],

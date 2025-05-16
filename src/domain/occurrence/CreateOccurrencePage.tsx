@@ -208,7 +208,10 @@ const OccurrenceInfoForm: React.FC<{
                 disabled={loading}
                 title={t('eventForm.occurrences.occurrencesFormSectionTitle')}
               />
-              <div className={styles.submitButtons}>
+              <div
+                className={styles.submitButtons}
+                data-testid="submit-buttons-section"
+              >
                 <Button
                   disabled={loading || !dirty}
                   type="submit"
