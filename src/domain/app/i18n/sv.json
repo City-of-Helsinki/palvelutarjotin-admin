@@ -416,7 +416,7 @@
       "descriptionAddImage": "Lägg till en bild för evenemanget. Du behöver också namnet på fotografen och en publiceringslicens. Maximal storlek 2 megabyte. Rekommenderad bildstorlek är 1200 x 800 px.",
       "imageAltTextHelp": "Beskrivning av innehållet i bilden. Lägg till licensinformation också.",
       "labelDescription": "Beskrivning (SV)",
-      "labelMandatoryAdditionalInformation": "De som anmäler sig måste ange tilläggsinformation.",
+      "labelMandatoryAdditionalInformation": "De som anmäler sig måste ange tilläggsinformation",
       "guidanceTextMandatoryAdditionalInformation": "Ifall du vill ha tilläggsinformation om gruppen i samband med bokningen meddela om detta i beskrivningen av evenemanget",
       "labelEnrolmentEndDays": "Anmälan stänger X dagar före evenemangstiden",
       "labelEnrolmentStartDate": "Registrering börjar",
@@ -459,7 +459,7 @@
     "offers": {
       "title": "Evenemangets prissättning",
       "labelIsFree": "Evenemanget är gratis",
-      "labelPrice": "Pris €",
+      "labelPrice": "Pris, €",
       "labelPriceDescription": "Tilläggsinformation (SV)",
       "placeholderPriceDescription": "pris per barn/grupp,\nhur man betala (faktura eller bankkort),\navbokningspolicy"
     },
@@ -520,7 +520,7 @@
     "buttonLoadMore": "Visa mer",
     "buttonNewEvent": "Lägg till ett nytt evenemang",
     "eventCard": {
-      "ariaLabelOpenOccurrences": "Gå till evenemangstid  av {{eventName}}",
+      "ariaLabelOpenOccurrences": "Gå till evenemangstid av {{eventName}}",
       "textEnrolments": "{{count}} registrerad",
       "textEnrolments_other": "{{count}} registrerade",
       "textExternalEnrolments": "Anmälan på en annan webbplats",
@@ -855,7 +855,7 @@
     "age34": "3-4 åringar",
     "other": "Annan grupp"
   },
-  "Evenemangsplats": {
+  "venue": {
     "venueDataFields": {
       "helperLocationDescription": "Ytterligare information för att underlätta besöket",
       "labelHasClothingStorage": "Förvaring av ytterkläder",

@@ -49,7 +49,7 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
   }, [location, locationDescription, setFieldValue, values]);
 
   return (
-    <div className={styles.formSection}>
+    <div className={styles.formSection} data-testid="location-form">
       <div className={styles.formSectionInnerContainer}>
         <div>
           <h2>{t('eventForm.location.title')}</h2>
@@ -69,7 +69,10 @@ const LocationFormPart: React.FC<{ selectedLanguages: Language[] }> = ({
               />
             </div>
           </div>
-          <div className={styles.locationSection}>
+          <div
+            className={styles.locationSection}
+            data-testid="location-dropdown"
+          >
             <Field
               helperText={t('eventForm.location.helperLocation')}
               labelText={t('eventForm.location.labelLocation')}

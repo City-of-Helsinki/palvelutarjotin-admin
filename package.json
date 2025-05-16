@@ -44,7 +44,11 @@
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
         "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
       ]
-    }
+    },
+    "Why is playwright version 1.52.0 || ^1.54.0?": [
+      "Playwright 1.53.0 has a regression that causes tests to fail",
+      "See https://github.com/microsoft/playwright/issues/36307"
+    ]
   },
   "resolutions": {
     "@testing-library/dom": "^10.4.0",
@@ -60,7 +64,7 @@
     "@date-fns/tz": "^1.2.0",
     "@datepicker-react/hooks": "^2.8.4",
     "@faker-js/faker": "^9.7.0",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "1.52.0 || ^1.54.0",
     "@sentry/browser": "^9.15.0",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -73,6 +77,7 @@
     "@types/draftjs-to-html": "^0.8.4",
     "@types/file-saver": "^2.0.7",
     "@types/html-to-draftjs": "^1.5.0",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.17.43",
     "@types/pretty": "^2.0.3",
@@ -119,10 +124,10 @@
     "i18next-intervalplural-postprocessor": "^3.0.0",
     "ics": "^3.8.1",
     "jsdom": "^26.1.0",
+    "jsonwebtoken": "^9.0.2",
     "msw": "^2.7.6",
     "oidc-client": "^1.11.5",
     "path": "^0.12.7",
-    "playwright": "^1.52.0",
     "react": "^18.3.1",
     "react-content-loader": "^7.0.2",
     "react-dom": "^18.3.1",
@@ -165,8 +170,10 @@
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
     "codegen": "cross-env DOTENV_CONFIG_PATH=\"./.env.development.local\" graphql-codegen -r dotenv/config --config codegen.yml",
     "codegen:browser": "playwright codegen",
-    "test:browser": "playwright test",
-    "test:browser:ci": "yarn test:browser"
+    "test:browser:install": "playwright install",
+    "test:browser": "playwright test --ui",
+    "test:browser:ci": "playwright test",
+    "test:browser:report": "playwright show-report report/html"
   },
   "browserslist": {
     "production": [
@@ -192,6 +199,7 @@
     "doctoc": "^2.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
+    "playwright": "1.52.0 || ^1.54.0",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.5.3",
     "pretty": "^2.0.0"

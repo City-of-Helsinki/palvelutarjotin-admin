@@ -32,17 +32,13 @@ export const PRIVACY_POLICY_LINKS = {
   fi: 'https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf',
   en: 'https://hkih.production.geniem.io/uploads/sites/5/2022/11/bf2f8d34-rekisteriseloste-kultus.fi_en.pdf',
   sv: 'https://hkih.production.geniem.io/uploads/sites/5/2022/11/0d425f44-rekisteriseloste-kultus.fi_sv.pdf',
-};
+} as const;
 
 export const TERMS_OF_SERVICE_SLUGS = {
-  fi: import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_FI ?? 'kayttoehdot',
-  en:
-    import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_EN ??
-    'terms-of-service',
-  sv:
-    import.meta.env.NEXT_PUBLIC_CMS_TERMS_OF_SERVICE_SLUG_SV ??
-    'anvandarvillkor',
-};
+  fi: 'kayttoehdot',
+  en: 'terms-of-service',
+  sv: 'anvandarvillkor',
+} as const;
 
 export const createEmptyLocalizedObject = (): LocalisedObject => ({
   [SUPPORT_LANGUAGES.FI]: '',
