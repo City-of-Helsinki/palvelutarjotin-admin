@@ -128,7 +128,7 @@
     "react-dom": "^18.3.1",
     "react-draft-wysiwyg": "^1.15.0",
     "react-helmet": "^6.1.0",
-    "react-helsinki-headless-cms": "^1.0.1",
+    "react-helsinki-headless-cms": "^1.0.2",
     "react-i18next": "^15.5.1",
     "react-idle-timer": "^5.7.2",
     "react-modal": "^3.16.3",
