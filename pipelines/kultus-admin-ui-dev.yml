@@ -5,6 +5,7 @@ trigger:
   branches:
     include:
       - master
+      - main
   paths:
     exclude:
     - '*release-please*'
@@ -12,7 +13,7 @@ trigger:
     - '.github/'
     - 'pipelines/kultus-admin-ui-release.yml'
     - 'pipelines/kultus-admin-ui-review.yml'
-    - 'docker-compose*'
+    - 'compose*'
 
 # Pull request (PR) triggers cause a pipeline to run whenever a pull request is
 # opened with one of the specified target branches, or when updates are made to
@@ -47,6 +48,3 @@ extends:
     #   DEBUG: 1
     # configMap: # pod environment variables
     #   DEBUG: 1
-    ## Default value to nodeVersion is set on template.
-    ## Used tool version
-    # nodeVersion: 18

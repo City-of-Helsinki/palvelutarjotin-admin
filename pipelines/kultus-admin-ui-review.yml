@@ -21,6 +21,7 @@ pr:
   branches:
     include:
     - master
+    - main
   paths:
     exclude:
     - '*release-please*'
@@ -28,7 +29,7 @@ pr:
     - '.github/'
     - 'pipelines/kultus-admin-ui-release.yml'
     - 'pipelines/kultus-admin-ui-dev.yml'
-    - 'docker-compose*'
+    - 'compose*'
 
 # By default, use self-hosted agents
 pool: Default
@@ -53,6 +54,3 @@ extends:
     #   DEBUG: 1
     # configMap: # pod environment variables
     #   DEBUG: 1
-    ## Default value to nodeVersion is set on template.
-    ## Used tool version
-    # nodeVersion: 18
