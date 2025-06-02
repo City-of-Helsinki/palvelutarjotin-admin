@@ -14,4 +14,4 @@ jobs:
     with:
       node-version: 20
       extra-commands: |
-        cp .env.development.local.example .env
+        cp .env.example .env
