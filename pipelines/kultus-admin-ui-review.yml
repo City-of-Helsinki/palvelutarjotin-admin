@@ -51,6 +51,6 @@ extends:
     # Does not contain all buildArguments or configMap values, the rest located in kultus-pipelines
     # The values here will override the values defined in the kultus-pipelines repository
     # buildArgs:
-    #   DEBUG: 1
+    #   VITE_APP_API_URI: 'https://kultus.api.test.hel.ninja/graphql'
     # configMap: # pod environment variables
     #   DEBUG: 1
