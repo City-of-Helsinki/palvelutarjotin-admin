@@ -56,6 +56,6 @@ export default defineConfig({
   webServer: {
     command: useDevServer ? 'yarn dev' : 'yarn serve',
     url: process.env.VITE_APP_ORIGIN,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
   },
 });
