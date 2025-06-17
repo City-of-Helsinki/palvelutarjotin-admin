@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.17.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.16.0...palvelutarjotin-admin-v1.17.0) (2025-06-17)
+
+
+### Features
+
+* **playwright:** Add Playwright critical path tests for event creation ([e63ea11](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/e63ea11ee4405f9f4bf6a9761efc1d1df0ebce71))
+
 ## [1.16.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.15.0...palvelutarjotin-admin-v1.16.0) (2025-05-20)
 
 
