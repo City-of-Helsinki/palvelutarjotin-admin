@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.17.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.17.1...palvelutarjotin-admin-v1.17.2) (2025-11-05)
+
+
+### Dependencies
+
+* Bump vite from 6.3.6 to 6.4.1 ([df1bb37](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/df1bb37401d5746b19b0254b1eab012e8f5d9891))
+
 ## [1.17.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.17.0...palvelutarjotin-admin-v1.17.1) (2025-09-15)
 
 
