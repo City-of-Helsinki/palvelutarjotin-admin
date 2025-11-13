@@ -11,6 +11,10 @@ const viteConfig = ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return defineConfig({
+    define: {
+      'process.env': '{}',
+    },
+    envPrefix: 'VITE_',
     resolve: {
       alias: {
         '~hds-core': path.resolve(__dirname, './node_modules/hds-core'),

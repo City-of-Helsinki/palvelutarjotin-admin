@@ -10,13 +10,27 @@ import Modal from 'react-modal';
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
 
-if (import.meta.env.PROD) {
+if (import.meta.env.VITE_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_APP_SENTRY_DSN,
-    environment: import.meta.env.VITE_APP_ENVIRONMENT,
-    release: `${import.meta.env.VITE_APP_APPLICATION_NAME}@${
-      import.meta.env.VITE_APP_VERSION
-    }`,
+    environment: import.meta.env.VITE_APP_SENTRY_ENVIRONMENT,
+    release: import.meta.env.VITE_APP_SENTRY_RELEASE,
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration(),
+    ],
+    tracesSampleRate: parseFloat(
+      import.meta.env.VITE_APP_SENTRY_TRACES_SAMPLE_RATE || '0'
+    ),
+    tracePropagationTargets: (
+      import.meta.env.VITE_APP_SENTRY_TRACE_PROPAGATION_TARGETS || ''
+    ).split(','),
+    replaysSessionSampleRate: parseFloat(
+      import.meta.env.VITE_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE || '0'
+    ),
+    replaysOnErrorSampleRate: parseFloat(
+      import.meta.env.VITE_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE || '0'
+    ),
   });
 }
 
