@@ -27,6 +27,7 @@ const viteConfig = ({ mode }) => {
     },
     build: {
       outDir: 'build',
+      sourcemap: true,
     },
     test: {
       exclude: [...configDefaults.exclude, '**/playwright/**'],
