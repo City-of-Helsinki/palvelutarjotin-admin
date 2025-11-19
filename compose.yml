@@ -8,7 +8,9 @@ services:
       NODE_ENV: ${DOCKER_TARGET:-development} # which node env the build uses. NOTE: Usually same as the ${DOCKER_TARGET}.
       VITE_ENVIRONMENT: ${DOCKER_TARGET:-development}
       PORT: ${PORT:-3000}
-    env_file: '.env'
+    env_file:
+      - ".env"
+      - ".env.development.local"
     volumes:
       # Share local directory to enable development with hot reloading
       # NOTE: the volume mapping will break the production-stage build!
@@ -20,4 +22,4 @@ services:
       - 3000:${PORT:-3000}
 networks:
   default:
-      name: helsinki
+    name: helsinki
