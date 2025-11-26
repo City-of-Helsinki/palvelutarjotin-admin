@@ -101,13 +101,13 @@ ARG NODE_OPTIONS
 ENV NODE_OPTIONS=${NODE_OPTIONS}
 
 # Release information
-ARG VITE_APP_RELEASE
+ARG VITE_APP_SENTRY_RELEASE
 ARG VITE_APP_COMMITHASH
 ARG VITE_APP_BUILDTIME
 
 # Use template and inject the environment variables into .prod/nginx.conf
 ENV VITE_APP_BUILDTIME=${VITE_APP_BUILDTIME:-""}
-ENV VITE_APP_RELEASE=${VITE_APP_RELEASE:-""}
+ENV VITE_APP_RELEASE=${VITE_APP_SENTRY_RELEASE:-""}
 ENV VITE_APP_COMMITHASH=${VITE_APP_COMMITHASH:-""}
 COPY .prod/nginx.conf.template /tmp/.prod/nginx.conf.template
 RUN export APP_VERSION=$(yarn --silent app:version) && \
