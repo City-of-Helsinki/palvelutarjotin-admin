@@ -4,6 +4,26 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.18.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.17.1...palvelutarjotin-admin-v1.18.0) (2025-11-27)
+
+
+### Features
+
+* Add csp report-to header Ref: PT-1962 ([cf0a545](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/cf0a5453614a8442bf68bb7c7c361799e672dd94))
+* Enable cloud sentry Ref: PT-1962 ([da399b8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/da399b8ca1ee7a8021d8d67fef945d8dd41550e7))
+* Generate sourcemaps Ref: PT-1962 ([fc9d95e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fc9d95e4a30348af4353722d14b4e1e43b9ed4e0))
+
+
+### Bug Fixes
+
+* Dockerfile fix incorrect CSP report-uri arg Ref: PT-1962 ([ec73a62](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/ec73a624e20665e8ac4ab94bdcc53accd7df7d94))
+* Use correct Sentry release variable Ref: PT-1962 ([773e175](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/773e17555f9f538cc699d8083429423c67594151))
+
+
+### Dependencies
+
+* Bump vite from 6.3.6 to 6.4.1 ([df1bb37](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/df1bb37401d5746b19b0254b1eab012e8f5d9891))
+
 ## [1.17.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.17.0...palvelutarjotin-admin-v1.17.1) (2025-09-15)
 
 
