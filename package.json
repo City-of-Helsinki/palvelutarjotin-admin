@@ -124,7 +124,7 @@
     "i18next-intervalplural-postprocessor": "^3.0.0",
     "ics": "^3.8.1",
     "jsdom": "^26.1.0",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "msw": "^2.7.6",
     "oidc-client": "^1.11.5",
     "path": "^0.12.7",
