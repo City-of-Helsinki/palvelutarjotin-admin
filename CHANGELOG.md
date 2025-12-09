@@ -4,6 +4,17 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.18.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.18.0...palvelutarjotin-admin-v1.18.1) (2025-12-09)
+
+
+### Dependencies
+
+* Bump js-yaml from 4.1.0 to 4.1.1 ([8147483](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8147483342e36dc9e892bb8f5168263c94137b3c))
+* Bump jws from 3.2.2 to 3.2.3 ([7ac80f3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/7ac80f3011c38c768d781a59c6f3e29ab8169a1b))
+* Upgrade commitlint to 20.2.0 ([07577bb](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/07577bb1f25432f49ba82d81cdbe2c51721f72c7))
+* Upgrade eslint to 9.39.1 ([46c4f67](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/46c4f67b9486dbaefd4e6fd56f9ff6598601ed2c))
+* Upgrade jsonwebtoken to 9.0.3 ([2f359a2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2f359a2f7ad6cf60d7dc5ce35bd8b279c3487eb6))
+
 ## [1.18.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.17.1...palvelutarjotin-admin-v1.18.0) (2025-11-27)
 
 
