@@ -31,7 +31,7 @@ COPY --chown=default:root package*.json *yarn* ./
 # Install npm dependencies
 ENV PATH /app/node_modules/.bin:$PATH
 
-RUN yarn && yarn cache clean --force
+RUN yarn install --frozen-lockfile --ignore-scripts && yarn cache clean --force
 
 # =============================
 FROM appbase AS development
