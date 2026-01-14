@@ -4,6 +4,18 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.18.1...palvelutarjotin-admin-v1.19.0) (2026-01-14)
+
+
+### Features
+
+* Yarn install hardening RATY-280 ([939ce40](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/939ce40de0c4bc60974922dec32a3aee343c801f))
+
+
+### Dependencies
+
+* Bump react-router from 7.5.3 to 7.12.0 ([b618173](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b6181739f560d903b4d12b07e8474da131928f19))
+
 ## [1.18.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.18.0...palvelutarjotin-admin-v1.18.1) (2025-12-09)
 
 
