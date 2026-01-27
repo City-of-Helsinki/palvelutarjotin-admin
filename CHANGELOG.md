@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.0...palvelutarjotin-admin-v1.19.1) (2026-01-27)
+
+
+### Dependencies
+
+* Bump lodash from 4.17.21 to 4.17.23 ([b82f465](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b82f46514d7b053c171bbb2de9a27044e4c0a9ac))
+* Bump lodash-es from 4.17.21 to 4.17.23 ([d59fa64](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d59fa64be9e2fe1502deafc9843874fdc233c824))
+
 ## [1.19.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.18.1...palvelutarjotin-admin-v1.19.0) (2026-01-14)
 
 
