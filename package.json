@@ -44,11 +44,7 @@
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
         "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
       ]
-    },
-    "Why is playwright version 1.52.0 || ^1.54.0?": [
-      "Playwright 1.53.0 has a regression that causes tests to fail",
-      "See https://github.com/microsoft/playwright/issues/36307"
-    ]
+    }
   },
   "resolutions": {
     "@testing-library/dom": "^10.4.0",
@@ -64,7 +60,7 @@
     "@date-fns/tz": "^1.2.0",
     "@datepicker-react/hooks": "^2.8.4",
     "@faker-js/faker": "^9.7.0",
-    "@playwright/test": "1.52.0 || ^1.54.0",
+    "@playwright/test": "^1.58.2",
     "@sentry/browser": "^10.25.0",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -199,7 +195,6 @@
     "doctoc": "^2.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
-    "playwright": "1.52.0 || ^1.54.0",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.5.3",
     "pretty": "^2.0.0"
