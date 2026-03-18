@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.1...palvelutarjotin-admin-v1.19.2) (2026-03-18)
+
+
+### Dependencies
+
+* Bump axios from 1.12.0 to 1.13.5 ([10befdf](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/10befdfe3001488ef05095f1827e27a4f2224451))
+* Bump dompurify from 3.2.5 to 3.3.1 ([7721a07](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/7721a07f113df6b09963c675754cf0c47be74ac0))
+* Bump flatted from 3.3.3 to 3.4.1 ([28a805b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/28a805b7f1a0f2375f2ce36dbf4f7a2c09e0dec5))
+* Upgrade @playwright/test to latest Refs: RATY-299 ([d5e1006](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d5e1006a7a3347ea4ae580b46ea006594b8d6b18))
+
 ## [1.19.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.0...palvelutarjotin-admin-v1.19.1) (2026-01-27)
 
 
