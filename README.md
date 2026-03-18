@@ -69,8 +69,8 @@ To make booking culture and leisure activities easy to all participants:
 The Kultus service consists of:
 
 - **[Kultus API](https://github.com/City-of-Helsinki/palvelutarjotin):** The API backend service - The primary source of data. Integrates to LinkedEvents API and extends it's features.
-- **[Providers' UI](https://github.com/City-of-Helsinki/palvelutarjotin-admin):** A restricted UI where the events are maintained and published. Often called as "Admin UI".
-- **[Teachers' UI](https://github.com/City-of-Helsinki/palvelutarjotin-ui):** (This service). The frontend service where the groups can view and enrol in events.
+- **[Providers' UI](https://github.com/City-of-Helsinki/palvelutarjotin-admin):** (This service). A restricted UI where the events are maintained and published. Often called as "Admin UI".
+- **[Teachers' UI](https://github.com/City-of-Helsinki/palvelutarjotin-ui):** The frontend service where the groups can view and enrol in events.
 - **[Headless CMS](https://github.com/City-of-Helsinki/headless-cms):** Content Management Service that provides dynamic pages and dynamic content for the teachers' UI. It also provides content for the header and the footer. A React component library can be found from https://github.com/City-of-Helsinki/react-helsinki-headless-cms.
 - **[LinkedEvents API](https://github.com/City-of-Helsinki/linkedevents):** A city of Helsinki centralized API for events.
 - **[Notification Service API](https://github.com/City-of-Helsinki/notification-service-api):** A service used by the Kultus API to send SMS messages.
