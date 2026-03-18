@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.2...palvelutarjotin-admin-v1.19.3) (2026-03-18)
+
+
+### Dependencies
+
+* Bump dompurify from 3.3.1 to 3.3.2 ([edaf33e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/edaf33e9de2f560fd23c4f97609eb0dc2c4cb07d))
+
 ## [1.19.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.1...palvelutarjotin-admin-v1.19.2) (2026-03-18)
 
 
