@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.3...palvelutarjotin-admin-v1.19.4) (2026-03-24)
+
+
+### Dependencies
+
+* Bump eslint and plugins Refs: RATY-299 ([c04650e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c04650e9364632034c2e94d1a848fb08ff42d865))
+* Bump flatted from 3.4.1 to 3.4.2 ([d7fde85](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d7fde85225b0f5e08c62d2ec7b2e122e25900716))
+
 ## [1.19.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.2...palvelutarjotin-admin-v1.19.3) (2026-03-18)
 
 
