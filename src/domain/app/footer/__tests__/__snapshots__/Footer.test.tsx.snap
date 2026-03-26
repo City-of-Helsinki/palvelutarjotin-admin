@@ -59,8 +59,7 @@ exports[`Footer matches snapshot 1`] = `
           class="FooterBase-module_logoWrapper__3BI7d"
         >
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B"
-            tabindex="0"
+            class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B"
           >
             <img
               alt="Helsingin kaupunki"
@@ -100,7 +99,7 @@ exports[`Footer matches snapshot 1`] = `
               |
             </span>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
               href="https://kultus.hel.fi/fi"
             >
               <span>
@@ -114,7 +113,7 @@ exports[`Footer matches snapshot 1`] = `
               |
             </span>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
               href="https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf"
             >
               <span>
@@ -131,7 +130,7 @@ exports[`Footer matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="arrow-up"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"

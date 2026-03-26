@@ -1,5 +1,12 @@
 import { isSameDay } from 'date-fns';
-import { Button, IconClock, IconLocation, IconPen, IconUser } from 'hds-react';
+import {
+  Button,
+  ButtonVariant,
+  IconClock,
+  IconLocation,
+  IconPen,
+  IconUser,
+} from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -47,8 +54,8 @@ const EditOccurrenceButton: React.FC<{
     <div className={styles.buttonWrapper}>
       <Button
         onClick={goToEditOccurrencePage}
-        variant="supplementary"
-        iconLeft={<IconPen />}
+        variant={ButtonVariant.Supplementary}
+        iconStart={<IconPen />}
       >
         {t('occurrenceDetails.buttonEditOccurrence')}
       </Button>
@@ -106,7 +113,10 @@ const OccurrenceInfo: React.FC<Props> = ({ event, occurrence }) => {
       <div className={styles.titleRow}>
         <h1>{eventName}</h1>
         <div className={styles.buttonWrapper}>
-          <Button onClick={goToEventDetailsPage} variant="secondary">
+          <Button
+            onClick={goToEventDetailsPage}
+            variant={ButtonVariant.Secondary}
+          >
             {t('occurrenceDetails.buttonEventDetails')}
           </Button>
         </div>

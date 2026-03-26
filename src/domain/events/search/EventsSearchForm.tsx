@@ -1,10 +1,10 @@
 import { Button, TextInput } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
+import PlaceSelector from './PlaceSelector';
 import useNavigate from '../../../hooks/useNavigate';
 import { ROUTES } from '../../app/routes/constants';
 import styles from '../eventsPage.module.scss';
-import PlaceSelector from './PlaceSelector';
 import { useEventsSearchFormContext } from '../hooks/useEventsSearchFormContext';
 
 export default function EventsSearchForm() {
@@ -34,6 +34,7 @@ export default function EventsSearchForm() {
         </div>
         <div>
           <PlaceSelector
+            clearable
             onChange={(places) => setPlacesValue(places)}
             value={placesValue}
           />

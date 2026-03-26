@@ -1,4 +1,4 @@
-import { Footer as HDSFooter, Logo, logoFi, logoSv } from 'hds-react';
+import { Footer as HDSFooter, Logo, logoFi, LogoSize, logoSv } from 'hds-react';
 import React, { FunctionComponent } from 'react';
 import type { MenuItem } from 'react-helsinki-headless-cms';
 import { useMenuQuery } from 'react-helsinki-headless-cms/apollo';
@@ -42,7 +42,7 @@ const Footer: FunctionComponent = () => {
         logo={
           <Logo
             src={locale === 'sv' ? logoSv : logoFi}
-            size="medium"
+            size={LogoSize.Medium}
             alt={t('common.cityOfHelsinki')}
           />
         }

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
+import styles from './eventPreviewCard.module.scss';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import PlaceText from '../../place/placeText/PlaceText';
@@ -12,7 +13,6 @@ import {
   getEventPlaceholderImage,
   getNextOccurrenceDateStr,
 } from '../utils';
-import styles from './eventPreviewCard.module.scss';
 
 interface Props {
   event: EventFieldsFragment;

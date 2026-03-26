@@ -1,5 +1,5 @@
 import { isPast } from 'date-fns';
-import { Button } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
@@ -198,10 +198,16 @@ const EventSummaryPage: React.FC = () => {
                 <h1>
                   {getLocalizedString(eventData.event?.name || {}, locale)}
                 </h1>
-                <Button onClick={copyEventToNewTemplate} variant="secondary">
+                <Button
+                  onClick={copyEventToNewTemplate}
+                  variant={ButtonVariant.Secondary}
+                >
                   {t('occurrences.buttonCloneEventDetails')}
                 </Button>
-                <Button onClick={goToEventDetailsPage} variant="secondary">
+                <Button
+                  onClick={goToEventDetailsPage}
+                  variant={ButtonVariant.Secondary}
+                >
                   {t('occurrences.buttonEventDetails')}
                 </Button>
               </div>
@@ -232,7 +238,10 @@ const EventSummaryPage: React.FC = () => {
               <div className={styles.summarySection}>
                 {!isEventDraft && isInternalEnrolment && (
                   <div className={styles.exportEnrolmentsButtonRow}>
-                    <Button onClick={downloadEnrolments} variant="secondary">
+                    <Button
+                      onClick={downloadEnrolments}
+                      variant={ButtonVariant.Secondary}
+                    >
                       {t('eventSummary.buttonExportEnrolments')}
                     </Button>
                   </div>

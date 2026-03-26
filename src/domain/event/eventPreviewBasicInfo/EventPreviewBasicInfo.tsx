@@ -8,13 +8,13 @@ import {
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './eventPreviewBasicInfo.module.scss';
 import TextWithHTMLOrLineBreaks from '../../../common/components/textWithHTMLOrLineBreaks/TextWithHTMLOrLineBreaks';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import addUrlSlashes from '../../../utils/addUrlSlashes';
 import EventKeywords from '../eventKeywords/EventKeywords';
 import { getEventFields } from '../utils';
-import styles from './eventPreviewBasicInfo.module.scss';
 
 interface EventPreviewBasicInfoProps {
   event: EventFieldsFragment;

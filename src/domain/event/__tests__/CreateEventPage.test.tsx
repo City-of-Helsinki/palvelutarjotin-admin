@@ -374,7 +374,7 @@ const testMultiDropdownValues = async ({
   const dropdown = within(await screen.findByTestId(dropdownTestId));
 
   for (const value of values) {
-    await dropdown.findByText(value);
+    await dropdown.findByRole('button', { name: `Poista valinta "${value}".` });
   }
 };
 

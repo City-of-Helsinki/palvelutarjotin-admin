@@ -1,4 +1,4 @@
-import { Button, IconInfoCircle } from 'hds-react';
+import { Button, ButtonVariant, IconInfoCircle } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +33,7 @@ const NotificationModal: React.FC<Props> = ({
         <Button
           type="button"
           onClick={onConfirm}
-          variant="secondary"
+          variant={ButtonVariant.Secondary}
           style={{ width: '100%' }}
         >
           {t('common.notificationModal.buttonClose')}

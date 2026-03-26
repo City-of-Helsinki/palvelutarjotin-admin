@@ -1,4 +1,4 @@
-import { Button, IconCrossCircle, IconPen } from 'hds-react';
+import { Button, ButtonVariant, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
@@ -215,17 +215,17 @@ const EventDetailsPage = () => {
               </div>
               <div className={styles.actionButtonsContainer}>
                 <Button
-                  iconLeft={<IconPen />}
+                  iconStart={<IconPen />}
                   onClick={handleEditEventClick}
-                  variant="secondary"
+                  variant={ButtonVariant.Secondary}
                 >
                   {t('eventDetails.buttons.buttonEdit')}
                 </Button>
                 <Button
                   className={styles.deleteButton}
-                  iconLeft={<IconCrossCircle />}
+                  iconStart={<IconCrossCircle />}
                   onClick={openDeleteModal}
-                  variant="secondary"
+                  variant={ButtonVariant.Secondary}
                 >
                   {t('eventDetails.buttons.buttonDelete')}
                 </Button>
