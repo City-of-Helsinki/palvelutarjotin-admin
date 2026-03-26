@@ -1,10 +1,12 @@
 import classNames from 'classnames';
 import { FieldProps } from 'formik';
-import { Select, SelectProps } from 'hds-react';
+import { Select } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import useLocale from '../../../../hooks/useLocale';
 import { invalidFieldClass } from '../constants';
+import styles from '../dropdownField.module.scss';
 import { getErrorText } from '../utils';
 
 export type Option = {
@@ -12,7 +14,7 @@ export type Option = {
   value: string;
 };
 
-type Props = SelectProps<Option> &
+type Props = React.ComponentProps<typeof Select> &
   FieldProps & {
     defaultValue: Option[];
     setFieldValue?: (
@@ -23,6 +25,9 @@ type Props = SelectProps<Option> &
     ) => Promise<void>;
     clearButtonAriaLabel: string;
     selectedItemRemoveButtonAriaLabel: string;
+    helper?: string;
+    label?: string;
+    placeholder?: string;
   };
 
 const MultiDropdownField: React.FC<Props> = ({
@@ -30,12 +35,15 @@ const MultiDropdownField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
   helper,
+  label,
   options,
   placeholder,
   setFieldValue,
+  texts,
   ...rest
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const errorText = getErrorText(errors, touched, name, t);
 
   const handleChange = (val: Option | Option[]) => {
@@ -67,19 +75,28 @@ const MultiDropdownField: React.FC<Props> = ({
     <Select
       {...rest}
       {...field}
-      helper={helper}
-      error={errorText}
+      texts={{
+        assistive: helper,
+        error: errorText,
+        label,
+        language: locale,
+        placeholder: placeholder || t('common.dropdown.placeholder'),
+        ...texts,
+      }}
       invalid={Boolean(errorText)}
-      multiselect={true}
+      multiSelect={true}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
       id={name}
-      placeholder={placeholder || t('common.dropdown.placeholder')}
       value={value
-        .map((item: string) => options.find((option) => option.value === item))
-        .filter((i: Option | undefined) => i)}
-      className={classNames(className, { [invalidFieldClass]: errorText })}
+        .map((item: string) =>
+          (options as Option[])?.find((option) => option.value === item)
+        )
+        .filter(Boolean)}
+      className={classNames(className, styles.noMaxWidth, {
+        [invalidFieldClass]: errorText,
+      })}
     />
   );
 };

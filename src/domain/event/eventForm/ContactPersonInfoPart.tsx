@@ -54,7 +54,7 @@ const ContactPersonInfoPart: React.FC<{
           label={t('eventForm.contactPerson.labelName')}
           name="contactPersonId"
           required
-          multiselect={false}
+          multiSelect={false}
           options={personOptions}
           setFieldValue={setContactPersonId}
         />

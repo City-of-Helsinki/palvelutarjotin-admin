@@ -1,5 +1,12 @@
 import classNames from 'classnames';
-import { Button, Checkbox, IconCross, Notification, TextArea } from 'hds-react';
+import {
+  Button,
+  ButtonVariant,
+  Checkbox,
+  IconCross,
+  Notification,
+  TextArea,
+} from 'hds-react';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
@@ -98,12 +105,12 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
           </div>
         )}
         <div className={styles.buttonsContainer}>
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant={ButtonVariant.Secondary} onClick={onClose}>
             {t('enrolment.enrolmentModal.cancelEnrolment')}
           </Button>
           <div className={styles.buttonsRight}>
             <Button
-              variant="primary"
+              variant={ButtonVariant.Primary}
               onClick={handleSubmit}
               disabled={submitting}
             >

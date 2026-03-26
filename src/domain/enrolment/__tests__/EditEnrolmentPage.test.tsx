@@ -231,10 +231,10 @@ it('initializes edit form correctly', async () => {
     await screen.findByLabelText(messages.enrolmentForm.labelHasSmsNotification)
   ).not.toBeChecked();
   expect(
-    await screen.findByLabelText(messages.enrolmentForm.labelLanguage, {
-      selector: 'button',
+    await screen.findByRole('combobox', {
+      name: 'Kieli. 1 valittu vaihtoehto: "suomi".',
     })
-  ).toHaveTextContent('suomi');
+  ).toBeInTheDocument();
 
   expect(
     await screen.findByLabelText(
