@@ -1,4 +1,5 @@
 import {
+  ButtonVariant,
   Button as HDSButton,
   Header as HDSHeader,
   IconAngleRight,
@@ -69,25 +70,25 @@ const UserNavigation: React.FC<{
       id="user-menu"
       dropdownClassName={styles.userMenuDropdown}
       icon={<IconUser />}
-      ariaLabel={t('header.userMenu.ariaLabelButton')}
+      aria-label={t('header.userMenu.ariaLabelButton')}
       label={userLabel}
       preventButtonResize
     >
       <HDSButton
         key={`edit-profile`}
         className={styles.dropdownButton}
-        iconLeft={<IconUser />}
+        iconStart={<IconUser />}
         onClick={goToEditMyProfile}
-        variant="supplementary"
+        variant={ButtonVariant.Supplementary}
       >
         {t('header.userMenu.openMyProfile')}
       </HDSButton>
       <HDSButton
         key={`go-to-profile`}
         className={styles.dropdownButton}
-        iconLeft={<IconLinkExternal />}
+        iconStart={<IconLinkExternal />}
         onClick={goToHelsinkiProfile}
-        variant="supplementary"
+        variant={ButtonVariant.Supplementary}
       >
         {t('header.userMenu.openHelsinkiProfile')}
       </HDSButton>
@@ -99,9 +100,9 @@ const UserNavigation: React.FC<{
               ? styles.activeDropdownButton
               : styles.dropdownButton
           }
-          iconLeft={<IconAngleRight />}
+          iconStart={<IconAngleRight />}
           onClick={() => setActiveOrganisation(organisation)}
-          variant="supplementary"
+          variant={ButtonVariant.Supplementary}
         >
           {organisation.name || ''}
         </HDSButton>
@@ -109,9 +110,9 @@ const UserNavigation: React.FC<{
       <HDSButton
         key={`sign-out`}
         className={styles.dropdownButton}
-        iconLeft={<IconSignout aria-hidden />}
+        iconStart={<IconSignout aria-hidden />}
         onClick={logout}
-        variant="supplementary"
+        variant={ButtonVariant.Supplementary}
       >
         {t('header.userMenu.logout')}
       </HDSButton>

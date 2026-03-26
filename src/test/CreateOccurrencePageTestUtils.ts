@@ -697,8 +697,8 @@ export const getOccurrenceFormElement = (
         name: 'Päättyy',
       });
     case 'language':
-      return occurrencesForm.getByRole('button', {
-        name: 'Tapahtuman kieli',
+      return occurrencesForm.getByRole('combobox', {
+        name: new RegExp(/Tapahtuman kieli/i),
       });
     case 'seats':
       return occurrencesForm.queryByRole('spinbutton', {
@@ -882,13 +882,15 @@ export const fillAndSubmitOccurrenceForm = async ({
 
   const languageSelector = getOccurrenceFormElement('language')!;
   await userEvent.click(languageSelector);
-  const withinLanguageSelector = within(languageSelector.parentElement!);
 
-  const optionFi = withinLanguageSelector.getByRole('option', {
+  // Find the dropdown list by its ID (referenced by aria-controls)
+  const languagesList = screen.getByRole('listbox');
+
+  const optionFi = within(languagesList).getByRole('option', {
     name: /suomi/i,
     hidden: true,
   });
-  const optionEn = withinLanguageSelector.getByRole('option', {
+  const optionEn = within(languagesList).getByRole('option', {
     name: /englanti/i,
     hidden: true,
   });

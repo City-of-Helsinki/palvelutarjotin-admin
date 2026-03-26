@@ -464,8 +464,8 @@ test('events can be searched with places from user profile', async () => {
   );
 
   // Test first place filter and clear it
-  const placesDropdownToggle = await screen.findByRole('button', {
-    name: /paikat: avaa valikko/i,
+  const placesDropdownToggle = await screen.findByRole('combobox', {
+    name: /Paikat./i,
   });
   await userEvent.click(placesDropdownToggle);
   await userEvent.click(

@@ -23,11 +23,15 @@ loadErrorMessages();
 // Filter console messages to declutter test output
 filterConsole();
 
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+// Create robust observer mocks that work with both hds-react and @testing-library
+class MockResizeObserver {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  constructor() {
+    return this;
+  }
+}
 
 // Suppress non-fatal jsdom CSS parsing warnings (e.g. from 3rd party runtime style injection)
 const require = createRequire(import.meta.url);
@@ -58,6 +62,32 @@ VirtualConsole.prototype.emit = function patchedEmit(
   return originalVirtualConsoleEmit.call(this, eventName, ...args);
 };
 
+class MockIntersectionObserver {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  root = null;
+  rootMargin = '0px';
+  thresholds = [];
+  constructor() {
+    return this;
+  }
+}
+
+class MockMutationObserver {
+  observe = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn(() => []);
+  constructor() {
+    return this;
+  }
+}
+
+// Set up global mocks
+global.ResizeObserver = MockResizeObserver;
+global.IntersectionObserver =
+  MockIntersectionObserver as unknown as typeof IntersectionObserver;
+global.MutationObserver = MockMutationObserver;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockScrollTo = vi.fn((x?: number | ScrollToOptions, y?: number) => {});
 

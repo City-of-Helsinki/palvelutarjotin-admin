@@ -2,6 +2,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import {
   Button,
+  ButtonVariant,
   IconArrowLeft,
   IconCheck,
   IconCross,
@@ -217,8 +218,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                       styles.actionButton
                     )}
                     onClick={() => setApproveModalOpen(true)}
-                    variant="secondary"
-                    iconLeft={<IconCheck />}
+                    variant={ButtonVariant.Secondary}
+                    iconStart={<IconCheck />}
                     disabled={loadingApproveEnrolment}
                   >
                     {t('enrolment.enrolmentDetails.buttonApproveEnrolment')}
@@ -231,8 +232,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                       styles.actionButton
                     )}
                     onClick={() => setDeclineModalOpen(true)}
-                    variant="secondary"
-                    iconLeft={<IconCross />}
+                    variant={ButtonVariant.Secondary}
+                    iconStart={<IconCross />}
                     disabled={loadingDeclineEnrolment}
                   >
                     {t('enrolment.enrolmentDetails.buttonDeclineEnrolment')}
@@ -241,8 +242,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                 <Button
                   className={styles.editButton}
                   onClick={handleEditEnrolment}
-                  variant="secondary"
-                  iconLeft={<IconPen />}
+                  variant={ButtonVariant.Secondary}
+                  iconStart={<IconPen />}
                 >
                   {t('enrolment.enrolmentDetails.buttonEditEnrolment')}
                 </Button>
@@ -252,8 +253,8 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
                     styles.actionButton
                   )}
                   onClick={() => setDeleteModalOpen(true)}
-                  variant="secondary"
-                  iconLeft={<IconCrossCircle />}
+                  variant={ButtonVariant.Secondary}
+                  iconStart={<IconCrossCircle />}
                 >
                   {t('enrolment.enrolmentDetails.buttonDeleteEnrolment')}
                 </Button>

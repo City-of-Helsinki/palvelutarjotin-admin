@@ -40,7 +40,7 @@ exports[`matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="cross"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -59,12 +59,10 @@ exports[`matches snapshot 1`] = `
           class="buttonsContainer"
         >
           <button
-            class="Button-module_button__1msFE button_hds-button__2A0je Button-module_secondary__1nABp button_hds-button--secondary__1NOWS"
+            class="Button-module_button__1msFE Button-module_secondary__1nABp"
             type="button"
           >
-            <span
-              class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-            >
+            <span>
               Peruuta
             </span>
           </button>
@@ -72,12 +70,10 @@ exports[`matches snapshot 1`] = `
             class="buttonsRight"
           >
             <button
-              class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO"
+              class="Button-module_button__1msFE Button-module_primary__2LfKB"
               type="button"
             >
-              <span
-                class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-              >
+              <span>
                 Lisää ilmoittautumislistalle
               </span>
             </button>

@@ -110,19 +110,31 @@ async function fillAndSubmitProfileForm() {
   // wait for organisation to load
   await act(wait);
 
-  const languageSelectorButton = screen.getByLabelText(/Organisaatio/i, {
-    selector: 'button',
+  const languageSelectorButton = screen.getByRole('combobox', {
+    name: /organisaatio/i,
   });
   await userEvent.click(languageSelectorButton);
-  await userEvent.click(screen.getByText(/organisaatio 1/i));
-  await userEvent.click(screen.getByText(/organisaatio 2/i));
-
   await userEvent.click(
-    screen.getByLabelText(/Organisaatio/i, { selector: 'button' })
+    screen.getByRole('option', { name: /organisaatio 1/i })
+  );
+  await userEvent.click(
+    screen.getByRole('option', { name: /organisaatio 2/i })
   );
 
-  expect(screen.getByLabelText('Organisaatio 1')).toBeInTheDocument();
-  expect(screen.getByLabelText('Organisaatio 2')).toBeInTheDocument();
+  await userEvent.click(
+    screen.getByRole('combobox', { name: /organisaatio/i })
+  );
+
+  expect(
+    screen.getByRole('button', {
+      name: 'Poista valinta "Organisaatio 1".',
+    })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: 'Poista valinta "Organisaatio 2".',
+    })
+  ).toBeInTheDocument();
 
   await userEvent.click(
     screen.getByLabelText('Olen hyväksynyt palvelut käyttöehdot')
