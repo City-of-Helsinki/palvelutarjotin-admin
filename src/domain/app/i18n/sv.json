@@ -495,19 +495,19 @@
     "accessibility": {
       "audienceDropdown": {
         "clearButtonAriaLabel": "Ta bort alla publikval",
-        "selectedItemRemoveButtonAriaLabel": "Ta bort publikval"
+        "selectedItemRemoveButtonAriaLabel": "Ta bort publikval \"{{label}}\""
       },
       "categoryDropdown": {
         "clearButtonAriaLabel": "Ta bort alla kategorier",
-        "selectedItemRemoveButtonAriaLabel": "Ta bort kategorival"
+        "selectedItemRemoveButtonAriaLabel": "Ta bort kategorival \"{{label}}\""
       },
       "activityDropdown": {
         "clearButtonAriaLabel": "Ta bort alla aktiviteter",
-        "selectedItemRemoveButtonAriaLabel": "Ta bort aktivitet"
+        "selectedItemRemoveButtonAriaLabel": "Ta bort aktivitet \"{{label}}\""
       },
       "inLanguageDropdown": {
         "clearButtonAriaLabel": "Ta bort alla språkval",
-        "selectedItemRemoveButtonAriaLabel": "Ta bort språkval"
+        "selectedItemRemoveButtonAriaLabel": "Ta bort språkval \"{{label}}\""
       }
     },
     "occurrences": {

@@ -127,12 +127,12 @@ async function fillAndSubmitProfileForm() {
 
   expect(
     screen.getByRole('button', {
-      name: 'Poista valinta "Organisaatio 1".',
+      name: 'Organisaatio 1',
     })
   ).toBeInTheDocument();
   expect(
     screen.getByRole('button', {
-      name: 'Poista valinta "Organisaatio 2".',
+      name: 'Organisaatio 2',
     })
   ).toBeInTheDocument();
 
