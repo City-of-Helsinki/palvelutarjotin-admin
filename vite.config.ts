@@ -1,8 +1,8 @@
 import path from 'path';
 
+import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react-swc';
 import { loadEnv } from 'vite';
-import eslint from 'vite-plugin-eslint';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults, defineConfig } from 'vitest/config';
 
