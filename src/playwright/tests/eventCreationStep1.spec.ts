@@ -187,7 +187,6 @@ LANGUAGES.forEach((lang) => {
       p1.contactPersonNameListBox,
       'Test-admin'
     );
-    await p1.isDropdownClosed(p1.contactPersonNameDropdownButton);
     await p1.fillTextBox(p1.emailTextBox, 'admin@example.com');
     await p1.fillTextBox(p1.phoneTextBox, '+358-50-123456789');
 

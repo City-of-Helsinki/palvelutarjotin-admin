@@ -494,19 +494,19 @@
     "accessibility": {
       "audienceDropdown": {
         "clearButtonAriaLabel": "Poista kaikki kohderyhmävalinnat",
-        "selectedItemRemoveButtonAriaLabel": "Poista kohderyhmä"
+        "selectedItemRemoveButtonAriaLabel": "Poista kohderyhmä \"{{label}}\""
       },
       "categoryDropdown": {
         "clearButtonAriaLabel": "Poista kaikki kategoriavalinnat",
-        "selectedItemRemoveButtonAriaLabel": "Poista kategoriavalinta"
+        "selectedItemRemoveButtonAriaLabel": "Poista kategoriavalinta \"{{label}}\""
       },
       "activityDropdown": {
         "clearButtonAriaLabel": "Poista kaikki aktiviteettivalinnat",
-        "selectedItemRemoveButtonAriaLabel": "Poista aktiviteettivalinta"
+        "selectedItemRemoveButtonAriaLabel": "Poista aktiviteettivalinta \"{{label}}\""
       },
       "inLanguageDropdown": {
         "clearButtonAriaLabel": "Poista kaikki kielivalinnat",
-        "selectedItemRemoveButtonAriaLabel": "Poista kielivalinta"
+        "selectedItemRemoveButtonAriaLabel": "Poista kielivalinta \"{{label}}\""
       }
     },
     "occurrences": {
