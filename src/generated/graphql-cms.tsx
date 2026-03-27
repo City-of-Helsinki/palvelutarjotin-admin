@@ -12508,6 +12508,9 @@ export function useMenuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MenuQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
         }
+// @ts-ignore
+export function useMenuSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MenuQuery, MenuQueryVariables>): Apollo.UseSuspenseQueryResult<MenuQuery, MenuQueryVariables>;
+export function useMenuSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MenuQuery, MenuQueryVariables>): Apollo.UseSuspenseQueryResult<MenuQuery | undefined, MenuQueryVariables>;
 export function useMenuSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MenuQuery, MenuQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options);
@@ -12572,6 +12575,9 @@ export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PageQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(PageDocument, options);
         }
+// @ts-ignore
+export function usePageSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PageQuery, PageQueryVariables>): Apollo.UseSuspenseQueryResult<PageQuery, PageQueryVariables>;
+export function usePageSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PageQuery, PageQueryVariables>): Apollo.UseSuspenseQueryResult<PageQuery | undefined, PageQueryVariables>;
 export function usePageSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PageQuery, PageQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<PageQuery, PageQueryVariables>(PageDocument, options);
@@ -12615,6 +12621,9 @@ export function usePagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Page
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
         }
+// @ts-ignore
+export function usePagesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PagesQuery, PagesQueryVariables>): Apollo.UseSuspenseQueryResult<PagesQuery, PagesQueryVariables>;
+export function usePagesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PagesQuery, PagesQueryVariables>): Apollo.UseSuspenseQueryResult<PagesQuery | undefined, PagesQueryVariables>;
 export function usePagesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<PagesQuery, PagesQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
@@ -12676,6 +12685,9 @@ export function useSubPagesSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<SubPagesSearchQuery, SubPagesSearchQueryVariables>(SubPagesSearchDocument, options);
         }
+// @ts-ignore
+export function useSubPagesSearchSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SubPagesSearchQuery, SubPagesSearchQueryVariables>): Apollo.UseSuspenseQueryResult<SubPagesSearchQuery, SubPagesSearchQueryVariables>;
+export function useSubPagesSearchSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SubPagesSearchQuery, SubPagesSearchQueryVariables>): Apollo.UseSuspenseQueryResult<SubPagesSearchQuery | undefined, SubPagesSearchQueryVariables>;
 export function useSubPagesSearchSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SubPagesSearchQuery, SubPagesSearchQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<SubPagesSearchQuery, SubPagesSearchQueryVariables>(SubPagesSearchDocument, options);
