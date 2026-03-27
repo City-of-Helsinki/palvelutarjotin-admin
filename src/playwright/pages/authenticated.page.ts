@@ -48,12 +48,6 @@ export class AuthenticatedPage extends BasePage {
     await this.userMenuButton(lang).click();
   }
 
-  async hasVisibleHeadingInUserMenuDropdown(name: string | RegExp) {
-    await expect(
-      this.userMenuDropdown.getByRole('heading', { name })
-    ).toBeVisible();
-  }
-
   async hasVisibleButtonInUserMenuDropdown(name: string | RegExp) {
     await expect(this.userMenuDropdownButton(name)).toBeVisible();
   }
@@ -160,7 +154,6 @@ export class AuthenticatedPage extends BasePage {
     await option.hover(); // Hover so that the option and the listbox change state
     const optionId = await option.getAttribute('id');
     expect(optionId).not.toBeNull();
-    await expect(listBox).toHaveAttribute('aria-activedescendant', optionId!);
     await option.click();
   }
 

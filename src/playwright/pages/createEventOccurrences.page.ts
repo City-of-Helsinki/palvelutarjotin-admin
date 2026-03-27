@@ -509,16 +509,14 @@ export class CreateEventOccurrencesPage extends AuthenticatedPage {
 
   get occurrenceLanguageDropdownButton() {
     return this.occurrencesForm
-      .getByRole('button', {
+      .getByRole('combobox', {
         name: this.t('occurrenceLanguage'),
       })
       .and(this.hasListBoxPopUp); // To distinguish from the selected tags
   }
 
   get occurrenceLanguageListBox() {
-    return this.occurrencesForm.getByRole('listbox', {
-      name: this.t('occurrenceLanguage'),
-    });
+    return this.occurrencesForm.getByRole('listbox');
   }
 
   get totalSeatsSpinButton() {

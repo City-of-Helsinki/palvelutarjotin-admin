@@ -34,10 +34,12 @@ const MultiDropdownField: React.FC<Props> = ({
   className,
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
+  clearButtonAriaLabel,
   helper,
   label,
   options,
   placeholder,
+  selectedItemRemoveButtonAriaLabel,
   setFieldValue,
   texts,
   ...rest
@@ -77,6 +79,9 @@ const MultiDropdownField: React.FC<Props> = ({
       {...field}
       texts={{
         assistive: helper,
+        clearButtonAriaLabel_multiple: clearButtonAriaLabel,
+        clearButtonAriaLabel_one: clearButtonAriaLabel,
+        tagRemoveSelectionAriaLabel: selectedItemRemoveButtonAriaLabel,
         error: errorText,
         label,
         language: locale,
