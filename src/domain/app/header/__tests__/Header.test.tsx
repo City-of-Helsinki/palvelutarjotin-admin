@@ -1,10 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { MenuItem } from '@city-of-helsinki/react-helsinki-headless-cms';
 import { waitFor, within, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as HdsReact from 'hds-react';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
-import { MenuItem } from 'react-helsinki-headless-cms';
 import { vi } from 'vitest';
 
 import { MyProfileDocument } from '../../../../generated/graphql';

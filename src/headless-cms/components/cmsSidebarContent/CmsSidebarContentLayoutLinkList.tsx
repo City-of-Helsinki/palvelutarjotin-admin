@@ -1,6 +1,6 @@
+import { HtmlToReact } from '@city-of-helsinki/react-helsinki-headless-cms';
 import { IconArrowRight } from 'hds-react';
 import React from 'react';
-import { HtmlToReact } from 'react-helsinki-headless-cms';
 
 import styles from './cmsSidebarContentLayoutLinkList.module.scss';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
