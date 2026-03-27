@@ -112,6 +112,7 @@ const OrganisationsField: React.FC<{
       component={MultiDropdownField}
       options={organisationOptions}
       disabled={!!organisationProposals}
+      clearable={true}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { Field, Formik } from 'formik';
-import { Button } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -414,7 +414,7 @@ const EventForm = <T extends FormFields>({
                     <Button
                       type="button"
                       onClick={onCancel}
-                      variant="secondary"
+                      variant={ButtonVariant.Secondary}
                     >
                       {t('eventForm.buttonCancel')}
                     </Button>

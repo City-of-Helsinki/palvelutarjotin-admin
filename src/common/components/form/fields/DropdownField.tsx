@@ -1,10 +1,12 @@
 import classNames from 'classnames';
 import { FieldProps } from 'formik';
-import { Select, SelectProps } from 'hds-react';
+import { Select } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import useLocale from '../../../../hooks/useLocale';
 import { invalidFieldClass } from '../constants';
+import styles from '../dropdownField.module.scss';
 import { getErrorText } from '../utils';
 
 export type Option = {
@@ -13,7 +15,7 @@ export type Option = {
   value: string;
 };
 
-type Props = SelectProps<Option> &
+type Props = React.ComponentProps<typeof Select> &
   FieldProps & {
     options: Option[];
     defaultValue: Option;
@@ -23,6 +25,9 @@ type Props = SelectProps<Option> &
       value: any,
       shouldValidate?: boolean | undefined
     ) => Promise<void>;
+    helper?: string;
+    label?: string;
+    placeholder?: string;
   };
 
 /**
@@ -33,18 +38,19 @@ const DropdownField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form: { errors, touched },
   helper,
+  label,
   options,
   placeholder,
   setFieldValue,
+  texts,
   ...rest
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const errorText = getErrorText(errors, touched, name, t);
 
-  const handleChange = (val: Option | Option[]) => {
-    const value = Array.isArray(val)
-      ? val.map((item) => item.value)
-      : val.value;
+  const handleChange = (selectedOptions: Option[]) => {
+    const value = selectedOptions.map((item) => item.value)[0];
     if (setFieldValue) {
       (async () => await setFieldValue(name, value))();
     } else {
@@ -66,27 +72,33 @@ const DropdownField: React.FC<Props> = ({
     });
   };
 
-  const selectedValue = options.find((option) => option.value === value) || {
-    label: '',
-    value: '',
-  };
+  const selectedValue = (options as Option[]).find(
+    (option) => option.value === value
+  ) as Option;
   return (
     <Select
       {...rest}
       {...field}
-      helper={helper}
+      texts={{
+        assistive: helper,
+        error: errorText,
+        label: label,
+        language: locale,
+        placeholder: placeholder || t('common.dropdown.placeholder'),
+        ...texts,
+      }}
       invalid={Boolean(errorText)}
-      error={errorText}
-      optionLabelField={'label'}
       // closeMenuOnSelect={!multiselect}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onChange={handleChange as (selectedItems: any) => void}
       options={options}
       id={name}
-      placeholder={placeholder || t('common.dropdown.placeholder')}
-      multiselect={false}
-      value={selectedValue}
-      className={classNames(className, { [invalidFieldClass]: errorText })}
+      multiSelect={false}
+      value={[selectedValue].filter(Boolean)}
+      clearable
+      className={classNames(className, styles.noMaxWidth, {
+        [invalidFieldClass]: errorText,
+      })}
     />
   );
 };

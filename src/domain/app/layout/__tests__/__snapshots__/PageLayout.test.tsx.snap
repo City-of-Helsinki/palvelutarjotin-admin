@@ -115,7 +115,7 @@ exports[`PageLayout matches snapshot 1`] = `
                       <svg
                         aria-hidden="true"
                         aria-label="user"
-                        class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                        class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                         role="img"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +137,7 @@ exports[`PageLayout matches snapshot 1`] = `
                   <svg
                     aria-hidden="true"
                     aria-label="angle-down"
-                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -160,17 +160,17 @@ exports[`PageLayout matches snapshot 1`] = `
                 >
                   <ul>
                     <button
-                      class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
+                      class="Button-module_button__1msFE Button-module_supplementary__3YKiS dropdownButton"
                       type="button"
                     >
                       <div
                         aria-hidden="true"
-                        class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                        class="Button-module_icon__O-h7R"
                       >
                         <svg
                           aria-hidden="true"
                           aria-label="user"
-                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                           role="img"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
@@ -183,24 +183,22 @@ exports[`PageLayout matches snapshot 1`] = `
                           />
                         </svg>
                       </div>
-                      <span
-                        class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-                      >
+                      <span>
                         Omat tiedot
                       </span>
                     </button>
                     <button
-                      class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
+                      class="Button-module_button__1msFE Button-module_supplementary__3YKiS dropdownButton"
                       type="button"
                     >
                       <div
                         aria-hidden="true"
-                        class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                        class="Button-module_icon__O-h7R"
                       >
                         <svg
                           aria-hidden="true"
                           aria-label="link-external"
-                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                           role="img"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
@@ -213,24 +211,22 @@ exports[`PageLayout matches snapshot 1`] = `
                           />
                         </svg>
                       </div>
-                      <span
-                        class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-                      >
+                      <span>
                         Helsinki-profiili
                       </span>
                     </button>
                     <button
-                      class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV dropdownButton"
+                      class="Button-module_button__1msFE Button-module_supplementary__3YKiS dropdownButton"
                       type="button"
                     >
                       <div
                         aria-hidden="true"
-                        class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                        class="Button-module_icon__O-h7R"
                       >
                         <svg
                           aria-hidden="true"
                           aria-label="signout"
-                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                           role="img"
                           viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
@@ -243,9 +239,7 @@ exports[`PageLayout matches snapshot 1`] = `
                           />
                         </svg>
                       </div>
-                      <span
-                        class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-                      >
+                      <span>
                         Kirjaudu ulos
                       </span>
                     </button>
@@ -290,7 +284,7 @@ exports[`PageLayout matches snapshot 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="angle-down"
-                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik HeaderLinkDropdown-module_chevron__1KsTd"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik HeaderLinkDropdown-module_chevron__1KsTd"
                       role="img"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
@@ -351,7 +345,7 @@ exports[`PageLayout matches snapshot 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="angle-down"
-                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik HeaderLinkDropdown-module_chevron__1KsTd"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik HeaderLinkDropdown-module_chevron__1KsTd"
                       role="img"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
@@ -440,7 +434,7 @@ exports[`PageLayout matches snapshot 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="angle-down"
-                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik HeaderLinkDropdown-module_chevron__1KsTd"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik HeaderLinkDropdown-module_chevron__1KsTd"
                       role="img"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
@@ -644,8 +638,7 @@ exports[`PageLayout matches snapshot 1`] = `
             class="FooterBase-module_logoWrapper__3BI7d"
           >
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B"
-              tabindex="0"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B"
             >
               <img
                 alt="Helsingin kaupunki"
@@ -685,7 +678,7 @@ exports[`PageLayout matches snapshot 1`] = `
                 |
               </span>
               <a
-                class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
+                class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
                 href="https://kultus.hel.fi/fi"
               >
                 <span>
@@ -699,7 +692,7 @@ exports[`PageLayout matches snapshot 1`] = `
                 |
               </span>
               <a
-                class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
+                class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
                 href="https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf"
               >
                 <span>
@@ -716,7 +709,7 @@ exports[`PageLayout matches snapshot 1`] = `
               <svg
                 aria-hidden="true"
                 aria-label="arrow-up"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"

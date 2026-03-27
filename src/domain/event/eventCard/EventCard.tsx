@@ -2,10 +2,10 @@ import { IconClock, IconEye, IconUser } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import styles from './eventCard.module.scss';
 import { PUBLICATION_STATUS } from '../../events/constants';
 import { EnrolmentType } from '../../occurrence/constants';
 import { getEventPlaceholderImage } from '../utils';
-import styles from './eventCard.module.scss';
 
 interface Props {
   description?: string;

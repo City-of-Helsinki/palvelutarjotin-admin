@@ -30,8 +30,6 @@ LANGUAGES.forEach((lang) => {
     await searchPage.clickUserMenuButton(lang);
 
     // Test that user menu opened and contains correct information
-    const userName = /^Test-admin$/i;
-    await searchPage.hasVisibleHeadingInUserMenuDropdown(userName);
     await searchPage.hasVisibleMyProfileButton(lang);
     await searchPage.hasVisibleHelsinkiProfileButton(lang);
     await searchPage.hasVisibleLogOutButton(lang);

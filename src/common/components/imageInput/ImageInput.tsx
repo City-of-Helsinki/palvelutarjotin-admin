@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik';
-import { Button } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -82,7 +82,10 @@ const ImageInput: React.FC<ImageInputProps> = ({
         style={{ display: 'none' }}
         onChange={handleImageFile}
       />
-      <Button onClick={handleChooseImageClick} variant="secondary">
+      <Button
+        onClick={handleChooseImageClick}
+        variant={ButtonVariant.Secondary}
+      >
         {t('eventForm.basicInfo.addImage')}
       </Button>
     </InputWrapper>

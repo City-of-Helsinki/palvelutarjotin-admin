@@ -105,7 +105,7 @@ export class MyProfilePage extends AuthenticatedPage {
   }
 
   get languageDropdownButton() {
-    return this.mainContent.getByRole('button', {
+    return this.mainContent.getByRole('combobox', {
       name: this.t('language'),
     });
   }

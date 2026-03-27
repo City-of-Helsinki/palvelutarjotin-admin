@@ -23,7 +23,10 @@ const consoleMessagesToHide = {
     // Hide organisation persisting related messages to declutter test output
     /^Persisted organisation ID not found in user's organisations/,
   ],
-  error: [],
+  error: [
+    // Suppress jsdom CSS stylesheet parsing errors that don't affect test functionality
+    /^Error: Could not parse CSS stylesheet/,
+  ],
 } as const satisfies Record<ConsoleLevel, RegExp[]>;
 
 // Set up console method overrides to filter console messages

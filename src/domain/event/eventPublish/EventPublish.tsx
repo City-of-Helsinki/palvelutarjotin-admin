@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import styles from './eventPublish.module.scss';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
 import {
   EventFieldsFragment,
@@ -12,7 +13,6 @@ import {
 import { PUBLICATION_STATUS } from '../../events/constants';
 import { getEventPublishedTime } from '../../occurrences/utils';
 import { getPublishEventPayload } from '../utils';
-import styles from './eventPublish.module.scss';
 
 interface Props {
   event: EventFieldsFragment;

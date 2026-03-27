@@ -1,4 +1,4 @@
-import { Button, useOidcClient } from 'hds-react';
+import { Button, ButtonVariant, useOidcClient } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -22,7 +22,7 @@ const LoginPage = () => {
         <Container>
           <div className={styles.contentWrapper}>
             <h1>{t('login.title')}</h1>
-            <Button onClick={handleLogin} variant="secondary">
+            <Button onClick={handleLogin} variant={ButtonVariant.Secondary}>
               {t('login.buttonLogin')}
             </Button>
           </div>

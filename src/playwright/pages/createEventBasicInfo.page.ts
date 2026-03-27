@@ -270,44 +270,38 @@ export class CreateEventBasicInfoPage extends AuthenticatedPage {
 
   get targetGroupsDropdownButton() {
     return this.eventClassificationsSection
-      .getByRole('button', {
+      .getByRole('combobox', {
         name: this.t('targetGroups'),
       })
       .and(this.hasListBoxPopUp); // To distinguish from the selected tags
   }
 
   get targetGroupsListBox() {
-    return this.eventClassificationsSection.getByRole('listbox', {
-      name: this.t('targetGroups'),
-    });
+    return this.eventClassificationsSection.getByRole('listbox');
   }
 
   get categoriesDropdownButton() {
     return this.eventClassificationsSection
-      .getByRole('button', {
+      .getByRole('combobox', {
         name: this.t('categories'),
       })
       .and(this.hasListBoxPopUp); // To distinguish from the selected tags
   }
 
   get categoriesListBox() {
-    return this.eventClassificationsSection.getByRole('listbox', {
-      name: this.t('categories'),
-    });
+    return this.eventClassificationsSection.getByRole('listbox');
   }
 
   get activitiesDropdownButton() {
     return this.eventClassificationsSection
-      .getByRole('button', {
+      .getByRole('combobox', {
         name: this.t('activities'),
       })
       .and(this.hasListBoxPopUp); // To distinguish from the selected tags
   }
 
   get activitiesListBox() {
-    return this.eventClassificationsSection.getByRole('listbox', {
-      name: this.t('activities'),
-    });
+    return this.eventClassificationsSection.getByRole('listbox');
   }
 
   get eventKeywordsTextBox() {
@@ -351,15 +345,13 @@ export class CreateEventBasicInfoPage extends AuthenticatedPage {
   }
 
   get contactPersonNameDropdownButton() {
-    return this.contactPersonSection.getByRole('button', {
+    return this.contactPersonSection.getByRole('combobox', {
       name: this.t('contactPersonName'),
     });
   }
 
   get contactPersonNameListBox() {
-    return this.contactPersonSection.getByRole('listbox', {
-      name: this.t('contactPersonName'),
-    });
+    return this.contactPersonSection.getByRole('listbox');
   }
 
   get emailTextBox() {

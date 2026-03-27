@@ -216,18 +216,16 @@ test('can create profile with all the information', async () => {
     expect(screen.getByText(p.placeName)).toBeInTheDocument()
   );
   await userEvent.click(
-    screen.getByRole('button', {
-      name: /organisaatio organisaatio, jonka tapahtumia hallinnoit/i,
+    screen.getByRole('combobox', {
+      name: /organisaatio, jonka tapahtumia hallinnoit/i,
     })
   );
-  await waitFor(() => {
-    expect(
-      screen.getByText('Organisaatio 1', { selector: 'li' })
-    ).toBeInTheDocument();
-  });
+  expect(
+    await screen.findByRole('option', { name: 'Organisaatio 1' })
+  ).toBeInTheDocument();
 
-  await userEvent.click(screen.getByText('Organisaatio 1', { selector: 'li' }));
-  await userEvent.click(screen.getByText('Organisaatio 2', { selector: 'li' }));
+  await userEvent.click(screen.getByRole('option', { name: 'Organisaatio 1' }));
+  await userEvent.click(screen.getByRole('option', { name: 'Organisaatio 2' }));
 
   await userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
   await userEvent.click(
@@ -296,10 +294,10 @@ test('create profile with organisation proposal', async () => {
     screen.queryByText('Organisaatio 1', { selector: 'span' })
   ).not.toBeInTheDocument();
   expect(
-    screen.getByRole('button', {
-      name: /Organisaatio Organisaatio, jonka tapahtumia hallinnoit/i,
+    screen.getByRole('combobox', {
+      name: /Organisaatio, jonka tapahtumia hallinnoit/i,
     })
-  ).toBeDisabled();
+  ).toHaveAttribute('aria-disabled', 'true');
 
   await userEvent.click(screen.getByText(/olen hyväksynyt palvelut/i));
   await userEvent.click(
