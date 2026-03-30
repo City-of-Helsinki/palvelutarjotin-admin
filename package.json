@@ -67,7 +67,6 @@
     "@babel/runtime": "^7.27.1",
     "@city-of-helsinki/react-helsinki-headless-cms": "^3.0.1",
     "@date-fns/tz": "^1.2.0",
-    "@datepicker-react/hooks": "^2.8.4",
     "@faker-js/faker": "^9.7.0",
     "@nabla/vite-plugin-eslint": "^3.0.1",
     "@playwright/test": "^1.58.2",
