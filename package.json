@@ -86,7 +86,6 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.17.43",
-    "@types/pretty": "^2.0.3",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.7",
     "@types/react-draft-wysiwyg": "^1.13.8",
@@ -203,8 +202,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
     "postcss-scss": "^4.0.9",
-    "prettier": "^3.5.3",
-    "pretty": "^2.0.0"
+    "prettier": "^3.5.3"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,cjs,mjs}": [
