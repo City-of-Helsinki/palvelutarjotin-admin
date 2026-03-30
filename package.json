@@ -36,6 +36,26 @@
         "See https://github.com/sindresorhus/globals/issues/239",
         "NOTE: This can be removed when non-eslint dependencies don't bring old versions of globals anymore"
       ],
+      "draft-js/immutable and @types/draft-js/immutable": [
+        "To force a patched immutable version for transitive dependencies in draft-js stack still requesting immutable 3.x",
+         "See https://www.npmjs.com/advisories/1114158",
+        "NOTE: This can be removed when draft-js stack no longer depends on vulnerable immutable 3.7.x"
+       ],
+      "**/@ardatan/relay-compiler/immutable": [
+        "To force a patched immutable 3.x version for graphql-codegen relay compiler chain",
+        "See https://www.npmjs.com/advisories/1114158",
+        "NOTE: This can be removed when @ardatan/relay-compiler no longer depends on immutable 3.7.x"
+      ],
+      "immutable@~3.7.6": [
+        "To force immutable 3.8.3 for dependencies still requesting immutable ~3.7.6",
+        "See https://www.npmjs.com/advisories/1114158",
+        "NOTE: This can be removed when transitive dependencies no longer request immutable ~3.7.6"
+      ],
+      "immutable@^5.0.2": [
+        "To force immutable ^5.1.5 for dependencies requesting immutable ^5.0.2 (e.g. sass)",
+        "See https://www.npmjs.com/advisories/1114168",
+        "NOTE: This can be removed when transitive dependencies stop resolving vulnerable immutable 5.1.2"
+      ],
       "hds-react/@babel/runtime": [
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/136",
         "NOTE: This can be removed if hds-react doesn't require a fixed version of this package anymore"
@@ -54,6 +74,11 @@
   "resolutions": {
     "@testing-library/dom": "^10.4.0",
     "@types/cookie": "^0.6.0",
+    "draft-js/immutable": "3.8.3",
+    "**/@ardatan/relay-compiler/immutable": "3.8.3",
+    "immutable@~3.7.6": "3.8.3",
+    "immutable@^5.0.2": "^5.1.5",
+    "@types/draft-js/immutable": "3.8.3",
     "@types/react": "^18.3.20",
     "globals": "^16.0.0",
     "hds-react/@babel/runtime": "^7.27.0",
@@ -75,7 +100,7 @@
     "@types/apollo-upload-client": "^18.0.0",
     "@types/classnames": "^2.3.4",
     "@types/dompurify": "^3.2.0",
-    "@types/draft-js": "^0.11.18",
+    "@types/draft-js": "^0.11.20",
     "@types/draftjs-to-html": "^0.8.4",
     "@types/file-saver": "^2.0.7",
     "@types/html-to-draftjs": "^1.5.0",
@@ -84,7 +109,7 @@
     "@types/node": "^20.17.43",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.7",
-    "@types/react-draft-wysiwyg": "^1.13.8",
+    "@types/react-draft-wysiwyg": "^1.13.9",
     "@types/react-helmet": "^6.1.11",
     "@types/react-modal": "^3.16.3",
     "@types/react-table": "^7.7.20",
