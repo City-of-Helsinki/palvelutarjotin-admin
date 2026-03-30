@@ -55,6 +55,11 @@
         "focus-trap code, which can produce selectors with `,,` (double commas from",
         "empty parts in a joined list) that were previously silently ignored by jsdom's",
         "matchesDontThrow helper."
+      ],
+      "hds-react/minimatch": [
+        "minimatch has multiple ReDoS vulnerabilities (CVE-1113465, CVE-1113544, CVE-1113552)",
+        "in versions <9.0.7. Pinning to >=9.0.7 fixes all three issues.",
+        "NOTE: This can be removed when hds-react updates @typescript-eslint/parser to use minimatch >=9.0.7"
       ]
     }
   },
@@ -67,6 +72,7 @@
     "globals": "^16.0.0",
     "hds-react/@babel/runtime": "^7.27.0",
     "hds-react/cookie": "^0.7.2",
+    "minimatch": ">=9.0.7",
     "nwsapi": "<2.2.21"
   },
   "dependencies": {
