@@ -199,7 +199,6 @@
     "doctoc": "^2.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
-    "postcss-scss": "^4.0.9",
     "prettier": "^3.5.3"
   },
   "lint-staged": {
