@@ -41,10 +41,6 @@
          "See https://www.npmjs.com/advisories/1114158",
         "NOTE: This can be removed when draft-js stack no longer depends on vulnerable immutable 3.7.x"
        ],
-      "hds-react/@babel/runtime": [
-        "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/136",
-        "NOTE: This can be removed if hds-react doesn't require a fixed version of this package anymore"
-      ],
       "hds-react/cookie": [
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
         "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
@@ -70,7 +66,6 @@
     "@types/draft-js/immutable": "3.8.3",
     "@types/react": "^18.3.20",
     "globals": "^16.0.0",
-    "hds-react/@babel/runtime": "^7.27.0",
     "hds-react/cookie": "^0.7.2",
     "minimatch": ">=9.0.7",
     "nwsapi": "<2.2.21"
