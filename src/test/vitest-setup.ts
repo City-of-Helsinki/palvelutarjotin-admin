@@ -1,3 +1,5 @@
+import { createRequire } from 'node:module';
+
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { cleanup } from '@testing-library/react';
 import dotenv from 'dotenv';
@@ -20,6 +22,35 @@ loadErrorMessages();
 
 // Filter console messages to declutter test output
 filterConsole();
+
+// Suppress non-fatal jsdom CSS parsing warnings (e.g. from 3rd party runtime style injection)
+const require = createRequire(import.meta.url);
+const VirtualConsole = require('jsdom/lib/jsdom/virtual-console.js') as {
+  prototype: {
+    emit: (eventName: string, ...args: unknown[]) => boolean;
+  };
+};
+
+const originalVirtualConsoleEmit = VirtualConsole.prototype.emit;
+VirtualConsole.prototype.emit = function patchedEmit(
+  eventName: string,
+  ...args: unknown[]
+) {
+  if (eventName === 'jsdomError') {
+    const jsdomError = args[0] as
+      | { message?: string; type?: string }
+      | undefined;
+    const isCssParseWarning =
+      jsdomError?.type === 'css parsing' ||
+      jsdomError?.message?.includes('Could not parse CSS stylesheet');
+
+    if (isCssParseWarning) {
+      return false;
+    }
+  }
+
+  return originalVirtualConsoleEmit.call(this, eventName, ...args);
+};
 
 // Create robust observer mocks that work with both hds-react and @testing-library
 class MockResizeObserver {
