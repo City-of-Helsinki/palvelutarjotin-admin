@@ -12,12 +12,6 @@
   },
   "//": {
     "Why are packages in resolutions?": {
-      "@testing-library/dom": [
-        "Multiple versions of @testing-library/dom cause issues with user-event",
-        "See https://github.com/testing-library/user-event/discussions/906",
-        "That's why @testing-library/dom has been added to resolutions.",
-        "NOTE: This can be removed after dependencies don't bring conflicting/old versions"
-      ],
       "@types/cookie": [
         "To use the last known @types/cookie version, only for <v1 cookie",
         "",
@@ -38,9 +32,9 @@
       ],
       "draft-js/immutable and @types/draft-js/immutable": [
         "To force a patched immutable version for transitive dependencies in draft-js stack still requesting immutable 3.x",
-         "See https://www.npmjs.com/advisories/1114158",
+        "See https://www.npmjs.com/advisories/1114158",
         "NOTE: This can be removed when draft-js stack no longer depends on vulnerable immutable 3.7.x"
-       ],
+      ],
       "hds-react/cookie": [
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
         "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
@@ -60,7 +54,6 @@
     }
   },
   "resolutions": {
-    "@testing-library/dom": "^10.4.0",
     "@types/cookie": "^0.6.0",
     "draft-js/immutable": "3.8.3",
     "@types/draft-js/immutable": "3.8.3",
@@ -80,6 +73,7 @@
     "@playwright/test": "^1.58.2",
     "@sentry/browser": "^10.25.0",
     "@stylistic/eslint-plugin": "^5.10.0",
+    "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
