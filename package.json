@@ -43,6 +43,13 @@
       "hds-react/cookie": [
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
         "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
+      ],
+      "nwsapi": [
+        "nwsapi 2.2.21+ made CSS selector SyntaxErrors always throw, even when the",
+        "nwsapi instance is configured with LOGERRORS:false. This breaks HDS React's",
+        "focus-trap code, which can produce selectors with `,,` (double commas from",
+        "empty parts in a joined list) that were previously silently ignored by jsdom's",
+        "matchesDontThrow helper."
       ]
     }
   },
@@ -52,7 +59,8 @@
     "@types/react": "^18.3.20",
     "globals": "^16.0.0",
     "hds-react/@babel/runtime": "^7.27.0",
-    "hds-react/cookie": "^0.7.2"
+    "hds-react/cookie": "^0.7.2",
+    "nwsapi": "<2.2.21"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
