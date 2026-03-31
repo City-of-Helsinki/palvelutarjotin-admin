@@ -95,7 +95,7 @@
     "@types/react-table": "^7.7.20",
     "@typescript-eslint/eslint-plugin": "^8.57.2",
     "@typescript-eslint/parser": "^8.57.2",
-    "@vitejs/plugin-react-swc": "^4.3.0",
+    "@vitejs/plugin-react": "^5.1.0",
     "@vitest/coverage-v8": "^4.1.2",
     "apollo-upload-client": "^18.0.1",
     "apollo3-cache-persist": "^0.15.0",
