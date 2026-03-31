@@ -3,7 +3,6 @@ import path from 'path';
 import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react';
 import { loadEnv } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults, defineConfig } from 'vitest/config';
 
 const viteConfig = ({ mode }) => {
@@ -16,6 +15,7 @@ const viteConfig = ({ mode }) => {
     },
     envPrefix: 'VITE_APP_',
     resolve: {
+      tsconfigPaths: true,
       alias: {
         '~hds-core': path.resolve(__dirname, './node_modules/hds-core'),
         '~hds-design-tokens': path.resolve(
@@ -39,7 +39,7 @@ const viteConfig = ({ mode }) => {
     preview: {
       port: parseInt(process.env.PORT ?? '3000'),
     },
-    plugins: [react(), eslint(), tsconfigPaths()],
+    plugins: [react(), eslint()],
   });
 };
 
