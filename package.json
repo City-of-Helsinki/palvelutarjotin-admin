@@ -56,6 +56,11 @@
         "See https://www.npmjs.com/advisories/1114168",
         "NOTE: This can be removed when transitive dependencies stop resolving vulnerable immutable 5.1.2"
       ],
+      "**/jest-util/picomatch and **/micromatch/picomatch": [
+        "To force patched picomatch for vulnerable graphql-codegen transitive chains",
+        "See https://www.npmjs.com/advisories/1115549 and https://www.npmjs.com/advisories/1115552",
+        "NOTE: This can be removed when transitive dependencies stop requiring picomatch 2.3.1"
+      ],
       "hds-react/@babel/runtime": [
         "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/136",
         "NOTE: This can be removed if hds-react doesn't require a fixed version of this package anymore"
@@ -78,6 +83,8 @@
     "**/@ardatan/relay-compiler/immutable": "3.8.3",
     "immutable@~3.7.6": "3.8.3",
     "immutable@^5.0.2": "^5.1.5",
+    "**/jest-util/picomatch": "2.3.2",
+    "**/micromatch/picomatch": "2.3.2",
     "@types/draft-js/immutable": "3.8.3",
     "@types/react": "^18.3.20",
     "globals": "^16.0.0",
