@@ -73,6 +73,11 @@
         "minimatch has multiple ReDoS vulnerabilities (CVE-1113465, CVE-1113544, CVE-1113552)",
         "in versions <9.0.7. Pinning to >=9.0.7 fixes all three issues.",
         "NOTE: This can be removed when hds-react updates @typescript-eslint/parser to use minimatch >=9.0.7"
+      ],
+      "doctoc/underscore": [
+        "To force patched underscore for doctoc transitive dependency",
+        "See https://www.npmjs.com/advisories/1113950",
+        "NOTE: This can be removed when doctoc no longer resolves underscore <1.13.8"
       ]
     }
   },
@@ -90,7 +95,8 @@
     "globals": "^16.0.0",
     "hds-react/@babel/runtime": "^7.27.0",
     "hds-react/cookie": "^0.7.2",
-    "minimatch": ">=9.0.7"
+    "minimatch": ">=9.0.7",
+    "doctoc/underscore": "^1.13.8"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
@@ -226,7 +232,7 @@
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
     "dequal": "^2.0.3",
-    "doctoc": "^2.2.1",
+    "doctoc": "^2.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
     "prettier": "^3.5.3"
