@@ -352,10 +352,12 @@ const mocks = [
 ];
 
 const testMultiDropdownValues = async ({
+  deleteButtonName,
   dropdownTestId,
   dropdownLabel,
   values,
 }: {
+  deleteButtonName: (value: string) => string;
   dropdownTestId: string;
   dropdownLabel: RegExp | string;
   values: string[];
@@ -374,7 +376,9 @@ const testMultiDropdownValues = async ({
   const dropdown = within(await screen.findByTestId(dropdownTestId));
 
   for (const value of values) {
-    await dropdown.findByText(value);
+    await dropdown.getByRole('button', {
+      name: deleteButtonName(value),
+    });
   }
 };
 
@@ -480,18 +484,22 @@ const fillForm = async (eventFormData: typeof partialDefaultFormData) => {
     dropdownLabel: /kategoriat/i,
     dropdownTestId: 'categories-dropdown',
     values: categoryKeywords.map((k) => k.name),
+    deleteButtonName: (value: string) => `Poista kategoriavalinta "${value}"`,
   });
 
   await testMultiDropdownValues({
     dropdownLabel: /aktiviteetit/i,
     dropdownTestId: 'additional-criteria-dropdown',
     values: criteriaKeywords.map((k) => k.name),
+    deleteButtonName: (value: string) =>
+      `Poista aktiviteettivalinta "${value}"`,
   });
 
   await testMultiDropdownValues({
     dropdownLabel: /kohderyhmät/i,
     dropdownTestId: 'audience-dropdown',
     values: audienceKeywords.map((k) => k.name),
+    deleteButtonName: (value: string) => `Poista kohderyhmä "${value}"`,
   });
 
   vi.spyOn(ApolloClient.prototype, 'readQuery').mockReturnValueOnce(

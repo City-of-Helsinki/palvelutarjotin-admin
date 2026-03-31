@@ -1,4 +1,4 @@
-import { Button, IconInfoCircle } from 'hds-react';
+import { Button, ButtonVariant, IconInfoCircle } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -32,10 +32,18 @@ const ConfirmationModal: React.FC<Props> = ({
     >
       {children}
       <div className={styles.buttonWrapper}>
-        <Button type="button" onClick={toggleModal} variant="secondary">
+        <Button
+          type="button"
+          onClick={toggleModal}
+          variant={ButtonVariant.Secondary}
+        >
           {t('common.alertModal.buttonCancel')}
         </Button>
-        <Button type="button" onClick={onConfirm} variant="primary">
+        <Button
+          type="button"
+          onClick={onConfirm}
+          variant={ButtonVariant.Primary}
+        >
           {confirmButtonText}
         </Button>
       </div>

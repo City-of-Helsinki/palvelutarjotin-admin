@@ -7,7 +7,7 @@ import {
   FormikHelpers,
   useFormikContext,
 } from 'formik';
-import { Button } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import compact from 'lodash/compact';
 import omit from 'lodash/omit';
 import * as React from 'react';
@@ -220,7 +220,7 @@ const OccurrenceInfoForm: React.FC<{
                   {t('eventForm.buttonSave')}
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant={ButtonVariant.Secondary}
                   type="button"
                   disabled={loading}
                   onClick={handleGoToPublishingClick}

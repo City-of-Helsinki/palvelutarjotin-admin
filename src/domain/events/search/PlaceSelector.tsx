@@ -1,4 +1,4 @@
-import { Combobox } from 'hds-react';
+import { Select } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,11 +8,13 @@ import getLocalizedString from '../../../utils/getLocalizedString';
 import { PlaceOption } from '../types';
 
 export type PlaceSelectorProps = {
+  clearable?: boolean;
   onChange: (selected: PlaceOption[]) => void;
   value: PlaceOption[];
 };
 
 function PlaceSelector({
+  clearable,
   onChange,
   value,
 }: Readonly<PlaceSelectorProps>): React.ReactElement<PlaceSelectorProps> {
@@ -30,17 +32,20 @@ function PlaceSelector({
     : [];
 
   return (
-    <Combobox<PlaceOption>
+    <Select
       value={value}
-      multiselect
-      label={t('events.search.labelPlaces')}
-      helper={t('events.search.helperPlaces')}
-      placeholder={t('events.search.placeholderPlaces')}
-      toggleButtonAriaLabel={t('events.search.placesToggleButtonAriaLabel')}
-      clearButtonAriaLabel={t('events.search.placesClearButtonAriaLabel')}
-      selectedItemRemoveButtonAriaLabel={t(
-        'events.search.placesSelectedItemRemoveButtonAriaLabel'
-      )}
+      multiSelect
+      texts={{
+        assistive: t('events.search.helperPlaces'),
+        clearButtonAriaLabel_multiple: t(
+          'events.search.placesClearButtonAriaLabel'
+        ),
+        clearButtonAriaLabel_one: t('events.search.placesClearButtonAriaLabel'),
+        label: t('events.search.labelPlaces'),
+        language: locale,
+        placeholder: t('events.search.placeholderPlaces'),
+      }}
+      clearable={clearable}
       onChange={onChange}
       options={placeOptions}
     />

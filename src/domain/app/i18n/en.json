@@ -488,19 +488,19 @@
     "accessibility": {
       "audienceDropdown": {
         "clearButtonAriaLabel": "Delete all audience selections",
-        "selectedItemRemoveButtonAriaLabel": "Delete audience selection"
+        "selectedItemRemoveButtonAriaLabel": "Delete audience selection \"{{label}}\""
       },
       "categoryDropdown": {
         "clearButtonAriaLabel": "Delete all categories",
-        "selectedItemRemoveButtonAriaLabel": "Delete category selection"
+        "selectedItemRemoveButtonAriaLabel": "Delete category selection \"{{label}}\""
       },
       "activityDropdown": {
         "clearButtonAriaLabel": "Delete all activity selections",
-        "selectedItemRemoveButtonAriaLabel": "Delete activity selection"
+        "selectedItemRemoveButtonAriaLabel": "Delete activity selection \"{{label}}\""
       },
       "inLanguageDropdown": {
         "clearButtonAriaLabel": "Delete all language selections",
-        "selectedItemRemoveButtonAriaLabel": "Delete language selection"
+        "selectedItemRemoveButtonAriaLabel": "Delete language selection \"{{label}}\""
       }
     },
     "occurrences": {
