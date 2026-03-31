@@ -108,7 +108,7 @@ function createCmsApolloClient(): ApolloClient<NormalizedCacheObject> {
   })();
 
   return new ApolloClient({
-    connectToDevTools: true,
+    devtools: { enabled: true },
     link: ApolloLink.from([errorLink, transformInternalURLs, httpLink]),
     cache,
     defaultOptions: {

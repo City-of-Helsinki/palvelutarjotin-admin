@@ -77,7 +77,7 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
   });
 
   return new ApolloClient({
-    connectToDevTools: true,
+    devtools: { enabled: true },
     link: ApolloLink.from([errorLink, authLink, httpLink]),
 
     cache: createApolloCache(),
