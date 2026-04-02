@@ -4,6 +4,26 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.4...palvelutarjotin-admin-v1.19.5) (2026-04-02)
+
+
+### Dependencies
+
+* Bump lodash-es from 4.17.23 to 4.18.1 ([b205043](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b20504333bab443d78f5c789f2c31d00af348196))
+* Pin picomatch 2.3.2 via transitive resolutions ([9d0aac0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9d0aac0b58d2703836195c8135e1fd52e3fb2bf7))
+* Remove oidc-client dependency from package.json and yarn.lock ([5835e07](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5835e073d20ef76572c78c75e751430a51fbaf06))
+* Remove unused @datepicker-react/hooks package ([8367dde](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8367dde721aa5100423147a8fb098a13ffc9e70b))
+* Remove unused @ffmpeg-installer/ffmpeg package ([b8696dc](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/b8696dc094fa171612d313a9ee9af497fbab6718))
+* Remove unused postcss-scss package ([21c3aa2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/21c3aa2a689f2de597e576f0a1030d62297563fc))
+* Remove unused pretty packages ([229e42d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/229e42d276f19b02e2d111c424d0da50f2873fea))
+* Replace vite-plugin-eslint with @nabla/vite-plugin-eslint ([2d769bc](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2d769bc8856b502e85f156dd824caee6c256d807))
+* Update minimatch to &gt;=9.0.7 to address ReDoS vulnerabilities ([d74bde2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d74bde2a14a838ebd769ad5f4ea08f4b9203c334))
+* Update sonar exclusions and test inclusions ([c54d582](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c54d58295a68ba61df205a6f466a624975430a4b))
+* Upgrade @stylistic/eslint-plugin to v5.10.0 ([be3f964](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/be3f964aac9722773014b378ae0d999ee73b39d3))
+* Upgrade lint-staged to v16.4.0 ([71ae439](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/71ae439ed9d70115dcd646db6f8c17163d8d78d4))
+* Upgrade vite to v8 and @vitejs/plugin-react-swc to v4 ([c9ce3ff](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c9ce3ff44c7f3dcd40fa2504e34c81193805e60a))
+* Upgrade vitest to v4 and silence jsdom CSS warnings ([48fd7c2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/48fd7c2fef04ef4564219544b4e8b6efc2734e78))
+
 ## [1.19.4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.3...palvelutarjotin-admin-v1.19.4) (2026-03-24)
 
 
