@@ -84,6 +84,12 @@
         "To force patched underscore for doctoc transitive dependency",
         "See https://www.npmjs.com/advisories/1113950",
         "NOTE: This can be removed when doctoc no longer resolves underscore <1.13.8"
+      ],
+      "tmp": [
+        "tmp allows arbitrary temporary file/directory write via symbolic link in versions <0.2.4",
+        "Pinning to >=0.2.4 via @graphql-codegen/cli > inquirer > external-editor > tmp",
+        "See https://www.npmjs.com/advisories/1109537",
+        "NOTE: This can be removed when @graphql-codegen/cli no longer resolves vulnerable tmp versions"
       ]
     }
   },
@@ -103,7 +109,8 @@
     "hds-react/cookie": "^0.7.2",
     "lodash": "^4.18.1",
     "minimatch": ">=9.0.7",
-    "doctoc/underscore": "^1.13.8"
+    "doctoc/underscore": "^1.13.8",
+    "tmp": ">=0.2.4"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
