@@ -10,6 +10,7 @@
   "engines": {
     "node": ">=22.13.1"
   },
+  "packageManager": "yarn@1.22.22",
   "//": {
     "Why are packages in resolutions?": {
       "@testing-library/dom": [
@@ -74,6 +75,11 @@
         "in versions <9.0.7. Pinning to >=9.0.7 fixes all three issues.",
         "NOTE: This can be removed when hds-react updates @typescript-eslint/parser to use minimatch >=9.0.7"
       ],
+      "lodash": [
+        "To fix GHSA-f23m-r3pf-42rh and GHSA-r5fr-rjxr-66jc",
+        "Pinning lodash to >=4.18.1 fixes prototype pollution vulnerabilities",
+        "NOTE: This can be removed when all transitive dependencies use patched lodash versions"
+      ],
       "doctoc/underscore": [
         "To force patched underscore for doctoc transitive dependency",
         "See https://www.npmjs.com/advisories/1113950",
@@ -95,6 +101,7 @@
     "globals": "^16.0.0",
     "hds-react/@babel/runtime": "^7.27.0",
     "hds-react/cookie": "^0.7.2",
+    "lodash": "^4.18.1",
     "minimatch": ">=9.0.7",
     "doctoc/underscore": "^1.13.8"
   },
