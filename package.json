@@ -19,6 +19,12 @@
         "That's why @testing-library/dom has been added to resolutions.",
         "NOTE: This can be removed after dependencies don't bring conflicting/old versions"
       ],
+      "@tootallnate/once": [
+        "@tootallnate/once vulnerable to Incorrect Control Flow Scoping in versions <3.0.1",
+        "Pinning to >=3.0.1 via react-helsinki-headless-cms > jest-environment-jsdom > jsdom > http-proxy-agent > @tootallnate/once",
+        "See https://www.npmjs.com/advisories/1113977",
+        "NOTE: This can be removed when react-helsinki-headless-cms no longer resolves vulnerable @tootallnate/once versions"
+      ],
       "@types/cookie": [
         "To use the last known @types/cookie version, only for <v1 cookie",
         "",
@@ -95,6 +101,7 @@
   },
   "resolutions": {
     "@testing-library/dom": "^10.4.0",
+    "@tootallnate/once": ">=3.0.1",
     "@types/cookie": "^0.6.0",
     "draft-js/immutable": "3.8.3",
     "**/@ardatan/relay-compiler/immutable": "3.8.3",
