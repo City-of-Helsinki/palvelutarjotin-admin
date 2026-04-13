@@ -1,6 +1,6 @@
 {
   "name": "palvelutarjotin-admin",
-  "version": "1.19.4",
+  "version": "1.19.5",
   "license": "MIT",
   "contributors": [
     "Jori Lindell"
@@ -45,9 +45,9 @@
       ],
       "draft-js/immutable and @types/draft-js/immutable": [
         "To force a patched immutable version for transitive dependencies in draft-js stack still requesting immutable 3.x",
-         "See https://www.npmjs.com/advisories/1114158",
+        "See https://www.npmjs.com/advisories/1114158",
         "NOTE: This can be removed when draft-js stack no longer depends on vulnerable immutable 3.7.x"
-       ],
+      ],
       "**/@ardatan/relay-compiler/immutable": [
         "To force a patched immutable 3.x version for graphql-codegen relay compiler chain",
         "See https://www.npmjs.com/advisories/1114158",
