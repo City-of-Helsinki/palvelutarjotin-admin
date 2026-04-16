@@ -29,7 +29,7 @@ importers:
   .:
     dependencies:
       '@apollo/client':
-        specifier: ^3.13.8
+        specifier: ^3.14.0
         version: 3.14.1(@types/react@18.3.29)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.21.0))(graphql@16.14.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@city-of-helsinki/react-helsinki-headless-cms':
         specifier: ^3.0.1
