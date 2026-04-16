@@ -122,6 +122,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
+    "@city-of-helsinki/react-helsinki-headless-cms": "^3.0.1",
     "@date-fns/tz": "^1.2.0",
     "@faker-js/faker": "^9.7.0",
     "@nabla/vite-plugin-eslint": "^3.0.1",
@@ -188,7 +189,6 @@
     "react-dom": "^19.2.5",
     "react-draft-wysiwyg": "^1.15.0",
     "react-helmet": "^6.1.0",
-    "react-helsinki-headless-cms": "^1.0.2",
     "react-i18next": "^15.5.1",
     "react-idle-timer": "^5.7.2",
     "react-modal": "^3.16.3",

@@ -4,15 +4,18 @@ import {
   useApolloClient,
 } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
-import { render, renderHook } from '@testing-library/react';
-import React from 'react';
-import { ConfigProvider, useConfig } from 'react-helsinki-headless-cms';
+import {
+  ConfigProvider,
+  useConfig,
+} from '@city-of-helsinki/react-helsinki-headless-cms';
 import {
   LanguagesDocument,
   MenuDocument,
   Navigation,
   useLanguagesQuery,
-} from 'react-helsinki-headless-cms/apollo';
+} from '@city-of-helsinki/react-helsinki-headless-cms/apollo';
+import { render, renderHook } from '@testing-library/react';
+import React from 'react';
 import { vi } from 'vitest';
 
 import useRHHCConfig from '../../../hooks/useRHHCConfig';

@@ -1,4 +1,14 @@
 import {
+  Language as RHHCLanguage,
+  LanguageCodeEnum,
+  MenuItem,
+  Navigation,
+} from '@city-of-helsinki/react-helsinki-headless-cms';
+import {
+  useLanguagesQuery,
+  useMenuQuery,
+} from '@city-of-helsinki/react-helsinki-headless-cms/apollo';
+import {
   ButtonVariant,
   Button as HDSButton,
   Header as HDSHeader,
@@ -9,16 +19,6 @@ import {
   useOidcClient,
 } from 'hds-react';
 import * as React from 'react';
-import {
-  Language as RHHCLanguage,
-  LanguageCodeEnum,
-  MenuItem,
-  Navigation,
-} from 'react-helsinki-headless-cms';
-import {
-  useLanguagesQuery,
-  useMenuQuery,
-} from 'react-helsinki-headless-cms/apollo';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useMatch } from 'react-router';
 

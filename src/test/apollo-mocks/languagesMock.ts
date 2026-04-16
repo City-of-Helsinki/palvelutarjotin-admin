@@ -1,6 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { LanguageCodeEnum } from 'react-helsinki-headless-cms';
-import { LanguagesDocument } from 'react-helsinki-headless-cms/apollo';
+import { LanguageCodeEnum } from '@city-of-helsinki/react-helsinki-headless-cms';
+import { LanguagesDocument } from '@city-of-helsinki/react-helsinki-headless-cms/apollo';
 
 import type { LanguagesQueryResponse } from './types';
 
