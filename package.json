@@ -13,12 +13,6 @@
   "packageManager": "yarn@1.22.22",
   "//": {
     "Why are packages in resolutions?": {
-      "@testing-library/dom": [
-        "Multiple versions of @testing-library/dom cause issues with user-event",
-        "See https://github.com/testing-library/user-event/discussions/906",
-        "That's why @testing-library/dom has been added to resolutions.",
-        "NOTE: This can be removed after dependencies don't bring conflicting/old versions"
-      ],
       "@tootallnate/once": [
         "@tootallnate/once vulnerable to Incorrect Control Flow Scoping in versions <3.0.1",
         "Pinning to >=3.0.1 via react-helsinki-headless-cms > jest-environment-jsdom > jsdom > http-proxy-agent > @tootallnate/once",
@@ -99,7 +93,6 @@
     }
   },
   "resolutions": {
-    "@testing-library/dom": "^10.4.0",
     "@tootallnate/once": ">=3.0.1",
     "@types/cookie": "^0.6.0",
     "draft-js/immutable": "3.8.3",
@@ -129,8 +122,9 @@
     "@playwright/test": "^1.58.2",
     "@sentry/browser": "^10.25.0",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/apollo-upload-client": "^18.0.0",
     "@types/classnames": "^2.3.4",
