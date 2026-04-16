@@ -50,3 +50,5 @@ report
 
 # ESLint
 .eslintcache
+
+.yalc

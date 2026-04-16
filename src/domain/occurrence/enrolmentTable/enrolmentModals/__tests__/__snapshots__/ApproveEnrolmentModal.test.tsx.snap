@@ -40,7 +40,7 @@ exports[`matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="cross"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -64,16 +64,16 @@ exports[`matches snapshot 1`] = `
           class="addNoteSection"
         >
           <div
-            class="Checkbox-module_checkbox__3r5uI noteCheckbox"
+            class="Checkbox-module_checkbox__CYHqn noteCheckbox"
           >
             <input
-              class="Checkbox-module_input__2bdJk"
+              class="Checkbox-module_input__8VEto"
               id="add-note"
               type="checkbox"
               value=""
             />
             <label
-              class="Checkbox-module_label__148Ac"
+              class="Checkbox-module_label__E-Trx"
               for="add-note"
             >
               Lisää viesti
@@ -84,20 +84,20 @@ exports[`matches snapshot 1`] = `
           >
             <section
               aria-label="Notification"
-              class="Notification-module_notification__3eUBu notification_hds-notification__2DQPN"
+              class="Notification-module_notification__B-lEy notification_hds-notification__ATD7H"
             >
               <div
-                class="Notification-module_content__2E8Z_ notification_hds-notification__content__5ylSS"
+                class="Notification-module_content__vhU-q notification_hds-notification__content__ZA7zV"
               >
                 <div
                   aria-level="2"
-                  class="Notification-module_label__2OUcx notification_hds-notification__label__2t1lR"
+                  class="Notification-module_label__IlQde notification_hds-notification__label__dXfk6"
                   role="heading"
                 >
                   <svg
                     aria-hidden="true"
                     aria-label="info-circle-fill"
-                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik Notification-module_icon__3xieh notification_hds-icon__29HQM"
+                    class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo Notification-module_icon__9wV6Q notification_hds-icon__EGzQ6"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@ exports[`matches snapshot 1`] = `
                   Vahvistusviesti sisältää automaattisesti seuraavat tiedot
                 </div>
                 <div
-                  class="Notification-module_body__2lrYE notification_hds-notification__body__3cobH"
+                  class="Notification-module_body__vly7X notification_hds-notification__body__2iFcY"
                 >
                   Personoitu tervehdys, ilmoittautuminen vahvistettu, tapahtuman tiedot, aika, varattujen paikkojen lukumäärä, kieli, paikka, osoite, järjestäjän yhteystiedot.
                 </div>
@@ -124,7 +124,7 @@ exports[`matches snapshot 1`] = `
           class="buttonsContainer"
         >
           <button
-            class="Button-module_button__1msFE Button-module_secondary__1nABp"
+            class="Button-module_button__P7hTI Button-module_secondary__ieoHb"
             type="button"
           >
             <span>
@@ -135,7 +135,7 @@ exports[`matches snapshot 1`] = `
             class="buttonsRight"
           >
             <button
-              class="Button-module_button__1msFE Button-module_primary__2LfKB"
+              class="Button-module_button__P7hTI Button-module_primary__b-5q5"
               type="button"
             >
               <span>

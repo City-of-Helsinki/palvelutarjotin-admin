@@ -14,7 +14,7 @@ exports[`it matches snapshot 1`] = `
         <svg
           aria-hidden="true"
           aria-label="info-circle"
-          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+          class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
           role="img"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ exports[`it matches snapshot 1`] = `
         Pahoittelemme, mutta palvelussa ilmeni virhe. Voit yrittää uudestaan, mutta jos tilanne toistuu, kerro siitä meille alalaidan palautelinkin kautta.
       </p>
       <button
-        class="Button-module_button__1msFE Button-module_primary__2LfKB"
+        class="Button-module_button__P7hTI Button-module_primary__b-5q5"
         style="max-width: 300px;"
         type="button"
       >
