@@ -2,10 +2,10 @@
 
 exports[`Footer matches snapshot 1`] = `
 <footer
-  class="Footer-module_footer__1aD3T footer"
+  class="Footer-module_footer__7u3nd footer"
 >
   <div
-    class="Koros-module_koros__1r3rg Footer-module_koros__Orx_W"
+    class="Koros-module_koros__NeX-o Footer-module_koros__wtlaj"
     style="height: 15px;"
   >
     <svg
@@ -38,38 +38,38 @@ exports[`Footer matches snapshot 1`] = `
     </svg>
   </div>
   <div
-    class="Footer-module_footerContent__3MC14"
+    class="Footer-module_footerContent__rkiWs"
   >
     <div
-      class="Footer-module_footerSections__2nrr8"
+      class="Footer-module_footerSections__CWRc6"
     >
       <h2
-        class="Footer-module_title__269y7"
+        class="Footer-module_title__xabVz"
       >
         Kultus Admin
       </h2>
       <div
-        class="FooterBase-module_base__2f0eu footerBase"
+        class="FooterBase-module_base__ndakn footerBase"
       >
         <hr
           aria-hidden="true"
-          class="FooterBase-module_divider__3sz3q"
+          class="FooterBase-module_divider__scofd"
         />
         <div
-          class="FooterBase-module_logoWrapper__3BI7d"
+          class="FooterBase-module_logoWrapper__lheeb"
         >
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B"
+            class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky"
           >
             <img
               alt="Helsingin kaupunki"
-              class="Logo-module_logo__Y2mwP Logo-module_medium__1zyWm"
+              class="Logo-module_logo__uZrXp Logo-module_medium__Kpggg"
               src="mocked hds-react logoFi"
             />
           </a>
         </div>
         <div
-          class="FooterBase-module_copyright__2iiev"
+          class="FooterBase-module_copyright__-sKpP"
         >
           <span>
             © 
@@ -78,7 +78,7 @@ exports[`Footer matches snapshot 1`] = `
             2026
           </span>
           <span
-            class="FooterBase-module_copyrightDot__2AfS6"
+            class="FooterBase-module_copyrightDot__qc85L"
           >
             •
           </span>
@@ -87,19 +87,19 @@ exports[`Footer matches snapshot 1`] = `
           </span>
         </div>
         <div
-          class="FooterBase-module_baseActions__1hCiR"
+          class="FooterBase-module_baseActions__3C-J5"
         >
           <div
-            class="FooterBase-module_links__3lfLo"
+            class="FooterBase-module_links__7i-pZ"
           >
             <span
               aria-hidden="true"
-              class="FooterBase-module_separator__cwQTe"
+              class="FooterBase-module_separator__RoVb3"
             >
               |
             </span>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_base__0Qd2m"
               href="https://kultus.hel.fi/fi"
             >
               <span>
@@ -108,12 +108,12 @@ exports[`Footer matches snapshot 1`] = `
             </a>
             <span
               aria-hidden="true"
-              class="FooterBase-module_separator__cwQTe"
+              class="FooterBase-module_separator__RoVb3"
             >
               |
             </span>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- FooterLink-module_item__3Ig3B FooterLink-module_base__bzKoj"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_base__0Qd2m"
               href="https://hkih.production.geniem.io/uploads/sites/5/2022/11/739f5edc-rekisteriseloste-kultus.fi_.pdf"
             >
               <span>
@@ -122,7 +122,7 @@ exports[`Footer matches snapshot 1`] = `
             </a>
           </div>
           <button
-            class="FooterBase-module_backToTopButton__hXTHm"
+            class="FooterBase-module_backToTopButton__YzPvo"
             role="link"
             type="button"
           >
@@ -130,7 +130,7 @@ exports[`Footer matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="arrow-up"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"

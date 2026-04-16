@@ -14,7 +14,7 @@ exports[`matches snapshot 1`] = `
         <svg
           aria-hidden="true"
           aria-label="arrow-left"
-          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+          class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
           role="img"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -45,17 +45,17 @@ exports[`matches snapshot 1`] = `
           class="actionButtons"
         >
           <button
-            class="Button-module_button__1msFE Button-module_secondary__1nABp declineButton actionButton"
+            class="Button-module_button__P7hTI Button-module_secondary__ieoHb declineButton actionButton"
             type="button"
           >
             <div
               aria-hidden="true"
-              class="Button-module_icon__O-h7R"
+              class="Button-module_icon__Di-Ga"
             >
               <svg
                 aria-hidden="true"
                 aria-label="cross"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,17 +73,17 @@ exports[`matches snapshot 1`] = `
             </span>
           </button>
           <button
-            class="Button-module_button__1msFE Button-module_secondary__1nABp editButton"
+            class="Button-module_button__P7hTI Button-module_secondary__ieoHb editButton"
             type="button"
           >
             <div
               aria-hidden="true"
-              class="Button-module_icon__O-h7R"
+              class="Button-module_icon__Di-Ga"
             >
               <svg
                 aria-hidden="true"
                 aria-label="pen"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -101,17 +101,17 @@ exports[`matches snapshot 1`] = `
             </span>
           </button>
           <button
-            class="Button-module_button__1msFE Button-module_secondary__1nABp deleteButton actionButton"
+            class="Button-module_button__P7hTI Button-module_secondary__ieoHb deleteButton actionButton"
             type="button"
           >
             <div
               aria-hidden="true"
-              class="Button-module_icon__O-h7R"
+              class="Button-module_icon__Di-Ga"
             >
               <svg
                 aria-hidden="true"
                 aria-label="cross-circle"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
