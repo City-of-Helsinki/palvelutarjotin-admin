@@ -1,4 +1,7 @@
-import type { Menu, Language } from 'react-helsinki-headless-cms';
+import type {
+  Menu,
+  Language,
+} from '@city-of-helsinki/react-helsinki-headless-cms';
 
 export type MenuQueryResponse = {
   data: {

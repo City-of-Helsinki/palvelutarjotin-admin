@@ -1,8 +1,8 @@
+import { MenuDocument } from '@city-of-helsinki/react-helsinki-headless-cms/apollo';
 import { act, waitFor } from '@testing-library/react';
 import i18n from 'i18next';
 import { graphql, HttpResponse } from 'msw';
 import * as React from 'react';
-import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
 
 import { MyProfileDocument } from '../../../../generated/graphql';
 import {
