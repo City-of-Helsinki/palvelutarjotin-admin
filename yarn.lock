@@ -4006,7 +4006,7 @@ domutils@^2.8.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
-domutils@^3.1.0, domutils@^3.2.1:
+domutils@^3.1.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-3.2.2.tgz#edbfe2b668b0c1d97c24baf0f1062b132221bc78"
   integrity sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==
@@ -5176,14 +5176,6 @@ hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-html-dom-parser@5.0.13:
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-5.0.13.tgz#36b25b3ad05dc71741e9cd200ff276cdf8e3831d"
-  integrity sha512-B7JonBuAfG32I7fDouUQEogBrz3jK9gAuN1r1AaXpED6dIhtg/JwiSRhjGL7aOJwRz3HU4efowCjQBaoXiREqg==
-  dependencies:
-    domhandler "5.0.3"
-    htmlparser2 "10.0.0"
-
 html-dom-parser@5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-5.0.3.tgz#823ecc15292c36cb1611213384c9eb2fbb085e5c"
@@ -5233,30 +5225,10 @@ html-react-parser@^4.2.9:
     react-property "2.0.2"
     style-to-js "1.1.8"
 
-html-react-parser@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-5.2.3.tgz#fc87fe097ff661d24d65997e4bf341ab509958a3"
-  integrity sha512-y34oKTu+9T1fKdJE1cN9QWFWu8sx8Qa5tJOafUfMUF5Niah+yF6zlEHhWh7a0iZEcLRPIMw54bY14ajQF7xP7A==
-  dependencies:
-    domhandler "5.0.3"
-    html-dom-parser "5.0.13"
-    react-property "2.0.2"
-    style-to-js "1.1.16"
-
 html-to-draftjs@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/html-to-draftjs/-/html-to-draftjs-1.5.0.tgz#0df0eabf429deaedb63f5c859889e2c983606e86"
   integrity sha512-kggLXBNciKDwKf+KYsuE+V5gw4dZ7nHyGMX9m0wy7urzWjKGWyNFetmArRLvRV0VrxKN70WylFsJvMTJx02OBQ==
-
-htmlparser2@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-10.0.0.tgz#77ad249037b66bf8cc99c6e286ef73b83aeb621d"
-  integrity sha512-TwAZM+zE5Tq3lrEHvOlvwgj1XLWQCtaaibSN11Q+gGBAS7Y1uZSWwXXRe4iF6OXnaq1riyQAPFOBtYc77Mxq0g==
-  dependencies:
-    domelementtype "^2.3.0"
-    domhandler "^5.0.3"
-    domutils "^3.2.1"
-    entities "^6.0.0"
 
 htmlparser2@9.0.0:
   version "9.0.0"
@@ -5438,11 +5410,6 @@ inline-style-parser@0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/inline-style-parser/-/inline-style-parser-0.2.2.tgz#d498b4e6de0373458fc610ff793f6b14ebf45633"
   integrity sha512-EcKzdTHVe8wFVOGEYXiW9WmJXPjqi1T+234YpJr98RiFYKHV3cdy1+3mkTE+KHTHxFFLH51SfaGOoUdW+v7ViQ==
-
-inline-style-parser@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/inline-style-parser/-/inline-style-parser-0.2.4.tgz#f4af5fe72e612839fcd453d989a586566d695f22"
-  integrity sha512-0aO8FkhNZlj/ZIbNi7Lxxr12obT7cL1moPfE4tg1LkX7LlLfC6DeX4l2ZEud1ukP9jNQyNnfzQVqwbwmAATY4Q==
 
 inquirer@^8.0.0:
   version "8.2.6"
@@ -8189,13 +8156,6 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-style-to-js@1.1.16:
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/style-to-js/-/style-to-js-1.1.16.tgz#e6bd6cd29e250bcf8fa5e6591d07ced7575dbe7a"
-  integrity sha512-/Q6ld50hKYPH3d/r6nr117TZkHR0w0kGGIVfpG9N6D8NymRPM9RqCUv4pRpJ62E5DqOYx2AFpbZMyCPnjQCnOw==
-  dependencies:
-    style-to-object "1.0.8"
-
 style-to-js@1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/style-to-js/-/style-to-js-1.1.8.tgz#b3357ad6cbd7cc1216a432ce89c31e554d0861a7"
@@ -8209,13 +8169,6 @@ style-to-object@1.0.3:
   integrity sha512-xOpx7S53E0V3DpVsvt7ySvoiumRpfXiC99PUXLqGB3wiAnN9ybEIpuzlZ8LAZg+h1sl9JkEUwtSQXxcCgFqbbg==
   dependencies:
     inline-style-parser "0.2.2"
-
-style-to-object@1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/style-to-object/-/style-to-object-1.0.8.tgz#67a29bca47eaa587db18118d68f9d95955e81292"
-  integrity sha512-xT47I/Eo0rwJmaXC4oilDGDWLohVhR6o/xAQcPQN8q6QBuZVL8qMYL85kLmST5cPjAorwvqIA4qXTRQoYHaL6g==
-  dependencies:
-    inline-style-parser "0.2.4"
 
 supports-color@^7.1.0:
   version "7.2.0"
