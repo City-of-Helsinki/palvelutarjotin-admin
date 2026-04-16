@@ -10,7 +10,7 @@ type Props<D extends Record<string, unknown>> = {
   data: Array<D>;
   expandedAreaOffset?: number;
   onRowClick?: (row: Row<D>) => void;
-  renderExpandedArea?: (row: D) => JSX.Element;
+  renderExpandedArea?: (row: D) => React.ReactElement;
   tableHeaderRowClassName?: string;
 };
 

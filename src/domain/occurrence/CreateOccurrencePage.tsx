@@ -253,7 +253,7 @@ const CreateOccurrencePage: React.FC = () => {
   const { id: eventId } = useParams<Params>();
   const [initialValues, setInitialValues] =
     React.useState<TimeAndLocationFormFields | null>(null);
-  const eventDataRef = React.useRef<EventQuery>();
+  const eventDataRef = React.useRef<EventQuery | null>(null);
 
   const createOrUpdateVenue = useCreateOrUpdateVenueRequest(apolloClient);
 
@@ -273,7 +273,7 @@ const CreateOccurrencePage: React.FC = () => {
 
   // Get access to latest eventData in handleGoToPublishingClick when it is called
   // from child component
-  eventDataRef.current = eventData;
+  eventDataRef.current = eventData ?? null;
 
   const organisationId = eventData?.event?.pEvent?.organisation?.id || '';
 

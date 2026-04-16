@@ -32,10 +32,9 @@
         "which provides the types itself"
       ],
       "@types/react": [
-        "Several packages brought @types/react@19, but we only support react v18",
-        "Incompatible versions of @types/react cause typechecking issues",
-        "e.g. See https://github.com/reactjs/react-modal/issues/960",
-        "NOTE: This can be removed after upgrading to react v19"
+        "Several packages may still resolve different @types/react versions",
+        "Pinning @types/react to v19 keeps typechecking consistent with React v19",
+        "NOTE: This can be removed when transitive dependencies are aligned on @types/react v19"
       ],
       "globals": [
         "Old versions of globals coming from non-eslint dependencies contain a bug that breaks eslint:",
@@ -110,7 +109,7 @@
     "**/jest-util/picomatch": "2.3.2",
     "**/micromatch/picomatch": "2.3.2",
     "@types/draft-js/immutable": "3.8.3",
-    "@types/react": "^18.3.20",
+    "@types/react": "^19.2.14",
     "globals": "^16.0.0",
     "hds-react/@babel/runtime": "^7.27.0",
     "hds-react/cookie": "^0.7.2",
@@ -142,8 +141,8 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.17.43",
-    "@types/react": "^18.3.20",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@types/react-draft-wysiwyg": "^1.13.9",
     "@types/react-helmet": "^6.1.11",
     "@types/react-modal": "^3.16.3",
@@ -185,9 +184,9 @@
     "jsonwebtoken": "^9.0.3",
     "msw": "^2.7.6",
     "path": "^0.12.7",
-    "react": "^18.3.1",
+    "react": "^19.2.5",
     "react-content-loader": "^7.0.2",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.5",
     "react-draft-wysiwyg": "^1.15.0",
     "react-helmet": "^6.1.0",
     "react-helsinki-headless-cms": "^1.0.2",
