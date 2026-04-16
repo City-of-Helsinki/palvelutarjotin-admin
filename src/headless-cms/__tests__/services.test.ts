@@ -1,4 +1,4 @@
-import { dequal } from 'dequal';
+import isEqual from 'lodash/isEqual';
 import { graphql, HttpResponse } from 'msw';
 
 import {
@@ -19,7 +19,7 @@ describe('queryPageWithUri', () => {
     const page = fakePage();
     server.use(
       graphql.query<PageQuery, PageQueryVariables>('Page', ({ variables }) => {
-        if (dequal(variables, { id: 'test-page/nested-page', idType })) {
+        if (isEqual(variables, { id: 'test-page/nested-page', idType })) {
           return HttpResponse.json({
             data: {
               page,

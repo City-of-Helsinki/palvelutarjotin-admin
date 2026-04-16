@@ -1,8 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { dequal } from 'dequal';
 import * as HdsReact from 'hds-react';
+import isEqual from 'lodash/isEqual';
 import { graphql, HttpResponse } from 'msw';
 import React from 'react';
 import { Route, Routes } from 'react-router';
@@ -322,7 +322,7 @@ beforeEach(() => {
   server.use(
     graphql.query<PageQuery, PageQueryVariables>('Page', ({ variables }) => {
       const mock = mocks.Page.find(({ variables: mockVariables }) => {
-        return dequal(mockVariables, variables);
+        return isEqual(mockVariables, variables);
       });
 
       if (mock) {
@@ -340,7 +340,7 @@ beforeEach(() => {
       ({ variables }) => {
         const mock = mocks.SubPagesSearch.find(
           ({ variables: mockVariables }) => {
-            return dequal(mockVariables, variables);
+            return isEqual(mockVariables, variables);
           }
         );
 
