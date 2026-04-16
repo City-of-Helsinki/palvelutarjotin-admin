@@ -70,7 +70,6 @@ exports[`matches snapshot 1`] = `
               class="Checkbox-module_input__8VEto"
               id="add-note"
               type="checkbox"
-              value=""
             />
             <label
               class="Checkbox-module_label__E-Trx"
