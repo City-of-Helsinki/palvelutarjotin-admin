@@ -1,6 +1,6 @@
 import { ApolloProvider } from '@apollo/client';
+import { ConfigProvider as RHHCConfigProvider } from '@city-of-helsinki/react-helsinki-headless-cms';
 import * as React from 'react';
-import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import { BrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 

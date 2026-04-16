@@ -1,5 +1,5 @@
-import type { Config } from 'react-helsinki-headless-cms';
-import { defaultConfig as rhhcDefaultConfig } from 'react-helsinki-headless-cms';
+import type { Config } from '@city-of-helsinki/react-helsinki-headless-cms';
+import { defaultConfig as rhhcDefaultConfig } from '@city-of-helsinki/react-helsinki-headless-cms';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 

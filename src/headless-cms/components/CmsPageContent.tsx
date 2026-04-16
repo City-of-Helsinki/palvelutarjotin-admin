@@ -1,5 +1,5 @@
+import { HtmlToReact } from '@city-of-helsinki/react-helsinki-headless-cms';
 import React from 'react';
-import { HtmlToReact } from 'react-helsinki-headless-cms';
 
 import styles from './cmsPage.module.scss';
 import CmsSidebarContent from './cmsSidebarContent/CmsSidebarContent';

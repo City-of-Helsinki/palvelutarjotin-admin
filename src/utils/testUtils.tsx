@@ -1,6 +1,7 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { ConfigProvider as RHHCConfigProvider } from '@city-of-helsinki/react-helsinki-headless-cms';
 import {
   act,
   createEvent,
@@ -10,7 +11,6 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { ConfigProvider as RHHCConfigProvider } from 'react-helsinki-headless-cms';
 import Modal from 'react-modal';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import wait from 'waait';

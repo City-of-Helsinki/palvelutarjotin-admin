@@ -1,5 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { MenuDocument } from 'react-helsinki-headless-cms/apollo';
+import { MenuDocument } from '@city-of-helsinki/react-helsinki-headless-cms/apollo';
 
 import type { MenuQueryResponse } from './types';
 import { FOOTER_MENU_NAME } from '../../headless-cms/constants';
