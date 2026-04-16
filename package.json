@@ -122,7 +122,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
-    "@babel/runtime": "^7.27.1",
     "@date-fns/tz": "^1.2.0",
     "@faker-js/faker": "^9.7.0",
     "@nabla/vite-plugin-eslint": "^3.0.1",
