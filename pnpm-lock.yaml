@@ -67,9 +67,6 @@ importers:
       '@types/classnames':
         specifier: ^2.3.4
         version: 2.3.4
-      '@types/dompurify':
-        specifier: ^3.2.0
-        version: 3.2.0
       '@types/draft-js':
         specifier: ^0.11.20
         version: 0.11.20
@@ -139,9 +136,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.3.0
-      dompurify:
-        specifier: ^3.4.0
-        version: 3.4.7
       dotenv:
         specifier: ^16.5.0
         version: 16.6.1
@@ -1776,10 +1770,6 @@ packages:
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
-
-  '@types/dompurify@3.2.0':
-    resolution: {integrity: sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg==}
-    deprecated: This is a stub types definition. dompurify provides its own type definitions, so you do not need this installed.
 
   '@types/draft-js@0.11.20':
     resolution: {integrity: sha512-bZHtHxXnCu4wlUXlDWrIlJSG2LJ6wcycSWoxcTCcGd0cVOm35p0vh87qpIPzGK2NALMMvJhQXdS330iYB3iGlw==}
@@ -7245,10 +7235,6 @@ snapshots:
   '@types/cookie@0.6.0': {}
 
   '@types/deep-eql@4.0.2': {}
-
-  '@types/dompurify@3.2.0':
-    dependencies:
-      dompurify: 3.4.7
 
   '@types/draft-js@0.11.20':
     dependencies:
