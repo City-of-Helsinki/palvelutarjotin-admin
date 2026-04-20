@@ -14,7 +14,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import classNames from 'classnames';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+import htmlToDraftModule from 'html-to-draftjs';
 import React from 'react';
 import { Editor, EditorState as EditorStateWysiwyg } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +23,12 @@ import { getTextEditorLocalization, toolbarOptions } from './constants';
 import styles from './textEditor.module.scss';
 import useIsMounted from '../../../hooks/useIsMounted';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
+
+const htmlToDraft =
+  typeof htmlToDraftModule === 'function'
+    ? htmlToDraftModule
+    : // @ts-expect-error - htmlToDraftModule is a CommonJS module, so we need to access the default export
+      htmlToDraftModule.default;
 
 const convertHtmlToEditorState = (html: string) => {
   const blocksFromHtml = htmlToDraft(html);
