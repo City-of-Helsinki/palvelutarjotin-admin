@@ -1,3 +1,4 @@
+import { NotificationProps } from 'hds-react';
 import * as React from 'react';
 
 import KeywordText from './KeywordText';
@@ -30,8 +31,12 @@ interface Props {
   value: string | string[];
 }
 
-const optionLabelToString = (option: AutoSuggestOption, locale: Language) => {
-  const apolloClient = initializeApolloClient();
+const optionLabelToString = (
+  option: AutoSuggestOption,
+  locale: Language,
+  addNotification: (props: NotificationProps) => void
+) => {
+  const apolloClient = initializeApolloClient(null, addNotification);
   const data = apolloClient.readQuery<KeywordQuery>({
     query: KeywordDocument,
     variables: { id: option.value },

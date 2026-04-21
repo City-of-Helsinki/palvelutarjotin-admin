@@ -2,9 +2,10 @@ import { IconCheck, IconCross, IconCrossCircle, IconPen } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import styles from './actionsDropdown.module.scss';
+// eslint-disable-next-line max-len
+import { useNotificationsContext } from '../../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
@@ -35,6 +36,7 @@ const ActionsDropdown: React.FC<Props> = ({
   onEnrolmentsModified,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const { occurrenceId } = useParams<{ occurrenceId: string }>();
   const { pushWithReturnPath } = useNavigate();
   const [approveModalOpen, setApproveModalOpen] = React.useState(false);
@@ -48,7 +50,10 @@ const ActionsDropdown: React.FC<Props> = ({
       // TODO: Better error message
       // eslint-disable-next-line no-console
       console.log(error.message);
-      toast.error(t('enrolment.approveEnrolmentError'));
+      addNotification({
+        label: t('enrolment.approveEnrolmentError'),
+        type: 'error',
+      });
     },
     onCompleted: () => {
       setApproveModalOpen(false);
@@ -61,7 +66,10 @@ const ActionsDropdown: React.FC<Props> = ({
       // TODO: Better error message
       // eslint-disable-next-line no-console
       console.log(error.message);
-      toast.error(t('enrolment.declineEnrolmentError'));
+      addNotification({
+        label: t('enrolment.declineEnrolmentError'),
+        type: 'error',
+      });
     },
     onCompleted: () => {
       setDeclineModalOpen(false);
@@ -74,7 +82,10 @@ const ActionsDropdown: React.FC<Props> = ({
       // TODO: Better error message
       // eslint-disable-next-line no-console
       console.log(error.message);
-      toast.error(t('enrolment.deleteEnrolmentError'));
+      addNotification({
+        label: t('enrolment.deleteEnrolmentError'),
+        type: 'error',
+      });
     },
     // TODO: might need a check if component is mounted
     onCompleted: () => {

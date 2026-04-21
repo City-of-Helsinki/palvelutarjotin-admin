@@ -4,7 +4,6 @@ import { userEvent } from '@testing-library/user-event';
 import { format, parse as parseDate } from 'date-fns';
 import * as React from 'react';
 import * as Router from 'react-router';
-import { toast } from 'react-toastify';
 import { vi } from 'vitest';
 
 import { OccurrenceNode } from '../../../generated/graphql';
@@ -99,7 +98,6 @@ describe('location and enrolment info', () => {
     const formattedEnrolmentStartTime = formatIntoTime(
       new Date(enrolmentStartDateTimeValue)
     );
-    const toastSuccess = vi.spyOn(toast, 'success');
 
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -175,9 +173,7 @@ describe('location and enrolment info', () => {
     const goToPublishingButton = getFormElement('goToPublishing');
     const addNewOccurrenceButton = getOccurrenceFormElement('submit');
 
-    await waitFor(() =>
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
 
     await waitFor(() => expect(goToPublishingButton).toBeEnabled());
     await waitFor(() => expect(addNewOccurrenceButton).toBeEnabled());
@@ -209,8 +205,6 @@ describe('location and enrolment info', () => {
         eventWithEnrolmentAndLocationInfoMockedResponse,
       ],
     });
-
-    const toastSuccess = vi.spyOn(toast, 'success');
 
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 
@@ -262,9 +256,7 @@ describe('location and enrolment info', () => {
 
     const goToPublishingButton = getFormElement('goToPublishing');
 
-    await waitFor(() =>
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
 
     expect(goToPublishingButton).toBeEnabled();
   }, 30_000);
@@ -297,8 +289,6 @@ describe('location and enrolment info', () => {
         eventWithMultipleLanguagesMockedResponse,
       ],
     });
-
-    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -336,9 +326,7 @@ describe('location and enrolment info', () => {
 
     await userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() =>
-      expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu')
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
   });
 
   test('notification modal works correctly when info is not filled', async () => {
@@ -440,8 +428,6 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const toastSuccess = vi.spyOn(toast, 'success');
-
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
 
@@ -479,14 +465,13 @@ describe('location and enrolment info', () => {
       expect(enrolmentStartDateInput).toHaveValue(formattedEnrolmentStartDate)
     );
 
-    expect(toastSuccess).not.toHaveBeenCalled();
+    expect(
+      screen.queryByRole('alert', { name: 'Tiedot tallennettu' })
+    ).not.toBeInTheDocument();
 
     // Try to go to publish page
     await userEvent.click(goToPublishButton);
-    await waitFor(() => expect(toastSuccess).toHaveBeenCalledTimes(1));
-    await waitFor(() =>
-      expect(toastSuccess).toHaveBeenLastCalledWith('Tiedot tallennettu')
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
 
     // Modal should only have complaint about needing at least one occurrence
     const withinModal2 = within(
@@ -536,12 +521,7 @@ describe('location and enrolment info', () => {
       })
     ).toHaveLength(1);
 
-    await waitFor(() => expect(toastSuccess).toHaveBeenCalledTimes(2));
-    await waitFor(() =>
-      expect(toastSuccess).toHaveBeenLastCalledWith(
-        'Tapahtuma-aika tallennettu'
-      )
-    );
+    await screen.findByRole('alert', { name: 'Tapahtuma-aika tallennettu' });
 
     // Make sure the "Go to publish" button could be pressed
     expect(goToPublishButton).toBeVisible();
@@ -590,8 +570,6 @@ describe('location and enrolment info', () => {
       ],
     });
 
-    const toastSuccess = vi.spyOn(toast, 'success');
-
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
     await selectLocation();
@@ -607,7 +585,7 @@ describe('location and enrolment info', () => {
 
     await userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
   });
 
   test('user can add external enrolment and save form', async () => {
@@ -638,8 +616,6 @@ describe('location and enrolment info', () => {
         eventWithoutEnrolmentAndLocationInfoMockedResponse,
       ],
     });
-
-    const toastSuccess = vi.spyOn(toast, 'success');
 
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
@@ -674,6 +650,6 @@ describe('location and enrolment info', () => {
 
     await userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() => expect(toastSuccess).toHaveBeenCalled());
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
   }, 20_000);
 });

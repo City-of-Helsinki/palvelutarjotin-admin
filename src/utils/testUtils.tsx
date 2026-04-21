@@ -14,6 +14,7 @@ import * as React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import wait from 'waait';
 
+import { NotificationsProvider } from '../common/components/notificationsContext/NotificationsContext';
 import { createApolloCache } from '../domain/app/apollo/cache';
 import IdleTimer from '../domain/auth/IdleTimerProvider';
 import KultusAdminHDSLoginProvider from '../domain/auth/KultusAdminHDSLoginProvider';
@@ -70,19 +71,21 @@ export const customRender: CustomRender = (
   });
   const user = userEvent.setup();
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
-    <KultusAdminHDSLoginProvider>
-      <IdleTimer>
-        <MockedProvider mocks={mocks} cache={createApolloCache()}>
-          <BrowserRouter>
-            <OrganisationProvider>
-              <RHHCConfigProviderWithProvidedApolloClient>
-                {children}
-              </RHHCConfigProviderWithProvidedApolloClient>
-            </OrganisationProvider>
-          </BrowserRouter>
-        </MockedProvider>
-      </IdleTimer>
-    </KultusAdminHDSLoginProvider>
+    <NotificationsProvider>
+      <KultusAdminHDSLoginProvider>
+        <IdleTimer>
+          <MockedProvider mocks={mocks} cache={createApolloCache()}>
+            <BrowserRouter>
+              <OrganisationProvider>
+                <RHHCConfigProviderWithProvidedApolloClient>
+                  {children}
+                </RHHCConfigProviderWithProvidedApolloClient>
+              </OrganisationProvider>
+            </BrowserRouter>
+          </MockedProvider>
+        </IdleTimer>
+      </KultusAdminHDSLoginProvider>
+    </NotificationsProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -98,22 +101,24 @@ export const renderWithRoute: CustomRender = (
   });
   const user = userEvent.setup();
   const Wrapper: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
-    <KultusAdminHDSLoginProvider>
-      <IdleTimer>
-        <MockedProvider mocks={mocks} cache={createApolloCache()}>
-          <BrowserRouter>
-            <OrganisationProvider>
-              <RHHCConfigProviderWithProvidedApolloClient>
-                <Routes>
-                  <Route path={'/'} element={<>{children}</>} />
-                  <Route path={path} element={<>{children}</>} />
-                </Routes>
-              </RHHCConfigProviderWithProvidedApolloClient>
-            </OrganisationProvider>
-          </BrowserRouter>
-        </MockedProvider>
-      </IdleTimer>
-    </KultusAdminHDSLoginProvider>
+    <NotificationsProvider>
+      <KultusAdminHDSLoginProvider>
+        <IdleTimer>
+          <MockedProvider mocks={mocks} cache={createApolloCache()}>
+            <BrowserRouter>
+              <OrganisationProvider>
+                <RHHCConfigProviderWithProvidedApolloClient>
+                  <Routes>
+                    <Route path={'/'} element={<>{children}</>} />
+                    <Route path={path} element={<>{children}</>} />
+                  </Routes>
+                </RHHCConfigProviderWithProvidedApolloClient>
+              </OrganisationProvider>
+            </BrowserRouter>
+          </MockedProvider>
+        </IdleTimer>
+      </KultusAdminHDSLoginProvider>
+    </NotificationsProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });

@@ -11,12 +11,12 @@ import {
 } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import styles from './enrolmentDetails.module.scss';
 import EnrolmentInfoRow from './EnrolmentInfoRow';
 import { getNotificationInfoText } from './utils';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import {
   EnrolmentStatus,
   OccurrenceDocument,
@@ -64,6 +64,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
       id: enrolmentId,
     },
   });
+  const { addNotification } = useNotificationsContext();
   const enrolment = enrolmentData?.enrolment;
   const enrolmentIsNotApproved = enrolment?.status !== EnrolmentStatus.Approved;
   const enrolmentIsNotDeclined = enrolment?.status !== EnrolmentStatus.Declined;
@@ -71,7 +72,10 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [approveEnrolment, { loading: loadingApproveEnrolment }] =
     useApproveEnrolmentMutation({
       onError: (error) => {
-        toast.error(t('enrolment.approveEnrolmentError'));
+        addNotification({
+          type: 'error',
+          label: t('enrolment.approveEnrolmentError'),
+        });
         // eslint-disable-next-line no-console
         console.error('Could not approve enrolment', { error });
       },
@@ -81,7 +85,10 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [declineEnrolment, { loading: loadingDeclineEnrolment }] =
     useDeclineEnrolmentMutation({
       onError: (error) => {
-        toast.error(t('enrolment.declineEnrolmentError'));
+        addNotification({
+          type: 'error',
+          label: t('enrolment.declineEnrolmentError'),
+        });
         // eslint-disable-next-line no-console
         console.error('Could not decline enrolment', { error });
       },
@@ -91,7 +98,10 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
   const [deleteEnrolment, { loading: loadingDeleteEnrolment }] =
     useDeleteEnrolmentMutation({
       onError: (error) => {
-        toast.error(t('enrolment.deleteEnrolmentError'));
+        addNotification({
+          type: 'error',
+          label: t('enrolment.deleteEnrolmentError'),
+        });
         // eslint-disable-next-line no-console
         console.error('Could not delete enrolment', { error });
       },

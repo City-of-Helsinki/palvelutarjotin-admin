@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { configure, waitFor, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
-import { toast } from 'react-toastify';
 
 import {
   Event,
@@ -258,7 +257,6 @@ const renderComponent = ({ mocks }: { mocks?: MockedResponse[] } = {}) => {
 
 test('renders events list and load more events button works', async () => {
   vi.setSystemTime(new Date(2020, 5, 20));
-  const toastErrorSpy = vi.spyOn(toast, 'error');
   const consoleErrorSpy = vi
     .spyOn(console, 'error')
     .mockImplementation(() => {});
@@ -307,20 +305,9 @@ test('renders events list and load more events button works', async () => {
     await screen.findByRole('button', { name: /näytä lisää/i })
   );
 
-  await waitFor(
-    () => {
-      expect(toastErrorSpy).toHaveBeenCalled();
-    },
-    { timeout: 5_000 }
-  );
-
-  expect(toastErrorSpy.mock.calls).toMatchInlineSnapshot(`
-    [
-      [
-        "Tapahtumien lataaminen epäonnistui",
-      ],
-    ]
-  `);
+  await screen.findByRole('alert', {
+    name: 'Tapahtumien lataaminen epäonnistui',
+  });
 
   expect(consoleErrorSpy.mock.calls.at(-1)).toMatchInlineSnapshot(`
     [

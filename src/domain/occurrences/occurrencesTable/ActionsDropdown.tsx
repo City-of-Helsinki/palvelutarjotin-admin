@@ -9,11 +9,11 @@ import {
 import { createEvent, EventAttributes } from 'ics';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import styles from './actionsDropdown.module.scss';
 import CancelOccurrenceModal from './CancelOccurrenceModal';
 import AlertModal from '../../../common/components/modal/AlertModal';
+import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../common/components/tableDropdown/TableDropdown';
@@ -61,6 +61,7 @@ const ActionsDropdown: React.FC<Props> = ({
   const { data, loading: loadingPlace } = usePlaceQuery({
     variables: { id: placeId },
   });
+  const { addNotification } = useNotificationsContext();
 
   const {
     streetAddress,
@@ -88,7 +89,10 @@ const ActionsDropdown: React.FC<Props> = ({
       };
       createEvent(icsEvent, (error: Error | undefined, value: string) => {
         if (error) {
-          toast.error(t('occurrences.downloadCalendarError'));
+          addNotification({
+            type: 'error',
+            label: t('occurrences.downloadCalendarError'),
+          });
         } else {
           const blob = new Blob([value], { type: 'text/calendar' });
           saveAs(blob, `event_${event.id?.replace(/:/g, '')}.ics`);

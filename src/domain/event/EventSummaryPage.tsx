@@ -3,7 +3,6 @@ import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import EventPublish from './eventPublish/EventPublish';
 import styles from './eventSummaryPage.module.scss';
@@ -13,6 +12,7 @@ import EditButton from '../../common/components/editButton/EditButton';
 import EventSteps from '../../common/components/EventSteps/EventSteps';
 import FormHelperText from '../../common/components/FormHelperText/FormHelperText';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import {
   OccurrenceFieldsFragment,
   useCancelOccurrenceMutation,
@@ -50,6 +50,7 @@ const EventSummaryPage: React.FC = () => {
   const [loadingOccurrences, setLoadingOccurrences] = React.useState<string[]>(
     []
   );
+  const { addNotification } = useNotificationsContext();
   const {
     data: eventData,
     loading,
@@ -145,10 +146,16 @@ const EventSummaryPage: React.FC = () => {
       });
       await refetchEventData();
       deleteLoadingOccurrence(occurrence.id);
-      toast.success(t('occurrences.cancelSuccess'));
+      addNotification({
+        type: 'success',
+        label: t('occurrences.cancelSuccess'),
+      });
     } catch (error) {
       deleteLoadingOccurrence(occurrence.id);
-      toast.error(t('occurrences.cancelError'));
+      addNotification({
+        type: 'error',
+        label: t('occurrences.cancelError'),
+      });
       // eslint-disable-next-line no-console
       console.error('Failed to cancel occurrence', { error });
     }
@@ -164,10 +171,16 @@ const EventSummaryPage: React.FC = () => {
       });
       await refetchEventData();
       deleteLoadingOccurrence(occurrence.id);
-      toast.success(t('occurrences.deleteSuccess'));
+      addNotification({
+        type: 'success',
+        label: t('occurrences.deleteSuccess'),
+      });
     } catch (error) {
       deleteLoadingOccurrence(occurrence.id);
-      toast.error(t('occurrences.deleteError'));
+      addNotification({
+        type: 'error',
+        label: t('occurrences.deleteError'),
+      });
       // eslint-disable-next-line no-console
       console.error('Failed to delete occurrence', { error });
     }

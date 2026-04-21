@@ -11,7 +11,6 @@ import { userEvent } from '@testing-library/user-event';
 import * as ICS from 'ics';
 import * as React from 'react';
 import { Route, Routes } from 'react-router';
-import { toast } from 'react-toastify';
 import { vi, Mock } from 'vitest';
 
 import {
@@ -553,8 +552,6 @@ it('can cancel occurrences from occurrence table actions', async () => {
   let cancelDialog: BoundFunctions<typeof queries>;
   renderComponent({ mocks: [eventResponseWithOneCancelledOccurrence] });
 
-  const toastSuccessSpy = vi.spyOn(toast, 'success');
-
   async function getOccurrenceRow() {
     expect(await screen.findByText(organisationName)).toBeInTheDocument();
     occurrenceRow = within((await screen.findAllByRole('row'))[1]);
@@ -608,12 +605,7 @@ it('can cancel occurrences from occurrence table actions', async () => {
     await waitFor(() =>
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     );
-    await waitFor(
-      () => {
-        expect(toastSuccessSpy).toHaveBeenCalled();
-      },
-      { timeout: 2_000 }
-    );
+    await screen.findByRole('alert', { name: 'Tapahtuma-aika peruutettu' });
   }
 
   async function checkThatOccurrenHasUpdated() {

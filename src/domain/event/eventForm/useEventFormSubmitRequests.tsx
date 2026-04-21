@@ -1,5 +1,6 @@
 import { ApolloClient } from '@apollo/client';
 
+import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import { useUpdateSingleImageMutation } from '../../../generated/graphql';
 import { getImageName } from '../../image/utils';
 import { VenueDataFields } from '../../venue/types';
@@ -25,11 +26,12 @@ const useCreateOrUpdateVenueRequest = (apolloClient: ApolloClient<object>) => {
 const useUpdateImageRequest = () => {
   const [updateImage, { loading: updateImageLoading }] =
     useUpdateSingleImageMutation();
+  const { addNotification } = useNotificationsContext();
 
   const updateImageRequest = (values: CreateEventFormFields) => {
     const imageId = values.image;
     if (imageId) {
-      const imageName = getImageName(imageId);
+      const imageName = getImageName(imageId, addNotification);
       if (imageName) {
         // Request to update image data
         return updateImage({

@@ -15,23 +15,23 @@ describe('initializeApolloClient', () => {
   });
 
   it('should create a new Apollo Client instance if no instance exists', () => {
-    const client = initializeApolloClient();
+    const client = initializeApolloClient(null, vi.fn());
     expect(client).toBeInstanceOf(ApolloClient);
   });
 
   it('should return the existing Apollo Client instance if one exists', () => {
-    const existingClient = initializeApolloClient();
-    const client = initializeApolloClient();
+    const existingClient = initializeApolloClient(null, vi.fn());
+    const client = initializeApolloClient(null, vi.fn());
     expect(client).toBe(existingClient);
     expect(client).toBeInstanceOf(ApolloClient);
   });
 
   it('should hydrate the cache with initial state if provided', () => {
-    const client = initializeApolloClient();
+    const client = initializeApolloClient(null, vi.fn());
     const restoreSpy = vitest.spyOn(client.cache, 'restore');
     const extractSpy = vitest.spyOn(client, 'extract');
 
-    initializeApolloClient(initialState);
+    initializeApolloClient(initialState, vi.fn());
 
     expect(extractSpy).toHaveBeenCalled();
     expect(restoreSpy).toHaveBeenCalledWith(
@@ -73,11 +73,11 @@ describe('initializeApolloClient', () => {
       },
     };
 
-    const client = initializeApolloClient();
+    const client = initializeApolloClient(null, vi.fn());
     client.cache.restore(existingState);
     const restoreSpy = vitest.spyOn(client.cache, 'restore');
 
-    initializeApolloClient(initialState);
+    initializeApolloClient(initialState, vi.fn());
 
     expect(restoreSpy).toHaveBeenCalled();
     const mergedState = restoreSpy.mock.calls[0][0] as any;

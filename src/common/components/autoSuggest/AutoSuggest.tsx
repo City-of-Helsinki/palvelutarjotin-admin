@@ -10,7 +10,7 @@
 // an interactive content element. (jsx-a11y/no-static-element-interactions)"
 
 import classNames from 'classnames';
-import { IconCheck, IconCross } from 'hds-react';
+import { IconCheck, IconCross, NotificationProps } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -23,6 +23,7 @@ import styles from './autoSuggest.module.scss';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import { useNotificationsContext } from '../notificationsContext/hooks/useNotificationsContext';
 import ScrollIntoViewWithFocus from '../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
 import InputWrapper from '../textInput/InputWrapper';
 import inputStyles from '../textInput/inputWrapper.module.scss';
@@ -92,7 +93,11 @@ export interface AutoSuggestProps {
   onBlur: (val: AutoSuggestOption | AutoSuggestOption[] | null) => void;
   onChange: (val: AutoSuggestOption | AutoSuggestOption[] | null) => void;
   options: AutoSuggestOption[];
-  optionLabelToString?: (option: AutoSuggestOption, locale: Language) => string;
+  optionLabelToString?: (
+    option: AutoSuggestOption,
+    locale: Language,
+    addNotification: (props: NotificationProps) => void
+  ) => string;
   placeholder?: string;
   readOnly?: boolean;
   required?: boolean;
@@ -121,6 +126,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
   required,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
@@ -214,7 +220,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
       valueEventAriaMessage({
         event,
         value: optionLabelToString
-          ? optionLabelToString(option, locale)
+          ? optionLabelToString(option, locale, addNotification)
           : option.label.toString(),
         t,
       })
@@ -365,7 +371,7 @@ const AutoSuggest: React.FC<AutoSuggestProps> = ({
                 'common.autoSuggest.accessibility.deselectOptionButtonAriaMessage',
                 {
                   value: optionLabelToString
-                    ? optionLabelToString(item, locale)
+                    ? optionLabelToString(item, locale, addNotification)
                     : item.label.toString(),
                 }
               )}

@@ -1,9 +1,10 @@
 import { IconCheck, IconCrossCircle } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import styles from './actionsDropdown.module.scss';
+// eslint-disable-next-line max-len
+import { useNotificationsContext } from '../../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import TableDropdown, {
   MenuItemProps,
 } from '../../../../common/components/tableDropdown/TableDropdown';
@@ -33,6 +34,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
   const [pickEnrolmentModalOpen, setPickEnrolmentModalOpen] =
     React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  const { addNotification } = useNotificationsContext();
 
   const [pickEnrolment] = usePickEnrolmentFromQueueMutation({
     onError: (error) => {
@@ -43,9 +45,15 @@ const QueueActionsDropdown: React.FC<Props> = ({
           (e) => e?.extensions?.code === 'ALREADY_JOINED_EVENT_ERROR'
         )
       ) {
-        toast.error(t('enrolment.pickQueueEnrolmentDuplicateEntryError'));
+        addNotification({
+          type: 'error',
+          label: t('enrolment.pickQueueEnrolmentDuplicateEntryError'),
+        });
       } else {
-        toast.error(t('enrolment.pickQueueEnrolmentError'));
+        addNotification({
+          type: 'error',
+          label: t('enrolment.pickQueueEnrolmentError'),
+        });
       }
     },
     onCompleted: () => {
@@ -58,7 +66,10 @@ const QueueActionsDropdown: React.FC<Props> = ({
     onError: (error) => {
       // eslint-disable-next-line no-console
       console.error(error.message);
-      toast.error(t('enrolment.deleteEnrolmentError'));
+      addNotification({
+        type: 'error',
+        label: t('enrolment.deleteEnrolmentError'),
+      });
     },
     onCompleted: () => {
       setDeleteModalOpen(false);

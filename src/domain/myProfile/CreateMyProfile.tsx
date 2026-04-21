@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import styles from './myProfile.module.scss';
 import MyProfileForm, {
   MyProfileCreateFormFields,
 } from './myProfileForm/MyProfileForm';
 import { getMyProfileCreatePayload } from './utils';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import { useCreateMyProfileMutation } from '../../generated/graphql';
 import HeroBackground from '../app/heroBackground/HeroBackground';
 import Container from '../app/layout/Container';
@@ -19,6 +19,7 @@ interface Props {
 const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
   const { t } = useTranslation();
   const [createMyProfile] = useCreateMyProfileMutation();
+  const { addNotification } = useNotificationsContext();
 
   const submit = async (values: MyProfileCreateFormFields) => {
     try {
@@ -29,7 +30,10 @@ const CreateMyProfile: React.FC<Props> = ({ refetch }) => {
       });
       refetch();
     } catch (error) {
-      toast.error(t('createMyProfile.error'));
+      addNotification({
+        label: t('createMyProfile.error'),
+        type: 'error',
+      });
       // eslint-disable-next-line no-console
       console.error('Failed to create my profile', { error });
     }

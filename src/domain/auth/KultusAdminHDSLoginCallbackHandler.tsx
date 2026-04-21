@@ -8,10 +8,12 @@ import {
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
+
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 
 function KultusAdminHDSLoginCallbackHandler() {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const navigate = useNavigate();
   const [lastSignal] = useApiTokensClientTracking();
   const [nextUrl, setNextUrl] = useState('');
@@ -54,7 +56,10 @@ function KultusAdminHDSLoginCallbackHandler() {
     }
     Sentry.captureException(error);
     const shortMessage = t('authentication.errorMessage');
-    toast.error(shortMessage);
+    addNotification({
+      type: 'error',
+      label: shortMessage,
+    });
   };
 
   return (
