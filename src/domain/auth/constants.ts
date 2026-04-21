@@ -2,15 +2,6 @@ import { LoginProviderProps } from 'hds-react';
 
 import AppConfig from '../app/AppConfig';
 
-// todo: delete this when new login implemented
-export const API_TOKEN_ACTIONS = {
-  FETCH_TOKEN_ERROR: 'FETCH_TOKEN_ERROR',
-  FETCH_TOKEN_SUCCESS: 'FETCH_TOKEN_SUCCESS',
-  RESET_API_TOKEN_DATA: 'RESET_API_TOKEN_DATA',
-  START_FETCHING_TOKEN: 'START_FETCHING_TOKEN',
-  TOKEN_FETCHED: 'TOKEN_FETCHED',
-};
-
 const providerPropertiesBase: LoginProviderProps = {
   userManagerSettings: {
     authority: AppConfig.oidcAuthority,

@@ -3,7 +3,7 @@ import {
   LanguageCodeEnum,
 } from '@city-of-helsinki/react-helsinki-headless-cms';
 
-export const CMS_FINNISH_LANGUAGE_ENTRY = {
+const CMS_FINNISH_LANGUAGE_ENTRY = {
   code: LanguageCodeEnum.Fi,
   id: 'TGFuZ3VhZ2U6Zmk=',
   locale: 'fi',
@@ -12,7 +12,7 @@ export const CMS_FINNISH_LANGUAGE_ENTRY = {
   __typename: 'Language',
 } as const satisfies Language;
 
-export const CMS_ENGLISH_LANGUAGE_ENTRY = {
+const CMS_ENGLISH_LANGUAGE_ENTRY = {
   code: LanguageCodeEnum.En,
   id: 'TGFuZ3VhZ2U6ZW4=',
   locale: 'en_US',
@@ -21,7 +21,7 @@ export const CMS_ENGLISH_LANGUAGE_ENTRY = {
   __typename: 'Language',
 } as const satisfies Language;
 
-export const CMS_SWEDISH_LANGUAGE_ENTRY = {
+const CMS_SWEDISH_LANGUAGE_ENTRY = {
   code: LanguageCodeEnum.Sv,
   id: 'TGFuZ3VhZ2U6c3Y=',
   locale: 'sv_SE',
