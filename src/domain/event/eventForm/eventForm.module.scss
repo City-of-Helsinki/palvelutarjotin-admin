@@ -53,29 +53,6 @@
     }
   }
 
-  .keywordRow {
-    display: grid;
-    grid-gap: var(--grid-gap);
-
-    @include layout.respond-above(m) {
-      grid-template-columns: 3fr 1fr;
-    }
-  }
-
-  .isVirtualCheckbox {
-    margin-top: var(--spacing-s);
-  }
-
-  .neededOccurrencesRow {
-    display: grid;
-    grid-gap: var(--grid-gap);
-    margin-bottom: var(--spacing-m);
-
-    @include layout.respond-above(m) {
-      grid-template-columns: 1fr 3fr;
-    }
-  }
-
   .priceRow {
     display: grid;
     grid-gap: var(--grid-gap);
