@@ -1,9 +1,8 @@
-import { Button, ButtonVariant, IconInfoCircle } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Modal from './Modal';
-import styles from './modal.module.scss';
+import BaseDialogModal from './BaseDialogModal';
 
 interface Props {
   confirmButtonText: string;
@@ -23,31 +22,34 @@ const ConfirmationModal: React.FC<Props> = ({
   toggleModal,
 }) => {
   const { t } = useTranslation();
+
   return (
-    <Modal
-      icon={<IconInfoCircle />}
+    <BaseDialogModal
+      id="confirmation-modal"
       isOpen={isOpen}
       title={title}
       toggleModal={toggleModal}
+      actions={
+        <>
+          <Button
+            type="button"
+            onClick={toggleModal}
+            variant={ButtonVariant.Secondary}
+          >
+            {t('common.alertModal.buttonCancel')}
+          </Button>
+          <Button
+            type="button"
+            onClick={onConfirm}
+            variant={ButtonVariant.Primary}
+          >
+            {confirmButtonText}
+          </Button>
+        </>
+      }
     >
       {children}
-      <div className={styles.buttonWrapper}>
-        <Button
-          type="button"
-          onClick={toggleModal}
-          variant={ButtonVariant.Secondary}
-        >
-          {t('common.alertModal.buttonCancel')}
-        </Button>
-        <Button
-          type="button"
-          onClick={onConfirm}
-          variant={ButtonVariant.Primary}
-        >
-          {confirmButtonText}
-        </Button>
-      </div>
-    </Modal>
+    </BaseDialogModal>
   );
 };
 

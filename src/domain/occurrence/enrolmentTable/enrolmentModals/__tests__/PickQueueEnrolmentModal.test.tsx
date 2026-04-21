@@ -12,11 +12,7 @@ configure({ defaultHidden: true });
 
 it('matches snapshot', () => {
   const { baseElement } = customRender(
-    <PickQueueEnrolmentModal
-      onClose={vi.fn()}
-      pickQueueEnrolment={vi.fn()}
-      appElement={document.body}
-    />
+    <PickQueueEnrolmentModal onClose={vi.fn()} pickQueueEnrolment={vi.fn()} />
   );
 
   expect(baseElement).toMatchSnapshot();
@@ -29,22 +25,17 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
     <PickQueueEnrolmentModal
       onClose={onCloseHandler}
       pickQueueEnrolment={pickQueueEnrolmentHandler}
-      appElement={document.body}
     />
   );
 
   expect(
-    screen.getByText(
-      messages.enrolment.enrolmentModal.pickQueueEnrolmentTitle,
-      {
-        selector: 'p',
-      }
-    )
+    screen.getByRole('heading', {
+      name: messages.enrolment.enrolmentModal.pickQueueEnrolmentTitle,
+    })
   ).toBeInTheDocument();
 
   const pickQueueEnrolmentButton = screen.getByRole('button', {
     name: messages.enrolment.enrolmentModal.pickQueueEnrolmentButton,
-    // for some reason react-modal sets aria-hidden attribute true in the tests.
   });
 
   await userEvent.click(pickQueueEnrolmentButton);
@@ -57,7 +48,6 @@ it('renders enrollees list correctly', async () => {
     <PickQueueEnrolmentModal
       onClose={vi.fn()}
       pickQueueEnrolment={vi.fn()}
-      appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />
   );

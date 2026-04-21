@@ -1,9 +1,8 @@
-import { Button, ButtonVariant, IconInfoCircle } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Modal from './Modal';
-import styles from './modal.module.scss';
+import BaseDialogModal from './BaseDialogModal';
 
 interface Props {
   isOpen: boolean;
@@ -21,15 +20,14 @@ const NotificationModal: React.FC<Props> = ({
   onConfirm,
 }) => {
   const { t } = useTranslation();
+
   return (
-    <Modal
-      icon={<IconInfoCircle />}
+    <BaseDialogModal
+      id="notification-modal"
       isOpen={isOpen}
       title={title}
       toggleModal={toggleModal}
-    >
-      {children}
-      <div className={styles.notificationButtonWrapper}>
+      actions={
         <Button
           type="button"
           onClick={onConfirm}
@@ -38,8 +36,10 @@ const NotificationModal: React.FC<Props> = ({
         >
           {t('common.notificationModal.buttonClose')}
         </Button>
-      </div>
-    </Modal>
+      }
+    >
+      {children}
+    </BaseDialogModal>
   );
 };
 

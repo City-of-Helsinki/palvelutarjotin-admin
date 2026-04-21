@@ -7,7 +7,6 @@ interface DeclineEnrolmentModalProps {
   onClose: () => void;
   declineEnrolment: (message?: string) => void;
   enrollees?: EnrolleeProps[];
-  appElement?: HTMLElement;
   loading?: boolean;
 }
 
@@ -15,7 +14,6 @@ const DeclineEnrolmentModal: React.FC<DeclineEnrolmentModalProps> = ({
   onClose,
   declineEnrolment,
   enrollees,
-  appElement,
   loading = false,
 }) => {
   const { t } = useTranslation();
@@ -25,9 +23,8 @@ const DeclineEnrolmentModal: React.FC<DeclineEnrolmentModalProps> = ({
     <EnrolmentModal
       onClose={onClose}
       title={t('enrolment.enrolmentModal.declineEnrolment')}
-      appElement={appElement}
       enrollees={enrollees}
-      noteType="decline"
+      noteType="error"
       noteSection
       noteText={t('enrolment.enrolmentModal.declineEnrolmentNote')}
       submitButtonText={t('enrolment.enrolmentModal.sendCancelMessage')}

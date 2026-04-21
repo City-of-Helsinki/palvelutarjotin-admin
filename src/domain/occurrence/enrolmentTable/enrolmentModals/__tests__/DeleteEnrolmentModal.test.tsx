@@ -10,11 +10,7 @@ configure({ defaultHidden: true });
 
 it('matches snapshot', () => {
   const { baseElement } = customRender(
-    <DeleteEnrolmentModal
-      onClose={vi.fn()}
-      deleteEnrolment={vi.fn()}
-      appElement={document.body}
-    />
+    <DeleteEnrolmentModal onClose={vi.fn()} deleteEnrolment={vi.fn()} />
   );
 
   expect(baseElement).toMatchSnapshot();
@@ -27,19 +23,17 @@ it('renders correctly and calls delete enrolment handler when button is clicked'
     <DeleteEnrolmentModal
       onClose={onCloseHandler}
       deleteEnrolment={deleteEnrolmentHandler}
-      appElement={document.body}
     />
   );
 
   expect(
-    screen.getByText(messages.enrolment.enrolmentModal.deleteEnrolment, {
-      selector: 'p',
+    screen.getByRole('heading', {
+      name: messages.enrolment.enrolmentModal.deleteEnrolment,
     })
   ).toBeInTheDocument();
 
   const deleteEnrolmentButton = screen.getByRole('button', {
     name: messages.enrolment.enrolmentModal.deleteEnrolment,
-    // for some reason react-modal sets aria-hidden attribute true in the tests.
   });
 
   await userEvent.click(deleteEnrolmentButton);

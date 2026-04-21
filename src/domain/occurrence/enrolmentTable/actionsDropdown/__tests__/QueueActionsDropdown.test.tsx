@@ -1,7 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
-import Modal from 'react-modal';
 
 import { tableDropdownTestId } from '../../../../../common/components/tableDropdown/TableDropdown';
 import {
@@ -135,9 +134,7 @@ it('open menu correctly', async () => {
 });
 
 it('add to the enrolments list works from dropdown', async () => {
-  const { container } = renderComponent();
-
-  Modal.setAppElement(container);
+  renderComponent();
 
   await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
@@ -160,9 +157,7 @@ it('add to the enrolments list works from dropdown', async () => {
 });
 
 it('removing queued enrolment works from dropdown', async () => {
-  const { container } = renderComponent();
-
-  Modal.setAppElement(container);
+  renderComponent();
 
   await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 

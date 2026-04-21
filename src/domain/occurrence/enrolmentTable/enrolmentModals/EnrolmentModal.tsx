@@ -1,18 +1,20 @@
-import classNames from 'classnames';
 import {
   Button,
+  ButtonPresetTheme,
   ButtonVariant,
   Checkbox,
-  IconCross,
+  DialogVariant,
+  IconAlertCircle,
+  IconInfoCircle,
   Notification,
   TextArea,
 } from 'hds-react';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactModal from 'react-modal';
 
 import EnrolleesList from './EnrolleesList';
 import styles from './enrolmentModals.module.scss';
+import BaseDialogModal from '../../../../common/components/modal/BaseDialogModal';
 
 export type EnrolleeProps = {
   personName?: string;
@@ -25,10 +27,9 @@ export type EnrolleeProps = {
 interface EnrolmentModalProps {
   onClose: () => void;
   title: string;
-  appElement?: HTMLElement;
   enrollees?: EnrolleeProps[];
   noteText?: string | ReactNode;
-  noteType?: 'success' | 'decline';
+  noteType?: 'error' | 'success';
   noteSection?: boolean;
   submitButtonText: string;
   handleSubmit: () => void;
@@ -37,12 +38,12 @@ interface EnrolmentModalProps {
   messageText?: string;
   submitting?: boolean;
   children?: React.ReactNode;
+  variant?: DialogVariant;
 }
 
 const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
   children,
   title,
-  appElement,
   enrollees,
   noteText,
   noteType = 'success',
@@ -54,6 +55,7 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
   handleSubmit,
   onMessageTextChange,
   onClose,
+  variant,
 }) => {
   const { t } = useTranslation();
   const [showMessageTextArea, setShowMessageTextArea] = React.useState(false);
@@ -62,16 +64,7 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
   const renderModalContent = () => {
     return (
       <>
-        {noteText && (
-          <div
-            className={classNames({
-              [styles.infoNoteSuccess]: noteType === 'success',
-              [styles.infoNoteDecline]: noteType === 'decline',
-            })}
-          >
-            {noteText}
-          </div>
-        )}
+        {noteText && <Notification type={noteType}>{noteText}</Notification>}
         {hasEnrollees && <EnrolleesList enrollees={enrollees} />}
         {noteSection && (
           <div className={styles.addNoteSection}>
@@ -104,42 +97,48 @@ const EnrolmentModal: React.FC<EnrolmentModalProps> = ({
             )}
           </div>
         )}
-        <div className={styles.buttonsContainer}>
-          <Button variant={ButtonVariant.Secondary} onClick={onClose}>
-            {t('enrolment.enrolmentModal.cancelEnrolment')}
-          </Button>
-          <div className={styles.buttonsRight}>
-            <Button
-              variant={ButtonVariant.Primary}
-              onClick={handleSubmit}
-              disabled={submitting}
-            >
-              {submitButtonText}
-            </Button>
-          </div>
-        </div>
       </>
     );
   };
 
   return (
-    <ReactModal
+    <BaseDialogModal
+      id="alert-modal"
+      className={styles.modal}
       isOpen
-      bodyOpenClassName={styles.bodyOpen}
-      className={classNames(styles.modal)}
-      overlayClassName={styles.overlay}
-      appElement={appElement}
+      variant={variant}
+      title={title}
+      toggleModal={onClose}
+      style={{ width: 660 }}
+      iconStart={
+        variant === 'danger' ? <IconAlertCircle /> : <IconInfoCircle />
+      }
+      actions={
+        <>
+          <Button
+            theme={variant === 'danger' ? ButtonPresetTheme.Black : undefined}
+            variant={ButtonVariant.Secondary}
+            onClick={onClose}
+          >
+            {t('enrolment.enrolmentModal.cancelEnrolment')}
+          </Button>
+          <Button
+            variant={
+              variant === 'danger'
+                ? ButtonVariant.Danger
+                : ButtonVariant.Primary
+            }
+            onClick={handleSubmit}
+            disabled={submitting}
+          >
+            {submitButtonText}
+          </Button>
+        </>
+      }
     >
-      <div className={styles.titleRow}>
-        <p>{title}</p>
-        <button className={styles.closeButton} onClick={onClose}>
-          <IconCross />
-          {t('common.buttonClose')}
-        </button>
-      </div>
       {preview ? preview : renderModalContent()}
       {children}
-    </ReactModal>
+    </BaseDialogModal>
   );
 };
 

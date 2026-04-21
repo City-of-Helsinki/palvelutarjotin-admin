@@ -1,4 +1,4 @@
-import { waitFor, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
@@ -8,21 +8,10 @@ import ApproveEnrolmentModal from '../ApproveEnrolmentModal';
 import { EnrolleeProps } from '../EnrolmentModal';
 import persons from '../mocks/persons';
 
-it('matches snapshot', async () => {
+it('matches snapshot', () => {
   const { baseElement } = customRender(
-    <ApproveEnrolmentModal
-      onClose={vi.fn()}
-      approveEnrolment={vi.fn()}
-      appElement={document.body}
-    />
+    <ApproveEnrolmentModal onClose={vi.fn()} approveEnrolment={vi.fn()} />
   );
-
-  await waitFor(() => {
-    // A small "hack" to wait for modal to open fully
-    expect(
-      baseElement.querySelector('.ReactModal__Content--after-open')
-    ).toBeInTheDocument();
-  });
 
   expect(baseElement).toMatchSnapshot();
 });
@@ -34,7 +23,6 @@ it('renders correctly and calls approve enrolment handler', async () => {
     <ApproveEnrolmentModal
       onClose={onCloseHandler}
       approveEnrolment={approveEnrolmentHandler}
-      appElement={document.body}
     />
   );
 
@@ -78,11 +66,7 @@ it('renders correctly and calls approve enrolment handler', async () => {
 
 it('opens message section when checkbox is clicked and text can be written', async () => {
   customRender(
-    <ApproveEnrolmentModal
-      onClose={vi.fn()}
-      approveEnrolment={vi.fn()}
-      appElement={document.body}
-    />
+    <ApproveEnrolmentModal onClose={vi.fn()} approveEnrolment={vi.fn()} />
   );
 
   const addMessageCheckbox = screen.getByLabelText(/lisää viesti/i);
@@ -104,7 +88,6 @@ it('renders enrollees list correctly', async () => {
     <ApproveEnrolmentModal
       onClose={vi.fn()}
       approveEnrolment={vi.fn()}
-      appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />
   );
