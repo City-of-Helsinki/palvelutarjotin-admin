@@ -10,7 +10,6 @@ it('matches snapshot', () => {
     <EnrolmentModal
       title="Title"
       onClose={vi.fn()}
-      appElement={document.body}
       submitButtonText={''}
       handleSubmit={function (): void {
         throw new Error('Function not implemented.');
@@ -27,7 +26,6 @@ it('renders correctly and calls onClose handler when close button is clicked', a
     <EnrolmentModal
       title="Title"
       onClose={onCloseHandler}
-      appElement={document.body}
       submitButtonText={''}
       handleSubmit={function (): void {
         throw new Error('Function not implemented.');
@@ -37,7 +35,9 @@ it('renders correctly and calls onClose handler when close button is clicked', a
 
   expect(screen.getByText(/Title/i)).toBeInTheDocument();
 
-  const closeButton = screen.getByText(/sulje/i);
+  const closeButton = screen.getByRole('button', {
+    name: /sulje/i,
+  });
   await userEvent.click(closeButton);
 
   expect(onCloseHandler).toHaveBeenCalledTimes(1);

@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import Modal from 'react-modal';
 import { vi } from 'vitest';
 
 import * as graphql from '../../../generated/graphql';
@@ -170,13 +169,11 @@ test('renders correct information and delete works', async () => {
   vi.spyOn(graphql, 'useDeleteSingleEventMutation').mockReturnValue([
     deleteMock,
   ] as any);
-  const { container } = renderWithRoute(<EventDetailsPage />, {
+  renderWithRoute(<EventDetailsPage />, {
     routes: ['/events/palvelutarjotin:afzunowba4'],
     path: ROUTES.EVENT_DETAILS,
     mocks: apolloMocks,
   });
-
-  Modal.setAppElement(container);
 
   await waitFor(() =>
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
@@ -228,7 +225,7 @@ test('renders correct information and delete works', async () => {
 
   const modal = within(screen.getByRole('dialog'));
   expect(
-    modal.getByText('Poista tapahtuma', { selector: 'div' })
+    modal.getByRole('heading', { name: 'Poista tapahtuma' })
   ).toBeInTheDocument();
 
   const modalTexts = [
@@ -261,7 +258,7 @@ test('renders correct information and delete works', async () => {
 });
 
 test('enrolment info is not shown when enrolments are not done internally', async () => {
-  const { container } = renderWithRoute(<EventDetailsPage />, {
+  renderWithRoute(<EventDetailsPage />, {
     routes: ['/events/palvelutarjotin:afzunowba4'],
     path: ROUTES.EVENT_DETAILS,
     mocks: [
@@ -282,8 +279,6 @@ test('enrolment info is not shown when enrolments are not done internally', asyn
       ...apolloMocks.slice(1),
     ],
   });
-
-  Modal.setAppElement(container);
 
   await waitFor(() =>
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()

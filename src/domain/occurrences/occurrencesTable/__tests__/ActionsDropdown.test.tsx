@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
-import Modal from 'react-modal';
 import * as Router from 'react-router';
 import { vi } from 'vitest';
 
@@ -136,9 +135,7 @@ it.each([EnrolmentType.External, EnrolmentType.Unenrollable])(
 
 it('renders cancel modal and cancel functionality works', async () => {
   const onCancelMock = vi.fn();
-  const { container } = renderComponent({ onCancel: onCancelMock });
-
-  Modal.setAppElement(container);
+  renderComponent({ onCancel: onCancelMock });
 
   await userEvent.click(screen.getByRole('button', { name: 'Valitse' }));
 
@@ -183,9 +180,7 @@ it('renders cancel modal and cancel functionality works', async () => {
 
 it('renders delete modal correctly and delete functionality works', async () => {
   const onDeleteMock = vi.fn();
-  const { container } = renderComponent({ onDelete: onDeleteMock });
-
-  Modal.setAppElement(container);
+  renderComponent({ onDelete: onDeleteMock });
 
   expect(screen.getByRole('menu')).not.toHaveClass('isOpen');
 
