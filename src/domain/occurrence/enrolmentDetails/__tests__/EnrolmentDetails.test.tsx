@@ -1,7 +1,6 @@
 import { waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import Modal from 'react-modal';
 
 import {
   EnrolmentDocument,
@@ -109,9 +108,7 @@ test('renders correct information', async () => {
 });
 
 test('enrolment action buttons work correctly', async () => {
-  const { container } = renderEnrolmentDetails();
-
-  Modal.setAppElement(container);
+  renderEnrolmentDetails();
 
   await waitFor(() =>
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
@@ -133,18 +130,21 @@ test('enrolment action buttons work correctly', async () => {
     )
   ).toBeVisible();
 
-  await userEvent.click(screen.getByText('Sulje'));
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /sulje/i,
+    })
+  );
 });
 
 test('renders multiple studygroups correctly', async () => {
-  const { container } = renderEnrolmentDetails(
+  renderEnrolmentDetails(
     getMocks({
       studyGroup: fakeStudyGroup({
         studyLevels: fakeStudyLevels(),
       }),
     })
   );
-  Modal.setAppElement(container);
 
   await waitFor(() =>
     expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()

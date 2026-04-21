@@ -7,7 +7,6 @@ import EnrolmentModal from '../../occurrence/enrolmentTable/enrolmentModals/Enro
 interface CancelOccurrenceModalProps {
   onClose: () => void;
   cancelOccurrence: (message?: string) => void;
-  appElement?: HTMLElement;
   loading?: boolean;
   occurrenceId: string;
 }
@@ -15,7 +14,6 @@ interface CancelOccurrenceModalProps {
 const CancelOccurrenceModal: React.FC<CancelOccurrenceModalProps> = ({
   onClose,
   cancelOccurrence,
-  appElement,
   loading = false,
   occurrenceId,
 }) => {
@@ -38,10 +36,9 @@ const CancelOccurrenceModal: React.FC<CancelOccurrenceModalProps> = ({
     <EnrolmentModal
       onClose={onClose}
       title={t('occurrences.cancelModal.title')}
-      appElement={appElement}
       noteSection
       enrollees={enrollees}
-      noteType="decline"
+      noteType="error"
       noteText={
         <>
           <span>{t('occurrences.cancelModal.note1')}</span>

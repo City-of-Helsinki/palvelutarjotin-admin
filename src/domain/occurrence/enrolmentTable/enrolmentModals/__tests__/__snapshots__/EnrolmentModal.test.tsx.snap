@@ -2,40 +2,44 @@
 
 exports[`matches snapshot 1`] = `
 <body
-  aria-hidden="true"
-  class="bodyOpen"
+  class="Dialog-module_dialogVisibleBodyWithHiddenScrollbars__eArF1"
 >
   <div
-    data-react-modal-body-trap=""
-    style="position: absolute; opacity: 0;"
+    class="hds-dialog-tab-barrier"
     tabindex="0"
   />
   <div />
   <div
-    data-react-modal-body-trap=""
-    style="position: absolute; opacity: 0;"
-    tabindex="0"
-  />
-  <div
-    class="ReactModalPortal"
+    class="Dialog-module_dialogContainer__IlskD"
   >
     <div
-      class="ReactModal__Overlay overlay"
+      aria-hidden="true"
+      tabindex="0"
+    />
+    <div
+      class="Dialog-module_dialogBackdrop__rrNEv"
+      tabindex="-1"
+    />
+    <div
+      aria-describedby="alert-modal-content"
+      aria-labelledby="alert-modal-title"
+      aria-modal="true"
+      class="Dialog-module_dialog__sgogf Dialog-module_dialogVisible__-FiV6 modal"
+      id="alert-modal"
+      role="dialog"
+      style="width: 660px;"
+      title="Title"
     >
       <div
-        aria-modal="true"
-        class="ReactModal__Content modal"
-        role="dialog"
-        tabindex="-1"
+        class="DialogHeader-module_dialogHeader__OUucg"
       >
         <div
-          class="titleRow"
+          class="DialogHeader-module_dialogHeaderContent__MJb-P"
         >
-          <p>
-            Title
-          </p>
           <button
-            class="closeButton"
+            aria-label="Sulje"
+            class="DialogHeader-module_dialogHeaderClose__rGj-d"
+            type="button"
           >
             <svg
               aria-hidden="true"
@@ -52,33 +56,67 @@ exports[`matches snapshot 1`] = `
                 fill-rule="evenodd"
               />
             </svg>
-            Sulje
           </button>
-        </div>
-        <div
-          class="buttonsContainer"
-        >
-          <button
-            class="Button-module_button__P7hTI Button-module_secondary__ieoHb"
-            type="button"
+          <h2
+            class="DialogHeader-module_dialogTitle__MIqNZ"
+            id="alert-modal-title"
+            tabindex="-1"
           >
-            <span>
-              Peruuta
-            </span>
-          </button>
-          <div
-            class="buttonsRight"
-          >
-            <button
-              class="Button-module_button__P7hTI Button-module_primary__b-5q5"
-              type="button"
+            <span
+              aria-hidden="true"
+              class="DialogHeader-module_dialogTitleStartIcon__97JWN"
             >
-              <span />
-            </button>
-          </div>
+              <svg
+                aria-hidden="true"
+                aria-label="info-circle"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM13 10V16.5H15V18H9V16.5H11V11.5H9V10H13ZM11.8125 6C12.5374 6 13.125 6.5876 13.125 7.3125C13.125 8.03735 12.5374 8.625 11.8125 8.625C11.0876 8.625 10.5 8.03735 10.5 7.3125C10.5 6.5876 11.0876 6 11.8125 6Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+            Title
+          </h2>
         </div>
       </div>
+      <div
+        class="DialogContent-module_dialogContent__H44XI"
+        id="alert-modal-content"
+      />
+      <div
+        class="DialogActionButtons-module_dialogActionButtons__6u3kk"
+      >
+        <button
+          class="Button-module_button__P7hTI Button-module_secondary__ieoHb"
+          type="button"
+        >
+          <span>
+            Peruuta
+          </span>
+        </button>
+        <button
+          class="Button-module_button__P7hTI Button-module_primary__b-5q5"
+          type="button"
+        >
+          <span />
+        </button>
+      </div>
     </div>
+    <div
+      aria-hidden="true"
+      tabindex="0"
+    />
   </div>
+  <div
+    class="hds-dialog-tab-barrier"
+    tabindex="0"
+  />
 </body>
 `;

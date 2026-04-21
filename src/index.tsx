@@ -5,7 +5,6 @@ import './domain/app/i18n/i18nInit';
 import * as Sentry from '@sentry/browser';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import Modal from 'react-modal';
 
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
@@ -33,8 +32,6 @@ if (import.meta.env.VITE_APP_SENTRY_DSN) {
     ),
   });
 }
-
-Modal.setAppElement('#root');
 
 const container = document.getElementById('root') as Element;
 const root = createRoot(container);

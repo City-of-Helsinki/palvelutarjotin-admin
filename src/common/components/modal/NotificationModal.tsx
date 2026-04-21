@@ -1,9 +1,6 @@
-import { Button, ButtonVariant, IconInfoCircle } from 'hds-react';
+import { Button, ButtonVariant, Dialog, IconInfoCircle } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-
-import Modal from './Modal';
-import styles from './modal.module.scss';
 
 interface Props {
   isOpen: boolean;
@@ -21,15 +18,28 @@ const NotificationModal: React.FC<Props> = ({
   onConfirm,
 }) => {
   const { t } = useTranslation();
+
+  const id = 'notification-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-content`;
+
   return (
-    <Modal
-      icon={<IconInfoCircle />}
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
       isOpen={isOpen}
       title={title}
-      toggleModal={toggleModal}
+      close={toggleModal}
+      closeButtonLabelText={t('common.close')}
     >
-      {children}
-      <div className={styles.notificationButtonWrapper}>
+      <Dialog.Header
+        id={titleId}
+        title={title}
+        iconStart={<IconInfoCircle />}
+      />
+      <Dialog.Content id={descriptionId}>{children}</Dialog.Content>
+      <Dialog.ActionButtons>
         <Button
           type="button"
           onClick={onConfirm}
@@ -38,8 +48,8 @@ const NotificationModal: React.FC<Props> = ({
         >
           {t('common.notificationModal.buttonClose')}
         </Button>
-      </div>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 

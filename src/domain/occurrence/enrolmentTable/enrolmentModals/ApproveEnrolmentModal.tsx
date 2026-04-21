@@ -7,8 +7,6 @@ interface ApproveModalProps {
   onClose: () => void;
   approveEnrolment: (message: string) => void;
   enrollees?: EnrolleeProps[];
-  // appElement for testing purposes
-  appElement?: HTMLElement;
   loading?: boolean;
 }
 
@@ -16,7 +14,6 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
   onClose,
   approveEnrolment,
   enrollees,
-  appElement,
   loading = false,
 }) => {
   const { t } = useTranslation();
@@ -26,7 +23,6 @@ const ApproveEnrolmentModal: React.FC<ApproveModalProps> = ({
     <EnrolmentModal
       onClose={onClose}
       title={t('enrolment.enrolmentModal.approveEnrolment')}
-      appElement={appElement}
       enrollees={enrollees}
       noteType="success"
       submitting={loading}

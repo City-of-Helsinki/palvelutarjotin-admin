@@ -3,7 +3,6 @@ import { configure, waitFor, within, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { format, parse as parseDate } from 'date-fns';
 import * as React from 'react';
-import Modal from 'react-modal';
 import * as Router from 'react-router';
 import { toast } from 'react-toastify';
 import { vi } from 'vitest';
@@ -427,7 +426,7 @@ describe('location and enrolment info', () => {
     const updateEventMockResponse = getUpdateEventMockResponse({
       ...eventData,
     });
-    const { container } = renderComponent({
+    renderComponent({
       mocks: [
         eventMockResponse,
         // refetch mock after saving
@@ -440,7 +439,6 @@ describe('location and enrolment info', () => {
         updatedEventWithOccurrenceMockResponse, // Mock used twice
       ],
     });
-    Modal.setAppElement(container);
 
     const toastSuccess = vi.spyOn(toast, 'success');
 
@@ -509,7 +507,9 @@ describe('location and enrolment info', () => {
     ).toBeInTheDocument();
 
     // Close modal again
-    await userEvent.click(withinModal2.getByRole('button', { name: 'Sulje' }));
+    await userEvent.click(
+      withinModal2.getAllByRole('button', { name: 'Sulje' })[0]
+    );
 
     expect(
       screen.queryByTestId(occurrencesTableTestId)

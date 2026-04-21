@@ -12,28 +12,8 @@ configure({ defaultHidden: true });
 
 it('matches snapshot', async () => {
   const { baseElement } = customRender(
-    <DeclineEnrolmentModal
-      onClose={vi.fn()}
-      declineEnrolment={vi.fn()}
-      appElement={document.body}
-    />
+    <DeclineEnrolmentModal onClose={vi.fn()} declineEnrolment={vi.fn()} />
   );
-
-  // Wait until the modal has opened so the snapshot is consistent
-  await waitFor(() => {
-    expect(
-      baseElement.querySelector(
-        '.ReactModal__Overlay.ReactModal__Overlay--after-open'
-      )
-    ).toBeInTheDocument();
-  });
-  await waitFor(() => {
-    expect(
-      baseElement.querySelector(
-        '.ReactModal__Content.ReactModal__Content--after-open'
-      )
-    ).toBeInTheDocument();
-  });
 
   expect(baseElement).toMatchSnapshot();
 });
@@ -45,7 +25,6 @@ it('renders correctly and calls decline enrolment handler', async () => {
     <DeclineEnrolmentModal
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
-      appElement={document.body}
     />
   );
 
@@ -74,7 +53,6 @@ it('calls close handle when close button is clicked', async () => {
     <DeclineEnrolmentModal
       onClose={onCloseHandler}
       declineEnrolment={declineEnrolmentHandler}
-      appElement={document.body}
     />
   );
 
@@ -92,7 +70,6 @@ it('renders enrollees list correctly', async () => {
     <DeclineEnrolmentModal
       onClose={vi.fn()}
       declineEnrolment={vi.fn()}
-      appElement={document.body}
       enrollees={persons as EnrolleeProps[]}
     />
   );

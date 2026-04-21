@@ -11,7 +11,6 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import Modal from 'react-modal';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import wait from 'waait';
 
@@ -118,7 +117,6 @@ export const renderWithRoute: CustomRender = (
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
-  Modal.setAppElement(renderResult.container);
   return { ...renderResult, user };
 };
 

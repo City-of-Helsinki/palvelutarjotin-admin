@@ -7,7 +7,6 @@ interface PickQueueEnrolmentModalProps {
   onClose: () => void;
   pickQueueEnrolment: () => void;
   enrollees?: EnrolleeProps[];
-  appElement?: HTMLElement;
   loading?: boolean;
 }
 
@@ -15,7 +14,6 @@ const PickQueueEnrolmentModal: React.FC<PickQueueEnrolmentModalProps> = ({
   onClose,
   pickQueueEnrolment,
   enrollees,
-  appElement,
   loading = false,
 }) => {
   const { t } = useTranslation();
@@ -23,7 +21,6 @@ const PickQueueEnrolmentModal: React.FC<PickQueueEnrolmentModalProps> = ({
     <EnrolmentModal
       onClose={onClose}
       title={t('enrolment.enrolmentModal.pickQueueEnrolmentTitle')}
-      appElement={appElement}
       submitButtonText={t('enrolment.enrolmentModal.pickQueueEnrolmentButton')}
       handleSubmit={pickQueueEnrolment}
       enrollees={enrollees}
