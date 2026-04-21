@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import apiReportClient, { ROUTES } from './apiReportClient';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 
 /**
  * A browser hack to download a file instead of just a byte string.
@@ -18,6 +18,8 @@ function downloadFile(data: string, filename: string) {
 
 function useDownloadEventsEnrolmentsCsvQuery(pEventId: string | undefined) {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
+
   if (!pEventId) return undefined;
   return async () => {
     const filename = `kultus_events_approved_enrolments.csv`;
@@ -39,7 +41,10 @@ function useDownloadEventsEnrolmentsCsvQuery(pEventId: string | undefined) {
     if (response.status === 200 && response?.data?.type === 'text/csv') {
       downloadFile(response.data, filename);
     } else {
-      toast.error(t('eventEnrolmentsReport.downloadError'));
+      addNotification({
+        type: 'error',
+        label: t('eventEnrolmentsReport.downloadError'),
+      });
     }
   };
 }

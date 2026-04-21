@@ -2,10 +2,10 @@ import classNames from 'classnames';
 import { Button, RadioButton } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import styles from './eventPublish.module.scss';
 import ConfirmationModal from '../../../common/components/modal/ConfirmationModal';
+import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
 import {
   EventFieldsFragment,
   usePublishSingleEventMutation,
@@ -29,6 +29,8 @@ const EventPublish: React.FC<Props> = ({ event }) => {
 
   const [showPublishModal, setShowPublishModal] = React.useState(false);
 
+  const { addNotification } = useNotificationsContext();
+
   const isEventPublished =
     event?.publicationStatus === PUBLICATION_STATUS.PUBLIC;
 
@@ -44,9 +46,15 @@ const EventPublish: React.FC<Props> = ({ event }) => {
           },
         });
       }
-      toast.success(t('eventSummary.eventHasBeenPublished'));
+      addNotification({
+        label: t('eventSummary.eventHasBeenPublished'),
+        type: 'success',
+      });
     } catch (error) {
-      toast.error(t('occurrences.errorEventPublicationFailed'));
+      addNotification({
+        label: t('occurrences.errorEventPublicationFailed'),
+        type: 'error',
+      });
       // eslint-disable-next-line no-console
       console.error('Failed to publish event', { error });
     }

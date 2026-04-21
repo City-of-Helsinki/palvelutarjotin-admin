@@ -1,7 +1,6 @@
 import { Notification } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import styles from './myProfile.module.scss';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -19,6 +18,7 @@ import MyProfileForm, {
   MyProfileEditFormFields,
 } from './myProfileForm/MyProfileForm';
 import { getMyProfileEditPayload } from './utils';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 
 const MyProfilePage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +26,7 @@ const MyProfilePage: React.FC = () => {
   const { data: myProfileData, loading } = useMyProfileQuery();
   const [updateMyProfile] = useUpdateMyProfileMutation();
   const [isSaved, setIsSaved] = React.useState(false);
+  const { addNotification } = useNotificationsContext();
 
   const initialValues = React.useMemo(
     () =>
@@ -51,7 +52,10 @@ const MyProfilePage: React.FC = () => {
       scrollToTop();
       setIsSaved(true);
     } catch (error) {
-      toast.error(t('editMyProfile.error'));
+      addNotification({
+        label: t('editMyProfile.error'),
+        type: 'error',
+      });
       setIsSaved(false);
       // eslint-disable-next-line no-console
       console.error('Failed to update my profile', { error });

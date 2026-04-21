@@ -1,8 +1,8 @@
 import { QueryHookOptions } from '@apollo/client';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import {
   EventsQuery,
   EventsQueryVariables,
@@ -16,6 +16,7 @@ export const useEventsQueryHelper = ({
 }: QueryHookOptions<EventsQuery, EventsQueryVariables>) => {
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
 
   const {
     fetchMore: fetchMoreEvents,
@@ -44,7 +45,10 @@ export const useEventsQueryHelper = ({
         });
         setIsLoadingMore(false);
       } catch (error) {
-        toast.error(t('events.errorFetchMoreEvents'));
+        addNotification({
+          label: t('events.errorFetchMoreEvents'),
+          type: 'error',
+        });
         setIsLoadingMore(false);
         // eslint-disable-next-line no-console
         console.error('Failed to fetch more events', { error });

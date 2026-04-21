@@ -8,10 +8,9 @@ import * as Sentry from '@sentry/browser';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import fetch from 'cross-fetch';
 import merge from 'deepmerge';
-import { ErrorMessage } from 'formik';
+import { NotificationProps } from 'hds-react';
 import isEqual from 'lodash/isEqual';
 import { useRef } from 'react';
-import { toast } from 'react-toastify';
 
 import { createApolloCache } from './cache';
 import { getKultusAdminApiTokenFromStorage } from '../../auth/kultusAdminApiUtils';
@@ -19,6 +18,23 @@ import AppConfig from '../AppConfig';
 import i18n from '../i18n/i18nInit';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
+const defaultNotify = () => {};
+let notify: (props: NotificationProps) => void = defaultNotify;
+
+function notifyGraphQLError(props: NotificationProps, errorMessage: string) {
+  if (notify === defaultNotify) {
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[Apollo] Notification callback missing; GraphQL error was not shown to the user.',
+        errorMessage
+      );
+    }
+    return;
+  }
+
+  notify(props);
+}
 
 /**
  * Creates a new Apollo Client instance.
@@ -39,12 +55,18 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
       graphQLErrors.forEach(({ extensions, message, locations, path }) => {
         const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
 
-        Sentry.captureException(ErrorMessage);
+        Sentry.captureException(new Error(errorMessage));
 
         const code = extensions && extensions['code'];
         switch (code) {
           case 'PERMISSION_DENIED_ERROR':
-            toast.error(i18n.t('apollo.graphQLErrors.permissionDeniedError'));
+            notifyGraphQLError(
+              {
+                label: i18n.t('apollo.graphQLErrors.permissionDeniedError'),
+                type: 'error',
+              },
+              errorMessage
+            );
             break;
           default:
             if (import.meta.env.DEV) {
@@ -98,8 +120,11 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
  * @returns An Apollo Client instance.
  */
 export function initializeApolloClient(
-  initialState: NormalizedCacheObject | null = null
+  initialState: NormalizedCacheObject | null = null,
+  addNotification?: (props: NotificationProps) => void
 ): ApolloClient<NormalizedCacheObject> {
+  notify = addNotification ?? notify;
+
   const _apolloClient = apolloClient ?? createApolloClient();
 
   // Initial state hydration
@@ -144,18 +169,18 @@ export function initializeApolloClient(
  * @param options Optional object containing `initialApolloState` for cache hydration.
  * @returns An Apollo Client instance.
  */
-export function useApolloClient(
-  {
-    initialApolloState,
-  }:
-    | {
-        initialApolloState: NormalizedCacheObject | null;
-      }
-    | undefined = { initialApolloState: null }
-): ApolloClient<NormalizedCacheObject> {
+export function useApolloClient(options?: {
+  initialApolloState?: NormalizedCacheObject | null;
+  addNotification?: (props: NotificationProps) => void;
+}): ApolloClient<NormalizedCacheObject> {
+  const { initialApolloState = null, addNotification } = options ?? {};
+
   const storeRef = useRef<ApolloClient<NormalizedCacheObject> | null>(null);
   if (!storeRef.current) {
-    storeRef.current = initializeApolloClient(initialApolloState);
+    storeRef.current = initializeApolloClient(
+      initialApolloState,
+      addNotification
+    );
   }
   return storeRef.current;
 }
@@ -166,6 +191,7 @@ export function useApolloClient(
  */
 export function resetApolloClient() {
   apolloClient = undefined;
+  notify = defaultNotify;
 }
 
 export const clearApolloCache = async () => {

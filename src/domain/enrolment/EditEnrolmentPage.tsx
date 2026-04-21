@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import styles from './editEnrolmentPage.module.scss';
 import EnrolmentForm, {
@@ -11,6 +10,7 @@ import { EnrolmentFormFields } from './types';
 import { getGroupSizeBoundaries, getUpdateEnrolmentPayload } from './utils';
 import BackButton from '../../common/components/backButton/BackButton';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import {
   Language,
   NotificationType,
@@ -39,6 +39,7 @@ const EditorEnrolmentPage: React.FC = () => {
   const [selectedLanguage] = React.useState(locale);
   const [initialValues, setInitialValues] =
     React.useState<EnrolmentFormFields>(defaultInitialValues);
+  const { addNotification } = useNotificationsContext();
 
   const [updateEnrolment] = useUpdateEnrolmentMutation();
 
@@ -103,7 +104,10 @@ const EditorEnrolmentPage: React.FC = () => {
         goToOccurrenceDetailsPage({ enrolmentUpdated: true });
       }
     } catch (error) {
-      toast.error(t('enrolment.errors.updateFailed'));
+      addNotification({
+        type: 'error',
+        label: t('enrolment.errors.updateFailed'),
+      });
       // eslint-disable-next-line no-console
       console.error('Failed to update enrolment', { error });
     }
