@@ -4,9 +4,9 @@ import compact from 'lodash/compact';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import { SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventDocument,
@@ -49,6 +49,7 @@ const CreateEventPage: React.FC = () => {
     useCreateEventMutation();
 
   const { activeOrganisation: selectedOrganisation } = useOrganisationContext();
+  const { addNotification } = useNotificationsContext();
 
   const [eventOrganisation, setEventOrganisation] = useState<
     OrganisationNodeFieldsFragment | null | undefined
@@ -61,9 +62,12 @@ const CreateEventPage: React.FC = () => {
         // eslint-disable-next-line no-console
         console.log(err);
       }
-      toast.error(t('createEvent.error'));
+      addNotification({
+        type: 'error',
+        label: t('createEvent.error'),
+      });
     },
-    [t]
+    [t, addNotification]
   );
 
   useEffect(() => {

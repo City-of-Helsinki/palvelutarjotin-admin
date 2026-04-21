@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { configure, waitFor, within, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
-import { toast } from 'react-toastify';
 import { vi } from 'vitest';
 
 import {
@@ -173,7 +172,6 @@ describe('auto acceptance for enrolments', () => {
 
   it('submits the auto acceptance message right', async () => {
     const spyGetEditEventPayload = vi.spyOn(Utils, 'getEditEventPayload');
-    const toastSuccess = vi.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
@@ -222,12 +220,7 @@ describe('auto acceptance for enrolments', () => {
     );
     expect(getFormElement('autoAcceptanceMessage')).toHaveValue(customMessage);
     await userEvent.click(getFormElement('saveButton'));
-    await waitFor(
-      () => {
-        expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-      },
-      { timeout: 10000 }
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
     await waitFor(() => {
       expect(spyGetEditEventPayload).toHaveBeenCalledWith({
         event: expect.anything(),
@@ -252,7 +245,6 @@ describe('auto acceptance for enrolments', () => {
 
   it('clears the auto acceptance message on submit when auto acceptance is set off', async () => {
     const spyGetEditEventPayload = vi.spyOn(Utils, 'getEditEventPayload');
-    const toastSuccess = vi.spyOn(toast, 'success');
     const enrolmentStart = '2021-05-03T21:00:00.000Z';
     const enrolmentEndDays = 1;
     const neededOccurrences = 1;
@@ -310,12 +302,7 @@ describe('auto acceptance for enrolments', () => {
     });
 
     await userEvent.click(getFormElement('saveButton'));
-    await waitFor(
-      () => {
-        expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-      },
-      { timeout: 10000 }
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
     await waitFor(() => {
       expect(spyGetEditEventPayload).toHaveBeenCalledWith({
         event: expect.anything(),

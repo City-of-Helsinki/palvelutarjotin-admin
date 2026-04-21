@@ -4,7 +4,6 @@ import { userEvent } from '@testing-library/user-event';
 import { parse as parseDate } from 'date-fns';
 import * as React from 'react';
 import * as Router from 'react-router';
-import { toast } from 'react-toastify';
 import { vi } from 'vitest';
 
 import { OccurrenceNode } from '../../../generated/graphql';
@@ -190,29 +189,23 @@ describe('save occurrence and event info simultaneously', () => {
 
   it('saves occurrence and event info when using save button', async () => {
     vi.setSystemTime('2021-04-02');
-    const toastSuccess = vi.spyOn(toast, 'success');
 
     await fillForm();
     await userEvent.click(getFormElement('saveButton'));
 
-    await waitFor(() => expect(toastSuccess).toHaveBeenCalledTimes(2));
-
-    expect(toastSuccess).toHaveBeenCalledWith('Tapahtuma-aika tallennettu');
-    expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
+    await screen.findByRole('alert', { name: 'Tapahtuma-aika tallennettu' });
   }, 70_000);
 
   it('saves occurrence and event info when using to go to publish button', async () => {
     vi.spyOn(Router, 'useNavigate').mockImplementation(() => navigate);
     vi.setSystemTime('2021-04-02');
-    const toastSuccess = vi.spyOn(toast, 'success');
     await fillForm();
 
     await userEvent.click(getFormElement('goToPublishing'));
 
-    await waitFor(() => expect(toastSuccess).toHaveBeenCalledTimes(2));
-
-    expect(toastSuccess).toHaveBeenCalledWith('Tapahtuma-aika tallennettu');
-    expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
+    await screen.findByRole('alert', { name: 'Tapahtuma-aika tallennettu' });
 
     // FIXME: Broken after dependency upgrade
     // await waitFor(() => {

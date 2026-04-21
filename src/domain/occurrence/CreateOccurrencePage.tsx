@@ -13,7 +13,6 @@ import omit from 'lodash/omit';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { defaultInitialValues, EnrolmentType } from './constants';
@@ -35,6 +34,7 @@ import FocusToFirstError from '../../common/components/form/FocusToFirstError';
 import FormLanguageSelector from '../../common/components/formLanguageSelector/FormLanguageSelector';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import NotificationModal from '../../common/components/modal/NotificationModal';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import {
   EventQuery,
   useAddOccurrenceMutation,
@@ -254,6 +254,7 @@ const CreateOccurrencePage: React.FC = () => {
   const [initialValues, setInitialValues] =
     React.useState<TimeAndLocationFormFields | null>(null);
   const eventDataRef = React.useRef<EventQuery | null>(null);
+  const { addNotification } = useNotificationsContext();
 
   const createOrUpdateVenue = useCreateOrUpdateVenueRequest(apolloClient);
 
@@ -452,7 +453,10 @@ const CreateOccurrencePage: React.FC = () => {
         await Promise.all(requests);
         formikHelpers.resetForm({ values });
         refetchEvent();
-        toast.success(t('eventForm.saveSuccesful'));
+        addNotification({
+          type: 'success',
+          label: t('eventForm.saveSuccesful'),
+        });
       } else {
         throw new Error("Can't submit because event wasn't defined");
       }
@@ -461,7 +465,10 @@ const CreateOccurrencePage: React.FC = () => {
         // eslint-disable-next-line no-console
         console.log(error);
       }
-      toast.error(t('createOccurrence.error'));
+      addNotification({
+        type: 'error',
+        label: t('createOccurrence.error'),
+      });
 
       if (error instanceof Error) {
         return Promise.reject(error);

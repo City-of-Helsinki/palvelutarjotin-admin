@@ -2,9 +2,9 @@ import { compact } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { useNotificationsContext } from '../../common/components/notificationsContext/hooks/useNotificationsContext';
 import { SUPPORT_LANGUAGES } from '../../constants';
 import {
   EventQuery,
@@ -58,6 +58,7 @@ const useEventFormEditSubmit = (
   const navigatedFrom = useSearchParams().get(
     EDIT_EVENT_QUERY_PARAMS.NAVIGATED_FROM
   );
+  const { addNotification } = useNotificationsContext();
 
   const goToOccurrencesPage = () => {
     if (id) {
@@ -139,7 +140,10 @@ const useEventFormEditSubmit = (
         console.error(e);
       }
       // TODO: Improve error handling when API returns more informative errors
-      toast.error(t('editEvent.error'));
+      addNotification({
+        label: t('editEvent.error'),
+        type: 'error',
+      });
     }
   };
 

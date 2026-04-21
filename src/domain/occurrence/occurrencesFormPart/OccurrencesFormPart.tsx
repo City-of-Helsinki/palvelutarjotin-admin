@@ -4,7 +4,6 @@ import { Field, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Button, IconMinusCircleFill } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import CheckboxField from '../../../common/components/form/fields/CheckboxField';
 import DateInputFieldHDS from '../../../common/components/form/fields/DateInputFieldHDS';
@@ -43,6 +42,7 @@ import {
   getOrderedLanguageOptions,
 } from './utils';
 import getValidationSchema from './ValidationSchema';
+import { useNotificationsContext } from '../../../common/components/notificationsContext/hooks/useNotificationsContext';
 
 export const occurrencesFormTestId = 'occurrences-form';
 export const occurrencesTableTestId = 'occurrences-table';
@@ -355,6 +355,7 @@ const OccurrencesForm: React.FC<{
   const [confirmAddOccurrence, setConfirmAddOccurrence] = React.useState<
     (() => void) | null
   >(null);
+  const { addNotification } = useNotificationsContext();
 
   const { occurrences, id: eventId } = React.useMemo(
     () => getEventFields(eventData?.event, locale),
@@ -439,12 +440,18 @@ const OccurrencesForm: React.FC<{
           });
         },
       });
-      toast.success(t('eventForm.occurrences.saveSuccesful'));
+      addNotification({
+        type: 'success',
+        label: t('eventForm.occurrences.saveSuccesful'),
+      });
     } catch (error) {
       // Put form values back if mutation happens to fail.
       action.setValues(values);
       // TODO: Improve error handling when API returns more informative errors
-      toast.error(t('createOccurrence.error'));
+      addNotification({
+        type: 'error',
+        label: t('createOccurrence.error'),
+      });
       // eslint-disable-next-line no-console
       console.error('Failed to create occurrence', { error });
     }
@@ -464,14 +471,20 @@ const OccurrencesForm: React.FC<{
             });
           },
         });
-        toast.success(t('occurrences.deleteSuccess'));
+        addNotification({
+          type: 'success',
+          label: t('occurrences.deleteSuccess'),
+        });
       } catch (error) {
-        toast.error(t('occurrences.deleteError'));
+        addNotification({
+          type: 'error',
+          label: t('occurrences.deleteError'),
+        });
         // eslint-disable-next-line no-console
         console.error('Failed to delete occurrence', { error });
       }
     },
-    [deleteOccurrence, eventVariables, t]
+    [addNotification, deleteOccurrence, eventVariables, t]
   );
 
   // TODO: what to do is this is called when going to publish page and confirmation modal is opened?

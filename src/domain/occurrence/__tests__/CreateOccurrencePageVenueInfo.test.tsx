@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { configure, waitFor, screen } from '@testing-library/react';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import {
   baseApolloMocks,
@@ -66,8 +65,6 @@ describe('venue info', () => {
       ],
     });
 
-    const toastSuccess = vi.spyOn(toast, 'success');
-
     // Wait for form to have been initialized
     await screen.findByTestId('time-and-location-form');
 
@@ -95,11 +92,6 @@ describe('venue info', () => {
 
     await user.click(getFormElement('saveButton'));
 
-    await waitFor(
-      () => {
-        expect(toastSuccess).toHaveBeenCalledWith('Tiedot tallennettu');
-      },
-      { timeout: 10_000 }
-    );
+    await screen.findByRole('alert', { name: 'Tiedot tallennettu' });
   }, 20_000);
 });

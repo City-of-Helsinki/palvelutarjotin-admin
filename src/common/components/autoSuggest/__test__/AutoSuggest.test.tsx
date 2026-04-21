@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { vi } from 'vitest';
 
+import { NotificationsProvider } from '../../notificationsContext/NotificationsContext';
 import AutoSuggest, { AutoSuggestProps } from '../AutoSuggest';
 
 const options = [
@@ -34,7 +35,11 @@ function renderAutoSuggest(props?: Partial<AutoSuggestProps>) {
     ...props,
   };
 
-  const { rerender } = render(<AutoSuggest {...defaultProps} />);
+  const { rerender } = render(
+    <NotificationsProvider>
+      <AutoSuggest {...defaultProps} />
+    </NotificationsProvider>
+  );
 
   return {
     ...defaultProps,
@@ -42,7 +47,11 @@ function renderAutoSuggest(props?: Partial<AutoSuggestProps>) {
     onBlur,
     setInputValue,
     rerender: (newProps: Partial<AutoSuggestProps>) =>
-      rerender(<AutoSuggest {...defaultProps} {...newProps} />),
+      rerender(
+        <NotificationsProvider>
+          <AutoSuggest {...defaultProps} {...newProps} />
+        </NotificationsProvider>
+      ),
   };
 }
 

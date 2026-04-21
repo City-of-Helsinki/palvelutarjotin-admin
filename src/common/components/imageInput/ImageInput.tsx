@@ -2,9 +2,9 @@ import { FormikErrors } from 'formik';
 import { Button, ButtonVariant } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import { useUploadSingleImageMutation } from '../../../generated/graphql';
+import { useNotificationsContext } from '../notificationsContext/hooks/useNotificationsContext';
 import InputWrapper, { InputWrapperProps } from '../textInput/InputWrapper';
 
 // 2 megabytes
@@ -27,6 +27,7 @@ const ImageInput: React.FC<ImageInputProps> = ({
   const { t } = useTranslation();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [uploadImage] = useUploadSingleImageMutation();
+  const { addNotification } = useNotificationsContext();
 
   const handleChooseImageClick = () => {
     inputRef.current?.click();
@@ -42,7 +43,10 @@ const ImageInput: React.FC<ImageInputProps> = ({
     const file = e.currentTarget.files?.[0];
     const fileSize = file?.size;
     if (fileSize && fileSize > IMAGE_MAX_SIZE) {
-      toast.error(t('form.error.imageTooBig'));
+      addNotification({
+        type: 'error',
+        label: t('form.error.imageTooBig'),
+      });
       resetImageInput();
       return;
     }
