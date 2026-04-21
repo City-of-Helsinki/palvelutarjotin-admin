@@ -5,9 +5,9 @@ import React, { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './footer.module.scss';
-import { resetFocusId } from '../../../common/components/resetFocus/ResetFocus';
 import { FOOTER_MENU_NAME } from '../../../headless-cms/constants';
 import useLocale from '../../../hooks/useLocale';
+import { resetFocusId } from '../ScrollToTop';
 
 type ValidMenuItem = {
   id: MenuItem['id'];
