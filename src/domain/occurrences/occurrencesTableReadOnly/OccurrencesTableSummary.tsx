@@ -1,7 +1,7 @@
+import { ColumnDef, Row } from '@tanstack/react-table';
 import { LoadingSpinner } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Row } from 'react-table';
 
 import styles from './occurrencesTableSummary.module.scss';
 import Table from '../../../common/components/table/Table';
@@ -62,10 +62,10 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     : EnrolmentType.Internal;
   const isInternalEnrolment = EnrolmentType.Internal === enrolmentType;
 
-  const enrolmentColumns = [
+  const enrolmentColumns: ColumnDef<OccurrenceFieldsFragment>[] = [
     {
-      Header: t('occurrences.table.columnAmountOfSeats'),
-      accessor: (row: OccurrenceFieldsFragment) => {
+      header: t('occurrences.table.columnAmountOfSeats'),
+      accessorFn: (row) => {
         if (
           row.seatType === OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount
         ) {
@@ -78,9 +78,9 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       id: 'amountOfSeats',
     },
     {
-      Header: t('occurrences.table.columnEnrolmentStarts'),
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- enrolmentStarts comes from event, not occurrence
-      accessor: (row: OccurrenceFieldsFragment) =>
+      header: t('occurrences.table.columnEnrolmentStarts'),
+
+      accessorFn: () =>
         eventData?.event?.pEvent?.enrolmentStart
           ? formatLocalizedDate(
               new Date(eventData?.event?.pEvent?.enrolmentStart)
@@ -89,7 +89,7 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       id: 'enrolmentStarts',
     },
     {
-      Header: (
+      header: () => (
         <>
           <div>{t('occurrences.table.columnEnrolments')}</div>
           <div className={styles.enrolmentsInfoText}>
@@ -97,23 +97,28 @@ const OccurrencesTableSummary: React.FC<Props> = ({
           </div>
         </>
       ),
-      accessor: (row: OccurrenceFieldsFragment) => {
-        if (loadingOccurrences.includes(row.id)) {
+      cell: ({ row }) => {
+        if (loadingOccurrences.includes(row.original.id)) {
           return <LoadingSpinner small />;
         }
-        if (row.cancelled) {
+        if (row.original.cancelled) {
           return (
             <span className={styles.cancelledText}>
               {t('occurrences.status.cancelled')}
             </span>
           );
         }
-        if (row.seatsTaken != null && row.seatsApproved != null) {
+        if (
+          row.original.seatsTaken != null &&
+          row.original.seatsApproved != null
+        ) {
           return (
             <EnrolmentsBadge
-              approvedSeatsCount={row.seatsApproved}
-              pendingSeatsCount={row.seatsTaken - row.seatsApproved}
-              isOccurrenceFull={row.remainingSeats === 0}
+              approvedSeatsCount={row.original.seatsApproved}
+              pendingSeatsCount={
+                row.original.seatsTaken - row.original.seatsApproved
+              }
+              isOccurrenceFull={row.original.remainingSeats === 0}
             />
           );
         }
@@ -123,10 +128,10 @@ const OccurrencesTableSummary: React.FC<Props> = ({
     },
   ];
 
-  const columns = [
+  const columns: Array<ColumnDef<OccurrenceFieldsFragment>> = [
     {
-      Header: t('occurrences.table.columnDate'),
-      accessor: (row: OccurrenceFieldsFragment) => {
+      header: t('occurrences.table.columnDate'),
+      accessorFn: (row) => {
         return isMultidayOccurrence(row)
           ? formatDateRange(new Date(row.startTime), new Date(row.endTime))
           : formatLocalizedDate(new Date(row.startTime), DATE_FORMAT, locale);
@@ -134,35 +139,34 @@ const OccurrencesTableSummary: React.FC<Props> = ({
       id: 'date',
     },
     {
-      accessor: (row: OccurrenceFieldsFragment) =>
+      accessorFn: (row) =>
         isMultidayOccurrence(row)
           ? null
           : formatTimeRange(new Date(row.startTime), new Date(row.endTime)),
       id: 'time',
     },
     {
-      Header: t('occurrences.table.columnLocation'),
-      accessor: (row: OccurrenceFieldsFragment) => {
-        const placeId = row.placeId || eventLocationId;
+      header: t('occurrences.table.columnLocation'),
+      cell: ({ row }) => {
+        const placeId = row.original.placeId || eventLocationId;
         return placeId ? <PlaceText id={placeId} /> : '-';
       },
       id: 'place',
     },
     ...(isInternalEnrolment ? enrolmentColumns : []),
     {
-      Header: t('occurrences.table.columnActions'),
-      accessor: (row: OccurrenceFieldsFragment) => (
+      header: t('occurrences.table.columnActions'),
+      cell: ({ row }) => (
         <ActionsDropdown
           event={event}
           eventId={eventId}
           onCancel={onCancel}
           onDelete={onDelete}
-          row={row}
+          row={row.original}
           enrolmentType={enrolmentType}
         />
       ),
       id: 'actions',
-      rowClickDisabled: true,
     },
   ];
 

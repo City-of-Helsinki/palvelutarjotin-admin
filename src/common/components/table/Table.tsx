@@ -1,15 +1,22 @@
+import {
+  ColumnDef,
+  ExpandedState,
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import classNames from 'classnames';
-import React, { ReactElement } from 'react';
-import { Column, Row, useExpanded, useTable } from 'react-table';
+import React, { ReactElement, useState } from 'react';
 
 import styles from './table.module.scss';
-import { ExtendedCell, ExtendedHeaderGroup, ExtendedRow } from './types';
+import { ExtendedColumnDef, ExtendedRow } from './types';
 
 type Props<D extends Record<string, unknown>> = {
-  columns: Array<Column<D>>;
+  columns: Array<ColumnDef<D>>;
   data: Array<D>;
   expandedAreaOffset?: number;
-  onRowClick?: (row: Row<D>) => void;
+  onRowClick?: (row: ExtendedRow<D>) => void;
   renderExpandedArea?: (row: D) => React.ReactElement;
   tableHeaderRowClassName?: string;
 };
@@ -22,48 +29,53 @@ export default function Table<D extends Record<string, unknown>>({
   renderExpandedArea,
   tableHeaderRowClassName,
 }: Props<D>): ReactElement {
-  const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } =
-    useTable(
-      {
-        columns,
-        data,
-      },
-      useExpanded
-    );
+  const [expanded, setExpanded] = useState<ExpandedState>({});
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      expanded,
+    },
+    onExpandedChange: (updaterOrValue) => {
+      const newValue =
+        typeof updaterOrValue === 'function'
+          ? updaterOrValue(expanded)
+          : updaterOrValue;
+      setExpanded(newValue);
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+  });
+
+  const { getHeaderGroups, getRowModel } = table;
 
   // Render the UI for your table
   return (
     <div className={styles.tableWrapper}>
-      <table {...getTableProps({ className: styles.table })}>
+      <table className={styles.table}>
         <thead>
-          {headerGroups.map((headerGroup) => {
-            const headerGroupProps = headerGroup.getHeaderGroupProps({
-              className: tableHeaderRowClassName,
-            });
-            const { key, ...restHeaderGroupProps } = headerGroupProps;
-            return (
-              <tr {...restHeaderGroupProps} key={key}>
-                {headerGroup.headers.map((column: ExtendedHeaderGroup<D>) => {
-                  const { style, className } = column;
-                  const { key, ...restHeaderProps } = column.getHeaderProps();
-                  return (
-                    <th
-                      {...restHeaderProps}
-                      {...{ style, className }}
-                      key={key}
-                    >
-                      {column.render('Header')}
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id} className={tableHeaderRowClassName}>
+              {headerGroup.headers.map((header) => {
+                const { className, style } =
+                  (header.column.columnDef as ExtendedColumnDef<D>) || {};
+                return (
+                  <th key={header.id} style={style} className={className}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                );
+              })}
+            </tr>
+          ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row: ExtendedRow<D>) => {
-            prepareRow(row);
-
+        <tbody>
+          {getRowModel().rows.map((row) => {
             const handleClick = (event: React.MouseEvent) => {
               const element = event.target as HTMLElement;
               if (
@@ -87,40 +99,40 @@ export default function Table<D extends Record<string, unknown>>({
               }
             };
 
-            const { key, ...restRowProps } = row.getRowProps();
-
             return (
-              <React.Fragment key={key}>
+              <React.Fragment key={row.id}>
                 <tr
-                  {...restRowProps}
                   className={classNames({
                     [styles.clickableRow]: onRowClick,
-                    [styles.expandedRow]: row.isExpanded,
+                    [styles.expandedRow]: row.getIsExpanded(),
                   })}
                   onClick={handleClick}
                   onKeyDown={handleKeyDown}
                   tabIndex={onRowClick ? 0 : -1}
                 >
-                  {row.cells.map((cell: ExtendedCell<D>) => {
-                    const { className, style } = cell.column;
-                    const { key, ...restCellProps } = cell.getCellProps();
+                  {row.getVisibleCells().map((cell) => {
+                    const { className, style } =
+                      (cell.column.columnDef as ExtendedColumnDef<D>) || {};
                     return (
-                      <td
-                        {...restCellProps}
-                        {...{ className, style }}
-                        key={key}
-                      >
-                        {cell.render('Cell')}
+                      <td key={cell.id} style={style} className={className}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </td>
                     );
                   })}
                 </tr>
-                {row.isExpanded && (
+                {row.getIsExpanded() && (
                   <tr className={styles.expandedArea}>
                     {expandedAreaOffset > 0 && (
                       <td colSpan={expandedAreaOffset}></td>
                     )}
-                    <td colSpan={row.cells.length - expandedAreaOffset}>
+                    <td
+                      colSpan={
+                        row.getVisibleCells().length - expandedAreaOffset
+                      }
+                    >
                       {renderExpandedArea && renderExpandedArea(row.original)}
                     </td>
                   </tr>

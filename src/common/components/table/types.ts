@@ -1,34 +1,22 @@
-import {
-  Cell,
-  ColumnInstance,
-  HeaderGroup,
-  Row,
-  UseExpandedRowProps,
-} from 'react-table';
+import { Cell, ColumnDef, Header, Row, Table } from '@tanstack/react-table';
 
 type StyleProps = {
   className?: string;
   style?: React.CSSProperties;
 };
 
-type ExtendedColumnInstance<D extends Record<string, unknown>> =
-  ColumnInstance<D> & StyleProps;
+export type ExtendedColumnDef<D extends Record<string, unknown>> =
+  ColumnDef<D> & StyleProps;
 
-export type ExtendedCell<D extends Record<string, unknown>> = Cell<
+export type ExtendedCell<D extends Record<string, unknown>> = Cell<D, unknown> &
+  StyleProps;
+
+export type ExtendedHeader<D extends Record<string, unknown>> = Header<
   D,
   unknown
-> & {
-  column: ExtendedColumnInstance<D>;
-};
+> &
+  StyleProps;
 
-export type ExtendedHeaderGroup<D extends Record<string, unknown>> =
-  HeaderGroup<D> & StyleProps;
+export type ExtendedRow<D extends Record<string, unknown>> = Row<D>;
 
-export type ExtendedRow<D extends Record<string, unknown>> = Row<D> & {
-  isExpanded?: boolean;
-};
-
-export type UseExpandedColumnCell<D extends Record<string, unknown>> = {
-  value: D;
-  row: UseExpandedRowProps<D>;
-};
+export type ExtendedTable<D extends Record<string, unknown>> = Table<D>;

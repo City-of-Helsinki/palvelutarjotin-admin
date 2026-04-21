@@ -1,7 +1,7 @@
+import { ColumnDef, Row } from '@tanstack/react-table';
 import { Checkbox } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Row } from 'react-table';
 
 import ActionsDropdown from './ActionsDropdown';
 import styles from './occurrencesTable.module.scss';
@@ -80,9 +80,9 @@ const OccurrencesTable: React.FC<Props> = ({
     ? getEnrolmentType(eventData.event)
     : EnrolmentType.Internal;
 
-  const columns = [
+  const columns: ColumnDef<OccurrenceFieldsFragment>[] = [
     {
-      Header: (
+      header: () => (
         <Checkbox
           id={`${id}_select-all_checkbox`}
           checked={isAllSelected}
@@ -90,17 +90,17 @@ const OccurrencesTable: React.FC<Props> = ({
           aria-label={t('occurrences.table.labelChooseAllOccurrences')}
         />
       ),
-      accessor: (row: OccurrenceFieldsFragment) => (
+      cell: ({ row }) => (
         <Checkbox
           id={`${id}_${row.id}_checkbox`}
           checked={selectedOccurrences.includes(row.id)}
-          onChange={() => handleCheckboxChange(row)}
+          onChange={() => handleCheckboxChange(row.original)}
           aria-label={t('occurrences.table.labelChooseOccurrence', {
             info: `${formatLocalizedDate(
-              new Date(row.startTime)
+              new Date(row.original.startTime)
             )}  ${formatTimeRange(
-              new Date(row.startTime),
-              new Date(row.endTime)
+              new Date(row.original.startTime),
+              new Date(row.original.endTime)
             )}`,
           })}
         />
@@ -108,28 +108,27 @@ const OccurrencesTable: React.FC<Props> = ({
       id: 'selectRow',
     },
     {
-      Header: t('occurrences.table.columnDate'),
-      accessor: (row: OccurrenceFieldsFragment) =>
-        formatLocalizedDate(new Date(row.startTime)),
+      header: t('occurrences.table.columnDate'),
+      accessorFn: (row) => formatLocalizedDate(new Date(row.startTime)),
       id: 'date',
     },
     {
-      Header: t('occurrences.table.columnTime'),
-      accessor: (row: OccurrenceFieldsFragment) =>
+      header: t('occurrences.table.columnTime'),
+      accessorFn: (row) =>
         formatTimeRange(new Date(row.startTime), new Date(row.endTime)),
       id: 'time',
     },
     {
-      Header: t('occurrences.table.columnLocation'),
-      accessor: (row: OccurrenceFieldsFragment) => {
+      header: t('occurrences.table.columnLocation'),
+      accessorFn: (row) => {
         const placeId = row.placeId || eventLocationId;
         return placeId ? <PlaceText id={placeId} /> : '-';
       },
       id: 'place',
     },
     {
-      Header: t('occurrences.table.columnAmountOfSeats'),
-      accessor: (row: OccurrenceFieldsFragment) => {
+      header: t('occurrences.table.columnAmountOfSeats'),
+      accessorFn: (row) => {
         if (
           row.seatType === OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount
         ) {
@@ -142,9 +141,8 @@ const OccurrencesTable: React.FC<Props> = ({
       id: 'amountOfSeats',
     },
     {
-      Header: t('occurrences.table.columnEnrolmentStarts'),
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- enrolmentStarts comes from event, not occurrence
-      accessor: (row: OccurrenceFieldsFragment) =>
+      header: t('occurrences.table.columnEnrolmentStarts'),
+      accessorFn: () =>
         eventData?.event?.pEvent?.enrolmentStart
           ? formatLocalizedDate(
               new Date(eventData?.event?.pEvent?.enrolmentStart)
@@ -153,7 +151,7 @@ const OccurrencesTable: React.FC<Props> = ({
       id: 'enrolmentStarts',
     },
     {
-      Header: (
+      header: () => (
         <>
           <div>{t('occurrences.table.columnEnrolments')}</div>
           <div className={styles.enrolmentsInfoText}>
@@ -161,13 +159,18 @@ const OccurrencesTable: React.FC<Props> = ({
           </div>
         </>
       ),
-      accessor: (row: OccurrenceFieldsFragment) => {
-        if (row.seatsTaken != null && row.seatsApproved != null) {
+      cell: ({ row }) => {
+        if (
+          row.original.seatsTaken != null &&
+          row.original.seatsApproved != null
+        ) {
           return (
             <EnrolmentsBadge
-              approvedSeatsCount={row.seatsApproved}
-              pendingSeatsCount={row.seatsTaken - row.seatsApproved}
-              isOccurrenceFull={row.remainingSeats === 0}
+              approvedSeatsCount={row.original.seatsApproved}
+              pendingSeatsCount={
+                row.original.seatsTaken - row.original.seatsApproved
+              }
+              isOccurrenceFull={row.original.remainingSeats === 0}
             />
           );
         }
@@ -176,8 +179,8 @@ const OccurrencesTable: React.FC<Props> = ({
       id: 'enrolments',
     },
     {
-      Header: t('occurrences.table.columnActions'),
-      accessor: (row: OccurrenceFieldsFragment) => (
+      header: t('occurrences.table.columnActions'),
+      cell: ({ row }) => (
         <ActionsDropdown
           event={eventData?.event}
           enrolmentType={enrolmentType}
@@ -185,11 +188,10 @@ const OccurrencesTable: React.FC<Props> = ({
           isEventDraft={isEventDraft}
           onDelete={onDelete}
           onCancel={onCancel}
-          row={row}
+          row={row.original}
         />
       ),
       id: 'actions',
-      rowClickDisabled: true,
     },
   ];
 

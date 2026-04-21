@@ -1,8 +1,8 @@
+import { ColumnDef } from '@tanstack/react-table';
 import classNames from 'classnames';
 import { IconAngleDown } from 'hds-react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Column } from 'react-table';
 
 import QueueActionsDropdown from './actionsDropdown/QueueActionsDropdown';
 import AdditionalInfo from './additionalInfo/AdditionalInfo';
@@ -29,83 +29,78 @@ const EnrolmentQueueTable: React.FC<Props> = ({
 
   const queuedEnrolmentsCount = enrolments.length;
 
-  const columns: Array<Column<EventQueueEnrolmentFieldsFragment>> = [
+  const columns: Array<ColumnDef<EventQueueEnrolmentFieldsFragment>> = [
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnEnrolmentTime'),
-      accessor: (row) => formatLocalizedDate(new Date(row.enrolmentTime)),
+      header: t('occurrenceDetails.enrolmentTable.columnEnrolmentTime'),
+      accessorFn: (row: EventQueueEnrolmentFieldsFragment) =>
+        formatLocalizedDate(new Date(row.enrolmentTime)),
       id: 'enrolmentTime',
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnPersonName'),
-      accessor: (row) => row.person?.name,
+      header: t('occurrenceDetails.enrolmentTable.columnPersonName'),
+      accessorFn: (row: EventQueueEnrolmentFieldsFragment) => row.person?.name,
       id: 'personName',
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupName'),
-      accessor: (row) => row.studyGroup.unitName,
+      header: t('occurrenceDetails.enrolmentTable.columnStudyGroupName'),
+      accessorFn: (row: EventQueueEnrolmentFieldsFragment) =>
+        row.studyGroup.unitName,
       id: 'studyGroupName',
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnStudyGroupGroupName'),
-      accessor: (row) => row.studyGroup.groupName,
+      header: t('occurrenceDetails.enrolmentTable.columnStudyGroupGroupName'),
+      accessorFn: (row: EventQueueEnrolmentFieldsFragment) =>
+        row.studyGroup.groupName,
       id: 'studyGroupGroupName',
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnGroupSize'),
-      accessor: (row) => (
+      header: t('occurrenceDetails.enrolmentTable.columnGroupSize'),
+      cell: ({ row }) => (
         <>
-          {row.studyGroup.groupSize} / {row.studyGroup.amountOfAdult}
+          {row.original.studyGroup.groupSize} /{' '}
+          {row.original.studyGroup.amountOfAdult}
         </>
       ),
       id: 'groupSize',
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnStatus'),
-      accessor: (row) =>
-        row.status ? <EnrolmentStatusBadge status={row.status} /> : null,
+      header: t('occurrenceDetails.enrolmentTable.columnStatus'),
+      cell: ({ row }) =>
+        row.original.status ? (
+          <EnrolmentStatusBadge status={row.original.status} />
+        ) : null,
       id: 'status',
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnActions'),
-      accessor: (row) => (
+      header: t('occurrenceDetails.enrolmentTable.columnActions'),
+      cell: ({ row }) => (
         <QueueActionsDropdown
-          row={row}
+          row={row.original}
           eventId={eventId}
           occurrenceId={occurrenceId}
           onEnrolmentsModified={onEnrolmentsModified}
         />
       ),
       id: 'actions',
-      // rowClickDisabled: true,
     },
     {
-      Header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
-      accessor: (row) => row,
-      // FIXME: type with UseExpandedColumnCell
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Cell: ({ row }: any) => {
-        return (
-          <button
-            aria-label={t(
-              'occurrenceDetails.enrolmentTable.showEnrolmentDetails'
-            )}
-            {...row.getToggleRowExpandedProps()}
-            // row.isExpanded is undefined when is not expanded for some reason
-            aria-expanded={row.isExpanded ? true : false}
-          >
-            <IconAngleDown
-              className={classNames(styles.iconAngle, {
-                [styles.iconAngleUp]: row.isExpanded,
-              })}
-            />
-          </button>
-        );
-      },
-      // TODO: Styling after deps update
-      // styles: {
-      //   textAlign: 'center',
-      //   width: '1%',
-      // },
+      header: t('occurrenceDetails.enrolmentTable.columnAdditionalInfo'),
+      accessorFn: (row: EventQueueEnrolmentFieldsFragment) => row,
+      cell: ({ row }) => (
+        <button
+          aria-label={t(
+            'occurrenceDetails.enrolmentTable.showEnrolmentDetails'
+          )}
+          onClick={() => row.toggleExpanded()}
+          aria-expanded={row.getIsExpanded()}
+        >
+          <IconAngleDown
+            className={classNames(styles.iconAngle, {
+              [styles.iconAngleUp]: row.getIsExpanded(),
+            })}
+          />
+        </button>
+      ),
       id: 'additionalInfo',
     },
   ];
