@@ -4,6 +4,19 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.6](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.5...palvelutarjotin-admin-v1.19.6) (2026-05-08)
+
+
+### Bug Fixes
+
+* Resolve html-to-draftjs CJS/ESM interop error with Vite 8 ([f8dcd1b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/f8dcd1b2c9a964c1c38755ad7927e4f3f24b1ea4))
+
+
+### Dependencies
+
+* Bump dompurify from 3.3.2 to 3.4.0 ([#459](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/459)) ([51daac8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/51daac887d72f0bd7e9e9118ed5d71221ae20007))
+* Bump follow-redirects from 1.15.11 to 1.16.0 ([#458](https://github.com/City-of-Helsinki/palvelutarjotin-admin/issues/458)) ([6564309](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/656430965d68ebb8cdb1549049d0ab212fa5eb3f))
+
 ## [1.19.5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.4...palvelutarjotin-admin-v1.19.5) (2026-04-13)
 
 
