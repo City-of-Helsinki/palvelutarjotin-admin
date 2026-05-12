@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.7...palvelutarjotin-admin-v1.19.8) (2026-05-12)
+
+
+### Dependencies
+
+* Bump postcss from 8.5.8 to 8.5.14 ([c34570f](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c34570ff38a4e2b585eddef8c77f58caa7a81a96))
+
 ## [1.19.7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.6...palvelutarjotin-admin-v1.19.7) (2026-05-11)
 
 
