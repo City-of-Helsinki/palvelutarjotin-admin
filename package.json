@@ -203,7 +203,6 @@
     "typescript": "^5.8.3",
     "use-deep-compare-effect": "^1.8.1",
     "vite": "^8.0.5",
-    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.1.2",
     "vitest-axe": "^0.1.0",
     "vitest-sonar-reporter": "^3.0.0",
