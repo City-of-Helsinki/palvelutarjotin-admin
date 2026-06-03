@@ -11,11 +11,11 @@ import { FOOTER_MENU_NAME } from '../../headless-cms/constants';
 export const footerMenuQueryResponse = {
   data: {
     menu: {
-      id: 'dGVybTo1Nw==',
+      id: 'dGVybTo1Nw',
       menuItems: {
         nodes: [
           {
-            id: 'cG9zdDo0MjY=',
+            id: 'cG9zdDo0MjY',
             parentId: null,
             order: 1,
             target: null,
@@ -26,7 +26,7 @@ export const footerMenuQueryResponse = {
             __typename: 'MenuItem',
           },
           {
-            id: 'cG9zdDo0Mjc=',
+            id: 'cG9zdDo0Mjc',
             parentId: null,
             order: 2,
             target: null,

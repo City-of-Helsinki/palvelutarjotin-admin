@@ -122,6 +122,11 @@ const sidebarLayoutPages = {
   pages: [sidebarLayoutPage],
 };
 const sidebarLayoutArticle = fakePost({
+  // Use deterministic id/postId to keep React keys stable in CmsSidebarContent.
+  // (DOM IDs are generated from LayoutLinkList.anchor, not from post id values.)
+  id: 'post-1000',
+  postId: 1000,
+  translations: null,
   title: 'Kevät tulee, tuo luonto osaksi opetusta',
   uri: '/kevat-tulee-tuo-luonto-osaksi-opetusta',
 });

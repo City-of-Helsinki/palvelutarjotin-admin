@@ -133,16 +133,16 @@ export const createOrUpdateVenue = async ({
 
     const venueShouldBeUpdated = Boolean(
       existingVenueData?.venue &&
-        (hasDescriptionsChanged(
-          venueDescription,
-          venueFormData.locationDescription
-        ) ||
-          hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData))
+      (hasDescriptionsChanged(
+        venueDescription,
+        venueFormData.locationDescription
+      ) ||
+        hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData))
     );
 
     const newVenueShouldBeCreated = Boolean(
       (!existingVenueData?.venue && venueFormData.locationDescription) ||
-        hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData)
+      hasAmenitiesChanged(existingVenueData?.venue || {}, venueFormData)
     );
 
     const variables = getVenuePayload({

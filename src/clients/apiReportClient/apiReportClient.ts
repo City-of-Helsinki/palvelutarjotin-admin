@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 import { getKultusAdminApiTokenFromStorage } from '../../domain/auth/kultusAdminApiUtils';
+import { getEnvValue } from '../../utils/envUtils';
 
 const axiosClient = axios.create({
-  baseURL: `${import.meta.env.VITE_APP_API_REPORT_URI}`,
+  baseURL: getEnvValue('VITE_APP_API_REPORT_URI'),
   timeout: 30000,
 });
 

@@ -1,3 +1,5 @@
+import { getEnvValue } from '../../utils/envUtils';
+
 function getEnvOrError(variable?: string, name?: string) {
   if (!variable) {
     throw Error(`Environment variable with name ${name} was not found`);
@@ -12,7 +14,7 @@ function getEnvOrError(variable?: string, name?: string) {
  * @throws {Error} If the variable is not defined or is not a valid URL.
  */
 function getEnvAsUrl(varName: string): URL {
-  const value = getEnvOrError(import.meta.env[varName], varName);
+  const value = getEnvOrError(getEnvValue(varName), varName);
   try {
     return new URL(value);
   } catch {
@@ -27,6 +29,28 @@ function getEnvAsList(variable?: string) {
     return undefined;
   }
   return variable.split(',').map((e) => e.trim());
+}
+
+function getEnvAsBoolean(variable: string | undefined, defaultValue: boolean) {
+  if (variable === undefined) {
+    return defaultValue;
+  }
+
+  const normalized = variable.trim().toLowerCase();
+  if (normalized === '') {
+    return defaultValue;
+  }
+
+  if (['true', '1', 'yes'].includes(normalized)) {
+    return true;
+  }
+  if (['false', '0', 'no'].includes(normalized)) {
+    return false;
+  }
+
+  throw new Error(
+    `Environment variable value "${variable}" is not a valid boolean`
+  );
 }
 
 /**
@@ -69,7 +93,7 @@ class AppConfig {
    */
   static get environment(): Environment {
     const env =
-      (import.meta.env.VITE_ENVIRONMENT as Environment) || 'development';
+      (getEnvValue('VITE_ENVIRONMENT') as Environment) || 'development';
 
     if (!isEnvironment(env)) {
       throw new Error(`Invalid environment: ${env}`);
@@ -84,23 +108,23 @@ class AppConfig {
   }
 
   static get kultusApiGraphqlEndpoint() {
-    return getEnvOrError(import.meta.env.VITE_APP_API_URI, 'VITE_APP_API_URI');
+    return getEnvOrError(getEnvValue('VITE_APP_API_URI'), 'VITE_APP_API_URI');
   }
 
   static get cmsGraphqlEndpoint() {
-    return getEnvOrError(import.meta.env.VITE_APP_CMS_URI, 'VITE_APP_CMS_URI');
+    return getEnvOrError(getEnvValue('VITE_APP_CMS_URI'), 'VITE_APP_CMS_URI');
   }
 
   static get helsinkiProfileUrl() {
     return getEnvOrError(
-      import.meta.env.VITE_APP_HELSINKI_PROFILE_URL,
+      getEnvValue('VITE_APP_HELSINKI_PROFILE_URL'),
       'VITE_APP_HELSINKI_PROFILE_URL'
     );
   }
 
   static get oidcAuthority() {
     return getEnvOrError(
-      import.meta.env.VITE_APP_OIDC_AUTHORITY,
+      getEnvValue('VITE_APP_OIDC_AUTHORITY'),
       'VITE_APP_OIDC_AUTHORITY'
     );
   }
@@ -114,7 +138,7 @@ class AppConfig {
    * - Keycloak: 'kultus-admin-api-test,profile-api-test'
    */
   static get oidcAudiences() {
-    return getEnvAsList(import.meta.env.VITE_APP_OIDC_AUDIENCES);
+    return getEnvAsList(getEnvValue('VITE_APP_OIDC_AUDIENCES'));
   }
 
   /**
@@ -123,7 +147,7 @@ class AppConfig {
    */
   static get oidcClientId() {
     return getEnvOrError(
-      import.meta.env.VITE_APP_OIDC_CLIENT_ID,
+      getEnvValue('VITE_APP_OIDC_CLIENT_ID'),
       'VITE_APP_OIDC_CLIENT_ID'
     );
   }
@@ -134,7 +158,7 @@ class AppConfig {
    */
   static get oidcScope() {
     return getEnvOrError(
-      import.meta.env.VITE_APP_OIDC_SCOPE,
+      getEnvValue('VITE_APP_OIDC_SCOPE'),
       'VITE_APP_OIDC_SCOPE,'
     );
   }
@@ -147,12 +171,12 @@ class AppConfig {
    */
   static get oidcReturnType() {
     // "code" for authorization code flow.
-    return import.meta.env.VITE_APP_OIDC_RETURN_TYPE ?? 'code';
+    return getEnvValue('VITE_APP_OIDC_RETURN_TYPE') ?? 'code';
   }
 
   static get oidcKultusAdminApiClientId() {
     return getEnvOrError(
-      import.meta.env.VITE_APP_OIDC_API_CLIENT_ID,
+      getEnvValue('VITE_APP_OIDC_API_CLIENT_ID'),
       'VITE_APP_OIDC_API_CLIENT_ID'
     );
   }
@@ -168,11 +192,11 @@ class AppConfig {
    */
   static get oidcServerType(): 'KEYCLOAK' | 'TUNNISTAMO' {
     const oidcServerType =
-      import.meta.env.VITE_APP_OIDC_SERVER_TYPE ?? 'TUNNISTAMO';
+      getEnvValue('VITE_APP_OIDC_SERVER_TYPE') ?? 'TUNNISTAMO';
     if (!['KEYCLOAK', 'TUNNISTAMO'].includes(oidcServerType)) {
       throw new Error(`Invalid OIDC server type: ${oidcServerType}`);
     }
-    return oidcServerType;
+    return oidcServerType as 'KEYCLOAK' | 'TUNNISTAMO';
   }
 
   /**
@@ -180,8 +204,9 @@ class AppConfig {
    * Defaults to true.
    * */
   static get oidcAutomaticSilentRenew(): boolean {
-    return Boolean(
-      import.meta.env.VITE_APP_OIDC_AUTOMATIC_SILENT_RENEW_ENABLED ?? true
+    return getEnvAsBoolean(
+      getEnvValue('VITE_APP_OIDC_AUTOMATIC_SILENT_RENEW_ENABLED'),
+      true
     );
   }
 
@@ -190,7 +215,9 @@ class AppConfig {
    * Defaults to 60000.
    * */
   static get oidcSessionPollerIntervalInMs(): number {
-    return import.meta.env.VITE_APP_OIDC_SESSION_POLLING_INTERVAL_MS ?? 60_000;
+    return (
+      Number(getEnvValue('VITE_APP_OIDC_SESSION_POLLING_INTERVAL_MS')) || 60_000
+    );
   }
 
   /**
@@ -198,7 +225,7 @@ class AppConfig {
    * Defaults to 60 minutes.
    * */
   static get userIdleTimeoutInMs(): number {
-    return import.meta.env.VITE_APP_IDLE_TIMEOUT_IN_MS ?? 3_600_000;
+    return Number(getEnvValue('VITE_APP_IDLE_TIMEOUT_IN_MS')) || 3_600_000;
   }
 
   static get cmsDomain() {
@@ -268,7 +295,7 @@ class AppConfig {
    */
   static get apolloPersistedCacheTimeToLiveMs() {
     return (
-      Number(import.meta.env.VITE_APOLLO_PERSISTED_CACHE_TIME_TO_LIVE_MS) ||
+      Number(getEnvValue('VITE_APOLLO_PERSISTED_CACHE_TIME_TO_LIVE_MS')) ||
       1000 * 60 * 10
     ); // 10 minutes by default;
   }

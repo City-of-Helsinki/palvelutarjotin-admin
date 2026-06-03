@@ -9,27 +9,28 @@ import Modal from 'react-modal';
 
 import App from './domain/app/App';
 import * as serviceWorker from './serviceWorker';
+import { getEnvValue } from './utils/envUtils';
 
-if (import.meta.env.VITE_APP_SENTRY_DSN) {
+if (getEnvValue('VITE_APP_SENTRY_DSN')) {
   Sentry.init({
-    dsn: import.meta.env.VITE_APP_SENTRY_DSN,
-    environment: import.meta.env.VITE_APP_SENTRY_ENVIRONMENT,
-    release: import.meta.env.VITE_APP_SENTRY_RELEASE,
+    dsn: getEnvValue('VITE_APP_SENTRY_DSN'),
+    environment: getEnvValue('VITE_APP_SENTRY_ENVIRONMENT'),
+    release: getEnvValue('VITE_APP_SENTRY_RELEASE'),
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
     ],
     tracesSampleRate: parseFloat(
-      import.meta.env.VITE_APP_SENTRY_TRACES_SAMPLE_RATE || '0'
+      getEnvValue('VITE_APP_SENTRY_TRACES_SAMPLE_RATE') || '0'
     ),
     tracePropagationTargets: (
-      import.meta.env.VITE_APP_SENTRY_TRACE_PROPAGATION_TARGETS || ''
+      getEnvValue('VITE_APP_SENTRY_TRACE_PROPAGATION_TARGETS') || ''
     ).split(','),
     replaysSessionSampleRate: parseFloat(
-      import.meta.env.VITE_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE || '0'
+      getEnvValue('VITE_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE') || '0'
     ),
     replaysOnErrorSampleRate: parseFloat(
-      import.meta.env.VITE_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE || '0'
+      getEnvValue('VITE_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE') || '0'
     ),
   });
 }

@@ -11,6 +11,8 @@ sonar-report.*
 
 # production
 /build
+/public/env-config.js
+/public/test-env-config.js
 
 # misc
 .DS_Store
@@ -24,7 +26,6 @@ sonar-report.*
 .env.playwright.local
 .env.production
 .env.production.local
-.env.test
 .env.test.local
 
 npm-debug.log*

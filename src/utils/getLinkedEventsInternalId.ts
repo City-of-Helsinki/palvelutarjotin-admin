@@ -1,8 +1,9 @@
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
+import { getEnvValue } from './envUtils';
 
 const getLinkedEventsInternalId = (
   type: LINKEDEVENTS_CONTENT_TYPE,
   id: string
-) => `${import.meta.env.VITE_APP_LINKEDEVENTS_API_URI}/${type}/${id}/`;
+) => `${getEnvValue('VITE_APP_LINKEDEVENTS_API_URI')}/${type}/${id}/`;
 
 export default getLinkedEventsInternalId;
