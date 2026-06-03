@@ -89,7 +89,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: useDevServer ? 'yarn dev' : 'yarn serve',
+    command: useDevServer ? 'pnpm dev' : 'pnpm serve',
     url: process.env.VITE_APP_ORIGIN,
     reuseExistingServer: true,
   },

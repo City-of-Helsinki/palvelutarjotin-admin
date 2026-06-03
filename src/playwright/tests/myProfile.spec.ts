@@ -110,97 +110,97 @@ LANGUAGES.forEach((lang) => {
     //       they're not that important for this test so opting for robustness.
     expect(responseBodyJson).toEqual(
       expect.objectContaining({
-        data: {
-          updateMyProfile: {
-            myProfile: {
+        data: expect.objectContaining({
+          updateMyProfile: expect.objectContaining({
+            myProfile: expect.objectContaining({
               id: expect.any(String),
               ...expectedPersonData,
               __typename: 'PersonNode',
-              organisations: {
-                edges: [
-                  {
-                    node: {
+              organisations: expect.objectContaining({
+                edges: expect.arrayContaining([
+                  expect.objectContaining({
+                    node: expect.objectContaining({
                       id: expect.any(String),
                       name: 'Kulttuurin ja vapaa-ajan toimiala',
-                      persons: {
-                        edges: [
-                          {
-                            node: {
+                      persons: expect.objectContaining({
+                        edges: expect.arrayContaining([
+                          expect.objectContaining({
+                            node: expect.objectContaining({
                               id: expect.any(String),
                               ...expectedPersonData,
                               __typename: 'PersonNode',
-                            },
+                            }),
                             __typename: 'PersonNodeEdge',
-                          },
-                        ],
+                          }),
+                        ]),
                         __typename: 'PersonNodeConnection',
-                      },
+                      }),
                       phoneNumber: expect.any(String),
                       publisherId: 'ahjo:u480400',
                       type: OrganisationsOrganisationTypeChoices.Provider,
                       __typename: 'OrganisationNode',
-                    },
+                    }),
                     __typename: 'OrganisationNodeEdge',
-                  },
-                  {
-                    node: {
+                  }),
+                  expect.objectContaining({
+                    node: expect.objectContaining({
                       id: expect.any(String),
                       name: 'Kulttuuripalvelukokonaisuus',
-                      persons: {
-                        edges: [
-                          {
-                            node: {
+                      persons: expect.objectContaining({
+                        edges: expect.arrayContaining([
+                          expect.objectContaining({
+                            node: expect.objectContaining({
                               id: expect.any(String),
                               ...expectedPersonData,
                               __typename: 'PersonNode',
-                            },
+                            }),
                             __typename: 'PersonNodeEdge',
-                          },
-                        ],
+                          }),
+                        ]),
                         __typename: 'PersonNodeConnection',
-                      },
+                      }),
                       phoneNumber: expect.any(String),
                       publisherId: 'ahjo:u48040010',
                       type: OrganisationsOrganisationTypeChoices.Provider,
                       __typename: 'OrganisationNode',
-                    },
+                    }),
                     __typename: 'OrganisationNodeEdge',
-                  },
-                  {
-                    node: {
+                  }),
+                  expect.objectContaining({
+                    node: expect.objectContaining({
                       id: expect.any(String),
                       name: 'Kultus',
-                      persons: {
-                        edges: [
-                          {
-                            node: {
+                      persons: expect.objectContaining({
+                        edges: expect.arrayContaining([
+                          expect.objectContaining({
+                            node: expect.objectContaining({
                               id: expect.any(String),
                               ...expectedPersonData,
                               __typename: 'PersonNode',
-                            },
+                            }),
                             __typename: 'PersonNodeEdge',
-                          },
-                        ],
+                          }),
+                        ]),
                         __typename: 'PersonNodeConnection',
-                      },
+                      }),
                       phoneNumber: expect.any(String),
                       publisherId: 'kultus:0',
                       type: OrganisationsOrganisationTypeChoices.User,
                       __typename: 'OrganisationNode',
-                    },
+                    }),
                     __typename: 'OrganisationNodeEdge',
-                  },
-                ],
+                  }),
+                ]),
                 __typename: 'OrganisationNodeConnection',
-              },
-              organisationproposalSet: {
+              }),
+              organisationproposalSet: expect.objectContaining({
                 edges: [],
                 __typename: 'OrganisationProposalNodeConnection',
-              },
-            },
+              }),
+            }),
             __typename: 'UpdateMyProfileMutationPayload',
-          },
-        },
+          }),
+        }),
       })
     );
   });

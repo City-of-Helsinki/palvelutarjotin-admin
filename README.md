@@ -22,15 +22,15 @@ Providers' UI - A restricted administration client for Kultus event providers (f
     - [Pre-commit Hook](#pre-commit-hook)
     - [Commit-msg Hook](#commit-msg-hook)
   - [Available Scripts](#available-scripts)
-    - [`yarn dev`](#yarn-dev)
-    - [`yarn test:watch`](#yarn-testwatch)
-    - [`yarn test:changed`](#yarn-testchanged)
-    - [`yarn test:staged`](#yarn-teststaged)
-    - [`yarn test:coverage`](#yarn-testcoverage)
-    - [`yarn ci`](#yarn-ci)
-    - [`yarn test:debug`](#yarn-testdebug)
-    - [`yarn build`](#yarn-build)
-    - [`yarn codegen`](#yarn-codegen)
+    - [`pnpm dev`](#pnpm-dev)
+    - [`pnpm test:watch`](#pnpm-testwatch)
+    - [`pnpm test:changed`](#pnpm-testchanged)
+    - [`pnpm test:staged`](#pnpm-teststaged)
+    - [`pnpm test:coverage`](#pnpm-testcoverage)
+    - [`pnpm ci`](#pnpm-ci)
+    - [`pnpm test:debug`](#pnpm-testdebug)
+    - [`pnpm build`](#pnpm-build)
+    - [`pnpm codegen`](#pnpm-codegen)
 - [Headless CMS](#headless-cms)
   - [Headless CMS React Components -lib](#headless-cms-react-components--lib)
 - [Releases, changelogs and deployments](#releases-changelogs-and-deployments)
@@ -207,8 +207,8 @@ This project is built using the following key frameworks and libraries:
 Compatibility defined by [Dockerfile](./Dockerfile):
 
 - Docker
-- Node.js 22.x
-- Yarn
+- Node.js 24.x
+- pnpm
 
 #### About Kultus data models (and relations to LinkedEvents)
 
@@ -307,7 +307,7 @@ Using the following instructions you should be able to:
     >
     > If you connect to a Docker container from your local computer, you can usually use https://localhost:8081/ to reach the API. 
     
-5. Run the Node application in development mode with `yarn dev`. At this point you should be also running the local APIs if you have selected to use them.
+5. Run the Node application in development mode with `pnpm dev`. At this point you should be also running the local APIs if you have selected to use them.
 
 
 ##### Running using Docker
@@ -378,12 +378,12 @@ This project uses [Husky](https://typicode.github.io/husky/#/) to manage Git hoo
 The pre-commit hook is configured to run the following commands:
 
 ```sh
-yarn doctoc .
-yarn lint-staged --relative
+pnpm doctoc .
+pnpm lint-staged --relative
 ```
 
-- `yarn doctoc .`: This command updates the table of contents in your markdown files.
-- `yarn lint-staged --relative`: This command runs linting on staged files to ensure they meet the project's coding standards. The lint-staged configuration can be found from [lint-staged.config.js](./lint-staged.config.js).
+- `pnpm doctoc .`: This command updates the table of contents in your markdown files.
+- `pnpm lint-staged --relative`: This command runs linting on staged files to ensure they meet the project's coding standards. The lint-staged configuration can be found from [lint-staged.config.js](./lint-staged.config.js).
   - Using `--relative` flag to reduce command line length,
     as the combined length of all the absolute paths for a large commit can get quite long
 
@@ -404,7 +404,7 @@ npx --no-install commitlint --edit "$1"
 
 In the project directory, you can run:
 
-#### `yarn dev`
+#### `pnpm dev`
 
 Runs the app in the development mode.<br />
 Open http://localhost:3000/ to view it in the browser.
@@ -412,33 +412,33 @@ Open http://localhost:3000/ to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-#### `yarn test:watch`
+#### `pnpm test:watch`
 
 Runs the tests and watches for changes in interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more
 information.
 
-#### `yarn test:changed`
+#### `pnpm test:changed`
 
 Run tests against uncommitted changes (including staged and unstaged).
 
-#### `yarn test:staged`
+#### `pnpm test:staged`
 
 Run tests against staged changes, used in husky git commit hook.
 
-#### `yarn test:coverage`
+#### `pnpm test:coverage`
 
 Run tests and generate coverage report
 
-#### `yarn ci`
+#### `pnpm ci`
 
 Run tests and generate coverage report, meant for Continuous Integration (CI) pipeline use.
 
-#### `yarn test:debug`
+#### `pnpm test:debug`
 
 Debug tests
 
-#### `yarn build`
+#### `pnpm build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -448,7 +448,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-#### `yarn codegen`
+#### `pnpm codegen`
 
 Codegen settings in <b>codegen.yml</b>
 

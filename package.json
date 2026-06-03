@@ -7,117 +7,10 @@
   ],
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.1.3",
   "engines": {
-    "node": ">=22.13.1"
-  },
-  "packageManager": "yarn@1.22.22",
-  "//": {
-    "Why are packages in resolutions?": {
-      "@testing-library/dom": [
-        "Multiple versions of @testing-library/dom cause issues with user-event",
-        "See https://github.com/testing-library/user-event/discussions/906",
-        "That's why @testing-library/dom has been added to resolutions.",
-        "NOTE: This can be removed after dependencies don't bring conflicting/old versions"
-      ],
-      "@tootallnate/once": [
-        "@tootallnate/once vulnerable to Incorrect Control Flow Scoping in versions <3.0.1",
-        "Pinning to >=3.0.1 via react-helsinki-headless-cms > jest-environment-jsdom > jsdom > http-proxy-agent > @tootallnate/once",
-        "See https://www.npmjs.com/advisories/1113977",
-        "NOTE: This can be removed when react-helsinki-headless-cms no longer resolves vulnerable @tootallnate/once versions"
-      ],
-      "@types/cookie": [
-        "To use the last known @types/cookie version, only for <v1 cookie",
-        "",
-        "NOTE: This can be removed if all dependencies start to depend on >=v1 cookie ",
-        "which provides the types itself"
-      ],
-      "@types/react": [
-        "Several packages brought @types/react@19, but we only support react v18",
-        "Incompatible versions of @types/react cause typechecking issues",
-        "e.g. See https://github.com/reactjs/react-modal/issues/960",
-        "NOTE: This can be removed after upgrading to react v19"
-      ],
-      "globals": [
-        "Old versions of globals coming from non-eslint dependencies contain a bug that breaks eslint:",
-        "Key languageOptions: Key globals: Global AudioWorkletGlobalScope has leading or trailing whitespace",
-        "See https://github.com/sindresorhus/globals/issues/239",
-        "NOTE: This can be removed when non-eslint dependencies don't bring old versions of globals anymore"
-      ],
-      "draft-js/immutable and @types/draft-js/immutable": [
-        "To force a patched immutable version for transitive dependencies in draft-js stack still requesting immutable 3.x",
-        "See https://www.npmjs.com/advisories/1114158",
-        "NOTE: This can be removed when draft-js stack no longer depends on vulnerable immutable 3.7.x"
-      ],
-      "**/@ardatan/relay-compiler/immutable": [
-        "To force a patched immutable 3.x version for graphql-codegen relay compiler chain",
-        "See https://www.npmjs.com/advisories/1114158",
-        "NOTE: This can be removed when @ardatan/relay-compiler no longer depends on immutable 3.7.x"
-      ],
-      "immutable@~3.7.6": [
-        "To force immutable 3.8.3 for dependencies still requesting immutable ~3.7.6",
-        "See https://www.npmjs.com/advisories/1114158",
-        "NOTE: This can be removed when transitive dependencies no longer request immutable ~3.7.6"
-      ],
-      "immutable@^5.0.2": [
-        "To force immutable ^5.1.5 for dependencies requesting immutable ^5.0.2 (e.g. sass)",
-        "See https://www.npmjs.com/advisories/1114168",
-        "NOTE: This can be removed when transitive dependencies stop resolving vulnerable immutable 5.1.2"
-      ],
-      "**/jest-util/picomatch and **/micromatch/picomatch": [
-        "To force patched picomatch for vulnerable graphql-codegen transitive chains",
-        "See https://www.npmjs.com/advisories/1115549 and https://www.npmjs.com/advisories/1115552",
-        "NOTE: This can be removed when transitive dependencies stop requiring picomatch 2.3.1"
-      ],
-      "hds-react/@babel/runtime": [
-        "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/136",
-        "NOTE: This can be removed if hds-react doesn't require a fixed version of this package anymore"
-      ],
-      "hds-react/cookie": [
-        "To fix https://github.com/City-of-Helsinki/palvelutarjotin-admin/security/dependabot/125",
-        "NOTE: This can be removed if hds-react starts to depend on >=v1 cookie"
-      ],
-      "hds-react/minimatch": [
-        "minimatch has multiple ReDoS vulnerabilities (CVE-1113465, CVE-1113544, CVE-1113552)",
-        "in versions <9.0.7. Pinning to >=9.0.7 fixes all three issues.",
-        "NOTE: This can be removed when hds-react updates @typescript-eslint/parser to use minimatch >=9.0.7"
-      ],
-      "lodash": [
-        "To fix GHSA-f23m-r3pf-42rh and GHSA-r5fr-rjxr-66jc",
-        "Pinning lodash to >=4.18.1 fixes prototype pollution vulnerabilities",
-        "NOTE: This can be removed when all transitive dependencies use patched lodash versions"
-      ],
-      "doctoc/underscore": [
-        "To force patched underscore for doctoc transitive dependency",
-        "See https://www.npmjs.com/advisories/1113950",
-        "NOTE: This can be removed when doctoc no longer resolves underscore <1.13.8"
-      ],
-      "tmp": [
-        "tmp allows arbitrary temporary file/directory write via symbolic link in versions <0.2.4",
-        "Pinning to >=0.2.4 via @graphql-codegen/cli > inquirer > external-editor > tmp",
-        "See https://www.npmjs.com/advisories/1109537",
-        "NOTE: This can be removed when @graphql-codegen/cli no longer resolves vulnerable tmp versions"
-      ]
-    }
-  },
-  "resolutions": {
-    "@testing-library/dom": "^10.4.0",
-    "@tootallnate/once": ">=3.0.1",
-    "@types/cookie": "^0.6.0",
-    "draft-js/immutable": "3.8.3",
-    "**/@ardatan/relay-compiler/immutable": "3.8.3",
-    "immutable@~3.7.6": "3.8.3",
-    "immutable@^5.0.2": "^5.1.5",
-    "**/jest-util/picomatch": "2.3.2",
-    "**/micromatch/picomatch": "2.3.2",
-    "@types/draft-js/immutable": "3.8.3",
-    "@types/react": "^18.3.20",
-    "globals": "^16.0.0",
-    "hds-react/@babel/runtime": "^7.27.0",
-    "hds-react/cookie": "^0.7.2",
-    "lodash": "^4.18.1",
-    "minimatch": ">=9.0.7",
-    "doctoc/underscore": "^1.13.8",
-    "tmp": ">=0.2.4"
+    "node": ">=24.15.0",
+    "pnpm": ">=11.1.3"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
@@ -125,7 +18,7 @@
     "@date-fns/tz": "^1.2.0",
     "@faker-js/faker": "^9.7.0",
     "@nabla/vite-plugin-eslint": "^3.0.1",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.60.0",
     "@sentry/browser": "^10.25.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -213,16 +106,17 @@
   "scripts": {
     "app:version": "node printVersion.js",
     "prepare": "husky",
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "pnpm update-runtime-env && vite",
+    "update-runtime-env": "tsx --tsconfig ./scripts/tsconfig.json scripts/update-runtime-env.ts",
+    "build": "pnpm update-runtime-env && tsc && vite build",
     "serve": "vite preview",
-    "test": "cross-env TZ=Europe/Helsinki vitest run",
-    "test:changed": "yarn test --changed",
-    "test:coverage": "yarn test --coverage",
-    "test:debug": "yarn test --inspect-brk ----no-file-parallelism",
+    "test": "cross-env NODE_ENV=test TZ=Europe/Helsinki pnpm update-runtime-env && cross-env TZ=Europe/Helsinki vitest run",
+    "test:changed": "pnpm test --changed",
+    "test:coverage": "pnpm test --coverage",
+    "test:debug": "pnpm test --inspect-brk --no-file-parallelism",
     "test:staged": "cross-env TZ=Europe/Helsinki vitest related --run",
     "test:watch": "cross-env TZ=Europe/Helsinki vitest watch",
-    "ci": "yarn test:coverage",
+    "ci": "pnpm test:coverage",
     "lint": "eslint src",
     "format:code": "eslint src --fix",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
@@ -256,13 +150,14 @@
     "doctoc": "^2.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "tsx": "4.22.3"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,cjs,mjs}": [
       "eslint --fix",
       "prettier --write",
-      "yarn test:staged"
+      "pnpm test:staged"
     ]
   }
 }

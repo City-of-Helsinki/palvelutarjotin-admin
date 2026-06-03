@@ -12,7 +12,7 @@ import i18n from './testi18nInit';
 
 import '@testing-library/jest-dom/vitest';
 
-dotenv.config({ path: './.env.test' });
+dotenv.config({ path: ['./.env', './.env.test'], override: true });
 
 expect.extend(matchers);
 
