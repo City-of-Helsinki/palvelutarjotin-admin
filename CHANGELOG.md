@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.19.9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.8...palvelutarjotin-admin-v1.19.9) (2026-06-04)
+
+
+### Dependencies
+
+* Bump axios from 1.15.2 to 1.16.0 ([8991129](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8991129b2f228e64bedd1711f7cad15e2c7c61c2))
+* Bump brace-expansion from 5.0.5 to 5.0.6 ([07646e4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/07646e4663c38f093524f3fe4b64fe2100aa2876))
+* Bump react-router from 7.12.0 to 7.15.0 ([0871820](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/0871820777c56d05bb31f9e23ae5067d92ea25a2))
+* Bump ws from 8.18.2 to 8.21.0 ([2a521bd](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/2a521bd211d3afbfdf4961ca5a3bf6416d686fc7))
+
 ## [1.19.8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.7...palvelutarjotin-admin-v1.19.8) (2026-05-12)
 
 
