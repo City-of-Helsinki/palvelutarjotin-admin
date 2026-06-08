@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.20.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.9...palvelutarjotin-admin-v1.20.0) (2026-06-08)
+
+
+### Features
+
+* Replace yarn with pnpm ([49929df](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/49929df1a96ebac65f81020a0c47293df6e2bbeb))
+
 ## [1.19.9](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.8...palvelutarjotin-admin-v1.19.9) (2026-06-04)
 
 
