@@ -55,9 +55,6 @@ importers:
       '@types/apollo-upload-client':
         specifier: ^18.0.0
         version: 18.0.1(@types/react@18.3.29)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.21.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@types/classnames':
-        specifier: ^2.3.4
-        version: 2.3.4
       '@types/draft-js':
         specifier: ^0.11.20
         version: 0.11.20
@@ -1734,10 +1731,6 @@ packages:
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
-
-  '@types/classnames@2.3.4':
-    resolution: {integrity: sha512-dwmfrMMQb9ujX1uYGvB5ERDlOzBNywnZAZBtOe107/hORWP05ESgU4QyaanZMWYYfd2BzrG78y13/Bju8IQcMQ==}
-    deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -6967,10 +6960,6 @@ snapshots:
     dependencies:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
-
-  '@types/classnames@2.3.4':
-    dependencies:
-      classnames: 2.5.1
 
   '@types/cookie@0.6.0': {}
 
