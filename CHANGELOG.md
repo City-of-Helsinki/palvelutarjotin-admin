@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.22.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.21.0...palvelutarjotin-admin-v1.22.0) (2026-06-12)
+
+
+### Features
+
+* Add HelsinkiGroteskPro variable font ([d36ed9c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d36ed9cf8c76dd4d6c0cac90e94909b14d7dc660))
+
 ## [1.21.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.20.0...palvelutarjotin-admin-v1.21.0) (2026-06-12)
 
 
