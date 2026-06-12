@@ -4,6 +4,29 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.21.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.20.0...palvelutarjotin-admin-v1.21.0) (2026-06-12)
+
+
+### Features
+
+* Migrate from react-modal to HDS Dialog component ([08cfb02](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/08cfb02c4d8798a2bea86c28fe58bd5144a86700))
+* Replace react-toastify with custom NotificationsContext ([303c1a7](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/303c1a7b8e360754ed5eab56d634ac1197e2ab89))
+
+
+### Dependencies
+
+* Migrate RHHC imports to scoped package and bundler resolution ([db70f39](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/db70f39991eab9830bae35a7fab17900d140f00f))
+* Remove unused @babel/runtime dependency ([17b6607](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/17b660767f65d18b372b9f543f2bf3220548ec68))
+* Remove unused @types/classnames dependency ([de447ac](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/de447ac2989109d1ac0b273b2a6defa550332baa))
+* Remove unused dompurify and its type definitions ([3890548](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/38905489da333eb9af23a60841055dbbe960c4b5))
+* Remove unused eslint-config-prettier dependency ([be17990](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/be17990a0f008aa5f79f8500d8f8cea2f8bd8c40))
+* Remove unused html-react-parser dependency ([fb85501](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/fb855016ae570789d606258ac2f6353dd797b386))
+* Replace dequal with lodash isEqual ([d82de52](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d82de52551f6368b817b47fcc7d85ec37c3d2e7b))
+* Update testing-library packages to latest versions ([a4652bd](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a4652bd507ac7667a0d57633cfeee242c948c2bf))
+* Upgrade @apollo/client to v3.14.0 ([3a0b556](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/3a0b55681457cfd0da415c0166ca5d2cc5c12523))
+* Upgrade React to v19 and align typings ([4e59634](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4e5963469c9be08d4e6c0ff4448171ec3ba5ec31))
+* Upgrade HDS to v6.0.2  ([7ac36db](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/7ac36dbdf864595e9038ac659688f79b32d37131))
+
 ## [1.20.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.19.9...palvelutarjotin-admin-v1.20.0) (2026-06-08)
 
 
