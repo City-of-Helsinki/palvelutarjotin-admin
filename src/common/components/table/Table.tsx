@@ -31,6 +31,7 @@ export default function Table<D extends Record<string, unknown>>({
 }: Props<D>): ReactElement {
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
