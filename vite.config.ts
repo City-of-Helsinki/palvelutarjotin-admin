@@ -1,9 +1,8 @@
 import path from 'path';
 
 import eslint from '@nabla/vite-plugin-eslint';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { loadEnv } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults, defineConfig } from 'vitest/config';
 
 const viteConfig = ({ mode }) => {
@@ -24,6 +23,7 @@ const viteConfig = ({ mode }) => {
         ),
         '~styles': path.resolve(__dirname, './src/styles'),
       },
+      tsconfigPaths: true,
     },
     build: {
       outDir: 'build',
@@ -39,7 +39,7 @@ const viteConfig = ({ mode }) => {
     preview: {
       port: parseInt(process.env.PORT ?? '3000'),
     },
-    plugins: [react(), eslint(), tsconfigPaths()],
+    plugins: [react(), eslint()],
   });
 };
 
