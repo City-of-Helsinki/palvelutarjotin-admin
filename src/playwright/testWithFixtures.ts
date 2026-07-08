@@ -1,5 +1,3 @@
-// Disable linter rule that erroneously thinks Playwright's use function is a React hook:
-/* eslint-disable react-hooks/rules-of-hooks */
 import { test as base } from '@playwright/test';
 import type { Page } from '@playwright/test';
 

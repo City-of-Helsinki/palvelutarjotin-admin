@@ -76,7 +76,6 @@ const VenueDataFields: React.FC<{
       }
     };
     getVenueInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationId, setFieldValue]);
 
   return (

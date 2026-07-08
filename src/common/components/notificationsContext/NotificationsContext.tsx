@@ -75,6 +75,7 @@ export const NotificationsProvider: FC<PropsWithChildren> = ({ children }) => {
       {notifications.map((props, index) => {
         return (
           <Notification
+            key={props.id}
             notificationAriaLabel={
               typeof props.label === 'string' ? props.label : undefined
             }
@@ -83,7 +84,6 @@ export const NotificationsProvider: FC<PropsWithChildren> = ({ children }) => {
             {...props}
             size={NotificationSize.Medium}
             style={getNotificationStyle(heights, index)}
-            key={props.id}
             position="top-right"
             onClose={() =>
               setNotifications((items) =>

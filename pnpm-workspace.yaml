@@ -42,6 +42,12 @@ overrides:
   # Security pin for vulnerable tmp in codegen toolchain.
   tmp: '>=0.2.4'
 
+# Allow plugins that lag on peer ranges to load under ESLint 10.
+# eslint-plugin-jsx-a11y still declares peer max ^9 but works with v10 in practice.
+peerDependencyRules:
+  allowedVersions:
+    eslint: '10'
+
 # pnpm 11 requires explicit opt-in for packages that run install scripts.
 allowBuilds:
   '@parcel/watcher': true

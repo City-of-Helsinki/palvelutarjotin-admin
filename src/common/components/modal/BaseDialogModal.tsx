@@ -28,6 +28,7 @@ const BaseDialogModal: React.FC<Props> = ({
   style,
 }) => {
   const { t } = useTranslation();
+  // eslint-disable-next-line @eslint-react/naming-convention-id-name
   const instanceSuffix = React.useId().replaceAll(':', '');
   const dialogId = `${id}-${instanceSuffix}`;
 
