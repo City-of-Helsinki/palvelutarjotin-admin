@@ -4,6 +4,22 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.22.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.0...palvelutarjotin-admin-v1.22.1) (2026-07-24)
+
+
+### Dependencies
+
+* Bump dompurify Refs: RATY-357 ([e79b6f8](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/e79b6f8a68a30ba90402ee7945de08539c1295af))
+* Bump esbuild Refs: RATY-357 ([1bf79f3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/1bf79f3190501817f3e9174555dbd629541005a1))
+* Bump eslint to v10 Refs: RATY-357 ([8f0772b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/8f0772b7636ed0ae273e5fcf8486d482cd220346))
+* Bump form-data Refs: RATY-357 ([6b2f949](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6b2f949a6018d1813b9abfd7153b599909367cbe))
+* Bump js-yaml Refs: RATY-357 ([47fb36d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/47fb36d7a5bd5a774f37a513d361d08370952e70))
+* Bump linkify-it, sonar exclude Refs: RATY-357 ([db408a4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/db408a4a62c78acd8e02c9bc739ef4e8f099bb9f))
+* Bump undici Refs: RATY-357 ([5ad873b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/5ad873b0a1752febd98a6203ba48ee14d88273ea))
+* Bump vite from 8.0.14 to 8.0.16 ([d5f6c0e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/d5f6c0e45854857c6b9c765709a62677b321d5c9))
+* Bump vite plugins Refs: RATY-357 ([a670a16](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a670a16bf8114cc3560bb56da02ba02b0e2bdd4c))
+* Bump vitest/coverage-v8 Refs: RATY-357 ([e6ed8c1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/e6ed8c1a8fb107b68e7af1d4624212e57c5b9cda))
+
 ## [1.22.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.21.0...palvelutarjotin-admin-v1.22.0) (2026-06-12)
 
 
