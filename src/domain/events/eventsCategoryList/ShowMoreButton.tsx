@@ -17,7 +17,7 @@ function ShowMoreButton({
 
   return (
     <LoadingSpinner hasPadding={false} isLoading={loading}>
-      <button onClick={onClick} className={styles.showMoreButton}>
+      <button type="button" onClick={onClick} className={styles.showMoreButton}>
         {t('events.buttonLoadMore')}
       </button>
     </LoadingSpinner>

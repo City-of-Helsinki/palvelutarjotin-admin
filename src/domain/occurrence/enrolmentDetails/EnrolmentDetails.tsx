@@ -179,6 +179,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
         <div className={styles.enrolmentDetails}>
           <div className={styles.backButtonContainer}>
             <button
+              type="button"
               aria-label={t(
                 'enrolment.enrolmentDetails.buttonGoToEnrolleesList'
               )}
@@ -355,6 +356,7 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
       ) : (
         <div>
           <button
+            type="button"
             aria-label={t('enrolment.enrolmentDetails.buttonGoToEnrolleesList')}
             onClick={onGoBackClick}
           >

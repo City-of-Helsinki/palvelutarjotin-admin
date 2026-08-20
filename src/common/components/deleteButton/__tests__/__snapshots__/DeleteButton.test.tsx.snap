@@ -4,6 +4,7 @@ exports[`matches snapshot 1`] = `
 <div>
   <button
     class="deleteImageButton"
+    type="button"
   >
     <div
       class="deleteIconWrapper"

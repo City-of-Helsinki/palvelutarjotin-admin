@@ -10,6 +10,7 @@ exports[`matches snapshot 1`] = `
     >
       <button
         aria-label="Palaa ilmoittautuneisiin"
+        type="button"
       >
         <svg
           aria-hidden="true"
