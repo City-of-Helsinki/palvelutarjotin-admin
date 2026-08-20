@@ -25,6 +25,10 @@ import {
 
 let cmsApolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
+const DEFAULT_USE_CMS_APOLLO_CLIENT_OPTIONS = {
+  initialCMSApolloState: null,
+};
+
 /**
  * Creates a new Apollo Client instance specifically for CMS data.
  *
@@ -205,15 +209,13 @@ export function initializeCMSApolloClient(
  * @param options Optional object containing `initialCMSApolloState` for cache hydration.
  * @returns A CMS Apollo Client instance.
  */
-export function useCMSApolloClient(
-  {
-    initialCMSApolloState,
-  }:
-    | {
-        initialCMSApolloState: NormalizedCacheObject | null;
-      }
-    | undefined = { initialCMSApolloState: null }
-): ApolloClient<NormalizedCacheObject> {
+export function useCMSApolloClient({
+  initialCMSApolloState,
+}:
+  | {
+      initialCMSApolloState: NormalizedCacheObject | null;
+    }
+  | undefined = DEFAULT_USE_CMS_APOLLO_CLIENT_OPTIONS): ApolloClient<NormalizedCacheObject> {
   const storeRef = useRef<ApolloClient<NormalizedCacheObject> | null>(null);
   if (!storeRef.current) {
     storeRef.current = initializeCMSApolloClient(initialCMSApolloState);

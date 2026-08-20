@@ -8,7 +8,11 @@ const DeleteButton: React.FC<{
   children?: React.ReactNode;
 }> = ({ onClick, children }) => {
   return (
-    <button className={styles.deleteImageButton} onClick={onClick}>
+    <button
+      type="button"
+      className={styles.deleteImageButton}
+      onClick={onClick}
+    >
       <div className={styles.deleteIconWrapper}>
         <IconCrossCircle />
       </div>

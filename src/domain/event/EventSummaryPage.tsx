@@ -307,6 +307,7 @@ const EventSummaryPage: React.FC = () => {
                       pastOccurrences.length > PAST_OCCURRENCE_AMOUNT && (
                         <div className={styles.showMoreButtonWrapper}>
                           <button
+                            type="button"
                             className={styles.link}
                             onClick={() => setShowAllPastEvents(true)}
                           >

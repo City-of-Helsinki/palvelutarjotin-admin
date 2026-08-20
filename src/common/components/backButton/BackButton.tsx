@@ -10,7 +10,7 @@ interface Props {
 
 const BackButton: React.FC<Props> = ({ onClick, children }) => {
   return (
-    <button className={styles.backButton} onClick={onClick}>
+    <button type="button" className={styles.backButton} onClick={onClick}>
       <div className={styles.backIconWrapper}>
         <IconArrowLeft aria-hidden="true" />
       </div>
