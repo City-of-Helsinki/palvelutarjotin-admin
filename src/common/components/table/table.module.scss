@@ -14,12 +14,7 @@
   --spacing-cell: var(--spacing-m);
 
   --expanded-row-border-color: var(--color-black-30);
-}
-.tableWrapper {
-  max-width: 100%;
-}
 
-.table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: var(--margin-bottom-table);
@@ -91,4 +86,7 @@
       }
     }
   }
+}
+.tableWrapper {
+  max-width: 100%;
 }

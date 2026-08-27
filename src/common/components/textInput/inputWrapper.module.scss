@@ -13,6 +13,8 @@
 
 .inputWrapper {
   composes: hds-text-input__input-wrapper from '~hds-core/lib/components/text-input/text-input.css';
+
+  height: auto;
 }
 
 .input {
@@ -54,8 +56,4 @@
 
 .readOnly {
   composes: hds-text-input--read-only from '~hds-core/lib/components/text-input/text-input.css';
-}
-
-.inputWrapper {
-  height: auto;
 }

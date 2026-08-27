@@ -1,8 +1,7 @@
 @use '~styles/layout';
 .eventDetailsButtons {
   --grid-gap: var(--spacing-l);
-}
-.eventDetailsButtons {
+
   display: grid;
   grid-gap: var(--grid-gap);
   align-items: center;

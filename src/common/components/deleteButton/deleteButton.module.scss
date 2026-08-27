@@ -2,6 +2,13 @@
   --color-icon: var(--color-error);
   --color-text: var(--color-bus);
   --fontweight-text: 500;
+
+  margin: auto;
+  display: flex;
+  margin-top: 42px;
+  align-items: center;
+  color: var(--color-text);
+  font-weight: var(--fontweight-text);
 }
 
 .deleteIconWrapper {
@@ -11,13 +18,4 @@
   svg {
     display: block;
   }
-}
-
-.deleteImageButton {
-  margin: auto;
-  display: flex;
-  margin-top: 42px;
-  align-items: center;
-  color: var(--color-text);
-  font-weight: var(--fontweight-text);
 }

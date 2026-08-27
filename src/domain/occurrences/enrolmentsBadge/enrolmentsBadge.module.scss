@@ -27,15 +27,6 @@
   z-index: 999;
 }
 
-.enrolmentFull {
-  &:hover {
-    .eventFullTooltip {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-}
-
 .approvedSeats {
   background-color: var(--color-success);
   color: white;
@@ -49,4 +40,11 @@
 .enrolmentFull {
   background-color: var(--color-full);
   color: black;
+
+  &:hover {
+    .eventFullTooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 }
