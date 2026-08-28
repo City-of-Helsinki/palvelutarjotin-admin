@@ -169,6 +169,7 @@ const ActionsDropdown: React.FC<Props> = ({
 
   const items = [
     enrolmentIsNotApproved && {
+      id: 'approve',
       children: (
         <>
           <IconCheck className={styles.iconApprove} />
@@ -180,6 +181,7 @@ const ActionsDropdown: React.FC<Props> = ({
       onClick: handleOpenApproveModal,
     },
     enrolmentIsNotDeclined && {
+      id: 'decline',
       children: (
         <>
           <IconCross className={styles.iconDecline} />
@@ -191,6 +193,7 @@ const ActionsDropdown: React.FC<Props> = ({
       onClick: handleOpenDeclineModal,
     },
     {
+      id: 'edit',
       children: (
         <>
           <IconPen />
@@ -200,6 +203,7 @@ const ActionsDropdown: React.FC<Props> = ({
       onClick: handleEdit,
     },
     {
+      id: 'delete',
       children: (
         <>
           <IconCrossCircle className={styles.iconDelete} />

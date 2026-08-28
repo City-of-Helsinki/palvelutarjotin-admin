@@ -9,11 +9,12 @@ import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation'
 export const tableDropdownTestId = 'table-dropdown-menu';
 
 export type MenuItemProps = {
+  id: string;
   children: ReactElement;
   onClick: (row: Record<string, unknown>) => void;
 };
 
-type InternalMenuItemProps = MenuItemProps & {
+type InternalMenuItemProps = Omit<MenuItemProps, 'id'> & {
   isFocused: boolean;
   row: Record<string, unknown>;
   toggleMenu: () => void;
@@ -180,7 +181,7 @@ const TableDropdown: React.FC<Props> = ({ row, items }) => {
       <ul role="menu" className={styles.dropdownMenu}>
         {items.map((item, index) => (
           <MenuItem
-            key={index}
+            key={item.id}
             isFocused={focusedIndex === index}
             onClick={item.onClick}
             row={row}

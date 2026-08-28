@@ -116,6 +116,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
 
   const items = [
     {
+      id: 'enrol',
       children: (
         <>
           <IconCheck className={styles.iconApprove} />
@@ -127,6 +128,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
       onClick: handleOpenApproveModal,
     },
     {
+      id: 'delete',
       children: (
         <>
           <IconCrossCircle className={styles.iconDelete} />
