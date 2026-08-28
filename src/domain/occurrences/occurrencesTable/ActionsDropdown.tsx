@@ -142,6 +142,7 @@ const ActionsDropdown: React.FC<Props> = ({
 
   const items = [
     enrolmentType === EnrolmentType.Internal && {
+      id: 'enrolments',
       children: (
         <>
           <IconUser />
@@ -151,6 +152,7 @@ const ActionsDropdown: React.FC<Props> = ({
       onClick: goToOccurrenceDetailsPage,
     },
     isEventDraft && {
+      id: 'edit',
       children: (
         <>
           <IconPenLine />
@@ -160,6 +162,7 @@ const ActionsDropdown: React.FC<Props> = ({
       onClick: goToEditOccurrencePage,
     },
     !loadingPlace && {
+      id: 'add-to-calendar',
       onClick: downloadIcsFile,
       children: (
         <>
@@ -169,6 +172,7 @@ const ActionsDropdown: React.FC<Props> = ({
       ),
     },
     showCancelAction && {
+      id: 'cancel',
       onClick: openCancelModal,
       children: (
         <>
@@ -178,6 +182,7 @@ const ActionsDropdown: React.FC<Props> = ({
       ),
     },
     canDelete && {
+      id: 'delete',
       onClick: openDeleteModal,
       children: (
         <>
