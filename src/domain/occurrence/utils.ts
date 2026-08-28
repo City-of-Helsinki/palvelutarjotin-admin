@@ -35,18 +35,19 @@ export const getDateFromDateAndTimeString = (
 export const getPlaceId = ({
   isBookable,
   isVirtual,
-  values,
+  location,
 }: {
   isVirtual: boolean;
   isBookable: boolean;
-  values: OccurrenceSectionFormFields;
+  location: string;
 }) => {
+  // If event is virtual, we use location id for internet events
   if (isVirtual) {
     return VIRTUAL_EVENT_LOCATION_ID;
   } else if (isBookable) {
     return BOOKABLE_TO_SCHOOL_LOCATION_ID;
   }
-  return values.occurrenceLocation;
+  return location;
 };
 
 /**
@@ -72,7 +73,11 @@ export const getOccurrencePayload = ({
       : getDateFromDateAndTimeString(values.startDate, values.endTime),
     languages: values.languages.map((lang) => ({ id: lang as Language })),
     pEventId,
-    placeId: getPlaceId({ values, isVirtual, isBookable }),
+    placeId: getPlaceId({
+      location: values.occurrenceLocation,
+      isVirtual,
+      isBookable,
+    }),
     amountOfSeats: Number(values.amountOfSeats) || 0,
     minGroupSize: Number(values.minGroupSize) || null,
     maxGroupSize: Number(values.maxGroupSize) || null,
@@ -215,12 +220,7 @@ export const getEditEventPayload = ({
     location: {
       internalId: getLinkedEventsInternalId(
         LINKEDEVENTS_CONTENT_TYPE.PLACE,
-        // If event is virtual, we use location id for internet events
-        isVirtual
-          ? VIRTUAL_EVENT_LOCATION_ID
-          : isBookable
-            ? BOOKABLE_TO_SCHOOL_LOCATION_ID
-            : location
+        getPlaceId({ location, isVirtual, isBookable })
       ),
     },
     draft: eventData.publicationStatus === PUBLICATION_STATUS.DRAFT,

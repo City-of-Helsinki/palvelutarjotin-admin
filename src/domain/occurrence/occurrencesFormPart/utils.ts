@@ -102,7 +102,11 @@ export const getOptimisticCreateOccurrenceResponse = ({
             id: lang,
           }))
         ),
-        placeId: getPlaceId({ values, isVirtual, isBookable }),
+        placeId: getPlaceId({
+          location: values.occurrenceLocation,
+          isVirtual,
+          isBookable,
+        }),
         remainingSeats: Number(values.amountOfSeats) || 0,
         seatType: values.oneGroupFills
           ? OccurrencesOccurrenceSeatTypeChoices.EnrolmentCount

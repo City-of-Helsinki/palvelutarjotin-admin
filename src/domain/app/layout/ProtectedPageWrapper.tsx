@@ -21,13 +21,15 @@ const ProtectedPageWrapper: React.FC<{ children?: React.ReactNode }> = ({
   const isNotProfilePage = pathname !== `/${locale}${ROUTES.MY_PROFILE}`;
   const showRegistrationPendingPage = registrationPending && isNotProfilePage;
 
-  return showRegistrationPendingPage ? (
-    <RegistrationPendingPage />
-  ) : !hasProfile ? (
-    <CreateMyProfile refetch={refetch} />
-  ) : (
-    <>{children}</>
-  );
+  if (showRegistrationPendingPage) {
+    return <RegistrationPendingPage />;
+  }
+
+  if (!hasProfile) {
+    return <CreateMyProfile refetch={refetch} />;
+  }
+
+  return <>{children}</>;
 };
 
 export default ProtectedPageWrapper;

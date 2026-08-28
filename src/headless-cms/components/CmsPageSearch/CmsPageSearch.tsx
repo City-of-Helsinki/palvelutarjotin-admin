@@ -53,6 +53,10 @@ const CmsPageSearchList: React.FC<{
   const { t } = useTranslation();
   const locale = useLocale();
 
+  const loadMoreButton = hasMoreToLoad ? (
+    <Button onClick={fetchMore}>{t('cms.pageSearch.loadMore')}</Button>
+  ) : null;
+
   return (
     <div className={styles.pageList}>
       <LoadingSpinner isLoading={loading}>
@@ -87,9 +91,9 @@ const CmsPageSearchList: React.FC<{
       </LoadingSpinner>
       {isLoadingMore ? (
         <LoadingSpinner isLoading hasPadding={false} />
-      ) : hasMoreToLoad ? (
-        <Button onClick={fetchMore}>{t('cms.pageSearch.loadMore')}</Button>
-      ) : null}
+      ) : (
+        loadMoreButton
+      )}
     </div>
   );
 };

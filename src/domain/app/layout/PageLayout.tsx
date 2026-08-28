@@ -27,18 +27,18 @@ const PageLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     `${getCmsPath('/' + TERMS_OF_SERVICE_SLUGS[locale])}`
   );
 
+  const protectedContent = isLoggedIn ? (
+    <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
+  ) : (
+    <LoginPage />
+  );
+
   return (
     <div className={styles.pageLayout}>
       <Header />
       <div className={styles.pageBody} id={MAIN_CONTENT_ID}>
         <LoadingSpinner isLoading={loadingMyProfile}>
-          {isTermsOfServicePath ? (
-            <> {children}</>
-          ) : isLoggedIn ? (
-            <ProtectedPageWrapper>{children}</ProtectedPageWrapper>
-          ) : (
-            <LoginPage />
-          )}
+          {isTermsOfServicePath ? <> {children}</> : protectedContent}
         </LoadingSpinner>
       </div>
       <Footer />
