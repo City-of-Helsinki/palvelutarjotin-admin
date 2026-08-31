@@ -95,7 +95,7 @@ const ActionsDropdown: React.FC<Props> = ({
           });
         } else {
           const blob = new Blob([value], { type: 'text/calendar' });
-          saveAs(blob, `event_${event.id?.replace(/:/g, '')}.ics`);
+          saveAs(blob, `event_${event.id?.replaceAll(':', '')}.ics`);
         }
       });
     }

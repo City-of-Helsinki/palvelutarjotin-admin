@@ -12,7 +12,7 @@ import {
   Seo,
 } from '../generated/graphql-cms';
 
-const generateUri = () => faker.word.words().split(' ').join('/');
+const generateUri = () => faker.word.words().replaceAll(' ', '/');
 
 export const fakeLanguage = (overrides?: Partial<Language>): Language => {
   const languageCode =
