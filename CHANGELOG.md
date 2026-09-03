@@ -4,6 +4,22 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.22.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.1...palvelutarjotin-admin-v1.22.2) (2026-09-03)
+
+
+### Bug Fixes
+
+* Extract nested ternaries (sonar typescript:S3358) ([97d4804](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/97d4804b474d1ff786ef11221bd4eed085c497af))
+* Merge duplicate CSS selectors (sonar css:S4666) ([0b5ac3a](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/0b5ac3a0164cbd6d3032441bf481867044cf4c2b))
+* Sonar maintainability issues ([43a47a1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/43a47a1d2e5f1c32534290ed382fdb4aa4ef4f32))
+* Sonar reliability issues ([a65743e](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/a65743ef5de20c5e597ba5a0e3906f8e038d9780))
+* Use stable keys for menu items (sonar typescript:S6479) ([9a9e93c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9a9e93ce706dac2ddd5dfb225a12319d3e6bfcba))
+
+
+### Dependencies
+
+* Bump @faker-js/faker from 9.9.0 to 10.5.0 ([9299024](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/9299024f141a3e8ebc3be884ab7e39cd6428bfa8))
+
 ## [1.22.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.0...palvelutarjotin-admin-v1.22.1) (2026-08-12)
 
 
