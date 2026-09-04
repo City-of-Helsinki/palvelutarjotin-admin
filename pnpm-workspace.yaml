@@ -13,15 +13,13 @@ overrides:
   '@tootallnate/once': '>=3.0.1'
   # Keep typings for legacy cookie <v1 consumers.
   '@types/cookie': ^0.6.0
-  # Force patched immutable 3.x for draft-js stack.
+  # Keep Immutable v3 for packages that are not compatible with the v4 API.
   draft-js>immutable: 3.8.3
   '@types/draft-js>immutable': 3.8.3
-  # Force patched immutable 3.x for relay compiler chain.
   '@ardatan/relay-compiler>immutable': 3.8.3
-  # Lift immutable ~3.7.6 to patched 3.8.3.
   immutable@~3.7.6: 3.8.3
-  # Lift immutable ^5.0.2 to patched ^5.1.5.
-  immutable@^5.0.2: ^5.1.5
+  # Lift immutable ^5.0.2 to patched ^5.1.8.
+  immutable@^5.0.2: ^5.1.8
   # Pin patched picomatch for transitive codegen chains.
   jest-util>picomatch: 2.3.2
   micromatch>picomatch: 2.3.2
@@ -41,6 +39,17 @@ overrides:
   doctoc>underscore: ^1.13.8
   # Security pin for vulnerable tmp in codegen toolchain.
   tmp: '>=0.2.4'
+  # Security pins for vulnerable transitive dependencies.
+  brace-expansion: '>=5.0.9'
+  browserslist: '>=4.28.7'
+  dompurify: '>=3.4.13'
+  fast-uri: '>=3.1.6'
+  ics>nanoid: '>=3.3.18'
+  js-yaml: '>=4.3.1'
+  linkify-it: '>=5.0.2'
+  postcss: '>=8.5.23'
+  shell-quote: '>=1.8.5'
+  undici: '>=7.29.0'
 
 # Allow plugins that lag on peer ranges to load under ESLint 10.
 # eslint-plugin-jsx-a11y still declares peer max ^9 but works with v10 in practice.
