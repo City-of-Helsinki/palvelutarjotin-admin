@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.22.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.2...palvelutarjotin-admin-v1.22.3) (2026-09-05)
+
+
+### Bug Fixes
+
+* Dependabot alerts ([7c717fb](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/7c717fbc23f015a1fcc6132d6b370b7c774a232e))
+
 ## [1.22.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.1...palvelutarjotin-admin-v1.22.2) (2026-09-03)
 
 
