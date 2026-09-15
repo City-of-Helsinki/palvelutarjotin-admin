@@ -39,7 +39,7 @@ const viteConfig = ({ mode }) => {
     preview: {
       port: parseInt(process.env.PORT ?? '3000'),
     },
-    plugins: [react(), eslint()],
+    plugins: [react(), mode !== 'test' && eslint()],
   });
 };
 

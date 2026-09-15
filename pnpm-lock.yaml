@@ -117,8 +117,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
       '@vitest/coverage-v8':
-        specifier: ^4.1.9
-        version: 4.1.9(vitest@4.1.11)
+        specifier: ^4.1.11
+        version: 4.1.11(vitest@4.1.11)
       apollo-upload-client:
         specifier: ^18.0.1
         version: 18.0.1(@apollo/client@3.14.1(@types/react@18.3.29)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.21.0))(graphql@16.14.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(graphql@16.14.0)
@@ -250,7 +250,7 @@ importers:
         version: 8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0)
       vitest:
         specifier: ^4.1.11
-        version: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.9)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
+        version: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.11)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
       vitest-axe:
         specifier: ^0.1.0
         version: 0.1.0(vitest@4.1.11)
@@ -1997,11 +1997,11 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
-  '@vitest/coverage-v8@4.1.9':
-    resolution: {integrity: sha512-G9/lgqibheLVBDRuya45EbsEXTYcWoSG+TLg7i2axuzx0Eq62eXn+aWXyaVdV5vKvFSWd6ywcX8hA7la9Pvu8g==}
+  '@vitest/coverage-v8@4.1.11':
+    resolution: {integrity: sha512-8MVGEFnJIcdGjcbfKmeq8z0pZHH0JlVtoVZH9Q/qwUp6wyFnEJUBMrw9DCaj+ra3vShGmhavjalMIhPNxZAUcw==}
     peerDependencies:
-      '@vitest/browser': 4.1.9
-      vitest: 4.1.9
+      '@vitest/browser': 4.1.11
+      vitest: 4.1.11
     peerDependenciesMeta:
       '@vitest/browser':
         optional: true
@@ -2023,9 +2023,6 @@ packages:
   '@vitest/pretty-format@4.1.11':
     resolution: {integrity: sha512-yiZzPbGTS9Sr/JpFl8zHrcIkAofNbFV6k21vIgQN/cY/oxZeXhJv5sc/MBJ5jFKWmWs+oJHw0UXLZjmf931+Vw==}
 
-  '@vitest/pretty-format@4.1.9':
-    resolution: {integrity: sha512-s0iufns3iIFitdgm+YR7g1whCAaGtXz459VS9/PqyKDEEFgYIhsHOQmXgIgDuYCt7DeQmiZT0Qe2OA2p4ZPu5A==}
-
   '@vitest/runner@4.1.11':
     resolution: {integrity: sha512-LztvUgdwMNJMIkj3hQnnxiC2Xy1zNxq928W/xhjCLaNCzqTZOudjwbQf6v9IntZGPw132i2Lq2rgTRZHD3JHNw==}
 
@@ -2037,9 +2034,6 @@ packages:
 
   '@vitest/utils@4.1.11':
     resolution: {integrity: sha512-zTCVGpyFsGWBhllOyKlTw/vnr6D9qxsfSDyfbyZmTyjHw5N/VuvzHpHoQjm2ZJzn4RJgx5w4r7V0er69CmLgPQ==}
-
-  '@vitest/utils@4.1.9':
-    resolution: {integrity: sha512-A51o8ymO5PpqlWNnBP9ZHPXDIpuMtTLlGSjN7la4US+LJzoUMyhwjA5QXlm39JexgwHKW4Xjs8Z2d3dLCXOeuA==}
 
   '@whatwg-node/disposablestack@0.0.6':
     resolution: {integrity: sha512-LOtTn+JgJvX8WfBVJtF08TGrdjuFzGJc4mkP8EdDI8ADbvO7kiexYep1o8dwnt0okb0jYclCDXF13xU7Ge4zSw==}
@@ -4225,9 +4219,6 @@ packages:
     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
 
-  obug@2.1.1:
-    resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
-
   obug@2.2.1:
     resolution: {integrity: sha512-XrsrhT5sybtKI6wakr2SPOlGZWWYbUXZ7a0jT8/QOeAPau+1X/bSegNe5YR75oJmEZQbKningirmGOEJCIk61Q==}
     engines: {node: '>=12.20.0'}
@@ -4788,9 +4779,6 @@ packages:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
 
-  std-env@4.1.0:
-    resolution: {integrity: sha512-Rq7ybcX2RuC55r9oaPVEW7/xu3tj8u4GeBYHBWCychFtzMIr86A7e3PPEBPT37sHStKX3+TiX/Fr/ACmJLVlLQ==}
-
   std-env@4.2.0:
     resolution: {integrity: sha512-oCUKSupKTHX53EyjDtuZQ64pjLJ6yYCtpmEw0goYxtjG9KpbRe8KAsl2tBUGU9DyMcJ0RwJ8GqJAFzMXcXW1Rw==}
 
@@ -4928,10 +4916,6 @@ packages:
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
-
-  tinyrainbow@3.1.0:
-    resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
-    engines: {node: '>=14.0.0'}
 
   tinyrainbow@3.1.1:
     resolution: {integrity: sha512-yau8yJdTt989Mm0Bd/236QnzEiPf2xLLTqUZRUJOo/3CB078LSwzei343DgtJVmfJKJE3TMINY1u42SQsP6mXw==}
@@ -7316,19 +7300,19 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0)
 
-  '@vitest/coverage-v8@4.1.9(vitest@4.1.11)':
+  '@vitest/coverage-v8@4.1.11(vitest@4.1.11)':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
-      '@vitest/utils': 4.1.9
+      '@vitest/utils': 4.1.11
       ast-v8-to-istanbul: 1.0.2
       istanbul-lib-coverage: 3.2.2
       istanbul-lib-report: 3.0.1
       istanbul-reports: 3.2.0
       magicast: 0.5.3
-      obug: 2.1.1
-      std-env: 4.1.0
-      tinyrainbow: 3.1.0
-      vitest: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.9)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
+      obug: 2.2.1
+      std-env: 4.2.0
+      tinyrainbow: 3.1.1
+      vitest: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.11)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
 
   '@vitest/expect@4.1.11':
     dependencies:
@@ -7352,10 +7336,6 @@ snapshots:
     dependencies:
       tinyrainbow: 3.1.1
 
-  '@vitest/pretty-format@4.1.9':
-    dependencies:
-      tinyrainbow: 3.1.1
-
   '@vitest/runner@4.1.11':
     dependencies:
       '@vitest/utils': 4.1.11
@@ -7375,12 +7355,6 @@ snapshots:
       '@vitest/pretty-format': 4.1.11
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.1
-
-  '@vitest/utils@4.1.9':
-    dependencies:
-      '@vitest/pretty-format': 4.1.9
-      convert-source-map: 2.0.0
-      tinyrainbow: 3.1.0
 
   '@whatwg-node/disposablestack@0.0.6':
     dependencies:
@@ -9890,8 +9864,6 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.2
 
-  obug@2.1.1: {}
-
   obug@2.2.1: {}
 
   oidc-client-ts@2.5.0:
@@ -10499,8 +10471,6 @@ snapshots:
 
   statuses@2.0.2: {}
 
-  std-env@4.1.0: {}
-
   std-env@4.2.0: {}
 
   stop-iteration-iterator@1.1.0:
@@ -10645,8 +10615,6 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.7)
       picomatch: 4.0.7
-
-  tinyrainbow@3.1.0: {}
 
   tinyrainbow@3.1.1: {}
 
@@ -10916,13 +10884,13 @@ snapshots:
       dom-accessibility-api: 0.5.16
       lodash-es: 4.18.1
       redent: 3.0.0
-      vitest: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.9)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
+      vitest: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.11)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
 
   vitest-sonar-reporter@3.0.0(vitest@4.1.11):
     dependencies:
-      vitest: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.9)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
+      vitest: 4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.11)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
 
-  vitest@4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.9)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0)):
+  vitest@4.1.11(@types/node@20.19.41)(@vitest/coverage-v8@4.1.11)(jsdom@26.1.0)(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.11
       '@vitest/mocker': 4.1.11(msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3))(vite@8.1.2(@types/node@20.19.41)(esbuild@0.28.1)(jiti@2.7.0)(sass@1.100.0)(tsx@4.22.3)(yaml@2.9.0))
@@ -10946,7 +10914,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.41
-      '@vitest/coverage-v8': 4.1.9(vitest@4.1.11)
+      '@vitest/coverage-v8': 4.1.11(vitest@4.1.11)
       jsdom: 26.1.0
     transitivePeerDependencies:
       - msw
