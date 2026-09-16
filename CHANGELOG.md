@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.22.4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.3...palvelutarjotin-admin-v1.22.4) (2026-09-16)
+
+
+### Dependencies
+
+* Bump vitest from 4.1.9 to 4.1.11 ([aa8a88f](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/aa8a88ff95c80212156baf8ec3d2e7223ce8c0f4))
+* Vitest upgrade fixes Refs: RATY-357 ([844c5d5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/844c5d5510d44c805c5009ad76d50f248ea49b22))
+
 ## [1.22.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.2...palvelutarjotin-admin-v1.22.3) (2026-09-14)
 
 
