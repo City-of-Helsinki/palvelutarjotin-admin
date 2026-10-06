@@ -111,7 +111,9 @@
     "test:browser:install": "playwright install",
     "test:browser": "playwright test --ui",
     "test:browser:ci": "playwright test",
-    "test:browser:report": "playwright show-report report/html"
+    "test:browser:report": "playwright show-report report/html",
+    "test:e2e:ci": "playwright test",
+    "test:e2e:install": "rm -f .env .env.test .env.playwright.local && playwright install"
   },
   "browserslist": {
     "production": [
