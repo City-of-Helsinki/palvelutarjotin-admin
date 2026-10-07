@@ -564,6 +564,10 @@ during the build and served from the root of the deployed application. The
 same information is emitted alongside it as `oss-licenses.json`, for license
 audit tooling.
 
+The production build includes CKEditor 5, which this application uses under
+GPL-2.0-or-later. The generated notices state where the source of CKEditor 5
+and of this application can be obtained.
+
 [normalize.css](https://github.com/necolas/normalize.css) v8.0.1 is vendored
 as [\_normalize.scss](./src/styles/vendor/_normalize.scss) and compiled into
 the stylesheet. It is not an npm dependency, so it does not appear in the

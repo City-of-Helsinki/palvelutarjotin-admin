@@ -23,12 +23,15 @@ test('should call onChange', async () => {
   const onChange = vi.fn();
   renderComponent({ onChange });
 
-  const editor = await screen.findByRole('textbox', { name: label });
+  // CKEditor appends an accessibility help hint to the label
+  const editor = await screen.findByRole('textbox', {
+    name: (name) => name.startsWith(label),
+  });
 
   pasteToTextEditor(editor, 'test');
-  await waitFor(() => expect(onChange).toBeCalledWith('<p>test</p>\n'));
+  await waitFor(() => expect(onChange).toBeCalledWith('<p>test</p>'));
 
-  const undoButton = await screen.findByTitle(/peruuta/i);
+  const undoButton = await screen.findByRole('button', { name: 'Peru' });
   await userEvent.click(undoButton);
   await waitFor(() => expect(onChange).toBeCalledWith(''));
 });
