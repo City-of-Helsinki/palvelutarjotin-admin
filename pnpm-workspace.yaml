@@ -18,8 +18,6 @@ overrides:
   # Keep typings for legacy cookie <v1 consumers.
   '@types/cookie': ^0.6.0
   # Keep Immutable v3 for packages that are not compatible with the v4 API.
-  draft-js>immutable: 3.8.3
-  '@types/draft-js>immutable': 3.8.3
   '@ardatan/relay-compiler>immutable': 3.8.3
   immutable@~3.7.6: 3.8.3
   # Lift immutable ^5.0.2 to patched ^5.1.8.

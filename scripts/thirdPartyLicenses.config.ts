@@ -1,4 +1,19 @@
-import type { ThirdPartyLicensesConfig } from '@city-of-helsinki/license-notices';
+import type {
+  LicenseDecision,
+  ThirdPartyLicensesConfig,
+} from '@city-of-helsinki/license-notices';
+
+// CKEditor 5 declares "SEE LICENSE IN LICENSE.md" in every package. Its
+// LICENSE.md offers it under GPL-2.0-or-later or commercial terms, and the
+// text editor configures it with licenseKey 'GPL'.
+const ckeditorDecision: LicenseDecision = {
+  declared: 'SEE LICENSE IN LICENSE.md',
+  license: 'GPL-2.0-or-later',
+  note:
+    'Offered by CKSource under "GPL-2.0-or-later" or commercial terms. This ' +
+    'application uses it under GPL-2.0-or-later, configured with the ' +
+    'license key "GPL".',
+};
 
 /**
  * Everything about the third-party license notices that is specific to this
@@ -9,6 +24,8 @@ export const thirdPartyLicensesConfig: ThirdPartyLicensesConfig = {
   repositoryUrl: 'https://github.com/City-of-Helsinki/palvelutarjotin-admin',
 
   licenseDecisions: {
+    ckeditor5: ckeditorDecision,
+    '@ckeditor/*': ckeditorDecision,
     // Bundled through @city-of-helsinki/react-helsinki-headless-cms and
     // isomorphic-dompurify.
     dompurify: {
