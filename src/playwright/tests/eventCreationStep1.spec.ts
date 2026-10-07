@@ -232,7 +232,7 @@ LANGUAGES.forEach((lang) => {
           en: '',
         },
         description: {
-          fi: '<p>Pitempi kuvaus</p>\n',
+          fi: '<p>Pitempi kuvaus</p>',
           sv: '',
           en: '',
         },
