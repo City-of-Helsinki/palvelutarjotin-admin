@@ -1,6 +1,3 @@
-import { ContentState, convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-
 import { LINKEDEVENTS_CONTENT_TYPE } from '../constants';
 import {
   EditEventDocument,
@@ -36,9 +33,7 @@ export const imageId = '48598';
 export const eventId = 'palvelutarjotin:afz56bfiaq';
 export const shortDescription = 'Testitapahtuman kuvaus';
 export const description = 'Pidempi kuvaus';
-export const descriptionEditorHTML = draftToHtml(
-  convertToRaw(ContentState.createFromText(description))
-);
+export const descriptionEditorHTML = `<p>${description}</p>`;
 export const eventName = 'Testitapahtuma';
 export const photographerName = 'Valo Valokuvaaja';
 export const photoAltText = 'Vaihtoehtoinen kuvateksti';

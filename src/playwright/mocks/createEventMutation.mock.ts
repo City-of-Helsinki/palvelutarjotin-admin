@@ -23,7 +23,7 @@ export const MOCK_CREATE_EVENT_MUTATION_RESPONSE_ON_PAGE_1_SAVE: CreateEventMuta
           },
           description: {
             en: '',
-            fi: '<p>Pitempi kuvaus</p>\n',
+            fi: '<p>Pitempi kuvaus</p>',
             sv: '',
             __typename: 'LocalisedObject',
           },
