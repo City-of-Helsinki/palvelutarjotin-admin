@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.22.5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.4...palvelutarjotin-admin-v1.22.5) (2026-10-14)
+
+
+### Dependencies
+
+* Bump axios from 1.18.1 to 1.20.0 ([eb82d9f](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/eb82d9f496e053b1a4654aa92e613bc574840239))
+
 ## [1.22.4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.3...palvelutarjotin-admin-v1.22.4) (2026-09-16)
 
 
