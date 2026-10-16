@@ -1,6 +1,6 @@
 {
   "name": "palvelutarjotin-admin",
-  "version": "1.22.4",
+  "version": "1.22.5",
   "license": "MIT",
   "contributors": [
     "Jori Lindell"
@@ -39,7 +39,7 @@
     "@vitest/coverage-v8": "^4.1.11",
     "apollo-upload-client": "^18.0.1",
     "apollo3-cache-persist": "^0.15.0",
-    "axios": "^1.18.1",
+    "axios": "^1.20.0",
     "ckeditor5": "^48.5.2",
     "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
@@ -105,7 +105,9 @@
     "test:browser:install": "playwright install",
     "test:browser": "playwright test --ui",
     "test:browser:ci": "playwright test",
-    "test:browser:report": "playwright show-report report/html"
+    "test:browser:report": "playwright show-report report/html",
+    "test:e2e:ci": "playwright test",
+    "test:e2e:install": "rm -f .env .env.test .env.playwright.local && playwright install"
   },
   "browserslist": {
     "production": [
