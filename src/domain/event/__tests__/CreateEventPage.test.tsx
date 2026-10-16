@@ -603,7 +603,7 @@ describe('Language selection', () => {
   const translatableFieldLabels = [
     /^Tapahtuman nimi/,
     /^Lyhyt kuvaus \(korkeintaan 160 merkkiä\)/,
-    // /^Kuvaus/, // FIXME: Not working since changed to a TextEditor
+    /^Kuvaus/,
     /^WWW-osoite, josta saa lisätietoja tapahtumasta/,
     /^Lisätiedot/,
   ];

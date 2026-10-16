@@ -93,6 +93,16 @@ const mockScrollTo = vi.fn((x?: number | ScrollToOptions, y?: number) => {});
 
 window.scrollTo = mockScrollTo;
 
+// jsdom does not implement layout for ranges, but CKEditor uses it e.g. when
+// scrolling the selection into view
+Range.prototype.getClientRects = () =>
+  ({
+    length: 0,
+    item: () => null,
+    [Symbol.iterator]: [][Symbol.iterator],
+  }) as unknown as DOMRectList;
+Range.prototype.getBoundingClientRect = () => new DOMRect();
+
 beforeEach(() => {
   i18n.changeLanguage('fi');
 });
