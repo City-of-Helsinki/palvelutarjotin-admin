@@ -1,9 +1,12 @@
 import path from 'path';
 
+import { thirdPartyLicenses } from '@city-of-helsinki/license-notices';
 import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react';
 import { loadEnv } from 'vite';
 import { configDefaults, defineConfig } from 'vitest/config';
+
+import { thirdPartyLicensesConfig } from './scripts/thirdPartyLicenses.config';
 
 const viteConfig = ({ mode }) => {
   // Load app-level env vars to node-level env vars.
@@ -39,7 +42,11 @@ const viteConfig = ({ mode }) => {
     preview: {
       port: parseInt(process.env.PORT ?? '3000'),
     },
-    plugins: [react(), mode !== 'test' && eslint()],
+    plugins: [
+      react(),
+      mode !== 'test' && eslint(),
+      thirdPartyLicenses(thirdPartyLicensesConfig),
+    ],
   });
 };
 

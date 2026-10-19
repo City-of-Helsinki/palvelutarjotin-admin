@@ -12,6 +12,7 @@
 !commitlint.config.js
 !eslint.config.mjs
 !index.html
+!LICENSE
 !package.json
 !pnpm-lock.yaml
 !pnpm-workspace.yaml

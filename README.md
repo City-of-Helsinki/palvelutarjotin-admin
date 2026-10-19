@@ -40,6 +40,7 @@ Providers' UI - A restricted administration client for Kultus event providers (f
   - [Troubleshoting release-please](#troubleshoting-release-please)
     - [Fix merge conflicts by running release-please -action manually](#fix-merge-conflicts-by-running-release-please--action-manually)
   - [Deployments](#deployments)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -553,3 +554,39 @@ There's also a CLI for debugging and manually running releases available for rel
 When a Release-Please pull request is merged and a version tag is created (or a proper tag name for a commit is manually created), this tag will be picked by Azure pipeline, which then triggers a new deployment to staging. From there, the deployment needs to be manually approved to allow it to proceed to the production environment.
 
 The tag name is defined in the [azure-pipelines-release.yml](./azure-pipelines-release.yml).
+
+## License
+
+The source code in this repository is licensed under the MIT License; see
+[LICENSE](./LICENSE). The licenses of the third-party code included in the
+production build are listed in `third-party-licenses.txt`, which is generated
+during the build and served from the root of the deployed application. The
+same information is emitted alongside it as `oss-licenses.json`, for license
+audit tooling.
+
+[normalize.css](https://github.com/necolas/normalize.css) v8.0.1 is vendored
+as [\_normalize.scss](./src/styles/vendor/_normalize.scss) and compiled into
+the stylesheet. It is not an npm dependency, so it does not appear in the
+generated files; it remains under its own MIT License, stated in its header.
+
+The MIT License covers source code only. The following files are **not**
+covered by it and remain with their respective rights holders:
+
+| Files                                       | Rights holder and terms                                                                                                                                                          |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public/hds-favicon-kit/`                   | City of Helsinki. CC BY 4.0, except the City of Helsinki logo, which is a registered trademark. See [its own license notice](./public/hds-favicon-kit/LICENCE.txt).              |
+| `public/images/mstile-150x150.png`          | City of Helsinki. The City of Helsinki logo, a registered trademark. Left over from the favicon set added in 2020, before the HDS favicon kit.                                   |
+| `public/images/Paperboat.png`               | Unverified. A photograph added in 2021 for the registration pending page without any recorded source; not offered for reuse under the MIT License.                               |
+| `src/assets/images/event_placeholder_*.jpg` | Unverified. Event placeholder images added in 2020 without any recorded source, also used by other City of Helsinki event services; not offered for reuse under the MIT License. |
+
+One third-party component is loaded at runtime from a public CDN instead of
+being bundled, so it does not appear in either generated file:
+[oidc-client-ts](https://github.com/authts/oidc-client-ts) (Apache-2.0),
+loaded by [silent_renew.html](./public/silent_renew.html) from cdnjs with a
+subresource integrity hash. It is not redistributed by this repository or by
+its build output.
+
+The Helsinki Grotesk typeface used by the user interface is proprietary and
+licensed by Camelot Typefaces. No font files are stored in this repository;
+they are loaded at runtime from a City of Helsinki service. See
+[fonts.scss](./src/styles/fonts.scss).
