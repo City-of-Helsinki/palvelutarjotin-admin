@@ -18,8 +18,8 @@ overrides:
   # Keep typings for legacy cookie <v1 consumers.
   '@types/cookie': ^0.6.0
   # Keep Immutable v3 for packages that are not compatible with the v4 API.
-  '@ardatan/relay-compiler>immutable': 3.8.3
-  immutable@~3.7.6: 3.8.3
+  '@ardatan/relay-compiler>immutable': 3.8.4
+  immutable@~3.7.6: 3.8.4
   # Lift immutable ^5.0.2 to patched ^5.1.8.
   immutable@^5.0.2: ^5.1.8
   # Pin patched picomatch for transitive codegen chains.
@@ -42,16 +42,21 @@ overrides:
   # Security pin for vulnerable tmp in codegen toolchain.
   tmp: '>=0.2.4'
   # Security pins for vulnerable transitive dependencies.
-  brace-expansion: '>=5.0.9'
+  brace-expansion: '>=5.0.12'
   browserslist: '>=4.28.7'
-  dompurify: '>=3.4.13'
-  fast-uri: '>=3.1.6'
+  dompurify: '>=3.4.17'
+  fast-uri: '>=4.2.3'
   ics>nanoid: '>=3.3.18'
   js-yaml: '>=4.3.1'
   linkify-it: '>=5.0.2'
   postcss: '>=8.5.23'
-  shell-quote: '>=1.8.5'
-  undici: '>=7.29.0'
+  shell-quote: '>=1.11.0'
+  undici: '>=8.12.2'
+  '@fastify/busboy': '>=3.2.2'
+  source-map-js: '>=1.2.2'
+  '@graphql-tools/executor-legacy-ws': '>=1.1.36'
+  '@graphql-tools/utils': '>=12.0.2'
+  zod: '>=4.6.6'
 
 # Allow plugins that lag on peer ranges to load under ESLint 10.
 # eslint-plugin-jsx-a11y still declares peer max ^9 but works with v10 in practice.
