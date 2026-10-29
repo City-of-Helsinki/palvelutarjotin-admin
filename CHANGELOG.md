@@ -4,6 +4,24 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.23.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.5...palvelutarjotin-admin-v1.23.0) (2026-10-29)
+
+
+### Features
+
+* Generate third-party license notices at build time ([6471b3c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6471b3c1622c74943169622e4b494af4c173d6d4))
+* Replace draft-js rich text editor with ckeditor 5 ([6506df4](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/6506df43a857eb1c69615385a7c84e0297c6b9db))
+
+
+### Bug Fixes
+
+* Use latest Node.js 24 LTS ([db73a4c](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/db73a4cfb0b6af37a3e4dadb920d5bae465f9519))
+
+
+### Dependencies
+
+* Bump deps ([bdfa11d](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/bdfa11df981a7f9e8f812cd286a0f2bbbf5b8219))
+
 ## [1.22.5](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.4...palvelutarjotin-admin-v1.22.5) (2026-10-14)
 
 
