@@ -16,6 +16,11 @@ import {
   isConfiguredQueryPolicy,
   queryPolicies,
 } from './cache';
+import {
+  getGraphQLSentryTags,
+  registerUnloadTracking,
+  reportNetworkError,
+} from '../../domain/app/apollo/errorReporting';
 import AppConfig from '../../domain/app/AppConfig';
 import { rewriteInternalURLs } from '../utils';
 import {
@@ -48,32 +53,30 @@ function createCmsApolloClient(): ApolloClient<NormalizedCacheObject> {
     });
   });
 
+  registerUnloadTracking();
+
   const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach((error) => {
         const { message, locations, path } = error;
+        // NOTE: The message format is kept unchanged on purpose,
+        // so that the existing Sentry issues keep their grouping.
         const errorMessage = `[GraphQL error]: ${JSON.stringify({
           OperationName: operation.operationName,
           Message: message,
           Location: locations,
           Path: path,
-          // Response: response,
         })}`;
         // eslint-disable-next-line no-console
         console.error(errorMessage);
-        Sentry.captureMessage(errorMessage);
+        Sentry.captureMessage(errorMessage, {
+          tags: getGraphQLSentryTags('headless-cms', operation),
+        });
       });
     }
 
     if (networkError) {
-      // eslint-disable-next-line no-console
-      console.error(
-        `[GraphQL networkError]: ${JSON.stringify({
-          Operation: operation.operationName,
-          NetworkError: networkError,
-        })}`
-      );
-      Sentry.captureMessage('Graphql Network error');
+      reportNetworkError('headless-cms', operation, networkError);
     }
   });
 
