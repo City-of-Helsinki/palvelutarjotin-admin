@@ -13,6 +13,11 @@ import isEqual from 'lodash/isEqual';
 import { useRef } from 'react';
 
 import { createApolloCache } from './cache';
+import {
+  getGraphQLSentryTags,
+  registerUnloadTracking,
+  reportNetworkError,
+} from './errorReporting';
 import { getKultusAdminApiTokenFromStorage } from '../../auth/kultusAdminApiUtils';
 import AppConfig from '../AppConfig';
 import i18n from '../i18n/i18nInit';
@@ -50,12 +55,18 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     fetch,
   });
 
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
+  registerUnloadTracking();
+
+  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(({ extensions, message, locations, path }) => {
+        // NOTE: The message format is kept unchanged on purpose,
+        // so that the existing Sentry issues keep their grouping.
         const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
 
-        Sentry.captureException(new Error(errorMessage));
+        Sentry.captureException(new Error(errorMessage), {
+          tags: getGraphQLSentryTags('kultus-api', operation),
+        });
 
         const code = extensions && extensions['code'];
         switch (code) {
@@ -77,10 +88,7 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
       });
 
     if (networkError) {
-      if (import.meta.env.DEV) {
-        // eslint-disable-next-line no-console
-        console.error(`[Network error]: ${networkError}`);
-      }
+      reportNetworkError('kultus-api', operation, networkError);
     }
   });
 
