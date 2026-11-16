@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.23.1](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.23.0...palvelutarjotin-admin-v1.23.1) (2026-11-16)
+
+
+### Bug Fixes
+
+* Improve apollo network error reporting ([c730298](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/c73029820c0832b91f7fff0af97082824e016384))
+* Update env-config.js script version to v2 ([f12fe04](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/f12fe048f9fa929f9310cae0807fd6c4161ca1b2))
+
 ## [1.23.0](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.22.5...palvelutarjotin-admin-v1.23.0) (2026-10-29)
 
 
