@@ -58,7 +58,7 @@
     "graphql-tag": "^2.12.6",
     "hds-design-tokens": "^6.0.2",
     "hds-react": "^6.0.2",
-    "i18next": "^24.2.3",
+    "i18next": "^26.3.4",
     "i18next-browser-languagedetector": "^8.1.0",
     "i18next-intervalplural-postprocessor": "^3.0.0",
     "ics": "^3.8.1",
