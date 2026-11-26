@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [1.23.3](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.23.2...palvelutarjotin-admin-v1.23.3) (2026-11-26)
+
+
+### Dependencies
+
+* Bump i18next from 24.2.3 to 26.3.4 ([4edfa8b](https://github.com/City-of-Helsinki/palvelutarjotin-admin/commit/4edfa8bb25b955613eac7a3a5d5e8ccd59e283fe))
+
 ## [1.23.2](https://github.com/City-of-Helsinki/palvelutarjotin-admin/compare/palvelutarjotin-admin-v1.23.1...palvelutarjotin-admin-v1.23.2) (2026-11-17)
 
 
