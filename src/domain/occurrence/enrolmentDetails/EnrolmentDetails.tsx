@@ -108,55 +108,52 @@ const EnrolmentDetails: React.FC<EnrolmentDetailsProps> = ({
       onCompleted: () => {
         setDeleteModalOpen(false);
         // refetch occurrence to easily update seatsTaken info
-        (async () => await refetchOccurrence())();
+        void refetchOccurrence();
         onGoBackClick();
       },
     });
 
   const handleApproveEnrolment = (message?: string) => {
-    (async () =>
-      await approveEnrolment({
-        variables: { input: { enrolmentId, customMessage: message } },
-      }))();
+    void approveEnrolment({
+      variables: { input: { enrolmentId, customMessage: message } },
+    });
   };
 
   const handleDeclineEnrolment = (message?: string) => {
-    (async () =>
-      await declineEnrolment({
-        variables: { input: { enrolmentId, customMessage: message } },
-      }))();
+    void declineEnrolment({
+      variables: { input: { enrolmentId, customMessage: message } },
+    });
   };
 
   const handleDeleteEnrolment = () => {
     if (enrolment) {
-      (async () =>
-        await deleteEnrolment({
-          variables: {
-            input: { occurrenceId, studyGroupId: enrolment.studyGroup.id },
-          },
-          update: (cache) => {
-            const occurrenceData = cache.readQuery<OccurrenceQuery>({
-              query: OccurrenceDocument,
-              variables: { id: occurrenceId },
-            });
-            const occurrence = occurrenceData?.occurrence;
-            // overwrite occurrence from cache (delete enrolment)
-            cache.writeQuery({
-              query: OccurrenceDocument,
-              data: {
-                occurrence: {
-                  ...occurrence,
-                  enrolments: {
-                    ...occurrence?.enrolments,
-                    edges: occurrence?.enrolments.edges.filter(
-                      (e) => e?.node?.id !== enrolment.id
-                    ),
-                  },
+      void deleteEnrolment({
+        variables: {
+          input: { occurrenceId, studyGroupId: enrolment.studyGroup.id },
+        },
+        update: (cache) => {
+          const occurrenceData = cache.readQuery<OccurrenceQuery>({
+            query: OccurrenceDocument,
+            variables: { id: occurrenceId },
+          });
+          const occurrence = occurrenceData?.occurrence;
+          // overwrite occurrence from cache (delete enrolment)
+          cache.writeQuery({
+            query: OccurrenceDocument,
+            data: {
+              occurrence: {
+                ...occurrence,
+                enrolments: {
+                  ...occurrence?.enrolments,
+                  edges: occurrence?.enrolments.edges.filter(
+                    (e) => e?.node?.id !== enrolment.id
+                  ),
                 },
               },
-            });
-          },
-        }))();
+            },
+          });
+        },
+      });
     }
   };
 

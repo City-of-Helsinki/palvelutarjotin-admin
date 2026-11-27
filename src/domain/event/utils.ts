@@ -146,13 +146,7 @@ export const getFirstAvailableLanguage = (
  * @param {object} values
  * @return {object}
  */
-export const getEventPayload = ({
-  formValues,
-  organisationId,
-}: {
-  formValues: CreateEventFormFields;
-  organisationId: string;
-}) => {
+const getEventPayloadFields = (formValues: CreateEventFormFields) => {
   const { keywords, additionalCriteria, categories } = formValues;
   return {
     name: getLocalisedObject(formValues.name),
@@ -197,18 +191,28 @@ export const getEventPayload = ({
         internalId: keyword,
       })
     ),
-    pEvent: {
-      contactEmail: formValues.contactEmail,
-      contactPersonId: formValues.contactPersonId,
-      contactPhoneNumber: formValues.contactPhoneNumber,
-      neededOccurrences: 1,
-      mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
-      isQueueingAllowed: formValues.isQueueingAllowed,
-      translations: [],
-    },
-    organisationId,
   };
 };
+
+export const getEventPayload = ({
+  formValues,
+  organisationId,
+}: {
+  formValues: CreateEventFormFields;
+  organisationId: string;
+}) => ({
+  ...getEventPayloadFields(formValues),
+  pEvent: {
+    contactEmail: formValues.contactEmail,
+    contactPersonId: formValues.contactPersonId,
+    contactPhoneNumber: formValues.contactPhoneNumber,
+    neededOccurrences: 1,
+    mandatoryAdditionalInformation: formValues.mandatoryAdditionalInformation,
+    isQueueingAllowed: formValues.isQueueingAllowed,
+    translations: [],
+  },
+  organisationId,
+});
 
 export const getEditEventPayload = ({
   formValues,
@@ -219,50 +223,8 @@ export const getEditEventPayload = ({
   existingEventValues: EventFieldsFragment;
   organisationId: string;
 }) => {
-  const { keywords, additionalCriteria, categories } = formValues;
   return {
-    name: getLocalisedObject(formValues.name),
-    // start_date and offers are mandatory on LinkedEvents to use dummy data
-    startTime: new Date().toISOString(),
-    offers: [
-      {
-        isFree: formValues.isFree,
-        price: {
-          fi: formValues.price.toString(),
-          en: formValues.price.toString(),
-          sv: formValues.price.toString(),
-        },
-        description: getLocalisedObject(formValues.priceDescription),
-      },
-    ],
-    shortDescription: getLocalisedObject(formValues.shortDescription),
-    description: getLocalisedObject(formValues.description),
-    images: formValues.image
-      ? [
-          {
-            internalId: getLinkedEventsInternalId(
-              LINKEDEVENTS_CONTENT_TYPE.IMAGE,
-              formValues.image
-            ),
-          },
-        ]
-      : [],
-    infoUrl: getLocalisedObject(formValues.infoUrl),
-    audience: formValues.audience.map((keyword) => ({
-      internalId: keyword,
-    })),
-    inLanguage: formValues.inLanguage.map((language) => ({
-      internalId: getLinkedEventsInternalId(
-        LINKEDEVENTS_CONTENT_TYPE.LANGUAGE,
-        language
-      ),
-    })),
-    // keywords, additionalCriteria and categories all belond to keywords in linked events
-    keywords: [...keywords, ...additionalCriteria, ...categories].map(
-      (keyword) => ({
-        internalId: keyword,
-      })
-    ),
+    ...getEventPayloadFields(formValues),
     // Add location to payload if it has been already added previously
     ...(existingEventValues.location
       ? {

@@ -99,7 +99,7 @@ const OrganisationsField: React.FC<{
 
   React.useEffect(() => {
     if (organisationProposals) {
-      (async () => await setFieldValue(name, []))();
+      void setFieldValue(name, []);
     }
   }, [name, organisationProposals, setFieldValue]);
 
@@ -212,8 +212,8 @@ function MyProfileForm<T extends FormType>({
     );
   };
 
-  const handleOnSubmit = (values: FormFields<T>) => {
-    onSubmit({
+  const handleOnSubmit = async (values: FormFields<T>) => {
+    await onSubmit({
       ...values,
       emailAddress: values.emailAddress || user?.profile.email || '',
     });

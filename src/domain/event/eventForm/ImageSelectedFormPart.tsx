@@ -41,7 +41,7 @@ const ImageSelectedFormPart: React.FC<Props> = ({
 
   const clearImageFormFields = () => {
     ['image', 'imageAltText', 'imagePhotographerName'].forEach((field) => {
-      (async () => await setFieldValue(field, ''))();
+      void setFieldValue(field, '');
     });
   };
 

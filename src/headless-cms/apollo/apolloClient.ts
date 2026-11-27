@@ -102,7 +102,7 @@ function createCmsApolloClient(): ApolloClient<NormalizedCacheObject> {
   // since we cannot await the async function to finish in a sync function and don't have the cache yet,
   // A React-Router and it's navigation components and tools helps to hide this issue, since the user can navigate
   // without rerendering the whole app again and then the Apollo cache is not cleared during the route changes.
-  (async () => {
+  void (async () => {
     if (apolloCachePersistor.hasPersistedCacheExpired()) {
       // eslint-disable-next-line no-console
       console.info('Persisted cache has expired.');
@@ -112,7 +112,10 @@ function createCmsApolloClient(): ApolloClient<NormalizedCacheObject> {
       // eslint-disable-next-line no-console
       console.info('Persisted cache has been restored.');
     }
-  })();
+  })().catch((error: unknown) => {
+    // eslint-disable-next-line no-console
+    console.error('Failed to restore persisted Apollo cache', { error });
+  });
 
   return new ApolloClient({
     connectToDevTools: true,

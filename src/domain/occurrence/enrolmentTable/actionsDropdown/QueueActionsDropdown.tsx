@@ -58,7 +58,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
     },
     onCompleted: () => {
       setPickEnrolmentModalOpen(false);
-      (async () => await onEnrolmentsModified())();
+      void onEnrolmentsModified();
     },
   });
 
@@ -73,7 +73,7 @@ const QueueActionsDropdown: React.FC<Props> = ({
     },
     onCompleted: () => {
       setDeleteModalOpen(false);
-      (async () => await onEnrolmentsModified())();
+      void onEnrolmentsModified();
     },
   });
 
@@ -82,31 +82,29 @@ const QueueActionsDropdown: React.FC<Props> = ({
   };
 
   const handlePickEnrolment = () => {
-    (async () =>
-      await pickEnrolment({
-        variables: {
-          input: {
-            eventQueueEnrolmentId: row.id,
-            occurrenceId,
-          },
+    void pickEnrolment({
+      variables: {
+        input: {
+          eventQueueEnrolmentId: row.id,
+          occurrenceId,
         },
-        // TODO: Would be better handled here, but is now done with onEnrolmentsModified
-        // move the enrolment from queue to the occurrence enrolments
-        // refetchQueries: [EventQueueEnrolmentsDocument],
-      }))();
+      },
+      // TODO: Would be better handled here, but is now done with onEnrolmentsModified
+      // move the enrolment from queue to the occurrence enrolments
+      // refetchQueries: [EventQueueEnrolmentsDocument],
+    });
   };
 
   const handleDeleteEnrolment = () => {
     if (eventId) {
-      (async () =>
-        await deleteEnrolment({
-          variables: {
-            input: { pEventId, studyGroupId: row.studyGroup.id },
-          },
-          // TODO: Would be better handled here, but is now done with onEnrolmentsModified
-          // refetch the list of event queue enrolments
-          // refetchQueries: [EventQueueEnrolmentsDocument],
-        }))();
+      void deleteEnrolment({
+        variables: {
+          input: { pEventId, studyGroupId: row.studyGroup.id },
+        },
+        // TODO: Would be better handled here, but is now done with onEnrolmentsModified
+        // refetch the list of event queue enrolments
+        // refetchQueries: [EventQueueEnrolmentsDocument],
+      });
     }
   };
 

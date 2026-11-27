@@ -7,6 +7,10 @@ import AutoSuggest, {
   AutoSuggestOption,
 } from '../../common/components/autoSuggest/AutoSuggest';
 import {
+  getAutoSuggestOptionValue,
+  getAutoSuggestSelectedValue,
+} from '../../common/components/autoSuggest/utils';
+import {
   Place,
   PlaceDocument,
   PlaceQuery,
@@ -84,43 +88,25 @@ const UnitPlaceSelector: React.FC<Props> = ({
   const handleBlur = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
   ) => {
-    if (Array.isArray(option)) {
-      onBlur(option.map((item) => item.value));
-    } else {
-      onBlur(option?.value || '');
-    }
+    onBlur(getAutoSuggestOptionValue(option));
   };
 
   const handleChange = (
     option: AutoSuggestOption | AutoSuggestOption[] | null
   ) => {
-    if (Array.isArray(option)) {
-      onChange(option.map((item) => item.value));
-    } else {
-      onChange(option?.value || '');
-    }
+    onChange(getAutoSuggestOptionValue(option));
   };
 
-  const getValue = () => {
-    if (Array.isArray(value)) {
-      return value.map((item) => ({
-        label: <PlaceText placeId={item} />,
-        value: item,
-      }));
-    } else if (value) {
-      return {
-        label: (
-          <PlaceText
-            placeId={value}
-            errorText={t('unitPlaceSelector.noPlaceFoundError')}
-          />
-        ),
-        value: value,
-      };
-    }
-
-    return null;
-  };
+  const selectedValue = getAutoSuggestSelectedValue(
+    value,
+    (id) => <PlaceText placeId={id} />,
+    (id) => (
+      <PlaceText
+        placeId={id}
+        errorText={t('unitPlaceSelector.noPlaceFoundError')}
+      />
+    )
+  );
 
   return (
     <AutoSuggest
@@ -139,7 +125,7 @@ const UnitPlaceSelector: React.FC<Props> = ({
       options={placeOptions}
       placeholder={placeholder}
       setInputValue={setInputValue}
-      value={getValue()}
+      value={selectedValue}
     />
   );
 };

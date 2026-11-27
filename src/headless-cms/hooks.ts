@@ -73,7 +73,7 @@ export const useCmsNavigation = (slug: string) => {
       }
     }
     if (slug) {
-      fetchNavigation();
+      void fetchNavigation();
     }
   }, [slug, locale, isMounted, cmsApolloClient]);
 
