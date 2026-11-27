@@ -160,7 +160,7 @@ const OccurrenceInfoForm: React.FC<{
           const handleGoToPublishingClick: React.MouseEventHandler<
             HTMLButtonElement
           > = (e) => {
-            (async (e) => {
+            void (async (e) => {
               try {
                 const hasBeenSubmitted = isValid && !dirty;
                 if (!hasBeenSubmitted) {
@@ -182,7 +182,7 @@ const OccurrenceInfoForm: React.FC<{
             e
           ) => {
             e.preventDefault();
-            (async () => {
+            void (async () => {
               try {
                 await submitForm();
                 await submitOccurrenceFormIfNeeded();
@@ -371,7 +371,7 @@ const CreateOccurrencePage: React.FC = () => {
 
     // hack to prevent reinitializing form with old values after mutation
     if (eventData) {
-      initializeForm();
+      void initializeForm();
     }
   }, [apolloClient, eventData, setSelectedLanguages]);
 

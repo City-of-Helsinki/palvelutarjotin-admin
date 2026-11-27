@@ -53,7 +53,7 @@ const MultiDropdownField: React.FC<Props> = ({
       ? val.map((item) => item.value)
       : val.value;
     if (setFieldValue) {
-      (async () => await setFieldValue(name, value))();
+      void setFieldValue(name, value);
     } else {
       onChange({
         target: {

@@ -52,7 +52,7 @@ const DropdownField: React.FC<Props> = ({
   const handleChange = (selectedOptions: Option[]) => {
     const value = selectedOptions.map((item) => item.value)[0];
     if (setFieldValue) {
-      (async () => await setFieldValue(name, value))();
+      void setFieldValue(name, value);
     } else {
       onChange({
         target: {

@@ -44,32 +44,27 @@ const VenueDataFields: React.FC<{
             // Inititalize all venue description translation fields
             // (doesn't matter if they are not visible/rendered)
             data.venue.translations.forEach((t) => {
-              (async () =>
-                await setFieldValue(
-                  `locationDescription.${
-                    t.languageCode.toLowerCase() as Language
-                  }`,
-                  t.description || ''
-                ))();
+              void setFieldValue(
+                `locationDescription.${
+                  t.languageCode.toLowerCase() as Language
+                }`,
+                t.description || ''
+              );
             });
           } else {
             // If venue data missing for location, empty all description fields.
             Object.keys(locationDescription).forEach((key) => {
-              (async () =>
-                await setFieldValue(
-                  `locationDescription.${key as Language}`,
-                  ''
-                ))();
+              void setFieldValue(`locationDescription.${key as Language}`, '');
             });
           }
 
           VENUE_AMENITIES.forEach((v) => {
-            (async () => await setFieldValue(v, data.venue?.[v] || false))();
+            void setFieldValue(v, data.venue?.[v] || false);
           });
         } catch (error) {
           // clear description when error happens
           // TODO: fix this to include all languages...
-          (async () => await setFieldValue('locationDescription.fi', ''))();
+          void setFieldValue('locationDescription.fi', '');
           // eslint-disable-next-line no-console
           console.error('Failed to fetch venue data', { error });
         }

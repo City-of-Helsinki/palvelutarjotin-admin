@@ -55,7 +55,7 @@ const useProfilePlaces = () => {
     };
 
     if (profile) {
-      fetchPlaces();
+      void fetchPlaces();
     }
 
     return () => {

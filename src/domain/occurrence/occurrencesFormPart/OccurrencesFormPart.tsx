@@ -158,37 +158,35 @@ const OccurrenceForm: React.FC<{
   // reset group size input when they are not shown/needed
   React.useEffect(() => {
     if (!showGroupSizeInputs) {
-      (async () => await setFieldValue('minGroupSize', ''))();
-      (async () => await setFieldValue('maxGroupSize', ''))();
-      (async () => await setFieldValue('amountOfSeats', ''))();
+      void setFieldValue('minGroupSize', '');
+      void setFieldValue('maxGroupSize', '');
+      void setFieldValue('amountOfSeats', '');
     }
   }, [showGroupSizeInputs, setFieldValue]);
 
   React.useEffect(() => {
     const amountOfSeats = oneGroupFills ? '1' : '';
-    (async () => await setFieldValue('amountOfSeats', amountOfSeats))();
+    void setFieldValue('amountOfSeats', amountOfSeats);
   }, [oneGroupFills, setFieldValue]);
 
   React.useEffect(() => {
     if (eventDefaultlocation) {
-      (async () =>
-        await setFieldValue('occurrenceLocation', eventDefaultlocation))();
+      void setFieldValue('occurrenceLocation', eventDefaultlocation);
     } else if (isVirtualEvent || isBookableEvent) {
-      (async () => await setFieldValue('occurrenceLocation', ''))();
+      void setFieldValue('occurrenceLocation', '');
     } else {
-      (async () => await setFieldValue('occurrenceLocation', ''))();
+      void setFieldValue('occurrenceLocation', '');
     }
   }, [eventDefaultlocation, isVirtualEvent, isBookableEvent, setFieldValue]);
 
   const handleIsMultidayOccurrenceChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    (async () =>
-      await setFieldValue('isMultidayOccurrence', e.target.checked))();
+    void setFieldValue('isMultidayOccurrence', e.target.checked);
 
     // reset end date input when it is hidden
     if (!e.target.checked) {
-      (async () => await setFieldValue('endDate', ''))();
+      void setFieldValue('endDate', '');
     }
   };
 

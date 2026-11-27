@@ -100,7 +100,7 @@ const CreateEventPage: React.FC = () => {
         }
       }
     };
-    getInitialValues();
+    void getInitialValues();
 
     return () => {
       isCancelled = true; // Clean up

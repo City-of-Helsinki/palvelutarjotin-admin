@@ -92,10 +92,10 @@ const UnitField: React.FC<{
   ) => {
     if (event.target.checked) {
       setShowUnitNameField(true);
-      (async () => await setFieldValue(unitId, null))();
+      void setFieldValue(unitId, null);
     } else {
       setShowUnitNameField(false);
-      (async () => await setFieldValue(unitName, ''))();
+      void setFieldValue(unitName, '');
     }
   };
 
